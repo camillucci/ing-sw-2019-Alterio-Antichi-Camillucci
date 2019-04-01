@@ -10,12 +10,13 @@ public class Match {
     private Turn currentTurn;
 
 
-    public Match(ArrayList<String> playersName) {
-        this.players = new ArrayList<Player>();
-        for(String name: playersName)
-            players.add(new Player(name));
+    public Match(ArrayList<String> playersName, ArrayList<PlayerColor> playerColors) {
+        this.players = new ArrayList<>();
+        for(int i = 0; i < playersName.size(); i++) {
+            players.add(new Player(playersName.get(i), playerColors.get(i)));
+        }
         gameBoard = new GameBoard(players);
-        deadPlayers = new ArrayList<Player>;
+        deadPlayers = new ArrayList<>();
     }
 
     public void spawn(){

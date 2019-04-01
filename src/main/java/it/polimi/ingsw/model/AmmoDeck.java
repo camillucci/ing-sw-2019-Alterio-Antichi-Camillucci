@@ -2,16 +2,16 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
-public class WeaponDeck {
+public class AmmoDeck {
     private int numberOfCards;
-    private ArrayList<WeaponCard> deck;
-    private ArrayList<WeaponCard> discarded;
+    private ArrayList<AmmoCard> deck;
+    private ArrayList<AmmoCard> discarded;
 
-    public WeaponDeck() {
+    public AmmoDeck() {
         this.numberOfCards = 21;
         this.deck = new ArrayList<>();
         for(int i = 0; i<21; i++) {
-            deck.add(new WeaponCard()); // Problem: how to add all cards
+            deck.add(new AmmoCard()); // Problem: how to add all cards
         }
         this.discarded = new ArrayList<>();
     }

@@ -15,6 +15,7 @@ public class GameBoard {
         this.weaponDeck = new WeaponDeck();
         this.powerupDeck = new PowerupDeck();
         this.ammoDeck = new AmmoDeck();
+        this.squares = new ArrayList<>(); // Problem: how to add squares
         this.skull = 8;
     }
 }
