@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public abstract class WeaponCard {
+public abstract class WeaponCard implements Branchable {
 
     private String name;
     private AmmoColor color;
