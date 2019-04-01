@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+
 public class Player {
 
     private String name;
@@ -17,11 +19,22 @@ public class Player {
     private GameBoard board;
     private Square currentSquare;
 
-    public void Player (String name) {
+    public void Player (String name, PlayerColor color, GameBoard board, Square currentSquare) {
 
         this.name = name;
-        arraylist<playerDeathSubscriber> subscribers = new playerDeathSubscriber();
-
+        this.points = 0;
+        this.blueAmmo = 0;
+        this.yellowAmmo = 0;
+        this.redAmmo = 0;
+        this.skull = 0;
+        this.color = color;
+        damage = new ArrayList<>();
+        mark = new ArrayList<>();
+        weapons = new ArrayList<>();
+        powerups = new ArrayList<>();
+        subscribers = new ArrayList<>(); //need to add a subscriber//
+        this.board = board;
+        this.currentSquare = currentSquare;
     }
 
    public void addDeathSubscriber () {
