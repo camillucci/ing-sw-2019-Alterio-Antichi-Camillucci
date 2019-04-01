@@ -1,0 +1,3 @@
+Per motivi di leggibilità non sono state aggiunte:
+- le 21 classi arma sottoclassi di WeaponCard
+- le 4 classi potenziamento sottoclassi di PowerupCard
