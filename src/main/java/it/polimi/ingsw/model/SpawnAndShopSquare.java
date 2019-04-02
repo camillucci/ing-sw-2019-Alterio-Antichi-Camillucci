@@ -1,14 +1,14 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SpawnAndShopSquare extends Square {
     private AmmoColor color;
-    private ArrayList<WeaponCard> weapons;
+    private List<WeaponCard> weapons = new ArrayList<>();
 
     public SpawnAndShopSquare() {
         //TODO
-
     }
 
     @Override

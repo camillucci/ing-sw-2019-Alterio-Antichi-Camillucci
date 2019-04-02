@@ -8,19 +8,17 @@ public class GameBoard {
     private WeaponDeck weaponDeck;
     private PowerupDeck powerupDeck;
     private AmmoDeck ammoDeck;
-    private List<Square> squares; // Problem: id square and how many
-    private int skull; // Problem: how many from 5 to 8
-    private int gameLenght;
+    private List<Square> squares = new ArrayList<>(); // Problem: id square and how many
+    private int skulls;
     private int gameSize;
 
     public GameBoard(List<Player> players, int gameLength, int gameSize) {
         this.players = players;
+        this.skulls = gameLength;
+        this.gameSize = gameSize;
         this.weaponDeck = new WeaponDeck();
         this.powerupDeck = new PowerupDeck();
         this.ammoDeck = new AmmoDeck();
-        this.squares = new ArrayList<>(); // Problem: how to add squares
-        this.skull = 8;
-        this.gameLenght = gameLength;
-        this.gameSize = gameSize;
+        // Problem: how to add squares
     }
 }

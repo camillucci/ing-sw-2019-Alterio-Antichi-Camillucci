@@ -12,7 +12,6 @@ public class Match implements PlayerDeathSubscriber{
     private int gameLength;
     private int gameSize;
 
-
     public Match(List<String> playersName, List<PlayerColor> playerColors, int gameLength, int gameSize) {
         this.players = new ArrayList<>();
         for(int i = 0; i < playersName.size(); i++) {
@@ -27,11 +26,15 @@ public class Match implements PlayerDeathSubscriber{
     }
 
     public void spawn(){
-        // TODO
+        for(int i = 0; i < deadPlayers.size(); i++) {
+            // TODO
+        }
     }
 
     public void assignPoints(){
-        // TODO
+        for(int i = 0; i < deadPlayers.size(); i++) {
+            // TODO
+        }
     }
 
     @Override
