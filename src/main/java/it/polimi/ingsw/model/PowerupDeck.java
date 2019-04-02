@@ -14,7 +14,14 @@ public class PowerupDeck {
         //TODO Add all cards
     }
 
-    public PowerupCard draw() { return deck.remove(rand.nextInt(deck.size())); }
+    public PowerupCard draw() {
+        if(this.isEmpty()) {
+            deck = discarded;
+            numberOfCards = deck.size();
+        }
+        numberOfCards--;
+        return deck.remove(rand.nextInt(deck.size()));
+    }
 
     public boolean isEmpty() { return deck.isEmpty(); }
 }

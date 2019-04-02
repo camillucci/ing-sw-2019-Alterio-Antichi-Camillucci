@@ -14,7 +14,14 @@ public class AmmoDeck {
         //TODO Add all cards
     }
 
-    public AmmoCard draw() { return deck.remove(rand.nextInt(deck.size())); }
+    public AmmoCard draw() {
+        if(this.isEmpty()) {
+            deck = discarded;
+            numberOfCards = deck.size();
+        }
+        numberOfCards--;
+        return deck.remove(rand.nextInt(deck.size()));
+    }
 
     public boolean isEmpty() {
         return deck.isEmpty();

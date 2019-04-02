@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
 public abstract class Square {
-    private Square[] squares;
-    private SquareBorder[] borderType;
+    SquareBorder nord;
+    SquareBorder sud;
+    SquareBorder west;
+    SquareBorder est;
 
     public abstract void grab(Player player);
 }
