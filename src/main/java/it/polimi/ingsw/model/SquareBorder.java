@@ -5,5 +5,5 @@ public enum SquareBorder {
     DOOR,
     WALL,
     ROOM,
-    NULL;
+    NOTHING;
 }

@@ -1,23 +1,26 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AmmoDeck {
     private int numberOfCards;
-    private ArrayList<AmmoCard> deck;
-    private ArrayList<AmmoCard> discarded;
+    private ArrayList<AmmoCard> deck = new ArrayList<>();
+    private ArrayList<AmmoCard> discarded = new ArrayList<>();
+    private Random rand = new Random();
 
     public AmmoDeck() {
         this.numberOfCards = 21;
-        this.deck = new ArrayList<>();
-        for(int i = 0; i<21; i++) {
-            deck.add(new AmmoCard()); // Problem: how to add all cards
-        }
-        this.discarded = new ArrayList<>();
+        //TODO Add all cards
     }
 
-    public WeaponCard draw() {
-        //TODO
+    public AmmoCard draw() {
+        if(this.isEmpty()) {
+            deck = discarded;
+            numberOfCards = deck.size();
+        }
+        numberOfCards--;
+        return deck.remove(rand.nextInt(deck.size()));
     }
 
     public boolean isEmpty() {

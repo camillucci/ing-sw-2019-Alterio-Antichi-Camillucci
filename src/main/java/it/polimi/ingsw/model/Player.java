@@ -11,11 +11,11 @@ public class Player {
     private int redAmmo;
     private int skull;
     private PlayerColor color;
-    private ArrayList<PlayerColor> damage;
-    private ArrayList<PlayerColor> mark;
-    private ArrayList<WeaponCard> weapons;
-    private ArrayList<PowerupCard> powerups;
-    private ArrayList<PlayerDeathSubscriber> subscribers;
+    private ArrayList<PlayerColor> damage = new ArrayList<>();
+    private ArrayList<PlayerColor> mark = new ArrayList<>();
+    private ArrayList<WeaponCard> weapons = new ArrayList<>();
+    private ArrayList<PowerupCard> powerups = new ArrayList<>();
+    private ArrayList<PlayerDeathSubscriber> subscribers = new ArrayList<>();
     private GameBoard board;
     private Square currentSquare;
 
@@ -28,11 +28,7 @@ public class Player {
         this.redAmmo = 0;
         this.skull = 0;
         this.color = color;
-        damage = new ArrayList<>();
-        mark = new ArrayList<>();
-        weapons = new ArrayList<>();
-        powerups = new ArrayList<>();
-        subscribers = new ArrayList<>(); //need to add a subscriber//
+        //need to add a subscriber//
     }
 
    public void addDeathSubscriber () {

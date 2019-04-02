@@ -4,8 +4,12 @@ public class AmmoSquare extends Square {
 
     private AmmoCard ammoCard;
 
-    public AmmoSquare() {
-        //TODO
+    public AmmoSquare(SquareBorder nord, SquareBorder sud, SquareBorder west, SquareBorder est, AmmoCard ammoCard) {
+        this.nord = nord;
+        this.sud = sud;
+        this.west = west;
+        this.est = est;
+        this.ammoCard = ammoCard;
     }
 
     @Override
@@ -14,7 +18,7 @@ public class AmmoSquare extends Square {
     }
 
     public boolean isEmpty() {
-        //TODO
-
+        if(ammoCard == null) return true;
+        else return false;
     }
 }
