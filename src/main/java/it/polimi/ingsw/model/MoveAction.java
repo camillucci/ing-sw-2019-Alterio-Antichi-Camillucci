@@ -25,4 +25,13 @@ public class MoveAction extends Action
     public void visualize() {
         //TODO
     }
+
+    @Override
+    public boolean IsCompatible(Action action)
+    {
+        if(! (action instanceof  MoveAction) )
+            return false;
+        MoveAction ma = (MoveAction)action;
+        return ma.maxDist < this.maxDist;
+    }
 }

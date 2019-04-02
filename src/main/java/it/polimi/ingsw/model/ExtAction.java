@@ -1,10 +1,16 @@
 package it.polimi.ingsw.model;
 
+import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExtAction extends Action
 {
+    public ExtAction(Player ownerPlayer)
+    {
+        super(ownerPlayer);
+        this.branches = new ArrayList<>();
+    }
     public ExtAction(Player ownerPlayer, List<Branch> branches)
     {
         super(ownerPlayer);
@@ -18,14 +24,13 @@ public class ExtAction extends Action
     @Override
     public void op()
     {
-        //TODO
-        // ExtAction visualize only;
+        // Nothing
     }
 
     @Override
     public void visualize()
     {
-        //TODO
+        //Nothing to visualize
     }
 
     private List<Branch> branches;

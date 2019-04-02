@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public abstract class Action implements Visualizable
 {
+    public Event CompletedActionEvent = new Event();
     public Action(Player ownerPlayer)
     {
         this.currentPlayer = ownerPlayer;
@@ -12,8 +13,7 @@ public abstract class Action implements Visualizable
     public void doAction()
     {
         this.op();
-        for(ActionCompletedSubscriber x : actionCompletedSubscribers)
-            x.onActionCompleted(this);
+        CompletedActionEvent.invoke(this, this);
     }
     public abstract void op();
 
@@ -25,10 +25,6 @@ public abstract class Action implements Visualizable
     {
         this.targetPlayers.add(target);
     }
-    public void addCompletedActionSubscriber(ActionCompletedSubscriber sub)
-    {
-        this.actionCompletedSubscribers.add(sub);
-    }
     public boolean IsCompatible(Action action)
     {
         return action instanceof Action;
@@ -38,5 +34,4 @@ public abstract class Action implements Visualizable
     protected ArrayList<Square> targetSquares = new ArrayList<>();
     protected ArrayList<Player> targetPlayers = new ArrayList<>();
 
-    private ArrayList<ActionCompletedSubscriber> actionCompletedSubscribers = new ArrayList<>();
 }

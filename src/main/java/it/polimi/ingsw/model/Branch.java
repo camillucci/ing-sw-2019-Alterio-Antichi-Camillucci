@@ -5,10 +5,21 @@ import java.util.List;
 
 public class Branch
 {
-    public Branch(List<Action> actions, ExtAction endAction)
-    {
+    public Event BranchActionCompletedEvent = new Event();
+    public Branch(List<Action> actions, ExtAction endAction) {
         this.actions = new ArrayList<>(actions); // forse ci sarebbe da copiare anche ogni action dell'arraylist
         this.endAction = endAction;
+        for (Action a : this.actions)
+            a.CompletedActionEvent.addEventHandler(this::OnActionComplete);
+        endAction.CompletedActionEvent.addEventHandler(this::OnActionComplete);
+    }
+    public Branch(ExtAction endAction)
+    {
+        this(new ArrayList<Action>(),endAction);
+    }
+    private void OnActionComplete(Object Sender, Object args)
+    {
+        BranchActionCompletedEvent.invoke(Sender, args);
     }
     public Action getCurAction()
     {
@@ -16,11 +27,7 @@ public class Branch
             return this.actions.get(0);
         return endAction;
     }
-    public void addActionCompletedSubscriber(ActionCompletedSubscriber sub)
-    {
-        for(Action a : this.actions)
-            a.addCompletedActionSubscriber(sub);
-    }
+
     public boolean goNext()
     {
         if(actions.isEmpty())
