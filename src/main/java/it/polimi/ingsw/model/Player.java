@@ -14,12 +14,12 @@ public class Player {
     private ArrayList<PlayerColor> damage;
     private ArrayList<PlayerColor> mark;
     private ArrayList<WeaponCard> weapons;
-    private ArrayList<PowerUpCard> powerups;
+    private ArrayList<PowerupCard> powerups;
     private ArrayList<PlayerDeathSubscriber> subscribers;
     private GameBoard board;
     private Square currentSquare;
 
-    public void Player (String name, PlayerColor color, GameBoard board, Square currentSquare) {
+    public Player (String name, PlayerColor color) {
 
         this.name = name;
         this.points = 0;
@@ -33,8 +33,6 @@ public class Player {
         weapons = new ArrayList<>();
         powerups = new ArrayList<>();
         subscribers = new ArrayList<>(); //need to add a subscriber//
-        this.board = board;
-        this.currentSquare = currentSquare;
     }
 
    public void addDeathSubscriber () {
