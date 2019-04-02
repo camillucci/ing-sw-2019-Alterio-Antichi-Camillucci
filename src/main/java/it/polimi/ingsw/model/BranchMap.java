@@ -9,17 +9,17 @@ public class BranchMap implements ActionCompletedSubscriber
     {
         this.branches = new ArrayList<>(branches);
         for(Branch b : this.branches)
-            b.AddActionCompletedSubscriber(this);
+            b.addActionCompletedSubscriber(this);
     }
     @Override
-    public void OnActionCompleted(Action actionCompleted)
+    public void onActionCompleted(Action actionCompleted)
     {
         for(Branch b: branches)
-            if(!b.GetCurAction().IsCompatible(actionCompleted))
+            if(!b.getCurAction().IsCompatible(actionCompleted))
                 this.branches.remove(b);
             else
-                if(!b.GoNext()){
-                    this.branches.addAll(b.GetEndAction().GetBranches()); //Il for each beccherà i nuovi aggiunti?
+                if(!b.goNext()){
+                    this.branches.addAll(b.getEndAction().GetBranches()); //Il for each beccherà i nuovi aggiunti?
                     this.branches.remove(b);
                 }
         notifyChanges();
@@ -30,7 +30,7 @@ public class BranchMap implements ActionCompletedSubscriber
             /*Notify  Match*/;
         ArrayList<Action> compatibleActions = new ArrayList<>();
         for(Branch b : this.branches)
-            compatibleActions.add(b.GetCurAction());
+            compatibleActions.add(b.getCurAction());
         for(ActionsChangedSubscriber sub : actionsChangedSubscribers)
             sub.onActionsChanged(compatibleActions);
     }
@@ -39,6 +39,6 @@ public class BranchMap implements ActionCompletedSubscriber
         this.actionsChangedSubscribers.add(sub);
     }
 
-    private ArrayList<Branch> branches;
-    private ArrayList<ActionsChangedSubscriber> actionsChangedSubscribers = new ArrayList<>();
+    private List<Branch> branches;
+    private List<ActionsChangedSubscriber> actionsChangedSubscribers = new ArrayList<>();
 }
