@@ -2,10 +2,10 @@ package it.polimi.ingsw.model;
 
 public class MoveAction extends Action
 {
-    public MoveAction(Player ownerPlayer, int MaxDist)
+    public MoveAction(Player ownerPlayer, int maxDist)
     {
         super(ownerPlayer);
-        this.MaxDist = MaxDist;
+        this.maxDist = maxDist;
     }
 
     @Override
@@ -19,7 +19,7 @@ public class MoveAction extends Action
         //TODO
     }
 
-    private int MaxDist;
+    private int maxDist;
 
     @Override
     public void visualize() {

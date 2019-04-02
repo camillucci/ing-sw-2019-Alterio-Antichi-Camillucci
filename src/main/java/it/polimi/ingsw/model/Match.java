@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Match {
+public class Match implements PlayerDeathSubscriber{
 
     private GameBoard gameBoard;
     private ArrayList<Player> players;
@@ -10,7 +11,7 @@ public class Match {
     private Turn currentTurn;
 
 
-    public Match(ArrayList<String> playersName, ArrayList<PlayerColor> playerColors) {
+    public Match(List<String> playersName, List<PlayerColor> playerColors) {
         this.players = new ArrayList<>();
         for(int i = 0; i < playersName.size(); i++) {
             players.add(new Player(playersName.get(i), playerColors.get(i)));

@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface ActionsChangedSubscriber
 {
-    public void onActionsChanged(List<Action> actions);
+    void onActionsChanged(List<Action> actions);
 }

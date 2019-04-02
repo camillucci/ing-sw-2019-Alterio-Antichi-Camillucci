@@ -12,8 +12,8 @@ public abstract class Action implements Visualizable
     public void doAction()
     {
         this.op();
-        for(ActionCompletedSubscriber x : ActionCompletedSubscribers)
-            x.OnActionCompleted(this);
+        for(ActionCompletedSubscriber x : actionCompletedSubscribers)
+            x.onActionCompleted(this);
     }
     public abstract void op();
 
@@ -23,7 +23,7 @@ public abstract class Action implements Visualizable
     }
     public void addCompletedActionSubscriber(ActionCompletedSubscriber sub)
     {
-        this.ActionCompletedSubscribers.add(sub);
+        this.actionCompletedSubscribers.add(sub);
     }
     public boolean IsCompatible(Action action)
     {
@@ -33,5 +33,5 @@ public abstract class Action implements Visualizable
     protected Player currentPlayer;
     protected ArrayList<Square> targetSquares = new ArrayList<>();
 
-    private ArrayList<ActionCompletedSubscriber> ActionCompletedSubscribers = new ArrayList<>();
+    private ArrayList<ActionCompletedSubscriber> actionCompletedSubscribers = new ArrayList<>();
 }

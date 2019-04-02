@@ -8,7 +8,7 @@ public class AmmoCard {
     private PowerupCard puc;
 
 
-    public void AmmoCard(int blue, int yellow, int red) {
+    public AmmoCard(int blue, int yellow, int red) {
 
         this.blue = blue;
         this.yellow = yellow;
@@ -16,7 +16,7 @@ public class AmmoCard {
         puc = null;
     }
 
-    public void AmmoCard(int blue, int yellow, int red, PowerupCard puc) {
+    public AmmoCard(int blue, int yellow, int red, PowerupCard puc) {
 
         this.blue = blue;
         this.yellow = yellow;
