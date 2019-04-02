@@ -8,11 +8,19 @@ public class ShootAction extends Action
     public ShootAction(Player ownerPlayer, BiConsumer<Player, ArrayList<Square>> shootFunc, Visualizable visualizable)
     {
         super(ownerPlayer);
-        this.shootFunc = shootFunc;
+        this.shootFuncS = shootFunc;
         this.visualizable = visualizable;
     }
 
-    private BiConsumer<Player, ArrayList<Square>> shootFunc;
+    public ShootAction(BiConsumer<Player, ArrayList<Player>> shootFunc, Visualizable visualizable, Player ownerPlayer)
+    {
+        super(ownerPlayer);
+        this.shootFuncP = shootFunc;
+        this.visualizable = visualizable;
+    }
+
+    private BiConsumer<Player, ArrayList<Player>> shootFuncP;
+    private BiConsumer<Player, ArrayList<Square>> shootFuncS;
     private Visualizable visualizable;
 
     @Override
@@ -22,7 +30,10 @@ public class ShootAction extends Action
 
     public void shoot()
     {
-        this.shootFunc.accept(this.currentPlayer, this.targetSquares);
+        if(shootFuncP != null)
+            this.shootFuncP.accept(this.currentPlayer, this.targetPlayers);
+        else
+            this.shootFuncS.accept(this.currentPlayer, this.targetSquares);
     }
 
     @Override

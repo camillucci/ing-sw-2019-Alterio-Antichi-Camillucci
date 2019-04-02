@@ -21,6 +21,10 @@ public abstract class Action implements Visualizable
     {
         this.targetSquares.add(target);
     }
+    public void addTarget(Player target)
+    {
+        this.targetPlayers.add(target);
+    }
     public void addCompletedActionSubscriber(ActionCompletedSubscriber sub)
     {
         this.actionCompletedSubscribers.add(sub);
@@ -32,6 +36,7 @@ public abstract class Action implements Visualizable
 
     protected Player currentPlayer;
     protected ArrayList<Square> targetSquares = new ArrayList<>();
+    protected ArrayList<Player> targetPlayers = new ArrayList<>();
 
     private ArrayList<ActionCompletedSubscriber> actionCompletedSubscribers = new ArrayList<>();
 }

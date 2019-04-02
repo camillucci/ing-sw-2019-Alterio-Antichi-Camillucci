@@ -27,7 +27,7 @@ public class BranchMap implements ActionCompletedSubscriber
     private void notifyChanges()
     {
         if(branches.isEmpty())
-            /*Notify  Match*/;
+            /*Notify  Turn*/;
         ArrayList<Action> compatibleActions = new ArrayList<>();
         for(Branch b : this.branches)
             compatibleActions.add(b.GetCurAction());

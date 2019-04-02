@@ -12,7 +12,7 @@ public class Branch
     }
     public Action getCurAction()
     {
-        if(actions.isEmpty())
+        if(!actions.isEmpty())
             return this.actions.get(0);
         return endAction;
     }
