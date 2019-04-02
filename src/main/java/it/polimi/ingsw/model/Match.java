@@ -6,18 +6,24 @@ import java.util.List;
 public class Match implements PlayerDeathSubscriber{
 
     private GameBoard gameBoard;
-    private ArrayList<Player> players;
-    private ArrayList<Player> deadPlayers;
+    private List<Player> players;
+    private List<Player> deadPlayers;
     private Turn currentTurn;
+    private int gameLength;
+    private int gameSize;
 
 
-    public Match(List<String> playersName, List<PlayerColor> playerColors) {
+    public Match(List<String> playersName, List<PlayerColor> playerColors, int gameLength, int gameSize) {
         this.players = new ArrayList<>();
         for(int i = 0; i < playersName.size(); i++) {
             players.add(new Player(playersName.get(i), playerColors.get(i)));
         }
-        gameBoard = new GameBoard(players);
+        this.gameLength = gameLength;
+        this.gameSize = gameSize;
+        gameBoard = new GameBoard(players, gameLength, gameSize);
         deadPlayers = new ArrayList<>();
+        this.gameLength = gameLength;
+        this.gameSize = gameSize;
     }
 
     public void spawn(){
@@ -26,5 +32,10 @@ public class Match implements PlayerDeathSubscriber{
 
     public void assignPoints(){
         // TODO
+    }
+
+    @Override
+    public void onPlayerDeath(Player p) {
+        //TODO
     }
 }
