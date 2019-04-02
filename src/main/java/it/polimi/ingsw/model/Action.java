@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public abstract class Action implements Visualizable
 {
-
     public Action(Player ownerPlayer)
     {
         this.currentPlayer = ownerPlayer;
     }
+
     public void doAction()
     {
         this.op();
@@ -27,14 +27,11 @@ public abstract class Action implements Visualizable
     }
     public boolean IsCompatible(Action action)
     {
-        return true;
-        // TODO
+        return action instanceof Action;
     }
 
     protected Player currentPlayer;
-
     protected ArrayList<Square> targetSquares = new ArrayList<>();
-    protected int totTarget;
 
     private ArrayList<ActionCompletedSubscriber> ActionCompletedSubscribers = new ArrayList<>();
 }

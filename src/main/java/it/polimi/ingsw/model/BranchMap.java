@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BranchMap implements ActionCompletedSubscriber
 {
-    public BranchMap(ArrayList<Branch> branches)
+    public BranchMap(List<Branch> branches)
     {
         this.branches = new ArrayList<>(branches);
         for(Branch b : this.branches)
@@ -21,15 +22,17 @@ public class BranchMap implements ActionCompletedSubscriber
                     this.branches.addAll(b.GetEndAction().GetBranches()); //Il for each beccherà i nuovi aggiunti?
                     this.branches.remove(b);
                 }
-        NotifyChanges();
+        notifyChanges();
     }
-    private void NotifyChanges()
+    private void notifyChanges()
     {
-        ArrayList<Action> CompatibleActions = new ArrayList<>();
+        if(branches.isEmpty())
+            /*Notify  Match*/;
+        ArrayList<Action> compatibleActions = new ArrayList<>();
         for(Branch b : this.branches)
-            CompatibleActions.add(b.GetCurAction());
+            compatibleActions.add(b.GetCurAction());
         for(ActionsChangedSubscriber sub : actionsChangedSubscribers)
-            sub.onActionsChanged(CompatibleActions);
+            sub.onActionsChanged(compatibleActions);
     }
     public void AddActionsChangedSubscriber(ActionsChangedSubscriber sub)
     {

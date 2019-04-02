@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
+import java.util.List;
+
 public interface Branchable {
 
-    public void getBranches(Player branchesOwner);
-
-        //need to change the type of return's parameter//
+    public List<Branch> getBranches(Player branchesOwner);
 }
