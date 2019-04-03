@@ -7,21 +7,18 @@ import static it.polimi.ingsw.model.AmmoColor.*;
 import static it.polimi.ingsw.model.SquareBorder.*;
 
 public class GameBoard {
-    private List<Player> players;
-    private WeaponDeck weaponDeck;
-    private PowerupDeck powerupDeck;
-    private AmmoDeck ammoDeck;
+
+    private List<Player> players = new ArrayList<>();
+    private WeaponDeck weaponDeck = new WeaponDeck();
+    private PowerupDeck powerupDeck = new PowerupDeck();
+    private AmmoDeck ammoDeck = new AmmoDeck();
     private Square[][] squares = new Square[3][4];
     private int skulls;
     private int gameSize;
 
-    public GameBoard(List<Player> players, int gameLength, int gameSize) {
-        this.players = players;
+    public GameBoard(int gameLength, int gameSize) {
         this.skulls = gameLength;
         this.gameSize = gameSize;
-        this.weaponDeck = new WeaponDeck();
-        this.powerupDeck = new PowerupDeck();
-        this.ammoDeck = new AmmoDeck();
         ArrayList<WeaponCard> blueShop = new ArrayList<>();
         ArrayList<WeaponCard> redShop = new ArrayList<>();
         ArrayList<WeaponCard> yellowShop = new ArrayList<>();
@@ -73,4 +70,9 @@ public class GameBoard {
             squares[2][3] = new SpawnAndShopSquare(YELLOW, ROOM, NOTHING, ROOM, NOTHING, yellowShop);
         }
     }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
 }

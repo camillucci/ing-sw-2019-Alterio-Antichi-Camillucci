@@ -17,10 +17,10 @@ public class Player {
     private ArrayList<WeaponCard> weapons = new ArrayList<>();
     private ArrayList<PowerupCard> powerups = new ArrayList<>();
     private ArrayList<PlayerDeathSubscriber> subscribers = new ArrayList<>();
-    private GameBoard board;
+    private GameBoard gameBoard;
     private Square currentSquare;
 
-    public Player (String name, PlayerColor color) {
+    public Player (String name, PlayerColor color, GameBoard gameBoard) {
 
         this.name = name;
         this.points = 0;
@@ -29,6 +29,7 @@ public class Player {
         this.redAmmo = 0;
         this.skull = 0;
         this.color = color;
+        this.gameBoard = gameBoard;
         //need to add a subscriber//
     }
 
