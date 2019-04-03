@@ -9,8 +9,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>AM30</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/Camillucci/ing-sw-2019-Alterio-Antichi-Camillucci</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

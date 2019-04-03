@@ -18,7 +18,6 @@ public class AmmoSquare extends Square {
     }
 
     public boolean isEmpty() {
-        if(ammoCard == null) return true;
-        else return false;
+        return ammoCard == null;
     }
 }
