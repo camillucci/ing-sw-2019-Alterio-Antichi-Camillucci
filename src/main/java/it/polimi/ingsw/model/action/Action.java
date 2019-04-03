@@ -1,10 +1,15 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.action;
+
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Square;
+import it.polimi.ingsw.model.Visualizable;
 
 import java.util.ArrayList;
 
 public abstract class Action implements Visualizable
 {
-    public Event CompletedActionEvent = new Event();
+    public final Event<Action, Action> completedActionEvent = new Event<>();
     public Action(Player ownerPlayer)
     {
         this.currentPlayer = ownerPlayer;
@@ -13,9 +18,9 @@ public abstract class Action implements Visualizable
     public void doAction()
     {
         this.op();
-        CompletedActionEvent.invoke(this, this);
+        completedActionEvent.invoke(this, this);
     }
-    public abstract void op();
+    protected void op() {}
 
     public void addTarget(Square target)
     {
@@ -25,9 +30,9 @@ public abstract class Action implements Visualizable
     {
         this.targetPlayers.add(target);
     }
-    public boolean IsCompatible(Action action)
+    public boolean isCompatible(Action action)
     {
-        return action instanceof Action;
+        return action.getClass().isInstance(this);
     }
 
     protected Player currentPlayer;

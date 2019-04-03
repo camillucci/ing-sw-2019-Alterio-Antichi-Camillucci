@@ -1,14 +1,12 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.action;
+
+import it.polimi.ingsw.model.Player;
 
 public class RollBackAction extends Action
 {
     public RollBackAction(Player ownerPlayer)
     {
         super(ownerPlayer);
-    }
-    @Override
-    public void op() {
-
     }
 
     @Override
@@ -17,7 +15,7 @@ public class RollBackAction extends Action
     }
 
     @Override
-    public boolean IsCompatible(Action a)
+    public boolean isCompatible(Action a)
     {
         return true;
     }

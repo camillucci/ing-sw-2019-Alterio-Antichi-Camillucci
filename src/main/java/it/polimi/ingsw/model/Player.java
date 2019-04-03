@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -31,6 +32,9 @@ public class Player {
         //need to add a subscriber//
     }
 
+    public List<WeaponCard> getWeapons(){
+        return new ArrayList<>(this.weapons);
+    }
    public void addDeathSubscriber () {
         //TODO//
    }

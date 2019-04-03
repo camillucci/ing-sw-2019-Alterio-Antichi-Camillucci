@@ -1,4 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.action;
+
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Square;
+import it.polimi.ingsw.model.Visualizable;
 
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
@@ -24,11 +28,11 @@ public class ShootAction extends Action
     private Visualizable visualizable;
 
     @Override
-    public void op() {
+    protected void op() {
         this.shoot();
     }
 
-    public void shoot()
+    private void shoot()
     {
         if(shootFuncP != null)
             this.shootFuncP.accept(this.currentPlayer, this.targetPlayers);

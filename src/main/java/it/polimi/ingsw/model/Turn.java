@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.branch.BranchMap;
+
 public class Turn {
 
     private int turnCounter;

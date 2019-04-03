@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.action.Action;
+
 public class ReloadAction extends Action
 {
     @Override

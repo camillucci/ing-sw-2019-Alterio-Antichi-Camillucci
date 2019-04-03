@@ -1,7 +1,11 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.action;
+
+import it.polimi.ingsw.model.Player;
 
 public class MoveAction extends Action
 {
+    private int maxDist;
+
     public MoveAction(Player ownerPlayer, int maxDist)
     {
         super(ownerPlayer);
@@ -9,17 +13,15 @@ public class MoveAction extends Action
     }
 
     @Override
-    public void op()
+    protected void op()
     {
         this.Move();
     }
 
-    public void Move()
+    private void Move()
     {
         //TODO
     }
-
-    private int maxDist;
 
     @Override
     public void visualize() {
@@ -27,11 +29,11 @@ public class MoveAction extends Action
     }
 
     @Override
-    public boolean IsCompatible(Action action)
+    public boolean isCompatible(Action action)
     {
-        if(! (action instanceof  MoveAction) )
+        if( !(action instanceof  MoveAction) )
             return false;
         MoveAction ma = (MoveAction)action;
-        return ma.maxDist < this.maxDist;
+        return ma.maxDist <= this.maxDist;
     }
 }

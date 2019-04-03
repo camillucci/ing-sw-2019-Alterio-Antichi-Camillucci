@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.action;
+
+import it.polimi.ingsw.model.Player;
 
 public class GrabAction extends Action
 {
@@ -7,7 +9,7 @@ public class GrabAction extends Action
         super(ownerPlayer);
     }
     @Override
-    public void op()
+    protected void op()
     {
         this.grab();
     }
