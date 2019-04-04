@@ -25,20 +25,13 @@ public class Player {
 
         this.name = name;
         this.points = 0;
-        this.blueAmmo = 0;
-        this.yellowAmmo = 0;
-        this.redAmmo = 0;
+        this.blueAmmo = 1;
+        this.yellowAmmo = 1;
+        this.redAmmo = 1;
         this.skull = 0;
         this.color = color;
         this.gameBoard = gameBoard;
         //need to add a subscriber
-    }
-
-    public List<WeaponCard> getWeapons(){
-        return new ArrayList<>(this.loadedWeapons);
-    }
-    public void addDeathSubscriber () {
-        //TODO//
     }
 
     public void addRed(int val){
@@ -69,11 +62,10 @@ public class Player {
     }
 
     public void addPowerUpCard() {
-        if(powerups.size() == 3){
-            return;
-        }
 
-        powerups.add(gameBoard.getPowerupDeck().draw());
+        if(powerups.size() < 3){
+            powerups.add(gameBoard.getPowerupDeck().draw());
+        }
     }
 
     public int getBlueAmmo() {
@@ -86,5 +78,9 @@ public class Player {
 
     public int getRedAmmo() {
         return redAmmo;
+    }
+
+    public List<WeaponCard> getWeapons(){
+        return new ArrayList<>(this.loadedWeapons);
     }
 }
