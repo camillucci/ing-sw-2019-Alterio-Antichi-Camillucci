@@ -14,7 +14,17 @@ public class AmmoSquare extends Square {
 
     @Override
     public void grab(Player player) {
-        //TODO
+        player.addRed(ammoCard.getRed());
+        player.addBlue(ammoCard.getBlue());
+        player.addYellow(ammoCard.getYellow());
+
+        if(ammoCard.isPowerUpCard() == true) {
+
+            player.addPowerUpCard();
+        }
+
+
+
     }
 
     public boolean isEmpty() {

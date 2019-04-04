@@ -22,6 +22,8 @@ public abstract class WeaponCard implements Branchable, Visualizable {
         for(SelectionAction a : fireModalities)
             ret.add(new Branch(a));
         return ret;
+
+        //da spostare in ogni singola arma?
     }
 
     protected abstract void buildFireModalities(Player shooter);

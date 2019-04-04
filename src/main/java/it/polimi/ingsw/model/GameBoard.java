@@ -75,4 +75,7 @@ public class GameBoard {
         this.players = players;
     }
 
+    public PowerupDeck getPowerupDeck() {
+        return powerupDeck;
+    }
 }
