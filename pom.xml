@@ -22,13 +22,28 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>5.2.0</version>
+      <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <!-- this is all you need to write tests with JUnit Jupiter -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>RELEASE</version>
+      <version>5.2.0</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- this dependency is needed to create parameterized tests -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>5.2.0</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- contains the engine that actually runs the Jupiter-tests -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.2.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
