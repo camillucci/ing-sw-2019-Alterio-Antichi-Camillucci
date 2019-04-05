@@ -1,6 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.WeaponCard;
 
 public class ReloadAction extends Action
 {

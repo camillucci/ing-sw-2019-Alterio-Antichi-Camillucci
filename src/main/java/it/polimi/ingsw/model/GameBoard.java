@@ -10,7 +10,7 @@ public class GameBoard {
 
     private List<Player> players = new ArrayList<>();
     private WeaponDeck weaponDeck = new WeaponDeck();
-    private PowerupDeck powerupDeck = new PowerupDeck();
+    private PowerUpDeck powerupDeck = new PowerUpDeck();
     private AmmoDeck ammoDeck = new AmmoDeck();
     private Square[][] squares = new Square[3][4];
     private int skulls;
@@ -75,7 +75,7 @@ public class GameBoard {
         this.players = players;
     }
 
-    public PowerupDeck getPowerupDeck() {
+    public PowerUpDeck getPowerUpDeck() {
         return powerupDeck;
     }
 }

@@ -8,12 +8,15 @@ import java.util.List;
 
 public abstract class WeaponCard implements Branchable, Visualizable {
 
-    private String name;
-    private AmmoColor color;
-    private int blueCost;
-    private int yellowCost;
-    private int redCost;
-    private List<SelectionAction> fireModalities = new ArrayList<>();
+    protected String name;
+    protected AmmoColor color;
+    protected int blueBuyCost;
+    protected int yellowBuyCost;
+    protected int redBuyCost;
+    protected int blueReloadCost;
+    protected int redReloadCost;
+    protected int yellowReloadCost;
+    protected List<SelectionAction> fireModalities = new ArrayList<>();
 
     public List<Branch> getFireModalities(Player shooter)
     {
@@ -23,7 +26,7 @@ public abstract class WeaponCard implements Branchable, Visualizable {
             ret.add(new Branch(a));
         return ret;
 
-        //da spostare in ogni singola arma?
+        //TODO da spostare in ogni singola arma?
     }
 
     protected abstract void buildFireModalities(Player shooter);

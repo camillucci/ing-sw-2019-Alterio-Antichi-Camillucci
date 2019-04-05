@@ -16,8 +16,7 @@ public class Player {
     private ArrayList<PlayerColor> mark = new ArrayList<>();
     private ArrayList<WeaponCard> loadedWeapons = new ArrayList<>();
     private ArrayList<WeaponCard> unloadedWeapons = new ArrayList<>();
-    private ArrayList<PowerupCard> powerups = new ArrayList<>();
-    private ArrayList<PlayerDeathSubscriber> subscribers = new ArrayList<>();
+    private ArrayList<PowerUpCard> powerups = new ArrayList<>();
     private GameBoard gameBoard;
     private Square currentSquare;
 
@@ -31,7 +30,6 @@ public class Player {
         this.skull = 0;
         this.color = color;
         this.gameBoard = gameBoard;
-        //need to add a subscriber
     }
 
     public void addRed(int val){
@@ -64,7 +62,7 @@ public class Player {
     public void addPowerUpCard() {
 
         if(powerups.size() < 3){
-            powerups.add(gameBoard.getPowerupDeck().draw());
+            powerups.add(gameBoard.getPowerUpDeck().draw());
         }
     }
 

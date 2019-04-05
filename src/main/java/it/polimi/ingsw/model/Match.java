@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Match implements PlayerDeathSubscriber{
+public class Match {
 
     private GameBoard gameBoard;
     private List<Player> players = new ArrayList<>();
@@ -33,11 +33,6 @@ public class Match implements PlayerDeathSubscriber{
         for(int i = 0; i < deadPlayers.size(); i++) {
             // TODO
         }
-    }
-
-    @Override
-    public void onPlayerDeath(Player p) {
-        //TODO
     }
 
 }
