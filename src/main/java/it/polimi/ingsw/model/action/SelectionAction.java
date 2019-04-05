@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.action;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Visualizable;
-
+import java.util.Collections;
 import java.util.List;
 
 public class SelectionAction extends ExtendibleAction
@@ -18,7 +18,10 @@ public class SelectionAction extends ExtendibleAction
         super(ownerPLayer, selectionBranches);
         this.visualizable = visualizable;
     }
-
+    public SelectionAction(Player ownerPlayer, Branch branch, Visualizable visualizable)
+    {
+        this(ownerPlayer, Collections.singletonList(branch), visualizable);
+    }
     @Override
     public void visualize()
     {

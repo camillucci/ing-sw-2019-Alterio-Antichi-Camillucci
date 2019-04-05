@@ -10,24 +10,23 @@ import it.polimi.ingsw.model.action.RollBackAction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BranchMap
+public abstract class BranchMap
 {
     public final Event<BranchMap, List<Action>> newActionsEvent = new Event<>();
     public final Event<BranchMap, EndBranchAction> endOfBranchMapReachedEvent = new Event<>();
     public final Event<BranchMap, RollBackAction> rollbackEvent = new Event<>();
     private List<Branch> branches;
+    protected Player ownerPlayer;
 
-    public BranchMap(Player ownerPlayer, List<Branch> branches)
+
+    protected BranchMap(Player ownerPlayer)
     {
-        this.branches = new ArrayList<>(branches);
-        this.branches.add(new Branch(new RollBackAction(ownerPlayer)));
-        for(Branch b : this.branches)
-        {
-            b.actionCompletedEvent.addEventHandler(this::onBranchActionCompleted);
-            b.extActionCompletedEvent.addEventHandler(this::onBranchExtActionCompleted);
-            b.rollbackEvent.addEventHandler((s,ra)->this.rollbackEvent.invoke(this, ra));
-            b.endBranchEvent.addEventHandler((s,eba)->this.endOfBranchMapReachedEvent.invoke(this, eba));
-        }
+        this.ownerPlayer = ownerPlayer;
+    }
+    protected BranchMap(Player ownerPlayer, List<Branch> branches)
+    {
+        this(ownerPlayer);
+        this.setupBranches(branches);
     }
 
     public List<Action> getPossibleActions()
@@ -49,6 +48,18 @@ public class BranchMap
         this.removeIncompatibleBranches(extendibleAction);
         this.branches.remove(senderBranch);
         this.branches.addAll(extendibleAction.GetBranches());
+    }
+    protected void setupBranches(List<Branch> branches)
+    {
+        this.branches = new ArrayList<>(branches);
+        this.branches.add(new Branch(new RollBackAction(ownerPlayer)));
+        for(Branch b : this.branches)
+        {
+            b.actionCompletedEvent.addEventHandler(this::onBranchActionCompleted);
+            b.extActionCompletedEvent.addEventHandler(this::onBranchExtActionCompleted);
+            b.rollbackEvent.addEventHandler((s,ra)->this.rollbackEvent.invoke(this, ra));
+            b.endBranchEvent.addEventHandler((s,eba)->this.endOfBranchMapReachedEvent.invoke(this, eba));
+        }
     }
     private void removeIncompatibleBranches(Action curAction)
     {

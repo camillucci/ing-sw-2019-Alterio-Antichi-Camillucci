@@ -1,6 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.WeaponCard;
 
 public class ReloadAction extends Action
 {
@@ -10,7 +11,7 @@ public class ReloadAction extends Action
         this.reload();
     }
 
-    public void reload()
+    private void reload()
     {
         // TODO
         // this.player.RemoveAmmo(this.weapon.ammo)

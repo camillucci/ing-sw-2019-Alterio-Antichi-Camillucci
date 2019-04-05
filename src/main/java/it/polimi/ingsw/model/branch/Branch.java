@@ -32,15 +32,27 @@ public class Branch
         this(endBranchAction, actions);
         endBranchAction.completedActionEvent.addEventHandler((s, a)->this.endBranchEvent.invoke(this, (EndBranchAction)a));
     }
-    public Branch(ExtendibleAction extendibleAction)
+    public Branch(List<Action> actions, ExtendibleAction extendibleAction)
     {
-        this(extendibleAction, Collections.emptyList());
+        this(extendibleAction, actions);
         extendibleAction.completedActionEvent.addEventHandler((s, a)->this.extActionCompletedEvent.invoke(this, (ExtendibleAction)a));
     }
     public Branch(RollBackAction rollBackAction)
     {
         this(rollBackAction, Collections.emptyList());
         rollBackAction.completedActionEvent.addEventHandler((s, a)->this.rollbackEvent.invoke(this, (RollBackAction)a));
+    }
+    public Branch(Action action, EndBranchAction endBranchAction)
+    {
+        this(Collections.singletonList(action), endBranchAction);
+    }
+    public Branch(Action action, ExtendibleAction extendibleAction)
+    {
+        this(Collections.singletonList(action), extendibleAction);
+    }
+    public Branch(ExtendibleAction extendibleAction)
+    {
+        this(Collections.emptyList(), extendibleAction);
     }
     public Action getCurAction()
     {

@@ -14,7 +14,7 @@ public class GrabAction extends Action
         this.grab();
     }
 
-    public void grab()
+    private void grab()
     {
         //TODO
     }
