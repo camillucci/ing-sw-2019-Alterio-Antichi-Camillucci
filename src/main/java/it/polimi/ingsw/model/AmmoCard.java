@@ -7,7 +7,6 @@ public class AmmoCard {
     private int red;
     private  boolean powerUpCard;
 
-
     public AmmoCard(int blue, int yellow, int red, boolean powerUpCard) {
 
         this.blue = blue;
