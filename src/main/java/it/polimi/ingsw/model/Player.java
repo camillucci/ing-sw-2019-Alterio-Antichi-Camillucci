@@ -81,4 +81,8 @@ public class Player {
     public List<WeaponCard> getWeapons(){
         return new ArrayList<>(this.loadedWeapons);
     }
+
+    public ArrayList<PowerUpCard> getPowerups() {
+        return powerups;
+    }
 }

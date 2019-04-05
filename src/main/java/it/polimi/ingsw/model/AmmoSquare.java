@@ -29,4 +29,8 @@ public class AmmoSquare extends Square {
     public boolean isEmpty() {
         return ammoCard == null;
     }
+
+    public void setAmmoCard(AmmoCard ammoCard) {
+        this.ammoCard = ammoCard;
+    }
 }
