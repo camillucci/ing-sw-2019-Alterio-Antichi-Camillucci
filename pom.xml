@@ -15,7 +15,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <junit-jupiter-version>5.2.0</junit-jupiter-version>
   </properties>
 
   <dependencies>
@@ -25,25 +24,10 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-    <!-- this is all you need to write tests with JUnit Jupiter -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.2.0</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- this dependency is needed to create parameterized tests -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <version>5.2.0</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- contains the engine that actually runs the Jupiter-tests -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.2.0</version>
+      <version>5.3.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

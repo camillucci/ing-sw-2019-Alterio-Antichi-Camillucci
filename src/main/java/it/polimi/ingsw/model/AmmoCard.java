@@ -5,16 +5,30 @@ public class AmmoCard {
     private int blue;
     private int yellow;
     private int red;
-    private  boolean powerupCard;
+    private  boolean powerUpCard;
 
-
-    public AmmoCard(int blue, int yellow, int red, boolean powerupCard) {
+    public AmmoCard(int blue, int yellow, int red, boolean powerUpCard) {
 
         this.blue = blue;
         this.yellow = yellow;
         this.red = red;
-        this.powerupCard = powerupCard;
+        this.powerUpCard = powerUpCard;
 
     }
 
+    public int getBlue() {
+        return blue;
+    }
+
+    public int getYellow() {
+        return yellow;
+    }
+
+    public int getRed() {
+        return red;
+    }
+
+    public boolean isPowerUpCard() {
+        return powerUpCard;
+    }
 }

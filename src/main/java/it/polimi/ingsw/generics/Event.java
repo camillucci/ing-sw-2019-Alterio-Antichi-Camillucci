@@ -11,9 +11,11 @@ public class Event<T, U>
         this.eventHandlers.add(eventHandler);
     }
 
-    public void invoke(T sender, U args)
+    public void invoke(T Sender, U args)
     {
-        eventHandlers.forEach(e->e.accept(sender, args));
+        for(BiConsumer s: eventHandlers)
+            s.accept(Sender, args);
     }
+
     private ArrayList<BiConsumer<T,U>> eventHandlers = new ArrayList<>();
 }

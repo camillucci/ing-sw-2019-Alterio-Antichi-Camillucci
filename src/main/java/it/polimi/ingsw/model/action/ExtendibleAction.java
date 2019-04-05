@@ -18,7 +18,7 @@ public class ExtendibleAction extends Action
         this.branches = new ArrayList<>(branches);
     }
 
-    public List<Branch> GetBranches()
+    public List<Branch> getBranches()
     {
         return new ArrayList<>(this.branches);
     }
@@ -26,7 +26,7 @@ public class ExtendibleAction extends Action
     @Override
     public void visualize()
     {
-        //Nothing
+        //TODO
     }
 
     protected List<Branch> branches;

@@ -47,7 +47,7 @@ public abstract class BranchMap
     {
         this.removeIncompatibleBranches(extendibleAction);
         this.branches.remove(senderBranch);
-        this.branches.addAll(extendibleAction.GetBranches());
+        this.branches.addAll(extendibleAction.getBranches());
     }
     protected void setupBranches(List<Branch> branches)
     {

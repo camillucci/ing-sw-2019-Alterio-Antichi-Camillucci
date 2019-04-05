@@ -15,10 +15,10 @@ public class MoveAction extends Action
     @Override
     protected void op()
     {
-        this.Move();
+        this.move();
     }
 
-    private void Move()
+    private void move()
     {
         //TODO
     }

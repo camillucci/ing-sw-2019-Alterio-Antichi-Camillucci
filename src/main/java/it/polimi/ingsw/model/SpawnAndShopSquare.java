@@ -7,9 +7,9 @@ public class SpawnAndShopSquare extends Square {
     private AmmoColor color;
     private List<WeaponCard> weapons = new ArrayList<>();
 
-    public SpawnAndShopSquare(AmmoColor color, SquareBorder nord, SquareBorder sud, SquareBorder west, SquareBorder est, List<WeaponCard> weapons) {
+    public SpawnAndShopSquare(AmmoColor color, SquareBorder north, SquareBorder sud, SquareBorder west, SquareBorder est, List<WeaponCard> weapons) {
         this.color = color;
-        this.nord = nord;
+        this.north = north;
         this.sud = sud;
         this.west = west;
         this.est = est;
