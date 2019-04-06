@@ -28,7 +28,7 @@ public class WeaponLockRifle extends WeaponCard {
         ShootAction s1 = new ShootAction(this::basicEffect, /*Qua si dovrebbe mandare il metodo che fa visualizzare i bersagli compatibili */null,shooter);
         SelectionAction fireModality1 = new SelectionAction(shooter, new Branch(s1, new EndBranchAction(shooter)), ()-> System.out.println("Press 1 to Primary fire: Set 2 damage to player and 1 Mark to another"));
 
-        ShootAction s2 = new ShootAction(this::BasicAndOptionalEffect,/*Qua si dovrebbe mandare il metodo che fa visualizzare i bersagli compatibili */,shooter);
+        ShootAction s2 = new ShootAction(this::BasicAndOptionalEffect,/*Qua si dovrebbe mandare il metodo che fa visualizzare i bersagli compatibili */ null,shooter);
         SelectionAction fireModality2 = new SelectionAction(shooter, new Branch(s2, new EndBranchAction(shooter)), ()-> System.out.println("Press 2 to Primary and Optional fire: Set 2 damage to player and 1 Mark to another"));
 
         this.fireModalities.add(fireModality1);
