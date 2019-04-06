@@ -14,7 +14,6 @@ public class WeaponLockRifle extends WeaponCard {
     public WeaponLockRifle () {
 
         this.name = "Lock Rifle";
-        this.color = AmmoColor.BLUE;
         this.blueBuyCost = 1;
         this.redBuyCost = 0;
         this.yellowBuyCost = 0;

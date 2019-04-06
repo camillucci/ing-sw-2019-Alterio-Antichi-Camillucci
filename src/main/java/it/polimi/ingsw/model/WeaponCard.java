@@ -9,7 +9,6 @@ import java.util.List;
 public abstract class WeaponCard implements Branchable, Visualizable {
 
     protected String name;
-    protected AmmoColor color;
     protected int blueBuyCost;
     protected int yellowBuyCost;
     protected int redBuyCost;

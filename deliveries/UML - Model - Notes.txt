@@ -1,5 +1,6 @@
-Per motivi di leggibilita' non sono state aggiunte:
-- le 21 classi arma sottoclassi di WeaponCard
-- le 4 classi potenziamento sottoclassi di PowerupCard
-- i vari costruttori delle classi
-- i vari metodi get e set delle classi
+For legibility reasons, in the UML Class Diagram are not represented:
+- the 21 weapon classes, subclasses of WeaponCard;
+- the 4 powerUp classes, subclasses of PowerUpCard;
+- the constructors of each class;
+- the ordinary getter and setter methods of each class;
+- some association relations, which are anyway represented through attributes.

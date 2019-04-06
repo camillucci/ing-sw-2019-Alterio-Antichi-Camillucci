@@ -10,7 +10,6 @@ public class WeaponMachineGun extends WeaponCard {
     public WeaponMachineGun() {
 
         this.name = "Machine Gun";
-        this.color = AmmoColor.BLUE;
         this.blueBuyCost = 1;
         this.redBuyCost = 0;
         this.yellowBuyCost = 0;
