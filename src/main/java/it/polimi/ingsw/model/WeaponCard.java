@@ -30,4 +30,5 @@ public abstract class WeaponCard implements Visualizable {
 
     protected abstract void buildFireModalities(Player shooter);
 
+    public abstract List<Branch> getBranches(Player branchesOwner);
 }
