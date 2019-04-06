@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.branch.Branch;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class WeaponCard implements Branchable, Visualizable {
+public abstract class WeaponCard implements Visualizable {
 
     protected String name;
     protected int blueBuyCost;
