@@ -40,5 +40,4 @@ public abstract class Action implements Visualizable
     protected Player currentPlayer;
     protected ArrayList<Square> targetSquares = new ArrayList<>();
     protected ArrayList<Player> targetPlayers = new ArrayList<>();
-
 }

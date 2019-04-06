@@ -30,20 +30,19 @@ public abstract class BranchMap
     {
         ArrayList<Action> ret = new ArrayList<>();
         for(Branch b: this.branches)
-            if(!b.endOfBranchReached())
-                ret.add(b.getCurAction());
+            ret.addAll(b.getCompatibleActions());
         return ret;
     }
 
     private void onBranchActionCompleted(Branch senderBranch, Action completedAction)
     {
-        removeIncompatibleBranches(completedAction);
+        for(Branch b : branches)
+            b.goNext(completedAction);
         this.newActionsEvent.invoke(this, this.getPossibleActions());
     }
 
     private void onBranchExtActionCompleted(Branch senderBranch, ExtendableAction extendableAction)
     {
-        this.removeIncompatibleBranches(extendableAction);
         this.branches.remove(senderBranch);
         this.branches.addAll(extendableAction.getBranches());
     }
@@ -58,15 +57,7 @@ public abstract class BranchMap
             b.extActionCompletedEvent.addEventHandler(this::onBranchExtActionCompleted);
             b.rollbackEvent.addEventHandler((s,ra)->this.rollbackEvent.invoke(this, ra));
             b.endBranchEvent.addEventHandler((s,eba)->this.endOfBranchMapReachedEvent.invoke(this, eba));
+            b.invalidStateEvent.addEventHandler((s, o)->this.branches.remove(s));
         }
-    }
-
-    private void removeIncompatibleBranches(Action curAction)
-    {
-        for (Branch b : branches)
-            if (!b.getCurAction().isCompatible(curAction))
-                this.branches.remove(b);
-            else
-                b.goNext();
     }
 }

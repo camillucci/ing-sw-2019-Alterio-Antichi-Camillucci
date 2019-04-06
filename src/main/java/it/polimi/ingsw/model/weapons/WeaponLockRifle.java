@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.action.SelectionAction;
 import it.polimi.ingsw.model.action.ShootAction;
 import it.polimi.ingsw.model.branch.Branch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeaponLockRifle extends WeaponCard {
@@ -20,7 +21,7 @@ public class WeaponLockRifle extends WeaponCard {
         this.blueReloadCost = 2;
         this.redReloadCost = 0;
         this.yellowReloadCost = 0;
-        this.fireModalities = null; //TODO
+        this.fireModalities = new ArrayList<>();
     }
 
     protected void buildFireModalities(Player shooter) {

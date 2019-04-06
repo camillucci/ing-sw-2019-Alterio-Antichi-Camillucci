@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.branch;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,9 @@ public class Branch
     public final Event<Branch, ExtendableAction> extActionCompletedEvent = new Event<>();
     public final Event<Branch, EndBranchAction> endBranchEvent = new Event<>();
     public final Event<Branch, RollBackAction> rollbackEvent = new Event<>();
+    public final Event<Branch, Object> invalidStateEvent = new Event<>();
+
+    private boolean invalidState = false;
     private ArrayList<Action> actions;
     private Action finalAction;
     private Action curAction;
@@ -51,19 +55,61 @@ public class Branch
     {
         this(Collections.emptyList(), extendableAction);
     }
-    public Action getCurAction()
+    public List<Action> getCompatibleActions()
     {
-        return curAction;
+        if(invalidState){
+            setInvalidState();
+            return Collections.emptyList();
+        }
+
+        ArrayList<Action> ret = new ArrayList<>();
+        ret.add(this.curAction);
+        if(curAction instanceof MoveAction)
+            ret.add(getNextAction());
+        return ret;
     }
-    public boolean endOfBranchReached()
+    public void goNext(Action justDoneAction)
     {
-        return curAction == null;
+        Action nextAction = getNextAction();
+
+        if(invalidState || nextAction == null){
+            setInvalidState();
+            return;
+        }
+        // actions.size() > 0
+
+        if(curAction.isCompatible(justDoneAction)){
+            curAction = nextAction;
+            actions.remove(0);
+        }
+        else if(curAction instanceof MoveAction && nextAction.isCompatible(justDoneAction)){
+            actions.remove(0);
+            curAction = getNextAction();
+            if(!actions.isEmpty())
+                actions.remove(0);
+        }
+        else
+            setInvalidState();
     }
-    public void goNext()
+    public boolean isInvalidBranch() {
+        return invalidState;
+    }
+    private void setInvalidState()
     {
-        if(actions.isEmpty())
-            curAction = null;
-        this.actions.remove(0);
-        curAction = actions.isEmpty() ? finalAction : actions.get(0);
+        this.invalidState = true;
+        invalidStateEvent.invoke(this, null);
+    }
+
+    private Action getNextAction()
+    {
+        if(curAction == finalAction)
+            return null;
+
+        // actions.size() > 0
+
+        if(actions.size() == 1)
+            return finalAction;
+        return actions.get(1);
+
     }
 }
