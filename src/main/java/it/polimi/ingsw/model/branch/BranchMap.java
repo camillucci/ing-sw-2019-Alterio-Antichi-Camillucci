@@ -2,10 +2,7 @@ package it.polimi.ingsw.model.branch;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.action.Action;
-import it.polimi.ingsw.model.action.EndBranchAction;
-import it.polimi.ingsw.model.action.ExtendibleAction;
-import it.polimi.ingsw.model.action.RollBackAction;
+import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +15,11 @@ public abstract class BranchMap
     private List<Branch> branches;
     protected Player ownerPlayer;
 
-
     protected BranchMap(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
     }
+
     protected BranchMap(Player ownerPlayer, List<Branch> branches)
     {
         this(ownerPlayer);
@@ -37,18 +34,20 @@ public abstract class BranchMap
                 ret.add(b.getCurAction());
         return ret;
     }
+
     private void onBranchActionCompleted(Branch senderBranch, Action completedAction)
     {
         removeIncompatibleBranches(completedAction);
         this.newActionsEvent.invoke(this, this.getPossibleActions());
     }
 
-    private void onBranchExtActionCompleted(Branch senderBranch, ExtendibleAction extendibleAction)
+    private void onBranchExtActionCompleted(Branch senderBranch, ExtendableAction extendableAction)
     {
-        this.removeIncompatibleBranches(extendibleAction);
+        this.removeIncompatibleBranches(extendableAction);
         this.branches.remove(senderBranch);
-        this.branches.addAll(extendibleAction.getBranches());
+        this.branches.addAll(extendableAction.getBranches());
     }
+
     protected void setupBranches(List<Branch> branches)
     {
         this.branches = new ArrayList<>(branches);
@@ -61,6 +60,7 @@ public abstract class BranchMap
             b.endBranchEvent.addEventHandler((s,eba)->this.endOfBranchMapReachedEvent.invoke(this, eba));
         }
     }
+
     private void removeIncompatibleBranches(Action curAction)
     {
         for (Branch b : branches)

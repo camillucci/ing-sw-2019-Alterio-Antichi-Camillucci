@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model.branch;
 
 import it.polimi.ingsw.generics.Event;
-import it.polimi.ingsw.model.action.Action;
-import it.polimi.ingsw.model.action.EndBranchAction;
-import it.polimi.ingsw.model.action.ExtendibleAction;
-import it.polimi.ingsw.model.action.RollBackAction;
+import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +10,7 @@ import java.util.List;
 public class Branch
 {
     public final Event<Branch, Action> actionCompletedEvent = new Event<>();
-    public final Event<Branch, ExtendibleAction> extActionCompletedEvent = new Event<>();
+    public final Event<Branch, ExtendableAction> extActionCompletedEvent = new Event<>();
     public final Event<Branch, EndBranchAction> endBranchEvent = new Event<>();
     public final Event<Branch, RollBackAction> rollbackEvent = new Event<>();
     private ArrayList<Action> actions;
@@ -32,10 +29,10 @@ public class Branch
         this(endBranchAction, actions);
         endBranchAction.completedActionEvent.addEventHandler((s, a)->this.endBranchEvent.invoke(this, (EndBranchAction)a));
     }
-    public Branch(List<Action> actions, ExtendibleAction extendibleAction)
+    public Branch(List<Action> actions, ExtendableAction extendableAction)
     {
-        this(extendibleAction, actions);
-        extendibleAction.completedActionEvent.addEventHandler((s, a)->this.extActionCompletedEvent.invoke(this, (ExtendibleAction)a));
+        this(extendableAction, actions);
+        extendableAction.completedActionEvent.addEventHandler((s, a)->this.extActionCompletedEvent.invoke(this, (ExtendableAction)a));
     }
     public Branch(RollBackAction rollBackAction)
     {
@@ -46,13 +43,13 @@ public class Branch
     {
         this(Collections.singletonList(action), endBranchAction);
     }
-    public Branch(Action action, ExtendibleAction extendibleAction)
+    public Branch(Action action, ExtendableAction extendableAction)
     {
-        this(Collections.singletonList(action), extendibleAction);
+        this(Collections.singletonList(action), extendableAction);
     }
-    public Branch(ExtendibleAction extendibleAction)
+    public Branch(ExtendableAction extendableAction)
     {
-        this(Collections.emptyList(), extendibleAction);
+        this(Collections.emptyList(), extendableAction);
     }
     public Action getCurAction()
     {

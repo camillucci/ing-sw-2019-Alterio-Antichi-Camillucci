@@ -10,7 +10,6 @@ import java.util.stream.IntStream;
 
 public class PowerUpDeck {
 
-    private int numberOfCards;
     private ArrayList<PowerUpCard> deck = new ArrayList<>();
     private ArrayList<PowerUpCard> discarded = new ArrayList<>();
     private Random rand = new Random();
@@ -30,15 +29,12 @@ public class PowerUpDeck {
             deck.add(new PowerUpTagbackGrenade(YELLOW));
             deck.add(new PowerUpTeleporter(YELLOW));
         });
-        this.numberOfCards = deck.size();
     }
 
     public PowerUpCard draw() {
         if(this.isEmpty()) {
             deck = discarded;
-            numberOfCards = deck.size();
         }
-        numberOfCards--;
         return deck.remove(rand.nextInt(deck.size()));
     }
 

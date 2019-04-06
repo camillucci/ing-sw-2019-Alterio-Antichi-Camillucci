@@ -6,19 +6,19 @@ import java.util.List;
 public class Player {
 
     private String name;
-    private int points;
-    private int blueAmmo;
-    private int yellowAmmo;
-    private int redAmmo;
-    private int skull;
     private PlayerColor color;
+    private int points;
+    private int skull;
+    private int blueAmmo;
+    private int redAmmo;
+    private int yellowAmmo;
+    private GameBoard gameBoard;
+    private Square currentSquare;
     private ArrayList<PlayerColor> damage = new ArrayList<>();
     private ArrayList<PlayerColor> mark = new ArrayList<>();
     private ArrayList<WeaponCard> loadedWeapons = new ArrayList<>();
     private ArrayList<WeaponCard> unloadedWeapons = new ArrayList<>();
     private ArrayList<PowerUpCard> powerups = new ArrayList<>();
-    private GameBoard gameBoard;
-    private Square currentSquare;
 
     public Player (String name, PlayerColor color, GameBoard gameBoard) {
 
@@ -32,21 +32,21 @@ public class Player {
         this.gameBoard = gameBoard;
     }
 
-    public void addRed(int val){
-
-        redAmmo = redAmmo + val;
-        if(redAmmo >= 3) {
-
-            redAmmo = 3;
-        }
-    }
-
     public void addBlue(int val){
 
         blueAmmo = blueAmmo + val;
         if(blueAmmo >= 3) {
 
             blueAmmo = 3;
+        }
+    }
+
+    public void addRed(int val){
+
+        redAmmo = redAmmo + val;
+        if(redAmmo >= 3) {
+
+            redAmmo = 3;
         }
     }
 

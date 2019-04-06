@@ -6,7 +6,6 @@ import java.util.stream.IntStream;
 
 public class AmmoDeck {
 
-    private int numberOfCards;
     private ArrayList<AmmoCard> deck = new ArrayList<>();
     private ArrayList<AmmoCard> discarded = new ArrayList<>();
     private Random rand = new Random();
@@ -26,15 +25,12 @@ public class AmmoDeck {
             deck.add(new AmmoCard(1, 1, 0, true));
             deck.add(new AmmoCard(2, 0, 0, true));
         });
-        this.numberOfCards = deck.size();
     }
 
     public AmmoCard draw() {
         if(this.isEmpty()) {
             deck = discarded;
-            numberOfCards = deck.size();
         }
-        numberOfCards--;
         return deck.remove(rand.nextInt(deck.size()));
     }
 

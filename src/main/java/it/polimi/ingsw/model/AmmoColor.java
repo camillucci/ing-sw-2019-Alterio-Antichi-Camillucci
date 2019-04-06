@@ -4,5 +4,5 @@ public enum AmmoColor {
 
     BLUE,
     RED,
-    YELLOW;
+    YELLOW
 }

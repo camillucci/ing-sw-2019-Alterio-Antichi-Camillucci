@@ -4,12 +4,12 @@ import it.polimi.ingsw.model.Player;
 
 public class MoveAction extends Action
 {
-    private int maxDist;
+    private int maxDistance;
 
-    public MoveAction(Player ownerPlayer, int maxDist)
+    public MoveAction(Player ownerPlayer, int maxDistance)
     {
         super(ownerPlayer);
-        this.maxDist = maxDist;
+        this.maxDistance = maxDistance;
     }
 
     @Override
@@ -34,6 +34,6 @@ public class MoveAction extends Action
         if( !(action instanceof  MoveAction) )
             return false;
         MoveAction ma = (MoveAction)action;
-        return ma.maxDist <= this.maxDist;
+        return ma.maxDistance <= this.maxDistance;
     }
 }

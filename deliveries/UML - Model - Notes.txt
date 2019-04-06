@@ -1,3 +1,5 @@
-Per motivi di leggibilità non sono state aggiunte:
+Per motivi di leggibilita' non sono state aggiunte:
 - le 21 classi arma sottoclassi di WeaponCard
 - le 4 classi potenziamento sottoclassi di PowerupCard
+- i vari costruttori delle classi
+- i vari metodi get e set delle classi

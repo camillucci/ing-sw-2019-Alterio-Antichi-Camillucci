@@ -20,7 +20,9 @@ public abstract class Action implements Visualizable
         this.op();
         completedActionEvent.invoke(this, this);
     }
-    protected void op() {}
+    protected void op() {
+        //TODO
+    }
 
     public void addTarget(Square target)
     {

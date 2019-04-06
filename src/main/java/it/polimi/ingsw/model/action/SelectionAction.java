@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Visualizable;
 import java.util.Collections;
 import java.util.List;
 
-public class SelectionAction extends ExtendibleAction
+public class SelectionAction extends ExtendableAction
 {
     protected SelectionAction(Player ownerPlayer)
     {
@@ -22,6 +22,7 @@ public class SelectionAction extends ExtendibleAction
     {
         this(ownerPlayer, Collections.singletonList(branch), visualizable);
     }
+
     @Override
     public void visualize()
     {
@@ -33,5 +34,6 @@ public class SelectionAction extends ExtendibleAction
     {
         return action == this;
     }
+
     private Visualizable visualizable;
 }

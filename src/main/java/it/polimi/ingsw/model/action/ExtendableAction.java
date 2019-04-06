@@ -6,13 +6,13 @@ import it.polimi.ingsw.model.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExtendibleAction extends Action
+public class ExtendableAction extends Action
 {
-    protected ExtendibleAction(Player ownerPlayer)
+    protected ExtendableAction(Player ownerPlayer)
     {
         super(ownerPlayer);
     }
-    public ExtendibleAction(Player ownerPlayer, List<Branch> branches)
+    public ExtendableAction(Player ownerPlayer, List<Branch> branches)
     {
         super(ownerPlayer);
         this.branches = new ArrayList<>(branches);

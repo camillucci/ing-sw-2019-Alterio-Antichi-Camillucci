@@ -4,11 +4,11 @@ public class AmmoSquare extends Square {
 
     private AmmoCard ammoCard;
 
-    public AmmoSquare(SquareBorder north, SquareBorder sud, SquareBorder west, SquareBorder est, AmmoCard ammoCard) {
+    public AmmoSquare(SquareBorder north, SquareBorder south, SquareBorder west, SquareBorder east, AmmoCard ammoCard) {
         this.north = north;
-        this.sud = sud;
+        this.south = south;
         this.west = west;
-        this.est = est;
+        this.east = east;
         this.ammoCard = ammoCard;
     }
 
