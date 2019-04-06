@@ -52,8 +52,8 @@ public abstract class BranchMap
     protected void setupBranches(List<Branch> branches)
     {
         this.branches = new ArrayList<>(branches);
-        this.branches.add(new Branch(new RollBackAction(ownerPlayer)));
-        for(Branch b : this.branches)
+        this.branches.add(new Branch(new RollBackAction(ownerPlayer))); // Adding Rollback
+        for(Branch b : this.branches) // Setup events
         {
             b.actionCompletedEvent.addEventHandler(this::onBranchActionCompleted);
             b.extActionCompletedEvent.addEventHandler(this::onBranchExtActionCompleted);
