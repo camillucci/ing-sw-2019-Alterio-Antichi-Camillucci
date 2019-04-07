@@ -34,7 +34,11 @@ public class AmmoDeck {
         return deck.remove(rand.nextInt(deck.size()));
     }
 
-    public boolean isEmpty() {
+    public void addDiscarded(AmmoCard discardedCard) {
+        discarded.add(discardedCard);
+    }
+
+    private boolean isEmpty() {
         return deck.isEmpty();
     }
 }

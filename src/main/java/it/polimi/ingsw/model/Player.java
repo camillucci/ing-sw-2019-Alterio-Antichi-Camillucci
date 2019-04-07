@@ -18,7 +18,7 @@ public class Player {
     private ArrayList<PlayerColor> mark = new ArrayList<>();
     private ArrayList<WeaponCard> loadedWeapons = new ArrayList<>();
     private ArrayList<WeaponCard> unloadedWeapons = new ArrayList<>();
-    private ArrayList<PowerUpCard> powerups = new ArrayList<>();
+    private ArrayList<PowerUpCard> powerUps = new ArrayList<>();
 
     public Player (String name, PlayerColor color, GameBoard gameBoard) {
 
@@ -33,37 +33,34 @@ public class Player {
     }
 
     public void addBlue(int val){
-
         blueAmmo = blueAmmo + val;
         if(blueAmmo >= 3) {
-
             blueAmmo = 3;
         }
     }
 
     public void addRed(int val){
-
         redAmmo = redAmmo + val;
         if(redAmmo >= 3) {
-
             redAmmo = 3;
         }
     }
 
     public void addYellow(int val){
-
         yellowAmmo = yellowAmmo + val;
         if(yellowAmmo >= 3) {
-
             yellowAmmo = 3;
         }
     }
 
     public void addPowerUpCard() {
-
-        if(powerups.size() < 3){
-            powerups.add(gameBoard.getPowerUpDeck().draw());
+        if(powerUps.size() < 3){
+            powerUps.add(gameBoard.getPowerUpDeck().draw());
         }
+    }
+
+    public void addPoints(int newPoints) {
+        points = points + newPoints;
     }
 
     public int getBlueAmmo() {
@@ -78,11 +75,15 @@ public class Player {
         return redAmmo;
     }
 
-    public List<WeaponCard> getWeapons(){
+    public List<WeaponCard> getLoadedWeapons(){
         return new ArrayList<>(this.loadedWeapons);
     }
 
-    public ArrayList<PowerUpCard> getPowerups() {
-        return powerups;
+    public ArrayList<PowerUpCard> getPowerUps() {
+        return powerUps;
+    }
+
+    public ArrayList<PlayerColor> getDamage() {
+        return damage;
     }
 }

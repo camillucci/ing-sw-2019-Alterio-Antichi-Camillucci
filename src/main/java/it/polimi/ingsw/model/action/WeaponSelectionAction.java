@@ -12,7 +12,7 @@ public class WeaponSelectionAction extends SelectionAction
     {
         super(ownerPlayer);
         ArrayList<Branch> w = new ArrayList<>();
-        for(WeaponCard wc : ownerPlayer.getWeapons())
+        for(WeaponCard wc : ownerPlayer.getLoadedWeapons())
         {
             SelectionAction wi = new SelectionAction(ownerPlayer, wc.getFireModalities(ownerPlayer), wc); //
             w.add(new Branch(wi));

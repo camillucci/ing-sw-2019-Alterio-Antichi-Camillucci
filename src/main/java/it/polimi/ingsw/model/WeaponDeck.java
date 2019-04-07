@@ -23,7 +23,7 @@ public class WeaponDeck {
         return deck.remove(rand.nextInt(deck.size()));
     }
 
-    public boolean isEmpty() {
+    private boolean isEmpty() {
         return deck.isEmpty();
     }
 }

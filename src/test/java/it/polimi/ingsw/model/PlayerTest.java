@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-    GameBoard gameBoard = new GameBoard(3, 10);
-    Player player = new Player("", PlayerColor.YELLOW, gameBoard);
+    private GameBoard gameBoard = new GameBoard(3, 10);
+    private Player player = new Player("", PlayerColor.YELLOW, gameBoard);
 
     @Test
     void addRed() {
@@ -43,14 +43,14 @@ class PlayerTest {
 
     @Test
     void addPowerUpCard() {
-        assertEquals(0, player.getPowerups().size());
+        assertEquals(0, player.getPowerUps().size());
         player.addPowerUpCard();
-        assertEquals(1, player.getPowerups().size());
+        assertEquals(1, player.getPowerUps().size());
         player.addPowerUpCard();
-        assertEquals(2, player.getPowerups().size());
+        assertEquals(2, player.getPowerUps().size());
         player.addPowerUpCard();
-        assertEquals(3, player.getPowerups().size());
+        assertEquals(3, player.getPowerUps().size());
         player.addPowerUpCard();
-        assertEquals(3, player.getPowerups().size());
+        assertEquals(3, player.getPowerUps().size());
     }
 }

@@ -19,6 +19,7 @@ public class MachineGun extends WeaponCard {
         this.fireModalities = null; //TODO
     }
 
+    @Override
     protected void buildFireModalities(Player shooter) {
         //TODO
     }

@@ -3,10 +3,10 @@ package it.polimi.ingsw.model.powerups;
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.PowerUpCard;
 
-public class PowerUpTargetingScope extends PowerUpCard {
+public class Teleporter extends PowerUpCard {
 
-    public PowerUpTargetingScope(AmmoColor color) {
-        this.name = "Targeting Scope";
+    public Teleporter(AmmoColor color) {
+        this.name = "Teleporter";
         this.color = color;
     }
 }
