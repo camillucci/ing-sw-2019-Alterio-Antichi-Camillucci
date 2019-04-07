@@ -63,6 +63,10 @@ public class Player {
         points = points + newPoints;
     }
 
+    public int getSkull() {
+        return skull;
+    }
+
     public int getBlueAmmo() {
         return blueAmmo;
     }
@@ -79,11 +83,11 @@ public class Player {
         return new ArrayList<>(this.loadedWeapons);
     }
 
-    public ArrayList<PowerUpCard> getPowerUps() {
+    public List<PowerUpCard> getPowerUps() {
         return powerUps;
     }
 
-    public ArrayList<PlayerColor> getDamage() {
+    public List<PlayerColor> getDamage() {
         return damage;
     }
 }

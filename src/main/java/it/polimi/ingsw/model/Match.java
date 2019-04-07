@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Match {
@@ -11,6 +12,7 @@ public class Match {
     private List<Player> deadPlayers = new ArrayList<>();
     private List<PlayerColor> playerColors;
     private Turn currentTurn;
+    private boolean finalFrenzy;
     private int gameLength;
     private int gameSize;
 
@@ -18,6 +20,7 @@ public class Match {
 
         this.gameLength = gameLength;
         this.gameSize = gameSize;
+        this.finalFrenzy = false;
         this.playerColors = playerColors;
         this.gameBoard = new GameBoard(gameLength, gameSize);
         for(int i = 0; i < playersName.size(); i++) {
@@ -33,15 +36,22 @@ public class Match {
     }
 
     public void assignPoints(){
-        List<Integer> temp = Arrays.asList(0, 0, 0, 0, 0);
+        List<Integer> tempCount = Arrays.asList(0, 0, 0, 0, 0);
         for(int i = 0; i < deadPlayers.size(); i++) {
             List<PlayerColor> damage = deadPlayers.get(i).getDamage();
-            players.get(playerColors.indexOf(damage.get(0))).addPoints(1);
-            for(int j = 0; j < damage.size(); j++) {
-                temp.set(playerColors.indexOf(damage.get(j)), temp.get(playerColors.indexOf(damage.get(j)))+1);
+            int tempSkull = deadPlayers.get(i).getSkull();
+            if(!finalFrenzy)
+                players.get(playerColors.indexOf(damage.get(0))).addPoints(1);
+            for(int j = 0; j < damage.size(); j++)
+                tempCount.set(playerColors.indexOf(damage.get(j)), tempCount.get(playerColors.indexOf(damage.get(j)))+1);
+            for(int j = 0; j < players.size() + deadPlayers.size() - 1; j++) {
+                if(!finalFrenzy)
+                    players.get(Collections.max(tempCount)).addPoints(Math.max(8 - tempSkull * 2 - j * 2, 1));
+                else
+                    players.get(Collections.max(tempCount)).addPoints(Math.max(2 - tempSkull * 2 - j * 2, 1));
+                tempCount.set(Collections.max(tempCount), 0);
             }
-            //TODO To finish
         }
+        //TODO Assegnare i punti sulla Killshot Track
     }
-
 }

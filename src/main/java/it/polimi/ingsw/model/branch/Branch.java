@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.branch;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

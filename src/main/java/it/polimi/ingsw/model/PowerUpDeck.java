@@ -6,7 +6,6 @@ import static it.polimi.ingsw.model.AmmoColor.*;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class PowerUpDeck {
 
@@ -15,7 +14,7 @@ public class PowerUpDeck {
     private Random rand = new Random();
 
     public PowerUpDeck() {
-        IntStream.range(0, 2).forEach(i -> {
+        for (int i = 0; i < 2; i++) {
             deck.add(new TargetingScope(BLUE));
             deck.add(new Newton(BLUE));
             deck.add(new TagbackGrenade(BLUE));
@@ -28,7 +27,7 @@ public class PowerUpDeck {
             deck.add(new Newton(YELLOW));
             deck.add(new TagbackGrenade(YELLOW));
             deck.add(new Teleporter(YELLOW));
-        });
+        }
     }
 
     public PowerUpCard draw() {
