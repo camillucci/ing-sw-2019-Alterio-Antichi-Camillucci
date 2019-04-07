@@ -9,9 +9,9 @@ import it.polimi.ingsw.model.branch.Branch;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeaponLockRifle extends WeaponCard {
+public class LockRifle extends WeaponCard {
 
-    public WeaponLockRifle () {
+    public LockRifle() {
 
         this.name = "Lock Rifle";
         this.blueBuyCost = 1;
@@ -23,6 +23,7 @@ public class WeaponLockRifle extends WeaponCard {
         this.fireModalities = new ArrayList<>();
     }
 
+    @Override
     protected void buildFireModalities(Player shooter) {
         // L'arma ha 2 possibilità: basic effect o (basic effect + optionalEffect) -> 2 SelectionAction
         ShootAction s1 = new ShootAction(this::basicEffect, /*Qua si dovrebbe mandare il metodo che fa visualizzare i bersagli compatibili */null,shooter);
