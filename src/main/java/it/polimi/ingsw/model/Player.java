@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.powerups.TagbackGrenade;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,9 +61,18 @@ public class Player {
         }
     }
 
-    public void addDamages(PlayerColor color, int val) {
-        for (int i = 0; i < val && damage.size() < 12; i++)
-            damage.add(color);
+    public void addDamage(Player shooter, int val) {
+        for (int i = 0; i < val && damage.size() < 12; i++){
+            damage.add(shooter.getColor());
+        }
+
+        for(PowerUpCard pu : powerUps){
+            if(pu instanceof TagbackGrenade){
+                pu.visualize();
+            }
+        }
+
+        //TODO aggiungere metodo che chiama il mirino del giocatore che ha sparato
     }
 
     public void addPoints(int newPoints) {
@@ -88,6 +99,8 @@ public class Player {
         return redAmmo;
     }
 
+    public PlayerColor getColor() {return color;}
+
     public List<WeaponCard> getLoadedWeapons(){
         return new ArrayList<>(this.loadedWeapons);
     }
@@ -98,5 +111,15 @@ public class Player {
 
     public List<PlayerColor> getDamage() {
         return damage;
+    }
+
+    public Player getClone(){
+        try {
+            return (Player)this.clone();
+        }
+        catch(CloneNotSupportedException cNSE){
+            cNSE.printStackTrace();
+        }
+        return null;
     }
 }

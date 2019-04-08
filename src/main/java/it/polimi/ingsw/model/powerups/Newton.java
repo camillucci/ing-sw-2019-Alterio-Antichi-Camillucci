@@ -9,4 +9,7 @@ public class Newton extends PowerUpCard {
         this.name = "Newton";
         this.color = color;
     }
+
+    @Override
+    public void visualize(){}
 }

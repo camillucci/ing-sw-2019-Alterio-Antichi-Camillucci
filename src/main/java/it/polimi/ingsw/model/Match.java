@@ -43,7 +43,7 @@ public class Match {
             if(!finalFrenzy)
                 players.get(playerColors.indexOf(damage.get(0))).addPoints(1);
             for(int j = 0; j < damage.size(); j++)
-                tempCount.set(playerColors.indexOf(damage.get(j)), tempCount.get(playerColors.indexOf(damage.get(j))) + j + Math.pow(2, 12.0 - j) / 10000);
+                tempCount.set(playerColors.indexOf(damage.get(j)), tempCount.get(playerColors.indexOf(damage.get(j))) + 1 + Math.pow(2, 12.0 - j) / 10000);
             for(int j = 0; j < players.size() - 1 && Collections.max(tempCount) > 0.0; j++) {
                 if(!finalFrenzy)
                     players.get(tempCount.indexOf(Collections.max(tempCount))).addPoints(Math.max(8 - tempSkull * 2 - j * 2, 1));
@@ -69,5 +69,9 @@ public class Match {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public void rollback(List<Player> clonedPlayers) {
+        players = clonedPlayers;
     }
 }

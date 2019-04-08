@@ -9,4 +9,7 @@ public class Teleporter extends PowerUpCard {
         this.name = "Teleporter";
         this.color = color;
     }
+
+    @Override
+    public void visualize(){}
 }

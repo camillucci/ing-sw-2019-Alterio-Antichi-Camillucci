@@ -9,4 +9,11 @@ public class TargetingScope extends PowerUpCard {
         this.name = "Targeting Scope";
         this.color = color;
     }
+
+    @Override
+    public void visualize(){
+        //TODO
+    }
+
+
 }
