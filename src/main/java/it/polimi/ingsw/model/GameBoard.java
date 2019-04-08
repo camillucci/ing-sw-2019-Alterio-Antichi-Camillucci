@@ -15,10 +15,14 @@ public class GameBoard {
     private Square[][] squares = new Square[3][4];
     private int skulls;
     private int gameSize;
+    private List<List<PlayerColor>> killShotTrack = new ArrayList<>();
 
     public GameBoard(int gameLength, int gameSize) {
         this.skulls = gameLength;
         this.gameSize = gameSize;
+        for(int i = 0; i < 8 - skulls; i++)
+            killShotTrack.add(new ArrayList<>());
+
         ArrayList<WeaponCard> blueShop = new ArrayList<>();
         ArrayList<WeaponCard> redShop = new ArrayList<>();
         ArrayList<WeaponCard> yellowShop = new ArrayList<>();
@@ -71,11 +75,22 @@ public class GameBoard {
         }
     }
 
+    public void addKillShotTrack(List<PlayerColor> newKillShot) {
+        if(killShotTrack.size() < 8)
+            killShotTrack.add(newKillShot);
+        else
+            killShotTrack.get(8).addAll(newKillShot);
+    }
+
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
     public PowerUpDeck getPowerUpDeck() {
         return powerupDeck;
+    }
+
+    public List<List<PlayerColor>> getKillShotTrack() {
+        return killShotTrack;
     }
 }

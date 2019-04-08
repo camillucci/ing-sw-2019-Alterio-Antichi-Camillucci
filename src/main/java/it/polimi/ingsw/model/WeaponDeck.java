@@ -17,13 +17,9 @@ public class WeaponDeck {
     }
 
     public WeaponCard draw() {
-        if(this.isEmpty()) {
-            return null; //TODO
+        if(deck.isEmpty()) {
+            return null;
         }
         return deck.remove(rand.nextInt(deck.size()));
-    }
-
-    private boolean isEmpty() {
-        return deck.isEmpty();
     }
 }

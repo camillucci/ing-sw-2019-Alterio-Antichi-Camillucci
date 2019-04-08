@@ -59,8 +59,17 @@ public class Player {
         }
     }
 
+    public void addDamages(PlayerColor color, int val) {
+        for (int i = 0; i < val && damage.size() < 12; i++)
+            damage.add(color);
+    }
+
     public void addPoints(int newPoints) {
         points = points + newPoints;
+    }
+
+    public int getPoints() {
+        return points;
     }
 
     public int getSkull() {

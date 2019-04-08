@@ -27,7 +27,7 @@ public class AmmoDeck {
     }
 
     public AmmoCard draw() {
-        if(this.isEmpty()) {
+        if(deck.isEmpty()) {
             deck = discarded;
         }
         return deck.remove(rand.nextInt(deck.size()));
@@ -35,9 +35,5 @@ public class AmmoDeck {
 
     public void addDiscarded(AmmoCard discardedCard) {
         discarded.add(discardedCard);
-    }
-
-    private boolean isEmpty() {
-        return deck.isEmpty();
     }
 }

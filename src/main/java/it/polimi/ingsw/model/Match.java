@@ -36,22 +36,38 @@ public class Match {
     }
 
     public void assignPoints(){
-        List<Integer> tempCount = Arrays.asList(0, 0, 0, 0, 0);
+        List<Double> tempCount = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0);
         for(int i = 0; i < deadPlayers.size(); i++) {
             List<PlayerColor> damage = deadPlayers.get(i).getDamage();
             int tempSkull = deadPlayers.get(i).getSkull();
             if(!finalFrenzy)
                 players.get(playerColors.indexOf(damage.get(0))).addPoints(1);
             for(int j = 0; j < damage.size(); j++)
-                tempCount.set(playerColors.indexOf(damage.get(j)), tempCount.get(playerColors.indexOf(damage.get(j)))+1);
-            for(int j = 0; j < players.size() + deadPlayers.size() - 1; j++) {
+                tempCount.set(playerColors.indexOf(damage.get(j)), tempCount.get(playerColors.indexOf(damage.get(j))) + j + Math.pow(2, 12.0 - j) / 10000);
+            for(int j = 0; j < players.size() - 1 && Collections.max(tempCount) > 0.0; j++) {
                 if(!finalFrenzy)
-                    players.get(Collections.max(tempCount)).addPoints(Math.max(8 - tempSkull * 2 - j * 2, 1));
+                    players.get(tempCount.indexOf(Collections.max(tempCount))).addPoints(Math.max(8 - tempSkull * 2 - j * 2, 1));
                 else
-                    players.get(Collections.max(tempCount)).addPoints(Math.max(2 - tempSkull * 2 - j * 2, 1));
-                tempCount.set(Collections.max(tempCount), 0);
+                    players.get(tempCount.indexOf(Collections.max(tempCount))).addPoints(Math.max(2 - tempSkull * 2 - j * 2, 1));
+                tempCount.set(tempCount.indexOf(Collections.max(tempCount)), 0.0);
             }
+            List<PlayerColor> tempKillShot = new ArrayList<>();
+            tempKillShot.add(damage.get(10));
+            if(damage.size() == 12)
+                tempKillShot.add(damage.get(11));
+            gameBoard.addKillShotTrack(tempKillShot);
         }
-        //TODO Assegnare i punti sulla Killshot Track
+    }
+
+    public void addDeadPlayers(Player deadPlayer) {
+        this.deadPlayers.add(deadPlayer);
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 }

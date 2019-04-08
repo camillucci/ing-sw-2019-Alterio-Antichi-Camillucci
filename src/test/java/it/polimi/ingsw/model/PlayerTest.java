@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
+import static it.polimi.ingsw.model.PlayerColor.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -10,47 +11,43 @@ class PlayerTest {
 
     @Test
     void addRed() {
-        assertEquals(1, player.getRedAmmo());
-        player.addRed(1);
-        assertEquals(2, player.getRedAmmo());
-        player.addRed(1);
-        assertEquals(3, player.getRedAmmo());
-        player.addRed(1);
-        assertEquals(3, player.getRedAmmo());
+        for(int i = 0; i < 10; i++) {
+            assertEquals(Math.min(i + 1, 3), player.getRedAmmo());
+            player.addRed(1);
+        }
     }
 
     @Test
     void addBlue() {
-        assertEquals(1, player.getRedAmmo());
-        player.addBlue(1);
-        assertEquals(2, player.getBlueAmmo());
-        player.addBlue(1);
-        assertEquals(3, player.getBlueAmmo());
-        player.addBlue(1);
-        assertEquals(3, player.getBlueAmmo());
+        for(int i = 0; i < 10; i++) {
+            assertEquals(Math.min(i + 1, 3), player.getBlueAmmo());
+            player.addBlue(1);
+        }
     }
 
     @Test
     void addYellow() {
-        assertEquals(1, player.getRedAmmo());
-        player.addYellow(1);
-        assertEquals(2, player.getYellowAmmo());
-        player.addYellow(1);
-        assertEquals(3, player.getYellowAmmo());
-        player.addYellow(1);
-        assertEquals(3, player.getYellowAmmo());
+        for(int i = 0; i < 10; i++) {
+            assertEquals(Math.min(i + 1, 3), player.getYellowAmmo());
+            player.addYellow(1);
+        }
     }
 
     @Test
     void addPowerUpCard() {
-        assertEquals(0, player.getPowerUps().size());
-        player.addPowerUpCard();
-        assertEquals(1, player.getPowerUps().size());
-        player.addPowerUpCard();
-        assertEquals(2, player.getPowerUps().size());
-        player.addPowerUpCard();
-        assertEquals(3, player.getPowerUps().size());
-        player.addPowerUpCard();
-        assertEquals(3, player.getPowerUps().size());
+        for(int i = 0; i < 10; i++) {
+            assertEquals(Math.min(i, 3), player.getPowerUps().size());
+            player.addPowerUpCard();
+        }
+    }
+
+    @Test
+    void addDamages() {
+        for(int i = 0; i < 20; i++) {
+            assertEquals(Math.min(i * 3, 12), player.getDamage().size());
+            player.addDamages(VIOLET, 1);
+            assertEquals(Math.min(i * 3 + 1, 12), player.getDamage().size());
+            player.addDamages(YELLOW, 2);
+        }
     }
 }

@@ -31,7 +31,7 @@ public class PowerUpDeck {
     }
 
     public PowerUpCard draw() {
-        if(this.isEmpty()) {
+        if(deck.isEmpty()) {
             deck = discarded;
         }
         return deck.remove(rand.nextInt(deck.size()));
@@ -40,6 +40,4 @@ public class PowerUpDeck {
     public void addDiscarded(PowerUpCard discardedCard) {
         discarded.add(discardedCard);
     }
-
-    private boolean isEmpty() { return deck.isEmpty(); }
 }
