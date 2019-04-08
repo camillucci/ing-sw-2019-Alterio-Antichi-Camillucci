@@ -9,4 +9,9 @@ public class TagbackGrenade extends PowerUpCard {
         this.name = "Tagback Grenade";
         this.color = color;
     }
+
+    @Override
+    public void visualize(){
+        //TODO
+    }
 }

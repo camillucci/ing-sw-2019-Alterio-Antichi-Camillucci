@@ -43,11 +43,13 @@ class PlayerTest {
 
     @Test
     void addDamages() {
+        Player player2 = new Player("", PlayerColor.VIOLET, gameBoard);
+
         for(int i = 0; i < 20; i++) {
             assertEquals(Math.min(i * 3, 12), player.getDamage().size());
-            player.addDamages(VIOLET, 1);
+            player.addDamage(player2, 1);
             assertEquals(Math.min(i * 3 + 1, 12), player.getDamage().size());
-            player.addDamages(YELLOW, 2);
+            player.addDamage(player, 2);
         }
     }
 }

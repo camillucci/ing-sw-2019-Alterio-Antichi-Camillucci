@@ -19,8 +19,8 @@ class MatchTest {
     void assignPoints() {
         Player deadPlayer = match.getPlayers().get(2);
         for(int i = 0; i < 4; i++) {
-            deadPlayer.addDamages(BLUE, 1);
-            deadPlayer.addDamages(GREEN, 2);
+            deadPlayer.addDamage(match.getPlayers().get(0), 1);
+            deadPlayer.addDamage(match.getPlayers().get(1), 2);
         }
         match.addDeadPlayers(deadPlayer);
         match.assignPoints();

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.powerups.TagbackGrenade;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +73,7 @@ public class Player {
         }
 
         for(PowerUpCard pu : powerUps){
-            if(pu.getName() == "Tagback Grenade"){
+            if(pu instanceof TagbackGrenade){
                 pu.visualize();
             }
         }
