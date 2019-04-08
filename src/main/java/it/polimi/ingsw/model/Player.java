@@ -99,4 +99,14 @@ public class Player {
     public List<PlayerColor> getDamage() {
         return damage;
     }
+
+    public Player getClone(){
+        try {
+            return (Player)this.clone();
+        }
+        catch(CloneNotSupportedException cNSE){
+            cNSE.printStackTrace();
+        }
+        return null;
+    }
 }

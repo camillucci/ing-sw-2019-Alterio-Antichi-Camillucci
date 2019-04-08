@@ -2,12 +2,16 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.branch.BranchMap;
 
+import java.util.ArrayList;
+
 public class Turn {
 
     private int turnCounter;
     private Player currentPlayer;
     private int moveCounter;
     private BranchMap branchMap;
+    private Match match;
+    private ArrayList<Player> clonedPlayers;
 
 
     public Turn(int turnCounter, Player currentPlayer) {
@@ -25,7 +29,8 @@ public class Turn {
     }
 
     private void clonePlayers() {
-
-        //TODO
+        for (Player p : match.getPlayers()) {
+            clonedPlayers.add(p.getClone());
+        }
     }
 }
