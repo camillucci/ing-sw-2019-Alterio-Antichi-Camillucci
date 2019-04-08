@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Player {
 
-    private boolean shootable;
     private String name;
     private PlayerColor color;
     private int points;
@@ -25,7 +24,6 @@ public class Player {
 
     public Player (String name, PlayerColor color, GameBoard gameBoard) {
 
-        this.shootable = true;
         this.name = name;
         this.points = 0;
         this.blueAmmo = 1;
@@ -66,10 +64,6 @@ public class Player {
     public void addDamage(Player shooter, int val) {
         for (int i = 0; i < val && damage.size() < 12; i++){
             damage.add(shooter.getColor());
-        }
-
-        if(damage.size() == 12){
-            shootable = false;
         }
 
         for(PowerUpCard pu : powerUps){
