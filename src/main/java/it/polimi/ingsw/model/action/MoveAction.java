@@ -10,6 +10,7 @@ public class MoveAction extends Action
     {
         super(ownerPlayer);
         this.maxDistance = maxDistance;
+        this.optional = true;
     }
 
     @Override

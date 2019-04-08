@@ -92,7 +92,7 @@ class BranchTest {
         assertTrue(curBranch.isInvalidBranch());
 
         getM3GM2GW();
-        curBranch.goNext(new MoveAction(p, 3));
+        curBranch.goNext(new MoveAction(p, 3)); //M3
         assertFalse(curBranch.isInvalidBranch());
         curBranch.goNext(new MoveAction(p,1));
         assertTrue(curBranch.isInvalidBranch());
@@ -117,7 +117,6 @@ class BranchTest {
         curBranch.goNext(new GrabAction(p));
         curBranch.goNext(new MoveAction(p, 1));
         curBranch.goNext(new GrabAction(p));
-        ArrayList<Action> tmp = new ArrayList<>();
         assertFalse(curBranch.isInvalidBranch());
         assertTrue(curBranch.getCompatibleActions().size() == 1); // only WeaponSelectionAction left
         assertTrue(curBranch.getCompatibleActions().get(0) instanceof WeaponSelectionAction);

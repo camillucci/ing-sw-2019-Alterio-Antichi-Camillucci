@@ -11,6 +11,7 @@ public class ReloadSelectionAction extends SelectionAction
     public ReloadSelectionAction(Player ownerPlayer)
     {
         super(ownerPlayer);
+        this.optional = true;
         ArrayList<Branch> w = new ArrayList<>();
         for(WeaponCard wc : ownerPlayer.getLoadedWeapons())
         {

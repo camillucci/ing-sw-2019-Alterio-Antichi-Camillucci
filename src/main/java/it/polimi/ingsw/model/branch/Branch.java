@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class Branch
@@ -62,13 +63,13 @@ public class Branch
 
         ArrayList<Action> ret = new ArrayList<>();
         ret.add(this.curAction);
-        if(curAction instanceof MoveAction)
-            ret.add(getNextAction());
+        for(Action tmp = curAction; tmp.isOptional();) //tmp can't be null because a branch must ends with a non optional action
+            ret.add(tmp = getNextAction(tmp));
         return ret;
     }
     public boolean goNext(Action justDoneAction)
     {
-        Action nextAction = getNextAction();
+        Action nextAction = getNextAction(justDoneAction);
 
         if(invalidState || nextAction == null){
             setInvalidState();
@@ -76,20 +77,11 @@ public class Branch
         }
         // actions.size() > 0
 
-        if(curAction.isCompatible(justDoneAction)){
-            curAction = nextAction;
+        while(!actions.get(0).isCompatible(justDoneAction))
             actions.remove(0);
-        }
-        else if(curAction instanceof MoveAction && nextAction.isCompatible(justDoneAction)){
-            actions.remove(0);
-            curAction = getNextAction();
-            if(!actions.isEmpty())
-                actions.remove(0);
-        }
-        else {
-            setInvalidState();
-            return false;
-        }
+        actions.remove(0);
+        curAction = nextAction;
+
         return true;
     }
     public boolean isInvalidBranch() {
@@ -100,16 +92,14 @@ public class Branch
         this.invalidState = true;
     }
 
-    private Action getNextAction()
+    private Action getNextAction(Action action)
     {
-        if(curAction == finalAction)
-            return null;
+        for(int i=0; i < actions.size()-1; i++)
+            if(actions.get(i).isCompatible(action))
+                return actions.get(i+1);
+            else if(!actions.get(i).isOptional())
+                return null;
 
-        // actions.size() > 0
-
-        if(actions.size() == 1)
-            return finalAction;
-        return actions.get(1);
-
+        return actions.isEmpty() || !actions.get(actions.size()-1).isCompatible(action) ? null : finalAction;
     }
 }

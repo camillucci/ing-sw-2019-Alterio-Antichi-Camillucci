@@ -83,7 +83,7 @@ public class GameBoard {
     }
 
     public void setPlayers(List<Player> players) {
-        this.players = players;
+        this.players = new ArrayList<>(players);
     }
 
     public PowerUpDeck getPowerUpDeck() {

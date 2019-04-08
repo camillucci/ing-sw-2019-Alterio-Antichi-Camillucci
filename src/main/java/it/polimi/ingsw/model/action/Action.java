@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public abstract class Action implements Visualizable
 {
+    protected boolean optional = false;
     public final Event<Action, Action> completedActionEvent = new Event<>();
     public Action(Player ownerPlayer)
     {
@@ -24,6 +25,7 @@ public abstract class Action implements Visualizable
         //TODO
     }
 
+    public boolean isOptional(){return optional;}
     public void addTarget(Square target)
     {
         this.targetSquares.add(target);

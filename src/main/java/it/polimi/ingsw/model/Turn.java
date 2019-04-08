@@ -21,8 +21,13 @@ public class Turn {
 
     private void eventsSetup()
     {
-        this.branchMap.endOfBranchMapReachedEvent.addEventHandler((s,e)->createBranchMap());
+        this.branchMap.endOfBranchMapReachedEvent.addEventHandler((s,e)->onMoveTerminated());
         this.branchMap.rollbackEvent.addEventHandler((s,e)->rollback());
+    }
+
+    private void onMoveTerminated()
+    {
+        
     }
 
     private void createBranchMap(){
