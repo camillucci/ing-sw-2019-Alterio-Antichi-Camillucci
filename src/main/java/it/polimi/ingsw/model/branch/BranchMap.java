@@ -33,31 +33,31 @@ public abstract class BranchMap
             ret.addAll(b.getCompatibleActions());
         return ret;
     }
-
     private void onBranchActionCompleted(Branch senderBranch, Action completedAction)
     {
-        for(Branch b : branches)
-            b.goNext(completedAction);
-        this.newActionsEvent.invoke(this, this.getPossibleActions());
+       this.branches.removeIf(b-> !b.goNext(completedAction));
+       this.newActionsEvent.invoke(this, this.getPossibleActions());
     }
 
     private void onBranchExtActionCompleted(Branch senderBranch, ExtendableAction extendableAction)
     {
         this.branches.remove(senderBranch);
         this.branches.addAll(extendableAction.getBranches());
+        this.newActionsEvent.invoke(this, getPossibleActions());
     }
 
     protected void setupBranches(List<Branch> branches)
     {
         this.branches = new ArrayList<>(branches);
-        this.branches.add(new Branch(new RollBackAction(ownerPlayer))); // Adding Rollback
+        RollBackAction rollBackAction = new RollBackAction(ownerPlayer);
+        rollBackAction.completedActionEvent.addEventHandler((s,a)->this.rollbackEvent.invoke(this, (RollBackAction)a));
+        this.branches.add(new Branch(rollBackAction)); // Adding Rollback
+
         for(Branch b : this.branches) // Setup events
         {
             b.actionCompletedEvent.addEventHandler(this::onBranchActionCompleted);
             b.extActionCompletedEvent.addEventHandler(this::onBranchExtActionCompleted);
-            b.rollbackEvent.addEventHandler((s,ra)->this.rollbackEvent.invoke(this, ra));
             b.endBranchEvent.addEventHandler((s,eba)->this.endOfBranchMapReachedEvent.invoke(this, eba));
-            b.invalidStateEvent.addEventHandler((s, o)->this.branches.remove(s));
         }
     }
 }

@@ -25,11 +25,6 @@ public class MachineGun extends WeaponCard {
     }
 
     @Override
-    public List<Branch> getBranches(Player branchesOwner) {
-        return null;
-    } //TODO
-
-    @Override
     public void visualize() {
         //TODO
     }

@@ -12,8 +12,6 @@ public class Branch
     public final Event<Branch, Action> actionCompletedEvent = new Event<>();
     public final Event<Branch, ExtendableAction> extActionCompletedEvent = new Event<>();
     public final Event<Branch, EndBranchAction> endBranchEvent = new Event<>();
-    public final Event<Branch, RollBackAction> rollbackEvent = new Event<>();
-    public final Event<Branch, Object> invalidStateEvent = new Event<>();
 
     private boolean invalidState = false;
     private ArrayList<Action> actions;
@@ -40,7 +38,6 @@ public class Branch
     public Branch(RollBackAction rollBackAction)
     {
         this(rollBackAction, Collections.emptyList());
-        rollBackAction.completedActionEvent.addEventHandler((s, a)->this.rollbackEvent.invoke(this, (RollBackAction)a));
     }
     public Branch(Action action, EndBranchAction endBranchAction)
     {
@@ -54,6 +51,8 @@ public class Branch
     {
         this(Collections.emptyList(), extendableAction);
     }
+
+
     public List<Action> getCompatibleActions()
     {
         if(invalidState){
@@ -67,13 +66,13 @@ public class Branch
             ret.add(getNextAction());
         return ret;
     }
-    public void goNext(Action justDoneAction)
+    public boolean goNext(Action justDoneAction)
     {
         Action nextAction = getNextAction();
 
         if(invalidState || nextAction == null){
             setInvalidState();
-            return;
+            return false;
         }
         // actions.size() > 0
 
@@ -87,8 +86,11 @@ public class Branch
             if(!actions.isEmpty())
                 actions.remove(0);
         }
-        else
+        else {
             setInvalidState();
+            return false;
+        }
+        return true;
     }
     public boolean isInvalidBranch() {
         return invalidState;
@@ -96,7 +98,6 @@ public class Branch
     private void setInvalidState()
     {
         this.invalidState = true;
-        invalidStateEvent.invoke(this, null);
     }
 
     private Action getNextAction()

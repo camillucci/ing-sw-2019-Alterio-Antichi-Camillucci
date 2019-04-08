@@ -22,9 +22,13 @@ public class ShootAction extends Action
         this.shootFuncP = shootFunc;
         this.visualizable = visualizable;
     }
+    protected ShootAction(Player ownerPlayer)
+    {
+        super(ownerPlayer);
+    }
 
-    private BiConsumer<Player, List<Player>> shootFuncP;
-    private BiConsumer<Player, List<Square>> shootFuncS;
+    protected BiConsumer<Player, List<Player>> shootFuncP;
+    protected BiConsumer<Player, List<Square>> shootFuncS;
     private Visualizable visualizable;
 
     @Override
