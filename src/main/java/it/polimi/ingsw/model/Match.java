@@ -70,4 +70,8 @@ public class Match {
     public List<Player> getPlayers() {
         return players;
     }
+
+    public void rollback(List<Player> clonedPlayers) {
+        players = clonedPlayers;
+    }
 }

@@ -36,7 +36,9 @@ public class Turn {
     }
 
     public void rollback(){
-        //TODO
+        moveCounter = moveCounter + 1;
+        match.rollback(clonedPlayers);
+        createBranchMap();
     }
 
     private void clonePlayers() {
