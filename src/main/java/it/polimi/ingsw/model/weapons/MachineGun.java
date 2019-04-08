@@ -5,9 +5,9 @@ import it.polimi.ingsw.model.branch.Branch;
 
 import java.util.List;
 
-public class WeaponMachineGun extends WeaponCard {
+public class MachineGun extends WeaponCard {
 
-    public WeaponMachineGun() {
+    public MachineGun() {
 
         this.name = "Machine Gun";
         this.blueBuyCost = 1;
@@ -19,6 +19,7 @@ public class WeaponMachineGun extends WeaponCard {
         this.fireModalities = null; //TODO
     }
 
+    @Override
     protected void buildFireModalities(Player shooter) {
         //TODO
     }

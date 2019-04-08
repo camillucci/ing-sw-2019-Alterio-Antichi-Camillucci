@@ -11,19 +11,15 @@ public class WeaponDeck {
     private Random rand = new Random();
 
     public WeaponDeck() {
-        deck.add(new WeaponLockRifle());
-        deck.add(new WeaponMachineGun());
+        deck.add(new LockRifle());
+        deck.add(new MachineGun());
         //TODO Add all cards
     }
 
     public WeaponCard draw() {
-        if(this.isEmpty()) {
-            return null; //TODO
+        if(deck.isEmpty()) {
+            return null;
         }
         return deck.remove(rand.nextInt(deck.size()));
-    }
-
-    public boolean isEmpty() {
-        return deck.isEmpty();
     }
 }

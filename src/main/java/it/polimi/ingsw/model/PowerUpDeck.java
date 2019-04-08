@@ -6,7 +6,6 @@ import static it.polimi.ingsw.model.AmmoColor.*;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class PowerUpDeck {
 
@@ -15,28 +14,30 @@ public class PowerUpDeck {
     private Random rand = new Random();
 
     public PowerUpDeck() {
-        IntStream.range(0, 2).forEach(i -> {
-            deck.add(new PowerUpTargetingScope(BLUE));
-            deck.add(new PowerUpNewton(BLUE));
-            deck.add(new PowerUpTagbackGrenade(BLUE));
-            deck.add(new PowerUpTeleporter(BLUE));
-            deck.add(new PowerUpTargetingScope(RED));
-            deck.add(new PowerUpNewton(RED));
-            deck.add(new PowerUpTagbackGrenade(RED));
-            deck.add(new PowerUpTeleporter(RED));
-            deck.add(new PowerUpTargetingScope(YELLOW));
-            deck.add(new PowerUpNewton(YELLOW));
-            deck.add(new PowerUpTagbackGrenade(YELLOW));
-            deck.add(new PowerUpTeleporter(YELLOW));
-        });
+        for (int i = 0; i < 2; i++) {
+            deck.add(new TargetingScope(BLUE));
+            deck.add(new Newton(BLUE));
+            deck.add(new TagbackGrenade(BLUE));
+            deck.add(new Teleporter(BLUE));
+            deck.add(new TargetingScope(RED));
+            deck.add(new Newton(RED));
+            deck.add(new TagbackGrenade(RED));
+            deck.add(new Teleporter(RED));
+            deck.add(new TargetingScope(YELLOW));
+            deck.add(new Newton(YELLOW));
+            deck.add(new TagbackGrenade(YELLOW));
+            deck.add(new Teleporter(YELLOW));
+        }
     }
 
     public PowerUpCard draw() {
-        if(this.isEmpty()) {
+        if(deck.isEmpty()) {
             deck = discarded;
         }
         return deck.remove(rand.nextInt(deck.size()));
     }
 
-    public boolean isEmpty() { return deck.isEmpty(); }
+    public void addDiscarded(PowerUpCard discardedCard) {
+        discarded.add(discardedCard);
+    }
 }
