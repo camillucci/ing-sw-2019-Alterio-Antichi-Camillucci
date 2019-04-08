@@ -47,10 +47,6 @@ public class WeaponLockRifle extends WeaponCard {
         Player secondTarget = targets.get(1);
         //secondTarget.setMarks(shooter, 1);
     }
-    @Override
-    public List<Branch> getBranches(Player branchesOwner) {
-        return null; //TODO
-    }
 
     @Override
     public void visualize() {

@@ -29,11 +29,5 @@ public class SelectionAction extends ExtendableAction
         this.visualizable.visualize();
     }
 
-    @Override
-    public boolean isCompatible(Action action)
-    {
-        return action == this;
-    }
-
     private Visualizable visualizable;
 }
