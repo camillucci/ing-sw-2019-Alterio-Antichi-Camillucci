@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MatchTest {
 
-    List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
-    List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
-    Match match = new Match(names, colors, 8, 12);
-
     @Test
-    void assignPoints() {
+    void assignPoints1() {
+        List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
+        Match match = new Match(names, colors, 8, 12);
+
         Player deadPlayer = match.getPlayers().get(2);
         for(int i = 0; i < 4; i++) {
             deadPlayer.addDamage(match.getPlayers().get(0), 1);
@@ -26,7 +26,23 @@ class MatchTest {
         match.assignPoints();
         assertEquals(7, match.getPlayers().get(0).getPoints());
         assertEquals(8, match.getPlayers().get(1).getPoints());
-        assertEquals(2, match.getGameBoard().getKillShotTrack().get(0).size());
-        assertEquals(1, match.getGameBoard().getKillShotTrack().size());
+    }
+
+    @Test
+    void assignPoints2() {
+        List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
+        Match match = new Match(names, colors, 8, 12);
+
+        Player deadPlayer = match.getPlayers().get(2);
+        deadPlayer.setFinalFrenzy(true);
+        for(int i = 0; i < 4; i++) {
+            deadPlayer.addDamage(match.getPlayers().get(0), 1);
+            deadPlayer.addDamage(match.getPlayers().get(1), 2);
+        }
+        match.addDeadPlayers(deadPlayer);
+        match.assignPoints();
+        assertEquals(1, match.getPlayers().get(0).getPoints());
+        assertEquals(2, match.getPlayers().get(1).getPoints());
     }
 }

@@ -79,7 +79,7 @@ public class GameBoard {
         if(killShotTrack.size() < 8)
             killShotTrack.add(newKillShot);
         else
-            killShotTrack.get(8).addAll(newKillShot);
+            killShotTrack.get(7).addAll(newKillShot);
     }
 
     public void setPlayers(List<Player> players) {

@@ -16,6 +16,7 @@ public class Player {
     private int yellowAmmo;
     private GameBoard gameBoard;
     private Square currentSquare;
+    private boolean finalFrenzy;
     private ArrayList<PlayerColor> damage = new ArrayList<>();
     private ArrayList<PlayerColor> mark = new ArrayList<>();
     private ArrayList<WeaponCard> loadedWeapons = new ArrayList<>();
@@ -32,6 +33,7 @@ public class Player {
         this.skull = 0;
         this.color = color;
         this.gameBoard = gameBoard;
+        this.finalFrenzy = false;
     }
 
     public void addBlue(int val){
@@ -101,6 +103,10 @@ public class Player {
 
     public PlayerColor getColor() {return color;}
 
+    public boolean isFinalFrenzy() {
+        return finalFrenzy;
+    }
+
     public List<WeaponCard> getLoadedWeapons(){
         return new ArrayList<>(this.loadedWeapons);
     }
@@ -121,5 +127,9 @@ public class Player {
             cNSE.printStackTrace();
         }
         return null;
+    }
+
+    public void setFinalFrenzy(boolean finalFrenzy) {
+        this.finalFrenzy = finalFrenzy;
     }
 }

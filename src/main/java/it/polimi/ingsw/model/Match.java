@@ -40,12 +40,12 @@ public class Match {
         for(int i = 0; i < deadPlayers.size(); i++) {
             List<PlayerColor> damage = deadPlayers.get(i).getDamage();
             int tempSkull = deadPlayers.get(i).getSkull();
-            if(!finalFrenzy)
+            if(!deadPlayers.get(i).isFinalFrenzy())
                 players.get(playerColors.indexOf(damage.get(0))).addPoints(1);
             for(int j = 0; j < damage.size(); j++)
                 tempCount.set(playerColors.indexOf(damage.get(j)), tempCount.get(playerColors.indexOf(damage.get(j))) + 1 + Math.pow(2, 12.0 - j) / 10000);
             for(int j = 0; j < players.size() - 1 && Collections.max(tempCount) > 0.0; j++) {
-                if(!finalFrenzy)
+                if(!deadPlayers.get(i).isFinalFrenzy())
                     players.get(tempCount.indexOf(Collections.max(tempCount))).addPoints(Math.max(8 - tempSkull * 2 - j * 2, 1));
                 else
                     players.get(tempCount.indexOf(Collections.max(tempCount))).addPoints(Math.max(2 - tempSkull * 2 - j * 2, 1));
@@ -63,15 +63,15 @@ public class Match {
         this.deadPlayers.add(deadPlayer);
     }
 
+    public void rollback(List<Player> clonedPlayers) {
+        players = clonedPlayers;
+    }
+
     public GameBoard getGameBoard() {
         return gameBoard;
     }
 
     public List<Player> getPlayers() {
         return players;
-    }
-
-    public void rollback(List<Player> clonedPlayers) {
-        players = clonedPlayers;
     }
 }
