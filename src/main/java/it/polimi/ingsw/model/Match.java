@@ -15,6 +15,7 @@ public class Match {
     private boolean finalFrenzy;
     private int gameLength;
     private int gameSize;
+    private int frenzyStarter;
 
     public Match(List<String> playersName, List<PlayerColor> playerColors, int gameLength, int gameSize) {
 
@@ -29,10 +30,14 @@ public class Match {
         gameBoard.setPlayers(players);
     }
 
-    public void spawn(){
+    public void respawn(){
         for(int i = 0; i < deadPlayers.size(); i++) {
             // TODO
         }
+    }
+
+    public void spawn(){
+        //TODO
     }
 
     public void assignPoints(){
@@ -74,4 +79,8 @@ public class Match {
     public List<Player> getPlayers() {
         return players;
     }
+
+    public boolean getFinalFrenzy(){ return finalFrenzy;}
+
+    public int getFrenzyStarter() {return frenzyStarter;}
 }

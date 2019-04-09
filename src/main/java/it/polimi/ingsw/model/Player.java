@@ -73,8 +73,6 @@ public class Player {
                 pu.visualize();
             }
         }
-
-        //TODO aggiungere metodo che chiama il mirino del giocatore che ha sparato
     }
 
     public void addPoints(int newPoints) {
