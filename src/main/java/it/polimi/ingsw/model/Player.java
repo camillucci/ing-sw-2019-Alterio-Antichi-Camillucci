@@ -73,7 +73,7 @@ public class Player {
 
         for(PowerUpCard pu : powerUps){
             if(pu instanceof TagbackGrenade){
-                pu.visualize();
+                pu.buildFireModality(shooter);
             }
         }
     }
@@ -132,5 +132,9 @@ public class Player {
 
     public void setFinalFrenzy(boolean finalFrenzy) {
         this.finalFrenzy = finalFrenzy;
+    }
+
+    public void addMark(Player shooter){
+        //TODO
     }
 }
