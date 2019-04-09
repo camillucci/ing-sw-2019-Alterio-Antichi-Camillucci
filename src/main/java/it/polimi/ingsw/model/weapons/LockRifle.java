@@ -39,14 +39,14 @@ public class LockRifle extends WeaponCard {
     private void basicEffect(Player shooter, List<Player> targets) // la signature di questo metodo deve essere uguale a quella del BiConsumer della ShootAction
     {
         Player target = targets.get(0);
-        //TODO target.setDamage(shooter, 2);
-        //target.setMarks(shooter, 1);
+        target.addDamage(shooter, 2);
+        target.addMark(shooter, 1);
     }
     private void basicAndOptionalEffect(Player shooter, List<Player> targets)
     {
         basicEffect(shooter, targets);
         Player secondTarget = targets.get(1);
-        //TODO secondTarget.setMarks(shooter, 1);
+        secondTarget.addMark(shooter, 1);
     }
 
     @Override
