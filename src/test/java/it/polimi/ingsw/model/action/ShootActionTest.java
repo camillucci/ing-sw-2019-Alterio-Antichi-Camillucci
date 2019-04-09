@@ -23,7 +23,6 @@ class ShootActionTest {
         shootAction.addTarget(p);
         shootAction.doAction();
         assertTrue(shooted);
-        shootAction.visualize();
     }
 
     private void shoot(Player shooter, List<Player> targets)
