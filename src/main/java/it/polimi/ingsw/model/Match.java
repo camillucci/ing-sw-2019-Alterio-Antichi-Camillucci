@@ -24,7 +24,9 @@ public class Match {
         this.playerColors = playerColors;
         this.gameBoard = new GameBoard(gameLength, gameSize);
         for(int i = 0; i < playersName.size(); i++) {
-            players.add(new Player(playersName.get(i), playerColors.get(i), gameBoard));
+            Player p = new Player(playersName.get(i), playerColors.get(i), gameBoard);
+            p.deathEvent.addEventHandler((s,a)->this.deadPlayers.add(s));
+            players.add(p);
         }
         gameBoard.setPlayers(players);
     }

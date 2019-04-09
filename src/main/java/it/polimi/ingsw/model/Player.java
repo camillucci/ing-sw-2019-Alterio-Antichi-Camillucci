@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.powerups.TagbackGrenade;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class Player {
     private ArrayList<WeaponCard> loadedWeapons = new ArrayList<>();
     private ArrayList<WeaponCard> unloadedWeapons = new ArrayList<>();
     private ArrayList<PowerUpCard> powerUps = new ArrayList<>();
+    public final Event<Player, Player> deathEvent = new Event<>();
+
 
     public Player (String name, PlayerColor color, GameBoard gameBoard) {
 
