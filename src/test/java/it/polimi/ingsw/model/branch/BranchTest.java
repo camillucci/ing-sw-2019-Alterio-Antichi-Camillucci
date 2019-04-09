@@ -114,6 +114,7 @@ class BranchTest {
         tmp.add(new MoveAction(p,3));
         tmp.add(new GrabAction(p));
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
+
     }
 
     @Test
