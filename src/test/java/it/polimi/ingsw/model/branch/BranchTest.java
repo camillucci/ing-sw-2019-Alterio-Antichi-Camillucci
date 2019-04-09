@@ -9,17 +9,17 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.model.branch.BranchTestUtilities.testEquality;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BranchTest {
-    private Player p;
+    private Player p = new Player("p1", PlayerColor.BLUE,new GameBoard(3,10));
     private Branch curBranch;
     private List<Action> curBranchActions;
     private boolean eventTriggered = false;
 
     private void getM3GM2GW()
     {
-        p = new Player("p1", PlayerColor.BLUE,new GameBoard(3,10));
         curBranchActions = new ArrayList<>();
         curBranchActions.add(new MoveAction(p, 3));
         curBranchActions.add(new GrabAction(p));
@@ -30,17 +30,26 @@ class BranchTest {
         curBranchActions.add(wsa);
     }
 
-    private boolean testEquality(List<Action> curActions, List<Action> expectedActions)
+    private void getRM2RM3G()
     {
-        if(expectedActions.size() != curActions.size())
-            return false;
-
-        for(Action action : expectedActions)
-            if(!curActions.removeIf(a-> a.isCompatible(action) && action.isCompatible(a)))
-                return false;
-        return  true;
+        curBranchActions = new ArrayList<>();
+        curBranchActions.add(new ReloadSelectionAction(p));
+        curBranchActions.add(new MoveAction(p,2));
+        curBranchActions.add(new ReloadSelectionAction(p));
+        curBranchActions.add(new MoveAction(p,3));
+        curBranchActions.add(new GrabAction(p));
+        curBranch = new Branch(curBranchActions, new EndBranchAction(p));
+        curBranchActions.add(new EndBranchAction(p));
     }
-
+    private void getM2RW()
+    {
+        curBranchActions = new ArrayList<>();
+        curBranchActions.add(new MoveAction(p,2));
+        curBranchActions.add(new ReloadSelectionAction(p));
+        WeaponSelectionAction wsa = new WeaponSelectionAction(p);
+        curBranch = new Branch(curBranchActions, wsa);
+        curBranchActions.add(wsa);
+    }
     @Test
     void getCompatibleActions()
     {
@@ -80,6 +89,30 @@ class BranchTest {
         tmp.clear();
         curBranch.goNext(curBranchActions.get(3));
         tmp.add(curBranchActions.get(4));
+        assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
+    }
+
+    @Test
+    void goNext2()
+    {
+        getM2RW(); // M2 and R both optional -> compatibleActions() = { M2, R, W }
+        ArrayList<Action> tmp = new ArrayList<>();
+        tmp.add(new MoveAction(p,2));
+        tmp.add(new ReloadSelectionAction(p));
+        tmp.add(new WeaponSelectionAction(p));
+        assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
+    }
+
+    @Test
+    void goNext3()
+    {
+        getRM2RM3G();
+        ArrayList<Action> tmp = new ArrayList<>();
+        tmp.add(new ReloadSelectionAction(p));
+        tmp.add(new MoveAction(p,2));
+        tmp.add(new ReloadSelectionAction(p));
+        tmp.add(new MoveAction(p,3));
+        tmp.add(new GrabAction(p));
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
     }
 
@@ -147,4 +180,6 @@ class BranchTest {
         curBranch.getCompatibleActions().get(0).doAction();
         assertTrue(eventTriggered);
     }
+
+
 }

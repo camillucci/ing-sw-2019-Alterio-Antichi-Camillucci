@@ -17,14 +17,12 @@ public class Branch
     private boolean invalidState = false;
     private ArrayList<Action> actions;
     private Action finalAction;
-    private Action curAction;
 
     private Branch(Action finalAction, List<Action> actions) {
         this.actions = new ArrayList<>(actions);
         this.finalAction = finalAction;
         for (Action ac : this.actions)
             ac.completedActionEvent.addEventHandler((s,a)->this.actionCompletedEvent.invoke(this, a));
-        curAction = this.actions.isEmpty() ? this.finalAction : this.actions.get(0);
     }
     public Branch(List<Action> actions, EndBranchAction endBranchAction)
     {
@@ -62,26 +60,35 @@ public class Branch
         }
 
         ArrayList<Action> ret = new ArrayList<>();
-        ret.add(this.curAction);
-        for(Action tmp = curAction; tmp.isOptional();) //tmp can't be null because a branch must ends with a non optional action
-            ret.add(tmp = getNextAction(tmp));
+        if(actions.isEmpty()) {
+            ret.add(finalAction);
+            return ret;
+        }
+
+        ret.add(actions.get(0));
+        for (int i = 0; i < actions.size()-1; i++)
+            if(this.actions.get(i).isOptional())
+                ret.add(this.actions.get(i+1));
+            else
+                return ret;
+        if(this.actions.get(this.actions.size()-1).isOptional())
+            ret.add(finalAction);
         return ret;
     }
+
     public boolean goNext(Action justDoneAction)
     {
-        Action nextAction = getNextAction(justDoneAction);
+        Action nextAction = getNextCompatibleAction(justDoneAction);
 
         if(invalidState || nextAction == null){
             setInvalidState();
             return false;
         }
+
         // actions.size() > 0
 
-        while(!actions.get(0).isCompatible(justDoneAction))
+        while(!actions.isEmpty() && actions.get(0) != nextAction)
             actions.remove(0);
-        actions.remove(0);
-        curAction = nextAction;
-
         return true;
     }
     public boolean isInvalidBranch() {
@@ -92,14 +99,18 @@ public class Branch
         this.invalidState = true;
     }
 
-    private Action getNextAction(Action action)
+    private Action getNextCompatibleAction(Action action)
     {
+        if(this.actions.isEmpty())
+            return null;
+
         for(int i=0; i < actions.size()-1; i++)
             if(actions.get(i).isCompatible(action))
                 return actions.get(i+1);
-            else if(!actions.get(i).isOptional())
-                return null;
+            else
+                if(!actions.get(i).isOptional())
+                    return null;
 
-        return actions.isEmpty() || !actions.get(actions.size()-1).isCompatible(action) ? null : finalAction;
+        return actions.get(actions.size()-1).isCompatible(action) ? finalAction : null;
     }
 }

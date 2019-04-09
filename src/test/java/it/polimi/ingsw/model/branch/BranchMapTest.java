@@ -12,23 +12,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.model.branch.BranchTestUtilities.testEquality;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BranchMapTest {
     private BranchMap curBranchMap;
     private boolean eventTriggered = false;
     Player p = new Player("p", PlayerColor.BLUE,new GameBoard(3,10));
-
-    private boolean testEquality(List<Action> curActions, List<Action> expectedActions)
-    {
-        if(expectedActions.size() != curActions.size())
-            return false;
-
-        for(Action action : expectedActions)
-            if(!curActions.removeIf(a-> a.isCompatible(action) && action.isCompatible(a)))
-                return false;
-        return  true;
-    }
 
     @Test
     void getPossibleActions()
