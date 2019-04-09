@@ -15,7 +15,7 @@ public class Newton extends PowerUpCard {
     public void visualize(){}
 
     @Override
-    protected void buildFireModality(Player shooter) {
-        //TODO
+    protected void buildFireModalitie(Player shooter) {
+
     }
 }

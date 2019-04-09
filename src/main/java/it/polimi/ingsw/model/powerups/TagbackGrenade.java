@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.powerups;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.action.ShootAction;
-
-import java.util.List;
+import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PowerUpCard;
 
 public class TagbackGrenade extends PowerUpCard {
 
@@ -13,11 +12,12 @@ public class TagbackGrenade extends PowerUpCard {
     }
 
     @Override
-    protected void buildFireModality(Player shooter){
-        ShootAction s1 = new ShootAction(this :: effect, null, shooter);
+    public void visualize(){
+        //TODO
     }
 
-    private void effect(Player shooter, List<Player> target){
-        target.get(0).addMark(shooter);
+    @Override
+    protected void buildFireModalitie(Player shooter) {
+
     }
 }

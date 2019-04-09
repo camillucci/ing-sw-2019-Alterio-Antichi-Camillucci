@@ -67,14 +67,34 @@ public class Player {
     }
 
     public void addDamage(Player shooter, int val) {
-        for (int i = 0; i < val && damage.size() < 12; i++){
+        for (int i = 0; i < val && damage.size() < 12; i++)
             damage.add(shooter.getColor());
-        }
+
+        int temp = mark.size();
+        for(int i = 0; i < temp && damage.size() < 12; i++ )
+            if(shooter.getColor() == mark.get(i)) {
+                damage.add(shooter.getColor());
+                mark.remove(i);
+                i--;
+                temp--;
+            }
 
         for(PowerUpCard pu : powerUps){
             if(pu instanceof TagbackGrenade){
                 pu.buildFireModality(shooter);
             }
+        }
+    }
+
+    public void addMark(Player shooter, int val) {
+        int temp = 0;
+        for (int i = 0; i < mark.size(); i++)
+            if(mark.get(i) == shooter.getColor())
+                temp++;
+
+        for (int i = 0; i < val && temp < 3; i++) {
+            mark.add(shooter.getColor());
+            temp++;
         }
     }
 
@@ -118,6 +138,10 @@ public class Player {
 
     public List<PlayerColor> getDamage() {
         return damage;
+    }
+
+    public ArrayList<PlayerColor> getMark() {
+        return mark;
     }
 
     public Player getClone(){

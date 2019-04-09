@@ -10,11 +10,14 @@ public abstract class PowerUpCard {
 
     protected String name;
     protected AmmoColor color;
+
+    public abstract void visualize();
+
     protected SelectionAction powerupModality;
-
-    public void visualize(){
-        //TODO put abstract
-    };
-
-    protected abstract void buildFireModality(Player shooter);
+    public SelectionAction getPowerupModality(Player ownerPlayer)
+    {
+        buildFireModalities(ownerPlayer);
+        return powerupModality;
+    }
+    protected abstract void buildFireModalities(Player shooter);
 }

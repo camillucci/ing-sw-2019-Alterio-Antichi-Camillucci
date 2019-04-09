@@ -15,8 +15,8 @@ public class PowerUpSelection extends SelectionAction
         ArrayList<Branch> w = new ArrayList<>();
         for(PowerUpCard wc : ownerPlayer.getPowerUps())
         {
-            //SelectionAction wi = new SelectionAction(ownerPlayer, wc.getFireModalities(ownerPlayer), wc); //
-            //w.add(new Branch(wi));
+            SelectionAction wi = wc.getPowerupModality(ownerPlayer); //
+            w.add(new Branch(wi));
         }
         this.branches = w;
     }
