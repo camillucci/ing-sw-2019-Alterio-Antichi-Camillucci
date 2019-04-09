@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.powerups;
 
 import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PowerUpCard;
 
 public class TargetingScope extends PowerUpCard {
@@ -13,6 +14,11 @@ public class TargetingScope extends PowerUpCard {
     @Override
     public void visualize(){
         //TODO
+    }
+
+    @Override
+    protected void buildFireModalitie(Player shooter) {
+
     }
 
 
