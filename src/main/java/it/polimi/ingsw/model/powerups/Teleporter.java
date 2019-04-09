@@ -15,7 +15,7 @@ public class Teleporter extends PowerUpCard {
     public void visualize(){}
 
     @Override
-    protected void buildFireModalitie(Player shooter) {
+    protected void buildFireModalities(Player shooter) {
 
     }
 }
