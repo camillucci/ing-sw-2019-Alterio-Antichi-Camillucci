@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
     private GameBoard gameBoard = new GameBoard(3, 10);
-    private Player player = new Player("", PlayerColor.YELLOW, gameBoard);
+    private Player player = new Player("A", PlayerColor.YELLOW, gameBoard);
 
     @Test
     void addRed() {
@@ -43,13 +43,39 @@ class PlayerTest {
 
     @Test
     void addDamages() {
-        Player player2 = new Player("", PlayerColor.VIOLET, gameBoard);
+        Player player2 = new Player("B", PlayerColor.VIOLET, gameBoard);
+        Player player3 = new Player("C", PlayerColor.GREEN, gameBoard);
 
         for(int i = 0; i < 20; i++) {
             assertEquals(Math.min(i * 3, 12), player.getDamage().size());
             player.addDamage(player2, 1);
             assertEquals(Math.min(i * 3 + 1, 12), player.getDamage().size());
-            player.addDamage(player, 2);
+            player.addDamage(player3, 2);
         }
+    }
+
+    @Test
+    void addMark() {
+        Player player2 = new Player("B", PlayerColor.VIOLET, gameBoard);
+        Player player3 = new Player("C", PlayerColor.GREEN, gameBoard);
+
+        assertEquals(0, player3.getMark().size());
+        player3.addMark(player, 1);
+        assertEquals(1, player3.getMark().size());
+        player3.addMark(player2, 2);
+        assertEquals(3, player3.getMark().size());
+        player3.addMark(player, 1);
+        assertEquals(4, player3.getMark().size());
+        player3.addMark(player2, 2);
+        assertEquals(5, player3.getMark().size());
+        player3.addMark(player, 1);
+        assertEquals(6, player3.getMark().size());
+        player3.addMark(player2, 2);
+        assertEquals(6, player3.getMark().size());
+
+        assertEquals(0, player3.getDamage().size());
+        player3.addDamage(player, 1);
+        assertEquals(4, player3.getDamage().size());
+
     }
 }
