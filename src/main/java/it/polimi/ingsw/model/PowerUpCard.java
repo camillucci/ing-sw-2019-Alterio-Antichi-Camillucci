@@ -13,6 +13,11 @@ public abstract class PowerUpCard {
 
     public abstract void visualize();
 
-    protected SelectionAction powerupModalities;
-    protected abstract void buildFireModalitie(Player shooter);
+    protected SelectionAction powerupModality;
+    public SelectionAction getPowerupModality(Player ownerPlayer)
+    {
+        buildFireModalities(ownerPlayer);
+        return powerupModality;
+    }
+    protected abstract void buildFireModalities(Player shooter);
 }
