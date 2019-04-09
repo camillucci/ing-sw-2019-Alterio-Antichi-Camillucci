@@ -38,6 +38,9 @@ public abstract class Action implements Visualizable
     {
         return action.getClass().isInstance(this);
     }
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     protected Player currentPlayer;
     protected ArrayList<Square> targetSquares = new ArrayList<>();

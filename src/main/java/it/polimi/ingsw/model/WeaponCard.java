@@ -24,8 +24,6 @@ public abstract class WeaponCard implements Visualizable {
         for(SelectionAction a : fireModalities)
             ret.add(new Branch(a));
         return ret;
-
-        //TODO da spostare in ogni singola arma?
     }
 
     protected abstract void buildFireModalities(Player shooter);
