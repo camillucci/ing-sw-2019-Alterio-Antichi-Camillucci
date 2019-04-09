@@ -18,7 +18,7 @@ public class TagbackGrenade extends PowerUpCard {
 
     @Override
     protected void buildFireModalities(Player shooter) {
-
+        //TODO
     }
 
 }
