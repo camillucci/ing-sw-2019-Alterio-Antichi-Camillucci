@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.branch.Branch;
-import it.polimi.ingsw.model.branch.BranchMap;
+import it.polimi.ingsw.model.branch.*;
 
 import java.util.ArrayList;
 
 public class Turn {
 
+    private static int frenzyCounter = 0;
     private int turnCounter;
     private Player currentPlayer;
     private int moveCounter;
@@ -35,8 +35,27 @@ public class Turn {
     }
 
     private void createBranchMap(){
-        //TODO
-        //this.branchMap = ..
+        if(match.getFinalFrenzy()){
+            if(frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter()) {
+                this.branchMap = new AdrenalineX2BranchMap(currentPlayer);
+            }
+            else {
+                this.branchMap = new AdrenalineX1BranchMap(currentPlayer);
+            }
+
+            frenzyCounter++;
+        }
+        else {
+            if (currentPlayer.getDamage().size() >= 3) {
+                if (currentPlayer.getDamage().size() >= 6) {
+                    this.branchMap = new SixDamageBranchMap(currentPlayer);
+                } else {
+                    this.branchMap = new ThreeDamageBranchMap(currentPlayer);
+                }
+            } else {
+                this.branchMap = new NoAdrenalineBranchMap(currentPlayer);
+            }
+        }
         eventsSetup();
     }
 
