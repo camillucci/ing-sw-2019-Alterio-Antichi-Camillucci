@@ -8,10 +8,11 @@ class PowerUpDeckTest {
 
     PowerUpDeck powerUpDeck = new PowerUpDeck();
     PowerUpCard powerUpCard;
+    private static final int numberOfCards = 24;
 
     @Test
     void drawAndAddDiscarded() {
-        for (int i = 0; i < 23; i++) {
+        for (int i = 0; i < numberOfCards - 1; i++) {
             powerUpCard = powerUpDeck.draw();
             assertTrue(powerUpCard instanceof PowerUpCard);
         }
