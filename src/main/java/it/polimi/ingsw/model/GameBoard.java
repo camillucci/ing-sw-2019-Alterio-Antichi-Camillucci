@@ -22,7 +22,6 @@ public class GameBoard {
         this.gameSize = gameSize;
         for(int i = 0; i < 8 - skulls; i++)
             killShotTrack.add(new ArrayList<>());
-
         ArrayList<WeaponCard> blueShop = new ArrayList<>();
         ArrayList<WeaponCard> redShop = new ArrayList<>();
         ArrayList<WeaponCard> yellowShop = new ArrayList<>();
@@ -75,6 +74,10 @@ public class GameBoard {
         }
     }
 
+    private void buildMap(int gameSize)
+    {
+
+    }
     public void addKillShotTrack(List<PlayerColor> newKillShot) {
         if(killShotTrack.size() < 8)
             killShotTrack.add(newKillShot);
