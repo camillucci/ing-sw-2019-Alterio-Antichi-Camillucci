@@ -12,9 +12,10 @@ public class PowerUpDeck {
     private ArrayList<PowerUpCard> deck = new ArrayList<>();
     private ArrayList<PowerUpCard> discarded = new ArrayList<>();
     private Random rand = new Random();
+    private static final int COPY_OF_CARDS = 2;
 
     public PowerUpDeck() {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < COPY_OF_CARDS; i++) {
             deck.add(new TargetingScope(BLUE));
             deck.add(new Newton(BLUE));
             deck.add(new TagbackGrenade(BLUE));

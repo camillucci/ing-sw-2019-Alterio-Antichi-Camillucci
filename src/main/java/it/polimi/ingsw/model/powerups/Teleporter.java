@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.powerups;
 
 import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PowerUpCard;
 
 public class Teleporter extends PowerUpCard {
@@ -12,10 +11,12 @@ public class Teleporter extends PowerUpCard {
     }
 
     @Override
-    public void visualize(){}
+    public void visualize(){
+        //TODO
+    }
 
     @Override
     protected void buildFireModality() {
-
+        //TODO
     }
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.Player;
-
 public class MoveAction extends Action
 {
     private int maxDistance;

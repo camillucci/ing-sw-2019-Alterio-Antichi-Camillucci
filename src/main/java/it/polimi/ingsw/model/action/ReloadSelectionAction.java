@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.WeaponCard;
 import it.polimi.ingsw.model.branch.Branch;
 

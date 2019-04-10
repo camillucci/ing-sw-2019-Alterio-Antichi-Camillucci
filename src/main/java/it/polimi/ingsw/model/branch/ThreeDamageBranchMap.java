@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.branch;
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

@@ -16,16 +16,18 @@ public class GameBoard {
     private int skulls;
     private int gameSize;
     private List<List<PlayerColor>> killShotTrack = new ArrayList<>();
+    private static final int MAX_SKULLS = 8;
+    private static final int CARDS_IN_SHOPS = 3;
 
     public GameBoard(int gameLength, int gameSize) {
         this.skulls = gameLength;
         this.gameSize = gameSize;
-        for(int i = 0; i < 8 - skulls; i++)
+        for(int i = 0; i < MAX_SKULLS - skulls; i++)
             killShotTrack.add(new ArrayList<>());
         ArrayList<WeaponCard> blueShop = new ArrayList<>();
         ArrayList<WeaponCard> redShop = new ArrayList<>();
         ArrayList<WeaponCard> yellowShop = new ArrayList<>();
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < CARDS_IN_SHOPS; i++) {
             blueShop.add(weaponDeck.draw());
             redShop.add(weaponDeck.draw());
             yellowShop.add(weaponDeck.draw());
@@ -79,10 +81,10 @@ public class GameBoard {
 
     }
     public void addKillShotTrack(List<PlayerColor> newKillShot) {
-        if(killShotTrack.size() < 8)
+        if(killShotTrack.size() < MAX_SKULLS)
             killShotTrack.add(newKillShot);
         else
-            killShotTrack.get(7).addAll(newKillShot);
+            killShotTrack.get(MAX_SKULLS - 1).addAll(newKillShot);
     }
 
     public void setPlayers(List<Player> players) {
