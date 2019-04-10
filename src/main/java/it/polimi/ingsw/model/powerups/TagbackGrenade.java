@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.powerups;
 
 import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PowerUpCard;
 
 public class TagbackGrenade extends PowerUpCard {
@@ -18,7 +17,7 @@ public class TagbackGrenade extends PowerUpCard {
 
     @Override
     protected void buildFireModality() {
-
+        //TODO
     }
 
 }

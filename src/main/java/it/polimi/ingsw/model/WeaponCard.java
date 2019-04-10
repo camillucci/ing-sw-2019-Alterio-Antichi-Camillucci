@@ -43,6 +43,6 @@ public class WeaponCard implements Visualizable {
 
     @Override
     public void visualize() {
-
+        //TODO
     }
 }

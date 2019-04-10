@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MatchTest {
 
+    private static final int n = 4;
+
     @Test
     void assignPoints1() {
         List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -18,7 +20,7 @@ class MatchTest {
         Match match = new Match(names, colors, 8, 12);
 
         Player deadPlayer = match.getPlayers().get(2);
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < n; i++) {
             deadPlayer.addDamage(match.getPlayers().get(0), 1);
             deadPlayer.addDamage(match.getPlayers().get(1), 2);
         }
@@ -36,7 +38,7 @@ class MatchTest {
 
         Player deadPlayer = match.getPlayers().get(2);
         deadPlayer.setFinalFrenzy(true);
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < n; i++) {
             deadPlayer.addDamage(match.getPlayers().get(0), 1);
             deadPlayer.addDamage(match.getPlayers().get(1), 2);
         }

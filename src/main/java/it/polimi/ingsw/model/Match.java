@@ -16,6 +16,7 @@ public class Match {
     private int gameLength;
     private int gameSize;
     private int frenzyStarter;
+    private static final int MAX_DAMAGES = 12;
 
     public Match(List<String> playersName, List<PlayerColor> playerColors, int gameLength, int gameSize) {
 
@@ -50,7 +51,7 @@ public class Match {
             if(!deadPlayers.get(i).isFinalFrenzy())
                 players.get(playerColors.indexOf(damage.get(0))).addPoints(1);
             for(int j = 0; j < damage.size(); j++)
-                tempCount.set(playerColors.indexOf(damage.get(j)), tempCount.get(playerColors.indexOf(damage.get(j))) + 1 + Math.pow(2, 12.0 - j) / 10000);
+                tempCount.set(playerColors.indexOf(damage.get(j)), tempCount.get(playerColors.indexOf(damage.get(j))) + 1 + Math.pow(2, (double) MAX_DAMAGES - j) / 10000);
             for(int j = 0; j < players.size() - 1 && Collections.max(tempCount) > 0.0; j++) {
                 if(!deadPlayers.get(i).isFinalFrenzy())
                     players.get(tempCount.indexOf(Collections.max(tempCount))).addPoints(Math.max(8 - tempSkull * 2 - j * 2, 1));
@@ -59,9 +60,9 @@ public class Match {
                 tempCount.set(tempCount.indexOf(Collections.max(tempCount)), 0.0);
             }
             List<PlayerColor> tempKillShot = new ArrayList<>();
-            tempKillShot.add(damage.get(10));
-            if(damage.size() == 12)
-                tempKillShot.add(damage.get(11));
+            tempKillShot.add(damage.get(MAX_DAMAGES - 2));
+            if(damage.size() == MAX_DAMAGES)
+                tempKillShot.add(damage.get(MAX_DAMAGES - 1));
             gameBoard.addKillShotTrack(tempKillShot);
         }
     }

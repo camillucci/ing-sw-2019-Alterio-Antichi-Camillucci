@@ -1,9 +1,5 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.Player;
-
-import java.util.List;
-
 public class DamageAction extends ShootAction
 {
     private int totDamage;
@@ -15,6 +11,6 @@ public class DamageAction extends ShootAction
 
     private void damagePlayer()
     {
-        //this.targetPlayers.get(0).setDamage(this.totDamage);
+        //TODO this.targetPlayers.get(0).setDamage(this.totDamage);
     }
 }

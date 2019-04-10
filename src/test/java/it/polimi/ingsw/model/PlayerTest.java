@@ -2,16 +2,16 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.model.PlayerColor.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
     private GameBoard gameBoard = new GameBoard(3, 10);
     private Player player = new Player("A", PlayerColor.YELLOW, gameBoard);
+    private static final int n = 10;
 
     @Test
     void addRed() {
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < n; i++) {
             assertEquals(Math.min(i + 1, 3), player.getRedAmmo());
             player.addRed(1);
         }
@@ -19,7 +19,7 @@ class PlayerTest {
 
     @Test
     void addBlue() {
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < n; i++) {
             assertEquals(Math.min(i + 1, 3), player.getBlueAmmo());
             player.addBlue(1);
         }
@@ -27,7 +27,7 @@ class PlayerTest {
 
     @Test
     void addYellow() {
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < n; i++) {
             assertEquals(Math.min(i + 1, 3), player.getYellowAmmo());
             player.addYellow(1);
         }
@@ -35,7 +35,7 @@ class PlayerTest {
 
     @Test
     void addPowerUpCard() {
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < n; i++) {
             assertEquals(Math.min(i, 3), player.getPowerUps().size());
             player.addPowerUpCard();
         }
@@ -46,7 +46,7 @@ class PlayerTest {
         Player player2 = new Player("B", PlayerColor.VIOLET, gameBoard);
         Player player3 = new Player("C", PlayerColor.GREEN, gameBoard);
 
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < n * 2; i++) {
             assertEquals(Math.min(i * 3, 12), player.getDamage().size());
             player.addDamage(player2, 1);
             assertEquals(Math.min(i * 3 + 1, 12), player.getDamage().size());

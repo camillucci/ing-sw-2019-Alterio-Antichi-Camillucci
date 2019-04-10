@@ -24,6 +24,10 @@ public class Player {
     private ArrayList<WeaponCard> unloadedWeapons = new ArrayList<>();
     private ArrayList<PowerUpCard> powerUps = new ArrayList<>();
     public final Event<Player, Player> deathEvent = new Event<>();
+    private static final int MAX_AMMO = 3;
+    private static final int MAX_POWER_UPS = 3;
+    private static final int MAX_MARKS = 3;
+    private static final int MAX_DAMAGES = 12;
 
 
     public Player (String name, PlayerColor color, GameBoard gameBoard) {
@@ -41,37 +45,37 @@ public class Player {
 
     public void addBlue(int val){
         blueAmmo = blueAmmo + val;
-        if(blueAmmo >= 3) {
-            blueAmmo = 3;
+        if(blueAmmo >= MAX_AMMO) {
+            blueAmmo = MAX_AMMO;
         }
     }
 
     public void addRed(int val){
         redAmmo = redAmmo + val;
-        if(redAmmo >= 3) {
-            redAmmo = 3;
+        if(redAmmo >= MAX_AMMO) {
+            redAmmo = MAX_AMMO;
         }
     }
 
     public void addYellow(int val){
         yellowAmmo = yellowAmmo + val;
-        if(yellowAmmo >= 3) {
-            yellowAmmo = 3;
+        if(yellowAmmo >= MAX_AMMO) {
+            yellowAmmo = MAX_AMMO;
         }
     }
 
     public void addPowerUpCard() {
-        if(powerUps.size() < 3){
+        if(powerUps.size() < MAX_POWER_UPS){
             powerUps.add(gameBoard.getPowerUpDeck().draw());
         }
     }
 
     public void addDamage(Player shooter, int val) {
-        for (int i = 0; i < val && damage.size() < 12; i++)
+        for (int i = 0; i < val && damage.size() < MAX_DAMAGES; i++)
             damage.add(shooter.getColor());
 
         int temp = mark.size();
-        for(int i = 0; i < temp && damage.size() < 12; i++ )
+        for(int i = 0; i < temp && damage.size() < MAX_DAMAGES; i++ )
             if(shooter.getColor() == mark.get(i)) {
                 damage.add(shooter.getColor());
                 mark.remove(i);
@@ -92,9 +96,8 @@ public class Player {
             if(mark.get(i) == shooter.getColor())
                 temp++;
 
-        for (int i = 0; i < val && temp < 3; i++) {
+        for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++) {
             mark.add(shooter.getColor());
-            temp++;
         }
     }
 
@@ -140,7 +143,7 @@ public class Player {
         return damage;
     }
 
-    public ArrayList<PlayerColor> getMark() {
+    public List<PlayerColor> getMark() {
         return mark;
     }
 

@@ -8,9 +8,10 @@ public class AmmoDeck {
     private ArrayList<AmmoCard> deck = new ArrayList<>();
     private ArrayList<AmmoCard> discarded = new ArrayList<>();
     private Random rand = new Random();
+    private static final int COPY_OF_CARDS = 3;
 
     public AmmoDeck() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < COPY_OF_CARDS; i++) {
             deck.add(new AmmoCard(0, 1, 2, false));
             deck.add(new AmmoCard(0, 2, 1, false));
             deck.add(new AmmoCard(1, 0, 2, false));

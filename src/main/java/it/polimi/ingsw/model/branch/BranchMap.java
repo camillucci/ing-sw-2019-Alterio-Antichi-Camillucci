@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.branch;
 
 import it.polimi.ingsw.generics.Event;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;

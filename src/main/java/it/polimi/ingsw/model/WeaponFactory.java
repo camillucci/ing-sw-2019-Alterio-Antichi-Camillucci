@@ -17,7 +17,7 @@ public class WeaponFactory
     {
         if(!weaponsCreated)
             buildWeapons();
-        return new ArrayList<WeaponCard>(weapons);
+        return new ArrayList<>(weapons);
     }
 
     private static void buildWeapons()
