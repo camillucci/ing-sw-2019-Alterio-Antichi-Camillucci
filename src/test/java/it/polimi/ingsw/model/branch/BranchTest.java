@@ -21,11 +21,11 @@ class BranchTest {
     private void getM3GM2GW()
     {
         curBranchActions = new ArrayList<>();
-        curBranchActions.add(new MoveAction(p, 3));
-        curBranchActions.add(new GrabAction(p));
-        curBranchActions.add(new MoveAction(p, 2));
-        curBranchActions.add(new GrabAction(p));
-        WeaponSelectionAction wsa = new WeaponSelectionAction(p);
+        curBranchActions.add(new MoveAction(3));
+        curBranchActions.add(new GrabAction());
+        curBranchActions.add(new MoveAction(2));
+        curBranchActions.add(new GrabAction());
+        WeaponSelectionAction wsa = new WeaponSelectionAction();
         curBranch= new Branch(curBranchActions, wsa);
         curBranchActions.add(wsa);
     }
@@ -33,20 +33,20 @@ class BranchTest {
     private void getRM2RM3G()
     {
         curBranchActions = new ArrayList<>();
-        curBranchActions.add(new ReloadSelectionAction(p));
-        curBranchActions.add(new MoveAction(p,2));
-        curBranchActions.add(new ReloadSelectionAction(p));
-        curBranchActions.add(new MoveAction(p,3));
-        curBranchActions.add(new GrabAction(p));
-        curBranch = new Branch(curBranchActions, new EndBranchAction(p));
-        curBranchActions.add(new EndBranchAction(p));
+        curBranchActions.add(new ReloadSelectionAction());
+        curBranchActions.add(new MoveAction(2));
+        curBranchActions.add(new ReloadSelectionAction());
+        curBranchActions.add(new MoveAction(3));
+        curBranchActions.add(new GrabAction());
+        curBranch = new Branch(curBranchActions, new EndBranchAction());
+        curBranchActions.add(new EndBranchAction());
     }
     private void getM2RW()
     {
         curBranchActions = new ArrayList<>();
-        curBranchActions.add(new MoveAction(p,2));
-        curBranchActions.add(new ReloadSelectionAction(p));
-        WeaponSelectionAction wsa = new WeaponSelectionAction(p);
+        curBranchActions.add(new MoveAction(2));
+        curBranchActions.add(new ReloadSelectionAction());
+        WeaponSelectionAction wsa = new WeaponSelectionAction();
         curBranch = new Branch(curBranchActions, wsa);
         curBranchActions.add(wsa);
     }
@@ -60,8 +60,8 @@ class BranchTest {
         tmp.add(curBranchActions.get(1));
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp)); // Possible actions: M3 and G
         tmp.clear();
-        tmp.add(new MoveAction(p,3));
-        tmp.add(new MoveAction(p,3));
+        tmp.add(new MoveAction(3));
+        tmp.add(new MoveAction(3));
         assertFalse(testEquality(curBranch.getCompatibleActions(), tmp));
     }
 
@@ -97,9 +97,9 @@ class BranchTest {
     {
         getM2RW(); // M2 and R both optional -> compatibleActions() = { M2, R, W }
         ArrayList<Action> tmp = new ArrayList<>();
-        tmp.add(new MoveAction(p,2));
-        tmp.add(new ReloadSelectionAction(p));
-        tmp.add(new WeaponSelectionAction(p));
+        tmp.add(new MoveAction(2));
+        tmp.add(new ReloadSelectionAction());
+        tmp.add(new WeaponSelectionAction());
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
     }
 
@@ -108,11 +108,11 @@ class BranchTest {
     {
         getRM2RM3G();
         ArrayList<Action> tmp = new ArrayList<>();
-        tmp.add(new ReloadSelectionAction(p));
-        tmp.add(new MoveAction(p,2));
-        tmp.add(new ReloadSelectionAction(p));
-        tmp.add(new MoveAction(p,3));
-        tmp.add(new GrabAction(p));
+        tmp.add(new ReloadSelectionAction());
+        tmp.add(new MoveAction(2));
+        tmp.add(new ReloadSelectionAction());
+        tmp.add(new MoveAction(3));
+        tmp.add(new GrabAction());
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
 
     }
@@ -121,19 +121,19 @@ class BranchTest {
     void isInvalidBranch()
     {
         getM3GM2GW();
-        Action incompatibleAction = new MoveAction(p, 32);
+        Action incompatibleAction = new MoveAction(32);
         curBranch.goNext(incompatibleAction);
         assertTrue(curBranch.isInvalidBranch());
 
         getM3GM2GW();
-        curBranch.goNext(new MoveAction(p, 3)); //M3
+        curBranch.goNext(new MoveAction(3)); //M3
         assertFalse(curBranch.isInvalidBranch());
-        curBranch.goNext(new MoveAction(p,1));
+        curBranch.goNext(new MoveAction(1));
         assertTrue(curBranch.isInvalidBranch());
 
         getM3GM2GW();
         curBranch.goNext(curBranchActions.get(1));
-        curBranch.goNext(new ReloadSelectionAction(p));
+        curBranch.goNext(new ReloadSelectionAction());
         assertTrue(curBranch.isInvalidBranch());
 
         // trying to "overflow" curBranch
@@ -148,9 +148,9 @@ class BranchTest {
         //then b is compatible with a
 
         getM3GM2GW();
-        curBranch.goNext(new GrabAction(p));
-        curBranch.goNext(new MoveAction(p, 1));
-        curBranch.goNext(new GrabAction(p));
+        curBranch.goNext(new GrabAction());
+        curBranch.goNext(new MoveAction(1));
+        curBranch.goNext(new GrabAction());
         assertFalse(curBranch.isInvalidBranch());
         assertTrue(curBranch.getCompatibleActions().size() == 1); // only WeaponSelectionAction left
         assertTrue(curBranch.getCompatibleActions().get(0) instanceof WeaponSelectionAction);
@@ -163,22 +163,22 @@ class BranchTest {
         eventTriggered = false;
         getM3GM2GW();
         curBranch.actionCompletedEvent.addEventHandler((a,b)->this.eventTriggered=true);
-        curBranch.getCompatibleActions().get(0).doAction();
+        curBranch.getCompatibleActions().get(0).doAction(p);
         assertTrue(eventTriggered);
 
         // ExtendibleAction completed
         eventTriggered = false;
-        Branch branch = new Branch(new WeaponSelectionAction(p));
+        Branch branch = new Branch(new WeaponSelectionAction());
         branch.extActionCompletedEvent.addEventHandler((a,b)->this.eventTriggered=true);
-        curBranch.getCompatibleActions().get(0).doAction();
+        curBranch.getCompatibleActions().get(0).doAction(p);
         assertTrue(eventTriggered);
 
         // EndBranchAction completed
         eventTriggered = false;
-        branch = new Branch(new MoveAction(p, 3), new EndBranchAction(p));
+        branch = new Branch(new MoveAction(3), new EndBranchAction());
         branch.endBranchEvent.addEventHandler((a,b)->this.eventTriggered=true);
-        curBranch.getCompatibleActions().get(0).doAction();
-        curBranch.getCompatibleActions().get(0).doAction();
+        curBranch.getCompatibleActions().get(0).doAction(p);
+        curBranch.getCompatibleActions().get(0).doAction(p);
         assertTrue(eventTriggered);
     }
 

@@ -10,6 +10,6 @@ public class ReloadEndTurnBranchMap extends BranchMap
 {
     public ReloadEndTurnBranchMap(Player ownerPlayer)
     {
-        super(ownerPlayer, Collections.singletonList(new Branch(new ReloadSelectionAction(ownerPlayer), new EndBranchAction(ownerPlayer))));
+        super(Collections.singletonList(new Branch(new ReloadSelectionAction(), new EndBranchAction())));
     }
 }

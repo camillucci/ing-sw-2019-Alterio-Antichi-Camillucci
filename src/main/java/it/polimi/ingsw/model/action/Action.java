@@ -9,22 +9,26 @@ import java.util.ArrayList;
 
 public abstract class Action implements Visualizable
 {
-    protected boolean optional = false;
     public final Event<Action, Action> completedActionEvent = new Event<>();
-    public Action(Player ownerPlayer)
-    {
-        this.currentPlayer = ownerPlayer;
-    }
+    protected Player ownerPlayer;
+    protected ArrayList<Square> targetSquares = new ArrayList<>();
+    protected ArrayList<Player> targetPlayers = new ArrayList<>();
+    protected boolean optional = false;
 
-    public void doAction()
+    public Action()
     {
+
+    }
+    public void doAction(Player ownerPlayer)
+    {
+        this.ownerPlayer = ownerPlayer;
         this.op();
         completedActionEvent.invoke(this, this);
     }
+
     protected void op() {
         //TODO
     }
-
     public boolean isOptional(){return optional;}
     public void addTarget(Square target)
     {
@@ -38,11 +42,4 @@ public abstract class Action implements Visualizable
     {
         return action.getClass().isInstance(this);
     }
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    protected Player currentPlayer;
-    protected ArrayList<Square> targetSquares = new ArrayList<>();
-    protected ArrayList<Player> targetPlayers = new ArrayList<>();
 }

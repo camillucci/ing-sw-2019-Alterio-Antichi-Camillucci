@@ -7,9 +7,8 @@ import java.util.List;
 public class DamageAction extends ShootAction
 {
     private int totDamage;
-    public DamageAction(Player ownerPlayer, int totDamage)
+    public DamageAction(int totDamage)
     {
-        super(ownerPlayer);
         this.totDamage = totDamage;
         this.shootFuncP = (a,b)->damagePlayer();
     }

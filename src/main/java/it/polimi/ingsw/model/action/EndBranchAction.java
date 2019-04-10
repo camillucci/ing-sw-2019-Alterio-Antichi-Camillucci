@@ -4,9 +4,8 @@ import it.polimi.ingsw.model.Player;
 
 public class EndBranchAction extends Action
 {
-    public EndBranchAction(Player ownerPlayer)
+    public EndBranchAction()
     {
-        super(ownerPlayer);
     }
 
     @Override

@@ -19,9 +19,9 @@ class ShootActionTest {
     void op()
     {
         shooted = false;
-        Action shootAction = new ShootAction(this::shoot,null /*() -> System.out.println("pow")*/, p);
+        Action shootAction = new ShootAction(null /*() -> System.out.println("pow")*/, this::shoot);
         shootAction.addTarget(p);
-        shootAction.doAction();
+        shootAction.doAction(p);
         assertTrue(shooted);
     }
 

@@ -81,7 +81,7 @@ public class Player {
 
         for(PowerUpCard pu : powerUps){
             if(pu instanceof TagbackGrenade){
-                pu.buildFireModalities(shooter);
+                pu.buildFireModality();
             }
         }
     }

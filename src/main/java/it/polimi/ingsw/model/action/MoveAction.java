@@ -6,9 +6,8 @@ public class MoveAction extends Action
 {
     private int maxDistance;
 
-    public MoveAction(Player ownerPlayer, int maxDistance)
+    public MoveAction(int maxDistance)
     {
-        super(ownerPlayer);
         this.maxDistance = maxDistance;
         this.optional = true;
     }

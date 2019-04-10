@@ -8,13 +8,18 @@ import java.util.ArrayList;
 
 public class WeaponSelectionAction extends SelectionAction
 {
-    public WeaponSelectionAction(Player ownerPlayer)
+    public WeaponSelectionAction()
     {
-        super(ownerPlayer);
+
+    }
+
+    @Override
+    protected void op()
+    {
         ArrayList<Branch> w = new ArrayList<>();
         for(WeaponCard wc : ownerPlayer.getLoadedWeapons())
         {
-            SelectionAction wi = new SelectionAction(ownerPlayer, wc.getFireModalities(ownerPlayer), wc); //
+            SelectionAction wi = new SelectionAction(wc.getFireModalities(), wc); //
             w.add(new Branch(wi));
         }
         this.branches = w;

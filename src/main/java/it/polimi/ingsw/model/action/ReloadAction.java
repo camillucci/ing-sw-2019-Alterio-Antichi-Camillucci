@@ -17,9 +17,8 @@ public class ReloadAction extends Action
         // this.player.RemoveAmmo(this.weapon.ammo)
         // this.weapon.SetReload(true)
     }
-    public ReloadAction(Player ownerPlayer, WeaponCard weapon)
+    public ReloadAction(WeaponCard weapon)
     {
-        super(ownerPlayer);
         this.weapon = weapon;
     }
 

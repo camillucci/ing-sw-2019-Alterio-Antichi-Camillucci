@@ -8,14 +8,19 @@ import java.util.ArrayList;
 
 public class ReloadSelectionAction extends SelectionAction
 {
-    public ReloadSelectionAction(Player ownerPlayer)
+    public ReloadSelectionAction()
     {
-        super(ownerPlayer);
+        this.optional = true;
+    }
+
+    @Override
+    protected void op()
+    {
         this.optional = true;
         ArrayList<Branch> w = new ArrayList<>();
         for(WeaponCard wc : ownerPlayer.getLoadedWeapons())
         {
-            SelectionAction wi = new SelectionAction(ownerPlayer, new Branch(new ReloadAction(ownerPlayer, wc), new EndBranchAction(ownerPlayer)), wc);
+            SelectionAction wi = new SelectionAction(new Branch(new ReloadAction(wc), new EndBranchAction()), wc);
             w.add(new Branch(wi));
         }
         this.branches = w;

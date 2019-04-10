@@ -4,9 +4,8 @@ import it.polimi.ingsw.model.Player;
 
 public class GrabAction extends Action
 {
-    public GrabAction(Player ownerPlayer)
+    public GrabAction()
     {
-        super(ownerPlayer);
     }
 
     @Override

@@ -4,41 +4,32 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class NoAdrenalineBranchMap extends BranchMap
 {
-    public NoAdrenalineBranchMap(Player ownerPlayer)
+    public NoAdrenalineBranchMap()
     {
-        super(ownerPlayer);
         this.setupBranches(createBranches());
     }
 
     protected List<Branch> createBranches()
     {
-        ArrayList<Branch> branches = new ArrayList<>();
-        branches.add(getM1G());
-        branches.add(getW());
-        branches.add(getM3());
-        return branches;
+        return Arrays.asList(getM1G(), getM3(), getW());
     }
     protected Branch getM1G()
     {
-        ArrayList<Action> actions = new ArrayList<>();
-        actions.add(new MoveAction(this.ownerPlayer, 1));
-        actions.add(new GrabAction(this.ownerPlayer));
-        return new Branch(actions, new EndBranchAction(this.ownerPlayer));
+        return new Branch(new MoveAction(1), new GrabAction(), new EndBranchAction());
     }
 
     protected Branch getM3()
     {
-        ArrayList<Action> actions = new ArrayList<>();
-        actions.add(new MoveAction(this.ownerPlayer, 3));
-        return new Branch(actions, new EndBranchAction(this.ownerPlayer));
+        return new Branch(new MoveAction(3), new EndBranchAction());
     }
 
     protected Branch getW()
     {
-        return new Branch(new WeaponSelectionAction(this.ownerPlayer));
+        return new Branch(new WeaponSelectionAction());
     }
 }

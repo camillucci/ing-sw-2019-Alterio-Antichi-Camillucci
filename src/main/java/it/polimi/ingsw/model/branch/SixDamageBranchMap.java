@@ -8,9 +8,8 @@ import java.util.List;
 
 public class SixDamageBranchMap extends ThreeDamageBranchMap
 {
-    public SixDamageBranchMap(Player ownerPlayer)
+    public SixDamageBranchMap()
     {
-        super(ownerPlayer);
         this.setupBranches(createBranches());
     }
 
@@ -26,8 +25,6 @@ public class SixDamageBranchMap extends ThreeDamageBranchMap
 
     private Branch getM1W()
     {
-        ArrayList<Action> actions = new ArrayList<>();
-        actions.add(new MoveAction(this.ownerPlayer, 1));
-        return new Branch(actions, new WeaponSelectionAction(this.ownerPlayer));
+        return new Branch(new MoveAction(1), new WeaponSelectionAction());
     }
 }

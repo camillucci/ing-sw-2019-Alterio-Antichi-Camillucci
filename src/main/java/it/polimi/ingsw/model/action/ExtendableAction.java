@@ -8,14 +8,12 @@ import java.util.List;
 
 public class ExtendableAction extends Action
 {
-    protected ExtendableAction(Player ownerPlayer)
+    public ExtendableAction(List<Branch> branches)
     {
-        super(ownerPlayer);
-    }
-    public ExtendableAction(Player ownerPlayer, List<Branch> branches)
-    {
-        super(ownerPlayer);
         this.branches = new ArrayList<>(branches);
+    }
+    protected ExtendableAction()
+    {
     }
 
     public List<Branch> getBranches()

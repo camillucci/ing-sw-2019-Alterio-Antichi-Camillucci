@@ -3,10 +3,7 @@ package it.polimi.ingsw.model.branch;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Branch
 {
@@ -24,6 +21,7 @@ public class Branch
         for (Action ac : this.actions)
             ac.completedActionEvent.addEventHandler((s,a)->this.actionCompletedEvent.invoke(this, a));
     }
+
     public Branch(List<Action> actions, EndBranchAction endBranchAction)
     {
         this(endBranchAction, actions);
@@ -38,19 +36,50 @@ public class Branch
     {
         this(rollBackAction, Collections.emptyList());
     }
+
+    // Useful Constructors. They are all particular cases of the previous //
+
+    // EndBranchAction constructors //
     public Branch(Action action, EndBranchAction endBranchAction)
     {
         this(Collections.singletonList(action), endBranchAction);
+    }
+    public Branch(Action action1, Action action2, EndBranchAction endBranchAction)
+    {
+        this(Arrays.asList(action1, action2),endBranchAction);
+    }
+    public Branch(Action action1, Action action2, Action action3, EndBranchAction endBranchAction)
+    {
+        this(Arrays.asList(action1, action2, action3),endBranchAction);
+    }
+    public Branch(Action action1, Action action2, Action action3, Action action4, EndBranchAction endBranchAction)
+    {
+        this(Arrays.asList(action1, action2, action3, action4),endBranchAction);
+    }
+
+    // ExtendableAction constructors
+    public Branch(ExtendableAction extendableAction)
+    {
+        this(Collections.emptyList(), extendableAction);
     }
     public Branch(Action action, ExtendableAction extendableAction)
     {
         this(Collections.singletonList(action), extendableAction);
     }
-    public Branch(ExtendableAction extendableAction)
+    public Branch(Action action1, Action action2, ExtendableAction extendableAction)
     {
-        this(Collections.emptyList(), extendableAction);
+        this(Arrays.asList(action1, action2),extendableAction);
+    }
+    public Branch(Action action1, Action action2, Action action3, ExtendableAction extendableAction)
+    {
+        this(Arrays.asList(action1, action2, action3),extendableAction);
+    }
+    public Branch(Action action1, Action action2, Action action3, Action action4, ExtendableAction extendableAction)
+    {
+        this(Arrays.asList(action1, action2, action3, action4),extendableAction);
     }
 
+    /*****************************************************************/
 
     public List<Action> getCompatibleActions()
     {

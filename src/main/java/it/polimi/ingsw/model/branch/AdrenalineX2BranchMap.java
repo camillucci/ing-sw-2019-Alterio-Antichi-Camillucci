@@ -4,38 +4,32 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AdrenalineX2BranchMap extends BranchMap
 {
-    public AdrenalineX2BranchMap(Player ownerPlayer)
+    public AdrenalineX2BranchMap()
     {
-        super(ownerPlayer);
         this.setupBranches(createBranches());
     }
 
     private List<Branch> createBranches()
     {
-        ArrayList<Branch> ret = new ArrayList<>();
-        ret.add(getM1RW());
-        ret.add(new Branch(new MoveAction(ownerPlayer,4), new EndBranchAction(ownerPlayer)));
-        ret.add(getM2G());
-        return ret;
+        return Arrays.asList(getM1RW(), getM4(), getM2G());
     }
 
     private Branch getM1RW()
     {
-        ArrayList<Action> actions =  new ArrayList<>();
-        actions.add(new MoveAction(this.ownerPlayer, 1));
-        actions.add(new ReloadSelectionAction(ownerPlayer));
-        return new Branch(actions, new WeaponSelectionAction(ownerPlayer));
+        return new Branch(new MoveAction(1), new ReloadSelectionAction(), new WeaponSelectionAction());
+    }
+    private Branch getM4()
+    {
+        return new Branch(new MoveAction(4), new EndBranchAction());
     }
 
     private Branch getM2G()
     {
-        ArrayList<Action> actions =  new ArrayList<>();
-        actions.add(new MoveAction(ownerPlayer, 2));
-        actions.add(new GrabAction(ownerPlayer));
-        return new Branch(actions, new EndBranchAction(ownerPlayer));
+        return new Branch(new MoveAction(2), new GrabAction(), new EndBranchAction());
     }
 }

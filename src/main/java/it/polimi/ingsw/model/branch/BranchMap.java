@@ -13,16 +13,13 @@ public abstract class BranchMap
     public final Event<BranchMap, EndBranchAction> endOfBranchMapReachedEvent = new Event<>();
     public final Event<BranchMap, RollBackAction> rollbackEvent = new Event<>();
     private List<Branch> branches;
-    protected Player ownerPlayer;
 
-    protected BranchMap(Player ownerPlayer)
+    protected BranchMap()
     {
-        this.ownerPlayer = ownerPlayer;
     }
 
-    protected BranchMap(Player ownerPlayer, List<Branch> branches)
+    protected BranchMap(List<Branch> branches)
     {
-        this(ownerPlayer);
         this.setupBranches(branches);
     }
 
@@ -49,7 +46,7 @@ public abstract class BranchMap
     protected void setupBranches(List<Branch> branches)
     {
         this.branches = new ArrayList<>(branches);
-        RollBackAction rollBackAction = new RollBackAction(ownerPlayer);
+        RollBackAction rollBackAction = new RollBackAction();
         rollBackAction.completedActionEvent.addEventHandler((s,a)->this.rollbackEvent.invoke(this, (RollBackAction)a));
         this.branches.add(new Branch(rollBackAction)); // Adding Rollback
 

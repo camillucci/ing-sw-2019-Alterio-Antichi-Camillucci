@@ -17,7 +17,7 @@ public class TargetingScope extends PowerUpCard {
     }
 
     @Override
-    protected void buildFireModalities(Player shooter) {
+    protected void buildFireModality() {
 
     }
 

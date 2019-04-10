@@ -20,7 +20,7 @@ class MoveActionTest {
     {
         final int n = 20;
         for(int i=0; i < n; i++)
-            moveActions.add(new MoveAction(new Player("prova", PlayerColor.BLUE, gameBoard), i)); // Mi (MoveAction with MaxDist i)
+            moveActions.add(new MoveAction(i)); // Mi (MoveAction with MaxDist i)
 
         for(int i = 0; i < n-1; i++)
             for(int j= i+1; j < n; j++)
@@ -36,16 +36,17 @@ class MoveActionTest {
     @Test
     void actionCompletedEventTest()
     {
+        Player p = new Player("name", PlayerColor.BLUE, gameBoard);
         eventTriggered=false;
-        Action action = new MoveAction(new Player("c", PlayerColor.BLUE, gameBoard), 3);
+        Action action = new MoveAction(3);
         action.completedActionEvent.addEventHandler((a,b)->this.eventTriggered = true);
-        action.doAction();
+        action.doAction(p);
         assertTrue(eventTriggered);
 
         eventTriggered = false;
-        triggeredAction = new MoveAction(new Player("c", PlayerColor.BLUE, gameBoard), 3);
+        triggeredAction = new MoveAction(3);
         triggeredAction.completedActionEvent.addEventHandler(this::eventHandler);
-        triggeredAction.doAction();
+        triggeredAction.doAction(p);
         assertTrue(eventTriggered);
     }
 
