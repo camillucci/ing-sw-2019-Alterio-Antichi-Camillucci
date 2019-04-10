@@ -23,7 +23,7 @@ public class WeaponFactory
     private static void buildWeapons()
     {
         weapons.add(new WeaponCard("LockRifle",
-                new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new DamageAction(1), new MarkAction(0,1), new EndBranchAction()), null)));
+                new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1,1), new EndBranchAction()), null)));
     }
 }
