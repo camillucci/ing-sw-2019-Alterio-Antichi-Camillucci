@@ -29,16 +29,14 @@ public class ReloadAction extends Action
     @Override
     public void addWeapon(WeaponCard weapon)
     {
-        if(this.ownerPlayer.getYellowAmmo() - yellowTot > weapon.yellowReloadCost)
-            if(this.ownerPlayer.getRedAmmo() - redTot > weapon.redReloadCost)
-                if(this.ownerPlayer.getBlueAmmo() - blueTot > weapon.blueReloadCost)
+        if(this.ownerPlayer.getYellowAmmo() - yellowTot > weapon.yellowReloadCost
+                && this.ownerPlayer.getRedAmmo() - redTot > weapon.redReloadCost
+                && this.ownerPlayer.getBlueAmmo() - blueTot > weapon.blueReloadCost)
                 {
                     this.yellowTot += weapon.yellowReloadCost;
                     this.blueTot += weapon.blueReloadCost;
                     this.redTot += weapon.redReloadCost;
-
                     this.selectedWeapons.add(weapon);
                 }
-
     }
 }

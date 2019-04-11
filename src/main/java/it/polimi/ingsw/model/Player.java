@@ -104,6 +104,7 @@ public class Player {
     public GameBoard getGameBoard(){
         return this.gameBoard;
     }
+
     public void addPoints(int newPoints) {
         points = points + newPoints;
     }
@@ -129,6 +130,10 @@ public class Player {
     }
 
     public PlayerColor getColor() {return color;}
+
+    public Square getCurrentSquare() {
+        return currentSquare;
+    }
 
     public boolean isFinalFrenzy() {
         return finalFrenzy;

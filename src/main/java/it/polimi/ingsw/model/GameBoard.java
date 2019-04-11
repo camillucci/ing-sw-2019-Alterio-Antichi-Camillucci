@@ -33,53 +33,49 @@ public class GameBoard {
             yellowShop.add(weaponDeck.draw());
         }
         if(gameSize == 10) {
-            squares[0][0] = new AmmoSquare(NOTHING, ROOM, NOTHING, ROOM, ammoDeck.draw());
-            squares[0][1] = new AmmoSquare(NOTHING, WALL, ROOM, ROOM, ammoDeck.draw());
-            squares[0][2] = new SpawnAndShopSquare(BLUE, NOTHING, DOOR, ROOM, NOTHING, blueShop);
+            squares[0][0] = new AmmoSquare(0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, ammoDeck.draw());
+            squares[0][1] = new AmmoSquare(0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck.draw());
+            squares[0][2] = new SpawnAndShopSquare(0, 2, BLUE, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, blueShop);
             squares[0][3] = null;
-            squares[1][0] = new SpawnAndShopSquare(RED, DOOR, NOTHING, NOTHING, ROOM, redShop);
-            squares[1][1] = new AmmoSquare(WALL, DOOR, ROOM, ROOM, ammoDeck.draw());
-            squares[1][2] = new AmmoSquare(DOOR, WALL, ROOM, DOOR, ammoDeck.draw());
-            squares[1][3] = new AmmoSquare(NOTHING, ROOM, DOOR, NOTHING, ammoDeck.draw());
+            squares[1][0] = new SpawnAndShopSquare(1, 0, RED, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, redShop);
+            squares[1][1] = new AmmoSquare(1, 1, new SquareBorder[]{WALL, DOOR, ROOM, ROOM}, ammoDeck.draw());
+            squares[1][2] = new AmmoSquare(1, 2, new SquareBorder[]{DOOR, WALL, ROOM, DOOR}, ammoDeck.draw());
+            squares[1][3] = new AmmoSquare(1, 3, new SquareBorder[]{NOTHING, ROOM, DOOR, NOTHING}, ammoDeck.draw());
             squares[2][0] = null;
-            squares[2][1] = new AmmoSquare(DOOR, NOTHING, NOTHING, ROOM, ammoDeck.draw());
-            squares[2][2] = new AmmoSquare(WALL, NOTHING, ROOM, DOOR, ammoDeck.draw());
-            squares[2][3] = new SpawnAndShopSquare(YELLOW, ROOM, NOTHING, DOOR, NOTHING, yellowShop);
+            squares[2][1] = new AmmoSquare(2, 1, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck.draw());
+            squares[2][2] = new AmmoSquare(2, 2, new SquareBorder[]{WALL, NOTHING, ROOM, DOOR}, ammoDeck.draw());
+            squares[2][3] = new SpawnAndShopSquare(2, 3, YELLOW, new SquareBorder[]{ROOM, NOTHING, DOOR, NOTHING}, yellowShop);
         }
         else if (gameSize == 11) {
-            squares[0][0] = new AmmoSquare(NOTHING, DOOR, NOTHING, ROOM, ammoDeck.draw());
-            squares[0][1] = new AmmoSquare(NOTHING, WALL, ROOM, ROOM, ammoDeck.draw());
-            squares[0][2] = new SpawnAndShopSquare(BLUE, NOTHING, DOOR, ROOM, DOOR, blueShop);
-            squares[0][3] = new AmmoSquare(NOTHING, DOOR, DOOR, NOTHING, ammoDeck.draw());
-            squares[1][0] = new SpawnAndShopSquare(RED, DOOR, NOTHING, NOTHING, ROOM, redShop);
-            squares[1][1] = new AmmoSquare(WALL, DOOR, ROOM, WALL, ammoDeck.draw());
-            squares[1][2] = new AmmoSquare(DOOR, ROOM, WALL, ROOM, ammoDeck.draw());
-            squares[1][3] = new AmmoSquare(DOOR, ROOM, ROOM, NOTHING, ammoDeck.draw());
+            squares[0][0] = new AmmoSquare(0, 0, new SquareBorder[]{NOTHING, DOOR, NOTHING, ROOM}, ammoDeck.draw());
+            squares[0][1] = new AmmoSquare(0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck.draw());
+            squares[0][2] = new SpawnAndShopSquare(0, 2, BLUE, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, blueShop);
+            squares[0][3] = new AmmoSquare(0, 3, new SquareBorder[]{NOTHING, DOOR, DOOR, NOTHING}, ammoDeck.draw());
+            squares[1][0] = new SpawnAndShopSquare(1, 0, RED, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, redShop);
+            squares[1][1] = new AmmoSquare(1, 1, new SquareBorder[]{WALL, DOOR, ROOM, WALL}, ammoDeck.draw());
+            squares[1][2] = new AmmoSquare(1, 2, new SquareBorder[]{DOOR, ROOM, WALL, ROOM}, ammoDeck.draw());
+            squares[1][3] = new AmmoSquare(1, 3, new SquareBorder[]{DOOR, ROOM, ROOM, NOTHING}, ammoDeck.draw());
             squares[2][0] = null;
-            squares[2][1] = new AmmoSquare(DOOR, NOTHING, NOTHING, DOOR, ammoDeck.draw());
-            squares[2][2] = new AmmoSquare(ROOM, NOTHING, DOOR, ROOM, ammoDeck.draw());
-            squares[2][3] = new SpawnAndShopSquare(YELLOW, ROOM, NOTHING, ROOM, NOTHING, yellowShop);
+            squares[2][1] = new AmmoSquare(2, 1, new SquareBorder[]{DOOR, NOTHING, NOTHING, DOOR}, ammoDeck.draw());
+            squares[2][2] = new AmmoSquare(2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck.draw());
+            squares[2][3] = new SpawnAndShopSquare(2, 3, YELLOW, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, yellowShop);
         }
         else {
-            squares[0][0] = new AmmoSquare(NOTHING, ROOM, NOTHING, DOOR, ammoDeck.draw());
-            squares[0][1] = new AmmoSquare(NOTHING, DOOR, DOOR, ROOM, ammoDeck.draw());
-            squares[0][2] = new SpawnAndShopSquare(BLUE, NOTHING, DOOR, ROOM, DOOR, blueShop);
-            squares[0][3] = new AmmoSquare(NOTHING, DOOR, DOOR, NOTHING, ammoDeck.draw());
-            squares[1][0] = new SpawnAndShopSquare(RED, ROOM, DOOR, NOTHING, WALL, redShop);
-            squares[1][1] = new AmmoSquare(DOOR, DOOR, WALL, WALL, ammoDeck.draw());
-            squares[1][2] = new AmmoSquare(DOOR, ROOM, WALL, ROOM, ammoDeck.draw());
-            squares[1][3] = new AmmoSquare(DOOR, ROOM, ROOM, NOTHING, ammoDeck.draw());
-            squares[2][0] = new AmmoSquare(DOOR, NOTHING, NOTHING, ROOM, ammoDeck.draw());
-            squares[2][1] = new AmmoSquare(DOOR, NOTHING, ROOM, DOOR, ammoDeck.draw());
-            squares[2][2] = new AmmoSquare(ROOM, NOTHING, DOOR, ROOM, ammoDeck.draw());
-            squares[2][3] = new SpawnAndShopSquare(YELLOW, ROOM, NOTHING, ROOM, NOTHING, yellowShop);
+            squares[0][0] = new AmmoSquare(0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, DOOR}, ammoDeck.draw());
+            squares[0][1] = new AmmoSquare(0, 1, new SquareBorder[]{NOTHING, DOOR, DOOR, ROOM}, ammoDeck.draw());
+            squares[0][2] = new SpawnAndShopSquare(0, 2, BLUE, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, blueShop);
+            squares[0][3] = new AmmoSquare(0, 3, new SquareBorder[]{NOTHING, DOOR, DOOR, NOTHING}, ammoDeck.draw());
+            squares[1][0] = new SpawnAndShopSquare(1, 0, RED, new SquareBorder[]{ROOM, DOOR, NOTHING, WALL}, redShop);
+            squares[1][1] = new AmmoSquare(1, 1, new SquareBorder[]{DOOR, DOOR, WALL, WALL}, ammoDeck.draw());
+            squares[1][2] = new AmmoSquare(1, 2, new SquareBorder[]{DOOR, ROOM, WALL, ROOM}, ammoDeck.draw());
+            squares[1][3] = new AmmoSquare(1, 3, new SquareBorder[]{DOOR, ROOM, ROOM, NOTHING}, ammoDeck.draw());
+            squares[2][0] = new AmmoSquare(2, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck.draw());
+            squares[2][1] = new AmmoSquare(2, 1, new SquareBorder[]{DOOR, NOTHING, ROOM, DOOR}, ammoDeck.draw());
+            squares[2][2] = new AmmoSquare(2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck.draw());
+            squares[2][3] = new SpawnAndShopSquare(2, 3, YELLOW, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, yellowShop);
         }
     }
 
-    private void buildMap(int gameSize)
-    {
-
-    }
     public void addKillShotTrack(List<PlayerColor> newKillShot) {
         if(killShotTrack.size() < MAX_SKULLS)
             killShotTrack.add(newKillShot);
@@ -87,15 +83,79 @@ public class GameBoard {
             killShotTrack.get(MAX_SKULLS - 1).addAll(newKillShot);
     }
 
-    public List<Square> getSquares(Player player, int dist){
-        //TODO
-        return null;
+    public List<Square> getSquares(Player player, int dist) {
+        int j = 1;
+        List<Square> tempSquare = new ArrayList<>();
+        tempSquare.add(player.getCurrentSquare());
+
+        //Add all valid squares of distance 1
+        if (tempSquare.get(0).getNorth() == DOOR || tempSquare.get(0).getNorth() == ROOM)
+            tempSquare.add(squares[tempSquare.get(0).getX()][tempSquare.get(0).getY() + 1]);
+        if (tempSquare.get(0).getSouth() == DOOR || tempSquare.get(0).getNorth() == ROOM)
+            tempSquare.add(squares[tempSquare.get(0).getX()][tempSquare.get(0).getY() - 1]);
+        if (tempSquare.get(0).getWest() == DOOR || tempSquare.get(0).getNorth() == ROOM)
+            tempSquare.add(squares[tempSquare.get(0).getX() - 1][tempSquare.get(0).getY()]);
+        if (tempSquare.get(0).getEast() == DOOR || tempSquare.get(0).getNorth() == ROOM)
+            tempSquare.add(squares[tempSquare.get(0).getX() + 1][tempSquare.get(0).getY()]);
+
+        // For each number beyond 1...
+        for (int i = 1; i < dist; i++) {
+            int temp = tempSquare.size();
+            //...add all valid squares of distance 1 not already added
+            for (; j <= temp; j++) {
+                if ((tempSquare.get(j).getNorth() == DOOR || tempSquare.get(j).getNorth() == ROOM)
+                        && !tempSquare.contains(squares[tempSquare.get(j).getX()][tempSquare.get(j).getY() + 1]))
+                    tempSquare.add(squares[tempSquare.get(j).getX()][tempSquare.get(j).getY() + 1]);
+                if ((tempSquare.get(j).getSouth() == DOOR || tempSquare.get(j).getNorth() == ROOM)
+                        && !tempSquare.contains(squares[tempSquare.get(j).getX()][tempSquare.get(j).getY() - 1]))
+                    tempSquare.add(squares[tempSquare.get(j).getX()][tempSquare.get(j).getY() - 1]);
+                if ((tempSquare.get(j).getWest() == DOOR || tempSquare.get(j).getNorth() == ROOM)
+                        && !tempSquare.contains(squares[tempSquare.get(j).getX() - 1][tempSquare.get(j).getY()]))
+                    tempSquare.add(squares[tempSquare.get(j).getX() - 1][tempSquare.get(j).getY()]);
+                if ((tempSquare.get(j).getEast() == DOOR || tempSquare.get(j).getNorth() == ROOM)
+                        && !tempSquare.contains(squares[tempSquare.get(j).getX() + 1][tempSquare.get(j).getY()]))
+                    tempSquare.add(squares[tempSquare.get(j).getX() + 1][tempSquare.get(j).getY()]);
+            }
+        }
+        return tempSquare;
     }
-    public List<Player> getInRangePlayers(Player player)
-    {
-        //TODO
-        return null;
+
+    public List<Square> getInRangeSquares(Player player) {
+        List<Square> tempSquare = new ArrayList<>();
+        tempSquare.add(player.getCurrentSquare());
+
+        //Add rooms near the player's current square...
+        if(tempSquare.get(0).getNorth() == DOOR)
+            tempSquare.add(squares[tempSquare.get(0).getX()][tempSquare.get(0).getY() + 1]);
+        if(tempSquare.get(0).getSouth() == DOOR)
+            tempSquare.add(squares[tempSquare.get(0).getX()][tempSquare.get(0).getY() - 1]);
+        if(tempSquare.get(0).getWest() == DOOR)
+            tempSquare.add(squares[tempSquare.get(0).getX() - 1][tempSquare.get(0).getY()]);
+        if(tempSquare.get(0).getEast() == DOOR)
+            tempSquare.add(squares[tempSquare.get(0).getX() + 1][tempSquare.get(0).getY()]);
+
+        //...and add the other squares of those room
+        for(Square s : tempSquare) {
+            if(s.getNorth() == ROOM && !tempSquare.contains(squares[s.getX()][s.getY() + 1]))
+                tempSquare.add(squares[s.getX()][s.getY() + 1]);
+            if(s.getSouth() == ROOM && !tempSquare.contains(squares[s.getX()][s.getY() - 1]))
+                tempSquare.add(squares[s.getX()][s.getY() - 1]);
+            if(s.getWest() == ROOM && !tempSquare.contains(squares[s.getX() - 1][s.getY()]))
+                tempSquare.add(squares[s.getX() - 1][s.getY()]);
+            if(s.getEast() == ROOM && !tempSquare.contains(squares[s.getX() + 1][s.getY()]))
+                tempSquare.add(squares[s.getX() + 1][s.getY()]);
+        }
+        return tempSquare;
     }
+
+    public List<Player> getInRangePlayers(Player player) {
+        List<Square> tempSquare = getInRangeSquares(player);
+        List<Player> tempPlayers = new ArrayList<>();
+        for(Square s : tempSquare)
+            tempPlayers.addAll(s.getPlayers());
+        return tempPlayers;
+    }
+
     public void setPlayers(List<Player> players) {
         this.players = new ArrayList<>(players);
     }
