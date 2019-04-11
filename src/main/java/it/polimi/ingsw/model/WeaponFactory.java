@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.action.MarkAction;
 import it.polimi.ingsw.model.action.DamageAction;
 import it.polimi.ingsw.model.action.EndBranchAction;
 import it.polimi.ingsw.model.action.SelectionAction;
@@ -23,8 +24,9 @@ public class WeaponFactory
     private static void buildWeapons()
     {
         weapons.add(new WeaponCard("LockRifle",
-                new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null)));
+                new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1,1), new EndBranchAction()), null)));
+
 
         weapons.add(new WeaponCard("MachineGun",
                 new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null),
