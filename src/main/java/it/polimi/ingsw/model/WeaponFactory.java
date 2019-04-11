@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.action.MarkAction;
-import it.polimi.ingsw.model.action.DamageAction;
-import it.polimi.ingsw.model.action.EndBranchAction;
-import it.polimi.ingsw.model.action.SelectionAction;
+import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
 
 import java.util.ArrayList;
@@ -32,5 +29,16 @@ public class WeaponFactory
                 new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null)));
+
+        weapons.add(new WeaponCard("T.H.O.R",
+                new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null)));
+
+        weapons.add(new WeaponCard("PlasmaGun",
+                new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new MoveAction(2), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null)));
+        //TODO need to specify the moveAction is possible both before and after the other effects
     }
 }
