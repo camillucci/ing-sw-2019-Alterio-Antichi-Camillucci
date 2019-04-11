@@ -40,13 +40,15 @@ class MoveActionTest {
         eventTriggered=false;
         Action action = new MoveAction(3);
         action.completedActionEvent.addEventHandler((a,b)->this.eventTriggered = true);
-        action.doAction(p);
+        action.initializeAction(p);
+        action.doAction();
         assertTrue(eventTriggered);
 
         eventTriggered = false;
         triggeredAction = new MoveAction(3);
         triggeredAction.completedActionEvent.addEventHandler(this::eventHandler);
-        triggeredAction.doAction(p);
+        action.initializeAction(p);
+        action.doAction();
         assertTrue(eventTriggered);
     }
 

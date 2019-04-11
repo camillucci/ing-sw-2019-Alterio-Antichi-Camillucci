@@ -2,32 +2,34 @@ package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
-import it.polimi.ingsw.model.Visualizable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public class ShootAction extends Action
 {
-    public ShootAction(BiConsumer<Player, List<Square>> shootFunc, Visualizable visualizable)
+    protected BiConsumer<Player, List<Player>> shootFuncP;
+    protected BiConsumer<Player, List<Square>> shootFuncS;
+    protected Function<Player,List<Square>> possibleTargetsFuncS;
+    protected Function<Player, List<Player>> possibleTargetsFuncP;
+
+    public ShootAction(BiConsumer<Player, List<Square>> shootFunc, Function<Player,List<Square>> possibleTargetsFunc) //  void shootFunc(Player,List<Square>), List<Square> possibleTargetsFunc(Player)
     {
+        this.possibleTargetsFuncS = possibleTargetsFunc;
         this.shootFuncS = shootFunc;
-        this.visualizable = visualizable;
+    }
+    public ShootAction(Function<Player, List<Player>> possibleTargetsFunc, BiConsumer<Player, List<Player>> shootFunc)
+    {
+        this.possibleTargetsFuncP = possibleTargetsFunc;
+        this.shootFuncP = shootFunc;
     }
 
-    public ShootAction(Visualizable visualizable, BiConsumer<Player, List<Player>> shootFunc)
-    {
-        this.shootFuncP = shootFunc;
-        this.visualizable = visualizable;
-    }
     protected ShootAction()
     {
 
     }
-
-    protected BiConsumer<Player, List<Player>> shootFuncP;
-    protected BiConsumer<Player, List<Square>> shootFuncS;
-    private Visualizable visualizable;
 
     @Override
     protected void op() {
@@ -43,7 +45,17 @@ public class ShootAction extends Action
     }
 
     @Override
+    public List<Player> getPossiblePlayers() {
+        return this.possibleTargetsFuncP != null ? this.possibleTargetsFuncP.apply(ownerPlayer) : Collections.emptyList();
+    }
+
+    @Override
+    public List<Square> getPossibleSquares() {
+        return this.possibleTargetsFuncS != null ? this.possibleTargetsFuncS.apply(ownerPlayer) : Collections.emptyList();
+    }
+
+    @Override
     public void visualize() {
-        this.visualizable.visualize();
+
     }
 }

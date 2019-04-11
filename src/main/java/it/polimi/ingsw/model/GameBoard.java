@@ -87,6 +87,15 @@ public class GameBoard {
             killShotTrack.get(MAX_SKULLS - 1).addAll(newKillShot);
     }
 
+    public List<Square> getSquares(Player player, int dist){
+        //TODO
+        return null;
+    }
+    public List<Player> getInRangePlayers(Player player)
+    {
+        //TODO
+        return null;
+    }
     public void setPlayers(List<Player> players) {
         this.players = new ArrayList<>(players);
     }

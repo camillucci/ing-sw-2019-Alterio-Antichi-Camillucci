@@ -41,14 +41,14 @@ class BranchMapTest {
         eventTriggered = false;
         curBranchMap = new NoAdrenalineBranchMap();
         curBranchMap.rollbackEvent.addEventHandler((a,b)->this.eventTriggered = true);
-        curBranchMap.getPossibleActions().stream().filter(a->a instanceof RollBackAction).forEach(a->a.doAction(p));
+        curBranchMap.getPossibleActions().stream().filter(a->a instanceof RollBackAction).forEach(a->{a.initializeAction(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // EndBranch event
         eventTriggered = false;
         curBranchMap = new NoAdrenalineBranchMap();
         curBranchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->this.eventTriggered = true);
-        curBranchMap.getPossibleActions().stream().filter(a->a instanceof EndBranchAction).forEach(a->a.doAction(p));
+        curBranchMap.getPossibleActions().stream().filter(a->a instanceof EndBranchAction).forEach(a->{a.initializeAction(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // NewActions event
@@ -57,7 +57,7 @@ class BranchMapTest {
         curBranchMap.newActionsEvent.addEventHandler(this::checkNewActionsEvent);
         curBranchMap.newActionsEvent.addEventHandler((a,b)->this.eventTriggered=true);
         MoveAction M3 = new MoveAction(3);
-        curBranchMap.getPossibleActions().stream().filter(a->a.isCompatible(M3) && a instanceof MoveAction).forEach(a->a.doAction(p));
+        curBranchMap.getPossibleActions().stream().filter(a->a.isCompatible(M3) && a instanceof MoveAction).forEach(a->{a.initializeAction(p);a.doAction();});
         assertTrue(eventTriggered);
     }
 

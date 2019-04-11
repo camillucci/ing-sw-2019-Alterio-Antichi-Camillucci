@@ -101,6 +101,9 @@ public class Player {
         }
     }
 
+    public GameBoard getGameBoard(){
+        return this.gameBoard;
+    }
     public void addPoints(int newPoints) {
         points = points + newPoints;
     }

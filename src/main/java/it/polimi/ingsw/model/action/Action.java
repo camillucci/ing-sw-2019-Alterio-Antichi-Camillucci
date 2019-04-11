@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Visualizable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Action implements Visualizable
 {
@@ -14,29 +16,41 @@ public abstract class Action implements Visualizable
     protected ArrayList<Square> targetSquares = new ArrayList<>();
     protected ArrayList<Player> targetPlayers = new ArrayList<>();
     protected boolean optional = false;
+    private List<Player> possiblePlayers;
+    private List<Square> possibleSquares;
 
     public Action()
     {
 
     }
-    public void doAction(Player ownerPlayer)
+    public void initializeAction(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
+        this.possiblePlayers = getPossiblePlayers();
+        this.possibleSquares = getPossibleSquares();
+    }
+    public void doAction()
+    {
         this.op();
         completedActionEvent.invoke(this, this);
     }
 
     protected void op() {
-        //TODO
+
     }
+
+    public List<Player> getPossiblePlayers(){return Collections.emptyList();}
+    public List<Square> getPossibleSquares(){return Collections.emptyList();}
     public boolean isOptional(){return optional;}
     public void addTarget(Square target)
     {
-        this.targetSquares.add(target);
+        if(this.possibleSquares.contains(target))
+            this.targetSquares.add(target);
     }
     public void addTarget(Player target)
     {
-        this.targetPlayers.add(target);
+        if(this.possiblePlayers.contains(target))
+            this.targetPlayers.add(target);
     }
     public boolean isCompatible(Action action)
     {
