@@ -163,8 +163,4 @@ public class Player {
     public void setFinalFrenzy(boolean finalFrenzy) {
         this.finalFrenzy = finalFrenzy;
     }
-
-    public void addMark(Player shooter){
-        //TODO
-    }
 }
