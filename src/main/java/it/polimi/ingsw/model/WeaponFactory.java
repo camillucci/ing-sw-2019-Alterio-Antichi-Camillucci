@@ -16,8 +16,6 @@ import java.util.function.BiConsumer;
 public class WeaponFactory
 {
     private static ArrayList<WeaponCard> weapons = new ArrayList<>();
-    private static boolean weaponsCreated = false;
-    private static Player tmp;
     public static List<WeaponCard> getWeapons()
     {
         buildWeapons();
