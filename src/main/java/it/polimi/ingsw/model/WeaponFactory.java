@@ -25,5 +25,10 @@ public class WeaponFactory
         weapons.add(new WeaponCard("LockRifle",
                 new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null)));
+
+        weapons.add(new WeaponCard("MachineGun",
+                new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null)));
     }
 }
