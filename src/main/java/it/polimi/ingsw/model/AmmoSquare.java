@@ -1,15 +1,20 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+
 public class AmmoSquare extends Square {
 
     private AmmoCard ammoCard;
 
-    public AmmoSquare(SquareBorder north, SquareBorder south, SquareBorder west, SquareBorder east, AmmoCard ammoCard) {
-        this.north = north;
-        this.south = south;
-        this.west = west;
-        this.east = east;
+    public AmmoSquare(int x, int y, SquareBorder[] borders, AmmoCard ammoCard) {
+        this.x = x;
+        this.y = y;
+        this.north = borders[0];
+        this.south = borders[1];
+        this.west = borders[2];
+        this.east = borders[3];
         this.ammoCard = ammoCard;
+        this.players = new ArrayList<>();
     }
 
     @Override

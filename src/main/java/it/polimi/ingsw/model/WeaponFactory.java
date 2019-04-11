@@ -5,11 +5,7 @@ import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.weapons.Effects;
 import it.polimi.ingsw.model.weapons.TargetsFilters;
 
-import java.lang.annotation.Target;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -21,7 +17,7 @@ public class WeaponFactory
     public static List<WeaponCard> getWeapons()
     {
         buildWeapons();
-        return new ArrayList<WeaponCard>(weapons);
+        return new ArrayList<>(weapons);
     }
 
     private static void buildWeapons()

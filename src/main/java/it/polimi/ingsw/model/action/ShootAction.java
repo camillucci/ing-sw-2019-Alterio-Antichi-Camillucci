@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.action;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

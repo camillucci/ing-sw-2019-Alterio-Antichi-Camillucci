@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.PowerUpCard;
 import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.WeaponCard;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

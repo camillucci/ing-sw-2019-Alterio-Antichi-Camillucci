@@ -31,4 +31,22 @@ class GameBoardTest {
             assertEquals(4 + i * 2, gameBoard.getKillShotTrack().get(maxKillShotTrack - 1).size());
         }
     }
+
+    @Test
+    void getSquares() {
+        assertTrue(true);
+        //TODO
+    }
+
+    @Test
+    void getInRangeSquares() {
+        assertTrue(true);
+        //TODO
+    }
+
+    @Test
+    void getInRangePlayers() {
+        assertTrue(true);
+        //TODO
+    }
 }

@@ -1,18 +1,22 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpawnAndShopSquare extends Square {
     private AmmoColor color;
     private List<WeaponCard> weapons;
 
-    public SpawnAndShopSquare(AmmoColor color, SquareBorder north, SquareBorder south, SquareBorder west, SquareBorder east, List<WeaponCard> weapons) {
+    public SpawnAndShopSquare(int x, int y, AmmoColor color, SquareBorder[] borders, List<WeaponCard> weapons) {
+        this.x = x;
+        this.y = y;
         this.color = color;
-        this.north = north;
-        this.south = south;
-        this.west = west;
-        this.east = east;
+        this.north = borders[0];
+        this.south = borders[1];
+        this.west = borders[2];
+        this.east = borders[3];
         this.weapons = weapons;
+        this.players = new ArrayList<>();
     }
 
     @Override
