@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.WeaponCard;
 
 import java.util.ArrayList;
 
-public class WeaponSelectionAction extends SelectionAction
+public class WeaponSelectionAction extends ExtendableAction
 {
     public WeaponSelectionAction()
     {
@@ -18,7 +18,7 @@ public class WeaponSelectionAction extends SelectionAction
         ArrayList<Branch> w = new ArrayList<>();
         for(WeaponCard wc : ownerPlayer.getLoadedWeapons())
         {
-            SelectionAction wi = new SelectionAction(wc.getFireModalities(), wc); //
+            ExtendableAction wi = new ExtendableAction(wc.getFireModalities()); //
             w.add(new Branch(wi));
         }
         this.branches = w;

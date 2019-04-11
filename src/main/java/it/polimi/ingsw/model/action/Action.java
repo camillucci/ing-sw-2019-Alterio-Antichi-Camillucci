@@ -2,22 +2,27 @@ package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PowerUpCard;
 import it.polimi.ingsw.model.Square;
-import it.polimi.ingsw.model.Visualizable;
+import it.polimi.ingsw.model.WeaponCard;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Action implements Visualizable
+public abstract class Action
 {
     public final Event<Action, Action> completedActionEvent = new Event<>();
     protected Player ownerPlayer;
     protected ArrayList<Square> targetSquares = new ArrayList<>();
     protected ArrayList<Player> targetPlayers = new ArrayList<>();
+    protected ArrayList<WeaponCard> selectedWeapons = new ArrayList<>();
+    protected ArrayList<PowerUpCard> selectedPowerUp = new ArrayList<>();
     protected boolean optional = false;
-    private List<Player> possiblePlayers;
-    private List<Square> possibleSquares;
+    protected int blueCost = 0;
+    protected int redCost = 0;
+    protected int yellowCost = 0;
 
     public Action()
     {
@@ -26,15 +31,27 @@ public abstract class Action implements Visualizable
     public void initializeAction(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
-        this.possiblePlayers = getPossiblePlayers();
-        this.possibleSquares = getPossibleSquares();
     }
     public void doAction()
     {
+        if(!spendAmmo())
+            return;
         this.op();
         completedActionEvent.invoke(this, this);
     }
 
+    private boolean spendAmmo()
+    {
+        if(this.ownerPlayer.getBlueAmmo() >= this.blueCost && this.ownerPlayer.getRedAmmo() >= this.redCost && this.ownerPlayer.getYellowAmmo() >= this.yellowCost)
+        {
+            this.ownerPlayer.addBlue(-blueCost);
+            this.ownerPlayer.addRed(-redCost);
+            this.ownerPlayer.addYellow(-yellowCost);
+
+            return true;
+        }
+        return false;
+    }
     protected void op() {
 
     }
@@ -44,13 +61,21 @@ public abstract class Action implements Visualizable
     public boolean isOptional(){return optional;}
     public void addTarget(Square target)
     {
-        if(this.possibleSquares.contains(target))
+        if(this.getPossibleSquares().contains(target))
             this.targetSquares.add(target);
     }
     public void addTarget(Player target)
     {
-        if(this.possiblePlayers.contains(target))
+        if(this.getPossiblePlayers().contains(target))
             this.targetPlayers.add(target);
+    }
+    public void addWeapon(WeaponCard weapon)
+    {
+        this.selectedWeapons.add(weapon);
+    }
+    public void addPowerUp(PowerUpCard powerUp)
+    {
+        this.selectedPowerUp.add(powerUp);
     }
     public boolean isCompatible(Action action)
     {

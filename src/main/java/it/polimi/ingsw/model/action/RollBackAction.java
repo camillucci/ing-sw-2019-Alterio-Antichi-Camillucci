@@ -12,9 +12,4 @@ public class RollBackAction extends Action
     {
         return true;
     }
-
-    @Override
-    public void visualize() {
-        //TODO
-    }
 }

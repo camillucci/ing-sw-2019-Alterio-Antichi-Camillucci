@@ -54,9 +54,4 @@ public class ShootAction extends Action
     public List<Square> getPossibleSquares() {
         return this.possibleTargetsFuncS.apply(ownerPlayer);
     }
-
-    @Override
-    public void visualize() {
-
-    }
 }

@@ -19,7 +19,7 @@ public class AdrenalineX1BranchMap extends BranchMap
 
     private Branch getM2RW()
     {
-        return new Branch(new MoveAction(2), new ReloadSelectionAction(), new WeaponSelectionAction());
+        return new Branch(new MoveAction(2), new ReloadAction(), new WeaponSelectionAction());
     }
 
     private Branch getM3G()

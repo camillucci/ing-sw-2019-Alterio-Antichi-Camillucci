@@ -7,8 +7,4 @@ public class EndBranchAction extends Action
         //TODO
     }
 
-    @Override
-    public void visualize() {
-        //TODO
-    }
 }

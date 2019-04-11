@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.action.SelectionAction;
+import it.polimi.ingsw.model.action.FireModalityAction;
 import it.polimi.ingsw.model.branch.Branch;
 
 import java.util.ArrayList;
@@ -11,16 +11,16 @@ import java.util.List;
 public class WeaponCard implements Visualizable {
 
     protected String name;
-    protected int blueBuyCost;
-    protected int redBuyCost;
-    protected int yellowBuyCost;
-    protected int blueReloadCost;
-    protected int redReloadCost;
-    protected int yellowReloadCost;
+    public final int blueBuyCost;
+    public final int redBuyCost;
+    public final int yellowBuyCost;
+    public final int blueReloadCost;
+    public final int redReloadCost;
+    public final int yellowReloadCost;
 
-    protected List<SelectionAction> fireModalities = new ArrayList<>();
+    protected List<FireModalityAction> fireModalities = new ArrayList<>();
 
-    public WeaponCard(String name, int[] ammoCosts, List<SelectionAction> fireModalities)
+    public WeaponCard(String name, int[] ammoCosts, List<FireModalityAction> fireModalities)
     {
         this.name = name;
         this.fireModalities = new ArrayList<>(fireModalities);
@@ -31,28 +31,28 @@ public class WeaponCard implements Visualizable {
         this.redReloadCost = ammoCosts[4];
         this.yellowReloadCost = ammoCosts[5];
     }
-    public WeaponCard(String name, int[] ammoCosts, SelectionAction first)
+    public WeaponCard(String name, int[] ammoCosts, FireModalityAction first)
     {
         this(name, ammoCosts, Collections.singletonList(first));
     }
 
-    public WeaponCard(String name, int[] ammoCosts, SelectionAction first, SelectionAction second)
+    public WeaponCard(String name, int[] ammoCosts, FireModalityAction first, FireModalityAction second)
     {
         this(name, ammoCosts, Arrays.asList(first,second));
     }
 
-    public WeaponCard(String name, int[] ammoCosts, SelectionAction first, SelectionAction second, SelectionAction third) {
+    public WeaponCard(String name, int[] ammoCosts, FireModalityAction first, FireModalityAction second, FireModalityAction third) {
         this(name, ammoCosts, Arrays.asList(first, second, third));
     }
 
-    public WeaponCard(String name, int[] ammoCosts, SelectionAction first, SelectionAction second, SelectionAction third, SelectionAction fourth) {
+    public WeaponCard(String name, int[] ammoCosts, FireModalityAction first, FireModalityAction second, FireModalityAction third, FireModalityAction fourth) {
         this(name, ammoCosts, Arrays.asList(first, second, third, fourth));
     }
 
     public List<Branch> getFireModalities()
     {
         ArrayList<Branch> ret = new ArrayList<>();
-        for(SelectionAction a : fireModalities)
+        for(FireModalityAction a : fireModalities)
             ret.add(new Branch(a));
         return ret;
     }

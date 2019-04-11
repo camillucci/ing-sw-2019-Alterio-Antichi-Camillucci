@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.action.SelectionAction;
+import it.polimi.ingsw.model.action.FireModalityAction;
 
 public abstract class PowerUpCard {
 
@@ -9,8 +9,8 @@ public abstract class PowerUpCard {
 
     public void visualize() {}
 
-    protected SelectionAction powerUpModality;
-    public SelectionAction getPowerUpModality()
+    protected FireModalityAction powerUpModality;
+    public FireModalityAction getPowerUpModality()
     {
         buildFireModality();
         return powerUpModality;

@@ -33,9 +33,9 @@ class BranchTest {
     private void getRM2RM3G()
     {
         curBranchActions = new ArrayList<>();
-        curBranchActions.add(new ReloadSelectionAction());
+        curBranchActions.add(new ReloadAction());
         curBranchActions.add(new MoveAction(2));
-        curBranchActions.add(new ReloadSelectionAction());
+        curBranchActions.add(new ReloadAction());
         curBranchActions.add(new MoveAction(3));
         curBranchActions.add(new GrabAction());
         curBranch = new Branch(curBranchActions, new EndBranchAction());
@@ -45,7 +45,7 @@ class BranchTest {
     {
         curBranchActions = new ArrayList<>();
         curBranchActions.add(new MoveAction(2));
-        curBranchActions.add(new ReloadSelectionAction());
+        curBranchActions.add(new ReloadAction());
         WeaponSelectionAction wsa = new WeaponSelectionAction();
         curBranch = new Branch(curBranchActions, wsa);
         curBranchActions.add(wsa);
@@ -98,7 +98,7 @@ class BranchTest {
         getM2RW(); // M2 and R both optional -> compatibleActions() = { M2, R, W }
         ArrayList<Action> tmp = new ArrayList<>();
         tmp.add(new MoveAction(2));
-        tmp.add(new ReloadSelectionAction());
+        tmp.add(new ReloadAction());
         tmp.add(new WeaponSelectionAction());
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
     }
@@ -108,9 +108,9 @@ class BranchTest {
     {
         getRM2RM3G();
         ArrayList<Action> tmp = new ArrayList<>();
-        tmp.add(new ReloadSelectionAction());
+        tmp.add(new ReloadAction());
         tmp.add(new MoveAction(2));
-        tmp.add(new ReloadSelectionAction());
+        tmp.add(new ReloadAction());
         tmp.add(new MoveAction(3));
         tmp.add(new GrabAction());
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
@@ -133,7 +133,7 @@ class BranchTest {
 
         getM3GM2GW();
         curBranch.goNext(curBranchActions.get(1));
-        curBranch.goNext(new ReloadSelectionAction());
+        curBranch.goNext(new ReloadAction());
         assertTrue(curBranch.isInvalidBranch());
 
         // trying to "overflow" curBranch

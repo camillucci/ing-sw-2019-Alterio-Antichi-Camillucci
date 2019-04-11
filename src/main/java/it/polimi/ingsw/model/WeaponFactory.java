@@ -35,26 +35,26 @@ public class WeaponFactory
 
 
         weapons.add(new WeaponCard("LockRifle",  new int[] {1, 0, 0, 2, 0, 0},
-                new SelectionAction(new Branch(shootDef(damageF(2).andThen(markF(1))), new EndBranchAction()), null),
-                new SelectionAction(new Branch(shootDef(damageF(2).andThen(markF(1,1))), new EndBranchAction()), null)));
+                new FireModalityAction(new Branch(shootDef(damageF(2).andThen(markF(1))), new EndBranchAction()), null), //TODO cost
+                new FireModalityAction(new Branch(shootDef(damageF(2).andThen(markF(1,1))), new EndBranchAction()), null)));
 
         weapons.add(new WeaponCard("MachineGun", new int[] {0, 1, 0, 1, 1, 0},
-                new SelectionAction(new Branch(shootDef(damageF(1,1)), new EndBranchAction()), null),
-                new SelectionAction(new Branch(shootDef(damageF(2,1)), new EndBranchAction()), null),
-                new SelectionAction(new Branch(shootDef(damageF(1,2,1)), new EndBranchAction()), null),
-                new SelectionAction(new Branch(shootDef(damageF(2,2,1)), new EndBranchAction()), null)));
+                new FireModalityAction(new Branch(shootDef(damageF(1,1)), new EndBranchAction()), null),
+                new FireModalityAction(new Branch(shootDef(damageF(2,1)), new EndBranchAction()), null),
+                new FireModalityAction(new Branch(shootDef(damageF(1,2,1)), new EndBranchAction()), null),
+                new FireModalityAction(new Branch(shootDef(damageF(2,2,1)), new EndBranchAction()), null)));
 
         weapons.add(new WeaponCard("T.H.O.R", new int[] {0, 1, 0, 1, 1, 0},
-                new SelectionAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2)), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2,1)), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2,1,2)), new EndBranchAction()), null)));
+                new FireModalityAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2)), new EndBranchAction()), null),
+                new FireModalityAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2,1)), new EndBranchAction()), null),
+                new FireModalityAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2,1,2)), new EndBranchAction()), null)));
 
         weapons.add(new WeaponCard("PlasmaGun", new int[] {0, 0, 1, 1, 0, 1},
-                new SelectionAction(new Branch(shootDef(damageF(2)),new EndBranchAction()), null), //S
-                new SelectionAction(
+                new FireModalityAction(new Branch(shootDef(damageF(2)),new EndBranchAction()), null), //S
+                new FireModalityAction(
                         new Branch(new MoveAction(2), shootDef(damageF(2)), new EndBranchAction()), //M2S
                         new Branch(shootDef(damageF(2)), new MoveAction(2), new EndBranchAction()), null), //SM2
-                new SelectionAction(
+                new FireModalityAction(
                         new Branch(new MoveAction(2), shootDef(damageF(3)), new EndBranchAction()), //M2S
                         new Branch(shootDef(damageF(3)), new MoveAction(2), new EndBranchAction()), null))); //SM2
 /*

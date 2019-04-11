@@ -38,11 +38,6 @@ public class MoveAction extends Action
     }
 
     @Override
-    public void visualize() {
-        //TODO
-    }
-
-    @Override
     public boolean isCompatible(Action action)
     {
         if( !(action instanceof  MoveAction) )
