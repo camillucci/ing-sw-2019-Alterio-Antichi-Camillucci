@@ -1,20 +1,20 @@
 package it.polimi.ingsw.model;
+
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
 public class WeaponDeck {
 
     private ArrayList<WeaponCard> deck = new ArrayList<>();
-    private Random rand = new Random();
 
     public WeaponDeck() {
         //TODO Add all cards
+        Collections.shuffle(deck);
     }
 
     public WeaponCard draw() {
-        if(deck.isEmpty()) {
+        if(deck.isEmpty())
             return null;
-        }
-        return deck.remove(rand.nextInt(deck.size()));
+        return deck.remove(0);
     }
 }

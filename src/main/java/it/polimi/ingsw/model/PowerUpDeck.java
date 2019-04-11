@@ -5,13 +5,12 @@ import it.polimi.ingsw.model.powerups.*;
 import static it.polimi.ingsw.model.AmmoColor.*;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
 public class PowerUpDeck {
 
     private ArrayList<PowerUpCard> deck = new ArrayList<>();
     private ArrayList<PowerUpCard> discarded = new ArrayList<>();
-    private Random rand = new Random();
     private static final int COPY_OF_CARDS = 2;
 
     public PowerUpDeck() {
@@ -29,13 +28,15 @@ public class PowerUpDeck {
             deck.add(new TagbackGrenade(YELLOW));
             deck.add(new Teleporter(YELLOW));
         }
+        Collections.shuffle(deck);
     }
 
     public PowerUpCard draw() {
         if(deck.isEmpty()) {
             deck = discarded;
+            discarded = new ArrayList<>();
         }
-        return deck.remove(rand.nextInt(deck.size()));
+        return deck.remove(0);
     }
 
     public void addDiscarded(PowerUpCard discardedCard) {

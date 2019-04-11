@@ -20,22 +20,21 @@ public class WeaponFactory
 
     private static void buildWeapons()
     {
-        weapons.add(new WeaponCard("LockRifle",
+        weapons.add(new WeaponCard("LockRifle", new int[] {1, 0, 0, 2, 0, 0},
                 new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1,1), new EndBranchAction()), null)));
 
-
-        weapons.add(new WeaponCard("MachineGun",
+        weapons.add(new WeaponCard("MachineGun", new int[] {0, 1, 0, 1, 1, 0},
                 new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null)));
 
-        weapons.add(new WeaponCard("T.H.O.R",
+        weapons.add(new WeaponCard("T.H.O.R", new int[] {0, 1, 0, 1, 1, 0},
                 new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null)));
 
-        weapons.add(new WeaponCard("PlasmaGun",
+        weapons.add(new WeaponCard("PlasmaGun", new int[] {0, 0, 1, 1, 0, 1},
                 new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new MoveAction(2), new EndBranchAction()), null),
                 new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null)));

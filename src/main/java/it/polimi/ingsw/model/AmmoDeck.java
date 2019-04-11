@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
 public class AmmoDeck {
 
     private ArrayList<AmmoCard> deck = new ArrayList<>();
     private ArrayList<AmmoCard> discarded = new ArrayList<>();
-    private Random rand = new Random();
     private static final int COPY_OF_CARDS = 3;
 
     public AmmoDeck() {
@@ -25,13 +24,15 @@ public class AmmoDeck {
             deck.add(new AmmoCard(1, 1, 0, true));
             deck.add(new AmmoCard(2, 0, 0, true));
         }
+        Collections.shuffle(deck);
     }
 
     public AmmoCard draw() {
         if(deck.isEmpty()) {
             deck = discarded;
+            discarded = new ArrayList<>();
         }
-        return deck.remove(rand.nextInt(deck.size()));
+        return deck.remove(0);
     }
 
     public void addDiscarded(AmmoCard discardedCard) {
