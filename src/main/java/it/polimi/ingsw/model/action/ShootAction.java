@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Square;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class ShootAction extends Action
@@ -13,14 +14,14 @@ public class ShootAction extends Action
     protected BiConsumer<Player, List<Player>> shootFuncP;
     protected BiConsumer<Player, List<Square>> shootFuncS;
     protected Function<Player,List<Square>> possibleTargetsFuncS;
-    protected Function<Player, List<Player>> possibleTargetsFuncP;
+    protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
 
     public ShootAction(BiConsumer<Player, List<Square>> shootFunc, Function<Player,List<Square>> possibleTargetsFunc) //  void shootFunc(Player,List<Square>), List<Square> possibleTargetsFunc(Player)
     {
         this.possibleTargetsFuncS = possibleTargetsFunc;
         this.shootFuncS = shootFunc;
     }
-    public ShootAction(Function<Player, List<Player>> possibleTargetsFunc, BiConsumer<Player, List<Player>> shootFunc)
+    public ShootAction(BiFunction<Player, List<Player>, List<Player>> possibleTargetsFunc, BiConsumer<Player, List<Player>> shootFunc)
     {
         this.possibleTargetsFuncP = possibleTargetsFunc;
         this.shootFuncP = shootFunc;
@@ -46,12 +47,12 @@ public class ShootAction extends Action
 
     @Override
     public List<Player> getPossiblePlayers() {
-        return this.possibleTargetsFuncP != null ? this.possibleTargetsFuncP.apply(ownerPlayer) : Collections.emptyList();
+        return this.possibleTargetsFuncP.apply(ownerPlayer, this.targetPlayers);
     }
 
     @Override
     public List<Square> getPossibleSquares() {
-        return this.possibleTargetsFuncS != null ? this.possibleTargetsFuncS.apply(ownerPlayer) : Collections.emptyList();
+        return this.possibleTargetsFuncS.apply(ownerPlayer);
     }
 
     @Override

@@ -45,6 +45,10 @@ public class WeaponCard implements Visualizable {
         this(name, ammoCosts, Arrays.asList(first, second, third));
     }
 
+    public WeaponCard(String name, int[] ammoCosts, SelectionAction first, SelectionAction second, SelectionAction third, SelectionAction fourth) {
+        this(name, ammoCosts, Arrays.asList(first, second, third, fourth));
+    }
+
     public List<Branch> getFireModalities()
     {
         ArrayList<Branch> ret = new ArrayList<>();

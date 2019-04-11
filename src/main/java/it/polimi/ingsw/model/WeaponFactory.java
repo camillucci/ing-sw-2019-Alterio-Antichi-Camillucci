@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.weapons.Effects;
 import it.polimi.ingsw.model.weapons.TargetsFilters;
 
+import java.lang.annotation.Target;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,7 @@ public class WeaponFactory
 {
     private static ArrayList<WeaponCard> weapons = new ArrayList<>();
     private static boolean weaponsCreated = false;
-
+    private static Player tmp;
     public static List<WeaponCard> getWeapons()
     {
         buildWeapons();
@@ -26,7 +27,7 @@ public class WeaponFactory
     private static void buildWeapons()
     {
         // Definition of ShootAction example //
-        ShootAction ex = new ShootAction(TargetsFilters::visiblePlayers, damageF(2).andThen(markF(1,2,3)));
+        ShootAction ex = new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2).andThen(markF(1,2,3)));
         // damageF(2) = damage P1 of two;
         //markF(1,2,3) = mark P1 of 1, P2 of 2, P3 of 3
         // damageF(2).andThen(markF(1,2,3)) = damage P1 of 2 and then mark P1 of 1, P2 of 2, P3 of 3
@@ -34,8 +35,28 @@ public class WeaponFactory
 
 
         weapons.add(new WeaponCard("LockRifle",  new int[] {1, 0, 0, 2, 0, 0},
-                new SelectionAction(new Branch(new ShootAction(TargetsFilters::visiblePlayers, damageF(2).andThen(markF(1))), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new ShootAction(TargetsFilters::visiblePlayers, damageF(2).andThen(markF(1,1))), new EndBranchAction()), null)));
+                new SelectionAction(new Branch(shootDef(damageF(2).andThen(markF(1))), new EndBranchAction()), null),
+                new SelectionAction(new Branch(shootDef(damageF(2).andThen(markF(1,1))), new EndBranchAction()), null)));
+
+        weapons.add(new WeaponCard("MachineGun", new int[] {0, 1, 0, 1, 1, 0},
+                new SelectionAction(new Branch(shootDef(damageF(1,1)), new EndBranchAction()), null),
+                new SelectionAction(new Branch(shootDef(damageF(2,1)), new EndBranchAction()), null),
+                new SelectionAction(new Branch(shootDef(damageF(1,2,1)), new EndBranchAction()), null),
+                new SelectionAction(new Branch(shootDef(damageF(2,2,1)), new EndBranchAction()), null)));
+
+        weapons.add(new WeaponCard("T.H.O.R", new int[] {0, 1, 0, 1, 1, 0},
+                new SelectionAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2)), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2,1)), new EndBranchAction()), null),
+                new SelectionAction(new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damageF(2,1,2)), new EndBranchAction()), null)));
+
+        weapons.add(new WeaponCard("PlasmaGun", new int[] {0, 0, 1, 1, 0, 1},
+                new SelectionAction(new Branch(shootDef(damageF(2)),new EndBranchAction()), null), //S
+                new SelectionAction(
+                        new Branch(new MoveAction(2), shootDef(damageF(2)), new EndBranchAction()), //M2S
+                        new Branch(shootDef(damageF(2)), new MoveAction(2), new EndBranchAction()), null), //SM2
+                new SelectionAction(
+                        new Branch(new MoveAction(2), shootDef(damageF(3)), new EndBranchAction()), //M2S
+                        new Branch(shootDef(damageF(3)), new MoveAction(2), new EndBranchAction()), null))); //SM2
 /*
         weapons.add(new WeaponCard("LockRifle", new int[] {1, 0, 0, 2, 0, 0},
                 new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1), new EndBranchAction()), null),
@@ -59,6 +80,10 @@ public class WeaponFactory
  */
     }
 
+    private static ShootAction shootDef(BiConsumer<Player, List<Player>> shootFunc)
+    {
+        return new ShootAction((player, players) -> TargetsFilters.visiblePlayers(player), shootFunc);
+    }
     public static BiConsumer<Player, List<Player>> damageF(int ... damage)
     {
         ArrayList<Integer> tmp = new ArrayList<>();
@@ -73,4 +98,5 @@ public class WeaponFactory
             tmp.add(i);
         return (player, players) -> Effects.mark(player, players, tmp);
     }
+
 }
