@@ -165,6 +165,10 @@ public class Player {
         return null;
     }
 
+    public void setCurrentSquare(Square currentSquare) {
+        this.currentSquare = currentSquare;
+    }
+
     public void setFinalFrenzy(boolean finalFrenzy) {
         this.finalFrenzy = finalFrenzy;
     }
