@@ -23,14 +23,14 @@ public class WeaponFactory
     {
         // Definition of ShootAction example //
         ShootAction ex = new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2).andThen(mark(1,2,3)));
-        // damage(2) = damage P1 of two;
+        // damage(2) = damage P1 of 2;
         //mark(1,2,3) = mark P1 of 1, P2 of 2, P3 of 3
         // damage(2).andThen(mark(1,2,3)) = damage P1 of 2 and then mark P1 of 1, P2 of 2, P3 of 3
         // P1,..,Pn rest the same when andThen function is called
 
 
         weapons.add(new WeaponCard("LockRifle",  new int[] {1, 0, 0, 2, 0, 0},
-                new FireModalityAction(null, new Branch(shootDef(damage(2).andThen(mark(1))), new EndBranchAction())), //TODO cost
+                new FireModalityAction(null, new Branch(shootDef(damage(2).andThen(mark(1))), new EndBranchAction())),
                 new FireModalityAction(null, new Branch(shootDef(damage(2).andThen(mark(1,1))), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("MachineGun", new int[] {0, 1, 0, 1, 1, 0},
@@ -73,6 +73,10 @@ public class WeaponFactory
                 new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null)));
         //TODO need to specify the moveAction is possible both before and after the other effects
  */
+        weapons.add(new WeaponCard("Whisper", new int[] {1, 0, 0, 2, 0, 1},
+                new FireModalityAction(null, new Branch(shootDef(damage(3).andThen(mark(1))), new EndBranchAction()))));
+
+
     }
 
     private static ShootAction shootDef(BiConsumer<Player, List<Player>> shootFunc)
