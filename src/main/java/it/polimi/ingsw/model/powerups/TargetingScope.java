@@ -15,11 +15,13 @@ public class TargetingScope extends PowerUpCard {
     }
     @Override
     public List<Player> visiblePlayers(Player player, List<Player> alreadyAdded) {
+        //TODO
         return null;
     }
 
     @Override
     public List<Square> visibleSquares(Player player) {
+        //TODO
         return null;
     }
 }

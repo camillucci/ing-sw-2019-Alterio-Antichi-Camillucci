@@ -11,6 +11,7 @@ public abstract class PowerUpCard {
     public void shootS(Player shooter, List<Square> targets){}
     public abstract List<Player> visiblePlayers(Player player, List<Player> alreadyAdded);
     public abstract List<Square> visibleSquares(Player player);
+
     public PowerUpCard(String name, Ammo cost, AmmoColor color)
     {
         this.name = name;
