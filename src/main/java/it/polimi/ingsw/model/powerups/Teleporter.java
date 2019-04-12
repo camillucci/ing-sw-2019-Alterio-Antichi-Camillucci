@@ -14,7 +14,7 @@ public class Teleporter extends PowerUpCard {
     }
 
     @Override
-    public List<Player> VisiblePlayers(Player player, List<Player> alreadyAdded) {
+    public List<Player> visiblePlayers(Player player, List<Player> alreadyAdded) {
         return null;
     }
 

@@ -15,7 +15,7 @@ public class TagbackGrenade extends PowerUpCard {
         //TODO
     }
     @Override
-    public List<Player> VisiblePlayers(Player player, List<Player> alreadyAdded) {
+    public List<Player> visiblePlayers(Player player, List<Player> alreadyAdded) {
         return null;
     }
 

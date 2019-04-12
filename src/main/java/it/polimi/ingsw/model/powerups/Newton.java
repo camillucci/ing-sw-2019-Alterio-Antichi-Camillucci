@@ -14,7 +14,7 @@ public class Newton extends PowerUpCard {
     }
 
     @Override
-    public List<Player> VisiblePlayers(Player player, List<Player> alreadyAdded) {
+    public List<Player> visiblePlayers(Player player, List<Player> alreadyAdded) {
         //TODO;
         return  null;
     }

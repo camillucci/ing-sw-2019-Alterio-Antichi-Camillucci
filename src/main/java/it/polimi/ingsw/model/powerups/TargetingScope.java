@@ -14,7 +14,7 @@ public class TargetingScope extends PowerUpCard {
         super("TargetingScope", null, color); //TODO
     }
     @Override
-    public List<Player> VisiblePlayers(Player player, List<Player> alreadyAdded) {
+    public List<Player> visiblePlayers(Player player, List<Player> alreadyAdded) {
         return null;
     }
 

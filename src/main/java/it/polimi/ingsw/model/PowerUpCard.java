@@ -9,7 +9,7 @@ public abstract class PowerUpCard {
     public final Ammo cost;
     public void shootP(Player shooter, List<Player> targets){}
     public void shootS(Player shooter, List<Square> targets){}
-    public abstract List<Player> VisiblePlayers(Player player, List<Player> alreadyAdded);
+    public abstract List<Player> visiblePlayers(Player player, List<Player> alreadyAdded);
     public abstract List<Square> visibleSquares(Player player);
     public PowerUpCard(String name, Ammo cost, AmmoColor color)
     {

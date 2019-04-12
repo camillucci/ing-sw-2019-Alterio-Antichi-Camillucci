@@ -17,7 +17,7 @@ public class PowerUpAction extends ShootAction
             this.doActionCost = this.doActionCost.add(powerUpCard.cost);
             this.shootFuncP = this.shootFuncP.andThen(powerUpCard::shootP);
             this.shootFuncS = this.shootFuncS.andThen(powerUpCard::shootS);
-            this.possibleTargetsFuncP = powerUpCard::VisiblePlayers;
+            this.possibleTargetsFuncP = powerUpCard::visiblePlayers;
             this.possibleTargetsFuncS = powerUpCard::visibleSquares;
             this.selectedPowerUp.add(powerUpCard);
         }
