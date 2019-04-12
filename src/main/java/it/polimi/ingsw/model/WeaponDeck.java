@@ -8,7 +8,8 @@ public class WeaponDeck {
     private ArrayList<WeaponCard> deck = new ArrayList<>();
 
     public WeaponDeck() {
-        //TODO Add all cards
+        //TODO
+        //deck = (ArrayList<WeaponCard>) WeaponFactory.getWeapons();
         Collections.shuffle(deck);
     }
 
