@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.action.*;
 
 public class BranchMapFactory
 {
+    private BranchMapFactory(){}
     public static BranchMap noAdrenaline()
     {
         return new BranchMap(

@@ -13,14 +13,14 @@ public class Effects
     {
         for(int i=0; i < targets.size(); i++)
             if(damage.get(i) > 0)
-                targets.get(0).addDamage(shooter, damage.get(i));
+                targets.get(i).addDamage(shooter, damage.get(i));
     }
 
     public static void mark(Player shooter, List<Player> targets, List<Integer> marks)
     {
         for(int i=0; i < targets.size(); i++)
             if(marks.get(i) > 0)
-                targets.get(0).addMark(shooter, marks.get(i));
+                targets.get(i).addMark(shooter, marks.get(i));
     }
 
     public static void damageAll(Player shooter, List<Square> targets, List<Integer> damage)

@@ -1,16 +1,10 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.WeaponCard;
-import it.polimi.ingsw.model.branch.Branch;
-
-import java.util.ArrayList;
 
 public class ReloadAction extends Action
 {
-    private int yellowTot = 0;
-    private int blueTot = 0;
-    private int redTot = 0;
-
     public ReloadAction()
     {
         this.optional = true;
@@ -19,7 +13,6 @@ public class ReloadAction extends Action
     @Override
     protected void op()
     {
-        ArrayList<Branch> w = new ArrayList<>();
         for(WeaponCard wc : this.selectedWeapons)
         {
             //TODO this.ownerPlayer.reload(wc)
@@ -29,14 +22,10 @@ public class ReloadAction extends Action
     @Override
     public void addWeapon(WeaponCard weapon)
     {
-        if(this.ownerPlayer.getYellowAmmo() - yellowTot > weapon.yellowReloadCost
-                && this.ownerPlayer.getRedAmmo() - redTot > weapon.redReloadCost
-                && this.ownerPlayer.getBlueAmmo() - blueTot > weapon.blueReloadCost)
-                {
-                    this.yellowTot += weapon.yellowReloadCost;
-                    this.blueTot += weapon.blueReloadCost;
-                    this.redTot += weapon.redReloadCost;
-                    this.selectedWeapons.add(weapon);
-                }
+        if(Ammo.getAmmo(ownerPlayer).sub(doActionCost).isGreaterOrEqual(weapon.reloadCost))
+        {
+            this.doActionCost = this.doActionCost.add(weapon.reloadCost);
+            this.selectedWeapons.add(weapon);
+        }
     }
 }

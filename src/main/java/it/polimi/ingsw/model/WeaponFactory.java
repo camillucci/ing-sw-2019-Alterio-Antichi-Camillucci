@@ -12,6 +12,7 @@ import java.util.function.BiConsumer;
 
 public class WeaponFactory
 {
+    private WeaponFactory(){}
     private static ArrayList<WeaponCard> weapons = new ArrayList<>();
     public static List<WeaponCard> getWeapons()
     {
@@ -29,22 +30,22 @@ public class WeaponFactory
         // P1,..,Pn rest the same when andThen function is called
 
 
-        weapons.add(new WeaponCard("LockRifle",  new int[] {1, 0, 0, 2, 0, 0},
+        weapons.add(new WeaponCard("LockRifle", new Ammo(1,0,0), new Ammo(2,0,0),
                 new FireModalityAction(null, new Branch(shootDef(damage(2).andThen(mark(1))), new EndBranchAction())), //TODO cost
                 new FireModalityAction(null, new Branch(shootDef(damage(2).andThen(mark(1,1))), new EndBranchAction()))));
 
-        weapons.add(new WeaponCard("MachineGun", new int[] {0, 1, 0, 1, 1, 0},
+        weapons.add(new WeaponCard("MachineGun", new Ammo(0,1,0), new Ammo(1,1,0),
                 new FireModalityAction(null, new Branch(shootDef(damage(1,1)), new EndBranchAction())),
                 new FireModalityAction(null, new Branch(shootDef(damage(2,1)), new EndBranchAction())),
                 new FireModalityAction(null, new Branch(shootDef(damage(1,2,1)), new EndBranchAction())),
                 new FireModalityAction(null, new Branch(shootDef(damage(2,2,1)), new EndBranchAction()))));
 
-        weapons.add(new WeaponCard("T.H.O.R", new int[] {0, 1, 0, 1, 1, 0},
+        weapons.add(new WeaponCard("T.H.O.R", new Ammo(0,1,0), new Ammo(1,1,0),
                 new FireModalityAction(null, new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2)), new EndBranchAction())),
                 new FireModalityAction(null, new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2,1)), new EndBranchAction())),
                 new FireModalityAction(null, new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2,1,2)), new EndBranchAction()))));
 
-        weapons.add(new WeaponCard("PlasmaGun", new int[] {0, 0, 1, 1, 0, 1},
+        weapons.add(new WeaponCard("PlasmaGun", new Ammo(0,0,1), new Ammo(1,0,1),
                 new FireModalityAction(null, new Branch(shootDef(damage(2)),new EndBranchAction())), //S
                 new FireModalityAction(null,
                         new Branch(new MoveAction(2), shootDef(damage(2)), new EndBranchAction()), //M2S

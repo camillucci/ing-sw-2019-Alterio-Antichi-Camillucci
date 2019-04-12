@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.generics.Event;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PowerUpCard;
-import it.polimi.ingsw.model.Square;
-import it.polimi.ingsw.model.WeaponCard;
+import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,9 +16,7 @@ public abstract class Action
     protected ArrayList<WeaponCard> selectedWeapons = new ArrayList<>();
     protected ArrayList<PowerUpCard> selectedPowerUp = new ArrayList<>();
     protected boolean optional = false;
-    protected int blueCost = 0;
-    protected int redCost = 0;
-    protected int yellowCost = 0;
+    protected Ammo doActionCost = new Ammo(0,0,0);
 
     public void doAction()
     {
@@ -61,17 +56,16 @@ public abstract class Action
     }
     private boolean spendAmmo()
     {
-        if(this.ownerPlayer.getBlueAmmo() >= this.blueCost && this.ownerPlayer.getRedAmmo() >= this.redCost && this.ownerPlayer.getYellowAmmo() >= this.yellowCost)
+        if(this.ownerPlayer.getBlueAmmo() >= this.doActionCost.blue && this.ownerPlayer.getRedAmmo() >= this.doActionCost.red && this.ownerPlayer.getYellowAmmo() >= this.doActionCost.yellow)
         {
-            this.ownerPlayer.addBlue(-blueCost);
-            this.ownerPlayer.addRed(-redCost);
-            this.ownerPlayer.addYellow(-yellowCost);
+            this.ownerPlayer.addBlue(-doActionCost.blue);
+            this.ownerPlayer.addRed(-doActionCost.red);
+            this.ownerPlayer.addYellow(-doActionCost.yellow);
 
             return true;
         }
         return false;
     }
-
     protected void op() {
 
     }

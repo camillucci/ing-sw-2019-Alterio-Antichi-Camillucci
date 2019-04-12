@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
+import jdk.management.resource.internal.inst.SocketRMHooks;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -15,6 +17,7 @@ public class ShootAction extends Action
     protected Function<Player,List<Square>> possibleTargetsFuncS;
     protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
 
+    protected ShootAction(){}
     public ShootAction(BiConsumer<Player, List<Square>> shootFunc, Function<Player,List<Square>> possibleTargetsFunc) //  void shootFunc(Player,List<Square>), List<Square> possibleTargetsFunc(Player)
     {
         this.possibleTargetsFuncS = possibleTargetsFunc;
@@ -31,7 +34,7 @@ public class ShootAction extends Action
         this.shoot();
     }
 
-    private void shoot()
+    protected void shoot()
     {
         if(shootFuncP != null)
             this.shootFuncP.accept(this.ownerPlayer, this.targetPlayers);
@@ -41,7 +44,7 @@ public class ShootAction extends Action
 
     @Override
     public List<Player> getPossiblePlayers() {
-        return this.possibleTargetsFuncP.apply(ownerPlayer, this.targetPlayers);
+        return this.possibleTargetsFuncP.apply(ownerPlayer, new ArrayList<>(this.targetPlayers));
     }
 
     @Override
