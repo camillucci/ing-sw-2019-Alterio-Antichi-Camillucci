@@ -53,6 +53,10 @@ public class WeaponFactory
                 new FireModalityAction(null,
                         new Branch(new MoveAction(2), shootDef(damage(3)), new EndBranchAction()), //M2S
                         new Branch(shootDef(damage(3)), new MoveAction(2), new EndBranchAction())))); //SM2
+
+        weapons.add(new WeaponCard("Whisper", new Ammo(1,0,0), new Ammo(2,0,1),
+                new FireModalityAction(null, new Branch(shootDef(damage(3).andThen(mark(1))), new EndBranchAction()))));
+
 /*
         weapons.add(new WeaponCard("LockRifle", new int[] {1, 0, 0, 2, 0, 0},
                 new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1), new EndBranchAction()), null),
