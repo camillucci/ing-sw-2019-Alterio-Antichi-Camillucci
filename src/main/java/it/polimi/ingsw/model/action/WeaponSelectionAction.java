@@ -7,11 +7,6 @@ import java.util.ArrayList;
 
 public class WeaponSelectionAction extends ExtendableAction
 {
-    public WeaponSelectionAction()
-    {
-        //TODO
-    }
-
     @Override
     protected void op()
     {

@@ -26,11 +26,6 @@ public class ShootAction extends Action
         this.shootFuncP = shootFunc;
     }
 
-    protected ShootAction()
-    {
-
-    }
-
     @Override
     protected void op() {
         this.shoot();

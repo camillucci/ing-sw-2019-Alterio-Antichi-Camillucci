@@ -23,7 +23,7 @@ class BranchMapTest {
     @Test
     void getPossibleActions()
     {
-        curBranchMap = new NoAdrenalineBranchMap(); // = {M1G, M3, W }
+        curBranchMap = BranchMapFactory.noAdrenaline(); // = {M1G, M3, W }
         ArrayList<Action> expectedActions = new ArrayList<>();
         expectedActions.add(new MoveAction(1)); //M1
         expectedActions.add(new MoveAction(3)); //M3
@@ -39,21 +39,21 @@ class BranchMapTest {
     {
         // Rollback event
         eventTriggered = false;
-        curBranchMap = new NoAdrenalineBranchMap();
+        curBranchMap = BranchMapFactory.noAdrenaline();
         curBranchMap.rollbackEvent.addEventHandler((a,b)->this.eventTriggered = true);
         curBranchMap.getPossibleActions().stream().filter(a->a instanceof RollBackAction).forEach(a->{a.initializeAction(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // EndBranch event
         eventTriggered = false;
-        curBranchMap = new NoAdrenalineBranchMap();
+        curBranchMap = BranchMapFactory.noAdrenaline();
         curBranchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->this.eventTriggered = true);
         curBranchMap.getPossibleActions().stream().filter(a->a instanceof EndBranchAction).forEach(a->{a.initializeAction(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // NewActions event
         eventTriggered = false;
-        curBranchMap = new AdrenalineX1BranchMap();
+        curBranchMap = BranchMapFactory.adrenalineX1();
         curBranchMap.newActionsEvent.addEventHandler(this::checkNewActionsEvent);
         curBranchMap.newActionsEvent.addEventHandler((a,b)->this.eventTriggered=true);
         MoveAction M3 = new MoveAction(3);

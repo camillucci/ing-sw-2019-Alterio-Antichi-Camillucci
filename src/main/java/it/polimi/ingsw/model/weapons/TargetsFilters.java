@@ -11,16 +11,16 @@ public class TargetsFilters
 
     public static List<Player> visiblePlayers(Player player)
     {
-        return player.getGameBoard().getInRangePlayers(player);
+        return player.gameBoard.getInRangePlayers(player);
     }
 
     public static List<Square> visibleSquares(Player player) {
-        return player.getGameBoard().getInRangeSquares(player);
+        return player.gameBoard.getInRangeSquares(player);
     }
 
     public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded)
     {
         Player tmp = alreadyAdded.isEmpty() ? player : alreadyAdded.get(alreadyAdded.size()-1);
-        return tmp.getGameBoard().getInRangePlayers(tmp);
+        return tmp.gameBoard.getInRangePlayers(tmp);
     }
 }

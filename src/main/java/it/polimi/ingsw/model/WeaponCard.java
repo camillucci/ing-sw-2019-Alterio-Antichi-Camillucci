@@ -10,7 +10,7 @@ import java.util.List;
 
 public class WeaponCard implements Visualizable {
 
-    protected String name;
+    public final String name;
     public final int blueBuyCost;
     public final int redBuyCost;
     public final int yellowBuyCost;
@@ -18,7 +18,7 @@ public class WeaponCard implements Visualizable {
     public final int redReloadCost;
     public final int yellowReloadCost;
 
-    protected List<FireModalityAction> fireModalities = new ArrayList<>();
+    protected List<FireModalityAction> fireModalities;
 
     public WeaponCard(String name, int[] ammoCosts, List<FireModalityAction> fireModalities)
     {
@@ -31,29 +31,15 @@ public class WeaponCard implements Visualizable {
         this.redReloadCost = ammoCosts[4];
         this.yellowReloadCost = ammoCosts[5];
     }
-    public WeaponCard(String name, int[] ammoCosts, FireModalityAction first)
+    public WeaponCard(String name, int[] ammoCosts, FireModalityAction ... fireModalityActions)
     {
-        this(name, ammoCosts, Collections.singletonList(first));
-    }
-
-    public WeaponCard(String name, int[] ammoCosts, FireModalityAction first, FireModalityAction second)
-    {
-        this(name, ammoCosts, Arrays.asList(first,second));
-    }
-
-    public WeaponCard(String name, int[] ammoCosts, FireModalityAction first, FireModalityAction second, FireModalityAction third) {
-        this(name, ammoCosts, Arrays.asList(first, second, third));
-    }
-
-    public WeaponCard(String name, int[] ammoCosts, FireModalityAction first, FireModalityAction second, FireModalityAction third, FireModalityAction fourth) {
-        this(name, ammoCosts, Arrays.asList(first, second, third, fourth));
+        this(name, ammoCosts, Arrays.asList(fireModalityActions));
     }
 
     public List<Branch> getFireModalities()
     {
         ArrayList<Branch> ret = new ArrayList<>();
-        for(FireModalityAction a : fireModalities)
-            ret.add(new Branch(a));
+        fireModalities.forEach(modality->ret.add(new Branch(modality)));
         return ret;
     }
 

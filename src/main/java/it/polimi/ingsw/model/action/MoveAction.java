@@ -34,7 +34,7 @@ public class MoveAction extends Action
 
     @Override
     public List<Square> getPossibleSquares() {
-        return ownerPlayer.getGameBoard().getSquares(ownerPlayer, this.maxDistance);
+        return ownerPlayer.gameBoard.getSquares(ownerPlayer, this.maxDistance);
     }
 
     @Override

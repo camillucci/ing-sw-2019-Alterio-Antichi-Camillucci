@@ -4,23 +4,21 @@ import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public abstract class BranchMap
+public class BranchMap
 {
     public final Event<BranchMap, List<Action>> newActionsEvent = new Event<>();
     public final Event<BranchMap, EndBranchAction> endOfBranchMapReachedEvent = new Event<>();
     public final Event<BranchMap, RollBackAction> rollbackEvent = new Event<>();
     private List<Branch> branches;
 
-    protected BranchMap()
-    {
-    }
-
-    protected BranchMap(List<Branch> branches)
+    public BranchMap(List<Branch> branches)
     {
         this.setupBranches(branches);
     }
+    public BranchMap(Branch ... branches) {this(Arrays.asList(branches));}
 
     public List<Action> getPossibleActions()
     {

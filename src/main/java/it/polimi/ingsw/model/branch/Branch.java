@@ -76,7 +76,7 @@ public class Branch
     }
     public Branch(Action action1, Action action2, Action action3, Action action4, ExtendableAction extendableAction)
     {
-        this(Arrays.asList(action1, action2, action3, action4),extendableAction);
+        this(Arrays.asList(action1, action2, action3, action4), extendableAction);
     }
 
     /*****************************************************************/

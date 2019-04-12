@@ -8,14 +8,14 @@ import java.util.List;
 
 public class Player {
 
-    private String name;
-    private PlayerColor color;
+    public final GameBoard gameBoard;
+    public final PlayerColor color;
+    public final String name;
     private int points;
     private int skull;
     private int blueAmmo;
     private int redAmmo;
     private int yellowAmmo;
-    private GameBoard gameBoard;
     private Square currentSquare;
     private boolean finalFrenzy;
     private ArrayList<PlayerColor> damage = new ArrayList<>();
@@ -99,10 +99,6 @@ public class Player {
         for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++) {
             mark.add(shooter.getColor());
         }
-    }
-
-    public GameBoard getGameBoard(){
-        return this.gameBoard;
     }
 
     public void addPoints(int newPoints) {

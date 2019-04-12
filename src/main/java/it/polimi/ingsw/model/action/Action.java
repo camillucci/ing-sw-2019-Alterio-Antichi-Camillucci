@@ -23,14 +23,6 @@ public abstract class Action
     protected int redCost = 0;
     protected int yellowCost = 0;
 
-    public Action()
-    {
-
-    }
-    public void initializeAction(Player ownerPlayer)
-    {
-        this.ownerPlayer = ownerPlayer;
-    }
     public void doAction()
     {
         if(!spendAmmo())
@@ -38,23 +30,6 @@ public abstract class Action
         this.op();
         completedActionEvent.invoke(this, this);
     }
-
-    private boolean spendAmmo()
-    {
-        if(this.ownerPlayer.getBlueAmmo() >= this.blueCost && this.ownerPlayer.getRedAmmo() >= this.redCost && this.ownerPlayer.getYellowAmmo() >= this.yellowCost)
-        {
-            this.ownerPlayer.addBlue(-blueCost);
-            this.ownerPlayer.addRed(-redCost);
-            this.ownerPlayer.addYellow(-yellowCost);
-
-            return true;
-        }
-        return false;
-    }
-    protected void op() {
-
-    }
-
     public List<Player> getPossiblePlayers(){return Collections.emptyList();}
     public List<Square> getPossibleSquares(){return Collections.emptyList();}
     public boolean isOptional(){return optional;}
@@ -79,5 +54,25 @@ public abstract class Action
     public boolean isCompatible(Action action)
     {
         return action.getClass().isInstance(this);
+    }
+    public void initializeAction(Player ownerPlayer)
+    {
+        this.ownerPlayer = ownerPlayer;
+    }
+    private boolean spendAmmo()
+    {
+        if(this.ownerPlayer.getBlueAmmo() >= this.blueCost && this.ownerPlayer.getRedAmmo() >= this.redCost && this.ownerPlayer.getYellowAmmo() >= this.yellowCost)
+        {
+            this.ownerPlayer.addBlue(-blueCost);
+            this.ownerPlayer.addRed(-redCost);
+            this.ownerPlayer.addYellow(-yellowCost);
+
+            return true;
+        }
+        return false;
+    }
+
+    protected void op() {
+
     }
 }
