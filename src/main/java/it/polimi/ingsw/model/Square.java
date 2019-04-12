@@ -3,8 +3,8 @@ package it.polimi.ingsw.model;
 import java.util.List;
 
 public abstract class Square {
-    protected int x;
     protected int y;
+    protected int x;
     protected SquareBorder north;
     protected SquareBorder south;
     protected SquareBorder west;
@@ -13,12 +13,12 @@ public abstract class Square {
 
     public abstract void grab(Player player);
 
-    public int getX() {
-        return x;
-    }
-
     public int getY() {
         return y;
+    }
+
+    public int getX() {
+        return x;
     }
 
     public SquareBorder getNorth() {
@@ -39,5 +39,13 @@ public abstract class Square {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
+
+    public void removePlayer(Player player) {
+        players.remove(player);
     }
 }

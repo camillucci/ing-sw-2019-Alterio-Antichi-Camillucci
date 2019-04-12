@@ -88,33 +88,36 @@ public class GameBoard {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(player.getCurrentSquare());
 
+        if(dist == 0)
+            return tempSquare;
+
         //Add all valid squares of distance 1
         if (tempSquare.get(0).getNorth() == DOOR || tempSquare.get(0).getNorth() == ROOM)
-            tempSquare.add(squares[tempSquare.get(0).getX()][tempSquare.get(0).getY() + 1]);
-        if (tempSquare.get(0).getSouth() == DOOR || tempSquare.get(0).getNorth() == ROOM)
-            tempSquare.add(squares[tempSquare.get(0).getX()][tempSquare.get(0).getY() - 1]);
-        if (tempSquare.get(0).getWest() == DOOR || tempSquare.get(0).getNorth() == ROOM)
-            tempSquare.add(squares[tempSquare.get(0).getX() - 1][tempSquare.get(0).getY()]);
-        if (tempSquare.get(0).getEast() == DOOR || tempSquare.get(0).getNorth() == ROOM)
-            tempSquare.add(squares[tempSquare.get(0).getX() + 1][tempSquare.get(0).getY()]);
+            tempSquare.add(squares[tempSquare.get(0).getY() - 1][tempSquare.get(0).getX()]);
+        if (tempSquare.get(0).getSouth() == DOOR || tempSquare.get(0).getSouth() == ROOM)
+            tempSquare.add(squares[tempSquare.get(0).getY() + 1][tempSquare.get(0).getX()]);
+        if (tempSquare.get(0).getWest() == DOOR || tempSquare.get(0).getWest() == ROOM)
+            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() - 1]);
+        if (tempSquare.get(0).getEast() == DOOR || tempSquare.get(0).getEast() == ROOM)
+            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() + 1]);
 
         // For each number beyond 1...
         for (int i = 1; i < dist; i++) {
             int temp = tempSquare.size();
             //...add all valid squares of distance 1 not already added
-            for (; j <= temp; j++) {
+            for (; j < temp; j++) {
                 if ((tempSquare.get(j).getNorth() == DOOR || tempSquare.get(j).getNorth() == ROOM)
-                        && !tempSquare.contains(squares[tempSquare.get(j).getX()][tempSquare.get(j).getY() + 1]))
-                    tempSquare.add(squares[tempSquare.get(j).getX()][tempSquare.get(j).getY() + 1]);
-                if ((tempSquare.get(j).getSouth() == DOOR || tempSquare.get(j).getNorth() == ROOM)
-                        && !tempSquare.contains(squares[tempSquare.get(j).getX()][tempSquare.get(j).getY() - 1]))
-                    tempSquare.add(squares[tempSquare.get(j).getX()][tempSquare.get(j).getY() - 1]);
-                if ((tempSquare.get(j).getWest() == DOOR || tempSquare.get(j).getNorth() == ROOM)
-                        && !tempSquare.contains(squares[tempSquare.get(j).getX() - 1][tempSquare.get(j).getY()]))
-                    tempSquare.add(squares[tempSquare.get(j).getX() - 1][tempSquare.get(j).getY()]);
-                if ((tempSquare.get(j).getEast() == DOOR || tempSquare.get(j).getNorth() == ROOM)
-                        && !tempSquare.contains(squares[tempSquare.get(j).getX() + 1][tempSquare.get(j).getY()]))
-                    tempSquare.add(squares[tempSquare.get(j).getX() + 1][tempSquare.get(j).getY()]);
+                        && !tempSquare.contains(squares[tempSquare.get(j).getY() - 1][tempSquare.get(j).getX()]))
+                    tempSquare.add(squares[tempSquare.get(j).getY() - 1][tempSquare.get(j).getX()]);
+                if ((tempSquare.get(j).getSouth() == DOOR || tempSquare.get(j).getSouth() == ROOM)
+                        && !tempSquare.contains(squares[tempSquare.get(j).getY() + 1][tempSquare.get(j).getX()]))
+                    tempSquare.add(squares[tempSquare.get(j).getY() + 1][tempSquare.get(j).getX()]);
+                if ((tempSquare.get(j).getWest() == DOOR || tempSquare.get(j).getWest() == ROOM)
+                        && !tempSquare.contains(squares[tempSquare.get(j).getY()][tempSquare.get(j).getX() - 1]))
+                    tempSquare.add(squares[tempSquare.get(j).getY()][tempSquare.get(j).getX() - 1]);
+                if ((tempSquare.get(j).getEast() == DOOR || tempSquare.get(j).getEast() == ROOM)
+                        && !tempSquare.contains(squares[tempSquare.get(j).getY()][tempSquare.get(j).getX() + 1]))
+                    tempSquare.add(squares[tempSquare.get(j).getY()][tempSquare.get(j).getX() + 1]);
             }
         }
         return tempSquare;
@@ -126,24 +129,24 @@ public class GameBoard {
 
         //Add rooms near the player's current square...
         if(tempSquare.get(0).getNorth() == DOOR)
-            tempSquare.add(squares[tempSquare.get(0).getX()][tempSquare.get(0).getY() + 1]);
+            tempSquare.add(squares[tempSquare.get(0).getY() - 1][tempSquare.get(0).getX()]);
         if(tempSquare.get(0).getSouth() == DOOR)
-            tempSquare.add(squares[tempSquare.get(0).getX()][tempSquare.get(0).getY() - 1]);
+            tempSquare.add(squares[tempSquare.get(0).getY() + 1][tempSquare.get(0).getX()]);
         if(tempSquare.get(0).getWest() == DOOR)
-            tempSquare.add(squares[tempSquare.get(0).getX() - 1][tempSquare.get(0).getY()]);
+            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() - 1]);
         if(tempSquare.get(0).getEast() == DOOR)
-            tempSquare.add(squares[tempSquare.get(0).getX() + 1][tempSquare.get(0).getY()]);
+            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() + 1]);
 
         //...and add the other squares of those room
-        for(Square s : tempSquare) {
-            if(s.getNorth() == ROOM && !tempSquare.contains(squares[s.getX()][s.getY() + 1]))
-                tempSquare.add(squares[s.getX()][s.getY() + 1]);
-            if(s.getSouth() == ROOM && !tempSquare.contains(squares[s.getX()][s.getY() - 1]))
-                tempSquare.add(squares[s.getX()][s.getY() - 1]);
-            if(s.getWest() == ROOM && !tempSquare.contains(squares[s.getX() - 1][s.getY()]))
-                tempSquare.add(squares[s.getX() - 1][s.getY()]);
-            if(s.getEast() == ROOM && !tempSquare.contains(squares[s.getX() + 1][s.getY()]))
-                tempSquare.add(squares[s.getX() + 1][s.getY()]);
+        for(int i = 0; i < tempSquare.size(); i++) {
+            if(tempSquare.get(i).getNorth() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY() - 1][tempSquare.get(i).getX()]))
+                tempSquare.add(squares[tempSquare.get(i).getY() - 1][tempSquare.get(i).getX()]);
+            if(tempSquare.get(i).getSouth() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY() + 1][tempSquare.get(i).getX()]))
+                tempSquare.add(squares[tempSquare.get(i).getY() + 1][tempSquare.get(i).getX()]);
+            if(tempSquare.get(i).getWest() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() - 1]))
+                tempSquare.add(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() - 1]);
+            if(tempSquare.get(i).getEast() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() + 1]))
+                tempSquare.add(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() + 1]);
         }
         return tempSquare;
     }
@@ -153,6 +156,7 @@ public class GameBoard {
         List<Player> tempPlayers = new ArrayList<>();
         for(Square s : tempSquare)
             tempPlayers.addAll(s.getPlayers());
+        tempPlayers.remove(player);
         return tempPlayers;
     }
 
@@ -166,5 +170,16 @@ public class GameBoard {
 
     public List<List<PlayerColor>> getKillShotTrack() {
         return killShotTrack;
+    }
+
+    public Square getSpawnAndShopSquare(AmmoColor color) {
+        switch (color) {
+            case BLUE:
+                return squares[0][2];
+            case RED:
+                return squares[1][0];
+            default:
+                return squares[2][3];
+        }
     }
 }

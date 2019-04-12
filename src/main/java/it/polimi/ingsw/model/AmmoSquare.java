@@ -6,9 +6,9 @@ public class AmmoSquare extends Square {
 
     private AmmoCard ammoCard;
 
-    public AmmoSquare(int x, int y, SquareBorder[] borders, AmmoCard ammoCard) {
-        this.x = x;
+    public AmmoSquare(int y, int x, SquareBorder[] borders, AmmoCard ammoCard) {
         this.y = y;
+        this.x = x;
         this.north = borders[0];
         this.south = borders[1];
         this.west = borders[2];

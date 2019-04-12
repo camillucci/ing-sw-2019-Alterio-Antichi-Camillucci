@@ -17,7 +17,7 @@ class MatchTest {
     void assignPoints1() {
         List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
         List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
-        Match match = new Match(names, colors, 8, 12);
+        Match match = new Match(names, colors, 8, 10);
 
         Player deadPlayer = match.getPlayers().get(2);
         for(int i = 0; i < n; i++) {
