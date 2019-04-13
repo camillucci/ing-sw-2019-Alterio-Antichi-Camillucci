@@ -7,38 +7,54 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
     private GameBoard gameBoard = new GameBoard(3, 10);
     private Player player = new Player("A", PlayerColor.YELLOW, gameBoard);
-    private static final int n = 10;
+    private static final int N = 10;
+    private static final int MAX_AMMO = 3;
+    private static final int MAX_POWER_UPS = 3;
+    private static final int MAX_POWER_UPS_RESPAWN = 4;
+    private static final int MAX_DAMAGES = 12;
 
     @Test
     void addRed() {
-        for(int i = 0; i < n; i++) {
-            assertEquals(Math.min(i + 1, 3), player.getRedAmmo());
+        for(int i = 0; i < N; i++) {
+            assertEquals(Math.min(i + 1, MAX_AMMO), player.getRedAmmo());
             player.addRed(1);
         }
     }
 
     @Test
     void addBlue() {
-        for(int i = 0; i < n; i++) {
-            assertEquals(Math.min(i + 1, 3), player.getBlueAmmo());
+        for(int i = 0; i < N; i++) {
+            assertEquals(Math.min(i + 1, MAX_AMMO), player.getBlueAmmo());
             player.addBlue(1);
         }
     }
 
     @Test
     void addYellow() {
-        for(int i = 0; i < n; i++) {
-            assertEquals(Math.min(i + 1, 3), player.getYellowAmmo());
+        for(int i = 0; i < N; i++) {
+            assertEquals(Math.min(i + 1, MAX_AMMO), player.getYellowAmmo());
             player.addYellow(1);
         }
     }
 
     @Test
-    void addPowerUpCard() {
-        for(int i = 0; i < n; i++) {
-            assertEquals(Math.min(i, 3), player.getPowerUps().size());
+    void addPowerUpCardAndRemove() {
+        for(int i = 0; i < N; i++) {
+            assertEquals(Math.min(i, MAX_POWER_UPS), player.getPowerUps().size());
             player.addPowerUpCard();
         }
+        for(int i = MAX_POWER_UPS - 1; i >= 0; i--)
+            player.removePowerUpCard(i);
+    }
+
+    @Test
+    void addPowerUpCardRespawnAndRemove() {
+        for(int i = 0; i < N; i++) {
+            assertEquals(Math.min(i, MAX_POWER_UPS_RESPAWN), player.getPowerUps().size());
+            player.addPowerUpCardRespawn();
+        }
+        for(int i = MAX_POWER_UPS_RESPAWN - 1; i >= 0; i--)
+            player.removePowerUpCard(i);
     }
 
     @Test
@@ -46,10 +62,10 @@ class PlayerTest {
         Player player2 = new Player("B", PlayerColor.VIOLET, gameBoard);
         Player player3 = new Player("C", PlayerColor.GREEN, gameBoard);
 
-        for(int i = 0; i < n * 2; i++) {
-            assertEquals(Math.min(i * 3, 12), player.getDamage().size());
+        for(int i = 0; i < N * 2; i++) {
+            assertEquals(Math.min(i * 3, MAX_DAMAGES), player.getDamage().size());
             player.addDamage(player2, 1);
-            assertEquals(Math.min(i * 3 + 1, 12), player.getDamage().size());
+            assertEquals(Math.min(i * 3 + 1, MAX_DAMAGES), player.getDamage().size());
             player.addDamage(player3, 2);
         }
     }
