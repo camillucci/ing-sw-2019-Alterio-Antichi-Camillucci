@@ -39,14 +39,14 @@ class BranchMapTest {
     {
         // Rollback event
         eventTriggered = false;
-        curBranchMap = BranchMapFactory.noAdrenaline();
+        curBranchMap = BranchMapFactory.threeDamage();
         curBranchMap.rollbackEvent.addEventHandler((a,b)->this.eventTriggered = true);
         curBranchMap.getPossibleActions().stream().filter(a->a instanceof RollBackAction).forEach(a->{a.initializeAction(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // EndBranch event
         eventTriggered = false;
-        curBranchMap = BranchMapFactory.noAdrenaline();
+        curBranchMap = BranchMapFactory.sixDamage();
         curBranchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->this.eventTriggered = true);
         curBranchMap.getPossibleActions().stream().filter(a->a instanceof EndBranchAction).forEach(a->{a.initializeAction(p);a.doAction();});
         assertTrue(eventTriggered);
