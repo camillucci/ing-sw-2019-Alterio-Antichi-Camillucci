@@ -19,13 +19,17 @@ public class Ammo
     {
         return new Ammo(this.blue + ammo.blue, this.red + ammo.red, this.yellow + ammo.yellow);
     }
-    public boolean isLessThan(Ammo cost)
+    public boolean isLessThan(Ammo ammo)
     {
-        return this.blue < cost.blue && this.red < cost.red && this.yellow < cost.yellow;
+        return this.isLessOrEqualThan(ammo) && ! this.isEqual(ammo);
+    }
+    public boolean isLessOrEqualThan(Ammo ammo)
+    {
+        return this.blue <= ammo.blue && this.red <= ammo.red && this.yellow <= ammo.yellow;
     }
     public boolean isGreaterOrEqual(Ammo ammo)
     {
-        return this.isGreaterThan(ammo) || this.equals(ammo);
+        return ammo.isLessOrEqualThan(ammo);
     }
     public boolean isGreaterThan(Ammo ammo)
     {
@@ -35,6 +39,12 @@ public class Ammo
     {
         return new Ammo(player.getBlueAmmo(), player.getRedAmmo(), player.getYellowAmmo());
     }
+
+    public boolean isEqual(Ammo ammo)
+    {
+        return this.blue == ammo.blue && this.red == ammo.red && this.yellow == ammo.yellow;
+    }
+
     @Override
     public boolean equals(Object object)
     {

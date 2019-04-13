@@ -12,8 +12,8 @@ import java.util.function.Function;
 
 public class ShootAction extends Action
 {
-    protected BiConsumer<Player, List<Player>> shootFuncP;
-    protected BiConsumer<Player, List<Square>> shootFuncS;
+    protected BiConsumer<Player, List<Player>> shootFuncP = (a,b) -> {};;
+    protected BiConsumer<Player, List<Square>> shootFuncS = (a,b) -> {};;
     protected Function<Player,List<Square>> possibleTargetsFuncS;
     protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
 
@@ -36,10 +36,8 @@ public class ShootAction extends Action
 
     protected void shoot()
     {
-        if(shootFuncP != null)
-            this.shootFuncP.accept(this.ownerPlayer, this.targetPlayers);
-        else
-            this.shootFuncS.accept(this.ownerPlayer, this.targetSquares);
+        this.shootFuncP.accept(this.ownerPlayer, this.targetPlayers);
+        this.shootFuncS.accept(this.ownerPlayer, this.targetSquares);
     }
 
     @Override
