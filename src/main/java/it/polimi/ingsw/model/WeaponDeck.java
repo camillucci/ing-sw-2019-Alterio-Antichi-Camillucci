@@ -1,15 +1,14 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class WeaponDeck {
 
-    private ArrayList<WeaponCard> deck = new ArrayList<>();
+    private List<WeaponCard> deck;
 
     public WeaponDeck() {
-        //TODO
-        //deck = (ArrayList<WeaponCard>) WeaponFactory.getWeapons();
+        deck = WeaponFactory.getWeapons();
         Collections.shuffle(deck);
     }
 

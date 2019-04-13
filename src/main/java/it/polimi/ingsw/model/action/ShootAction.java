@@ -11,8 +11,8 @@ import java.util.function.Function;
 
 public class ShootAction extends Action
 {
-    protected BiConsumer<Player, List<Player>> shootFuncP = (a,b) -> {};;
-    protected BiConsumer<Player, List<Square>> shootFuncS = (a,b) -> {};;
+    protected BiConsumer<Player, List<Player>> shootFuncP = (a,b) -> {};
+    protected BiConsumer<Player, List<Square>> shootFuncS = (a,b) -> {};
     protected Function<Player,List<Square>> possibleTargetsFuncS;
     protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
 

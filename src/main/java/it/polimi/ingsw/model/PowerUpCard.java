@@ -18,4 +18,8 @@ public abstract class PowerUpCard {
         this.cost = cost;
         this.color = color;
     }
+
+    public AmmoColor getColor() {
+        return color;
+    }
 }

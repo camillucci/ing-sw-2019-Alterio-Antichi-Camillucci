@@ -26,6 +26,7 @@ public class Player {
     public final Event<Player, Player> deathEvent = new Event<>();
     private static final int MAX_AMMO = 3;
     private static final int MAX_POWER_UPS = 3;
+    private static final int MAX_POWER_UPS_RESPAWN = 4;
     private static final int MAX_MARKS = 3;
     private static final int MAX_DAMAGES = 12;
 
@@ -68,6 +69,16 @@ public class Player {
         if(powerUps.size() < MAX_POWER_UPS){
             powerUps.add(gameBoard.getPowerUpDeck().draw());
         }
+    }
+
+    public void addPowerUpCardRespawn() {
+        if(powerUps.size() < MAX_POWER_UPS_RESPAWN){
+            powerUps.add(gameBoard.getPowerUpDeck().draw());
+        }
+    }
+
+    public void removePowerUpCard(int n) {
+        powerUps.remove(n);
     }
 
     public void addDamage(Player shooter, int val) {

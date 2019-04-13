@@ -34,13 +34,22 @@ public class Match {
     }
 
     public void respawn(){
-        for(int i = 0; i < deadPlayers.size(); i++) {
-            // TODO
+        for(Player p : deadPlayers) {
+            p.addPowerUpCardRespawn();
+            //TODO Make the player choose the card to discard
+            AmmoColor choice = p.getPowerUps().get(0).getColor();
+            p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(choice));
+            gameBoard.getSpawnAndShopSquare(choice).addPlayer(p);
         }
     }
 
-    public void spawn(){
-        //TODO
+    public void spawn(Player player){
+        player.addPowerUpCard();
+        player.addPowerUpCard();
+        //TODO Make the player choose the card to discard
+        AmmoColor choice = player.getPowerUps().get(0).getColor();
+        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(choice));
+        gameBoard.getSpawnAndShopSquare(choice).addPlayer(player);
     }
 
     public void assignPoints(){
