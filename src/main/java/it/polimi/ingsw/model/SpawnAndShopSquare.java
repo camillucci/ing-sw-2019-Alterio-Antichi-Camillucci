@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.action.EndBranchAction;
+import it.polimi.ingsw.model.branch.Branch;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +24,15 @@ public class SpawnAndShopSquare extends Square {
     }
 
     @Override
-    public void grab(Player player) {
-        //TODO
+    public List<Branch> grab(Player player) {
+        ArrayList<Branch> ret = new ArrayList<>();
+        for(WeaponCard w: weapons)
+            if(Ammo.getAmmo(player).isGreaterOrEqual(w.buyCost))
+            {
+                Action action = new Action(a -> a.getOwnerPlayer().addWeapon(a.getSelectedWeapons().get(0)));
+                action.addWeapon(w);
+                ret.add(new Branch(action, new EndBranchAction()));
+            }
+        return ret;
     }
 }

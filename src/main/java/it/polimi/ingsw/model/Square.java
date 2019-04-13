@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.branch.Branch;
+
 import java.util.List;
 
 public abstract class Square {
@@ -11,7 +13,7 @@ public abstract class Square {
     protected SquareBorder east;
     protected List<Player> players;
 
-    public abstract void grab(Player player);
+    public abstract List<Branch> grab(Player player);
 
     public int getY() {
         return y;

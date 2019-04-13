@@ -12,14 +12,14 @@ public class PowerUpAction extends ShootAction
             this.doActionCost = this.doActionCost.add(powerUpCard.cost);
             this.possibleTargetsFuncP = powerUpCard::visiblePlayers;
             this.possibleTargetsFuncS = powerUpCard::visibleSquares;
-            this.selectedPowerUp.add(powerUpCard);
+            this.selectedPowerUps.add(powerUpCard);
         }
     }
 
     @Override
     public void shoot()
     {
-        for(PowerUpCard pu : this.selectedPowerUp)
+        for(PowerUpCard pu : this.selectedPowerUps)
         {
             pu.shootP(this.ownerPlayer, this.targetPlayers);
             pu.shootS(this.ownerPlayer, this.targetSquares);

@@ -101,6 +101,11 @@ public class Player {
         }
     }
 
+    public void addWeapon(WeaponCard weaponCard)
+    {
+        //TODO
+    }
+
     public void addPoints(int newPoints) {
         points = points + newPoints;
     }

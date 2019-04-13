@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.branch.Branch;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AmmoSquare extends Square {
 
@@ -18,7 +22,7 @@ public class AmmoSquare extends Square {
     }
 
     @Override
-    public void grab(Player player) {
+    public List<Branch> grab(Player player) {
         if(!this.isEmpty()) {
             player.addRed(ammoCard.getRed());
             player.addBlue(ammoCard.getBlue());
@@ -29,6 +33,7 @@ public class AmmoSquare extends Square {
             }
             ammoCard = null;
         }
+        return Collections.emptyList();
     }
 
     public boolean isEmpty() {

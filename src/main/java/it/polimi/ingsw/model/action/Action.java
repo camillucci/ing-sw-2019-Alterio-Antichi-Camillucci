@@ -6,17 +6,30 @@ import it.polimi.ingsw.model.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
-public abstract class Action
+public class Action
 {
     public final Event<Action, Action> completedActionEvent = new Event<>();
+    private Consumer opMethod = a -> { };
     protected Player ownerPlayer;
     protected ArrayList<Square> targetSquares = new ArrayList<>();
     protected ArrayList<Player> targetPlayers = new ArrayList<>();
     protected ArrayList<WeaponCard> selectedWeapons = new ArrayList<>();
-    protected ArrayList<PowerUpCard> selectedPowerUp = new ArrayList<>();
+    protected ArrayList<PowerUpCard> selectedPowerUps = new ArrayList<>();
     protected boolean optional = false;
     protected Ammo doActionCost = new Ammo(0,0,0);
+    protected Action(){}
+
+    public Action(Consumer<Action> doActionMethod, boolean isOptional)
+    {
+        this.opMethod = doActionMethod;
+        this.optional = isOptional;
+    }
+    public Action(Consumer<Action> doActionMethod)
+    {
+        this(doActionMethod, false);
+    }
 
     public void doAction()
     {
@@ -25,9 +38,14 @@ public abstract class Action
         this.op();
         completedActionEvent.invoke(this, this);
     }
+    public boolean isOptional(){return optional;}
+    public List<Player> getTargetPlayers(){return new ArrayList<>(this.targetPlayers);}
+    public List<Square> getTargetSquares(){return new ArrayList<>(this.targetSquares);}
+    public List<WeaponCard> getSelectedWeapons(){return new ArrayList<>(this.selectedWeapons);}
+    public List<PowerUpCard> getSelectedPowerUps() {return new ArrayList<>(this.selectedPowerUps);}
     public List<Player> getPossiblePlayers(){return Collections.emptyList();}
     public List<Square> getPossibleSquares(){return Collections.emptyList();}
-    public boolean isOptional(){return optional;}
+    public Player getOwnerPlayer(){ return this.ownerPlayer; }
     public void addTarget(Square target)
     {
         if(this.getPossibleSquares().contains(target))
@@ -44,7 +62,7 @@ public abstract class Action
     }
     public void addPowerUp(PowerUpCard powerUp)
     {
-        this.selectedPowerUp.add(powerUp);
+        this.selectedPowerUps.add(powerUp);
     }
     public boolean isCompatible(Action action)
     {
@@ -56,7 +74,7 @@ public abstract class Action
     }
     private boolean spendAmmo()
     {
-        if(this.ownerPlayer.getBlueAmmo() >= this.doActionCost.blue && this.ownerPlayer.getRedAmmo() >= this.doActionCost.red && this.ownerPlayer.getYellowAmmo() >= this.doActionCost.yellow)
+        if(Ammo.getAmmo(this.ownerPlayer).isGreaterOrEqual(this.doActionCost))
         {
             this.ownerPlayer.addBlue(-doActionCost.blue);
             this.ownerPlayer.addRed(-doActionCost.red);
@@ -67,6 +85,6 @@ public abstract class Action
         return false;
     }
     protected void op() {
-
+        this.opMethod.accept(this);
     }
 }

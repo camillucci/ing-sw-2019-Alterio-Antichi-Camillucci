@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.action;
 
-public class GrabAction extends Action
+public class GrabAction extends ExtendableAction
 {
     @Override
     protected void op()
@@ -9,6 +9,6 @@ public class GrabAction extends Action
     }
     private void grab()
     {
-        this.ownerPlayer.getCurrentSquare().grab(this.ownerPlayer);
+        this.branches = this.ownerPlayer.getCurrentSquare().grab(this.ownerPlayer);
     }
 }
