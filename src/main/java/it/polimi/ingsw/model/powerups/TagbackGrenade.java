@@ -11,16 +11,17 @@ public class TagbackGrenade extends PowerUpCard {
 
     public TagbackGrenade(AmmoColor color)
     {
-        super("TagbackGrenade0", null, color);
-        //TODO
+        super("TagbackGrenade0", null, color); //TODO
     }
     @Override
-    public List<Player> VisiblePlayers(Player player, List<Player> alreadyAdded) {
+    public List<Player> visiblePlayers(Player player, List<Player> alreadyAdded) {
+        //TODO
         return null;
     }
 
     @Override
     public List<Square> visibleSquares(Player player) {
+        //TODO
         return null;
     }
 }

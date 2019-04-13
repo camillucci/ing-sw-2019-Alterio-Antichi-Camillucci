@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
-import jdk.management.resource.internal.inst.SocketRMHooks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +17,13 @@ public class ShootAction extends Action
     protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
 
     protected ShootAction(){}
+
     public ShootAction(BiConsumer<Player, List<Square>> shootFunc, Function<Player,List<Square>> possibleTargetsFunc) //  void shootFunc(Player,List<Square>), List<Square> possibleTargetsFunc(Player)
     {
         this.possibleTargetsFuncS = possibleTargetsFunc;
         this.shootFuncS = shootFunc;
     }
+
     public ShootAction(BiFunction<Player, List<Player>, List<Player>> possibleTargetsFunc, BiConsumer<Player, List<Player>> shootFunc)
     {
         this.possibleTargetsFuncP = possibleTargetsFunc;
