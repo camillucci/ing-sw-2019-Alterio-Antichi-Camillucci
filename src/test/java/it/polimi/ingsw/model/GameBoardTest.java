@@ -58,8 +58,12 @@ class GameBoardTest {
         assertEquals(7, gameBoard.getInRangeSquares(player).size());
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         assertEquals(4, gameBoard.getInRangeSquares(player).size());
+        player.setCurrentSquare(gameBoard.getInRangeSquares(player).get(1));
+        assertEquals(4, gameBoard.getInRangeSquares(player).size());
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         assertEquals(4, gameBoard.getInRangeSquares(player).size());
+        player.setCurrentSquare(gameBoard.getInRangeSquares(player).get(2));
+        assertEquals(6, gameBoard.getInRangeSquares(player).size());
     }
 
     @Test
