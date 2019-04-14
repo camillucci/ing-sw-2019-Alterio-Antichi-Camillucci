@@ -176,12 +176,30 @@ public class GameBoard {
 
     public List<Player> getAwayPlayers(Player player, int distance){
         List<Square> tempSquare = getInRangeSquares(player);
+        List<Square> tempCloseSquare = getCloseSquares(player, distance);
         List<Player> tempPlayers = new ArrayList<>();
         for(Square s : tempSquare){
-            if(player.getCurrentSquare().distance(s) <= distance)
+            if(!tempCloseSquare.contains(s))
                 tempPlayers.addAll(s.getPlayers());
         }
         return tempPlayers;
+    }
+
+    public List<Square> getCloseSquares(Player player, int distance){
+        List<Square> tempSquare = new ArrayList<>();
+        tempSquare.add(player.getCurrentSquare());
+        if(distance == 2) {
+            if(player.getCurrentSquare().getNorth() == DOOR || player.getCurrentSquare().getNorth() == ROOM)
+                tempSquare.add(squares[player.getCurrentSquare().getX()][player.getCurrentSquare().getY() + 1]);
+            if(player.getCurrentSquare().getEast() == DOOR || player.getCurrentSquare().getEast() == ROOM)
+                tempSquare.add(squares[player.getCurrentSquare().getX() + 1][player.getCurrentSquare().getY()]);
+            if(player.getCurrentSquare().getSouth() == DOOR || player.getCurrentSquare().getSouth() == ROOM)
+                tempSquare.add(squares[player.getCurrentSquare().getX()][player.getCurrentSquare().getY() - 1]);
+            if(player.getCurrentSquare().getWest() == DOOR || player.getCurrentSquare().getWest() == ROOM)
+                tempSquare.add(squares[player.getCurrentSquare().getX() - 1][player.getCurrentSquare().getY()]);
+        }
+
+        return tempSquare;
     }
 
     public void setPlayers(List<Player> players) {
