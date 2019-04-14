@@ -50,4 +50,10 @@ public abstract class Square {
     public void removePlayer(Player player) {
         players.remove(player);
     }
+
+    public int distance(Square s)
+    {
+        //TODO
+        return 2;
+    }
 }

@@ -23,4 +23,8 @@ public class TargetsFilters
         Player tmp = alreadyAdded.isEmpty() ? player : alreadyAdded.get(alreadyAdded.size()-1);
         return tmp.gameBoard.getInRangePlayers(tmp);
     }
+
+    public static List<Player> away(Player player, int distance) {
+        return player.gameBoard.getAwayPlayers(player, distance);
+    }
 }

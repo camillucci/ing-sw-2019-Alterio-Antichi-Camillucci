@@ -174,6 +174,16 @@ public class GameBoard {
         return tempPlayers;
     }
 
+    public List<Player> getAwayPlayers(Player player, int distance){
+        List<Square> tempSquare = getInRangeSquares(player);
+        List<Player> tempPlayers = new ArrayList<>();
+        for(Square s : tempSquare){
+            if(player.getCurrentSquare().distance(s) <= distance)
+                tempPlayers.addAll(s.getPlayers());
+        }
+        return tempPlayers;
+    }
+
     public void setPlayers(List<Player> players) {
         this.players = new ArrayList<>(players);
     }
