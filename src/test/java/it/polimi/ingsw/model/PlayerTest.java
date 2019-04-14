@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.action.FireModalityAction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -93,5 +94,64 @@ class PlayerTest {
         player3.addDamage(player, 1);
         assertEquals(4, player3.getDamage().size());
 
+    }
+
+    @Test
+    void addUnloadReloadRemoveWeapon() {
+        WeaponCard weaponCard = new WeaponCard("WC", null, null, (FireModalityAction) null);
+        assertEquals(0, player.getLoadedWeapons().size());
+        assertEquals(0, player.getUnloadedWeapons().size());
+        player.addWeapon(weaponCard);
+        assertEquals(1, player.getLoadedWeapons().size());
+        assertEquals(0, player.getUnloadedWeapons().size());
+        player.unloadWeapon(weaponCard);
+        assertEquals(0, player.getLoadedWeapons().size());
+        assertEquals(1, player.getUnloadedWeapons().size());
+        player.reloadWeapon(weaponCard);
+        assertEquals(1, player.getLoadedWeapons().size());
+        assertEquals(0, player.getUnloadedWeapons().size());
+        player.removeWeapon(weaponCard);
+        assertEquals(0, player.getLoadedWeapons().size());
+        assertEquals(0, player.getUnloadedWeapons().size());
+        player.addWeapon(weaponCard);
+        player.unloadWeapon(weaponCard);
+        player.removeWeapon(weaponCard);
+        assertEquals(0, player.getLoadedWeapons().size());
+        assertEquals(0, player.getUnloadedWeapons().size());
+    }
+
+    @Test
+    void addPoints() {
+        player.addPoints(N);
+        assertEquals(N, player.getPoints());
+    }
+
+    @Test
+    void getClone() {
+        Player cloned = player.getClone();
+        Player player2 = new Player("B", PlayerColor.VIOLET, gameBoard);
+        WeaponCard weaponCard = new WeaponCard("WC", null, null, (FireModalityAction) null);
+
+        assertNotEquals(player, cloned);
+
+        assertEquals(player.getDamage(), cloned.getDamage());
+        cloned.addDamage(player2, 1);
+        assertNotEquals(player.getDamage(), cloned.getDamage());
+
+        assertEquals(player.getMark(), cloned.getMark());
+        cloned.addMark(player2, 1);
+        assertNotEquals(player.getMark(), cloned.getMark());
+
+        assertEquals(player.getLoadedWeapons(), cloned.getLoadedWeapons());
+        cloned.addWeapon(weaponCard);
+        assertNotEquals(player.getLoadedWeapons(), cloned.getLoadedWeapons());
+
+        assertEquals(player.getUnloadedWeapons(), cloned.getUnloadedWeapons());
+        cloned.unloadWeapon(weaponCard);
+        assertNotEquals(player.getUnloadedWeapons(), cloned.getUnloadedWeapons());
+
+        assertEquals(player.getPowerUps(), cloned.getPowerUps());
+        cloned.addPowerUpCard();
+        assertNotEquals(player.getPowerUps(), cloned.getPowerUps());
     }
 }

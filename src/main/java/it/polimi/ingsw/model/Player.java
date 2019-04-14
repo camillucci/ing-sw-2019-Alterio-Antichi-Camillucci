@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.powerups.TagbackGrenade;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Cloneable {
 
     public final GameBoard gameBoard;
     public final PlayerColor color;
@@ -112,13 +112,43 @@ public class Player {
         }
     }
 
-    public void addWeapon(WeaponCard weaponCard)
-    {
-        //TODO
+    public void addWeapon(WeaponCard weaponCard) {
+        loadedWeapons.add(weaponCard);
+    }
+
+    public void removeWeapon(WeaponCard weaponCard) {
+        if(loadedWeapons.contains(weaponCard))
+            loadedWeapons.remove(weaponCard);
+        else
+            unloadedWeapons.remove(weaponCard);
+    }
+
+    public void reloadWeapon(WeaponCard weaponCard) {
+        loadedWeapons.add(unloadedWeapons.remove(unloadedWeapons.indexOf(weaponCard)));
+    }
+
+    public void unloadWeapon(WeaponCard weaponCard) {
+        unloadedWeapons.add(loadedWeapons.remove(loadedWeapons.indexOf(weaponCard)));
     }
 
     public void addPoints(int newPoints) {
         points = points + newPoints;
+    }
+
+    public Player getClone() { //throws CloneNotSupportedException
+        try {
+            Player p = (Player)this.clone();
+            p.damage = new ArrayList<>(this.damage);
+            p.mark = new ArrayList<>(this.mark);
+            loadedWeapons = new ArrayList<>(this.loadedWeapons);
+            unloadedWeapons = new ArrayList<>(this.unloadedWeapons);
+            powerUps = new ArrayList<>(this.powerUps);
+            return p;
+        }
+        catch(CloneNotSupportedException cNSE){
+            cNSE.printStackTrace();
+        }
+        return null;
     }
 
     public int getPoints() {
@@ -155,6 +185,10 @@ public class Player {
         return new ArrayList<>(this.loadedWeapons);
     }
 
+    public List<WeaponCard> getUnloadedWeapons() {
+        return unloadedWeapons;
+    }
+
     public List<PowerUpCard> getPowerUps() {
         return powerUps;
     }
@@ -165,16 +199,6 @@ public class Player {
 
     public List<PlayerColor> getMark() {
         return mark;
-    }
-
-    public Player getClone(){
-        try {
-            return (Player)this.clone();
-        }
-        catch(CloneNotSupportedException cNSE){
-            cNSE.printStackTrace();
-        }
-        return null;
     }
 
     public void setCurrentSquare(Square currentSquare) {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static it.polimi.ingsw.model.AmmoColor.*;
@@ -85,21 +86,12 @@ public class GameBoard {
 
     public List<Square> getSquares(Player player, int dist) {
         int j = 1;
-        List<Square> tempSquare = new ArrayList<>();
-        tempSquare.add(player.getCurrentSquare());
 
         if(dist == 0)
-            return tempSquare;
+            return Collections.singletonList(player.getCurrentSquare());
 
         //Add all valid squares of distance 1
-        if (tempSquare.get(0).getNorth() == DOOR || tempSquare.get(0).getNorth() == ROOM)
-            tempSquare.add(squares[tempSquare.get(0).getY() - 1][tempSquare.get(0).getX()]);
-        if (tempSquare.get(0).getSouth() == DOOR || tempSquare.get(0).getSouth() == ROOM)
-            tempSquare.add(squares[tempSquare.get(0).getY() + 1][tempSquare.get(0).getX()]);
-        if (tempSquare.get(0).getWest() == DOOR || tempSquare.get(0).getWest() == ROOM)
-            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() - 1]);
-        if (tempSquare.get(0).getEast() == DOOR || tempSquare.get(0).getEast() == ROOM)
-            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() + 1]);
+        List<Square> tempSquare = distanceOneSquares(player.getCurrentSquare());
 
         // For each number beyond 1...
         for (int i = 1; i < dist; i++) {
@@ -123,19 +115,25 @@ public class GameBoard {
         return tempSquare;
     }
 
-    public List<Square> getInRangeSquares(Player player) {
+    private List<Square> distanceOneSquares(Square square) {
         List<Square> tempSquare = new ArrayList<>();
-        tempSquare.add(player.getCurrentSquare());
+        tempSquare.add(square);
 
-        //Add rooms near the player's current square...
-        if(tempSquare.get(0).getNorth() == DOOR)
+        if (tempSquare.get(0).getNorth() == DOOR || tempSquare.get(0).getNorth() == ROOM)
             tempSquare.add(squares[tempSquare.get(0).getY() - 1][tempSquare.get(0).getX()]);
-        if(tempSquare.get(0).getSouth() == DOOR)
+        if (tempSquare.get(0).getSouth() == DOOR || tempSquare.get(0).getSouth() == ROOM)
             tempSquare.add(squares[tempSquare.get(0).getY() + 1][tempSquare.get(0).getX()]);
-        if(tempSquare.get(0).getWest() == DOOR)
+        if (tempSquare.get(0).getWest() == DOOR || tempSquare.get(0).getWest() == ROOM)
             tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() - 1]);
-        if(tempSquare.get(0).getEast() == DOOR)
+        if (tempSquare.get(0).getEast() == DOOR || tempSquare.get(0).getEast() == ROOM)
             tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() + 1]);
+
+        return tempSquare;
+    }
+
+    public List<Square> getInRangeSquares(Player player) {
+        //Add rooms near the player's current square...
+        List<Square> tempSquare = distanceOneDoors(player.getCurrentSquare());
 
         //...and add the other squares of those room
         for(int i = 0; i < tempSquare.size(); i++) {
@@ -148,6 +146,22 @@ public class GameBoard {
             if(tempSquare.get(i).getEast() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() + 1]))
                 tempSquare.add(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() + 1]);
         }
+        return tempSquare;
+    }
+
+    private List<Square> distanceOneDoors(Square square) {
+        List<Square> tempSquare = new ArrayList<>();
+        tempSquare.add(square);
+
+        if(tempSquare.get(0).getNorth() == DOOR)
+            tempSquare.add(squares[tempSquare.get(0).getY() - 1][tempSquare.get(0).getX()]);
+        if(tempSquare.get(0).getSouth() == DOOR)
+            tempSquare.add(squares[tempSquare.get(0).getY() + 1][tempSquare.get(0).getX()]);
+        if(tempSquare.get(0).getWest() == DOOR)
+            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() - 1]);
+        if(tempSquare.get(0).getEast() == DOOR)
+            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() + 1]);
+
         return tempSquare;
     }
 
