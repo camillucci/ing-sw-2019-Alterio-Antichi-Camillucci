@@ -185,6 +185,4 @@ class BranchTest {
         curBranch.getCompatibleActions().get(0).doAction();
         assertTrue(eventTriggered);
     }
-
-
 }

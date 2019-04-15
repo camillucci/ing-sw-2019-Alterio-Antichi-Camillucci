@@ -15,7 +15,7 @@ public class ReloadAction extends Action
     {
         for(WeaponCard wc : this.selectedWeapons)
         {
-            //TODO this.ownerPlayer.reload(wc)
+            this.ownerPlayer.reloadWeapon(wc);
         }
     }
 

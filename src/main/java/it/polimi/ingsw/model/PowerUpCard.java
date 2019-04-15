@@ -7,8 +7,13 @@ public abstract class PowerUpCard {
     public final String name;
     public final AmmoColor color;
     public final Ammo cost;
-    public void shootP(Player shooter, List<Player> targets){}
-    public void shootS(Player shooter, List<Square> targets){}
+
+    public void shootP(Player shooter, List<Player> targets) {
+        //TODO or abstract
+    }
+    public void shootS(Player shooter, List<Square> targets) {
+        //TODO or abstract
+    }
     public abstract List<Player> visiblePlayers(Player player, List<Player> alreadyAdded);
     public abstract List<Square> visibleSquares(Player player);
 

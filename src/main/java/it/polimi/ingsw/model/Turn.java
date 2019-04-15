@@ -31,7 +31,12 @@ public class Turn {
 
     private void onMoveTerminated()
     {
-        //TODO
+        moveCounter--;
+        if(moveCounter == 0) {
+            //TODO Notify Match
+        }
+        else
+            createBranchMap();
     }
 
     private void createBranchMap(){
