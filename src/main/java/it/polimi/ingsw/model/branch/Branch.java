@@ -36,7 +36,6 @@ public class Branch
     {
         this(rollBackAction, Collections.emptyList());
     }
-
     // Useful Constructors. They are all particular cases of the previous //
 
     // EndBranchAction constructors //

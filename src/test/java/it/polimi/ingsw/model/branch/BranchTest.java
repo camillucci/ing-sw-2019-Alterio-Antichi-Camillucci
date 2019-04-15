@@ -163,7 +163,7 @@ class BranchTest {
         eventTriggered = false;
         getM3GM2GW();
         curBranch.actionCompletedEvent.addEventHandler((a,b)->this.eventTriggered=true);
-        curBranch.getCompatibleActions().get(0).initializeAction(p);
+        curBranch.getCompatibleActions().get(0).initialize(p);
         curBranch.getCompatibleActions().get(0).doAction();
         assertTrue(eventTriggered);
 
@@ -171,7 +171,7 @@ class BranchTest {
         eventTriggered = false;
         Branch branch = new Branch(new WeaponSelectionAction());
         branch.extActionCompletedEvent.addEventHandler((a,b)->this.eventTriggered=true);
-        curBranch.getCompatibleActions().get(0).initializeAction(p);
+        curBranch.getCompatibleActions().get(0).initialize(p);
         curBranch.getCompatibleActions().get(0).doAction();
         assertTrue(eventTriggered);
 
@@ -179,9 +179,9 @@ class BranchTest {
         eventTriggered = false;
         branch = new Branch(new MoveAction(3), new EndBranchAction());
         branch.endBranchEvent.addEventHandler((a,b)->this.eventTriggered=true);
-        curBranch.getCompatibleActions().get(0).initializeAction(p);
+        curBranch.getCompatibleActions().get(0).initialize(p);
         curBranch.getCompatibleActions().get(0).doAction();
-        curBranch.getCompatibleActions().get(0).initializeAction(p);
+        curBranch.getCompatibleActions().get(0).initialize(p);
         curBranch.getCompatibleActions().get(0).doAction();
         assertTrue(eventTriggered);
     }

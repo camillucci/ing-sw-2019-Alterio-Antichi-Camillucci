@@ -17,7 +17,6 @@ public class ShootAction extends Action
     protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
 
     protected ShootAction(){}
-
     public ShootAction(BiConsumer<Player, List<Square>> shootFunc, Function<Player,List<Square>> possibleTargetsFunc) //  void shootFunc(Player,List<Square>), List<Square> possibleTargetsFunc(Player)
     {
         this.possibleTargetsFuncS = possibleTargetsFunc;

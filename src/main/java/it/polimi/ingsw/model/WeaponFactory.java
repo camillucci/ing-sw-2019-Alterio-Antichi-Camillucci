@@ -100,7 +100,7 @@ public class WeaponFactory
         return new ShootAction((player, players) -> TargetsFilters.visiblePlayers(player), shootFunc);
     }
 
-    public static BiConsumer<Player, List<Player>> damage(Integer ... damage)
+    private static BiConsumer<Player, List<Player>> damage(Integer ... damage)
     {
         return (player, players) -> Effects.damage(player, players, Arrays.asList(damage));
     }

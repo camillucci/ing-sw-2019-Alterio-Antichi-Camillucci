@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.branch.Branch;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WeaponCard implements Visualizable {
 
@@ -29,9 +30,7 @@ public class WeaponCard implements Visualizable {
 
     public List<Branch> getFireModalities()
     {
-        ArrayList<Branch> ret = new ArrayList<>();
-        fireModalities.forEach(modality->ret.add(new Branch(modality)));
-        return ret;
+        return fireModalities.stream().map(Branch::new).collect(Collectors.toList());
     }
 
     @Override

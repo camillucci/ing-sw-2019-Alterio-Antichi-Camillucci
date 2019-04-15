@@ -23,7 +23,7 @@ class ShootActionTest {
         shooted = false;
         Action shootAction = new ShootAction();
         shootAction.addTarget(p);
-        shootAction.initializeAction();
+        shootAction.initialize();
         shootAction.doAction(p);
         assertTrue(shooted);
          */

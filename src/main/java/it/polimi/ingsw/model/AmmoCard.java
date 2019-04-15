@@ -13,7 +13,6 @@ public class AmmoCard {
         this.yellow = yellow;
         this.red = red;
         this.powerUpCard = powerUpCard;
-
     }
 
     public int getBlue() {

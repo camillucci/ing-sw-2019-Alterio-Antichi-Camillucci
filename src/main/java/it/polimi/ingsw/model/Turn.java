@@ -1,39 +1,57 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.branch.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Turn {
 
+    public final Event<Turn, Player> endTurnEvent = new Event<>();
+    public final Event<Turn, List<Action>> newActionsEvent = new Event<>();
     private static int frenzyCounter = 0;
-    private int turnCounter;
     private Player currentPlayer;
-    private int moveCounter;
+    private int moveCounter = 2;
     private BranchMap branchMap;
     private Match match;
     private ArrayList<Player> clonedPlayers;
 
 
-    public Turn(int turnCounter, Player currentPlayer) {
-        this.turnCounter = turnCounter;
+    public Turn(Player currentPlayer, boolean firstTurn) {
         this.currentPlayer = currentPlayer;
-        this.moveCounter = 2;
-
-        createBranchMap();
+        if(firstTurn)
+            spawn(currentPlayer, true); // spawn will then  createBranchMap
+        else if (currentPlayer.isDead())
+            spawn(currentPlayer, false); // spawn will then createBranchMap
+        else
+            createBranchMap();
     }
 
-    private void eventsSetup()
+    private void spawn(Player player, boolean firstTurn){
+        player.addPowerUpCard();
+        if(firstTurn)
+            player.addPowerUpCard();
+        this.branchMap = BranchMapFactory.spawnBranchMap(player);
+        branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->createBranchMap()); // when the user chooses then create a standard BranchMap
+        standardEventsSetup();
+    }
+
+    private void standardEventsSetup()
     {
-        this.branchMap.endOfBranchMapReachedEvent.addEventHandler((s,e)->onMoveTerminated());
         this.branchMap.rollbackEvent.addEventHandler((s,e)->rollback());
+        this.branchMap.newActionsEvent.addEventHandler((s,actions)->{
+            actions.forEach(a->a.initialize(currentPlayer));
+            this.newActionsEvent.invoke(this, actions);
+        });
     }
 
     private void onMoveTerminated()
     {
         moveCounter--;
         if(moveCounter == 0) {
-            //TODO Notify Match
+            endTurnEvent.invoke(this,currentPlayer);
         }
         else
             createBranchMap();
@@ -61,10 +79,11 @@ public class Turn {
                 this.branchMap = BranchMapFactory.noAdrenaline();
             }
         }
-        eventsSetup();
+        standardEventsSetup();
+        this.branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->onMoveTerminated());
     }
 
-    public void rollback(){
+    private void rollback(){
         moveCounter = moveCounter + 1;
         match.rollback(clonedPlayers);
         createBranchMap();

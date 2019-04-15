@@ -1,12 +1,15 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.generics.Event;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Match {
-
+    public final Event<Match, Turn> newTurnEvent = new Event<>();
+    public final Event<Match, List<Player>> endMatchEvent = new Event<>();
     private GameBoard gameBoard;
     private List<Player> players = new ArrayList<>();
     private List<Player> deadPlayers = new ArrayList<>();
@@ -23,33 +26,19 @@ public class Match {
         this.gameLength = gameLength;
         this.gameSize = gameSize;
         this.finalFrenzy = false;
-        this.playerColors = playerColors;
+        this.playerColors = new ArrayList<>(playerColors);
         this.gameBoard = new GameBoard(gameLength, gameSize);
+        createPlayers(playersName, playerColors);
+    }
+
+    private void createPlayers(List<String> playersName, List<PlayerColor> playerColors)
+    {
         for(int i = 0; i < playersName.size(); i++) {
             Player p = new Player(playersName.get(i), playerColors.get(i), gameBoard);
             p.deathEvent.addEventHandler((s,a)->this.deadPlayers.add(s));
             players.add(p);
         }
         gameBoard.setPlayers(players);
-    }
-
-    public void respawn(){
-        for(Player p : deadPlayers) {
-            p.addPowerUpCardRespawn();
-            //TODO Make the player choose the card to discard
-            AmmoColor choice = p.getPowerUps().get(0).getColor();
-            p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(choice));
-            gameBoard.getSpawnAndShopSquare(choice).addPlayer(p);
-        }
-    }
-
-    public void spawn(Player player){
-        player.addPowerUpCard();
-        player.addPowerUpCard();
-        //TODO Make the player choose the card to discard
-        AmmoColor choice = player.getPowerUps().get(0).getColor();
-        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(choice));
-        gameBoard.getSpawnAndShopSquare(choice).addPlayer(player);
     }
 
     public void assignPoints(){

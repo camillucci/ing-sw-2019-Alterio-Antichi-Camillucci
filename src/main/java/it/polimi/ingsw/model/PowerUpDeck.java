@@ -14,19 +14,12 @@ public class PowerUpDeck {
     private static final int COPY_OF_CARDS = 2;
 
     public PowerUpDeck() {
-        for (int i = 0; i < COPY_OF_CARDS; i++) {
-            deck.add(new TargetingScope(BLUE));
-            deck.add(new Newton(BLUE));
-            deck.add(new TagbackGrenade(BLUE));
-            deck.add(new Teleporter(BLUE));
-            deck.add(new TargetingScope(RED));
-            deck.add(new Newton(RED));
-            deck.add(new TagbackGrenade(RED));
-            deck.add(new Teleporter(RED));
-            deck.add(new TargetingScope(YELLOW));
-            deck.add(new Newton(YELLOW));
-            deck.add(new TagbackGrenade(YELLOW));
-            deck.add(new Teleporter(YELLOW));
+        for (int i = 0; i < COPY_OF_CARDS; i++)
+            for(AmmoColor color : AmmoColor.values()){
+            deck.add(new TargetingScope(color));
+            deck.add(new Newton(color));
+            deck.add(new TagbackGrenade(color));
+            deck.add(new Teleporter(color));
         }
         Collections.shuffle(deck);
     }

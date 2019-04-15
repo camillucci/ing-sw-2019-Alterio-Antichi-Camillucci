@@ -82,6 +82,10 @@ public class Player implements Cloneable {
     public void removePowerUpCard(int n) {
         powerUps.remove(n);
     }
+    public void removePowerUpCard(PowerUpCard powerUpCard)
+    {
+        powerUps.remove(powerUpCard);
+    }
 
     public void addDamage(Player shooter, int val) {
         for (int i = 0; i < val && damage.size() < MAX_DAMAGES; i++)
@@ -208,6 +212,10 @@ public class Player implements Cloneable {
         return mark;
     }
 
+    public boolean isDead(){
+        //TODO
+        return true;
+    }
     public void setCurrentSquare(Square currentSquare) {
         this.currentSquare = currentSquare;
     }

@@ -11,14 +11,15 @@ import java.util.function.Consumer;
 public class Action
 {
     public final Event<Action, Action> completedActionEvent = new Event<>();
-    private Consumer opMethod = a -> { };
+    protected Ammo doActionCost = new Ammo(0,0,0);
     protected Player ownerPlayer;
     protected ArrayList<Square> targetSquares = new ArrayList<>();
     protected ArrayList<Player> targetPlayers = new ArrayList<>();
     protected ArrayList<WeaponCard> selectedWeapons = new ArrayList<>();
     protected ArrayList<PowerUpCard> selectedPowerUps = new ArrayList<>();
     protected boolean optional = false;
-    protected Ammo doActionCost = new Ammo(0,0,0);
+    private Consumer opMethod = a -> { };
+
     protected Action(){}
 
     public Action(Consumer<Action> doActionMethod, boolean isOptional)
@@ -68,7 +69,7 @@ public class Action
     {
         return action.getClass().isInstance(this);
     }
-    public void initializeAction(Player ownerPlayer)
+    public void initialize(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
     }

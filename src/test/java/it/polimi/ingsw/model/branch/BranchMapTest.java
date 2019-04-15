@@ -7,10 +7,7 @@ import it.polimi.ingsw.model.action.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.model.branch.BranchTestUtilities.testEquality;
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,14 +38,14 @@ class BranchMapTest {
         eventTriggered = false;
         curBranchMap = BranchMapFactory.threeDamage();
         curBranchMap.rollbackEvent.addEventHandler((a,b)->this.eventTriggered = true);
-        curBranchMap.getPossibleActions().stream().filter(a->a instanceof RollBackAction).forEach(a->{a.initializeAction(p);a.doAction();});
+        curBranchMap.getPossibleActions().stream().filter(a->a instanceof RollBackAction).forEach(a->{a.initialize(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // EndBranch event
         eventTriggered = false;
         curBranchMap = BranchMapFactory.sixDamage();
         curBranchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->this.eventTriggered = true);
-        curBranchMap.getPossibleActions().stream().filter(a->a instanceof EndBranchAction).forEach(a->{a.initializeAction(p);a.doAction();});
+        curBranchMap.getPossibleActions().stream().filter(a->a instanceof EndBranchAction).forEach(a->{a.initialize(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // NewActions event
@@ -57,7 +54,7 @@ class BranchMapTest {
         curBranchMap.newActionsEvent.addEventHandler(this::checkNewActionsEvent);
         curBranchMap.newActionsEvent.addEventHandler((a,b)->this.eventTriggered=true);
         MoveAction M3 = new MoveAction(3);
-        curBranchMap.getPossibleActions().stream().filter(a->a.isCompatible(M3) && a instanceof MoveAction).forEach(a->{a.initializeAction(p);a.doAction();});
+        curBranchMap.getPossibleActions().stream().filter(a->a.isCompatible(M3) && a instanceof MoveAction).forEach(a->{a.initialize(p);a.doAction();});
         assertTrue(eventTriggered);
     }
 
