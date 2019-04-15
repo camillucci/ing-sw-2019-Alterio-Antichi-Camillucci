@@ -177,6 +177,21 @@ public class Player {
         return null;
     }
 
+    public List<WeaponCard> getUnloadedWeapons()
+    {
+        return new ArrayList<>(this.unloadedWeapons);
+    }
+    public List<WeaponCard> getWeapons()
+    {
+        ArrayList<WeaponCard> ret = new ArrayList<>();
+        ret.addAll(this.loadedWeapons); ret.addAll(this.unloadedWeapons);
+        return ret;
+    }
+    public void removeWeapon(WeaponCard weaponCard)
+    {
+        this.loadedWeapons.removeIf(w -> w == weaponCard);
+        this.unloadedWeapons.removeIf(w -> w == weaponCard);
+    }
     public void setCurrentSquare(Square currentSquare) {
         this.currentSquare = currentSquare;
     }
