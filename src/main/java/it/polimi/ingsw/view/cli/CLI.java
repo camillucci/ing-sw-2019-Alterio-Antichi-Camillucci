@@ -1,12 +1,11 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.Match;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.view.ViewInterface;
 
 public class CLI implements ViewInterface {
     private Match match;
-    private Player player;
+    //TODO private Client client;
 
     @Override
     public void updateMatch(Match match) {

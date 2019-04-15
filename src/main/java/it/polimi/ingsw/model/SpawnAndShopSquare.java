@@ -41,6 +41,7 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new Action(a -> a.getOwnerPlayer().addWeapon(w)), chooseToDropBranches));
         return ret;
     }
+
     private List<Branch> grabNoDrop(Player player)
     {
         List<Branch> ret = new ArrayList<>();

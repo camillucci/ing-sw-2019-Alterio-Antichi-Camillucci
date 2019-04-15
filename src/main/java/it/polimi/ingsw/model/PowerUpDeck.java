@@ -2,8 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.powerups.*;
 
-import static it.polimi.ingsw.model.AmmoColor.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 

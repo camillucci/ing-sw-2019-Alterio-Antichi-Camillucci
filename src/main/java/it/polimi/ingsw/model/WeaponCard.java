@@ -13,7 +13,6 @@ public class WeaponCard implements Visualizable {
     public final String name;
     public final Ammo buyCost;
     public final Ammo reloadCost;
-
     protected List<FireModalityAction> fireModalities;
 
     public WeaponCard(String name, Ammo buyCost, Ammo reloadCost, List<FireModalityAction> fireModalities)
@@ -23,6 +22,7 @@ public class WeaponCard implements Visualizable {
         this.buyCost = buyCost;
         this.reloadCost = reloadCost;
     }
+
     public WeaponCard(String name, Ammo buyCost, Ammo reloadCost, FireModalityAction ... fireModalityActions)
     {
         this(name, buyCost, reloadCost, Arrays.asList(fireModalityActions));

@@ -7,6 +7,7 @@ public class GrabAction extends ExtendableAction
     {
         this.grab();
     }
+
     private void grab()
     {
         this.branches = this.ownerPlayer.getCurrentSquare().grab(this.ownerPlayer);

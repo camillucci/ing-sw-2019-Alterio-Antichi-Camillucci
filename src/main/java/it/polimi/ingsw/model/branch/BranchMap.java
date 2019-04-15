@@ -18,6 +18,7 @@ public class BranchMap
     {
         this.setupBranches(branches);
     }
+
     public BranchMap(Branch ... branches) {this(Arrays.asList(branches));}
 
     public List<Action> getPossibleActions()
@@ -27,6 +28,7 @@ public class BranchMap
             ret.addAll(b.getCompatibleActions());
         return ret;
     }
+
     private void onBranchActionCompleted(Branch senderBranch, Action completedAction)
     {
        this.branches.removeIf(b-> !b.goNext(completedAction));

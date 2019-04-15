@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.action;
+
 import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.PowerUpCard;
 
