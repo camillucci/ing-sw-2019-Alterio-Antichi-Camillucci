@@ -2,8 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
-import it.polimi.ingsw.model.weapons.Effects;
-import it.polimi.ingsw.model.weapons.TargetsFilters;
+import it.polimi.ingsw.model.weapons.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
