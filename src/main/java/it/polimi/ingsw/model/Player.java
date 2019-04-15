@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.powerups.TagbackGrenade;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Player implements Cloneable {
 
@@ -182,11 +184,16 @@ public class Player implements Cloneable {
     }
 
     public List<WeaponCard> getLoadedWeapons(){
-        return new ArrayList<>(this.loadedWeapons);
+        return this.loadedWeapons;
     }
 
     public List<WeaponCard> getUnloadedWeapons() {
         return unloadedWeapons;
+    }
+
+    public List<WeaponCard> getWeapons()
+    {
+        return Stream.concat(loadedWeapons.stream(), unloadedWeapons.stream()).collect(Collectors.toList());
     }
 
     public List<PowerUpCard> getPowerUps() {
