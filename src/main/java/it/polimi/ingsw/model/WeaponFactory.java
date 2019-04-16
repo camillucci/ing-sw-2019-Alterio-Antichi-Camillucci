@@ -34,64 +34,51 @@ public class WeaponFactory
         //TODO Add FireModalityAction costs to all weapons
 
         weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0),
-                new FireModalityAction(null, new Branch(shootDef(damage(2).andThen(mark(1))), new EndBranchAction())),
-                new FireModalityAction(null, new Branch(shootDef(damage(2).andThen(mark(1,1))), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootDef(damage(2).andThen(mark(1))), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 0), new Branch(shootDef(damage(2).andThen(mark(1,1))), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Machine Gun", new Ammo(0,1,0), new Ammo(1,1,0),
-                new FireModalityAction(null,
+                new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(shootDef(damage(1)), new EndBranchAction()),
                         new Branch(shootDef(damage(1,1)), new EndBranchAction())),
-                new FireModalityAction(null,
+                new FireModalityAction(new Ammo(0, 0, 1),
                         new Branch(shootDef(damage(2)), new EndBranchAction()),
                         new Branch(shootDef(damage(2,1)), new EndBranchAction())),
-                new FireModalityAction(null,
+                new FireModalityAction(new Ammo(1, 0, 0),
                         new Branch(shootDef(damage(2)), new EndBranchAction()),
                         new Branch(shootDef(damage(2,1)), new EndBranchAction()),
                         new Branch(shootDef(damage(2,1,1)), new EndBranchAction())),
-                new FireModalityAction(null,
+                new FireModalityAction(new Ammo(1, 0, 1),
                         new Branch(shootDef(damage(2,2)), new EndBranchAction()),
                         new Branch(shootDef(damage(2,2,1)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("T.H.O.R", new Ammo(0,1,0), new Ammo(1,1,0),
-                new FireModalityAction(null, new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2)), new EndBranchAction())),
-                new FireModalityAction(null, new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2,1)), new EndBranchAction())),
-                new FireModalityAction(null, new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2,1,2)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(1, 0, 0), new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2,1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(2, 0, 0), new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2,1,2)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Plasma Gun", new Ammo(0,0,1), new Ammo(1,0,1),
-                new FireModalityAction(null, new Branch(shootDef(damage(2)),new EndBranchAction())), //S
-                new FireModalityAction(null,
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootDef(damage(2)),new EndBranchAction())), //S
+                new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(new MoveAction(2), shootDef(damage(2)), new EndBranchAction()), //M2S
                         new Branch(shootDef(damage(2)), new MoveAction(2), new EndBranchAction())), //SM2
-                new FireModalityAction(null, new Branch(shootDef(damage(3)),new EndBranchAction())), //S
-                new FireModalityAction(null,
+                new FireModalityAction(new Ammo(1, 0, 0), new Branch(shootDef(damage(3)),new EndBranchAction())), //S
+                new FireModalityAction(new Ammo(1, 0, 0),
                         new Branch(new MoveAction(2), shootDef(damage(3)), new EndBranchAction()), //M2S
                         new Branch(shootDef(damage(3)), new MoveAction(2), new EndBranchAction())))); //SM2
 
-        weapons.add(new WeaponCard("Whisper", new Ammo(1,0,0), new Ammo(2,0,1),
-                new FireModalityAction(null, new Branch(shootDef(damage(3).andThen(mark(1))), new EndBranchAction())))); //TODO Change ShootDef with MinDistance: 2
+        weapons.add(new WeaponCard("Whisper", new Ammo(1,0,1), new Ammo(2,0,1),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootDef(damage(3).andThen(mark(1))), new EndBranchAction())))); //TODO Change ShootDef with MinDistance: 2
 
+        weapons.add(new WeaponCard("Electroscythe", new Ammo(0, 0, 0), new Ammo(1, 0, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1), TargetsFilters::sameSquarePlayers), new EndBranchAction())),
+                new FireModalityAction(new Ammo(1, 1, 0), new Branch(new ShootAction(damageAll(2), TargetsFilters::sameSquarePlayers), new EndBranchAction()))));
 
+        weapons.add(new WeaponCard("Tractor Beam", new Ammo(0, 0, 0), new Ammo(1, 0, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers, damage(1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers, damage(3)), new EndBranchAction()))));
 
-/*
-        weapons.add(new WeaponCard("LockRifle", new int[] {1, 0, 0, 2, 0, 0},
-                new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new DamageAction(2), new MarkAction(1,1), new EndBranchAction()), null)));
-
-        weapons.add(new WeaponCard("MachineGun", new int[] {0, 1, 0, 1, 1, 0},
-                new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new DamageAction(1), new DamageAction(1), new EndBranchAction()), null)));
-
-        weapons.add(new WeaponCard("T.H.O.R", new int[] {0, 1, 0, 1, 1, 0},
-                new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null)));
-
-        weapons.add(new WeaponCard("PlasmaGun", new int[] {0, 0, 1, 1, 0, 1},
-                new SelectionAction(new Branch(new DamageAction(2), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new MoveAction(2), new EndBranchAction()), null),
-                new SelectionAction(new Branch(new DamageAction(1), new EndBranchAction()), null)));
- */
+        //TODO Add all other weapons
     }
 
     private static ShootAction shootDef(BiConsumer<Player, List<Player>> shootFunc)
@@ -107,5 +94,15 @@ public class WeaponFactory
     private static BiConsumer<Player, List<Player>> mark(Integer ... marks)
     {
         return (player, players) -> Effects.mark(player, players, Arrays.asList(marks));
+    }
+
+    private static BiConsumer<Player, List<Square>> damageAll(Integer ... damage)
+    {
+        return (player, squares) -> Effects.damageAll(player, squares, Arrays.asList(damage));
+    }
+
+    private static BiConsumer<Player, List<Square>> markAll(Integer ... marks)
+    {
+        return (player, squares) -> Effects.markAll(player, squares, Arrays.asList(marks));
     }
 }

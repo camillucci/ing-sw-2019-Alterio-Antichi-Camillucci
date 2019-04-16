@@ -97,27 +97,40 @@ class PlayerTest {
     }
 
     @Test
-    void addUnloadReloadRemoveWeapon() {
-        WeaponCard weaponCard = new WeaponCard("WC", null, null, (FireModalityAction) null);
+    void addUnloadReloadRemoveGetWeapon() {
+        WeaponCard weaponCard1 = new WeaponCard("WC", null, null, (FireModalityAction) null);
+        WeaponCard weaponCard2 = new WeaponCard("WC", null, null, (FireModalityAction) null);
         assertEquals(0, player.getLoadedWeapons().size());
         assertEquals(0, player.getUnloadedWeapons().size());
-        player.addWeapon(weaponCard);
+        assertEquals(0, player.getWeapons().size());
+        player.addWeapon(weaponCard1);
         assertEquals(1, player.getLoadedWeapons().size());
         assertEquals(0, player.getUnloadedWeapons().size());
-        player.unloadWeapon(weaponCard);
+        assertEquals(1, player.getWeapons().size());
+        player.unloadWeapon(weaponCard1);
         assertEquals(0, player.getLoadedWeapons().size());
         assertEquals(1, player.getUnloadedWeapons().size());
-        player.reloadWeapon(weaponCard);
+        assertEquals(1, player.getWeapons().size());
+        player.addWeapon(weaponCard2);
         assertEquals(1, player.getLoadedWeapons().size());
-        assertEquals(0, player.getUnloadedWeapons().size());
-        player.removeWeapon(weaponCard);
+        assertEquals(1, player.getUnloadedWeapons().size());
+        assertEquals(2, player.getWeapons().size());
+        player.unloadWeapon(weaponCard2);
+        assertEquals(0, player.getLoadedWeapons().size());
+        assertEquals(2, player.getUnloadedWeapons().size());
+        assertEquals(2, player.getWeapons().size());
+        player.reloadWeapon(weaponCard1);
+        assertEquals(1, player.getLoadedWeapons().size());
+        assertEquals(1, player.getUnloadedWeapons().size());
+        assertEquals(2, player.getWeapons().size());
+        player.removeWeapon(weaponCard1);
+        assertEquals(0, player.getLoadedWeapons().size());
+        assertEquals(1, player.getUnloadedWeapons().size());
+        assertEquals(1, player.getWeapons().size());
+        player.removeWeapon(weaponCard2);
         assertEquals(0, player.getLoadedWeapons().size());
         assertEquals(0, player.getUnloadedWeapons().size());
-        player.addWeapon(weaponCard);
-        player.unloadWeapon(weaponCard);
-        player.removeWeapon(weaponCard);
-        assertEquals(0, player.getLoadedWeapons().size());
-        assertEquals(0, player.getUnloadedWeapons().size());
+        assertEquals(0, player.getWeapons().size());
     }
 
     @Test

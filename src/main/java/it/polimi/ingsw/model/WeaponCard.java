@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WeaponCard implements Visualizable {
+public class WeaponCard {
 
     public final String name;
     public final Ammo buyCost;
@@ -31,10 +31,5 @@ public class WeaponCard implements Visualizable {
     public List<Branch> getFireModalities()
     {
         return fireModalities.stream().map(Branch::new).collect(Collectors.toList());
-    }
-
-    @Override
-    public void visualize() {
-        //TODO
     }
 }

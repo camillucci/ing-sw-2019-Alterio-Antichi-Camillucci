@@ -17,12 +17,12 @@ class AmmoSquareTest {
         assertEquals(1, player.getYellowAmmo());
         assertEquals(1, player.getRedAmmo());
         assertEquals(0, player.getPowerUps().size());
-        ammoSquare.grab(player);
+        assertEquals(0, ammoSquare.grab(player).size());
         assertEquals(1, player.getBlueAmmo());
         assertEquals(2, player.getYellowAmmo());
         assertEquals(3, player.getRedAmmo());
         assertEquals(1, player.getPowerUps().size());
-        ammoSquare.grab(player);
+        assertEquals(0, ammoSquare.grab(player).size());
         assertEquals(1, player.getBlueAmmo());
         assertEquals(2, player.getYellowAmmo());
         assertEquals(3, player.getRedAmmo());
@@ -31,10 +31,10 @@ class AmmoSquareTest {
 
     @Test
     void isEmpty() {
-        assertEquals(false, ammoSquare.isEmpty());
-        ammoSquare.grab(player);
-        assertEquals(true, ammoSquare.isEmpty());
+        assertFalse(ammoSquare.isEmpty());
+        assertEquals(0, ammoSquare.grab(player).size());
+        assertTrue(ammoSquare.isEmpty());
         ammoSquare.setAmmoCard(ammoCard);
-        assertEquals(false, ammoSquare.isEmpty());
+        assertFalse(ammoSquare.isEmpty());
     }
 }
