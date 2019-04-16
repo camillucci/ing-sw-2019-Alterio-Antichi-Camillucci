@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
@@ -37,12 +38,14 @@ class MoveActionTest {
     void actionCompletedEventTest()
     {
         Player p = new Player("name", PlayerColor.BLUE, gameBoard);
+        p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         eventTriggered=false;
         Action action = new MoveAction(3);
         action.completedActionEvent.addEventHandler((a,b)->this.eventTriggered = true);
         action.initialize(p);
         action.doAction();
         assertTrue(eventTriggered);
+        assertEquals(9, action.getPossibleSquares().size());
 
         eventTriggered = false;
         triggeredAction = new MoveAction(3);
@@ -50,6 +53,7 @@ class MoveActionTest {
         action.initialize(p);
         action.doAction();
         assertTrue(eventTriggered);
+        assertEquals(9, action.getPossibleSquares().size());
     }
 
     void eventHandler(Action sender, Action completedAction)
