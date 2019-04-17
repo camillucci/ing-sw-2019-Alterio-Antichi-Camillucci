@@ -221,6 +221,37 @@ public class GameBoard {
         return tempNearSquare;
     }
 
+    public List<Square> getOtherVisibleRoom(Player player) {
+        List<Square> tempSquare = new ArrayList<>();
+        if(player.getCurrentSquare().getNorth() == ROOM) {
+            tempSquare.add(squares[player.getCurrentSquare().getX()][player.getCurrentSquare().getY() + 1]);
+        }
+
+        if(player.getCurrentSquare().getEast() == ROOM) {
+            tempSquare.add(squares[player.getCurrentSquare().getX() + 1][player.getCurrentSquare().getY()]);
+        }
+
+        if(player.getCurrentSquare().getSouth() == ROOM) {
+            tempSquare.add(squares[player.getCurrentSquare().getX()][player.getCurrentSquare().getY() - 1]);
+        }
+
+        if(player.getCurrentSquare().getWest() == ROOM) {
+            tempSquare.add(squares[player.getCurrentSquare().getX() - 1][player.getCurrentSquare().getY()]);
+        }
+
+        return tempSquare;
+    }
+
+    public List<Square> getFurnaceVisibleSquares(Player player) {
+        List<Square> tempSquare = new ArrayList<>();
+        tempSquare.add(squares[player.getCurrentSquare().getX()][player.getCurrentSquare().getY() + 1]);
+        tempSquare.add(squares[player.getCurrentSquare().getX() + 1][player.getCurrentSquare().getY()]);
+        tempSquare.add(squares[player.getCurrentSquare().getX() - 1][player.getCurrentSquare().getY()]);
+        tempSquare.add(squares[player.getCurrentSquare().getX() - 1][player.getCurrentSquare().getY()]);
+
+        return tempSquare;
+    }
+
     public void setPlayers(List<Player> players) {
         this.players = new ArrayList<>(players);
     }

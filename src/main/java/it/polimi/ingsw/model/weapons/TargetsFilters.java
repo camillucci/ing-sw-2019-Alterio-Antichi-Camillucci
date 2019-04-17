@@ -47,4 +47,8 @@ public class TargetsFilters
         //TODO
         return null;
     }
+
+    public static List<Square> otherVisibleRoom(Player player){ return player.getGameBoard().getOtherVisibleRoom(player);}
+
+    public static List<Square> furnaceVisibleSquares(Player player) {return player.getGameBoard().getFurnaceVisibleSquares(player);}
 }

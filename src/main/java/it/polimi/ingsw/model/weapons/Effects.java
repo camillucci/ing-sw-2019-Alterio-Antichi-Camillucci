@@ -42,4 +42,7 @@ public class Effects
                     p.addMark(shooter, marks.get(i));
             }
     }
+
+
+    //public static void damageRoom(Player shooter, List<Square> targets, List<Integer> damage){}
 }
