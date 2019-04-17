@@ -78,9 +78,11 @@ public class WeaponFactory
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers, damage(1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers, damage(3)), new EndBranchAction()))));
 
+        //TODO VortexCannon
+
         //weapons.add(new WeaponCard("Furnace", new Ammo(0, 1, 0), new Ammo(1, 1, 0),
         //new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::otherVisibleRoom, damageRoom(1)), new EndBranchAction())),
-        //new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::furnaceVisibleSquares, damageAll(1), markAll(1)), new EndBranchAction()))));
+        //new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::furnaceVisibleSquares, damageAll(1).andThen(markAll(1))), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 0), new Ammo(0, 2, 1),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::nonVisiblePlayers, damage(3)), new EndBranchAction()))));
