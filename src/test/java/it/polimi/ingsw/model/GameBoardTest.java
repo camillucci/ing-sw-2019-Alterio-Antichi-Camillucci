@@ -84,4 +84,64 @@ class GameBoardTest {
         p2.getCurrentSquare().addPlayer(p2);
         assertEquals(2, gameBoard.getInRangePlayers(player).size());
     }
+
+    @Test
+    void getAwayPlayers() {
+        Player p2 = new Player("B", YELLOW, gameBoard);
+        Player p3 = new Player("C", VIOLET, gameBoard);
+        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        player.getCurrentSquare().addPlayer(player);
+        assertEquals(0, gameBoard.getAwayPlayers(player, 1).size());
+        p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        p2.getCurrentSquare().addPlayer(p2);
+        assertEquals(0, gameBoard.getAwayPlayers(player, 1).size());
+        p3.setCurrentSquare(gameBoard.getSquares(player, 1).get(2));
+        p3.getCurrentSquare().addPlayer(p3);
+        assertEquals(1, gameBoard.getAwayPlayers(player, 1).size());
+    }
+
+    @Test
+    void getNearPlayers() {
+        Player p2 = new Player("B", YELLOW, gameBoard);
+        Player p3 = new Player("C", VIOLET, gameBoard);
+        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        player.getCurrentSquare().addPlayer(player);
+        assertEquals(0, gameBoard.getNearPlayers(player, 0).size());
+        p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        p2.getCurrentSquare().addPlayer(p2);
+        assertEquals(1, gameBoard.getNearPlayers(player, 0).size());
+        p3.setCurrentSquare(gameBoard.getSquares(player, 1).get(2));
+        p3.getCurrentSquare().addPlayer(p3);
+        assertEquals(1, gameBoard.getNearPlayers(player, 0).size());
+    }
+
+    @Test
+    void getAwaySquares() {
+        Player p2 = new Player("B", YELLOW, gameBoard);
+        Player p3 = new Player("C", VIOLET, gameBoard);
+        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        player.getCurrentSquare().addPlayer(player);
+        assertEquals(0, gameBoard.getAwaySquares(player, 1).size());
+        p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        p2.getCurrentSquare().addPlayer(p2);
+        assertEquals(0, gameBoard.getAwaySquares(player, 1).size());
+        p3.setCurrentSquare(gameBoard.getSquares(player, 3).get(4));
+        p3.getCurrentSquare().addPlayer(p3);
+        assertEquals(1, gameBoard.getAwaySquares(player, 1).size());
+    }
+
+    @Test
+    void getNearSquares() {
+        Player p2 = new Player("B", YELLOW, gameBoard);
+        Player p3 = new Player("C", VIOLET, gameBoard);
+        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        player.getCurrentSquare().addPlayer(player);
+        assertEquals(0, gameBoard.getNearSquares(player, 1).size());
+        p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        p2.getCurrentSquare().addPlayer(p2);
+        assertEquals(1, gameBoard.getNearSquares(player, 1).size());
+        p3.setCurrentSquare(gameBoard.getSquares(player, 3).get(4));
+        p3.getCurrentSquare().addPlayer(p3);
+        assertEquals(1, gameBoard.getNearSquares(player, 1).size());
+    }
 }

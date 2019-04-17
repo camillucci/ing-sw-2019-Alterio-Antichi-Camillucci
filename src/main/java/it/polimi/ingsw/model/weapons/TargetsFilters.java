@@ -14,25 +14,33 @@ public class TargetsFilters
 
     public static List<Player> visiblePlayers(Player player)
     {
-        return player.gameBoard.getInRangePlayers(player);
+        return player.getGameBoard().getInRangePlayers(player);
     }
 
     public static List<Square> visibleSquares(Player player) {
-        return player.gameBoard.getInRangeSquares(player);
+        return player.getGameBoard().getInRangeSquares(player);
     }
 
-    public static List<Player> away(Player player, int distance) {
-        return player.gameBoard.getAwayPlayers(player, distance);
+    public static List<Player> awayPlayers(Player player, int minDistance) {
+        return player.getGameBoard().getAwayPlayers(player, minDistance);
     }
 
-    public static List<Square> sameSquarePlayers(Player player) {
-        return new ArrayList<>(Collections.singletonList((player.getCurrentSquare())));
+    public static List<Player> nearPlayers(Player player, int maxDistance) {
+        return player.getGameBoard().getNearPlayers(player, maxDistance);
+    }
+
+    public static List<Square> awaySquares(Player player, int minDistance) {
+        return player.getGameBoard().getAwaySquares(player, minDistance);
+    }
+
+    public static List<Square> nearSquares(Player player, int maxDistance) {
+        return player.getGameBoard().getNearSquares(player, maxDistance);
     }
 
     public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded)
     {
         Player tmp = alreadyAdded.isEmpty() ? player : alreadyAdded.get(alreadyAdded.size()-1);
-        return tmp.gameBoard.getInRangePlayers(tmp);
+        return tmp.getGameBoard().getInRangePlayers(tmp);
     }
 
     public static List<Player> tractorBeamVisiblePlayers(Player player, List<Player> players) {

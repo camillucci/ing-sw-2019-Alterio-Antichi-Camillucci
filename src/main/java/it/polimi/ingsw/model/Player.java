@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 
 public class Player implements Cloneable {
 
-    public final GameBoard gameBoard;
-    public final PlayerColor color;
-    public final String name;
+    private final GameBoard gameBoard;
+    private final PlayerColor color;
+    private final String name;
     private int points;
     private int skull;
     private int blueAmmo;
@@ -155,6 +155,10 @@ public class Player implements Cloneable {
             cNSE.printStackTrace();
         }
         return null;
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 
     public int getPoints() {

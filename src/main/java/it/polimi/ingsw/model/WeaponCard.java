@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 
 public class WeaponCard {
 
-    public final String name;
+    private final String name;
     public final Ammo buyCost;
     public final Ammo reloadCost;
-    protected List<FireModalityAction> fireModalities;
+    private List<FireModalityAction> fireModalities;
 
     public WeaponCard(String name, Ammo buyCost, Ammo reloadCost, List<FireModalityAction> fireModalities)
     {

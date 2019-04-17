@@ -73,15 +73,15 @@ public class Match {
         players = clonedPlayers;
     }
 
-    public GameBoard getGameBoard() {
-        return gameBoard;
-    }
-
     public List<Player> getPlayers() {
         return players;
     }
 
-    public boolean getFinalFrenzy(){ return finalFrenzy;}
+    public boolean getFinalFrenzy() {
+        return finalFrenzy;
+    }
 
-    public int getFrenzyStarter() {return frenzyStarter;}
+    public int getFrenzyStarter() {
+        return frenzyStarter;
+    }
 }
