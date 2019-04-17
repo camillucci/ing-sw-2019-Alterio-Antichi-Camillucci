@@ -252,6 +252,18 @@ public class GameBoard {
         return tempSquare;
     }
 
+    public List<Player> getNonVisiblePlayers(Player player) {
+        List<Player> tempInRangePlayers = getInRangePlayers(player);
+        List<Player> tempPlayers = new ArrayList<>();
+        for(Player p : players) {
+            if(!tempPlayers.contains(p)) {
+                tempPlayers.add(p);
+            }
+        }
+
+        return tempPlayers;
+    }
+
     public void setPlayers(List<Player> players) {
         this.players = new ArrayList<>(players);
     }

@@ -43,6 +43,8 @@ public class Effects
             }
     }
 
-
-    //public static void damageRoom(Player shooter, List<Square> targets, List<Integer> damage){}
+    public static void damageRoom(Player shooter, List<Square> targets, List<Integer> damage){
+        //TODO
+        return;
+    }
 }
