@@ -52,7 +52,7 @@ public class TargetsFilters
         return player.getGameBoard().getNonVisiblePlayers(player);
     }
 
-    public static List<Square> otherVisibleRoom(Player player, List<Player> players){ return player.getGameBoard().getOtherVisibleRoom(player);}
+    public static List<Square> otherVisibleRoom(Player player){ return player.getGameBoard().getOtherVisibleRoom(player);}
 
-    public static List<Square> furnaceVisibleSquares(Player player, List<Player> players) {return player.getGameBoard().getFurnaceVisibleSquares(player);}
+    public static List<Square> furnaceVisibleSquares(Player player) {return player.getGameBoard().getFurnaceVisibleSquares(player);}
 }

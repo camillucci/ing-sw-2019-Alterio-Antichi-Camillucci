@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.weapons.*;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +83,7 @@ public class WeaponFactory
 
         //weapons.add(new WeaponCard("Furnace", new Ammo(0, 1, 0), new Ammo(1, 1, 0),
         //new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::otherVisibleRoom, damageRoom(1)), new EndBranchAction())),
-        //new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::furnaceVisibleSquares, damageAll(1).andThen(markAll(1))), new EndBranchAction()))));
+        //new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1).andThen(markAll(1)), TargetsFilters::furnaceVisibleSquares), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 0), new Ammo(0, 2, 1),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::nonVisiblePlayers, damage(3)), new EndBranchAction()))));
