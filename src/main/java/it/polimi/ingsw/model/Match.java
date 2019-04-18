@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Match implements ActionsProvider {
-    Event<Player, List<Action>> newActionsEvent = new Event<>();
+    public  final Event<Player, List<Action>> newActionsEvent = new Event<>();
     public final Event<Match, List<Player>> endMatchEvent = new Event<>();
 
     private int turnPos = 0;
@@ -19,7 +19,7 @@ public class Match implements ActionsProvider {
     private Player curPlayer;
     private GameBoard gameBoard;
     private List<Player> players = new ArrayList<>();
-    private List<Player> deadPlayers;
+    private List<Player> deadPlayers = new ArrayList<>();
     private Turn currentTurn;
     private List<PlayerColor> playerColors;
     private boolean finalFrenzy;
@@ -47,7 +47,7 @@ public class Match implements ActionsProvider {
             players.add(p);
         }
         gameBoard.setPlayers(players);
-        this.deadPlayers = new ArrayList<>(players);
+        //this.deadPlayers = new ArrayList<>(players); TODO uncomment this line
         spawn(false);
     }
 
