@@ -1,9 +1,7 @@
 package it.polimi.ingsw.model.weapons;
 
-import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -73,5 +71,16 @@ class EffectsTest {
         assertEquals(2, p3.getMark().size());
         assertEquals(BLUE, p3.getMark().get(0));
         assertEquals(BLUE, p3.getMark().get(1));
+    }
+
+    @Test
+    void damageRoom() {
+        gameBoard.getSpawnAndShopSquare(RED).addPlayer(p2);
+        gameBoard.getSpawnAndShopSquare(YELLOW).addPlayer(p3);
+        Effects.damageRoom(p1, new ArrayList<>(Arrays.asList(gameBoard.getSpawnAndShopSquare(YELLOW))), new ArrayList<>(Arrays.asList(2)));
+        assertEquals(0, p2.getDamage().size());
+        assertEquals(2, p3.getDamage().size());
+        assertEquals(BLUE, p3.getDamage().get(0));
+        assertEquals(BLUE, p3.getDamage().get(1));
     }
 }

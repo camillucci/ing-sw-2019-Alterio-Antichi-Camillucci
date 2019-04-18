@@ -221,11 +221,6 @@ public class Player implements Cloneable {
         return mark;
     }
 
-    public boolean isDead(){
-        //TODO
-        return true;
-    }
-
     public void setCurrentSquare(Square currentSquare) {
         this.currentSquare = currentSquare;
     }

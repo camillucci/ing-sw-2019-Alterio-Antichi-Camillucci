@@ -12,12 +12,11 @@ class WeaponDeckTest {
 
     @Test
     void draw() {
-        for (int i = 0; i < numberOfCards - 1; i++) { //TODO Change number to 21 when cards are added
+        for (int i = 0; i < numberOfCards - 1; i++) {
             weaponCard = weaponDeck.draw();
             //TODO assertTrue(weaponCard instanceof WeaponCard);
             assertTrue(true);
         }
-        //TODO assertTrue(weaponDeck.draw() == null);
-        assertTrue(true);
+        assertNull(weaponDeck.draw());
     }
 }

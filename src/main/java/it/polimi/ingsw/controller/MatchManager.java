@@ -15,4 +15,12 @@ public class MatchManager {
     public void handleAction(Action action) {
         turnManager.handleAction(action);
     }
+
+    public void calculateScore() {
+        //TODO
+    }
+
+    public void declareWinner() {
+        //TODO
+    }
 }

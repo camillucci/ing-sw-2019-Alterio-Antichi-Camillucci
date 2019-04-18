@@ -31,6 +31,8 @@ public class WeaponFactory
         P1,..,Pn rest the same when andThen function is called
         */
 
+        weapons.clear();
+
         weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(damage(2).andThen(mark(1))), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 0), new Branch(shootVisiblePlayers(damage(2).andThen(mark(1,1))), new EndBranchAction()))));
@@ -83,7 +85,7 @@ public class WeaponFactory
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenSquares(damageAll(1).andThen(markAll(1)), 0, 1), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 0), new Ammo(0, 2, 1),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::nonVisiblePlayers, damage(3)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootNonVisiblePlayers(damage(3)), new EndBranchAction()))));
 
         //TODO Add all other weapons
     }
@@ -136,10 +138,19 @@ public class WeaponFactory
         return new ShootAction(shootFunc, player -> TargetsFilters.betweenSquares(player, minDistance, maxDistance));
     }
 
+    //Shoot at visible rooms
     private static ShootAction shootRoom(BiConsumer<Player, List<Square>> shootFunc)
     {
-        return new ShootAction(shootFunc, player -> TargetsFilters.otherVisibleRoom(player));
+        return new ShootAction(shootFunc, TargetsFilters::otherVisibleRoom);
     }
+
+    //Shoot at non visible targets
+    private static ShootAction shootNonVisiblePlayers(BiConsumer<Player, List<Player>> shootFunc)
+    {
+        return new ShootAction((player, players) -> TargetsFilters.nonVisiblePlayers(player), shootFunc);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
 
     private static BiConsumer<Player, List<Player>> damage(Integer ... damage)
     {

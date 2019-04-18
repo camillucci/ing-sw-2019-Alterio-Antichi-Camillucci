@@ -53,7 +53,7 @@ public class TargetsFilters
         return null;
     }
 
-    public static List<Player> nonVisiblePlayers(Player player, List<Player> players) {
+    public static List<Player> nonVisiblePlayers(Player player) {
         return player.getGameBoard().getNonVisiblePlayers(player);
     }
 

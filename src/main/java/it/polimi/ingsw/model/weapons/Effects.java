@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.weapons;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,9 +45,10 @@ public class Effects
             }
     }
 
-    public static void damageRoom(Player shooter, List<Square> targets, List<Integer> damage)
-    {
-        for(int i = 0; i < targets.size(); i++)
-            damageAll(shooter, shooter.getGameBoard().getRoom(targets.get(i)), Arrays.asList(damage.get(i)));
+    public static void damageRoom(Player shooter, List<Square> targets, List<Integer> damage) {
+        for (int i = 0; i < targets.size(); i++) {
+            List<Integer> temp = new ArrayList<>(Arrays.asList(damage.get(i), damage.get(i), damage.get(i), damage.get(i)));
+            damageAll(shooter, shooter.getGameBoard().getRoom(targets.get(i)), temp);
+        }
     }
 }

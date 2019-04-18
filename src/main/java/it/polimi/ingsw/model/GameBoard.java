@@ -241,23 +241,32 @@ public class GameBoard {
         List<Square> tempBetweenSquare = new ArrayList<>();
         for(Square s : tempSquare)
             if(tempFarSquares.contains(s) && !tempNearSquare.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && !s.getPlayers().isEmpty())))
-                tempNearSquare.add(s);
+                tempBetweenSquare.add(s);
         return tempBetweenSquare;
     }
 
     public List<Square> getOtherVisibleRoom(Player player) {
-        return distanceOneBorderType(player.getCurrentSquare(), DOOR);
+        List<Square> tempSquare = new ArrayList<>();
+        List<Square> tempDoors = distanceOneBorderType(player.getCurrentSquare(), DOOR);
+        tempDoors.remove(player.getCurrentSquare());
+        List<Square> tempRoom;
+        for(Square square : tempDoors) {
+            tempRoom = getRoom(square);
+            for(Square s : tempRoom)
+                if(!s.getPlayers().isEmpty())
+                    tempSquare.add(square);
+        }
+        return tempSquare;
     }
 
     public List<Player> getNonVisiblePlayers(Player player) {
         List<Player> tempInRangePlayers = getInRangePlayers(player);
         List<Player> tempPlayers = new ArrayList<>();
         for(Player p : players) {
-            if(!tempInRangePlayers.contains(p)) {
+            if (!tempInRangePlayers.contains(p))
                 tempPlayers.add(p);
-            }
         }
-
+        tempPlayers.remove(player);
         return tempPlayers;
     }
 
