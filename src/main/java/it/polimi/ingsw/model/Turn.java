@@ -18,24 +18,10 @@ public class Turn {
     private Match match;
     private ArrayList<Player> clonedPlayers;
 
-
-    public Turn(Player currentPlayer, boolean firstTurn) {
+    public Turn(Player currentPlayer, Match match) {
         this.currentPlayer = currentPlayer;
-        if(firstTurn)
-            spawn(currentPlayer, true); // spawn will then  createBranchMap
-        else if (currentPlayer.isDead())
-            spawn(currentPlayer, false); // spawn will then createBranchMap
-        else
-            createBranchMap();
-    }
-
-    private void spawn(Player player, boolean firstTurn){
-        player.addPowerUpCard();
-        if(firstTurn)
-            player.addPowerUpCard();
-        this.branchMap = BranchMapFactory.spawnBranchMap(player);
-        branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->createBranchMap()); // when the user chooses then create a standard BranchMap
-        standardEventsSetup();
+        this.match = match;
+        createBranchMap();
     }
 
     private void standardEventsSetup()

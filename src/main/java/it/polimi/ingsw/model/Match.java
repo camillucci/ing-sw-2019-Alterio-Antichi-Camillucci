@@ -1,20 +1,27 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.branch.BranchMap;
+import it.polimi.ingsw.model.branch.BranchMapFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Match {
-    public final Event<Match, Turn> newTurnEvent = new Event<>();
+public class Match implements ActionsProvider {
+    Event<Player, List<Action>> newActionsEvent = new Event<>();
     public final Event<Match, List<Player>> endMatchEvent = new Event<>();
+
+    private int turnPos = 0;
+    private List<Action> curActions;
+    private Player curPlayer;
     private GameBoard gameBoard;
     private List<Player> players = new ArrayList<>();
-    private List<Player> deadPlayers = new ArrayList<>();
-    private List<PlayerColor> playerColors;
+    private List<Player> deadPlayers;
     private Turn currentTurn;
+    private List<PlayerColor> playerColors;
     private boolean finalFrenzy;
     private int gameLength;
     private int gameSize;
@@ -29,6 +36,7 @@ public class Match {
         this.playerColors = new ArrayList<>(playerColors);
         this.gameBoard = new GameBoard(gameLength, gameSize);
         createPlayers(playersName, playerColors);
+        newTurn();
     }
 
     private void createPlayers(List<String> playersName, List<PlayerColor> playerColors)
@@ -39,6 +47,48 @@ public class Match {
             players.add(p);
         }
         gameBoard.setPlayers(players);
+        this.deadPlayers = new ArrayList<>(players);
+        spawn(false);
+    }
+
+    private void spawn(boolean respawn)
+    {
+        if(deadPlayers.isEmpty()) {
+            newTurn();
+            return;
+        }
+        Player p = this.curPlayer = deadPlayers.get(0);
+        p.addPowerUpCardRespawn();
+        if(!respawn)
+            p.addPowerUpCardRespawn();
+        BranchMap branchMap = BranchMapFactory.spawnBranchMap(p);
+        branchMap.newActionsEvent.addEventHandler((bMap, actions)-> setNewActions(actions));
+        branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b)->{
+            this.deadPlayers.remove(p);
+            spawn(respawn);
+        } );
+        setNewActions(branchMap.getPossibleActions());
+    }
+
+    private void OnTurnCompleted(Turn turn, Player turnPlayer)
+    {
+        spawn(true);
+    }
+
+    private void newTurn()
+    {
+        turnPos = (turnPos + 1) % players.size();
+        curPlayer = players.get(turnPos);
+        this.currentTurn = new Turn(curPlayer, this);
+        this.currentTurn.newActionsEvent.addEventHandler((turn, actions) -> this.setNewActions(actions));
+        this.currentTurn.endTurnEvent.addEventHandler(this::OnTurnCompleted);
+    }
+
+    private void setNewActions(List<Action> actions)
+    {
+        actions.forEach(a->a.initialize(curPlayer));
+        this.curActions = actions;
+        this.newActionsEvent.invoke(this.curPlayer, this.curActions);
     }
 
     public void assignPoints(){
@@ -74,7 +124,7 @@ public class Match {
     }
 
     public List<Player> getPlayers() {
-        return players;
+        return new ArrayList<>(players);
     }
 
     public boolean getFinalFrenzy() {
@@ -83,5 +133,15 @@ public class Match {
 
     public int getFrenzyStarter() {
         return frenzyStarter;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return this.curPlayer;
+    }
+
+    @Override
+    public List<Action> getActions() {
+        return new ArrayList<>(this.curActions);
     }
 }
