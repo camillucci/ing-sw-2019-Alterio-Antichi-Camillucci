@@ -3,9 +3,6 @@ package it.polimi.ingsw.model.weapons;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class TargetsFilters
@@ -29,12 +26,20 @@ public class TargetsFilters
         return player.getGameBoard().getNearPlayers(player, maxDistance);
     }
 
+    public static List<Player> betweenPlayers(Player player, int minDistance, int maxDistance) {
+        return player.getGameBoard().getBetweenPlayers(player, minDistance, maxDistance);
+    }
+
     public static List<Square> awaySquares(Player player, int minDistance) {
         return player.getGameBoard().getAwaySquares(player, minDistance);
     }
 
     public static List<Square> nearSquares(Player player, int maxDistance) {
         return player.getGameBoard().getNearSquares(player, maxDistance);
+    }
+
+    public static List<Square> betweenSquares(Player player, int minDistance, int maxDistance) {
+        return player.getGameBoard().getBetweenSquares(player, minDistance, maxDistance);
     }
 
     public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded)
@@ -52,7 +57,7 @@ public class TargetsFilters
         return player.getGameBoard().getNonVisiblePlayers(player);
     }
 
-    public static List<Square> otherVisibleRoom(Player player){ return player.getGameBoard().getOtherVisibleRoom(player);}
-
-    public static List<Square> furnaceVisibleSquares(Player player) {return player.getGameBoard().getFurnaceVisibleSquares(player);}
+    public static List<Square> otherVisibleRoom(Player player) {
+        return player.getGameBoard().getOtherVisibleRoom(player);
+    }
 }

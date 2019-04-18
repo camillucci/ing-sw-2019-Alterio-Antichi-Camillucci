@@ -136,7 +136,7 @@ public class GameBoard {
 
     public List<Square> getInRangeSquares(Player player) {
         //Add rooms near the player's current square...
-        List<Square> tempSquare = distanceOneDoors(player.getCurrentSquare());
+        List<Square> tempSquare = distanceOneBorderType(player.getCurrentSquare(), DOOR);
 
         //...and add the other squares of those room
         for(int i = 0; i < tempSquare.size(); i++) {
@@ -152,17 +152,17 @@ public class GameBoard {
         return tempSquare;
     }
 
-    private List<Square> distanceOneDoors(Square square) {
+    private List<Square> distanceOneBorderType(Square square, SquareBorder type) {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(square);
 
-        if(tempSquare.get(0).getNorth() == DOOR)
+        if(tempSquare.get(0).getNorth() == type)
             tempSquare.add(squares[tempSquare.get(0).getY() - 1][tempSquare.get(0).getX()]);
-        if(tempSquare.get(0).getSouth() == DOOR)
+        if(tempSquare.get(0).getSouth() == type)
             tempSquare.add(squares[tempSquare.get(0).getY() + 1][tempSquare.get(0).getX()]);
-        if(tempSquare.get(0).getWest() == DOOR)
+        if(tempSquare.get(0).getWest() == type)
             tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() - 1]);
-        if(tempSquare.get(0).getEast() == DOOR)
+        if(tempSquare.get(0).getEast() == type)
             tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() + 1]);
 
         return tempSquare;
@@ -191,10 +191,23 @@ public class GameBoard {
 
     public List<Player> getNearPlayers(Player player, int maxDistance) {
         List<Square> tempSquare = getInRangeSquares(player);
-        List<Square> tempCloseSquare = getSquares(player, maxDistance);
+        List<Square> tempFarSquares = getSquares(player, maxDistance);
         List<Player> tempPlayers = new ArrayList<>();
         for(Square s : tempSquare) {
-            if (tempCloseSquare.contains(s))
+            if (tempFarSquares.contains(s))
+                tempPlayers.addAll(s.getPlayers());
+        }
+        tempPlayers.remove(player);
+        return tempPlayers;
+    }
+
+    public List<Player> getBetweenPlayers(Player player, int minDistance, int maxDistance) {
+        List<Square> tempSquare = getInRangeSquares(player);
+        List<Square> tempNearSquare = getSquares(player, minDistance - 1);
+        List<Square> tempFarSquares = getSquares(player, maxDistance);
+        List<Player> tempPlayers = new ArrayList<>();
+        for(Square s : tempSquare) {
+            if (tempFarSquares.contains(s) && !tempNearSquare.contains(s))
                 tempPlayers.addAll(s.getPlayers());
         }
         tempPlayers.remove(player);
@@ -206,7 +219,7 @@ public class GameBoard {
         List<Square> tempNearSquare = getSquares(player, minDistance - 1);
         List<Square> tempFarSquares = new ArrayList<>();
         for(Square s : tempSquare)
-            if(!tempNearSquare.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && s.getPlayers().size() > 0)))
+            if(!tempNearSquare.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && !s.getPlayers().isEmpty())))
                 tempFarSquares.add(s);
         return tempFarSquares;
     }
@@ -216,52 +229,48 @@ public class GameBoard {
         List<Square> tempFarSquares = getSquares(player, maxDistance);
         List<Square> tempNearSquare = new ArrayList<>();
         for(Square s : tempSquare)
-            if(tempFarSquares.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && s.getPlayers().size() > 0)))
+            if(tempFarSquares.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && !s.getPlayers().isEmpty())))
                 tempNearSquare.add(s);
         return tempNearSquare;
     }
 
-    public List<Square> getOtherVisibleRoom(Player player) {
-        List<Square> tempSquare = new ArrayList<>();
-        if(player.getCurrentSquare().getNorth() == ROOM) {
-            tempSquare.add(squares[player.getCurrentSquare().getX()][player.getCurrentSquare().getY() + 1]);
-        }
-
-        if(player.getCurrentSquare().getEast() == ROOM) {
-            tempSquare.add(squares[player.getCurrentSquare().getX() + 1][player.getCurrentSquare().getY()]);
-        }
-
-        if(player.getCurrentSquare().getSouth() == ROOM) {
-            tempSquare.add(squares[player.getCurrentSquare().getX()][player.getCurrentSquare().getY() - 1]);
-        }
-
-        if(player.getCurrentSquare().getWest() == ROOM) {
-            tempSquare.add(squares[player.getCurrentSquare().getX() - 1][player.getCurrentSquare().getY()]);
-        }
-
-        return tempSquare;
+    public List<Square> getBetweenSquares(Player player, int minDistance, int maxDistance) {
+        List<Square> tempSquare = getInRangeSquares(player);
+        List<Square> tempNearSquare = getSquares(player, minDistance - 1);
+        List<Square> tempFarSquares = getSquares(player, maxDistance);
+        List<Square> tempBetweenSquare = new ArrayList<>();
+        for(Square s : tempSquare)
+            if(tempFarSquares.contains(s) && !tempNearSquare.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && !s.getPlayers().isEmpty())))
+                tempNearSquare.add(s);
+        return tempBetweenSquare;
     }
 
-    public List<Square> getFurnaceVisibleSquares(Player player) {
-        List<Square> tempSquare = new ArrayList<>();
-        tempSquare.add(squares[player.getCurrentSquare().getX()][player.getCurrentSquare().getY() + 1]);
-        tempSquare.add(squares[player.getCurrentSquare().getX() + 1][player.getCurrentSquare().getY()]);
-        tempSquare.add(squares[player.getCurrentSquare().getX() - 1][player.getCurrentSquare().getY()]);
-        tempSquare.add(squares[player.getCurrentSquare().getX() - 1][player.getCurrentSquare().getY()]);
-
-        return tempSquare;
+    public List<Square> getOtherVisibleRoom(Player player) {
+        return distanceOneBorderType(player.getCurrentSquare(), DOOR);
     }
 
     public List<Player> getNonVisiblePlayers(Player player) {
         List<Player> tempInRangePlayers = getInRangePlayers(player);
         List<Player> tempPlayers = new ArrayList<>();
         for(Player p : players) {
-            if(!tempPlayers.contains(p)) {
+            if(!tempInRangePlayers.contains(p)) {
                 tempPlayers.add(p);
             }
         }
 
         return tempPlayers;
+    }
+
+    public List<Square> getRoom(Square square) {
+        List<Square> tempSquare = new ArrayList<>();
+        tempSquare.add(square);
+        for(int i = 0; i < tempSquare.size(); i++) {
+            List<Square> tempNear = distanceOneBorderType(tempSquare.get(i), ROOM);
+            for(Square s : tempNear)
+                if(!tempSquare.contains(s))
+                    tempSquare.add(s);
+        }
+        return tempSquare;
     }
 
     public void setPlayers(List<Player> players) {

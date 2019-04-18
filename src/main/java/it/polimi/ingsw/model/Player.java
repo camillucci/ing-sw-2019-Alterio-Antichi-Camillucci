@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.powerups.TagbackGrenade;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,6 +33,7 @@ public class Player implements Cloneable {
     private static final int MAX_POWER_UPS_RESPAWN = 4;
     private static final int MAX_MARKS = 3;
     private static final int MAX_DAMAGES = 12;
+    private static Logger logger = Logger.getLogger("client");
 
 
     public Player (String name, PlayerColor color, GameBoard gameBoard) {
@@ -91,26 +94,26 @@ public class Player implements Cloneable {
         for (int i = 0; i < val && damage.size() < MAX_DAMAGES; i++)
             damage.add(shooter.getColor());
 
-        int temp = mark.size();
-        for(int i = 0; i < temp && damage.size() < MAX_DAMAGES; i++ )
-            if(shooter.getColor() == mark.get(i)) {
+        List<Integer> temp = new ArrayList<>();
+        for(int i = 0; i < mark.size() && damage.size() < MAX_DAMAGES; i++ )
+            if (shooter.getColor() == mark.get(i)) {
                 damage.add(shooter.getColor());
-                mark.remove(i);
-                i--;
-                temp--;
+                temp.add(i);
             }
 
-        for(PowerUpCard pu : powerUps){
+        for(int i = temp.size() - 1; i >= 0; i--)
+            mark.remove(i);
+
+        for(PowerUpCard pu : powerUps)
             if(pu instanceof TagbackGrenade){
                //TODO pu.shootP();
             }
-        }
     }
 
     public void addMark(Player shooter, int val) {
         int temp = 0;
-        for (int i = 0; i < mark.size(); i++)
-            if(mark.get(i) == shooter.getColor())
+        for (PlayerColor p : mark)
+            if (p == shooter.getColor())
                 temp++;
 
         for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++) {
@@ -152,7 +155,7 @@ public class Player implements Cloneable {
             return p;
         }
         catch(CloneNotSupportedException cNSE){
-            cNSE.printStackTrace();
+            logger.log(Level.INFO, "CloneNotSupportedException, Class Match, Line 158");
         }
         return null;
     }
@@ -181,7 +184,9 @@ public class Player implements Cloneable {
         return redAmmo;
     }
 
-    public PlayerColor getColor() {return color;}
+    public PlayerColor getColor() {
+        return color;
+    }
 
     public Square getCurrentSquare() {
         return currentSquare;
@@ -220,6 +225,7 @@ public class Player implements Cloneable {
         //TODO
         return true;
     }
+
     public void setCurrentSquare(Square currentSquare) {
         this.currentSquare = currentSquare;
     }

@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.weapons.*;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,8 +30,6 @@ public class WeaponFactory
         damage(2).andThen(mark(1,2,3)) = damage P1 of 2 and then mark P1 of 1, P2 of 2, P3 of 3
         P1,..,Pn rest the same when andThen function is called
         */
-
-        //TODO Add FireModalityAction costs to all weapons
 
         weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(damage(2).andThen(mark(1))), new EndBranchAction())),
@@ -81,9 +78,9 @@ public class WeaponFactory
 
         //TODO VortexCannon
 
-        //weapons.add(new WeaponCard("Furnace", new Ammo(0, 1, 0), new Ammo(1, 1, 0),
-        //new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::otherVisibleRoom, damageRoom(1)), new EndBranchAction())),
-        //new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1).andThen(markAll(1)), TargetsFilters::furnaceVisibleSquares), new EndBranchAction()))));
+        weapons.add(new WeaponCard("Furnace", new Ammo(0, 1, 0), new Ammo(1, 1, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootRoom(damageRoom(1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenSquares(damageAll(1).andThen(markAll(1)), 0, 1), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 0), new Ammo(0, 2, 1),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::nonVisiblePlayers, damage(3)), new EndBranchAction()))));
@@ -100,7 +97,7 @@ public class WeaponFactory
     //Shoot at visible squares
     private static ShootAction shootVisibleSquares(BiConsumer<Player, List<Square>> shootFunc)
     {
-        return new ShootAction(shootFunc, (player) -> TargetsFilters.visibleSquares(player));
+        return new ShootAction(shootFunc, TargetsFilters::visibleSquares);
     }
 
     //Shoot at visible players which distant is >= minDistance
@@ -115,16 +112,33 @@ public class WeaponFactory
         return new ShootAction((player, players) -> TargetsFilters.nearPlayers(player, maxDistance), shootFunc);
     }
 
+    //Shoot at visible players which distant is >= minDistance and <= maxDistance
+    private static ShootAction shootBetweenPlayers(BiConsumer<Player, List<Player>> shootFunc, int minDistance, int maxDistance)
+    {
+        return new ShootAction((player, players) -> TargetsFilters.betweenPlayers(player, minDistance, maxDistance), shootFunc);
+    }
+
     //Shoot at visible squares which distant is >= minDistance
     private static ShootAction shootAwaySquares(BiConsumer<Player, List<Square>> shootFunc, int minDistance)
     {
-        return new ShootAction(shootFunc, (player) -> TargetsFilters.awaySquares(player, minDistance));
+        return new ShootAction(shootFunc, player -> TargetsFilters.awaySquares(player, minDistance));
     }
 
     //Shoot at visible squares which distant is <= maxDistance
     private static ShootAction shootNearSquares(BiConsumer<Player, List<Square>> shootFunc, int maxDistance)
     {
-        return new ShootAction(shootFunc, (player) -> TargetsFilters.nearSquares(player, maxDistance));
+        return new ShootAction(shootFunc, player -> TargetsFilters.nearSquares(player, maxDistance));
+    }
+
+    //Shoot at visible squares which distant is >= minDistance and <= maxDistance
+    private static ShootAction shootBetweenSquares(BiConsumer<Player, List<Square>> shootFunc, int minDistance, int maxDistance)
+    {
+        return new ShootAction(shootFunc, player -> TargetsFilters.betweenSquares(player, minDistance, maxDistance));
+    }
+
+    private static ShootAction shootRoom(BiConsumer<Player, List<Square>> shootFunc)
+    {
+        return new ShootAction(shootFunc, player -> TargetsFilters.otherVisibleRoom(player));
     }
 
     private static BiConsumer<Player, List<Player>> damage(Integer ... damage)
@@ -145,5 +159,10 @@ public class WeaponFactory
     private static BiConsumer<Player, List<Square>> markAll(Integer ... marks)
     {
         return (player, squares) -> Effects.markAll(player, squares, Arrays.asList(marks));
+    }
+
+    private static BiConsumer<Player, List<Square>> damageRoom(Integer ... damage)
+    {
+        return (player, squares) -> Effects.damageRoom(player, squares, Arrays.asList(damage));
     }
 }
