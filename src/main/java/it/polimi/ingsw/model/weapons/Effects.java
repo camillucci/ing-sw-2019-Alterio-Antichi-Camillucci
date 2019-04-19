@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Square;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Effects
@@ -45,18 +46,31 @@ public class Effects
             }
     }
 
-    public static void damageRoom(Player shooter, List<Square> targets, List<Integer> damage) {
+    public static void damageRoom(Player shooter, List<Square> targets, List<Integer> damage)
+    {
         for (int i = 0; i < targets.size(); i++) {
             List<Integer> temp = new ArrayList<>(Arrays.asList(damage.get(i), damage.get(i), damage.get(i), damage.get(i)));
             damageAll(shooter, shooter.getGameBoard().getRoom(targets.get(i)), temp);
         }
     }
 
-    public static void damageHellion(Player shooter, List<Player> targets, List<Integer> damage)
+    public static void moveAndDamage(Player shooter, List<Player> targets, List<Square> squares, List<Integer> damage)
     {
-        damage(shooter, Arrays.asList(targets.get(0)), Arrays.asList(damage.get(0)));
-        mark(shooter, Arrays.asList(targets.get(0)), Arrays.asList(damage.get(1)));
-        damageAll(shooter, Arrays.asList(targets.get(0).getCurrentSquare()), Arrays.asList(damage.get(2)));
-        markAll(shooter, Arrays.asList(targets.get(0).getCurrentSquare()), Arrays.asList(damage.get(3)));
+        for (Player target : targets) {
+            damageMultiple(shooter, Collections.singletonList(target), damage);
+            target.getCurrentSquare().removePlayer(target);
+            target.setCurrentSquare(squares.get(0));
+            squares.get(0).addPlayer(target);
+        }
+    }
+
+    public static void damageMultiple(Player shooter, List<Player> targets, List<Integer> damage)
+    {
+        for (Player target : targets) {
+            damage(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(0)));
+            mark(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(1)));
+            damageAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(2)));
+            markAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(3)));
+        }
     }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.generics.Pair;
+import it.polimi.ingsw.generics.TriConsumer;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
@@ -13,8 +15,10 @@ public class ShootAction extends Action
 {
     protected BiConsumer<Player, List<Player>> shootFuncP = (a,b) -> {};
     protected BiConsumer<Player, List<Square>> shootFuncS = (a,b) -> {};
+    protected TriConsumer<Player, List<Player>, List<Square>> shootFuncM = (a, b, c) -> {};
     protected Function<Player,List<Square>> possibleTargetsFuncS;
     protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
+    protected Function<Player, List<Pair<Player, Square>>> possibleTargetFuncM;
 
     protected ShootAction(){}
 
@@ -30,6 +34,12 @@ public class ShootAction extends Action
         this.shootFuncP = shootFunc;
     }
 
+    public ShootAction(Function<Player, List<Pair<Player, Square>>> possibleTargetsFunc, TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        this.possibleTargetFuncM = possibleTargetsFunc;
+        this.shootFuncM = shootFunc;
+    }
+
     @Override
     protected void op() {
         this.shoot();
@@ -39,6 +49,7 @@ public class ShootAction extends Action
     {
         this.shootFuncP.accept(this.ownerPlayer, this.targetPlayers);
         this.shootFuncS.accept(this.ownerPlayer, this.targetSquares);
+        this.shootFuncM.accept(this.ownerPlayer, this.targetPlayers, this.targetSquares);
     }
 
     @Override

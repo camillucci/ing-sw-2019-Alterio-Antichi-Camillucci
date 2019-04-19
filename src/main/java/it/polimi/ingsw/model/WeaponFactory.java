@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.generics.TriConsumer;
 import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.weapons.*;
@@ -88,14 +89,14 @@ public class WeaponFactory
 
         weapons.add(new WeaponCard("Furnace", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootRoom(damageRoom(1)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenSquares(damageAll(1).andThen(markAll(1)), 0, 1), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenSquares(damageAll(1).andThen(markAll(1)), 1, 1), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 1), new Ammo(0, 2, 1),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootNonVisiblePlayers(damage(3)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Hellion", new Ammo(0, 0, 1), new Ammo(0, 1, 1),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootAwayPlayers(damageHellion(1, 0, 0, 1), 1), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0 ,1 ,0), new Branch(shootAwayPlayers(damageHellion(1, 0, 0, 2), 1), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootAwayPlayers(damageMultiple(1, 0, 0, 1), 1), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0 ,1 ,0), new Branch(shootAwayPlayers(damageMultiple(1, 0, 0, 2), 1), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Flamethrower", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0),
@@ -103,30 +104,30 @@ public class WeaponFactory
                         new Branch(new ShootAction(TargetsFilters::flamethrowerVisiblePlayers, damage(1, 1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 2),
                         new Branch(shootBetweenSquares(damageAll(2), 1, 2), new EndBranchAction()),
-                        new Branch(shootFlamethrowerSquares(damageAll(2, 1)), new EndBranchAction()))));
+                        new Branch(new ShootAction(damageAll(2, 1), TargetsFilters::flamethrowerVisibleSquares), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Grenade Launcher", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(damage(1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::grenadeLauncherMovablePlayers, moveAndDamage(1, 0, 0, 0)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 0),
-                        new Branch(shootVisiblePlayers(damage(1)), shootVisibleSquares(damageAll(1)), new EndBranchAction()),
-                        new Branch(shootVisibleSquares(damageAll(1)), shootVisiblePlayers(damage(1)), new EndBranchAction()))));
-                //TODO Add a way to move others
+                        new Branch(new ShootAction(TargetsFilters::grenadeLauncherMovablePlayers, moveAndDamage(1, 0, 0, 0)), shootVisibleSquares(damageAll(1)), new EndBranchAction()),
+                        new Branch(shootVisibleSquares(damageAll(1)), new ShootAction(TargetsFilters::grenadeLauncherMovablePlayers, moveAndDamage(1, 0, 0, 0)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Rocket Launcher", new Ammo(0, 1, 0), new Ammo(0, 2, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootAwayPlayers(damage(2), 1), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 0, 0)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 0),
-                        new Branch(shootAwayPlayers(damage(2), 1), new MoveAction(2), new EndBranchAction()),
+                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 0, 0)), new MoveAction(2), new EndBranchAction()),
                         new Branch(new MoveAction(2), shootAwayPlayers(damage(2), 1), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 1),
-                        new Branch(shootAwayPlayers(damageHellion(2, 0, 1, 0), 1), new EndBranchAction()),
-                        new Branch(shootAwayPlayers(damageHellion(2, 0, 1, 0), 1), new EndBranchAction())),
+                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 1, 0)), new EndBranchAction()),
+                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 1, 0)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 1),
-                        new Branch(shootAwayPlayers(damageHellion(2, 0, 1, 0), 1), new MoveAction(2), new EndBranchAction()),
-                        new Branch(new MoveAction(2), shootAwayPlayers(damageHellion(2, 0, 1, 0), 1), new EndBranchAction()))));
-                //TODO Add a way to move others
+                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 1, 0)), new MoveAction(2), new EndBranchAction()),
+                        new Branch(new MoveAction(2), new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 0, 0)), new EndBranchAction()))));
 
         //TODO Add all other weapons
     }
+
+    //------------------------------------------------------------------------------------------------------------------
 
     //Shoot at visible targets
     private static ShootAction shootVisiblePlayers(BiConsumer<Player, List<Player>> shootFunc)
@@ -188,11 +189,6 @@ public class WeaponFactory
         return new ShootAction((player, players) -> TargetsFilters.nonVisiblePlayers(player), shootFunc);
     }
 
-    private static ShootAction shootFlamethrowerSquares(BiConsumer<Player, List<Square>> shootFunc)
-    {
-        return new ShootAction(shootFunc, TargetsFilters::flamethrowerVisibleSquares);
-    }
-
     //------------------------------------------------------------------------------------------------------------------
 
     private static BiConsumer<Player, List<Player>> damage(Integer ... damage)
@@ -220,9 +216,13 @@ public class WeaponFactory
         return (player, squares) -> Effects.damageRoom(player, squares, Arrays.asList(damage));
     }
 
-    private static BiConsumer<Player, List<Player>> damageHellion(Integer ... damage)
+    private static TriConsumer<Player, List<Player>, List<Square>> moveAndDamage(Integer ... damage)
     {
-        return (player, players) -> Effects.damageHellion(player, players, Arrays.asList(damage));
+        return (player, players, squares) -> Effects.moveAndDamage(player, players, squares, Arrays.asList(damage));
     }
 
+    private static BiConsumer<Player, List<Player>> damageMultiple(Integer ... damage)
+    {
+        return (player, players) -> Effects.damageMultiple(player, players, Arrays.asList(damage));
+    }
 }

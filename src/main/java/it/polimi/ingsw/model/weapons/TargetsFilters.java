@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.weapons;
 
+import it.polimi.ingsw.generics.Pair;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
@@ -51,8 +52,9 @@ public class TargetsFilters
         return player.getGameBoard().getOtherVisibleRoom(player);
     }
 
-    public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded)
-    {
+    //------------------------------------------------------------------------------------------------------------------
+
+    public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded) {
         Player tmp = alreadyAdded.isEmpty() ? player : alreadyAdded.get(alreadyAdded.size()-1);
         return tmp.getGameBoard().getInRangePlayers(tmp);
     }
@@ -91,5 +93,24 @@ public class TargetsFilters
     public static List<Square> flamethrowerVisibleSquares(Player player) {
         //TODO
         return null;
+    }
+
+    public static List<Pair<Player, Square>> grenadeLauncherMovablePlayers(Player player) {
+        return move1Shooted(visiblePlayers(player));
+    }
+
+    public static List<Pair<Player, Square>> rocketLauncherMovablePlayers(Player player) {
+        return move1Shooted(awayPlayers(player, 1));
+    }
+
+    private static List<Pair<Player, Square>> move1Shooted(List<Player> targets) {
+        List<Pair<Player, Square>> temp = new ArrayList<>();
+        for(Player p : targets) {
+            List<Square> tempSquares = betweenSquares(p, 1, 1);
+            for(Square s : tempSquares) {
+                temp.add(new Pair<>(p, s));
+            }
+        }
+        return temp;
     }
 }
