@@ -282,6 +282,10 @@ public class GameBoard {
         return tempSquare;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     public void setPlayers(List<Player> players) {
         this.players = new ArrayList<>(players);
     }

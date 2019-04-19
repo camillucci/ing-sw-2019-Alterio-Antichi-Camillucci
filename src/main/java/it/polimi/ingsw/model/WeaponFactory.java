@@ -75,17 +75,55 @@ public class WeaponFactory
                 new FireModalityAction(new Ammo(1, 1, 0), new Branch(shootNearSquares(damageAll(1), 0), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Tractor Beam", new Ammo(0, 0, 0), new Ammo(1, 0, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers, damage(1)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers, damage(3)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers1, damage(1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers2, damage(3)), new EndBranchAction()))));
+                //TODO Add a way to move others
 
-        //TODO VortexCannon
+        weapons.add(new WeaponCard("Vortex Cannon", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(damage(1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 0),
+                        new Branch(shootVisiblePlayers(damage(2, 1)), new EndBranchAction()),
+                        new Branch(shootVisiblePlayers(damage(2, 1, 1)), new EndBranchAction()))));
+                //TODO Add a way to move others
 
-        weapons.add(new WeaponCard("Furnace", new Ammo(0, 1, 0), new Ammo(1, 1, 0),
+        weapons.add(new WeaponCard("Furnace", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootRoom(damageRoom(1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenSquares(damageAll(1).andThen(markAll(1)), 0, 1), new EndBranchAction()))));
 
-        weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 0), new Ammo(0, 2, 1),
+        weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 1), new Ammo(0, 2, 1),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootNonVisiblePlayers(damage(3)), new EndBranchAction()))));
+
+        weapons.add(new WeaponCard("Hellion", new Ammo(0, 0, 1), new Ammo(0, 1, 1),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootAwayPlayers(damageHellion(1, 0, 0, 1), 1), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0 ,1 ,0), new Branch(shootAwayPlayers(damageHellion(1, 0, 0, 2), 1), new EndBranchAction()))));
+
+        weapons.add(new WeaponCard("Flamethrower", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
+                new FireModalityAction(new Ammo(0, 0, 0),
+                        new Branch(shootBetweenPlayers(damage(1), 1, 2), new EndBranchAction()),
+                        new Branch(new ShootAction(TargetsFilters::flamethrowerVisiblePlayers, damage(1, 1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 2),
+                        new Branch(shootBetweenSquares(damageAll(2), 1, 2), new EndBranchAction()),
+                        new Branch(shootFlamethrowerSquares(damageAll(2, 1)), new EndBranchAction()))));
+
+        weapons.add(new WeaponCard("Grenade Launcher", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(damage(1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 0),
+                        new Branch(shootVisiblePlayers(damage(1)), shootVisibleSquares(damageAll(1)), new EndBranchAction()),
+                        new Branch(shootVisibleSquares(damageAll(1)), shootVisiblePlayers(damage(1)), new EndBranchAction()))));
+                //TODO Add a way to move others
+
+        weapons.add(new WeaponCard("Rocket Launcher", new Ammo(0, 1, 0), new Ammo(0, 2, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootAwayPlayers(damage(2), 1), new EndBranchAction())),
+                new FireModalityAction(new Ammo(1, 0, 0),
+                        new Branch(shootAwayPlayers(damage(2), 1), new MoveAction(2), new EndBranchAction()),
+                        new Branch(new MoveAction(2), shootAwayPlayers(damage(2), 1), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 1),
+                        new Branch(shootAwayPlayers(damageHellion(2, 0, 1, 0), 1), new EndBranchAction()),
+                        new Branch(shootAwayPlayers(damageHellion(2, 0, 1, 0), 1), new EndBranchAction())),
+                new FireModalityAction(new Ammo(1, 0, 1),
+                        new Branch(shootAwayPlayers(damageHellion(2, 0, 1, 0), 1), new MoveAction(2), new EndBranchAction()),
+                        new Branch(new MoveAction(2), shootAwayPlayers(damageHellion(2, 0, 1, 0), 1), new EndBranchAction()))));
+                //TODO Add a way to move others
 
         //TODO Add all other weapons
     }
@@ -150,6 +188,11 @@ public class WeaponFactory
         return new ShootAction((player, players) -> TargetsFilters.nonVisiblePlayers(player), shootFunc);
     }
 
+    private static ShootAction shootFlamethrowerSquares(BiConsumer<Player, List<Square>> shootFunc)
+    {
+        return new ShootAction(shootFunc, TargetsFilters::flamethrowerVisibleSquares);
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
     private static BiConsumer<Player, List<Player>> damage(Integer ... damage)
@@ -176,4 +219,10 @@ public class WeaponFactory
     {
         return (player, squares) -> Effects.damageRoom(player, squares, Arrays.asList(damage));
     }
+
+    private static BiConsumer<Player, List<Player>> damageHellion(Integer ... damage)
+    {
+        return (player, players) -> Effects.damageHellion(player, players, Arrays.asList(damage));
+    }
+
 }

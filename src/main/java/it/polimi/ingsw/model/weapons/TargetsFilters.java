@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.weapons;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TargetsFilters
@@ -42,22 +43,53 @@ public class TargetsFilters
         return player.getGameBoard().getBetweenSquares(player, minDistance, maxDistance);
     }
 
-    public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded)
-    {
-        Player tmp = alreadyAdded.isEmpty() ? player : alreadyAdded.get(alreadyAdded.size()-1);
-        return tmp.getGameBoard().getInRangePlayers(tmp);
-    }
-
-    public static List<Player> tractorBeamVisiblePlayers(Player player, List<Player> players) {
-        //TODO
-        return null;
-    }
-
     public static List<Player> nonVisiblePlayers(Player player) {
         return player.getGameBoard().getNonVisiblePlayers(player);
     }
 
     public static List<Square> otherVisibleRoom(Player player) {
         return player.getGameBoard().getOtherVisibleRoom(player);
+    }
+
+    public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded)
+    {
+        Player tmp = alreadyAdded.isEmpty() ? player : alreadyAdded.get(alreadyAdded.size()-1);
+        return tmp.getGameBoard().getInRangePlayers(tmp);
+    }
+
+    public static List<Player> tractorBeamVisiblePlayers1(Player player, List<Player> alreadyAdded) {
+        List<Square> shooterVisibleSquares = player.getGameBoard().getInRangeSquares(player);
+        List<Player> players = player.getGameBoard().getPlayers();
+        List<Player> temp = new ArrayList<>();
+        for(Player p : players) {
+            List<Square> playersVisibleSquares = p.getGameBoard().getInRangeSquares(p);
+            for(Square s : playersVisibleSquares) {
+                if (shooterVisibleSquares.contains(s)) {
+                    temp.add(p);
+                    break;
+                }
+            }
+        }
+        return temp;
+    }
+
+    public static List<Player> tractorBeamVisiblePlayers2(Player player, List<Player> alreadyAdded) {
+        List<Square> shooterNearSquares = player.getGameBoard().getSquares(player, 2);
+        List<Player> temp = new ArrayList<>();
+        for(Square s : shooterNearSquares) {
+            temp.addAll(s.getPlayers());
+        }
+        temp.remove(player);
+        return temp;
+    }
+
+    public static List<Player> flamethrowerVisiblePlayers(Player player, List<Player> alreadyAdded) {
+        //TODO
+        return null;
+    }
+
+    public static List<Square> flamethrowerVisibleSquares(Player player) {
+        //TODO
+        return null;
     }
 }
