@@ -1,24 +1,16 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.powerups.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class PowerUpDeck {
 
-    private ArrayList<PowerUpCard> deck = new ArrayList<>();
-    private ArrayList<PowerUpCard> discarded = new ArrayList<>();
-    private static final int COPY_OF_CARDS = 2;
+    private List<PowerUpCard> deck;
+    private List<PowerUpCard> discarded = new ArrayList<>();
 
     public PowerUpDeck() {
-        for (int i = 0; i < COPY_OF_CARDS; i++)
-            for(AmmoColor color : AmmoColor.values()){
-            deck.add(new TargetingScope(color));
-            deck.add(new Newton(color));
-            deck.add(new TagbackGrenade(color));
-            deck.add(new Teleporter(color));
-        }
+        deck = PowerUpFactory.getPowerUps();
         Collections.shuffle(deck);
     }
 

@@ -274,12 +274,9 @@ public class GameBoard {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(square);
         for(int i = 0; i < tempSquare.size(); i++) {
-            List<Square> tempNear = distanceOneBorderType(tempSquare.get(i), ROOM);
-            for(Square s : tempNear)
-                if(!tempSquare.contains(s))
-                    tempSquare.add(s);
+            tempSquare.addAll(distanceOneBorderType(tempSquare.get(i), ROOM));
         }
-        return tempSquare;
+        return removeEmptySquares(tempSquare);
     }
 
     public List<Square> sameDirection(Player player) {
@@ -311,6 +308,29 @@ public class GameBoard {
                 temp.add(squares[tempToAdd.getY()][tempToAdd.getX() + 1]);
         }
         temp.remove(player.getCurrentSquare());
+        return removeEmptySquares(temp);
+    }
+
+    public List<Square> sameDirectionSquare(Player player, Square square) {
+        if(Math.abs(player.getCurrentSquare().getY() - square.getY()) == 2)
+            return removeEmptySquares(Collections.singletonList(squares[(player.getCurrentSquare().getY() + square.getY()) / 2][player.getCurrentSquare().getX()]));
+        if(Math.abs(player.getCurrentSquare().getX() - square.getX()) == 2)
+            return removeEmptySquares(Collections.singletonList(squares[player.getCurrentSquare().getY()][(player.getCurrentSquare().getX() + square.getX()) / 2]));
+        if(player.getCurrentSquare().getY() - square.getY() == 1 && player.getCurrentSquare().getY() >= 2)
+            return removeEmptySquares(Collections.singletonList(squares[player.getCurrentSquare().getY() - 2][player.getCurrentSquare().getX()]));
+        if(player.getCurrentSquare().getY() - square.getY() == -1 && player.getCurrentSquare().getY() <= 0)
+            return removeEmptySquares(Collections.singletonList(squares[player.getCurrentSquare().getY() + 2][player.getCurrentSquare().getX()]));
+        if(player.getCurrentSquare().getX() - square.getX() == 1 && player.getCurrentSquare().getX() >= 2)
+            return removeEmptySquares(Collections.singletonList(squares[player.getCurrentSquare().getY()][player.getCurrentSquare().getX() - 2]));
+        return removeEmptySquares(Collections.singletonList(squares[player.getCurrentSquare().getY()][player.getCurrentSquare().getX() + 2]));
+    }
+
+    private List<Square> removeEmptySquares(List<Square> squareList) {
+        List<Square> temp = new ArrayList<>();
+        for (Square square : squareList) {
+            if (!square.getPlayers().isEmpty())
+                temp.add(square);
+        }
         return temp;
     }
 

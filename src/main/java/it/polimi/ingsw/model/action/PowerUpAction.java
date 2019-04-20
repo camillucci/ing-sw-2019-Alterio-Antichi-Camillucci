@@ -8,9 +8,9 @@ public class PowerUpAction extends ShootAction
     @Override
     public void addPowerUp(PowerUpCard powerUpCard)
     {
-        if(Ammo.getAmmo(ownerPlayer).sub(doActionCost).isGreaterOrEqual(powerUpCard.cost))
+        if(Ammo.getAmmo(ownerPlayer).sub(doActionCost).isGreaterOrEqual(powerUpCard.getCost()))
         {
-            this.doActionCost = this.doActionCost.add(powerUpCard.cost);
+            this.doActionCost = this.doActionCost.add(powerUpCard.getCost());
             this.possibleTargetsFuncP = powerUpCard::visiblePlayers;
             this.possibleTargetsFuncS = powerUpCard::visibleSquares;
             this.selectedPowerUps.add(powerUpCard);

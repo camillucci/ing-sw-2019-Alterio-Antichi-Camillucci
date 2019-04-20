@@ -6,18 +6,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AmmoDeckTest {
 
-    AmmoDeck ammoDeck = new AmmoDeck();
-    AmmoCard ammoCard;
+    private AmmoDeck ammoDeck = new AmmoDeck();
     private static final int numberOfCards = 36;
 
     @Test
     void drawAndAddDiscarded() {
+        AmmoCard ammoCard;
         for (int i = 0; i < numberOfCards - 1; i++) {
             ammoCard = ammoDeck.draw();
-            assertTrue(ammoCard instanceof AmmoCard);
+            assertNotNull(ammoCard);
         }
         ammoCard = ammoDeck.draw();
         ammoDeck.addDiscarded(ammoCard);
-        assertTrue( ammoDeck.draw() == ammoCard);
+        assertSame(ammoDeck.draw(), ammoCard);
     }
 }

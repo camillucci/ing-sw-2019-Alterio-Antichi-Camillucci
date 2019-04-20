@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveActionTest {
-    GameBoard gameBoard = new GameBoard(3, 10);
+    private GameBoard gameBoard = new GameBoard(3, 10);
     private ArrayList<MoveAction> moveActions = new ArrayList<>();
     private Action triggeredAction = null;
     private boolean eventTriggered = false;
@@ -58,7 +58,7 @@ class MoveActionTest {
 
     void eventHandler(Action sender, Action completedAction)
     {
-        assertTrue(completedAction == triggeredAction);
+        assertSame(completedAction, triggeredAction);
         eventTriggered= true;
     }
 }

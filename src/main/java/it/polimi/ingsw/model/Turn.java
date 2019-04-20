@@ -52,7 +52,7 @@ public class Turn {
                 this.branchMap = BranchMapFactory.adrenalineX1();
             }
 
-            frenzyCounter++;
+            increaseFrenzyCounter();
         }
         else {
             if (currentPlayer.getDamage().size() >= 3) {
@@ -79,5 +79,9 @@ public class Turn {
         for (Player p : match.getPlayers()) {
             clonedPlayers.add(p.getClone());
         }
+    }
+
+    private static void increaseFrenzyCounter() {
+        frenzyCounter++;
     }
 }

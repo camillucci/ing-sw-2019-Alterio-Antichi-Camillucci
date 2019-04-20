@@ -6,18 +6,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PowerUpDeckTest {
 
-    PowerUpDeck powerUpDeck = new PowerUpDeck();
-    PowerUpCard powerUpCard;
+    private PowerUpDeck powerUpDeck = new PowerUpDeck();
     private static final int numberOfCards = 24;
 
     @Test
     void drawAndAddDiscarded() {
+        PowerUpCard powerUpCard;
         for (int i = 0; i < numberOfCards - 1; i++) {
             powerUpCard = powerUpDeck.draw();
-            assertTrue(powerUpCard instanceof PowerUpCard);
+            assertNotNull(powerUpCard);
         }
         powerUpCard = powerUpDeck.draw();
         powerUpDeck.addDiscarded(powerUpCard);
-        assertTrue(powerUpDeck.draw() == powerUpCard);
+        assertSame(powerUpDeck.draw(), powerUpCard);
     }
 }

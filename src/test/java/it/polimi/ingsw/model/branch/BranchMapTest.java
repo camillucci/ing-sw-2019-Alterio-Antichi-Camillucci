@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BranchMapTest {
     private BranchMap curBranchMap;
     private boolean eventTriggered = false;
-    Player p = new Player("p", PlayerColor.BLUE,new GameBoard(3,10));
+    private Player p = new Player("p", PlayerColor.BLUE,new GameBoard(3, 10));
 
     @Test
     void getPossibleActions()

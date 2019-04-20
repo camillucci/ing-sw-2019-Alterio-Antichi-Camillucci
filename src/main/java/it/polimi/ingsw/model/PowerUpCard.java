@@ -1,33 +1,44 @@
 package it.polimi.ingsw.model;
 
+import java.util.Collections;
 import java.util.List;
 
-public abstract class PowerUpCard {
+public class PowerUpCard {
 
-    public final String name;
-    public final AmmoColor color;
-    public final Ammo cost;
+    private final String name;
+    private final AmmoColor color;
+    private final Ammo cost;
+
+    public PowerUpCard(String name, AmmoColor color, Ammo cost)
+    {
+        this.name = name;
+        this.color = color;
+        this.cost = cost;
+    }
 
     public void shootP(Player shooter, List<Player> targets) {
-        //TODO or abstract
+        //TODO
     }
 
     public void shootS(Player shooter, List<Square> targets) {
-        //TODO or abstract
+        //TODO
     }
 
-    public abstract List<Player> visiblePlayers(Player player, List<Player> alreadyAdded);
+    public List<Player> visiblePlayers(Player player, List<Player> alreadyAdded) {
+        //TODO
+        return Collections.emptyList();
+    }
 
-    public abstract List<Square> visibleSquares(Player player);
-
-    public PowerUpCard(String name, Ammo cost, AmmoColor color)
-    {
-        this.name = name;
-        this.cost = cost;
-        this.color = color;
+    public List<Square> visibleSquares(Player player, List<Square> alreadyAdded) {
+        //TODO
+        return Collections.emptyList();
     }
 
     public AmmoColor getColor() {
         return color;
+    }
+
+    public Ammo getCost() {
+        return cost;
     }
 }

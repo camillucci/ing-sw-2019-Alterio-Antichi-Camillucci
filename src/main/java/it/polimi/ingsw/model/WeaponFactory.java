@@ -13,6 +13,7 @@ import java.util.function.BiConsumer;
 public class WeaponFactory
 {
     private WeaponFactory(){}
+
     private static ArrayList<WeaponCard> weapons = new ArrayList<>();
 
     public static List<WeaponCard> getWeapons()
@@ -76,8 +77,8 @@ public class WeaponFactory
                 new FireModalityAction(new Ammo(1, 1, 0), new Branch(shootNearSquares(damageAll(1), 0), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Tractor Beam", new Ammo(0, 0, 0), new Ammo(1, 0, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers1, damage(1)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(TargetsFilters::tractorBeamVisiblePlayers2, damage(3)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction((player, players) -> TargetsFilters.tractorBeamVisiblePlayers1(player), damage(1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction((player, players) -> TargetsFilters.tractorBeamVisiblePlayers2(player), damage(3)), new EndBranchAction()))));
                 //TODO Add a way to move others
 
         weapons.add(new WeaponCard("Vortex Cannon", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
@@ -138,7 +139,7 @@ public class WeaponFactory
     //Shoot at visible squares
     private static ShootAction shootVisibleSquares(BiConsumer<Player, List<Square>> shootFunc)
     {
-        return new ShootAction(shootFunc, TargetsFilters::visibleSquares);
+        return new ShootAction(shootFunc, (player, squares) -> TargetsFilters.visibleSquares(player));
     }
 
     //Shoot at visible players which distant is >= minDistance
@@ -162,25 +163,25 @@ public class WeaponFactory
     //Shoot at visible squares which distant is >= minDistance
     private static ShootAction shootAwaySquares(BiConsumer<Player, List<Square>> shootFunc, int minDistance)
     {
-        return new ShootAction(shootFunc, player -> TargetsFilters.awaySquares(player, minDistance));
+        return new ShootAction(shootFunc, (player, squares) -> TargetsFilters.awaySquares(player, minDistance));
     }
 
     //Shoot at visible squares which distant is <= maxDistance
     private static ShootAction shootNearSquares(BiConsumer<Player, List<Square>> shootFunc, int maxDistance)
     {
-        return new ShootAction(shootFunc, player -> TargetsFilters.nearSquares(player, maxDistance));
+        return new ShootAction(shootFunc, (player, squares) -> TargetsFilters.nearSquares(player, maxDistance));
     }
 
     //Shoot at visible squares which distant is >= minDistance and <= maxDistance
     private static ShootAction shootBetweenSquares(BiConsumer<Player, List<Square>> shootFunc, int minDistance, int maxDistance)
     {
-        return new ShootAction(shootFunc, player -> TargetsFilters.betweenSquares(player, minDistance, maxDistance));
+        return new ShootAction(shootFunc, (player, squares) -> TargetsFilters.betweenSquares(player, minDistance, maxDistance));
     }
 
     //Shoot at visible rooms
     private static ShootAction shootRoom(BiConsumer<Player, List<Square>> shootFunc)
     {
-        return new ShootAction(shootFunc, TargetsFilters::otherVisibleRoom);
+        return new ShootAction(shootFunc, (player, squares) -> TargetsFilters.otherVisibleRoom(player));
     }
 
     //Shoot at non visible targets

@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AmmoTest {
 
-    Ammo ammo1 = new Ammo(0, 1, 2);
-    Ammo ammo2 = new Ammo(2, 2, 3);
-    Ammo ammo3 = new Ammo(0, 1, 3);
-    Player p = new Player("A", PlayerColor.GREEN, null);
+    private Ammo ammo1 = new Ammo(0, 1, 2);
+    private Ammo ammo2 = new Ammo(2, 2, 3);
+    private Ammo ammo3 = new Ammo(0, 1, 3);
+    private Player p = new Player("A", PlayerColor.GREEN, null);
 
     @Test
     void sub() {

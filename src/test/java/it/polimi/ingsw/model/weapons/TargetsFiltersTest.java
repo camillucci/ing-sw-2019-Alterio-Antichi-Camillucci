@@ -3,22 +3,30 @@ package it.polimi.ingsw.model.weapons;
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.Player;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static it.polimi.ingsw.model.PlayerColor.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TargetsFiltersTest {
 
-    GameBoard gameBoard = new GameBoard(6, 12);
-    Player player = new Player("A", GREY, gameBoard);
+    private GameBoard gameBoard = new GameBoard(6, 12);
+    private Player player = new Player("A", GREY, gameBoard);
+    private Player p2;
+    private Player p3;
+
+    @BeforeEach
+    void setUp() {
+        p2 = new Player("B", YELLOW, gameBoard);
+        p3 = new Player("C", VIOLET, gameBoard);
+    }
 
     @Test
     void visiblePlayers() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         player.getCurrentSquare().addPlayer(player);
         assertEquals(0, TargetsFilters.visiblePlayers(player).size());
@@ -50,8 +58,6 @@ class TargetsFiltersTest {
 
     @Test
     void awayPlayers() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
         assertEquals(0, TargetsFilters.awayPlayers(player, 1).size());
@@ -65,8 +71,6 @@ class TargetsFiltersTest {
 
     @Test
     void nearPlayers() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
         assertEquals(0, TargetsFilters.nearPlayers(player, 0).size());
@@ -80,8 +84,6 @@ class TargetsFiltersTest {
 
     @Test
     void betweenPlayers() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
         assertEquals(0, TargetsFilters.betweenPlayers(player, 1, 2).size());
@@ -95,8 +97,6 @@ class TargetsFiltersTest {
 
     @Test
     void awaySquares() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
         assertEquals(0, TargetsFilters.awaySquares(player, 1).size());
@@ -110,8 +110,6 @@ class TargetsFiltersTest {
 
     @Test
     void nearSquares() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
         assertEquals(0, TargetsFilters.nearSquares(player, 1).size());
@@ -125,8 +123,6 @@ class TargetsFiltersTest {
 
     @Test
     void betweenSquares() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
         assertEquals(0, TargetsFilters.betweenSquares(player, 1, 2).size());
@@ -140,11 +136,9 @@ class TargetsFiltersTest {
 
     @Test
     void nonVisiblePlayers() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
-        gameBoard.setPlayers(Arrays.asList(player));
+        gameBoard.setPlayers(Collections.singletonList(player));
         assertEquals(0, TargetsFilters.nonVisiblePlayers(player).size());
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         p2.getCurrentSquare().addPlayer(p2);
@@ -158,8 +152,6 @@ class TargetsFiltersTest {
 
     @Test
     void otherVisibleRoom() {
-        Player p2 = new Player("B", YELLOW, gameBoard);
-        Player p3 = new Player("C", VIOLET, gameBoard);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         player.getCurrentSquare().addPlayer(player);
         assertEquals(0, TargetsFilters.otherVisibleRoom(player).size());

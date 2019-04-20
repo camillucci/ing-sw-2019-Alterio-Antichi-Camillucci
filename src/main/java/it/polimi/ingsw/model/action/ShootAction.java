@@ -16,13 +16,13 @@ public class ShootAction extends Action
     protected BiConsumer<Player, List<Player>> shootFuncP = (a,b) -> {};
     protected BiConsumer<Player, List<Square>> shootFuncS = (a,b) -> {};
     protected TriConsumer<Player, List<Player>, List<Square>> shootFuncM = (a, b, c) -> {};
-    protected Function<Player,List<Square>> possibleTargetsFuncS;
+    protected BiFunction<Player,List<Square>, List<Square>> possibleTargetsFuncS;
     protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
     protected Function<Player, List<Pair<Player, Square>>> possibleTargetFuncM;
 
     protected ShootAction(){}
 
-    public ShootAction(BiConsumer<Player, List<Square>> shootFunc, Function<Player,List<Square>> possibleTargetsFunc) //  void shootFunc(Player,List<Square>), List<Square> possibleTargetsFunc(Player)
+    public ShootAction(BiConsumer<Player, List<Square>> shootFunc, BiFunction<Player,List<Square>, List<Square>> possibleTargetsFunc)
     {
         this.possibleTargetsFuncS = possibleTargetsFunc;
         this.shootFuncS = shootFunc;
@@ -54,11 +54,21 @@ public class ShootAction extends Action
 
     @Override
     public List<Player> getPossiblePlayers() {
-        return this.possibleTargetsFuncP.apply(ownerPlayer, new ArrayList<>(this.targetPlayers));
+        if(possibleTargetFuncM == null)
+            return this.possibleTargetsFuncP.apply(ownerPlayer, new ArrayList<>(this.targetPlayers));
+        List<Player> temp = new ArrayList<>();
+        for(Pair<Player, Square> pair : possibleTargetFuncM.apply(ownerPlayer))
+            temp.add(pair.getLeft());
+        return temp;
     }
 
     @Override
     public List<Square> getPossibleSquares() {
-        return this.possibleTargetsFuncS.apply(ownerPlayer);
+        if(possibleTargetFuncM == null)
+            return this.possibleTargetsFuncS.apply(ownerPlayer, new ArrayList<>(this.targetSquares));
+        List<Square> temp = new ArrayList<>();
+        for(Pair<Player, Square> pair : possibleTargetFuncM.apply(ownerPlayer))
+            temp.add(pair.getRight());
+        return temp;
     }
 }

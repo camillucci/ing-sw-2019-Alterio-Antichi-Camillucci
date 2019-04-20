@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
-import it.polimi.ingsw.model.powerups.TagbackGrenade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,9 +81,6 @@ public class Player implements Cloneable {
         }
     }
 
-    public void removePowerUpCard(int n) {
-        powerUps.remove(n);
-    }
     public void removePowerUpCard(PowerUpCard powerUpCard)
     {
         powerUps.remove(powerUpCard);
@@ -104,10 +100,9 @@ public class Player implements Cloneable {
         for(int i = temp.size() - 1; i >= 0; i--)
             mark.remove(i);
 
-        for(PowerUpCard pu : powerUps)
-            if(pu instanceof TagbackGrenade){
-               //TODO pu.shootP();
-            }
+        /* TODO for(PowerUpCard pu : powerUps)
+            if(pu.getName() == "Tagback Grenade")
+               pu.shootP(); */
     }
 
     public void addMark(Player shooter, int val) {

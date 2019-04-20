@@ -45,7 +45,7 @@ class PlayerTest {
             player.addPowerUpCard();
         }
         for(int i = MAX_POWER_UPS - 1; i >= 0; i--)
-            player.removePowerUpCard(i);
+            player.removePowerUpCard(player.getPowerUps().get(i));
     }
 
     @Test
@@ -55,7 +55,7 @@ class PlayerTest {
             player.addPowerUpCardRespawn();
         }
         for(int i = MAX_POWER_UPS_RESPAWN - 1; i >= 0; i--)
-            player.removePowerUpCard(i);
+            player.removePowerUpCard(player.getPowerUps().get(i));
     }
 
     @Test
