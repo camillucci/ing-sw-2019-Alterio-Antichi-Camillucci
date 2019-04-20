@@ -72,6 +72,7 @@ public class TargetsFilters
                 }
             }
         }
+        temp.remove(player);
         return temp;
     }
 
@@ -85,14 +86,18 @@ public class TargetsFilters
         return temp;
     }
 
-    public static List<Player> flamethrowerVisiblePlayers(Player player, List<Player> alreadyAdded) {
-        //TODO
-        return null;
+    public static List<Player> sameDirectionVisiblePlayers(Player player, List<Player> alreadyAdded) {
+        List<Square> tempSquares = sameDirectionVisibleSquares(player);
+        List<Player> temp = new ArrayList<>();
+        for(Square square : tempSquares) {
+            temp.addAll(square.getPlayers());
+        }
+        temp.remove(player);
+        return temp;
     }
 
-    public static List<Square> flamethrowerVisibleSquares(Player player) {
-        //TODO
-        return null;
+    public static List<Square> sameDirectionVisibleSquares(Player player) {
+        return player.getGameBoard().sameDirection(player);
     }
 
     public static List<Pair<Player, Square>> grenadeLauncherMovablePlayers(Player player) {

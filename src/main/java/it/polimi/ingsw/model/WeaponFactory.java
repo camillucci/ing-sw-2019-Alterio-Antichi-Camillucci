@@ -101,10 +101,10 @@ public class WeaponFactory
         weapons.add(new WeaponCard("Flamethrower", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(shootBetweenPlayers(damage(1), 1, 2), new EndBranchAction()),
-                        new Branch(new ShootAction(TargetsFilters::flamethrowerVisiblePlayers, damage(1, 1)), new EndBranchAction())),
+                        new Branch(new ShootAction(TargetsFilters::sameDirectionVisiblePlayers, damage(1, 1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 2),
                         new Branch(shootBetweenSquares(damageAll(2), 1, 2), new EndBranchAction()),
-                        new Branch(new ShootAction(damageAll(2, 1), TargetsFilters::flamethrowerVisibleSquares), new EndBranchAction()))));
+                        new Branch(new ShootAction(damageAll(2, 1), TargetsFilters::sameDirectionVisibleSquares), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Grenade Launcher", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::grenadeLauncherMovablePlayers, moveAndDamage(1, 0, 0, 0)), new EndBranchAction())),

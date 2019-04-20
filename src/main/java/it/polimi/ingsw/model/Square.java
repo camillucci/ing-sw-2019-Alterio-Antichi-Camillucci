@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.branch.Branch;
 
 import java.util.List;
 
+import static it.polimi.ingsw.model.SquareBorder.*;
+
 public abstract class Square {
     protected int y;
     protected int x;
@@ -14,6 +16,22 @@ public abstract class Square {
     protected List<Player> players;
 
     public abstract List<Branch> grab(Player player);
+
+    public boolean okNorth() {
+        return this.north == DOOR || this.north == ROOM;
+    }
+
+    public boolean okSouth() {
+        return this.south == DOOR || this.south == ROOM;
+    }
+
+    public boolean okWest() {
+        return this.west == DOOR || this.west == ROOM;
+    }
+
+    public boolean okEast() {
+        return this.east == DOOR || this.east == ROOM;
+    }
 
     public int getY() {
         return y;
