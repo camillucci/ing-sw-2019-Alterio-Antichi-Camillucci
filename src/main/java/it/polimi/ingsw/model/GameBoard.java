@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -274,9 +275,12 @@ public class GameBoard {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(square);
         for(int i = 0; i < tempSquare.size(); i++) {
-            tempSquare.addAll(distanceOneBorderType(tempSquare.get(i), ROOM));
+            List<Square> tempNear = distanceOneBorderType(tempSquare.get(i), ROOM);
+            for(Square s : tempNear)
+                if(!tempSquare.contains(s))
+                    tempSquare.add(s);
         }
-        return removeEmptySquares(tempSquare);
+        return tempSquare;
     }
 
     public List<Square> sameDirection(Player player) {
@@ -359,5 +363,13 @@ public class GameBoard {
             default:
                 return squares[2][3];
         }
+    }
+
+    public List<Square> getSquares() {
+        List<Square> temp = new ArrayList<>();
+        for (Square[] square : squares) {
+            temp.addAll(Arrays.asList(square));
+        }
+        return temp;
     }
 }
