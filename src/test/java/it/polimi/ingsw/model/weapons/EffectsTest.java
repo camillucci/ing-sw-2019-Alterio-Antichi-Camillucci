@@ -107,12 +107,12 @@ class EffectsTest {
         gameBoard.getSpawnAndShopSquare(YELLOW).addPlayer(p3);
         p3.setCurrentSquare(gameBoard.getSpawnAndShopSquare(YELLOW));
         Effects.damageMultiple(p1, Arrays.asList(p2, p3), Arrays.asList(1, 2, 1, 2));
-        assertEquals(4, p2.getDamage().size());
-        assertEquals(4, p3.getDamage().size());
+        assertEquals(3, p2.getDamage().size());
+        assertEquals(3, p3.getDamage().size());
         assertEquals(BLUE, p2.getDamage().get(2));
         assertEquals(BLUE, p3.getDamage().get(2));
-        assertEquals(2, p2.getMark().size());
-        assertEquals(2, p3.getMark().size());
+        assertEquals(3, p2.getMark().size());
+        assertEquals(3, p3.getMark().size());
         assertEquals(BLUE, p2.getMark().get(1));
         assertEquals(BLUE, p3.getMark().get(1));
     }

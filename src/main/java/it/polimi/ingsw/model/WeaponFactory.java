@@ -119,13 +119,38 @@ public class WeaponFactory
                         new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 0, 0)), new MoveAction(2), new EndBranchAction()),
                         new Branch(new MoveAction(2), shootAwayPlayers(damage(2), 1), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 1),
-                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 1, 0)), new EndBranchAction()),
-                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 1, 0)), new EndBranchAction())),
+                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new EndBranchAction()),
+                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 1),
-                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 1, 0)), new MoveAction(2), new EndBranchAction()),
-                        new Branch(new MoveAction(2), new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 0, 0)), new EndBranchAction()))));
+                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new MoveAction(2), new EndBranchAction()),
+                        new Branch(new MoveAction(2), new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new EndBranchAction()))));
 
-        //TODO Add all other weapons
+        //TODO Add Railgun
+
+        weapons.add(new WeaponCard("Cyberblade", new Ammo(0, 1, 0), new Ammo(0, 1, 1),
+                new FireModalityAction(new Ammo(0, 0, 0),
+                        new Branch(shootNearPlayers(damage(2), 0), new EndBranchAction()),
+                        new Branch(shootNearPlayers(damage(2), 0), new MoveAction(1), new EndBranchAction()),
+                        new Branch(new MoveAction(1), shootNearPlayers(damage(2), 0), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 1),
+                        new Branch(shootNearPlayers(damage(2, 2), 0), new EndBranchAction()),
+                        new Branch(shootNearPlayers(damage(2, 2), 0), new MoveAction(1), new EndBranchAction()),
+                        new Branch(new MoveAction(1), shootNearPlayers(damage(2, 2), 0), new EndBranchAction()),
+                        new Branch(shootNearPlayers(damage(2), 0), new MoveAction(1), shootNearPlayers(damage(2), 0), new EndBranchAction()))));
+
+        weapons.add(new WeaponCard("ZX-2", new Ammo(0, 1, 0), new Ammo(0, 1, 1),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(damage(1).andThen(mark(2))), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(mark(1, 1, 1)), new EndBranchAction()))));
+
+        weapons.add(new WeaponCard("Shotgun", new Ammo(0, 0, 1), new Ammo(0, 0, 2),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::shotgunMovablePlayers, moveAndDamage(3, 0, 0 ,0)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenPlayers(damage(2), 1, 1), new EndBranchAction()))));
+
+        //TODO Add Power Glove
+
+        //TODO Add Shockwave
+
+        //TODO Add Sledgehammer
     }
 
     //------------------------------------------------------------------------------------------------------------------

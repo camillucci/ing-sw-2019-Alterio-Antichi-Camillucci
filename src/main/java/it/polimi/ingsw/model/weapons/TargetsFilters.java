@@ -124,6 +124,10 @@ public class TargetsFilters
         return move1Shooted(awayPlayers(player, 1));
     }
 
+    public static List<Pair<Player, Square>> shotgunMovablePlayers(Player player) {
+        return move1Shooted(nearPlayers(player, 0));
+    }
+
     private static List<Pair<Player, Square>> move1Shooted(List<Player> targets) {
         List<Pair<Player, Square>> temp = new ArrayList<>();
         for(Player p : targets) {

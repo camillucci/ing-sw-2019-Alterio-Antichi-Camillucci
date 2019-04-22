@@ -68,8 +68,8 @@ public class Effects
     {
         for(Player target : targets) {
             damage(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(0)));
-            mark(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(1)));
-            damageAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(2)));
+            damageAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(1)));
+            mark(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(2)));
             markAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(3)));
         }
     }
