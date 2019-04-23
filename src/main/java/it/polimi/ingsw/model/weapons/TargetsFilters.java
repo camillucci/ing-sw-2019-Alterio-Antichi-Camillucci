@@ -71,12 +71,11 @@ public class TargetsFilters
         List<Player> temp = new ArrayList<>();
         for(Player p : players) {
             List<Square> playersVisibleSquares = p.getGameBoard().getInRangeSquares(p);
-            for(Square s : playersVisibleSquares) {
+            for(Square s : playersVisibleSquares)
                 if (shooterVisibleSquares.contains(s)) {
                     temp.add(p);
                     break;
                 }
-            }
         }
         temp.remove(player);
         return temp;
@@ -85,30 +84,28 @@ public class TargetsFilters
     public static List<Player> tractorBeamVisiblePlayers2(Player player) {
         List<Square> shooterNearSquares = player.getGameBoard().getSquares(player, 2);
         List<Player> temp = new ArrayList<>();
-        for(Square s : shooterNearSquares) {
+        for(Square s : shooterNearSquares)
             temp.addAll(s.getPlayers());
-        }
         temp.remove(player);
         return temp;
     }
 
-    public static List<Player> sameDirectionVisiblePlayers(Player player, List<Player> alreadyAdded) {
+    public static List<Player> flamethrowerVisiblePlayers(Player player, List<Player> alreadyAdded) {
         if(alreadyAdded.size() >= 2)
             return Collections.emptyList();
         List<Square> tempSquares;
         if(alreadyAdded.isEmpty())
-            tempSquares = sameDirectionVisibleSquares(player, Collections.emptyList());
+            tempSquares = player.getGameBoard().sameDirection(player);
         else
-            tempSquares = sameDirectionVisibleSquares(player, Collections.singletonList(alreadyAdded.get(0).getCurrentSquare()));
+            tempSquares = player.getGameBoard().sameDirectionSquare(player, alreadyAdded.get(0).getCurrentSquare());
         List<Player> temp = new ArrayList<>();
-        for(Square square : tempSquares) {
+        for(Square square : tempSquares)
             temp.addAll(square.getPlayers());
-        }
         temp.remove(player);
         return temp;
     }
 
-    public static List<Square> sameDirectionVisibleSquares(Player player, List<Square> alreadyAdded) {
+    public static List<Square> flamethrowerVisibleSquares(Player player, List<Square> alreadyAdded) {
         if(alreadyAdded.size() >= 2)
             return Collections.emptyList();
         if(alreadyAdded.isEmpty())
@@ -117,24 +114,36 @@ public class TargetsFilters
     }
 
     public static List<Pair<Player, Square>> grenadeLauncherMovablePlayers(Player player) {
-        return move1Shooted(visiblePlayers(player));
+        return moveShooted(visiblePlayers(player), 1);
     }
 
     public static List<Pair<Player, Square>> rocketLauncherMovablePlayers(Player player) {
-        return move1Shooted(awayPlayers(player, 1));
+        return moveShooted(awayPlayers(player, 1), 1);
+    }
+
+    public static List<Player> railgunVisiblePlayer(Player player) {
+        List<Square> tempSquares = player.getGameBoard().throughWalls(player);
+        List<Player> temp = new ArrayList<>();
+        for(Square square : tempSquares)
+            temp.addAll(square.getPlayers());
+        temp.remove(player);
+        return temp;
     }
 
     public static List<Pair<Player, Square>> shotgunMovablePlayers(Player player) {
-        return move1Shooted(nearPlayers(player, 0));
+        return moveShooted(nearPlayers(player, 0), 1);
     }
 
-    private static List<Pair<Player, Square>> move1Shooted(List<Player> targets) {
+    public static List<Pair<Player, Square>> sledgehammerMovablePlayers(Player player) {
+        return moveShooted(nearPlayers(player, 0), 2);
+    }
+
+    private static List<Pair<Player, Square>> moveShooted(List<Player> targets, int maxDistance) {
         List<Pair<Player, Square>> temp = new ArrayList<>();
         for(Player p : targets) {
-            List<Square> tempSquares = betweenSquares(p, 1, 1);
-            for(Square s : tempSquares) {
+            List<Square> tempSquares = betweenSquares(p, 0, maxDistance);
+            for(Square s : tempSquares)
                 temp.add(new Pair<>(p, s));
-            }
         }
         return temp;
     }

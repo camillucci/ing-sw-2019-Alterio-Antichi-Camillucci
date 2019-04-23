@@ -102,10 +102,10 @@ public class WeaponFactory
         weapons.add(new WeaponCard("Flamethrower", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(shootBetweenPlayers(damage(1), 1, 2), new EndBranchAction()),
-                        new Branch(new ShootAction(TargetsFilters::sameDirectionVisiblePlayers, damage(1, 1)), new EndBranchAction())),
+                        new Branch(new ShootAction(TargetsFilters::flamethrowerVisiblePlayers, damage(1, 1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 2),
                         new Branch(shootBetweenSquares(damageAll(2), 1, 2), new EndBranchAction()),
-                        new Branch(new ShootAction(damageAll(2, 1), TargetsFilters::sameDirectionVisibleSquares), new EndBranchAction()))));
+                        new Branch(new ShootAction(damageAll(2, 1), TargetsFilters::flamethrowerVisibleSquares), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Grenade Launcher", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::grenadeLauncherMovablePlayers, moveAndDamage(1, 0, 0, 0)), new EndBranchAction())),
@@ -125,7 +125,9 @@ public class WeaponFactory
                         new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new MoveAction(2), new EndBranchAction()),
                         new Branch(new MoveAction(2), new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new EndBranchAction()))));
 
-        //TODO Add Railgun
+        weapons.add(new WeaponCard("Railgun", new Ammo(1, 0, 1), new Ammo(1, 0, 2),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction((player, players) -> TargetsFilters.railgunVisiblePlayer(player), damage(3)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction((player, players) -> TargetsFilters.railgunVisiblePlayer(player), damage(2, 2)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Cyberblade", new Ammo(0, 1, 0), new Ammo(0, 1, 1),
                 new FireModalityAction(new Ammo(0, 0, 0),
@@ -148,9 +150,13 @@ public class WeaponFactory
 
         //TODO Add Power Glove
 
-        //TODO Add Shockwave
+        weapons.add(new WeaponCard("Shockwave", new Ammo(0, 0, 0), new Ammo(0, 0, 1),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenPlayers(damage(1, 1, 1), 1, 1), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 1), new Branch(shootBetweenSquares(damageAll(1, 1, 1, 1), 1, 1), new EndBranchAction()))));
 
-        //TODO Add Sledgehammer
+        weapons.add(new WeaponCard("Sledgehammer", new Ammo(0, 0, 0), new Ammo(0, 0, 1),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootNearPlayers(damage(2), 0), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(TargetsFilters::sledgehammerMovablePlayers, moveAndDamage(3, 0, 0, 0)), new EndBranchAction()))));
     }
 
     //------------------------------------------------------------------------------------------------------------------

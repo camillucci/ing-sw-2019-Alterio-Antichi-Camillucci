@@ -33,6 +33,22 @@ public abstract class Square {
         return this.east == DOOR || this.east == ROOM;
     }
 
+    public boolean existNorth() {
+        return this.north == DOOR || this.north == ROOM || this.north == WALL;
+    }
+
+    public boolean existSouth() {
+        return this.south == DOOR || this.south == ROOM || this.north == WALL;
+    }
+
+    public boolean existWest() {
+        return this.west == DOOR || this.west == ROOM || this.north == WALL;
+    }
+
+    public boolean existEast() {
+        return this.east == DOOR || this.east == ROOM || this.north == WALL;
+    }
+
     public int getY() {
         return y;
     }
