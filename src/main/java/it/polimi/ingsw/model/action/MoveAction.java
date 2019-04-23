@@ -6,10 +6,19 @@ import java.util.List;
 
 public class MoveAction extends Action
 {
+    private int minDistance;
     private int maxDistance;
 
     public MoveAction(int maxDistance)
     {
+        this.minDistance = -1;
+        this.maxDistance = maxDistance;
+        this.optional = true;
+    }
+
+    public MoveAction(int minDistance, int maxDistance)
+    {
+        this.minDistance = minDistance;
         this.maxDistance = maxDistance;
         this.optional = true;
     }
@@ -27,7 +36,9 @@ public class MoveAction extends Action
 
     @Override
     public List<Square> getPossibleSquares() {
-        return ownerPlayer.getGameBoard().getSquares(ownerPlayer, this.maxDistance);
+        if(minDistance == -1)
+            return ownerPlayer.getGameBoard().getSquares(ownerPlayer, this.maxDistance);
+        return ownerPlayer.getGameBoard().getBetweenSquares(ownerPlayer, this.minDistance, this.maxDistance);
     }
 
     @Override
@@ -36,6 +47,8 @@ public class MoveAction extends Action
         if( !(action instanceof  MoveAction) )
             return false;
         MoveAction ma = (MoveAction)action;
-        return ma.maxDistance <= this.maxDistance;
+        if(ma.minDistance == -1 || this.minDistance == -1)
+            return ma.maxDistance <= this.maxDistance;
+        return ma.minDistance >= this.minDistance && ma.maxDistance <= this.maxDistance;
     }
 }

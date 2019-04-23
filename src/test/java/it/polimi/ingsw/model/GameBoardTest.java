@@ -66,6 +66,13 @@ class GameBoardTest {
     }
 
     @Test
+    void distanceOneSquares() {
+        assertEquals(4, gameBoard.distanceOneSquares(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE)).size());
+        assertEquals(3, gameBoard.distanceOneSquares(gameBoard.getSpawnAndShopSquare(AmmoColor.RED)).size());
+        assertEquals(3, gameBoard.distanceOneSquares(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW)).size());
+    }
+
+    @Test
     void getInRangeSquares() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         assertEquals(7, gameBoard.getInRangeSquares(player).size());

@@ -7,16 +7,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class WeaponDeckTest {
 
     private WeaponDeck weaponDeck = new WeaponDeck();
-    private WeaponCard weaponCard;
     private static final int numberOfCards = 21;
 
     @Test
     void draw() {
-        for (int i = 0; i < numberOfCards - 1; i++) {
-            weaponCard = weaponDeck.draw();
-            //TODO assertNotNull(weaponCard);
-            assertTrue(true);
-        }
+        for (int i = 0; i < numberOfCards; i++)
+            assertNotNull(weaponDeck.draw());
         assertNull(weaponDeck.draw());
     }
 }

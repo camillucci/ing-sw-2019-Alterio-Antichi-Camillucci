@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.weapons;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -55,6 +54,16 @@ public class Effects
     }
 
     public static void moveAndDamage(Player shooter, List<Player> targets, List<Square> squares, List<Integer> damage)
+    {
+        for(int i = 0; i < targets.size(); i++) {
+            damage(shooter, Collections.singletonList(targets.get(i)), Collections.singletonList(damage.get(i)));
+            targets.get(i).getCurrentSquare().removePlayer(targets.get(i));
+            targets.get(i).setCurrentSquare(squares.get(i));
+            squares.get(i).addPlayer(targets.get(i));
+        }
+    }
+
+    public static void moveAndMultipleDamage(Player shooter, List<Player> targets, List<Square> squares, List<Integer> damage)
     {
         for(int i = 0; i < targets.size(); i++) {
             damageMultiple(shooter, Collections.singletonList(targets.get(i)), damage);

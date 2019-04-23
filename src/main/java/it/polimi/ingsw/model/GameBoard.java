@@ -119,7 +119,7 @@ public class GameBoard {
         return tempSquare;
     }
 
-    private List<Square> distanceOneSquares(Square square) {
+    public List<Square> distanceOneSquares(Square square) {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(square);
 

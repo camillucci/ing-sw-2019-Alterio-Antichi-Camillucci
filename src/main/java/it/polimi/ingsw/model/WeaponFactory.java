@@ -24,15 +24,6 @@ public class WeaponFactory
 
     private static void buildWeapons()
     {
-        /*
-        Definition of ShootAction example
-        ShootAction ex = new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2).andThen(mark(1,2,3)));
-        damage(2) = damage P1 of two;
-        mark(1,2,3) = mark P1 of 1, P2 of 2, P3 of 3
-        damage(2).andThen(mark(1,2,3)) = damage P1 of 2 and then mark P1 of 1, P2 of 2, P3 of 3
-        P1,..,Pn rest the same when andThen function is called
-        */
-
         weapons.clear();
 
         weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0),
@@ -55,9 +46,9 @@ public class WeaponFactory
                         new Branch(shootVisiblePlayers(damage(2,2,1)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("T.H.O.R", new Ammo(0,1,0), new Ammo(1,1,0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(1, 0, 0), new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2,1)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(2, 0, 0), new Branch(new ShootAction(TargetsFilters::thorVisiblePlayers, damage(2,1,2)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootThor(damage(2)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(1, 0, 0), new Branch(shootThor(damage(2,1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(2, 0, 0), new Branch(shootThor(damage(2,1,2)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Plasma Gun", new Ammo(0,0,1), new Ammo(1,0,1),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(damage(2)),new EndBranchAction())), //S
@@ -77,16 +68,14 @@ public class WeaponFactory
                 new FireModalityAction(new Ammo(1, 1, 0), new Branch(shootNearSquares(damageAll(1), 0), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Tractor Beam", new Ammo(0, 0, 0), new Ammo(1, 0, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction((player, players) -> TargetsFilters.tractorBeamVisiblePlayers1(player), damage(1)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction((player, players) -> TargetsFilters.tractorBeamVisiblePlayers2(player), damage(3)), new EndBranchAction()))));
-                //TODO Add a way to move others
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootTractorBeam1(moveAndMultipleDamage(1, 0, 0, 0)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 1), new Branch(shootTractorBeam2(moveAndMultipleDamage(3, 0, 0, 0)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Vortex Cannon", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(damage(1)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVortexCannon1(moveAndDamage(2)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 0),
-                        new Branch(shootVisiblePlayers(damage(2, 1)), new EndBranchAction()),
-                        new Branch(shootVisiblePlayers(damage(2, 1, 1)), new EndBranchAction()))));
-                //TODO Add a way to move others
+                        new Branch(shootVortexCannon2(moveAndDamage(2, 1)), new EndBranchAction()),
+                        new Branch(shootVortexCannon2(moveAndDamage(2, 1, 1)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Furnace", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootRoom(damageRoom(1)), new EndBranchAction())),
@@ -102,32 +91,32 @@ public class WeaponFactory
         weapons.add(new WeaponCard("Flamethrower", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(shootBetweenPlayers(damage(1), 1, 2), new EndBranchAction()),
-                        new Branch(new ShootAction(TargetsFilters::flamethrowerVisiblePlayers, damage(1, 1)), new EndBranchAction())),
+                        new Branch(shootFlamethrowerPlayers(damage(1, 1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 2),
                         new Branch(shootBetweenSquares(damageAll(2), 1, 2), new EndBranchAction()),
-                        new Branch(new ShootAction(damageAll(2, 1), TargetsFilters::flamethrowerVisibleSquares), new EndBranchAction()))));
+                        new Branch(shootFlamethrowerSquares(damageAll(2, 1)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Grenade Launcher", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::grenadeLauncherMovablePlayers, moveAndDamage(1, 0, 0, 0)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootGrenadeLauncher(moveAndDamage(1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 0),
-                        new Branch(new ShootAction(TargetsFilters::grenadeLauncherMovablePlayers, moveAndDamage(1, 0, 0, 0)), shootVisibleSquares(damageAll(1)), new EndBranchAction()),
-                        new Branch(shootVisibleSquares(damageAll(1)), new ShootAction(TargetsFilters::grenadeLauncherMovablePlayers, moveAndDamage(1, 0, 0, 0)), new EndBranchAction()))));
+                        new Branch(shootGrenadeLauncher(moveAndDamage(1)), shootVisibleSquares(damageAll(1)), new EndBranchAction()),
+                        new Branch(shootVisibleSquares(damageAll(1)), shootGrenadeLauncher(moveAndDamage(1)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Rocket Launcher", new Ammo(0, 1, 0), new Ammo(0, 2, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 0, 0)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootRocketLauncher(moveAndDamage(2)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 0),
-                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 0, 0, 0)), new MoveAction(2), new EndBranchAction()),
+                        new Branch(shootRocketLauncher(moveAndDamage(2)), new MoveAction(2), new EndBranchAction()),
                         new Branch(new MoveAction(2), shootAwayPlayers(damage(2), 1), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 1),
-                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new EndBranchAction()),
-                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new EndBranchAction())),
+                        new Branch(shootRocketLauncher(moveAndMultipleDamage(2, 1, 0, 0)), new EndBranchAction()),
+                        new Branch(shootRocketLauncher(moveAndMultipleDamage(2, 1, 0, 0)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 1),
-                        new Branch(new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new MoveAction(2), new EndBranchAction()),
-                        new Branch(new MoveAction(2), new ShootAction(TargetsFilters::rocketLauncherMovablePlayers, moveAndDamage(2, 1, 0, 0)), new EndBranchAction()))));
+                        new Branch(shootRocketLauncher(moveAndMultipleDamage(2, 1, 0, 0)), new MoveAction(2), new EndBranchAction()),
+                        new Branch(new MoveAction(2), shootRocketLauncher(moveAndMultipleDamage(2, 1, 0, 0)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Railgun", new Ammo(1, 0, 1), new Ammo(1, 0, 2),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction((player, players) -> TargetsFilters.railgunVisiblePlayer(player), damage(3)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction((player, players) -> TargetsFilters.railgunVisiblePlayer(player), damage(2, 2)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootRailgun(damage(3)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootRailgun(damage(2, 2)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Cyberblade", new Ammo(0, 1, 0), new Ammo(0, 1, 1),
                 new FireModalityAction(new Ammo(0, 0, 0),
@@ -145,10 +134,16 @@ public class WeaponFactory
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVisiblePlayers(mark(1, 1, 1)), new EndBranchAction()))));
 
         weapons.add(new WeaponCard("Shotgun", new Ammo(0, 0, 1), new Ammo(0, 0, 2),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(TargetsFilters::shotgunMovablePlayers, moveAndDamage(3, 0, 0 ,0)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootShotgun(moveAndDamage(3)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenPlayers(damage(2), 1, 1), new EndBranchAction()))));
 
-        //TODO Add Power Glove
+        weapons.add(new WeaponCard("Power Glove", new Ammo(1, 0, 0), new Ammo(1, 0, 1),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new MoveAction(1, 1), shootNearPlayers(damage(1).andThen(mark(2)), 0), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0),
+                        new Branch(new MoveAction(1, 1), shootNearPlayers(damage(2), 0), new EndBranchAction()),
+                        new Branch(new MoveAction(1, 1), shootNearPlayers(damage(2), 0), new MoveAction(1, 1), new EndBranchAction()),
+                        new Branch(new MoveAction(1, 1), shootNearPlayers(damage(2), 0), new MoveAction(1, 1), shootNearPlayers(damage(2), 0), new EndBranchAction()))));
+                        //TODO Add a way to move in the same direction
 
         weapons.add(new WeaponCard("Shockwave", new Ammo(0, 0, 0), new Ammo(0, 0, 1),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootBetweenPlayers(damage(1, 1, 1), 1, 1), new EndBranchAction())),
@@ -156,10 +151,11 @@ public class WeaponFactory
 
         weapons.add(new WeaponCard("Sledgehammer", new Ammo(0, 0, 0), new Ammo(0, 0, 1),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootNearPlayers(damage(2), 0), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(TargetsFilters::sledgehammerMovablePlayers, moveAndDamage(3, 0, 0, 0)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 1, 0), new Branch(shootSledgehammer(moveAndDamage(3)), new EndBranchAction()))));
     }
 
     //------------------------------------------------------------------------------------------------------------------
+    // LIST OF PARAMETRIZED TARGET FILTERS
 
     //Shoot at visible targets
     private static ShootAction shootVisiblePlayers(BiConsumer<Player, List<Player>> shootFunc)
@@ -191,11 +187,11 @@ public class WeaponFactory
         return new ShootAction((player, players) -> TargetsFilters.betweenPlayers(player, minDistance, maxDistance), shootFunc);
     }
 
-    //Shoot at visible squares which distant is >= minDistance
-    private static ShootAction shootAwaySquares(BiConsumer<Player, List<Square>> shootFunc, int minDistance)
+    //Shoot at visible squares which distant is >= minDistance //Not used
+    /* private static ShootAction shootAwaySquares(BiConsumer<Player, List<Square>> shootFunc, int minDistance)
     {
         return new ShootAction(shootFunc, (player, squares) -> TargetsFilters.awaySquares(player, minDistance));
-    }
+    } */
 
     //Shoot at visible squares which distant is <= maxDistance
     private static ShootAction shootNearSquares(BiConsumer<Player, List<Square>> shootFunc, int maxDistance)
@@ -222,6 +218,70 @@ public class WeaponFactory
     }
 
     //------------------------------------------------------------------------------------------------------------------
+    // LIST OF SPECIFIC TARGET FILTERS
+
+    private static ShootAction shootThor(BiConsumer<Player, List<Player>> shootFunc)
+    {
+        return new ShootAction(TargetsFilters::thorVisiblePlayers, shootFunc);
+    }
+
+    private static ShootAction shootTractorBeam1(TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        return new ShootAction((player, pair) -> TargetsFilters.tractorBeamVisiblePlayers1(player), shootFunc);
+    }
+
+    private static ShootAction shootTractorBeam2(TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        return new ShootAction((player, pair) -> TargetsFilters.tractorBeamVisiblePlayers2(player), shootFunc);
+    }
+
+    private static ShootAction shootVortexCannon1(TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        return new ShootAction((player, pair) -> TargetsFilters.vortexCannonVisiblePlayers1(player), shootFunc);
+    }
+
+    private static ShootAction shootVortexCannon2(TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        return new ShootAction(TargetsFilters::vortexCannonVisiblePlayers2, shootFunc);
+    }
+
+    private static ShootAction shootFlamethrowerPlayers(BiConsumer<Player, List<Player>> shootFunc)
+    {
+        return new ShootAction(TargetsFilters::flamethrowerVisiblePlayers, shootFunc);
+    }
+
+    private static ShootAction shootFlamethrowerSquares(BiConsumer<Player, List<Square>> shootFunc)
+    {
+        return new ShootAction(shootFunc, TargetsFilters::flamethrowerVisibleSquares);
+    }
+
+    private static ShootAction shootGrenadeLauncher(TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        return new ShootAction((player, pair) -> TargetsFilters.grenadeLauncherMovablePlayers(player), shootFunc);
+    }
+
+    private static ShootAction shootRocketLauncher(TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        return new ShootAction((player, pair) -> TargetsFilters.rocketLauncherMovablePlayers(player), shootFunc);
+    }
+
+    private static ShootAction shootRailgun(BiConsumer<Player, List<Player>> shootFunc)
+    {
+        return new ShootAction((player, players) -> TargetsFilters.railgunVisiblePlayer(player), shootFunc);
+    }
+
+    private static ShootAction shootShotgun(TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        return new ShootAction((player, pair) -> TargetsFilters.shotgunMovablePlayers(player), shootFunc);
+    }
+
+    private static ShootAction shootSledgehammer(TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    {
+        return new ShootAction((player, pair) -> TargetsFilters.sledgehammerMovablePlayers(player), shootFunc);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // LIST OF PARAMETRIZED EFFECTS
 
     private static BiConsumer<Player, List<Player>> damage(Integer ... damage)
     {
@@ -251,6 +311,11 @@ public class WeaponFactory
     private static TriConsumer<Player, List<Player>, List<Square>> moveAndDamage(Integer ... damage)
     {
         return (player, players, squares) -> Effects.moveAndDamage(player, players, squares, Arrays.asList(damage));
+    }
+
+    private static TriConsumer<Player, List<Player>, List<Square>> moveAndMultipleDamage(Integer ... damage)
+    {
+        return (player, players, squares) -> Effects.moveAndMultipleDamage(player, players, squares, Arrays.asList(damage));
     }
 
     private static BiConsumer<Player, List<Player>> damageMultiple(Integer ... damage)

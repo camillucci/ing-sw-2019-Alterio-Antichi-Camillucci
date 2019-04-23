@@ -65,28 +65,54 @@ public class TargetsFilters
         return temp;
     }
 
-    public static List<Player> tractorBeamVisiblePlayers1(Player player) {
+    public static List<Pair<Player, Square>> tractorBeamVisiblePlayers1(Player player) {
         List<Square> shooterVisibleSquares = player.getGameBoard().getInRangeSquares(player);
         List<Player> players = player.getGameBoard().getPlayers();
-        List<Player> temp = new ArrayList<>();
+        players.remove(player);
+        List<Pair<Player, Square>> temp = new ArrayList<>();
         for(Player p : players) {
-            List<Square> playersVisibleSquares = p.getGameBoard().getInRangeSquares(p);
-            for(Square s : playersVisibleSquares)
-                if (shooterVisibleSquares.contains(s)) {
-                    temp.add(p);
-                    break;
-                }
-        }
-        temp.remove(player);
+                List<Square> playersVisibleSquares = p.getGameBoard().getInRangeSquares(p);
+                for(Square s : playersVisibleSquares)
+                    if(shooterVisibleSquares.contains(s))
+                        temp.add(new Pair<>(p, s));
+            }
         return temp;
     }
 
-    public static List<Player> tractorBeamVisiblePlayers2(Player player) {
-        List<Square> shooterNearSquares = player.getGameBoard().getSquares(player, 2);
-        List<Player> temp = new ArrayList<>();
-        for(Square s : shooterNearSquares)
-            temp.addAll(s.getPlayers());
-        temp.remove(player);
+    public static List<Pair<Player, Square>> tractorBeamVisiblePlayers2(Player player) {
+        List<Pair<Player, Square>> temp = new ArrayList<>();
+        for(Square s : player.getGameBoard().getSquares(player, 2))
+            for(Player p : s.getPlayers())
+                if(p != player)
+                    temp.add(new Pair<>(p, p.getCurrentSquare()));
+        return temp;
+    }
+
+    public static List<Pair<Player, Square>> vortexCannonVisiblePlayers1(Player player) {
+        List<Pair<Player, Square>> temp = new ArrayList<>();
+        List<Player> tempPlayers = new ArrayList<>();
+        for(Square square : player.getGameBoard().getAwaySquares(player, 1)) {
+            for(Square s : player.getGameBoard().distanceOneSquares(square))
+                tempPlayers.addAll(s.getPlayers());
+            for(Player p : tempPlayers)
+                temp.add(new Pair<>(p, square));
+            tempPlayers.clear();
+        }
+        return temp;
+    }
+
+    public static List<Pair<Player, Square>> vortexCannonVisiblePlayers2(Player player, List<Pair<Player, Square>> alreadyAdded) {
+        if(alreadyAdded.size() >= 3)
+            return Collections.emptyList();
+        if(alreadyAdded.isEmpty())
+            return vortexCannonVisiblePlayers1(player);
+        Square square = alreadyAdded.get(0).getRight();
+        List<Player> tempPlayers = new ArrayList<>();
+        for(Square s : player.getGameBoard().distanceOneSquares(square))
+            tempPlayers.addAll(s.getPlayers());
+        List<Pair<Player, Square>> temp = new ArrayList<>();
+        for(Player p : tempPlayers)
+            temp.add(new Pair<>(p, square));
         return temp;
     }
 
@@ -122,9 +148,8 @@ public class TargetsFilters
     }
 
     public static List<Player> railgunVisiblePlayer(Player player) {
-        List<Square> tempSquares = player.getGameBoard().throughWalls(player);
         List<Player> temp = new ArrayList<>();
-        for(Square square : tempSquares)
+        for(Square square : player.getGameBoard().throughWalls(player))
             temp.addAll(square.getPlayers());
         temp.remove(player);
         return temp;
@@ -135,7 +160,13 @@ public class TargetsFilters
     }
 
     public static List<Pair<Player, Square>> sledgehammerMovablePlayers(Player player) {
-        return moveShooted(nearPlayers(player, 0), 2);
+        List<Pair<Player, Square>> temp = new ArrayList<>();
+        for(Player p : nearPlayers(player, 0)) {
+            List<Square> tempSquares = player.getGameBoard().sameDirection(p);
+            for(Square s : tempSquares)
+                temp.add(new Pair<>(p, s));
+        }
+        return temp;
     }
 
     private static List<Pair<Player, Square>> moveShooted(List<Player> targets, int maxDistance) {
