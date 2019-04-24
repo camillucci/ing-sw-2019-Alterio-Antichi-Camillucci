@@ -17,6 +17,14 @@ public class TargetsFilters
         return player.getGameBoard().getInRangePlayers(player);
     }
 
+    public static List<Player> noFilters(Player player, List<Player> addedPlayers, int maxTargets)
+    {
+        if(addedPlayers.size() >= maxTargets)
+            return Collections.emptyList();
+        List<Player> ret = player.getGameBoard().getPlayers();
+        addedPlayers.forEach(ret::remove);
+        return ret;
+    }
     public static List<Square> visibleSquares(Player player) {
         return player.getGameBoard().getInRangeSquares(player);
     }

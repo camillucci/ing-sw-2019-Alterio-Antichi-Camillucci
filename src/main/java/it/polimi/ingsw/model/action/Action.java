@@ -39,14 +39,15 @@ public class Action
         this.op();
         completedActionEvent.invoke(this, this);
     }
-    public boolean isOptional(){return optional;}
-    public List<Player> getTargetPlayers(){return new ArrayList<>(this.targetPlayers);}
-    public List<Square> getTargetSquares(){return new ArrayList<>(this.targetSquares);}
-    public List<WeaponCard> getSelectedWeapons(){return new ArrayList<>(this.selectedWeapons);}
-    public List<PowerUpCard> getSelectedPowerUps() {return new ArrayList<>(this.selectedPowerUps);}
-    public List<Player> getPossiblePlayers(){return Collections.emptyList();}
-    public List<Square> getPossibleSquares(){return Collections.emptyList();}
-    public Player getOwnerPlayer(){ return this.ownerPlayer; }
+
+    public void initialize(Player ownerPlayer)
+    {
+        this.ownerPlayer = ownerPlayer;
+    }
+    public void addWeapon(WeaponCard weapon)
+    {
+        this.selectedWeapons.add(weapon);
+    }
     public void addTarget(Square target)
     {
         if(this.getPossibleSquares().contains(target))
@@ -57,22 +58,19 @@ public class Action
         if(this.getPossiblePlayers().contains(target))
             this.targetPlayers.add(target);
     }
-    public void addWeapon(WeaponCard weapon)
-    {
-        this.selectedWeapons.add(weapon);
-    }
     public void addPowerUp(PowerUpCard powerUp)
     {
         this.selectedPowerUps.add(powerUp);
     }
+    public boolean isOptional(){return optional;}
+    public List<Player> getPossiblePlayers(){return Collections.emptyList();}
+    public List<Square> getPossibleSquares(){return Collections.emptyList();}
+    public Player getOwnerPlayer(){ return this.ownerPlayer; }
     public boolean isCompatible(Action action)
     {
         return action.getClass().isInstance(this);
     }
-    public void initialize(Player ownerPlayer)
-    {
-        this.ownerPlayer = ownerPlayer;
-    }
+
     private boolean spendAmmo()
     {
         if(Ammo.getAmmo(this.ownerPlayer).isGreaterOrEqual(this.doActionCost))

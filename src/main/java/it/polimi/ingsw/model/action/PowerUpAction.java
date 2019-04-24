@@ -11,8 +11,8 @@ public class PowerUpAction extends ShootAction
         if(Ammo.getAmmo(ownerPlayer).sub(doActionCost).isGreaterOrEqual(powerUpCard.getCost()))
         {
             this.doActionCost = this.doActionCost.add(powerUpCard.getCost());
-            this.possibleTargetsFuncP = powerUpCard::visiblePlayers;
-            this.possibleTargetsFuncS = powerUpCard::visibleSquares;
+            this.playersFilter = powerUpCard.playersFilter;
+            this.squaresFilter = powerUpCard.squaresFilter;
             this.selectedPowerUps.add(powerUpCard);
         }
     }
@@ -21,10 +21,7 @@ public class PowerUpAction extends ShootAction
     public void shoot()
     {
         for(PowerUpCard pu : this.selectedPowerUps)
-        {
-            pu.shootP(this.ownerPlayer, this.targetPlayers);
-            pu.shootS(this.ownerPlayer, this.targetSquares);
-        }
+            pu.shootFunc.accept(ownerPlayer, targetPlayers, targetSquares);
 
     }
 }
