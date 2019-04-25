@@ -22,7 +22,7 @@ public class TCPListener
         this.port = port;
     }
 
-    public void start() throws  java.io.IOException
+    public void start()
     {
         if(isListening())
             return;
