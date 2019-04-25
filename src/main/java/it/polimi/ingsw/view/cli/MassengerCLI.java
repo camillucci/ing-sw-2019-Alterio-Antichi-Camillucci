@@ -8,4 +8,12 @@ public class MassengerCLI {
     public void insertName() {
         //TODO
     }
+
+    public void displayRollback() {
+        //TODO
+    }
+
+    public void displayOptions() {
+        //TODO
+    }
 }

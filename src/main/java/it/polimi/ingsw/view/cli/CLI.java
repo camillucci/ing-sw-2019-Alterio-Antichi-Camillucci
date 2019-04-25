@@ -8,10 +8,16 @@ public class CLI implements ViewInterface {
     private ParserCLI parser;
     private MassengerCLI massanger;
     private Match match;
+    private String name;
+    private boolean onTurn = false;
 
     public CLI() {
         parser = new ParserCLI();
         massanger = new MassengerCLI();
+    }
+
+    public void CLI() {
+        //TODO
     }
 
     public void startConnection() {
@@ -20,7 +26,7 @@ public class CLI implements ViewInterface {
 
     private void login() {
         boolean check = false;
-        String name = "";
+        String name = null;
         while(!check) {
             massanger.insertName();
             name = parser.parseName();
@@ -28,6 +34,16 @@ public class CLI implements ViewInterface {
         }
     }
 
+    private void displayRollback() {
+        while(onTurn) {
+            massanger.displayRollback();
+        }
+    }
+
+    public void setTurn(boolean turn) {
+        onTurn = turn;
+        return;
+    }
 
     @Override
     public void updateMatch(Match match) {

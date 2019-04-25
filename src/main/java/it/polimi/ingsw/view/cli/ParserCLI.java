@@ -1,10 +1,14 @@
 package it.polimi.ingsw.view.cli;
 
+import java.io.InputStream;
+
 public class ParserCLI {
-    //TODO
+    private CLI manager;
 
     public String parseName() {
-        //TODO
+        //TODO Add restrictions
+        InputStream name = System.in;
+        //TODO convert into String
         return null;
     }
 
