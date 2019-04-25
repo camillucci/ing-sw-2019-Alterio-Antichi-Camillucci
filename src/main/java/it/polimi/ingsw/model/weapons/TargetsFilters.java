@@ -17,6 +17,7 @@ public class TargetsFilters
         return player.getGameBoard().getInRangePlayers(player);
     }
 
+
     public static List<Player> noFilters(Player player, List<Player> addedPlayers, int maxTargets)
     {
         if(addedPlayers.size() >= maxTargets)
@@ -25,8 +26,13 @@ public class TargetsFilters
         addedPlayers.forEach(ret::remove);
         return ret;
     }
-    public static List<Square> visibleSquares(Player player) {
-        return player.getGameBoard().getInRangeSquares(player);
+
+    public static List<Square> visibleSquares(Player player) { return visibleSquares(player, false); }
+    public static List<Square> visibleSquares(Player player, boolean excludeShooterSquare) {
+        List<Square> ret = player.getGameBoard().getInRangeSquares(player);
+        if(excludeShooterSquare)
+            ret.remove(player.getCurrentSquare());
+        return ret;
     }
 
     public static List<Player> awayPlayers(Player player, int minDistance) {

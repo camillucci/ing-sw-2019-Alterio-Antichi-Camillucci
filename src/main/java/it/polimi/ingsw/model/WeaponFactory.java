@@ -76,12 +76,13 @@ public class WeaponFactory
 
         /*
         weapons.add(new WeaponCard("Vortex Cannon", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(shootVortexCannon1(moveAndDamage(2)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(new ShootAction(visibleSquares(true), moveAndDamage(2)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 0),
                         new Branch(shootVortexCannon2(moveAndDamage(2, 1)), new EndBranchAction()),
                         new Branch(shootVortexCannon2(moveAndDamage(2, 1, 1)), new EndBranchAction()))));
 
          */
+
         weapons.add(new WeaponCard("Furnace", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageRoom(1), roomSquares), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1).andThen(markAll(1)), beetweenSquares(1,1)), new EndBranchAction()))));
@@ -174,27 +175,28 @@ public class WeaponFactory
     private static ShootFunc damageMultiple(Integer ... damage) { return (player, players, squares) -> Effects.damageMultiple(player, players, Arrays.asList(damage));}
     private static ShootFunc moveAndMultipleDamage (Integer ... damage) {return (player, players, squares) -> Effects.moveAndMultipleDamage(player, players, squares, Arrays.asList(damage));}
     private static ShootFunc moveToShooter = (player, players, squares) -> players.forEach(p->p.setCurrentSquare(player.getCurrentSquare()));
+    private static ShootFunc moveToSquare = (player, players, squares) -> players.forEach(p->p.setCurrentSquare(squares.get(0)));
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF PARAMETRIZED TARGET FILTERS
-    private static PlayersFilter visiblePlayers = (player, players, squares) -> TargetsFilters.visiblePlayers(player);
-    private static PlayersFilter awayPlayers(int minDistance){ return (player, players, squares) -> TargetsFilters.awayPlayers(player,minDistance);}
-    private static PlayersFilter nearPlayers(int maxDistance) { return (player, players, squares) -> TargetsFilters.nearPlayers(player, maxDistance); }
-    private static PlayersFilter betweenPlayers(int minDistance, int maxDistance) { return (player, players, squares) -> TargetsFilters.betweenPlayers(player, minDistance, maxDistance); }
-    private static PlayersFilter nonVisiblePlayers = (player, players, squares) -> TargetsFilters.nonVisiblePlayers(player);
+    private static PlayersFilter visiblePlayers = (player, players) -> TargetsFilters.visiblePlayers(player);
+    private static PlayersFilter awayPlayers(int minDistance){ return (player, players) -> TargetsFilters.awayPlayers(player,minDistance);}
+    private static PlayersFilter nearPlayers(int maxDistance) { return (player, players) -> TargetsFilters.nearPlayers(player, maxDistance); }
+    private static PlayersFilter betweenPlayers(int minDistance, int maxDistance) { return (player, players) -> TargetsFilters.betweenPlayers(player, minDistance, maxDistance); }
+    private static PlayersFilter nonVisiblePlayers = (player, players) -> TargetsFilters.nonVisiblePlayers(player);
 
-    private static PlayersFilter noFilters(int maxTargets) { return (player, players, squares) -> TargetsFilters.noFilters(player, players, maxTargets); }
-    private static SquaresFilter visibleSquares = (player, players, squares) -> TargetsFilters.visibleSquares(player);
-    private static SquaresFilter nearSquares(int maxDistance) { return (player, players, squares) ->  TargetsFilters.nearSquares(player, maxDistance); }
-    private static SquaresFilter beetweenSquares(int minDistance, int maxDistance) { return (player, players, squares) -> TargetsFilters.betweenSquares(player, minDistance, maxDistance); }
-    private static SquaresFilter roomSquares = (player, players, squares) -> TargetsFilters.otherVisibleRoom(player);
+    private static PlayersFilter noFilters(int maxTargets) { return (player, players) -> TargetsFilters.noFilters(player, players, maxTargets); }
+    private static SquaresFilter visibleSquares(boolean excludeShooterSquare) { return (player, squares) -> TargetsFilters.visibleSquares(player, excludeShooterSquare); }
+    private static SquaresFilter nearSquares(int maxDistance) { return (player, squares) ->  TargetsFilters.nearSquares(player, maxDistance); }
+    private static SquaresFilter beetweenSquares(int minDistance, int maxDistance) { return (player, squares) -> TargetsFilters.betweenSquares(player, minDistance, maxDistance); }
+    private static SquaresFilter roomSquares = (player, squares) -> TargetsFilters.otherVisibleRoom(player);
 
     // SPECIFIC
 
-    private static PlayersFilter thorVisiblePlayers = (player, players, squares) -> TargetsFilters.thorVisiblePlayers(player, players);
-    private static PlayersFilter flamethrowerVisiblePlayers = (player, players, squares) -> Collections.emptyList(); //TODO
+    private static PlayersFilter thorVisiblePlayers = (player, players) -> TargetsFilters.thorVisiblePlayers(player, players);
+    private static PlayersFilter flamethrowerVisiblePlayers = (player, players) -> Collections.emptyList(); //TODO
 
-    private static SquaresFilter tractorBeamSquaresFilters1 = (player, players, squares) -> Collections.emptyList(); //TODO
-    private static SquaresFilter flamethrowerVisibleSqaures = (player, players, squares) -> Collections.emptyList(); //TODO
+    private static SquaresFilter tractorBeamSquaresFilters1 = (player, squares) -> Collections.emptyList(); //TODO
+    private static SquaresFilter flamethrowerVisibleSqaures = (player, squares) -> Collections.emptyList(); //TODO
     /*
     //private SquaresFilter tractorBeamVisiblePlayers1 = (player, players, squares) ->  TargetsFilters.tractorBeamVisiblePlayers1(player);
 

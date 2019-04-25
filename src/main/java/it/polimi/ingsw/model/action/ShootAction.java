@@ -46,13 +46,13 @@ public class ShootAction extends Action
     @Override
     public List<Player> getPossiblePlayers()
     {
-        return this.playersFilter.apply(ownerPlayer, targetPlayers, targetSquares);
+        return this.playersFilter.apply(ownerPlayer, targetPlayers);
     }
 
     @Override
     public List<Square> getPossibleSquares()
     {
-        return this.squaresFilter.apply(ownerPlayer, targetPlayers, targetSquares);
+        return this.squaresFilter.apply(ownerPlayer, targetSquares);
     }
 
 
