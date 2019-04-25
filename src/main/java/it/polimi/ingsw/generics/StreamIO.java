@@ -36,21 +36,25 @@ public class StreamIO
         sendFile(stream, filename);
     }
 
-    public static byte[] getBytes (InputStream stream, long max) throws IOException
+    public static byte[] getBytes(InputStream stream, long max) throws IOException
+    {
+        ByteArrayOutputStream ms = new ByteArrayOutputStream();
+        pipeBytes(stream, ms, max);
+        return ms.toByteArray();
+    }
+    public static void pipeBytes (InputStream stream, OutputStream outputStream, long max) throws IOException
     {
         if(max < 0)
-            return null;
+            return;
         final int buflen = 1024*16;
         byte[] buffer = new byte[buflen];
-        ByteArrayOutputStream ms = new ByteArrayOutputStream();
         int read, min;
         do{
             min = buflen < max ? buflen : (int)max;
             read = stream.read(buffer, 0, min);
-            ms.write(buffer, 0, read);
+            outputStream.write(buffer, 0, read);
             max -= read;
         } while(max > 0 && read > 0);
-        return ms.toByteArray();
     }
     public static byte[] getBytesAuto(InputStream stream) throws IOException
     {
@@ -60,11 +64,7 @@ public class StreamIO
     public static void getFile(InputStream stream, String saveFilename, long fileSize) throws FileNotFoundException, IOException
     {
         FileOutputStream fileStream = new FileOutputStream(saveFilename);
-        final int buflen = 16*1024;
-        byte[] buffer = new byte[buflen];
-        int justRecived = 0;
-        for(; (justRecived = stream.read(buffer,0, buflen)) > 0 && fileSize >  0; fileSize -= justRecived)
-            fileStream.write(buffer, 0, justRecived);
+        pipeBytes(stream, fileStream, fileSize);
         fileStream.close();
     }
 

@@ -1,8 +1,15 @@
 package it.polimi.ingsw.Socket;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,25 +18,13 @@ class TCPClientTest {
     int listeningPort = 9999;
     String localHost = "127.0.0.1";
     int maxConnected = 3;
-    TCPListener listener = new TCPListener(listeningPort, maxConnected);
-
-    boolean tryConnect()
-    {
-        try
-        {
-            Socket socket = new Socket(localHost, listeningPort);
-            return true;
-        }
-        catch(Exception ecc)
-        {
-            return false;
-        }
-    }
+    TCPClient clientSocket;
 
 
     @Test
     void close()
     {
+        TCPListener listener = new TCPListener(listeningPort, maxConnected);
         try
         {
             listener.start();
@@ -51,13 +46,19 @@ class TCPClientTest {
         {
             assert(false);
         }
+        finally {
+            listener.stop();
+        }
     }
 
     @Test
-    void sendByte()
+    void sendByte_GetByte()
     {
+        TCPListener listener = new TCPListener(listeningPort, maxConnected);
         try
         {
+            if(clientSocket != null)
+                clientSocket.close();
             listener.newClientEvent.addEventHandler(((tcpListener, clientSocket) -> {
                 // Server sends bytes to client
                 try
@@ -65,11 +66,14 @@ class TCPClientTest {
                     clientSocket.sendByte((byte)'a');
                     clientSocket.sendByte((byte)'b');
                     clientSocket.sendByte((byte)'c');
+
+                    clientSocket.close();
                 }
                 catch(Exception ecc)
                 {
-
+                    assert (false);
                 }
+
             }));
 
             listener.start();
@@ -80,51 +84,172 @@ class TCPClientTest {
             assertEquals('a', (char)serverSocket.getByte());
             assertEquals('b', (char)serverSocket.getByte());
             assertEquals('c', (char)serverSocket.getByte());
+        }
+        catch(Exception ecc)
+        {
+            assert (false);
+        }
+        finally {
+            listener.stop();
+        }
+    }
+
+    @Test
+    void sendBytes_GetBytes()
+    {
+        TCPListener listener = new TCPListener(listeningPort, maxConnected);
+        try
+        {
+            byte[] message = new byte[] {(byte)'h', (byte)'e', (byte)'l', (byte)'l', (byte)'0'};
+            listener.newClientEvent.addEventHandler(((tcpListener, clientSocket) -> {
+                // Server sends bytes to client
+                try
+                {
+                    clientSocket.sendBytes(message);
+
+                    clientSocket.close();
+                }
+                catch(Exception ecc)
+                {
+                    assert (false);
+                }
+            }));
+
+            listener.start();
+
+            // client connecting to server
+            clientSocket = new TCPClient(new Socket(localHost, listeningPort));
+
+            // client getting bytes from server
+            byte[] messageRecived = clientSocket.getBytes(message.length-2);
+
+            for(int i=0; i <  messageRecived.length; i++)
+                assertEquals(message[i], messageRecived[i]);
+            assertEquals(message.length - 2, messageRecived.length);
+            clientSocket.close();
+            listener.stop();
+        }
+        catch(Exception ecc)
+        {
+            assert (false);
+        }
+        finally {
+            listener.stop();
+        }
+    }
+
+    @Test
+    void sendBytesAuto_GetBytesAuto()
+    {
+        TCPListener listener = new TCPListener(listeningPort, maxConnected);
+        try
+        {
+            if(clientSocket != null)
+                clientSocket.close();
+            byte[] message = new byte[] {(byte)'h', (byte)'e', (byte)'l', (byte)'l', (byte)'0'};
+            listener.newClientEvent.addEventHandler(((tcpListener, clientSocket) -> {
+                // Server sends bytes to client
+                try
+                {
+                    clientSocket.sendBytesAuto(message);
+                    clientSocket.close();
+                }
+                catch(Exception ecc)
+                {
+                    assert (false);
+                }
+            }));
+
+            listener.start();
+            // client connecting to server
+            clientSocket = new TCPClient(new Socket(localHost, listeningPort));
+
+            // client getting bytes from server
+            byte[] messageRecived = clientSocket.getBytesAuto();
+
+            for(int i=0; i <  messageRecived.length; i++)
+                assertEquals(message[i], messageRecived[i]);
+            assertEquals(message.length, messageRecived.length);
 
         }
         catch(Exception ecc)
         {
-
+            assert (false);
+        }
+        finally {
+            listener.stop();
         }
     }
 
     @Test
-    void sendByteAuto() {
-    }
+    void sendFileAuto_GetFileAuto()
+    {
+        TCPListener listener = new TCPListener(listeningPort, maxConnected);
+        String path = "path1.test";
+        String path2 = "path2.test";
+        try
+        {
+            if(clientSocket != null)
+                clientSocket.close();
+            File file = new File(path);
+            file.createNewFile();
 
-    @Test
-    void sendBytes() {
-    }
+            // creating file
+            FileOutputStream stream = new FileOutputStream(path);
+            final int size = 10;
+            byte[] garbage = new byte[size];
+            for(int i=0; i < garbage.length; i++)
+                garbage[i] = (byte)(Math.random() * 230 );
+            stream.write(garbage);
+            stream.close();
 
-    @Test
-    void sendBytesAuto() {
-    }
+            listener.newClientEvent.addEventHandler(((tcpListener, clientSocket) -> {
+                // Server sends bytes to client
+                try
+                {
+                    // sending file
+                    clientSocket.sendFileAuto(path);
+                    clientSocket.close();
+                    file.delete();
+                }
+                catch(Exception ecc)
+                {
+                    assert (false);
+                }
+            }));
 
-    @Test
-    void sendFile() {
-    }
+            listener.start();
+            // client connecting to server
+            clientSocket = new TCPClient(new Socket(localHost, listeningPort));
 
-    @Test
-    void sendFileAuto() {
-    }
+            // reciving and saving file
+            clientSocket.getFileAuto(path2);
 
-    @Test
-    void getByte() {
-    }
+            // open file in an array tmp
+            byte[] tmp = new byte[size];
+            FileInputStream fileInputStream = new FileInputStream(path2);
+            fileInputStream.read(tmp, 0, tmp.length);
+            fileInputStream.close();
 
-    @Test
-    void getBytes() {
-    }
-
-    @Test
-    void getBytesAuto() {
-    }
-
-    @Test
-    void getFile() {
-    }
-
-    @Test
-    void getFileAuto() {
+            // asserting equals
+            assertEquals(garbage.length, tmp.length);
+            for(int i=0; i < garbage.length; i++)
+                assertEquals(garbage[i], tmp[i]);
+            assert (true);
+            clientSocket.close();
+        }
+        catch(Exception ecc)
+        {
+            File file = new File(path);
+            if(file.exists())
+                file.delete();
+            file = new File(path2);
+                if(file.exists())
+                    file.delete();
+            assert (false);
+        }
+        finally {
+            listener.stop();
+        }
     }
 }
