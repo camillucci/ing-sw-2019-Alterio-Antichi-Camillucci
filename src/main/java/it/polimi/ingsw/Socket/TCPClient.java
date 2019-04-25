@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Socket;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.StreamIO;
 
@@ -20,12 +21,20 @@ public class TCPClient
         this.connectedSocket = connectedSocket;
     }
 
+    public static TCPClient connect(String hostname, int Port) throws IOException
+    {
+        return new TCPClient(new Socket(hostname, Port));
+    }
     public void close() throws IOException
     {
         connectedSocket.close();
         closingEvent.invoke(this, null);
     }
 
+    public void sendMessageAuto(String message) throws IOException
+    {
+        this.sendBytesAuto(message.getBytes());
+    }
     public void sendByte(byte b) throws IOException
     {
         send( () -> connectedSocket.getOutputStream().write(b));
@@ -74,6 +83,10 @@ public class TCPClient
     public void getFileAuto(String filename) throws IOException
     {
         get( ()-> StreamIO.getFileAuto(connectedSocket.getInputStream(), filename));
+    }
+    public String getMessageAuto() throws IOException
+    {
+        return new String(getBytesAuto());
     }
 
     private void send(streamActionInterface sendFunc) throws IOException
