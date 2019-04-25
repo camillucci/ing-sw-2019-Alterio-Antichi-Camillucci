@@ -3,20 +3,23 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.view.ViewInterface;
 
-public class CLI implements ViewInterface {
+public class ManagerCLI implements ViewInterface {
     //TODO private Client client;
     private ParserCLI parser;
-    private MassengerCLI massanger;
+    private MessengerCLI massanger;
     private Match match;
     private String name;
     private boolean onTurn = false;
 
-    public CLI() {
+    public ManagerCLI() {
         parser = new ParserCLI();
-        massanger = new MassengerCLI();
+        massanger = new MessengerCLI();
     }
 
-    public void CLI() {
+    public void CLI(Match match) {
+        this.match = match;
+        parser = new ParserCLI();
+        massanger = new MessengerCLI();
         //TODO
     }
 
@@ -47,7 +50,8 @@ public class CLI implements ViewInterface {
 
     @Override
     public void updateMatch(Match match) {
-        //TODO
+        //TODO add other displayed features when user is current player on turn
+        displayRollback();
     }
 
     @Override

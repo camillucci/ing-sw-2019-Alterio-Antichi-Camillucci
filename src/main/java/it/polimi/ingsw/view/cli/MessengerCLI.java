@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 //MassangerCLI's role is to communicate with the user through displaying messages
 
-public class MassengerCLI {
+public class MessengerCLI {
     //TODO
 
     public void insertName() {
