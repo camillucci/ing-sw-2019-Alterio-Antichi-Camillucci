@@ -1,0 +1,131 @@
+package it.polimi.ingsw.Socket;
+
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.StreamIO;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.nio.channels.NotYetConnectedException;
+import java.util.stream.Stream;
+
+public class TCPClient
+{
+    public final Event<TCPClient, Object> closingEvent = new Event<>();
+    private Socket connectedSocket;
+
+    public TCPClient(Socket connectedSocket)  throws NotYetConnectedException
+    {
+        if(!connectedSocket.isConnected())
+            throw new NotYetConnectedException();
+        this.connectedSocket = connectedSocket;
+    }
+
+    public void close() throws IOException
+    {
+        connectedSocket.close();
+        closingEvent.invoke(this, null);
+    }
+
+    public void sendByte(byte b) throws IOException
+    {
+        send( () -> connectedSocket.getOutputStream().write(b));
+    }
+    public void sendByteAuto(byte b) throws IOException
+    {
+        send( () -> StreamIO.sendByteAuto(connectedSocket.getOutputStream(), b));
+    }
+
+    public void sendBytes(byte[] bytes) throws IOException
+    {
+        send(() -> connectedSocket.getOutputStream().write(bytes));
+    }
+    public void sendBytesAuto(byte[] bytes) throws IOException
+    {
+        send( () -> StreamIO.sendBytesAuto(connectedSocket.getOutputStream(), bytes));
+    }
+
+    public void sendFile(String filename) throws IOException
+    {
+       send( () -> StreamIO.sendFile(connectedSocket.getOutputStream(), filename));
+    }
+    public void sendFileAuto(String filename) throws IOException
+    {
+        send( () -> StreamIO.sendFileAuto(connectedSocket.getOutputStream(), filename));
+    }
+
+    public int getByte() throws IOException, Exception
+    {
+        return get( () -> connectedSocket.getInputStream().read()); // -1 if End Of Stream is reached
+    }
+
+    public byte[] getBytes(long max) throws IOException
+    {
+        return get ( () -> StreamIO.getBytes(connectedSocket.getInputStream(), max));
+    }
+    public byte[] getBytesAuto() throws IOException
+    {
+        return get( ()-> StreamIO.getBytesAuto(connectedSocket.getInputStream()));
+    }
+
+    public void getFile(String filename, long fileSize) throws IOException
+    {
+        get( () -> StreamIO.getFile(connectedSocket.getInputStream(), filename, fileSize));
+    }
+    public void getFileAuto(String filename) throws IOException
+    {
+        get( ()-> StreamIO.getFileAuto(connectedSocket.getInputStream(), filename));
+    }
+
+    private void send(streamActionInterface sendFunc) throws IOException
+    {
+        try
+        {
+            sendFunc.invoke();
+        }
+        catch(IOException ecc)
+        {
+            close();
+            throw ecc;
+        }
+    }
+
+    private <T> T get(getInterface<T> getFunc) throws IOException
+    {
+        try
+        {
+            return getFunc.get();
+        }
+        catch(IOException ecc)
+        {
+            close();
+            throw ecc;
+        }
+    }
+    private void get(streamActionInterface getFunc) throws IOException
+    {
+        try
+        {
+            getFunc.invoke();
+        }
+        catch(IOException ecc)
+        {
+            close();
+            throw ecc;
+        }
+    }
+
+    @FunctionalInterface
+    private interface streamActionInterface
+    {
+        void invoke() throws IOException;
+    }
+
+    @FunctionalInterface
+    private interface getInterface<T>
+    {
+        T get() throws IOException;
+    }
+
+
+}
+
