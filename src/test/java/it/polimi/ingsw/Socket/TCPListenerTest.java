@@ -54,7 +54,7 @@ class TCPListenerTest {
         try
         {
             createListener();
-            int timeout = 2000;
+            int timeout = 3000;
             for(int i = 0; i < maxConnected; i++)
             {
                 listener.start();

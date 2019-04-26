@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Player {
+public class Player implements Cloneable {
 
     private final GameBoard gameBoard;
     private final PlayerColor color;
