@@ -86,6 +86,35 @@ class EffectsTest {
     }
 
     @Test
+    void damageMultiple() {
+        gameBoard.getSpawnAndShopSquare(RED).addPlayer(p2);
+        p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(RED));
+        gameBoard.getSpawnAndShopSquare(YELLOW).addPlayer(p3);
+        p3.setCurrentSquare(gameBoard.getSpawnAndShopSquare(YELLOW));
+        Effects.damageMultiple(p1, Arrays.asList(p2, p3), Arrays.asList(1, 2, 1, 2));
+        assertEquals(3, p2.getDamage().size());
+        assertEquals(3, p3.getDamage().size());
+        assertEquals(BLUE, p2.getDamage().get(2));
+        assertEquals(BLUE, p3.getDamage().get(2));
+        assertEquals(3, p2.getMark().size());
+        assertEquals(3, p3.getMark().size());
+        assertEquals(BLUE, p2.getMark().get(1));
+        assertEquals(BLUE, p3.getMark().get(1));
+    }
+
+    @Test
+    void move() {
+        gameBoard.getSpawnAndShopSquare(RED).addPlayer(p2);
+        p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(RED));
+        gameBoard.getSpawnAndShopSquare(YELLOW).addPlayer(p3);
+        p3.setCurrentSquare(gameBoard.getSpawnAndShopSquare(YELLOW));
+        Effects.move(Arrays.asList(p2, p3), Arrays.asList(gameBoard.getSpawnAndShopSquare(YELLOW), gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE)));
+        assertEquals(gameBoard.getSpawnAndShopSquare(YELLOW), p2.getCurrentSquare());
+        assertEquals(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE), p3.getCurrentSquare());
+    }
+
+    /*
+    @Test
     void moveAndDamage() {
         gameBoard.getSpawnAndShopSquare(RED).addPlayer(p2);
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(RED));
@@ -114,21 +143,5 @@ class EffectsTest {
         assertEquals(gameBoard.getSpawnAndShopSquare(YELLOW), p2.getCurrentSquare());
         assertEquals(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE), p3.getCurrentSquare());
     }
-
-    @Test
-    void damageMultiple() {
-        gameBoard.getSpawnAndShopSquare(RED).addPlayer(p2);
-        p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(RED));
-        gameBoard.getSpawnAndShopSquare(YELLOW).addPlayer(p3);
-        p3.setCurrentSquare(gameBoard.getSpawnAndShopSquare(YELLOW));
-        Effects.damageMultiple(p1, Arrays.asList(p2, p3), Arrays.asList(1, 2, 1, 2));
-        assertEquals(3, p2.getDamage().size());
-        assertEquals(3, p3.getDamage().size());
-        assertEquals(BLUE, p2.getDamage().get(2));
-        assertEquals(BLUE, p3.getDamage().get(2));
-        assertEquals(3, p2.getMark().size());
-        assertEquals(3, p3.getMark().size());
-        assertEquals(BLUE, p2.getMark().get(1));
-        assertEquals(BLUE, p3.getMark().get(1));
-    }
+    */
 }

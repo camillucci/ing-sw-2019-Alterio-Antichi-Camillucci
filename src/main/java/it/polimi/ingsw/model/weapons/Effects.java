@@ -53,6 +53,26 @@ public class Effects
         }
     }
 
+    public static void damageMultiple(Player shooter, List<Player> targets, List<Integer> damage)
+    {
+        for(Player target : targets) {
+            damage(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(0)));
+            damageAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(1)));
+            mark(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(2)));
+            markAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(3)));
+        }
+    }
+
+    public static void move(List<Player> targets, List<Square> squares)
+    {
+        for(int i = 0; i < targets.size(); i++) {
+            targets.get(i).getCurrentSquare().removePlayer(targets.get(i));
+            targets.get(i).setCurrentSquare(squares.get(i));
+            squares.get(i).addPlayer(targets.get(i));
+        }
+    }
+
+    /*
     public static void moveAndDamage(Player shooter, List<Player> targets, List<Square> squares, List<Integer> damage)
     {
         for(int i = 0; i < targets.size(); i++) {
@@ -72,14 +92,5 @@ public class Effects
             squares.get(i).addPlayer(targets.get(i));
         }
     }
-
-    public static void damageMultiple(Player shooter, List<Player> targets, List<Integer> damage)
-    {
-        for(Player target : targets) {
-            damage(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(0)));
-            damageAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(1)));
-            mark(shooter, Collections.singletonList(target), Collections.singletonList(damage.get(2)));
-            markAll(shooter, Collections.singletonList(target.getCurrentSquare()), Collections.singletonList(damage.get(3)));
-        }
-    }
+    */
 }

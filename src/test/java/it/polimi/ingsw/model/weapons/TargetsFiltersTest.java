@@ -95,6 +95,7 @@ class TargetsFiltersTest {
         assertEquals(1, TargetsFilters.betweenPlayers(player, 1, 2).size());
     }
 
+    /*
     @Test
     void awaySquares() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
@@ -107,6 +108,7 @@ class TargetsFiltersTest {
         p3.getCurrentSquare().addPlayer(p3);
         assertEquals(1, TargetsFilters.awaySquares(player, 1).size());
     }
+    */
 
     @Test
     void nearSquares() {
