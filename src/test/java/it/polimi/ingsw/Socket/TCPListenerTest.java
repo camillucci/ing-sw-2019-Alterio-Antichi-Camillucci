@@ -10,21 +10,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class TCPListenerTest {
 
     int port = 9999;
-    int maxConnected = 3;
+    int maxConnected = 7;
     String localHost = "127.0.0.1";
-    TCPListener listener;
-
-    private void createListener()
-    {
-        listener = new TCPListener(port, 3);
-    }
+    boolean connected = false;
 
     @Test
     void start()
     {
+        TCPListener listener = new TCPListener(port, 3);
         try
         {
-            createListener();
             listener.start();
             Socket socket = new Socket(localHost, port);
             assert(true);
@@ -33,6 +28,7 @@ class TCPListenerTest {
         {
             assert(false);
         }
+        finally { listener.stop(); }
     }
 
     boolean tryConnect()
@@ -51,41 +47,65 @@ class TCPListenerTest {
     @Test
     void isListening()
     {
+        TCPListener listener = new TCPListener(port, maxConnected);
         try
         {
-            createListener();
-            int timeout = 3000;
-            for(int i = 0; i < maxConnected; i++)
-            {
-                listener.start();
-                tryConnect();
-                for(int j=0; ; Thread.sleep(200))
-                    if(j < timeout) {
-                        if (listener.getConnected().size() == i+1)
-                        {
-                            assert(true);
-                            break;
-                        }
-                    }
-                    else {
-                        assert (false);
-                        return;
-                    }
-                listener.stop();
-                assertFalse(tryConnect());
-                assertFalse(listener.isListening());
-            }
-
-            assertFalse(listener.isListening());
+            listener.newClientEvent.addEventHandler((a,b)->{
+                try{
+                    listener.stop();
+                    assertFalse(tryConnect());
+                    assertFalse(listener.isListening());
+                    listener.start();
+                    tryConnect();
+                }
+                catch(Exception ecc) {assert (false);}
+            });
             listener.start();
-            assertFalse(listener.isListening());
+            tryConnect();
+            while(listener.getConnected().size() < maxConnected)
+                ;
             assertFalse(tryConnect());
-
+            assertFalse(listener.isListening());
+            assertTrue(listener.getConnected().size() == maxConnected);
         }
         catch(Exception ecc)
         {
             assert (false);
         }
+        finally { listener.stop(); }
+    }
+
+    @Test
+    void threadSpam()
+    {
+        TCPListener listener = new TCPListener(port, maxConnected);
+        try
+        {
+            final int N = 100;
+            Thread[] threads = new Thread[N];
+            for(int i=0; i < N; i++)
+                (threads[i] = new Thread(()-> {
+                    try{
+                        for(int j=0; j < N ; j++) {
+                            listener.start();
+                            listener.isListening();
+                            listener.getConnected();
+                            listener.stop();
+                        }
+                    }
+                    catch(Exception e){ assert (false);}
+                })).start();
+            for(Thread t : threads)
+                t.join();
+            listener.stop();
+            assertFalse(listener.isListening());
+            assertFalse(tryConnect());
+            listener.start();
+            assertTrue(tryConnect());
+
+        }
+        catch (Exception ecc){assert (false);}
+        finally { listener.stop(); }
     }
 
     @Test

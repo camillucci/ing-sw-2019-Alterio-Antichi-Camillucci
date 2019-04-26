@@ -7,23 +7,22 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
 import java.nio.channels.NotYetConnectedException;
-import java.util.stream.Stream;
 
 public class TCPClient
 {
     public final Event<TCPClient, Object> closingEvent = new Event<>();
     private Socket connectedSocket;
 
-    public TCPClient(Socket connectedSocket)  throws NotYetConnectedException
+    public TCPClient(Socket connectedSocket)
     {
         if(!connectedSocket.isConnected())
             throw new NotYetConnectedException();
         this.connectedSocket = connectedSocket;
     }
 
-    public static TCPClient connect(String hostname, int Port) throws IOException
+    public static TCPClient connect(String hostname, int port) throws IOException
     {
-        return new TCPClient(new Socket(hostname, Port));
+        return new TCPClient(new Socket(hostname, port));
     }
     public void close() throws IOException
     {

@@ -7,54 +7,48 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TCPListener
-{
+public class TCPListener {
     public Event<TCPListener, TCPClient> newClientEvent = new Event<>();
     public Event<TCPListener, TCPClient> clientDisconnectedEvent = new Event<>();
     private ServerSocket listener;
     private int port;
     private int maxConnected;
-    private Thread listenThread = null;
+    private Thread listenThread;
 
-    public TCPListener(int port, int maxConnected)
-    {
+    public TCPListener(int port, int maxConnected) {
         this.maxConnected = maxConnected;
         this.port = port;
     }
 
-    public void start()
-    {
-        if(isListening())
+    public synchronized void start() throws IOException {
+        if ((listenThread != null && listenThread.getState()!=Thread.State.TERMINATED) || connectedHosts.size() >= maxConnected)
             return;
-        (new Thread(this::listenThread)).start();
+        listenThread = new Thread(this::listenThread);
+        listener = new ServerSocket(port);
+        listenThread.start();
     }
 
-    public boolean isListening()
-    {
-        return getListenThread() != null;
+    public synchronized boolean isListening() {
+        return listener != null && listenThread.getState()!=Thread.State.TERMINATED;
     }
 
-    public void stop()
-    {
+    public synchronized void stop() {
         try
         {
-            if(getListenThread() == null)
+            if (listenThread == null || listenThread.getState() == Thread.State.TERMINATED)
                 return;
 
             listener.close();
-
-            if(Thread.currentThread() != getListenThread())
-                listenThread.join();
-            setNullListenThread();
-        }
-        catch(IOException ecc)
+            listenThread.join();
+         }
+        catch (IOException e)
         {
-            listener = null;
+            //TODO best practice?
         }
-        catch(InterruptedException ecc)
+        catch (InterruptedException e)
         {
             Thread.currentThread().interrupt();
-            stop();
+            stop(); //TODO best practice?
         }
     }
 
@@ -67,46 +61,46 @@ public class TCPListener
     {
         try
         {
-            if(connectedHosts.size() >= maxConnected)
-                return;
-            listener = new ServerSocket(port);
             do
             {
-                this.listenThread = Thread.currentThread();
                 TCPClient tmp = new TCPClient(listener.accept());
                 tmp.closingEvent.addEventHandler((closingClient, b) -> onDisconnection((closingClient)));
                 addConnected(tmp);
             } while(connectedHosts.size() < maxConnected);
         }
-        catch (Exception ecc){}
-        finally { stop(); }
+        catch (IOException e) { }
+        finally { closeListener(); }
     }
 
+    private void closeListener()
+    {
+        try
+        {
+            listener.close();
+        }
+        catch(IOException e)
+        {
+            // TODO best practice?
+        }
+    }
     private void onDisconnection (TCPClient client)
     {
         removeConnected(client);
         clientDisconnectedEvent.invoke(this, client);
     }
-    private synchronized void addConnected(TCPClient connectedHost)
+    private void addConnected(TCPClient connectedHost)
     {
         connectedHosts.add(connectedHost);
-        this.newClientEvent.invoke(this, connectedHost);
+
+        // if newClientEvents is invoked  in the same thread and calls this.stop() the thread joins itself -> deadlock
+        // for this reason a tmp thread invokes the event
+        // Also an eventHandler could be while(true); that could blocks listenThread
+        (new Thread(()->this.newClientEvent.invoke(this, connectedHost))).start();
     }
     private synchronized void removeConnected(TCPClient connectedHost)
     {
         connectedHosts.remove(connectedHost);
     }
 
-    private synchronized Thread getListenThread()
-    {
-        return listenThread;
-    }
-
-    private synchronized void setNullListenThread()
-    {
-        listenThread = null;
-    }
-
     private List<TCPClient> connectedHosts = new ArrayList<>();
-    private Object listLock = new Object();
 }
