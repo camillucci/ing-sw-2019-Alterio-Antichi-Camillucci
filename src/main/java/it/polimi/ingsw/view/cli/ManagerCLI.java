@@ -4,26 +4,21 @@ import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.view.ViewInterface;
 
 public class ManagerCLI implements ViewInterface {
-    //TODO private Client client;
+    private Client client;
     private ParserCLI parser;
-    private MessengerCLI massanger;
+    private MessengerCLI messanger;
     private Match match;
-    private String name;
-    private boolean onTurn = false;
 
     public ManagerCLI() {
         parser = new ParserCLI();
-        massanger = new MessengerCLI();
+        messanger = new MessengerCLI();
     }
 
-    public void CLI(Match match) {
+    public void ManagerCLI(Match match, Client client) {
         this.match = match;
         parser = new ParserCLI();
-        massanger = new MessengerCLI();
-        //TODO
-    }
-
-    public void startConnection() {
+        messanger = new MessengerCLI();
+        this.client = client;
         //TODO
     }
 
@@ -31,20 +26,20 @@ public class ManagerCLI implements ViewInterface {
         boolean check = false;
         String name = null;
         while(!check) {
-            massanger.insertName();
+            messanger.insertName();
             name = parser.parseName();
             //TODO add connection methods
         }
     }
 
     private void displayRollback() {
-        while(onTurn) {
-            massanger.displayRollback();
+        while(client.getOnTurn()) {
+            messanger.displayRollback();
         }
     }
 
     public void setTurn(boolean turn) {
-        onTurn = turn;
+        client.setOnTurn(turn);
         return;
     }
 
