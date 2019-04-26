@@ -5,6 +5,7 @@ import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.StreamIO;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
 import java.nio.channels.NotYetConnectedException;
 import java.util.stream.Stream;
@@ -31,6 +32,10 @@ public class TCPClient
         closingEvent.invoke(this, null);
     }
 
+    public void sendObject(Serializable object) throws IOException
+    {
+        send( () -> StreamIO.sendObject(connectedSocket.getOutputStream(), object));
+    }
     public void sendMessageAuto(String message) throws IOException
     {
         this.sendBytesAuto(message.getBytes());
@@ -62,7 +67,11 @@ public class TCPClient
         send( () -> StreamIO.sendFileAuto(connectedSocket.getOutputStream(), filename));
     }
 
-    public int getByte() throws IOException, Exception
+    public <T> T getObject() throws IOException, ClassNotFoundException
+    {
+        return get( () -> StreamIO.getObject(connectedSocket.getInputStream()));
+    }
+    public int getByte() throws IOException
     {
         return get( () -> connectedSocket.getInputStream().read()); // -1 if End Of Stream is reached
     }
@@ -102,7 +111,7 @@ public class TCPClient
         }
     }
 
-    private <T> T get(getInterface<T> getFunc) throws IOException
+    private <T, E extends Exception> T get(getInterface<T, E> getFunc) throws IOException, E
     {
         try
         {
@@ -134,9 +143,9 @@ public class TCPClient
     }
 
     @FunctionalInterface
-    private interface getInterface<T>
+    private interface getInterface<T, E extends Exception>
     {
-        T get() throws IOException;
+        T get() throws IOException, E;
     }
 
 

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Socket;
 
+import it.polimi.ingsw.model.PlayerColor;
+import it.polimi.ingsw.model.SquareBorder;
+import it.polimi.ingsw.model.SquareSnapshot;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -282,6 +285,48 @@ class TCPClientTest {
             file = new File(path2);
             if(file.exists())
                 file.delete();
+            listener.stop();
+        }
+    }
+
+    @Test
+    void sendObject()
+    {
+        TCPListener listener = new TCPListener(listeningPort, maxConnected);
+        try
+        {
+            SquareSnapshot squareSnapshot = new SquareSnapshot(new SquareBorder[]{SquareBorder.DOOR, SquareBorder.NOTHING, SquareBorder.ROOM, SquareBorder.ROOM}, PlayerColor.GREY);
+            listener.newClientEvent.addEventHandler(((tcpListener, clientSocket) -> {
+                // Server sends bytes to client
+                try
+                {
+                    clientSocket.sendObject(squareSnapshot);
+                    clientSocket.close();
+                }
+                catch(Exception ecc)
+                {
+                    assert (false);
+                }
+            }));
+
+            listener.start();
+            // client connecting to server
+            clientSocket = TCPClient.connect(localHost, listeningPort);
+
+            // client getting bytes from server
+            SquareSnapshot recived = clientSocket.getObject();
+
+            // Assert Equals
+            assertEquals(squareSnapshot.borders.length, recived.borders.length);
+            for(int i=0; i < squareSnapshot.borders.length; i++)
+                assertEquals(squareSnapshot.borders[i], recived.borders[i]);
+            assertEquals(squareSnapshot.color, recived.color);
+        }
+        catch(Exception ecc)
+        {
+            assert (false);
+        }
+        finally {
             listener.stop();
         }
     }

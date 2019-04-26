@@ -29,6 +29,13 @@ public class StreamIO
         fileStream.close();
     }
 
+    public static void sendObject(OutputStream stream, Serializable object) throws IOException
+    {
+        ObjectOutputStream objectStream = new ObjectOutputStream(stream);
+        objectStream.writeObject(object);
+        objectStream.close();
+    }
+
     public static void sendFileAuto(OutputStream stream, String filename) throws IOException
     {
         long fileSize = (new File(filename)).length();
@@ -56,6 +63,15 @@ public class StreamIO
             max -= read;
         } while(max > 0 && read > 0);
     }
+
+    public static <T> T getObject(InputStream stream) throws IOException, ClassNotFoundException
+    {
+        ObjectInputStream inputStream = new ObjectInputStream(stream);
+        T ret = (T) inputStream.readObject();
+        inputStream.close();
+        return ret;
+    }
+
     public static byte[] getBytesAuto(InputStream stream) throws IOException
     {
         return getBytes(stream, getDim(stream));
