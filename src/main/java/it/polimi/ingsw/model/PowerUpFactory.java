@@ -20,7 +20,7 @@ public class PowerUpFactory {
     private static void buildPowerUps() {
         powerUpCards.clear();
         for(int i = 0; i < 24; i++) {
-            powerUpCards.add(new PowerUpCard("Newton",BLUE, new Ammo(0, 0, 0)));
+            powerUpCards.add(new PowerUpCard("Newton",BLUE, new Ammo(0, 0, 0), null, null, null));
             //TODO
         }
     }

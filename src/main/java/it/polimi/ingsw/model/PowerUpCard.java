@@ -1,37 +1,31 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.action.FireModalityAction;
+import it.polimi.ingsw.model.action.ShootAction;
+import it.polimi.ingsw.model.weapons.PlayersFilter;
+import it.polimi.ingsw.model.weapons.ShootFunc;
+import it.polimi.ingsw.model.weapons.SquaresFilter;
+
 import java.util.Collections;
 import java.util.List;
 
 public class PowerUpCard {
 
+    public final PlayersFilter playersFilter;
+    public final SquaresFilter squaresFilter;
+    public final ShootFunc shootFunc;
     private final String name;
     private final AmmoColor color;
     private final Ammo cost;
 
-    public PowerUpCard(String name, AmmoColor color, Ammo cost)
+    public PowerUpCard(String name, AmmoColor color, Ammo cost, PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shoootFunc)
     {
         this.name = name;
         this.color = color;
         this.cost = cost;
-    }
-
-    public void shootP(Player shooter, List<Player> targets) {
-        //TODO
-    }
-
-    public void shootS(Player shooter, List<Square> targets) {
-        //TODO
-    }
-
-    public List<Player> visiblePlayers(Player player, List<Player> alreadyAdded) {
-        //TODO
-        return Collections.emptyList();
-    }
-
-    public List<Square> visibleSquares(Player player, List<Square> alreadyAdded) {
-        //TODO
-        return Collections.emptyList();
+        this.playersFilter = playersFilter;
+        this.squaresFilter = squaresFilter;
+        this.shootFunc = shoootFunc;
     }
 
     public AmmoColor getColor() {

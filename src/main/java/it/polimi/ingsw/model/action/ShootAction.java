@@ -1,42 +1,36 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.generics.Pair;
-import it.polimi.ingsw.generics.TriConsumer;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
+import it.polimi.ingsw.model.weapons.PlayersFilter;
+import it.polimi.ingsw.model.weapons.ShootFunc;
+import it.polimi.ingsw.model.weapons.SquaresFilter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 
 public class ShootAction extends Action
 {
-    protected BiConsumer<Player, List<Player>> shootFuncP = (a,b) -> {};
-    protected BiConsumer<Player, List<Square>> shootFuncS = (a,b) -> {};
-    protected TriConsumer<Player, List<Player>, List<Square>> shootFuncM = (a, b, c) -> {};
-    protected BiFunction<Player,List<Square>, List<Square>> possibleTargetsFuncS;
-    protected BiFunction<Player, List<Player>, List<Player>> possibleTargetsFuncP;
-    protected BiFunction<Player, List<Pair<Player, Square>>, List<Pair<Player, Square>>> possibleTargetFuncM;
+    protected ShootFunc shootFunc = (a, b, c) -> {};
+    protected PlayersFilter playersFilter;
+    protected SquaresFilter squaresFilter;
 
     protected ShootAction(){}
 
-    public ShootAction(BiConsumer<Player, List<Square>> shootFunc, BiFunction<Player,List<Square>, List<Square>> possibleTargetsFunc)
+    public ShootAction(ShootFunc shootFunc, SquaresFilter squaresFilter)
     {
-        this.possibleTargetsFuncS = possibleTargetsFunc;
-        this.shootFuncS = shootFunc;
+        this(null, squaresFilter, shootFunc);
     }
 
-    public ShootAction(BiFunction<Player, List<Player>, List<Player>> possibleTargetsFunc, BiConsumer<Player, List<Player>> shootFunc)
+    public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc)
     {
-        this.possibleTargetsFuncP = possibleTargetsFunc;
-        this.shootFuncP = shootFunc;
+        this(playersFilter, null, shootFunc);
     }
 
-    public ShootAction(BiFunction<Player, List<Pair<Player, Square>>, List<Pair<Player, Square>>> possibleTargetsFunc, TriConsumer<Player, List<Player>, List<Square>> shootFunc)
+    public ShootAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
-        this.possibleTargetFuncM = possibleTargetsFunc;
-        this.shootFuncM = shootFunc;
+        this.shootFunc = shootFunc;
+        this.playersFilter = playersFilter;
+        this.squaresFilter = squaresFilter;
     }
 
     @Override
@@ -46,15 +40,27 @@ public class ShootAction extends Action
 
     protected void shoot()
     {
-        this.shootFuncP.accept(this.ownerPlayer, this.targetPlayers);
-        this.shootFuncS.accept(this.ownerPlayer, this.targetSquares);
-        this.shootFuncM.accept(this.ownerPlayer, this.targetPlayers, this.targetSquares);
+        this.shootFunc.accept(ownerPlayer, targetPlayers, targetSquares);
     }
 
     @Override
+    public List<Player> getPossiblePlayers()
+    {
+        return this.playersFilter.apply(ownerPlayer, targetPlayers);
+    }
+
+    @Override
+    public List<Square> getPossibleSquares()
+    {
+        return this.squaresFilter.apply(ownerPlayer, targetSquares);
+    }
+
+
+    /*
+    @Override
     public List<Player> getPossiblePlayers() {
         if(possibleTargetFuncM == null)
-            return this.possibleTargetsFuncP.apply(ownerPlayer, new ArrayList<>(this.targetPlayers));
+            return this.playersFilter.apply(ownerPlayer, new ArrayList<>(this.targetPlayers));
         List<Pair<Player, Square>> tempPair = new ArrayList<>();
         for(int i = 0; i < targetPlayers.size(); i++)
             tempPair.add(new Pair<>(targetPlayers.get(i), targetSquares.get(i)));
@@ -67,7 +73,7 @@ public class ShootAction extends Action
     @Override
     public List<Square> getPossibleSquares() {
         if(possibleTargetFuncM == null)
-            return this.possibleTargetsFuncS.apply(ownerPlayer, new ArrayList<>(this.targetSquares));
+            return this.squaresFilter.apply(ownerPlayer, new ArrayList<>(this.targetSquares));
         List<Pair<Player, Square>> tempPair = new ArrayList<>();
         for(int i = 0; i < targetPlayers.size(); i++)
             tempPair.add(new Pair<>(targetPlayers.get(i), targetSquares.get(i)));
@@ -76,4 +82,6 @@ public class ShootAction extends Action
             temp.add(pair.getRight());
         return temp;
     }
+
+     */
 }
