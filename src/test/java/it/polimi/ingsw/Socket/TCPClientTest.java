@@ -273,15 +273,15 @@ class TCPClientTest {
         }
         catch(Exception ecc)
         {
+            assert (false);
+        }
+        finally {
             File file = new File(path);
             if(file.exists())
                 file.delete();
             file = new File(path2);
-                if(file.exists())
-                    file.delete();
-            assert (false);
-        }
-        finally {
+            if(file.exists())
+                file.delete();
             listener.stop();
         }
     }
