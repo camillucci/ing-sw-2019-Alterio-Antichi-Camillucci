@@ -60,17 +60,18 @@ public class Action
     }
     public void addPowerUp(PowerUpCard powerUp)
     {
-        this.selectedPowerUps.add(powerUp);
+        if(getPossiblePowerUps().contains(powerUp))
+            this.selectedPowerUps.add(powerUp);
     }
-    public boolean isOptional(){return optional;}
     public List<Player> getPossiblePlayers(){return Collections.emptyList();}
     public List<Square> getPossibleSquares(){return Collections.emptyList();}
+    public List<PowerUpCard> getPossiblePowerUps(){return Collections.emptyList();}
     public Player getOwnerPlayer(){ return this.ownerPlayer; }
+
     public boolean isCompatible(Action action)
     {
         return action.getClass().isInstance(this);
     }
-
     private boolean spendAmmo()
     {
         if(Ammo.getAmmo(this.ownerPlayer).isGreaterOrEqual(this.doActionCost))
@@ -83,6 +84,8 @@ public class Action
         }
         return false;
     }
+
+    public boolean isOptional(){return optional;}
     protected void op() {
         this.opMethod.accept(this);
     }

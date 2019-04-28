@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PowerUpCard;
 import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.weapons.PlayersFilter;
 import it.polimi.ingsw.model.weapons.ShootFunc;
 import it.polimi.ingsw.model.weapons.SquaresFilter;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ShootAction extends Action
@@ -55,33 +57,20 @@ public class ShootAction extends Action
         return this.squaresFilter.apply(ownerPlayer, targetSquares);
     }
 
-
-    /*
     @Override
-    public List<Player> getPossiblePlayers() {
-        if(possibleTargetFuncM == null)
-            return this.playersFilter.apply(ownerPlayer, new ArrayList<>(this.targetPlayers));
-        List<Pair<Player, Square>> tempPair = new ArrayList<>();
-        for(int i = 0; i < targetPlayers.size(); i++)
-            tempPair.add(new Pair<>(targetPlayers.get(i), targetSquares.get(i)));
-        List<Player> temp = new ArrayList<>();
-        for(Pair<Player, Square> pair : possibleTargetFuncM.apply(ownerPlayer, tempPair))
-            temp.add(pair.getLeft());
-        return temp;
+    public List<PowerUpCard> getPossiblePowerUps(){
+        if(this.targetPlayers.size() > 0)
+            ; //return all targetScope and check ammo, instanceof problem
+        return Collections.emptyList();
     }
 
     @Override
-    public List<Square> getPossibleSquares() {
-        if(possibleTargetFuncM == null)
-            return this.squaresFilter.apply(ownerPlayer, new ArrayList<>(this.targetSquares));
-        List<Pair<Player, Square>> tempPair = new ArrayList<>();
-        for(int i = 0; i < targetPlayers.size(); i++)
-            tempPair.add(new Pair<>(targetPlayers.get(i), targetSquares.get(i)));
-        List<Square> temp = new ArrayList<>();
-        for(Pair<Player, Square> pair : possibleTargetFuncM.apply(ownerPlayer, tempPair))
-            temp.add(pair.getRight());
-        return temp;
+    public void addPowerUp(PowerUpCard powerUp)
+    {
+        if(!this.getPossiblePowerUps().contains(powerUp))
+            return;
+        Player target = this.targetPlayers.get(targetPlayers.size()-1); // last added
+        this.doActionCost = doActionCost.add(powerUp.getCost());
+        this.shootFunc = this.shootFunc.andThen( (player, players, squares) ->  powerUp.shootFunc.accept(player, Collections.singletonList(target), squares));
     }
-
-     */
 }
