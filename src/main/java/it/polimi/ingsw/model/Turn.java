@@ -46,10 +46,10 @@ public class Turn {
     private void createBranchMap(){
         if(match.getFinalFrenzy()){
             if(frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter()) {
-                this.branchMap = BranchMapFactory.adrenalineX2();
+                this.branchMap = BranchMapFactory.adrenalineX2(currentPlayer);
             }
             else {
-                this.branchMap = BranchMapFactory.adrenalineX1();
+                this.branchMap = BranchMapFactory.adrenalineX1(currentPlayer);
             }
 
             increaseFrenzyCounter();
@@ -57,12 +57,12 @@ public class Turn {
         else {
             if (currentPlayer.getDamage().size() >= 3) {
                 if (currentPlayer.getDamage().size() >= 6) {
-                    this.branchMap = BranchMapFactory.sixDamage();
+                    this.branchMap = BranchMapFactory.sixDamage(currentPlayer);
                 } else {
-                    this.branchMap = BranchMapFactory.threeDamage();
+                    this.branchMap = BranchMapFactory.threeDamage(currentPlayer);
                 }
             } else {
-                this.branchMap = BranchMapFactory.noAdrenaline();
+                this.branchMap = BranchMapFactory.noAdrenaline(currentPlayer);
             }
         }
         standardEventsSetup();

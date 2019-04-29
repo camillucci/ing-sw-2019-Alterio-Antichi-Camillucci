@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -12,9 +11,9 @@ import java.util.stream.Stream;
 
 public class Player implements Cloneable {
 
-    private final GameBoard gameBoard;
-    private final PlayerColor color;
-    private final String name;
+    public final GameBoard gameBoard;
+    public final PlayerColor color;
+    public final String name;
     private int points;
     private int skull;
     private int blueAmmo;
@@ -89,32 +88,27 @@ public class Player implements Cloneable {
 
     public void addDamage(Player shooter, int val) {
         for (int i = 0; i < val && damage.size() < MAX_DAMAGES; i++)
-            damage.add(shooter.getColor());
+            damage.add(shooter.color);
 
         List<Integer> temp = new ArrayList<>();
         for(int i = 0; i < mark.size() && damage.size() < MAX_DAMAGES; i++ )
-            if (shooter.getColor() == mark.get(i)) {
-                damage.add(shooter.getColor());
+            if (shooter.color == mark.get(i)) {
+                damage.add(shooter.color);
                 temp.add(i);
             }
 
         for(int i = temp.size() - 1; i >= 0; i--)
             mark.remove(i);
-
-        /* TODO for(PowerUpCard pu : powerUps)
-            if(pu.getName() == "Tagback Grenade")
-               pu.shootP(); */
     }
 
     public void addMark(Player shooter, int val) {
         int temp = 0;
         for (PlayerColor p : mark)
-            if (p == shooter.getColor())
+            if (p == shooter.color)
                 temp++;
 
-        for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++) {
-            mark.add(shooter.getColor());
-        }
+        for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++)
+            mark.add(shooter.color);
     }
 
     public void addWeapon(WeaponCard weaponCard) {
@@ -156,10 +150,6 @@ public class Player implements Cloneable {
         return null;
     }
 
-    public GameBoard getGameBoard() {
-        return gameBoard;
-    }
-
     public int getPoints() {
         return points;
     }
@@ -172,16 +162,16 @@ public class Player implements Cloneable {
         return blueAmmo;
     }
 
-    public int getYellowAmmo() {
-        return yellowAmmo;
-    }
-
     public int getRedAmmo() {
         return redAmmo;
     }
 
-    public PlayerColor getColor() {
-        return color;
+    public int getYellowAmmo() {
+        return yellowAmmo;
+    }
+
+    public int getTotalAmmo() {
+        return blueAmmo + redAmmo + yellowAmmo;
     }
 
     public Square getCurrentSquare() {

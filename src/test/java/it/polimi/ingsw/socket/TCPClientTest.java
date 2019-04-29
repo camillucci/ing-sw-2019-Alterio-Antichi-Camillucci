@@ -1,28 +1,22 @@
-package it.polimi.ingsw.Socket;
+package it.polimi.ingsw.socket;
 
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.SquareBorder;
 import it.polimi.ingsw.model.SquareSnapshot;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.util.Arrays;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TCPClientTest {
 
-    int listeningPort = 9999;
-    String localHost = "127.0.0.1";
-    int maxConnected = 3;
-    TCPClient clientSocket;
-
+    private int listeningPort = 9999;
+    private String localHost = "127.0.0.1";
+    private int maxConnected = 3;
+    private TCPClient clientSocket;
 
     @Test
     void close()

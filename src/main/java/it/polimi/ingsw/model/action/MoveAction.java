@@ -37,8 +37,8 @@ public class MoveAction extends Action
     @Override
     public List<Square> getPossibleSquares() {
         if(minDistance == -1)
-            return ownerPlayer.getGameBoard().getSquares(ownerPlayer, this.maxDistance);
-        return ownerPlayer.getGameBoard().getBetweenSquares(ownerPlayer, this.minDistance, this.maxDistance);
+            return ownerPlayer.gameBoard.getSquares(ownerPlayer, this.maxDistance);
+        return ownerPlayer.gameBoard.getBetweenSquares(ownerPlayer, this.minDistance, this.maxDistance);
     }
 
     @Override

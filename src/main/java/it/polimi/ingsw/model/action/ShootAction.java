@@ -3,10 +3,9 @@ package it.polimi.ingsw.model.action;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PowerUpCard;
 import it.polimi.ingsw.model.Square;
-import it.polimi.ingsw.model.weapons.PlayersFilter;
-import it.polimi.ingsw.model.weapons.ShootFunc;
-import it.polimi.ingsw.model.weapons.SquaresFilter;
+import it.polimi.ingsw.model.weapons.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,18 +58,21 @@ public class ShootAction extends Action
 
     @Override
     public List<PowerUpCard> getPossiblePowerUps(){
-        if(this.targetPlayers.size() > 0)
-            ; //return all targetScope and check ammo, instanceof problem
-        return Collections.emptyList();
+        List <PowerUpCard> temp = new ArrayList<>();
+        if(!this.targetPlayers.isEmpty())
+            for(PowerUpCard powerUpCard : ownerPlayer.getPowerUps())
+                if(powerUpCard.name.equals("Targeting Scope") && ownerPlayer.getTotalAmmo() >= 1)
+                    temp.add(powerUpCard);
+        return temp;
     }
 
     @Override
     public void addPowerUp(PowerUpCard powerUp)
     {
-        if(!this.getPossiblePowerUps().contains(powerUp))
-            return;
-        Player target = this.targetPlayers.get(targetPlayers.size()-1); // last added
-        this.doActionCost = doActionCost.add(powerUp.getCost());
-        this.shootFunc = this.shootFunc.andThen( (player, players, squares) ->  powerUp.shootFunc.accept(player, Collections.singletonList(target), squares));
+        if(this.getPossiblePowerUps().contains(powerUp)) {
+            Player target = this.targetPlayers.get(targetPlayers.size() - 1); // last added
+            this.doActionCost = doActionCost.add(powerUp.cost);
+            this.shootFunc = this.shootFunc.andThen((player, players, squares) -> Effects.damage(ownerPlayer, Collections.singletonList(target), Collections.singletonList(1)));
+        }
     }
 }

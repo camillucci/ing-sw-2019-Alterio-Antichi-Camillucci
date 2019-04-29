@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Socket;
+package it.polimi.ingsw.socket;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.InputStreamUtils;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Socket;
+package it.polimi.ingsw.socket;
 
 import it.polimi.ingsw.generics.Event;
 
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TCPListener {
-    public Event<TCPListener, TCPClient> newClientEvent = new Event<>();
-    public Event<TCPListener, TCPClient> clientDisconnectedEvent = new Event<>();
+    public final Event<TCPListener, TCPClient> newClientEvent = new Event<>();
+    public final Event<TCPListener, TCPClient> clientDisconnectedEvent = new Event<>();
     private ServerSocket listener;
     private int port;
     private int maxConnected;
@@ -65,7 +65,9 @@ public class TCPListener {
                 addConnected(tmp);
             } while(connectedHosts.size() < maxConnected);
         }
-        catch (IOException e) { }
+        catch (IOException e) {
+            //TODO
+        }
         finally { closeListener(); }
     }
 

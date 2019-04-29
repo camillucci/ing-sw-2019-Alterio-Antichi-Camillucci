@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Socket;
+package it.polimi.ingsw.socket;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TCPListenerTest {
 
-    int port = 9999;
-    int maxConnected = 7;
-    String localHost = "127.0.0.1";
-    boolean connected = false;
+    private static final int port = 9999;
+    private static final int maxConnected = 7;
+    private String localHost = "127.0.0.1";
+    private boolean connected = false;
 
     @Test
     void start()
@@ -66,7 +66,7 @@ class TCPListenerTest {
                 ;
             assertFalse(tryConnect());
             assertFalse(listener.isListening());
-            assertTrue(listener.getConnected().size() == maxConnected);
+            assertEquals(maxConnected, listener.getConnected().size());
         }
         catch(Exception ecc)
         {
@@ -111,6 +111,6 @@ class TCPListenerTest {
     @Test
     void getConnected()
     {
-
+        //TODO
     }
 }

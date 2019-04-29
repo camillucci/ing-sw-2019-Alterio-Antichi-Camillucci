@@ -1,10 +1,23 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.PowerUpCard;
+import it.polimi.ingsw.model.weapons.*;
 
 public class PowerUpAction extends ShootAction
 {
+    public PowerUpAction(ShootFunc shootFunc)
+    {
+        this(null, null, shootFunc);
+    }
+
+    public PowerUpAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
+    {
+        this.shootFunc = shootFunc;
+        this.playersFilter = playersFilter;
+        this.squaresFilter = squaresFilter;
+    }
+
+    /*
     @Override
     public void addPowerUp(PowerUpCard powerUpCard)
     {
@@ -16,11 +29,10 @@ public class PowerUpAction extends ShootAction
             this.selectedPowerUps.add(powerUpCard);
         }
     }
+    */
 
     @Override
-    public void shoot()
-    {
-        for(PowerUpCard pu : this.selectedPowerUps)
-            pu.shootFunc.accept(ownerPlayer, targetPlayers, targetSquares);
+    public void shoot() {
+        this.shootFunc.accept(ownerPlayer, targetPlayers, targetSquares);
     }
 }

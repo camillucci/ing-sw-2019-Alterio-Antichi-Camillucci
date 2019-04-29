@@ -5,49 +5,60 @@ import it.polimi.ingsw.model.PowerUpCard;
 import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BranchMapFactory
 {
     private BranchMapFactory(){}
-    public static BranchMap noAdrenaline()
+
+    public static BranchMap noAdrenaline(Player player)
     {
-        return new BranchMap(
+        List<Branch> branches = new ArrayList<>(Arrays.asList(
                 new Branch(new MoveAction(1), new GrabAction()), //M1G
                 new Branch(new MoveAction(3), new EndBranchAction()), //M3
-                new Branch(new WeaponSelectionAction()) //W
-        );
+                new Branch(new WeaponSelectionAction()))); //W
+        addPowerups(branches, player);
+        return new BranchMap(branches);
     }
 
-    public static BranchMap threeDamage()
+    public static BranchMap threeDamage(Player player)
     {
-        return new BranchMap(
+        List<Branch> branches = new ArrayList<>(Arrays.asList(
                 new Branch(new MoveAction(2), new GrabAction()), //M2G
                 new Branch(new MoveAction(3), new EndBranchAction()), //M3
-                new Branch(new WeaponSelectionAction())); //W
+                new Branch(new WeaponSelectionAction()))); //W
+        addPowerups(branches, player);
+        return new BranchMap(branches);
     }
 
-    public static BranchMap sixDamage()
+    public static BranchMap sixDamage(Player player)
     {
-        return new BranchMap(
+        List<Branch> branches = new ArrayList<>(Arrays.asList(
                 new Branch(new MoveAction(3), new EndBranchAction()), //M3
                 new Branch(new MoveAction(2), new GrabAction()), //M2G
-                new Branch(new MoveAction(1), new WeaponSelectionAction())); //M1W
+                new Branch(new MoveAction(1), new WeaponSelectionAction()))); //M1W
+        addPowerups(branches, player);
+        return new BranchMap(branches);
     }
 
-    public static BranchMap adrenalineX1()
+    public static BranchMap adrenalineX1(Player player)
     {
-        return new BranchMap(
+        List<Branch> branches = new ArrayList<>(Arrays.asList(
                 new Branch(new MoveAction(2), new ReloadAction(), new WeaponSelectionAction()), //M2RW
-                new Branch(new MoveAction(3), new GrabAction())); //M3G
+                new Branch(new MoveAction(3), new GrabAction()))); //M3G
+        addPowerups(branches, player);
+        return new BranchMap(branches);
     }
 
-    public static BranchMap adrenalineX2()
+    public static BranchMap adrenalineX2(Player player)
     {
-        return new BranchMap(
+        List<Branch> branches = new ArrayList<>(Arrays.asList(
                 new Branch(new MoveAction(1), new ReloadAction(), new WeaponSelectionAction()), //M!RW
                 new Branch(new MoveAction(4), new EndBranchAction()), //M4
-                new Branch(new MoveAction(2), new GrabAction())); //M2G
+                new Branch(new MoveAction(2), new GrabAction()))); //M2G
+        addPowerups(branches, player);
+        return new BranchMap(branches);
     }
 
     public static BranchMap spawnBranchMap(Player spawnPlayer)
@@ -58,13 +69,23 @@ public class BranchMapFactory
             {
                 Player p = a.getOwnerPlayer();
                 p.removePowerUpCard(pu);
-                p.getGameBoard().getSpawnAndShopSquare(pu.getColor()).addPlayer(p);
+                p.gameBoard.getSpawnAndShopSquare(pu.color).addPlayer(p);
             }), new EndBranchAction()));
         return new BranchMap(new Branch(new ExtendableAction(branches)));
     }
 
-    public static BranchMap reloadEndTurn()
+    public static BranchMap reloadEndTurn(Player player)
     {
-        return new BranchMap(new Branch(new ReloadAction(), new EndBranchAction()));
+        List<Branch> branches = new ArrayList<>(Arrays.asList(
+                new Branch(new ReloadAction(), new EndBranchAction())));
+        addPowerups(branches, player);
+        return new BranchMap(branches);
+    }
+
+    private static List<Branch> addPowerups(List<Branch> branches, Player player)
+    {
+        for(PowerUpCard powerUpCard : player.getPowerUps())
+            branches.addAll(powerUpCard.getBranches());
+        return branches;
     }
 }

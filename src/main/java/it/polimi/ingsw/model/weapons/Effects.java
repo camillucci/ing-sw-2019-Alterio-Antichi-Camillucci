@@ -49,7 +49,7 @@ public class Effects
     {
         for(int i = 0; i < targets.size(); i++) {
             List<Integer> temp = Arrays.asList(damage.get(i), damage.get(i), damage.get(i), damage.get(i));
-            damageAll(shooter, shooter.getGameBoard().getRoom(targets.get(i)), temp);
+            damageAll(shooter, shooter.gameBoard.getRoom(targets.get(i)), temp);
         }
     }
 

@@ -50,7 +50,8 @@ public class InputStreamUtils implements Closeable
             return;
         final int buflen = 1024*16;
         byte[] buffer = new byte[buflen];
-        int read, min;
+        int read;
+        int min;
         do{
             min = buflen < max ? buflen : (int)max;
             read = in.read(buffer, 0, min);

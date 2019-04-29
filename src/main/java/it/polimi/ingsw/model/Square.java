@@ -38,15 +38,15 @@ public abstract class Square {
     }
 
     public boolean existSouth() {
-        return this.south == DOOR || this.south == ROOM || this.north == WALL;
+        return this.south == DOOR || this.south == ROOM || this.south == WALL;
     }
 
     public boolean existWest() {
-        return this.west == DOOR || this.west == ROOM || this.north == WALL;
+        return this.west == DOOR || this.west == ROOM || this.west == WALL;
     }
 
     public boolean existEast() {
-        return this.east == DOOR || this.east == ROOM || this.north == WALL;
+        return this.east == DOOR || this.east == ROOM || this.east == WALL;
     }
 
     public int getY() {
