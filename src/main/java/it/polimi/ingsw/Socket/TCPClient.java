@@ -38,9 +38,5 @@ public class TCPClient
         }
         catch(IOException e) {/*TODO*/}
     }
-
-    public void displayString(String string) {
-        //TODO invoke OutputStream methods
-    }
 }
 

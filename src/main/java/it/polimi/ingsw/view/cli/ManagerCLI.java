@@ -23,7 +23,13 @@ public class ManagerCLI implements ViewInterface {
     }
 
     private void login() {
-        messanger.insertName();
+        boolean check = false;
+        String name = null;
+        while(!check) {
+            messanger.insertName();
+            name = parser.parseName();
+            //TODO add connection methods
+        }
     }
 
     private void displayRollback() {
