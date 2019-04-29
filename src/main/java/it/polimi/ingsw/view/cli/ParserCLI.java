@@ -12,4 +12,9 @@ public class ParserCLI {
         return null;
     }
 
+    public boolean parseChoice() {
+        //TODO
+        return true;
+    }
+
 }

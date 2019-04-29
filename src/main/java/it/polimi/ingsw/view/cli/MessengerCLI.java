@@ -9,7 +9,13 @@ public class MessengerCLI {
     //TODO
 
     public void insertName() {
-        //TODO
+        System.out.println("Insert username here:");
+    }
+
+    public void askConnection() {
+        System.out.println("Choose connection type:");
+        System.out.println("Press 0 for Socket");
+        System.out.println("Press 1 for RMI");
     }
 
     public void displayRollback() {

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 public class Client {
     private String name;
     private boolean onTurn = false;
+    private boolean connectionType;
 
     public boolean getOnTurn() {
         return onTurn;
@@ -11,6 +12,14 @@ public class Client {
     public void setOnTurn(boolean onTurn) {
         this.onTurn = onTurn;
         return;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setConnection(boolean connectionType) {
+        this.connectionType = connectionType;
     }
 
 }
