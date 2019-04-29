@@ -27,7 +27,8 @@ public class ManagerCLI implements ViewInterface {
         client.setName(parser.parseName());
         messanger.askConnection();
         client.setConnection(parser.parseChoice());
-
+        messanger.askInterface();
+        client.setInterface(parser.parseChoice());
     }
 
     private void displayRollback() {

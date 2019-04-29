@@ -4,6 +4,7 @@ public class Client {
     private String name;
     private boolean onTurn = false;
     private boolean connectionType;
+    private boolean interfaceType;
 
     public boolean getOnTurn() {
         return onTurn;
@@ -20,6 +21,10 @@ public class Client {
 
     public void setConnection(boolean connectionType) {
         this.connectionType = connectionType;
+    }
+
+    public void setInterface(boolean interfaceType) {
+        this.interfaceType = interfaceType;
     }
 
 }

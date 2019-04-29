@@ -18,6 +18,12 @@ public class MessengerCLI {
         System.out.println("Press 1 for RMI");
     }
 
+    public void askInterface() {
+        System.out.println("Choose interface type");
+        System.out.println("Press 0 for CLI");
+        System.out.println("Press 1 for GUI");
+    }
+
     public void displayRollback() {
         //TODO
     }
@@ -25,4 +31,5 @@ public class MessengerCLI {
     public void displayOptions(ArrayList<Player> players, ArrayList<Square> squares) {
         //TODO
     }
+
 }

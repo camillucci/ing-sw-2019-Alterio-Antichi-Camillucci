@@ -6,15 +6,19 @@ public class ParserCLI {
     private ManagerCLI manager;
 
     public String parseName() {
-        //TODO Add restrictions
-        InputStream name = System.in;
-        //TODO convert into String
-        return null;
+        String name = System.in.toString();
+
+        return name;
     }
 
     public boolean parseChoice() {
-        //TODO
-        return true;
+        String type = System.in.toString();
+        if(type == "1")
+            return true;
+        else
+            return false;
+
+        //TODO catch exceptions
     }
 
 }
