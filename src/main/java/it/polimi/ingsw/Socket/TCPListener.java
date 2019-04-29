@@ -21,7 +21,7 @@ public class TCPListener {
     }
 
     public synchronized void start() throws IOException {
-        if ((listenThread != null && listenThread.getState()!=Thread.State.TERMINATED) || connectedHosts.size() >= maxConnected)
+        if ((listenThread != null && listenThread.getState() != Thread.State.TERMINATED) || connectedHosts.size() >= maxConnected)
             return;
         listenThread = new Thread(this::listenThread);
         listener = new ServerSocket(port);
@@ -41,14 +41,11 @@ public class TCPListener {
             listener.close();
             listenThread.join();
          }
-        catch (IOException e)
-        {
-            //TODO best practice?
-        }
+        catch (IOException e) {/*TODO best practice?*/}
         catch (InterruptedException e)
         {
             Thread.currentThread().interrupt();
-            stop(); //TODO best practice?
+            //stop(); //TODO best practice?
         }
     }
 
@@ -64,7 +61,7 @@ public class TCPListener {
             do
             {
                 TCPClient tmp = new TCPClient(listener.accept());
-                tmp.closingEvent.addEventHandler((closingClient, b) -> onDisconnection((closingClient)));
+                tmp.closedEvent.addEventHandler((closingClient, b) -> onDisconnection((closingClient)));
                 addConnected(tmp);
             } while(connectedHosts.size() < maxConnected);
         }
@@ -92,9 +89,8 @@ public class TCPListener {
     {
         connectedHosts.add(connectedHost);
 
-        // if newClientEvents is invoked  in the same thread and calls this.stop() the thread joins itself -> deadlock
+        // if newClientEvents is invoked  in this thread and calls this.stop() the thread joins itself -> deadlock
         // for this reason a tmp thread invokes the event
-        // Also an eventHandler could be while(true); that could blocks listenThread
         (new Thread(()->this.newClientEvent.invoke(this, connectedHost))).start();
     }
     private synchronized void removeConnected(TCPClient connectedHost)

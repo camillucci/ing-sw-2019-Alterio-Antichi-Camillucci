@@ -64,7 +64,7 @@ class TCPClientTest {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.sendMessageAuto(message);
+                    clientSocket.out.sendObject(message);
                     clientSocket.close();
                 }
                 catch(Exception ecc)
@@ -78,7 +78,7 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            String messageRecived = clientSocket.getMessageAuto();
+            String messageRecived = clientSocket.in.getObject();
 
             assertEquals(message, messageRecived);
         }
@@ -101,9 +101,9 @@ class TCPClientTest {
             // Server sends bytes to client
             try
             {
-                clientSocket.sendByte((byte)'a');
-                clientSocket.sendByte((byte)'b');
-                clientSocket.sendByte((byte)'c');
+                clientSocket.out.sendByte((byte)'a');
+                clientSocket.out.sendByte((byte)'b');
+                clientSocket.out.sendByte((byte)'c');
 
                 clientSocket.close();
             }
@@ -119,9 +119,9 @@ class TCPClientTest {
             TCPClient serverSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            assertEquals('a', (char)serverSocket.getByte());
-            assertEquals('b', (char)serverSocket.getByte());
-            assertEquals('c', (char)serverSocket.getByte());
+            assertEquals('a', (char)serverSocket.in.getByte());
+            assertEquals('b', (char)serverSocket.in.getByte());
+            assertEquals('c', (char)serverSocket.in.getByte());
         }
         catch(Exception ecc)
         {
@@ -143,7 +143,7 @@ class TCPClientTest {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.sendBytes(message);
+                    clientSocket.out.sendBytes(message);
 
                     clientSocket.close();
                 }
@@ -159,7 +159,7 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            byte[] messageRecived = clientSocket.getBytes(message.length-2);
+            byte[] messageRecived = clientSocket.in.getBytes(message.length-2);
 
             for(int i=0; i <  messageRecived.length; i++)
                 assertEquals(message[i], messageRecived[i]);
@@ -187,7 +187,7 @@ class TCPClientTest {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.sendBytesAuto(message);
+                    clientSocket.out.sendBytesAuto(message);
                     clientSocket.close();
                 }
                 catch(Exception ecc)
@@ -201,7 +201,7 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            byte[] messageRecived = clientSocket.getBytesAuto();
+            byte[] messageRecived = clientSocket.in.getBytesAuto();
 
             for(int i=0; i <  messageRecived.length; i++)
                 assertEquals(message[i], messageRecived[i]);
@@ -244,7 +244,7 @@ class TCPClientTest {
                 try
                 {
                     // sending file
-                    clientSocket.sendFileAuto(path);
+                    clientSocket.out.sendFileAuto(path);
                     clientSocket.close();
                     file.delete();
                 }
@@ -259,7 +259,7 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // reciving and saving file
-            clientSocket.getFileAuto(path2);
+            clientSocket.in.getFileAuto(path2);
 
             // open file in an array tmp
             byte[] tmp = new byte[fileSize];
@@ -300,7 +300,7 @@ class TCPClientTest {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.sendObject(squareSnapshot);
+                    clientSocket.out.sendObject(squareSnapshot);
                     clientSocket.close();
                 }
                 catch(Exception ecc)
@@ -314,7 +314,7 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            SquareSnapshot recived = clientSocket.getObject();
+            SquareSnapshot recived = clientSocket.in.getObject();
 
             // Assert Equals
             assertEquals(squareSnapshot.borders.length, recived.borders.length);

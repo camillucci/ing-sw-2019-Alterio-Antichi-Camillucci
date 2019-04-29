@@ -22,7 +22,6 @@ public class Ammo {
     public boolean isLessThan(Ammo ammo) {
         return this.isLessOrEqualThan(ammo) && !this.isEqual(ammo);
     }
-
     public boolean isLessOrEqualThan(Ammo ammo) {
         return this.blue <= ammo.blue && this.red <= ammo.red && this.yellow <= ammo.yellow;
     }

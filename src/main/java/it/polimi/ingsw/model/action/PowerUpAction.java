@@ -22,6 +22,5 @@ public class PowerUpAction extends ShootAction
     {
         for(PowerUpCard pu : this.selectedPowerUps)
             pu.shootFunc.accept(ownerPlayer, targetPlayers, targetSquares);
-
     }
 }

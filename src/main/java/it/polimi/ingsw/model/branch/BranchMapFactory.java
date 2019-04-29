@@ -54,7 +54,7 @@ public class BranchMapFactory
     {
         List<Branch> branches = new ArrayList<>();
         for(PowerUpCard pu : spawnPlayer.getPowerUps())
-            branches.add(new Branch(new Action(a->
+            branches.add(new Branch(new Action(a ->
             {
                 Player p = a.getOwnerPlayer();
                 p.removePowerUpCard(pu);

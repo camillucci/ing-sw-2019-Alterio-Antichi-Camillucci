@@ -31,7 +31,7 @@ public class BranchMap
 
     private void onBranchActionCompleted(Branch senderBranch, Action completedAction)
     {
-       this.branches.removeIf(b-> !b.goNext(completedAction));
+       this.branches.removeIf(b -> !b.goNext(completedAction));
        this.newActionsEvent.invoke(this, this.getPossibleActions());
     }
 

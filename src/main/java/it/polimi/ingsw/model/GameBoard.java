@@ -336,6 +336,7 @@ public class GameBoard {
         Square tempSquare = player.getCurrentSquare();
         Square tempToAdd;
         List<Square> temp = new ArrayList<>();
+
         if(player.getCurrentSquare().getPlayers().size() > 1)
             temp.add(player.getCurrentSquare());
         if (tempSquare.existNorth()) {

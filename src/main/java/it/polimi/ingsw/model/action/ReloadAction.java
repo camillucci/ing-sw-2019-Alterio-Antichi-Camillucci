@@ -14,9 +14,7 @@ public class ReloadAction extends Action
     protected void op()
     {
         for(WeaponCard wc : this.selectedWeapons)
-        {
             this.ownerPlayer.reloadWeapon(wc);
-        }
     }
 
     @Override
