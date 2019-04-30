@@ -1,8 +1,7 @@
-package it.polimi.ingsw.socket;
+package it.polimi.ingsw.network.socket;
 
 import org.junit.jupiter.api.Test;
 
-import java.net.ServerSocket;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,7 +80,7 @@ class TCPListenerTest {
         TCPListener listener = new TCPListener(port, maxConnected);
         try
         {
-            final int N = 100;
+            final int N = 30;
             Thread[] threads = new Thread[N];
             for(int i=0; i < N; i++)
                 (threads[i] = new Thread(()-> {

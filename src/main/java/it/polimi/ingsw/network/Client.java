@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.network;
 
 public class Client {
     private String name;
@@ -26,5 +26,4 @@ public class Client {
     public void setInterface(boolean interfaceType) {
         this.interfaceType = interfaceType;
     }
-
 }

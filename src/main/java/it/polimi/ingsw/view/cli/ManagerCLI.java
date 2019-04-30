@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.view.ViewInterface;
 
 public class ManagerCLI implements ViewInterface {
