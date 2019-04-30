@@ -48,8 +48,7 @@ public class OutputStreamUtils implements Closeable
     {
         send( () -> {
             ObjectOutputStream objectStream = new ObjectOutputStream(stream);
-            objectStream.writeObject(object);
-            objectStream.close();});
+            objectStream.writeObject(object); });
     }
 
     public void sendFileAuto(String filename) throws IOException

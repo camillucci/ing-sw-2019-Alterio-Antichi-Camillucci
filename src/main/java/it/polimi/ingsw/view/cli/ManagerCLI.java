@@ -11,37 +11,31 @@ public class ManagerCLI implements ViewInterface {
     private Client client;
     private ParserCLI parser;
     private MessengerCLI messanger;
-    private TCPClient tcp;
-    private final String hostname = "1207.0.0.1";
-    private final int ip = 10003;
 
     public ManagerCLI() {
         parser = new ParserCLI();
         messanger = new MessengerCLI();
     }
 
-    public void ManagerCLI(Match match, Client client){
+    public void ManagerCLI(Client client){
         parser = new ParserCLI();
         messanger = new MessengerCLI();
         this.client = client;
         //TODO
     }
 
-    public void login() {
+    public void login() throws IOException {
+        messanger.askConnection();
+        boolean connectionType = parser.parseChoice();
+        messanger.askInterface();
+        boolean interfaceType = parser.parseChoice();
+        this.client = new Client(connectionType, interfaceType);
         String name = null;
         while(name == null) {
             messanger.insertName();
             parser.parseName();
         }
         client.setName(name);
-        messanger.askConnection();
-        client.setConnection(parser.parseChoice());
-        messanger.askInterface();
-        client.setInterface(parser.parseChoice());
-    }
-
-    public void startConnection() throws IOException {
-        this.tcp = TCPClient.connect(hostname, ip);
     }
 
     private void displayRollback() {

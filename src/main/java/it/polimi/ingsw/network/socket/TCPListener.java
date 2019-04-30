@@ -20,6 +20,10 @@ public class TCPListener {
         this.port = port;
     }
 
+    public TCPListener(int port) {
+        this(port, Integer.MAX_VALUE);
+    }
+
     public synchronized void start() throws IOException {
         if ((listenThread != null && listenThread.getState() != Thread.State.TERMINATED) || connectedHosts.size() >= maxConnected)
             return;

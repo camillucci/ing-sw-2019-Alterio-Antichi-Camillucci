@@ -43,7 +43,7 @@ public class Turn {
     }
 
     private void createBranchMap(){
-        clonePlayers();
+        //clonePlayers();
         if(match.getFinalFrenzy()){
             if(frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter())
                 this.branchMap = BranchMapFactory.adrenalineX2(currentPlayer);
