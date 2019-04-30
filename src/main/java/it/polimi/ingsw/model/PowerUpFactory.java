@@ -20,12 +20,12 @@ public class PowerUpFactory {
 
     public static List<PowerUpCard> getPowerUps()
     {
-        buildPowerUps();
+        if(powerUpCards.isEmpty())
+            buildPowerUps();
         return new ArrayList<>(powerUpCards);
     }
 
     private static void buildPowerUps() {
-        powerUpCards.clear();
         List <AmmoColor> allColors = new ArrayList<>(Arrays.asList(BLUE, RED, YELLOW, BLUE, RED, YELLOW));
         for(AmmoColor ammoColor : allColors) {
             powerUpCards.add(new PowerUpCard("Targeting Scope", ammoColor, new Ammo(0, 0, 0)));

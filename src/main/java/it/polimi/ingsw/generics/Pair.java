@@ -17,17 +17,4 @@ public class Pair<L,R> {
     public R getRight() {
         return right;
     }
-
-    @Override
-    public int hashCode() {
-        return left.hashCode() ^ right.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Pair))
-            return false;
-        Pair pair2 = (Pair) o;
-        return this.left.equals(pair2.getLeft()) && this.right.equals(pair2.getRight());
-    }
 }

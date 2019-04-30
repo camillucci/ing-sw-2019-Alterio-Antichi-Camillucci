@@ -5,10 +5,6 @@ import it.polimi.ingsw.model.weapons.*;
 
 public class PowerUpAction extends ShootAction
 {
-    public PowerUpAction(ShootFunc shootFunc)
-    {
-        this(null, null, shootFunc);
-    }
 
     public PowerUpAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
@@ -18,6 +14,11 @@ public class PowerUpAction extends ShootAction
     }
 
     /*
+    public PowerUpAction(ShootFunc shootFunc)
+    {
+        this(null, null, shootFunc);
+    }
+
     @Override
     public void addPowerUp(PowerUpCard powerUpCard)
     {

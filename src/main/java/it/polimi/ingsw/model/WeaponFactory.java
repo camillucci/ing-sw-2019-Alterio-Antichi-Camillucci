@@ -17,14 +17,13 @@ public class WeaponFactory
 
     public static List<WeaponCard> getWeapons()
     {
-        buildWeapons();
+        if(weapons.isEmpty())
+            buildWeapons();
         return new ArrayList<>(weapons);
     }
 
     private static void buildWeapons()
     {
-        weapons.clear();
-
         weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0),
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers, damage(2).andThen(mark(1))), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(visiblePlayers, damage(2).andThen(mark(1,1))), new EndBranchAction()))));

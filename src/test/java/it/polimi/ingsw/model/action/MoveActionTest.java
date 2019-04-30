@@ -17,7 +17,7 @@ class MoveActionTest {
     private boolean eventTriggered = false;
 
     @Test
-    void isCompatible()
+    void isCompatible1()
     {
         final int n = 20;
         for(int i=0; i < n; i++)
@@ -35,7 +35,16 @@ class MoveActionTest {
     }
 
     @Test
-    void actionCompletedEventTest()
+    void isCompatible2()
+    {
+        MoveAction a1 = new MoveAction(0, 7);
+        MoveAction a2 = new MoveAction(2, 5);
+        assertTrue(a1.isCompatible(a2));
+        assertFalse(a2.isCompatible(a1));
+    }
+
+    @Test
+    void actionCompletedEventTest1()
     {
         Player p = new Player("name", PlayerColor.BLUE, gameBoard);
         p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
@@ -54,6 +63,28 @@ class MoveActionTest {
         action.doAction();
         assertTrue(eventTriggered);
         assertEquals(9, action.getPossibleSquares().size());
+    }
+
+    @Test
+    void actionCompletedEventTest2()
+    {
+        Player p = new Player("name", PlayerColor.BLUE, gameBoard);
+        p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
+        eventTriggered=false;
+        Action action = new MoveAction(1, 3);
+        action.completedActionEvent.addEventHandler((a,b)->this.eventTriggered = true);
+        action.initialize(p);
+        action.doAction();
+        assertTrue(eventTriggered);
+        assertEquals(8, action.getPossibleSquares().size());
+
+        eventTriggered = false;
+        triggeredAction = new MoveAction(1, 3);
+        triggeredAction.completedActionEvent.addEventHandler(this::eventHandler);
+        action.initialize(p);
+        action.doAction();
+        assertTrue(eventTriggered);
+        assertEquals(8, action.getPossibleSquares().size());
     }
 
     void eventHandler(Action sender, Action completedAction)

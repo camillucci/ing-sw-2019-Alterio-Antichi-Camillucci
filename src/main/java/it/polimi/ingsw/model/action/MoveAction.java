@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Square;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoveAction extends Action
@@ -38,7 +39,9 @@ public class MoveAction extends Action
     public List<Square> getPossibleSquares() {
         if(minDistance == -1)
             return ownerPlayer.gameBoard.getSquares(ownerPlayer, this.maxDistance);
-        return ownerPlayer.gameBoard.getBetweenSquares(ownerPlayer, this.minDistance, this.maxDistance);
+        List<Square> temp = new ArrayList<>(ownerPlayer.gameBoard.getSquares(ownerPlayer, this.maxDistance));
+        temp.removeAll(ownerPlayer.gameBoard.getSquares(ownerPlayer, this.minDistance - 1));
+        return temp;
     }
 
     @Override
