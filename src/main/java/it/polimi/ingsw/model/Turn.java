@@ -36,35 +36,31 @@ public class Turn {
     private void onMoveTerminated()
     {
         moveCounter--;
-        if(moveCounter == 0) {
+        if(moveCounter == 0)
             endTurnEvent.invoke(this,currentPlayer);
-        }
         else
             createBranchMap();
     }
 
     private void createBranchMap(){
+        clonePlayers();
         if(match.getFinalFrenzy()){
-            if(frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter()) {
+            if(frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter())
                 this.branchMap = BranchMapFactory.adrenalineX2(currentPlayer);
-            }
-            else {
+            else
                 this.branchMap = BranchMapFactory.adrenalineX1(currentPlayer);
-            }
 
             increaseFrenzyCounter();
         }
-        else {
-            if (currentPlayer.getDamage().size() >= 3) {
-                if (currentPlayer.getDamage().size() >= 6) {
+        else
+            if (currentPlayer.getDamage().size() >= 3)
+                if (currentPlayer.getDamage().size() >= 6)
                     this.branchMap = BranchMapFactory.sixDamage(currentPlayer);
-                } else {
+                else
                     this.branchMap = BranchMapFactory.threeDamage(currentPlayer);
-                }
-            } else {
+            else
                 this.branchMap = BranchMapFactory.noAdrenaline(currentPlayer);
-            }
-        }
+
         standardEventsSetup();
         this.branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->onMoveTerminated());
     }
@@ -76,9 +72,8 @@ public class Turn {
     }
 
     private void clonePlayers() {
-        for (Player p : match.getPlayers()) {
+        for (Player p : match.getPlayers())
             clonedPlayers.add(p.getClone());
-        }
     }
 
     private static void increaseFrenzyCounter() {

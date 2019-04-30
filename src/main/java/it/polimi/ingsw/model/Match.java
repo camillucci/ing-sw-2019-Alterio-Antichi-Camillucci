@@ -18,6 +18,7 @@ public class Match implements ActionsProvider {
     private GameBoard gameBoard;
     private List<Player> players = new ArrayList<>();
     private List<Player> deadPlayers = new ArrayList<>();
+    private List<Player> getDeadPlayersClone;
     private Turn currentTurn;
     private List<PlayerColor> playerColors;
     private boolean finalFrenzy;
@@ -118,6 +119,7 @@ public class Match implements ActionsProvider {
     }
 
     public void rollback(List<Player> clonedPlayers) {
+
         players = clonedPlayers;
     }
 
