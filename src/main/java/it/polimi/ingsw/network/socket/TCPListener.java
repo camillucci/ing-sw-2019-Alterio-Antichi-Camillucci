@@ -15,20 +15,15 @@ public class TCPListener {
     private int maxConnected;
     private Thread listenThread;
 
-    public TCPListener(int Port)
+    public TCPListener(int port)
     {
-        this(Port, Integer.MAX_VALUE);
+        this(port, Integer.MAX_VALUE);
     }
 
     public TCPListener(int port, int maxConnected) {
         this.maxConnected = maxConnected;
         this.port = port;
     }
-
-    public TCPListener(int port) {
-        this(port, Integer.MAX_VALUE);
-    }
-
     public synchronized void start() throws IOException {
         if ((listenThread != null && listenThread.getState() != Thread.State.TERMINATED) || connectedHosts.size() >= maxConnected)
             return;
