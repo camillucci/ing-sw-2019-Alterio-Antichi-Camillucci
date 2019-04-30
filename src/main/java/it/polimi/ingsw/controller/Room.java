@@ -11,6 +11,7 @@ public class Room
     private List<String> playerNames = new ArrayList<>();
     private int gameLength;
     private int gameSize;
+
     public Room(int gamelength, int gamesize)
     {
         this.gameLength = gamelength;
@@ -24,5 +25,9 @@ public class Room
     private void newMatch()
     {
 
+    }
+
+    public List<String> getPlayerNames(){
+        return new ArrayList<>(playerNames);
     }
 }
