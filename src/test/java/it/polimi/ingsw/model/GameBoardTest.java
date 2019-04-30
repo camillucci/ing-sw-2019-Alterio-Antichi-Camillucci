@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static it.polimi.ingsw.model.PlayerColor.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -146,39 +147,39 @@ class GameBoardTest {
     void getAwaySquares() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
-        assertEquals(0, gameBoard.getAwaySquares(player, 1).size());
+        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.getAwaySquares(player, 1)).size());
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         p2.getCurrentSquare().addPlayer(p2);
-        assertEquals(0, gameBoard.getAwaySquares(player, 1).size());
+        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.getAwaySquares(player, 1)).size());
         p3.setCurrentSquare(gameBoard.getSquares(player, 3).get(4));
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(1, gameBoard.getAwaySquares(player, 1).size());
+        assertEquals(1, gameBoard.removeNonPlayerSquares(player, gameBoard.getAwaySquares(player, 1)).size());
     }
 
     @Test
     void getNearSquares() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
-        assertEquals(0, gameBoard.getNearSquares(player, 1).size());
+        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.getNearSquares(player, 1)).size());
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         p2.getCurrentSquare().addPlayer(p2);
-        assertEquals(1, gameBoard.getNearSquares(player, 1).size());
+        assertEquals(1, gameBoard.removeNonPlayerSquares(player, gameBoard.getNearSquares(player, 1)).size());
         p3.setCurrentSquare(gameBoard.getSquares(player, 3).get(4));
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(1, gameBoard.getNearSquares(player, 1).size());
+        assertEquals(1, gameBoard.removeNonPlayerSquares(player, gameBoard.getNearSquares(player, 1)).size());
     }
 
     @Test
     void getBetweenSquares() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
-        assertEquals(0, gameBoard.getBetweenSquares(player, 1, 2).size());
+        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.getBetweenSquares(player, 1, 2)).size());
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         p2.getCurrentSquare().addPlayer(p2);
-        assertEquals(0, gameBoard.getBetweenSquares(player, 1, 2).size());
+        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.getBetweenSquares(player, 1, 2)).size());
         p3.setCurrentSquare(gameBoard.getSquares(player, 2).get(2));
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(1, gameBoard.getBetweenSquares(player, 1, 2).size());
+        assertEquals(1, gameBoard.removeNonPlayerSquares(player, gameBoard.getBetweenSquares(player, 1, 2)).size());
     }
 
     @Test
@@ -301,5 +302,22 @@ class GameBoardTest {
         p2.setCurrentSquare(gameBoard.getSquares().get(5));
         p2.getCurrentSquare().addPlayer(p2);
         assertEquals(1, gameBoard.throughWalls(player).size());
+    }
+
+    @Test
+    void squares2() {
+        List<Square> temp = gameBoard.getSquares();
+        assertTrue(temp.get(0) instanceof AmmoSquare);
+        assertTrue(temp.get(1) instanceof AmmoSquare);
+        assertTrue(temp.get(2) instanceof SpawnAndShopSquare);
+        assertTrue(temp.get(3) instanceof AmmoSquare);
+        assertTrue(temp.get(4) instanceof SpawnAndShopSquare);
+        assertTrue(temp.get(5) instanceof AmmoSquare);
+        assertTrue(temp.get(6) instanceof AmmoSquare);
+        assertTrue(temp.get(7) instanceof AmmoSquare);
+        assertTrue(temp.get(8) instanceof AmmoSquare);
+        assertTrue(temp.get(9) instanceof AmmoSquare);
+        assertTrue(temp.get(10) instanceof AmmoSquare);
+        assertTrue(temp.get(11) instanceof SpawnAndShopSquare);
     }
 }

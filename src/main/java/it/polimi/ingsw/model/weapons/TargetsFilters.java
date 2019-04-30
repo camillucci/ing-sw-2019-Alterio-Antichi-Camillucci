@@ -44,16 +44,19 @@ public class TargetsFilters
 
     /*
     public static List<Square> awaySquares(Player player, int minDistance) {
-        return player.gameBoard.getAwaySquares(player, minDistance);
+        List<Square> temp = player.gameBoard.getAwaySquares(player, minDistance);
+        return player.gameBoard.removeNonPlayerSquares(player, temp);
     }
     */
 
     public static List<Square> nearSquares(Player player, int maxDistance) {
-        return player.gameBoard.getNearSquares(player, maxDistance);
+        List<Square> temp = player.gameBoard.getNearSquares(player, maxDistance);
+        return player.gameBoard.removeNonPlayerSquares(player, temp);
     }
 
     public static List<Square> betweenSquares(Player player, int minDistance, int maxDistance) {
-        return player.gameBoard.getBetweenSquares(player, minDistance, maxDistance);
+        List<Square> temp = player.gameBoard.getBetweenSquares(player, minDistance, maxDistance);
+        return player.gameBoard.removeNonPlayerSquares(player, temp);
     }
 
     public static List<Player> nonVisiblePlayers(Player player) {
@@ -105,6 +108,7 @@ public class TargetsFilters
         for(Square square : player.gameBoard.getAwaySquares(player, 1)) {
             for(Square s : player.gameBoard.distanceOneSquares(square))
                 tempPlayers.addAll(s.getPlayers());
+            tempPlayers.remove(player);
             for(Player p : tempPlayers)
                 temp.add(new Pair<>(p, square));
             tempPlayers.clear();
@@ -197,8 +201,10 @@ public class TargetsFilters
 
     public static List<Pair<Player, Square>> newtonMovableTargets(Player player) {
         List<Pair<Player, Square>> temp = new ArrayList<>();
-        for(Player p : player.gameBoard.getPlayers())
-            for(Square s : betweenSquares(p, 0, 2))
+        List<Player> players = player.gameBoard.getPlayers();
+        players.remove(player);
+        for(Player p : players)
+            for (Square s : p.gameBoard.getSquares(p, 2))
                 temp.add(new Pair<>(p, s));
         return temp;
     }
@@ -213,11 +219,9 @@ public class TargetsFilters
 
     private static List<Pair<Player, Square>> movable1Shooted(List<Player> targets) {
         List<Pair<Player, Square>> temp = new ArrayList<>();
-        for(Player p : targets) {
-            List<Square> tempSquares = nearSquares(p, 1);
-            for(Square s : tempSquares)
+        for(Player p : targets)
+            for(Square s : p.gameBoard.getNearSquares(p, 1))
                 temp.add(new Pair<>(p, s));
-        }
         return temp;
     }
 

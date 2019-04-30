@@ -32,4 +32,9 @@ public class WeaponCard {
     {
         return fireModalities.stream().map(Branch::new).collect(Collectors.toList());
     }
+
+    public List<Branch> getFireModalitysBranch(int i)
+    {
+        return fireModalities.get(i).getBranches();
+    }
 }

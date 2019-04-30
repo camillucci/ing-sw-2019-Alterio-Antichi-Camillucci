@@ -220,7 +220,7 @@ public class GameBoard {
         List<Square> tempNearSquare = getSquares(player, minDistance - 1);
         List<Square> tempFarSquares = new ArrayList<>();
         for(Square s : tempSquare)
-            if(!tempNearSquare.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && !s.getPlayers().isEmpty())))
+            if(!tempNearSquare.contains(s))
                 tempFarSquares.add(s);
         return tempFarSquares;
     }
@@ -230,7 +230,7 @@ public class GameBoard {
         List<Square> tempFarSquares = getSquares(player, maxDistance);
         List<Square> tempNearSquare = new ArrayList<>();
         for(Square s : tempSquare)
-            if(tempFarSquares.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && !s.getPlayers().isEmpty())))
+            if(tempFarSquares.contains(s))
                 tempNearSquare.add(s);
         return tempNearSquare;
     }
@@ -241,7 +241,7 @@ public class GameBoard {
         List<Square> tempFarSquares = getSquares(player, maxDistance);
         List<Square> tempBetweenSquare = new ArrayList<>();
         for(Square s : tempSquare)
-            if(tempFarSquares.contains(s) && !tempNearSquare.contains(s) && (s.getPlayers().size() > 1 || (!s.getPlayers().contains(player) && !s.getPlayers().isEmpty())))
+            if(tempFarSquares.contains(s) && !tempNearSquare.contains(s))
                 tempBetweenSquare.add(s);
         return tempBetweenSquare;
     }
@@ -374,6 +374,13 @@ public class GameBoard {
         return temp;
     }
 
+    public List<Square> removeNonPlayerSquares(Player player, List<Square> squareList) {
+        List<Square> temp = removeEmptySquares(squareList);
+        if(player.getCurrentSquare().getPlayers().size() == 1)
+            temp.remove(player.getCurrentSquare());
+        return temp;
+    }
+
     public List<Player> getPlayers() {
         return players;
     }
@@ -404,7 +411,9 @@ public class GameBoard {
     public List<Square> getSquares() {
         List<Square> temp = new ArrayList<>();
         for (Square[] square : squares)
-            temp.addAll(Arrays.asList(square));
+            for(Square s : square)
+                if(s != null)
+                    temp.add(s);
         return temp;
     }
 }
