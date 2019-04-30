@@ -15,6 +15,11 @@ public class TCPListener {
     private int maxConnected;
     private Thread listenThread;
 
+    public TCPListener(int Port)
+    {
+        this(Port, Integer.MAX_VALUE);
+    }
+
     public TCPListener(int port, int maxConnected) {
         this.maxConnected = maxConnected;
         this.port = port;

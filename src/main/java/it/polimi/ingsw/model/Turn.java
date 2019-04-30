@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.branch.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Turn {
 
@@ -16,7 +19,8 @@ public class Turn {
     private int moveCounter = 2;
     private BranchMap branchMap;
     private Match match;
-    private ArrayList<Player> clonedPlayers;
+    private List<Player> clonedPlayers;
+    private List<Player> clonedDeadPlayers;
 
     public Turn(Player currentPlayer, Match match) {
         this.currentPlayer = currentPlayer;
@@ -24,59 +28,62 @@ public class Turn {
         createBranchMap();
     }
 
-    private void standardEventsSetup()
-    {
-        this.branchMap.rollbackEvent.addEventHandler((s,e)->rollback());
-        this.branchMap.newActionsEvent.addEventHandler((s,actions)->{
-            actions.forEach(a->a.initialize(currentPlayer));
+    private void standardEventsSetup() {
+        this.branchMap.rollbackEvent.addEventHandler((s, e) -> rollback());
+        this.branchMap.newActionsEvent.addEventHandler((s, actions) -> {
+            actions.forEach(a -> a.initialize(currentPlayer));
             this.newActionsEvent.invoke(this, actions);
         });
     }
 
-    private void onMoveTerminated()
-    {
+    private void onMoveTerminated() {
         moveCounter--;
-        if(moveCounter == 0)
-            endTurnEvent.invoke(this,currentPlayer);
+        if (moveCounter == 0)
+            endTurnEvent.invoke(this, currentPlayer);
         else
             createBranchMap();
     }
 
-    private void createBranchMap(){
-        clonePlayers();
-        if(match.getFinalFrenzy()){
-            if(frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter())
+    private void createBranchMap() {
+        //clonePlayers();
+        if (match.getFinalFrenzy()) {
+            if (frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter())
                 this.branchMap = BranchMapFactory.adrenalineX2(currentPlayer);
             else
                 this.branchMap = BranchMapFactory.adrenalineX1(currentPlayer);
 
             increaseFrenzyCounter();
         }
-        else
-            if (currentPlayer.getDamage().size() >= 3)
-                if (currentPlayer.getDamage().size() >= 6)
-                    this.branchMap = BranchMapFactory.sixDamage(currentPlayer);
-                else
-                    this.branchMap = BranchMapFactory.threeDamage(currentPlayer);
+        else if (currentPlayer.getDamage().size() >= 3)
+            if (currentPlayer.getDamage().size() >= 6)
+                this.branchMap = BranchMapFactory.sixDamage(currentPlayer);
             else
-                this.branchMap = BranchMapFactory.noAdrenaline(currentPlayer);
+                this.branchMap = BranchMapFactory.threeDamage(currentPlayer);
+        else
+            this.branchMap = BranchMapFactory.noAdrenaline(currentPlayer);
 
         standardEventsSetup();
-        this.branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->onMoveTerminated());
+        this.branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> onMoveTerminated());
     }
 
-    private void rollback(){
+    private void rollback() {
         moveCounter = moveCounter + 1;
-        match.rollback(clonedPlayers);
+        match.rollback(clonedPlayers,clonedDeadPlayers);
         createBranchMap();
     }
 
     private void clonePlayers() {
-        for (Player p : match.getPlayers())
-            clonedPlayers.add(p.getClone());
+        clonedDeadPlayers = new ArrayList<>();
+        clonedDeadPlayers = new ArrayList<>();
+        List<Player> deadPlayers = match.getDeadPlayers();
+        for (Player p : match.getPlayers()) {
+            Player clone = p.getClone();
+            clonedPlayers.add(clone);
+            if (deadPlayers.contains(p))
+                clonedDeadPlayers.add(p);
+        }
     }
-
-    private static void increaseFrenzyCounter() {
-        frenzyCounter++;
+    private static void increaseFrenzyCounter()
+    {
     }
 }

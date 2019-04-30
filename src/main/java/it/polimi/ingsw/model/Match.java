@@ -118,15 +118,16 @@ public class Match implements ActionsProvider {
         this.deadPlayers.add(deadPlayer);
     }
 
-    public void rollback(List<Player> clonedPlayers) {
-
+    public void rollback(List<Player> clonedPlayers, List<Player> clonedDeadPlayers) {
         players = clonedPlayers;
+        deadPlayers = clonedDeadPlayers;
     }
 
     public List<Player> getPlayers() {
         return new ArrayList<>(players);
     }
 
+    public List<Player> getDeadPlayers() {return new ArrayList<>(deadPlayers);}
     public boolean getFinalFrenzy() {
         return finalFrenzy;
     }

@@ -27,7 +27,7 @@ public class ManagerCLI implements ViewInterface {
         //TODO
     }
 
-    public void login() {
+    public void login() throws IOException{
         String name = null;
         while(name == null) {
             messanger.insertName();

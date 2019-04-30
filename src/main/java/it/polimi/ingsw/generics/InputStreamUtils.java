@@ -35,7 +35,6 @@ public class InputStreamUtils implements Closeable
         return get ( () -> {
             ObjectInputStream inputStream = new ObjectInputStream(stream);
             T ret = (T) inputStream.readObject();
-            inputStream.close();
             return ret;});
     }
 
