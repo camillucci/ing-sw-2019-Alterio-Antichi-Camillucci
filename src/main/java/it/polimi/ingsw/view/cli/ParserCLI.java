@@ -7,7 +7,7 @@ public class ParserCLI {
 
     public String parseName() {
         String name = System.in.toString();
-
+        //TODO add restrictions
         return name;
     }
 
