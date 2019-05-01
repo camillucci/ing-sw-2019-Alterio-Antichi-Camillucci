@@ -6,9 +6,6 @@ import it.polimi.ingsw.model.branch.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Turn {
 
@@ -45,13 +42,13 @@ public class Turn {
     }
 
     private void createBranchMap() {
-        //clonePlayers();
+        clonePlayers();
+
         if (match.getFinalFrenzy()) {
             if (frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter())
                 this.branchMap = BranchMapFactory.adrenalineX2(currentPlayer);
             else
                 this.branchMap = BranchMapFactory.adrenalineX1(currentPlayer);
-
             increaseFrenzyCounter();
         }
         else if (currentPlayer.getDamage().size() >= 3)
@@ -73,7 +70,7 @@ public class Turn {
     }
 
     private void clonePlayers() {
-        clonedDeadPlayers = new ArrayList<>();
+        clonedPlayers = new ArrayList<>();
         clonedDeadPlayers = new ArrayList<>();
         List<Player> deadPlayers = match.getDeadPlayers();
         for (Player p : match.getPlayers()) {
@@ -83,7 +80,8 @@ public class Turn {
                 clonedDeadPlayers.add(p);
         }
     }
-    private static void increaseFrenzyCounter()
-    {
+
+    private static void increaseFrenzyCounter() {
+        frenzyCounter++;
     }
 }

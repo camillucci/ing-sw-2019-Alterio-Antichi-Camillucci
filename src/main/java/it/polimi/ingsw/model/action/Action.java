@@ -34,15 +34,19 @@ public class Action
 
     public void doAction()
     {
-        if(!spendAmmo())
-            return;
-        this.op();
-        completedActionEvent.invoke(this, this);
+        if(spendAmmo()) {
+            this.op();
+            completedActionEvent.invoke(this, this);
+        }
     }
 
     public void initialize(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
+        this.targetSquares = new ArrayList<>();
+        this.targetPlayers = new ArrayList<>();
+        this.selectedWeapons = new ArrayList<>();
+        this.selectedPowerUps = new ArrayList<>();
     }
     public void addWeapon(WeaponCard weapon)
     {

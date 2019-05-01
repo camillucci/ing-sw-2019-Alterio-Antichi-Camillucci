@@ -238,6 +238,11 @@ class GameBoardTest {
         p3.getCurrentSquare().addPlayer(p3);
         assertEquals(2, gameBoard.sameDirection(player).size());
         assertEquals(1, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
+        p3.getCurrentSquare().removePlayer(p3);
+        p3.setCurrentSquare(player.getCurrentSquare());
+        p3.getCurrentSquare().addPlayer(p3);
+        assertEquals(2, gameBoard.sameDirection(player).size());
+        assertEquals(0, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
     }
 
     @Test
@@ -261,6 +266,22 @@ class GameBoardTest {
     }
 
     @Test
+    void sameDirectionAndSameDirectionSquare3() {
+        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        player.getCurrentSquare().addPlayer(player);
+        assertEquals(0, gameBoard.sameDirection(player).size());
+        p2.setCurrentSquare(gameBoard.getSquares().get(9));
+        p2.getCurrentSquare().addPlayer(p2);
+        assertEquals(1, gameBoard.sameDirection(player).size());
+        assertEquals(0, gameBoard.sameDirectionSquare(player, p2.getCurrentSquare()).size());
+        p3.setCurrentSquare(gameBoard.getSquares().get(10));
+        p3.getCurrentSquare().addPlayer(p3);
+        assertEquals(2, gameBoard.sameDirection(player).size());
+        assertEquals(1, gameBoard.sameDirectionSquare(player, p2.getCurrentSquare()).size());
+        assertEquals(1, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
+    }
+
+    @Test
     void throughWalls1() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         player.getCurrentSquare().addPlayer(player);
@@ -275,6 +296,10 @@ class GameBoardTest {
         assertEquals(2, gameBoard.throughWalls(player).size());
         p3.getCurrentSquare().removePlayer(p3);
         p3.setCurrentSquare(gameBoard.getSquares(p2, 1).get(1));
+        p3.getCurrentSquare().addPlayer(p3);
+        assertEquals(2, gameBoard.throughWalls(player).size());
+        p3.getCurrentSquare().removePlayer(p3);
+        p3.setCurrentSquare(player.getCurrentSquare());
         p3.getCurrentSquare().addPlayer(p3);
         assertEquals(2, gameBoard.throughWalls(player).size());
     }

@@ -327,9 +327,7 @@ public class GameBoard {
             return removeEmptySquares(Collections.singletonList(squares[square.getY() + 1][square.getX()]));
         if(player.getCurrentSquare().getX() - square.getX() == 1 && square.okWest())
             return removeEmptySquares(Collections.singletonList(squares[square.getY()][square.getX() - 1]));
-        if(player.getCurrentSquare().getX() - square.getX() == -1 && square.okEast())
-            return removeEmptySquares(Collections.singletonList(squares[square.getY()][square.getX() + 1]));
-        return Collections.emptyList();
+        return removeEmptySquares(Collections.singletonList(squares[square.getY()][square.getX() + 1]));
     }
 
     public List<Square> throughWalls(Player player) {
