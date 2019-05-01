@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.PlayerColor;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class Room
     private List<String> playerNames = new ArrayList<>();
     private int gameLength;
     private int gameSize;
+    private Match match;
 
     public Room(int gamelength, int gamesize)
     {
@@ -24,7 +26,7 @@ public class Room
 
     private void newMatch()
     {
-
+        match = new Match(playerNames, colors, gameLength, gameSize);
     }
 
     public List<String> getPlayerNames(){

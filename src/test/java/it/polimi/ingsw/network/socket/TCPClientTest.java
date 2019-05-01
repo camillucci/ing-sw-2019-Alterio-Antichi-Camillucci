@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +58,7 @@ class TCPClientTest {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.out.sendObject(message);
+                    clientSocket.out().sendObject(message);
                     clientSocket.close();
                 }
                 catch(Exception ecc)
@@ -73,7 +72,7 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            String messageRecived = clientSocket.in.getObject();
+            String messageRecived = clientSocket.in().getObject();
 
             assertEquals(message, messageRecived);
         }
@@ -87,7 +86,7 @@ class TCPClientTest {
     }
 
     @Test
-    void sendByte_GetByte()
+    void sendBool_GetBool()
     {
         TCPListener listener = new TCPListener(listeningPort, maxConnected);
         try
@@ -96,9 +95,9 @@ class TCPClientTest {
             // Server sends bytes to client
             try
             {
-                clientSocket.out.sendByte((byte)'a');
-                clientSocket.out.sendByte((byte)'b');
-                clientSocket.out.sendByte((byte)'c');
+                clientSocket.out().sendBool(false);
+                clientSocket.out().sendBool(true);
+                clientSocket.out().sendBool(false);
 
                 clientSocket.close();
             }
@@ -114,9 +113,9 @@ class TCPClientTest {
             TCPClient serverSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            assertEquals('a', (char)serverSocket.in.getByte());
-            assertEquals('b', (char)serverSocket.in.getByte());
-            assertEquals('c', (char)serverSocket.in.getByte());
+            assertFalse(serverSocket.in().getBool());
+            assertTrue(serverSocket.in().getBool());
+            assertFalse(serverSocket.in().getBool());
         }
         catch(Exception ecc)
         {
@@ -138,7 +137,7 @@ class TCPClientTest {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.out.sendBytes(message);
+                    clientSocket.out().sendBytes(message);
 
                     clientSocket.close();
                 }
@@ -154,11 +153,10 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            byte[] messageRecived = clientSocket.in.getBytes(message.length-2);
+            byte[] messageRecived = clientSocket.in().getBytes();
 
             for(int i=0; i <  messageRecived.length; i++)
                 assertEquals(message[i], messageRecived[i]);
-            assertEquals(message.length - 2, messageRecived.length);
             clientSocket.close();
             listener.stop();
         }
@@ -172,48 +170,7 @@ class TCPClientTest {
     }
 
     @Test
-    void sendBytesAuto_GetBytesAuto()
-    {
-        TCPListener listener = new TCPListener(listeningPort, maxConnected);
-        try
-        {
-            byte[] message = new byte[] {(byte)'h', (byte)'e', (byte)'l', (byte)'l', (byte)'0'};
-            listener.newClientEvent.addEventHandler(((tcpListener, clientSocket) -> {
-                // Server sends bytes to client
-                try
-                {
-                    clientSocket.out.sendBytesAuto(message);
-                    clientSocket.close();
-                }
-                catch(Exception ecc)
-                {
-                    assert (false);
-                }
-            }));
-
-            listener.start();
-            // client connecting to server
-            clientSocket = TCPClient.connect(localHost, listeningPort);
-
-            // client getting bytes from server
-            byte[] messageRecived = clientSocket.in.getBytesAuto();
-
-            for(int i=0; i <  messageRecived.length; i++)
-                assertEquals(message[i], messageRecived[i]);
-            assertEquals(message.length, messageRecived.length);
-
-        }
-        catch(Exception ecc)
-        {
-            assert (false);
-        }
-        finally {
-            listener.stop();
-        }
-    }
-
-    @Test
-    void sendFileAuto_GetFileAuto()
+    void sendFile_GetFile()
     {
         TCPListener listener = new TCPListener(listeningPort, maxConnected);
         String path = "path1.test";
@@ -239,7 +196,7 @@ class TCPClientTest {
                 try
                 {
                     // sending file
-                    clientSocket.out.sendFileAuto(path);
+                    clientSocket.out().sendFile(path);
                     clientSocket.close();
                     file.delete();
                 }
@@ -254,7 +211,7 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // reciving and saving file
-            clientSocket.in.getFileAuto(path2);
+            clientSocket.in().getFile(path2);
 
             // open file in an array tmp
             byte[] tmp = new byte[fileSize];
@@ -295,7 +252,7 @@ class TCPClientTest {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.out.sendObject(squareSnapshot);
+                    clientSocket.out().sendObject(squareSnapshot);
                     clientSocket.close();
                 }
                 catch(Exception ecc)
@@ -309,7 +266,7 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            SquareSnapshot recived = clientSocket.in.getObject();
+            SquareSnapshot recived = clientSocket.in().getObject();
 
             // Assert Equals
             assertEquals(squareSnapshot.borders.length, recived.borders.length);

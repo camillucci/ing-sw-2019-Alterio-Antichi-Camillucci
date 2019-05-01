@@ -86,7 +86,7 @@ public class TCPListener {
             // TODO best practice?
         }
     }
-    private void onDisconnection (TCPClient client)
+    private synchronized void onDisconnection (TCPClient client)
     {
         removeConnected(client);
         clientDisconnectedEvent.invoke(this, client);

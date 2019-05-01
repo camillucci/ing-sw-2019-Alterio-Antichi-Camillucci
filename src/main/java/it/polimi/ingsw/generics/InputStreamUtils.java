@@ -3,7 +3,7 @@ package it.polimi.ingsw.generics;
 import java.io.*;
 import java.nio.ByteBuffer;
 
-public class InputStreamUtils implements Closeable
+public class InputStreamUtils implements Closeable, InputInterface
 {
     public final Event<InputStreamUtils, InputStream> streamFailEvent = new Event<>();
     private InputStream stream;
@@ -17,12 +17,12 @@ public class InputStreamUtils implements Closeable
         get( ()-> InputStreamUtils.pipe(stream, out, max));
     }
 
-    public int getByte() throws IOException
+    public int getByteOnly() throws IOException
     {
         return get( () -> stream.read());
     }
 
-    public byte[] getBytes(long max) throws IOException
+    public byte[] getBytesOnly(long max) throws IOException
     {
         return get( () -> {
             ByteArrayOutputStream ms = new ByteArrayOutputStream();
@@ -38,9 +38,9 @@ public class InputStreamUtils implements Closeable
             return ret;});
     }
 
-    public void getFileAuto(String filename) throws IOException
+    public void getFile(String filename) throws IOException
     {
-        get( ()-> getFile(filename, getDim()));
+        get( ()-> getFileOnly(filename, getLong()));
     }
 
     public static void pipe(InputStream in, OutputStream out, long max) throws IOException
@@ -61,12 +61,12 @@ public class InputStreamUtils implements Closeable
         } while(max > 0);
     }
 
-    public byte[] getBytesAuto() throws IOException
+    public byte[] getBytes() throws IOException
     {
-        return get( ()-> getBytes(getDim()));
+        return get( ()-> getBytesOnly(getLong()));
     }
 
-    public void getFile(String saveFilename, long fileSize) throws IOException
+    public void getFileOnly(String saveFilename, long fileSize) throws IOException
     {
         get( ()-> {
             try(FileOutputStream fileStream = new FileOutputStream(saveFilename)){
@@ -74,9 +74,28 @@ public class InputStreamUtils implements Closeable
         });
     }
 
-    private long getDim() throws IOException
+    public long getLong() throws IOException
     {
-        return bytesToLong(getBytes(Long.BYTES));
+        return get( () ->bytesToLong(getBytesOnly(Long.BYTES)));
+    }
+
+    public int getInt() throws IOException
+    {
+        return get( ()-> bytesToInt(getBytesOnly(Integer.BYTES)));
+    }
+
+    public boolean getBool() throws Exception
+    {
+        int b = getByteOnly();
+        switch (b)
+        {
+            case -1:
+                throw new Exception();
+            case 0:
+                return false;
+            default:
+                return true;
+        }
     }
     private static long bytesToLong(byte[] bytes)
     {
@@ -84,6 +103,14 @@ public class InputStreamUtils implements Closeable
         buffer.put(bytes);
         buffer.flip();
         return buffer.getLong();
+    }
+
+    private static int bytesToInt(byte[] bytes)
+    {
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        buffer.put(bytes);
+        buffer.flip();
+        return buffer.getInt();
     }
 
     private <T, E extends Exception> T get(GetInterface<T, E> getFunc) throws IOException, E

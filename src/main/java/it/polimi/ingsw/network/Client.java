@@ -1,10 +1,20 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.Room;
+import it.polimi.ingsw.generics.*;
 import it.polimi.ingsw.network.socket.TCPClient;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.nio.channels.NotYetConnectedException;
 
-public class Client {
+public abstract class Client // same for Socket and RMI
+{
+    public final Event<TCPClient, Object> disconnectedEvent = new Event<>();
+    public abstract InputInterface in() throws Exception;
+    public abstract OutputInterface out() throws Exception;
+    public abstract void close();
+    /*
     private String name;
     private boolean onTurn = false;
     private boolean connectionType;
@@ -12,15 +22,6 @@ public class Client {
     private TCPClient tcpClient;
     private final String hostname = "127.0.0.1";
     private final int ip = 10000;
-
-
-    public Client(boolean connectionType, boolean interfaceType) throws IOException
-    {
-        this.connectionType = connectionType;
-        this.interfaceType = interfaceType;
-
-        tcpClient = TCPClient.connect(hostname, ip);
-    }
 
     public boolean getOnTurn() {
         return onTurn;
@@ -31,8 +32,7 @@ public class Client {
         return;
     }
 
-    public void setName(String name) throws IOException {
-        this.name = name;
-        tcpClient.out.sendObject(name);
-    }
+    public abstract boolean setName(String name) throws Exception;
+    */
+
 }

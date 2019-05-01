@@ -3,7 +3,7 @@ package it.polimi.ingsw.generics;
 import java.io.*;
 import java.nio.ByteBuffer;
 
-public class OutputStreamUtils implements Closeable
+public class OutputStreamUtils implements Closeable, OutputInterface
 {
     public final Event<OutputStreamUtils, OutputStream> streamFailedEvent = new Event<>();
     private OutputStream stream;
@@ -21,22 +21,22 @@ public class OutputStreamUtils implements Closeable
     public void sendByteAuto(byte b) throws IOException
     {
         send( () -> {
-            sendDim(Byte.BYTES);
+            sendLong(Byte.BYTES);
             stream.write(b);});
     }
 
-    public void sendBytes(byte[] bytes) throws IOException
+    public void sendBytesOnly(byte[] bytes) throws IOException
     {
         send(()->stream.write(bytes));
     }
-    public void sendBytesAuto(byte[] bytes) throws IOException
+    public void sendBytes(byte[] bytes) throws IOException
     {
         send(() -> {
-            sendDim(bytes.length);
+            sendLong(bytes.length);
             stream.write(bytes); });
     }
 
-    public void sendFile(String filename) throws IOException
+    public void sendFileOnly(String filename) throws IOException
     {
         send( () -> {
             try (FileInputStream fileStream = new FileInputStream(filename)) {
@@ -51,23 +51,41 @@ public class OutputStreamUtils implements Closeable
             objectStream.writeObject(object); });
     }
 
-    public void sendFileAuto(String filename) throws IOException
+    public void sendFile(String filename) throws IOException
     {
         send(()->{
             long fileSize = (new File(filename)).length();
-            sendDim(fileSize);
-            sendFile(filename);});
+            sendLong(fileSize);
+            sendFileOnly(filename);});
     }
 
-    private void sendDim(long dim) throws IOException
+    public void sendLong(long val) throws IOException
     {
-        send( ()-> stream.write(longToBytes(dim)));
+        send( () -> stream.write(longToBytes(val)));
+    }
+
+    public void sendInt(int val) throws IOException
+    {
+        send( () -> stream.write(intToBytes(val)));
+    }
+
+    public void sendBool(boolean bool) throws Exception
+    {
+        byte b = bool ? (byte)1 : (byte)0;
+        sendByte(b);
     }
 
     private static byte[] longToBytes(long val)
     {
         ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
         buffer.putLong(val);
+        return buffer.array();
+    }
+
+    private static byte[] intToBytes(int val)
+    {
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.BYTES);
+        buffer.putInt(val);
         return buffer.array();
     }
 

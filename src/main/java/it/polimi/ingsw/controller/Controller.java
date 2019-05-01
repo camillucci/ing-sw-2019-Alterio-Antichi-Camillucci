@@ -19,7 +19,11 @@ public class Controller {
         //TODO update all players view
     }
 
-    public Room newRoom(int gameLength, int gameSize)
+    private void join(String newPlayer)
+    {
+    }
+
+    private Room newRoom(int gameLength, int gameSize)
     {
         Room ret = new Room(gameLength, gameSize);
         lobby.add(ret);
@@ -29,5 +33,13 @@ public class Controller {
     public List<String> getPlayerNames()
     {
         return lobby.stream().flatMap(room -> room.getPlayerNames().stream()).collect(Collectors.toList());
+    }
+
+    public boolean existName(String name)
+    {
+        for(String s : getPlayerNames())
+            if(s.equals(name))
+                return true;
+        return false;
     }
 }

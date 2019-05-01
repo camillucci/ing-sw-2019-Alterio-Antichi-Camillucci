@@ -8,7 +8,6 @@ import it.polimi.ingsw.view.ViewInterface;
 import java.io.IOException;
 
 public class ManagerCLI implements ViewInterface {
-    private Client client;
     private ParserCLI parser;
     private MessengerCLI messanger;
 
@@ -20,7 +19,6 @@ public class ManagerCLI implements ViewInterface {
     public void ManagerCLI(Client client){
         parser = new ParserCLI();
         messanger = new MessengerCLI();
-        this.client = client;
         //TODO
     }
 
@@ -29,23 +27,25 @@ public class ManagerCLI implements ViewInterface {
         boolean connectionType = parser.parseChoice();
         messanger.askInterface();
         boolean interfaceType = parser.parseChoice();
-        this.client = new Client(connectionType, interfaceType);
+        //this.client = new Client(connectionType, interfaceType);
         String name = null;
         while(name == null) {
             messanger.insertName();
             parser.parseName();
         }
-        client.setName(name);
+        //client.setName(name);
     }
 
     private void displayRollback() {
+       /*
         while(client.getOnTurn()) {
             messanger.displayRollback();
         }
+        */
     }
 
     public void setTurn(boolean turn) {
-        client.setOnTurn(turn);
+        //client.setOnTurn(turn);
         return;
     }
 
