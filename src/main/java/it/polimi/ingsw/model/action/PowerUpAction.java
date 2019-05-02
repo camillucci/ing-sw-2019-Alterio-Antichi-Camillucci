@@ -38,7 +38,7 @@ public class PowerUpAction extends ShootAction
     {
         PowerUpAction tmp = selectedPowerUp.getEffect();
         if(selectedPowerUp.getEffect().type == Type.IN_TURN)
-            tmp.setTargets(damagedPlayers);
+            tmp.setTargets(getPossiblePlayers());
         this.next = tmp;
     }
 

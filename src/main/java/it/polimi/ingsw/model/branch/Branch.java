@@ -149,21 +149,4 @@ public class Branch
         this.invalidState = true;
     }
 
-    private Action getNextCompatibleAction(Action action)
-    {
-        if(this.actions.isEmpty())
-            return null;
-
-        for(int i=0; i < actions.size()-1; i++)
-            if(actions.get(i).isCompatible(action))
-                if(actions.get(i).next() == null)
-                    return actions.get(i+1);
-                else
-                    return actions.get(i).next();
-            else
-                if(!actions.get(i).isOptional())
-                    return null;
-
-        return actions.get(actions.size()-1).isCompatible(action) ? finalAction : null;
-    }
 }
