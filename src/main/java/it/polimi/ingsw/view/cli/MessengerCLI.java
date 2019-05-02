@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.Square;
 
 import java.util.ArrayList;
@@ -22,6 +23,28 @@ public class MessengerCLI {
         System.out.println("Choose interface type");
         System.out.println("Press 0 for CLI");
         System.out.println("Press 1 for GUI");
+    }
+
+    public int askColor(ArrayList<PlayerColor> colors) {
+        System.out.println("Choose one of the available colors");
+        ArrayList<String> availableColors = new ArrayList<String>();
+        for(PlayerColor pc : colors) {
+            availableColors.add(pc.name());
+        }
+        for(int i = 0; i < availableColors.size(); i++) {
+            System.out.println("Press" + i + "if you want the color" + availableColors.get(i));
+        }
+
+        return availableColors.size();
+    }
+
+    public void askGameLenght() {
+        System.out.println("Choose how many skulls your game is going to have");
+    }
+
+    public void askGameMap() {
+        System.out.println("Choose one of the following maps");
+        //TODO add maps to show
     }
 
     public void displayRollback() {
