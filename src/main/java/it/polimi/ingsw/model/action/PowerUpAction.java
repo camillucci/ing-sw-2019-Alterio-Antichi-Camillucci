@@ -25,7 +25,7 @@ public class PowerUpAction extends ShootAction
     public PowerUpAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
         super(playersFilter, squaresFilter, shootFunc);
-        type = Type.END_TURN;
+        type = Type.END_START_MOVE;
     }
 
     public PowerUpAction(Type type)
@@ -58,7 +58,7 @@ public class PowerUpAction extends ShootAction
     public enum Type
     {
         COUNTER_ATTACK,
-        END_TURN,
+        END_START_MOVE,
         IN_TURN
     }
 }

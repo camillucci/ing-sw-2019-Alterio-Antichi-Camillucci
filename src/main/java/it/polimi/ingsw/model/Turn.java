@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.Action;
-import it.polimi.ingsw.model.action.EndBranchAction;
 import it.polimi.ingsw.model.action.PowerUpAction;
 import it.polimi.ingsw.model.branch.*;
 
@@ -28,7 +27,7 @@ public class Turn {
 
     private void newMove()
     {
-        this.branchMap = BranchMapFactory.EndMovePowerUpBranchMap(currentPlayer, PowerUpAction.Type.END_TURN);
+        this.branchMap = BranchMapFactory.PowerUpBranchMap(currentPlayer, PowerUpAction.Type.END_START_MOVE);
         standardEventsSetup();
         this.branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->createBranchMap());
     }
@@ -42,7 +41,7 @@ public class Turn {
     }
 
     private void onMoveTerminated() {
-        this.branchMap = BranchMapFactory.EndMovePowerUpBranchMap(currentPlayer, PowerUpAction.Type.END_TURN);
+        this.branchMap = BranchMapFactory.PowerUpBranchMap(currentPlayer, PowerUpAction.Type.END_START_MOVE);
         moveCounter--;
         if (moveCounter == 0)
             endTurnEvent.invoke(this, currentPlayer);

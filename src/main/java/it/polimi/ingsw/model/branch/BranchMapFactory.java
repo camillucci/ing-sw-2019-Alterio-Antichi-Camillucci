@@ -82,7 +82,7 @@ public class BranchMapFactory
         return new BranchMap(branches);
     }
 
-    public static BranchMap EndMovePowerUpBranchMap(Player player, PowerUpAction.Type type)
+    public static BranchMap PowerUpBranchMap(Player player, PowerUpAction.Type type)
     {
         return new BranchMap(new Branch(new PowerUpAction(type), new EndBranchAction()));
     }

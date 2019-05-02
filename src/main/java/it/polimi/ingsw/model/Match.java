@@ -55,7 +55,7 @@ public class Match implements ActionsProvider {
     public void OnPlayerDamaged(Player damaged, int val)
     {
         List<Action> backupActions = this.curActions;
-        BranchMap branchMap = BranchMapFactory.EndMovePowerUpBranchMap(damaged, PowerUpAction.Type.COUNTER_ATTACK);
+        BranchMap branchMap = BranchMapFactory.PowerUpBranchMap(damaged, PowerUpAction.Type.COUNTER_ATTACK);
         branchMap.newActionsEvent.addEventHandler((a,actions) -> setNewActions(actions));
         branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> setNewActions(backupActions));
         setNewActions(branchMap.getPossibleActions());
