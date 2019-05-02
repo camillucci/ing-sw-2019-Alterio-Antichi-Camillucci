@@ -20,8 +20,6 @@ public abstract class Client // same for Socket and RMI
     private boolean connectionType;
     private boolean interfaceType;
     private TCPClient tcpClient;
-    private final String hostname = "127.0.0.1";
-    private final int ip = 10000;
 
     public boolean getOnTurn() {
         return onTurn;

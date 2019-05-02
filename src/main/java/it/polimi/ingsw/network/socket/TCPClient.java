@@ -27,6 +27,7 @@ public class TCPClient extends Client
         ret.streamFailedEvent.addEventHandler((a,b)->this.close());
         return ret;
     }
+
     public TCPClient(Socket connectedSocket)
     {
         if(!connectedSocket.isConnected())
@@ -46,6 +47,10 @@ public class TCPClient extends Client
             closedEvent.invoke(this, null);
         }
         catch(IOException e) {/*TODO*/}
+    }
+
+    public void setName(String name) {
+
     }
 }
 

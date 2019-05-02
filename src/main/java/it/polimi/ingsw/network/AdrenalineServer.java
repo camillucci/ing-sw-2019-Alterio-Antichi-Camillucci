@@ -2,7 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Controller;
 
-public abstract class AdrenalineServer
+public class AdrenalineServer
 {
     private Controller controller;
     private Client client;

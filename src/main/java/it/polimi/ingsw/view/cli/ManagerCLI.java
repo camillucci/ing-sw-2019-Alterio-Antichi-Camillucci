@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.network.AdrenalineClient;
 import it.polimi.ingsw.network.Client;
 import it.polimi.ingsw.network.socket.TCPClient;
 import it.polimi.ingsw.view.ViewInterface;
@@ -10,6 +11,7 @@ import java.io.IOException;
 public class ManagerCLI implements ViewInterface {
     private ParserCLI parser;
     private MessengerCLI messanger;
+    private AdrenalineClient adrenalineClient;
 
     public ManagerCLI() {
         parser = new ParserCLI();
@@ -27,7 +29,7 @@ public class ManagerCLI implements ViewInterface {
         boolean connectionType = parser.parseChoice();
         messanger.askInterface();
         boolean interfaceType = parser.parseChoice();
-        //this.client = new Client(connectionType, interfaceType);
+        adrenalineClient  = new AdrenalineClient(connectionType);
         String name = null;
         while(name == null) {
             messanger.insertName();
@@ -49,10 +51,6 @@ public class ManagerCLI implements ViewInterface {
         return;
     }
 
-    @Override
-    public void updateMatch(Match match) {
-        //TODO add other displayed features when user is current player on turn
-    }
 
     @Override
     public void displayMessage(String message) {
