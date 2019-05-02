@@ -40,11 +40,17 @@ public class MessengerCLI {
 
     public void askGameLenght() {
         System.out.println("Choose how many skulls your game is going to have");
+        System.out.println("You can choose any number between 5 and 8");
     }
 
     public void askGameMap() {
         System.out.println("Choose one of the following maps");
         //TODO add maps to show
+    }
+
+    public void matchStart() {
+        System.out.println("Your game has started");
+        System.out.println("Have fun!");
     }
 
     public void displayRollback() {

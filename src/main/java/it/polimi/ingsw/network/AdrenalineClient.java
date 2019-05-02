@@ -17,9 +17,12 @@ public class AdrenalineClient
     private MessengerCLI messanger;
     private final String hostname = "127.0.0.1";
     private final int ip = 10000;
+    private boolean onTurn;
+
     public AdrenalineClient() {
 
     }
+
     public void login() throws Exception {
         messanger.askConnection();
         boolean connectionType = parser.parseChoice();
@@ -50,6 +53,22 @@ public class AdrenalineClient
                 availableColors.add(pc);
         }
         messanger.askColor(availableColors);
+        //TODO lock
         server.out().sendObject(parser.parseColor(availableColors));
+        if(server.in().getBool()) {
+            messanger.askGameLenght();
+            parser.parseGameLenght();
+            messanger.askGameMap();
+            parser.parseGameMap();
+        }
+    }
+
+    private void matchStart() throws Exception {
+        if(server.in().getBool())
+            messanger.matchStart();
+    }
+
+    private void setOnTurn(boolean onTurn) {
+        this.onTurn = onTurn;
     }
 }

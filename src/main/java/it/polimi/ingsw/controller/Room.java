@@ -2,12 +2,14 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.PlayerColor;
+import it.polimi.ingsw.network.AdrenalineServer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Room
 {
+    private List<AdrenalineServer> clients = new ArrayList<>();
     private List<PlayerColor> colors = new ArrayList<>();
     private List<String> playerNames = new ArrayList<>();
     private int gameLength;
@@ -22,9 +24,14 @@ public class Room
         this.gameSize = gamesize;
     }
 
-    public void addPlayer(PlayerColor color, String playerName){
+    public boolean addPlayer(PlayerColor color, String playerName){
         colors.add(color);
         playerNames.add(playerName);
+        if(playerNames.size() == 5)
+            match = new Match(playerNames, colors, gameLength, gameSize);
+        else if(playerNames.size() == 1)
+            return true;
+        return false;
     }
 
     private void newMatch()
