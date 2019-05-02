@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.branch.Branch;
+import it.polimi.ingsw.model.action.PowerUpAction;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.function.Supplier;
 
 public class PowerUpCard {
 
@@ -14,37 +12,15 @@ public class PowerUpCard {
     public final String name;
     public final AmmoColor color;
     public final Ammo cost;
-    private List<Branch> branches;
+    private Supplier<PowerUpAction> effectBuilder;
 
-    /*
-    public PowerUpCard(String name, AmmoColor color, Ammo cost, PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
+    public PowerUpCard(String name, AmmoColor color, Ammo cost, Supplier<PowerUpAction> effect)
     {
         this.name = name;
         this.color = color;
         this.cost = cost;
-        this.playersFilter = playersFilter;
-        this.squaresFilter = squaresFilter;
-        this.shootFunc = shootFunc;
-    }
-    */
-
-    public PowerUpCard(String name, AmmoColor color, Ammo cost)
-    {
-        this.name = name;
-        this.color = color;
-        this.cost = cost;
-        branches = new ArrayList<>();
+        this.effectBuilder = effect;
     }
 
-    public PowerUpCard(String name, AmmoColor color, Ammo cost, Branch branch)
-    {
-        this.name = name;
-        this.color = color;
-        this.cost = cost;
-        this.branches = Collections.singletonList(branch);
-    }
-
-    public List<Branch> getBranches() {
-        return branches;
-    }
+    public PowerUpAction getEffect() { return effectBuilder.get(); }
 }

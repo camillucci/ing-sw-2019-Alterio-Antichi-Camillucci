@@ -11,6 +11,8 @@ import java.util.List;
 
 public class ShootAction extends Action
 {
+    protected List<Player> damagedPlayers = new ArrayList<>();
+
     protected ShootFunc shootFunc = (a, b, c) -> {};
     protected PlayersFilter playersFilter;
     protected SquaresFilter squaresFilter;
@@ -37,6 +39,17 @@ public class ShootAction extends Action
     @Override
     protected void op() {
         this.shoot();
+        for(Player p: damagedPlayers)
+            p.damagedEvent.removeEventHandler(this::damagedEventHandler);
+        if(selectedPowerUp != null)
+            preparePowerUp();
+    }
+
+    protected void preparePowerUp()
+    {
+        PowerUpAction tmp = selectedPowerUp.getEffect();
+        tmp.setTargets(damagedPlayers);
+        this.next = tmp;
     }
 
     protected void shoot()
@@ -58,21 +71,29 @@ public class ShootAction extends Action
 
     @Override
     public List<PowerUpCard> getPossiblePowerUps(){
+        if(selectedPowerUp != null)
+            return Collections.emptyList();
+
         List <PowerUpCard> temp = new ArrayList<>();
-        if(!this.targetPlayers.isEmpty())
+        if(!this.damagedPlayers.isEmpty())
             for(PowerUpCard powerUpCard : ownerPlayer.getPowerUps())
-                if(powerUpCard.name.equals("Targeting Scope") && ownerPlayer.getTotalAmmo() >= 1)
+                if(powerUpCard.getEffect().type == PowerUpAction.Type.IN_TURN && ownerPlayer.getTotalAmmo() >= 1)
                     temp.add(powerUpCard);
         return temp;
     }
 
     @Override
-    public void addPowerUp(PowerUpCard powerUp)
+    public void addTarget(Player target)
     {
-        if(this.getPossiblePowerUps().contains(powerUp)) {
-            Player target = this.targetPlayers.get(targetPlayers.size() - 1); // last added
-            this.doActionCost = doActionCost.add(powerUp.cost);
-            this.shootFunc = this.shootFunc.andThen((player, players, squares) -> Effects.damage(ownerPlayer, Collections.singletonList(target), Collections.singletonList(1)));
-        }
+        if(!this.getPossiblePlayers().contains(target))
+            return;
+        targetPlayers.add(target);
+        target.damagedEvent.addEventHandler(this::damagedEventHandler);
+    }
+
+    private void damagedEventHandler(Player damaged, int val)
+    {
+        if(!damagedPlayers.contains(damaged))
+            this.damagedPlayers.add(damaged);
     }
 }

@@ -22,7 +22,7 @@ class ShootActionTest {
     @Test
     void shootDamage()
     {
-        WeaponCard machineGun = WeaponFactory.getWeapons().get(1);
+        WeaponCard machineGun = CardsFactory.getWeapons().get(1);
         p1.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         p1.getCurrentSquare().addPlayer(p1);
         p1.addWeapon(machineGun);
@@ -39,7 +39,7 @@ class ShootActionTest {
     @Test
     void shootDamageAll()
     {
-        WeaponCard electroschyte = WeaponFactory.getWeapons().get(5);
+        WeaponCard electroschyte = CardsFactory.getWeapons().get(5);
         p1.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         p1.getCurrentSquare().addPlayer(p1);
         p1.addWeapon(electroschyte);
@@ -56,7 +56,7 @@ class ShootActionTest {
     @Test
     void shootMove()
     {
-        WeaponCard grenadeLauncher = WeaponFactory.getWeapons().get(12);
+        WeaponCard grenadeLauncher = CardsFactory.getWeapons().get(12);
         p1.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         p1.getCurrentSquare().addPlayer(p1);
         p1.addWeapon(grenadeLauncher);

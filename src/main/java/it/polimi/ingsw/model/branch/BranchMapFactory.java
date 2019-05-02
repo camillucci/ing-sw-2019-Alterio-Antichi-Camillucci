@@ -18,7 +18,7 @@ public class BranchMapFactory
                 new Branch(new MoveAction(1), new GrabAction()), //M1G
                 new Branch(new MoveAction(3), new EndBranchAction()), //M3
                 new Branch(new WeaponSelectionAction()))); //W
-        addPowerups(branches, player);
+        //addPowerups(branches, player);
         return new BranchMap(branches);
     }
 
@@ -28,7 +28,7 @@ public class BranchMapFactory
                 new Branch(new MoveAction(2), new GrabAction()), //M2G
                 new Branch(new MoveAction(3), new EndBranchAction()), //M3
                 new Branch(new WeaponSelectionAction()))); //W
-        addPowerups(branches, player);
+        //addPowerups(branches, player);
         return new BranchMap(branches);
     }
 
@@ -38,7 +38,7 @@ public class BranchMapFactory
                 new Branch(new MoveAction(3), new EndBranchAction()), //M3
                 new Branch(new MoveAction(2), new GrabAction()), //M2G
                 new Branch(new MoveAction(1), new WeaponSelectionAction()))); //M1W
-        addPowerups(branches, player);
+        //addPowerups(branches, player);
         return new BranchMap(branches);
     }
 
@@ -47,7 +47,7 @@ public class BranchMapFactory
         List<Branch> branches = new ArrayList<>(Arrays.asList(
                 new Branch(new MoveAction(2), new ReloadAction(), new WeaponSelectionAction()), //M2RW
                 new Branch(new MoveAction(3), new GrabAction()))); //M3G
-        addPowerups(branches, player);
+        //addPowerups(branches, player);
         return new BranchMap(branches);
     }
 
@@ -57,7 +57,7 @@ public class BranchMapFactory
                 new Branch(new MoveAction(1), new ReloadAction(), new WeaponSelectionAction()), //M!RW
                 new Branch(new MoveAction(4), new EndBranchAction()), //M4
                 new Branch(new MoveAction(2), new GrabAction()))); //M2G
-        addPowerups(branches, player);
+        //addPowerups(branches, player);
         return new BranchMap(branches);
     }
 
@@ -78,14 +78,21 @@ public class BranchMapFactory
     {
         List<Branch> branches = new ArrayList<>(Arrays.asList(
                 new Branch(new ReloadAction(), new EndBranchAction())));
-        addPowerups(branches, player);
+        //addPowerups(branches, player);
         return new BranchMap(branches);
     }
 
+    public static BranchMap EndMovePowerUpBranchMap(Player player, PowerUpAction.Type type)
+    {
+        return new BranchMap(new Branch(new PowerUpAction(type), new EndBranchAction()));
+    }
+    /*
     private static List<Branch> addPowerups(List<Branch> branches, Player player)
     {
         for(PowerUpCard powerUpCard : player.getPowerUps())
-            branches.addAll(powerUpCard.getBranches());
+            branches.addAll(powerUpCard.getEffect());
         return branches;
     }
+
+     */
 }

@@ -5,16 +5,19 @@ import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.weapons.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WeaponFactory
+import static it.polimi.ingsw.model.AmmoColor.*;
+import static it.polimi.ingsw.model.AmmoColor.YELLOW;
+
+public class CardsFactory
 {
-    private WeaponFactory(){}
+    private CardsFactory(){}
 
     private static ArrayList<WeaponCard> weapons = new ArrayList<>();
+    private static ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
 
     public static List<WeaponCard> getWeapons()
     {
@@ -23,6 +26,22 @@ public class WeaponFactory
         return new ArrayList<>(weapons);
     }
 
+    public static List<PowerUpCard> getPowerUps()
+    {
+        if(powerUpCards.isEmpty())
+            buildPowerUps();
+        return new ArrayList<>(powerUpCards);
+    }
+
+    private static void buildPowerUps() {
+        List <AmmoColor> allColors = new ArrayList<>(Arrays.asList(BLUE, RED, YELLOW, BLUE, RED, YELLOW));
+        for(AmmoColor ammoColor : allColors) {
+            powerUpCards.add(new PowerUpCard("Targeting Scope", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(damage(1), PowerUpAction.Type.IN_TURN)));
+            powerUpCards.add(new PowerUpCard("Newton", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(otherPlayers, near2Squares, move)));
+            powerUpCards.add(new PowerUpCard("Tagback Grenade", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(damage(1), PowerUpAction.Type.COUNTER_ATTACK)));
+            powerUpCards.add(new PowerUpCard("Teleporter", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(selfPlayer, allSquares, move)));
+        }
+    }
     private static void buildWeapons()
     {
         weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0), () -> Arrays.asList(
@@ -154,7 +173,7 @@ public class WeaponFactory
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF EFFECTS
 
-    private static ShootFunc damage(Integer ... damage) { return (player, players, squares) -> Effects.damage(player, players, Arrays.asList(damage)); }
+    public static ShootFunc damage(Integer ... damage) { return (player, players, squares) -> Effects.damage(player, players, Arrays.asList(damage)); }
     private static ShootFunc mark(Integer ... marks) { return (player, players, squares) -> Effects.mark(player, players, Arrays.asList(marks)); }
     private static ShootFunc damageAll(Integer ... damage) { return (player, players, squares) -> Effects.damageAll(player, squares, Arrays.asList(damage)); }
     private static ShootFunc markAll(Integer ... marks) { return (player, players, squares) -> Effects.markAll(player, squares, Arrays.asList(marks)); }
@@ -174,7 +193,8 @@ public class WeaponFactory
     private static PlayersFilter nearPlayers(int maxDistance) { return (player, players) -> TargetsFilters.nearPlayers(player, maxDistance); }
     private static PlayersFilter betweenPlayers(int minDistance, int maxDistance) { return (player, players) -> TargetsFilters.betweenPlayers(player, minDistance, maxDistance); }
     private static PlayersFilter nonVisiblePlayers = (player, players) -> TargetsFilters.nonVisiblePlayers(player);
-
+    private static PlayersFilter selfPlayer = (player, players) -> getLeftList(TargetsFilters.teleporterMovableTargets(player));
+    private static PlayersFilter otherPlayers = (player, players) -> getLeftList(TargetsFilters.newtonMovableTargets(player));
     //private static PlayersFilter noFilters(int maxTargets) { return (player, players) -> TargetsFilters.noFilters(player, players, maxTargets); }
 
     private static SquaresFilter visibleSquares = (player, squares) -> TargetsFilters.visibleSquares(player);
@@ -182,6 +202,8 @@ public class WeaponFactory
     private static SquaresFilter nearSquares(int maxDistance) { return (player, squares) ->  TargetsFilters.nearSquares(player, maxDistance); }
     private static SquaresFilter betweenSquares(int minDistance, int maxDistance) { return (player, squares) -> TargetsFilters.betweenSquares(player, minDistance, maxDistance); }
     private static SquaresFilter roomSquares = (player, squares) -> TargetsFilters.otherVisibleRoom(player);
+    private static SquaresFilter allSquares = (player, squares) -> getRightList(TargetsFilters.teleporterMovableTargets(player));
+    private static SquaresFilter near2Squares = (player, squares) -> getRightList(TargetsFilters.newtonMovableTargets(player));
 
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF SPECIFIC TARGET FILTERS

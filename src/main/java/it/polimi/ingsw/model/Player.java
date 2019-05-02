@@ -11,6 +11,9 @@ import java.util.stream.Stream;
 
 public class Player implements Cloneable {
 
+    public final Event<Player, Integer> damagedEvent = new Event<>();
+    public final Event<Player, Integer> markedEvent = new Event<>();
+    public final Event<Player, Player> deathEvent = new Event<>();
     public final GameBoard gameBoard;
     public final PlayerColor color;
     public final String name;
@@ -26,7 +29,6 @@ public class Player implements Cloneable {
     private ArrayList<WeaponCard> loadedWeapons = new ArrayList<>();
     private ArrayList<WeaponCard> unloadedWeapons = new ArrayList<>();
     private ArrayList<PowerUpCard> powerUps = new ArrayList<>();
-    public final Event<Player, Player> deathEvent = new Event<>();
     private static final int MAX_AMMO = 3;
     private static final int MAX_POWER_UPS = 3;
     private static final int MAX_POWER_UPS_RESPAWN = 4;
@@ -99,6 +101,7 @@ public class Player implements Cloneable {
 
         for(int i = temp.size() - 1; i >= 0; i--)
             mark.remove(i);
+        this.damagedEvent.invoke(this, val);
     }
 
     public void addMark(Player shooter, int val) {
@@ -109,6 +112,7 @@ public class Player implements Cloneable {
 
         for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++)
             mark.add(shooter.color);
+        this.markedEvent.invoke(this, val);
     }
 
     public void addWeapon(WeaponCard weaponCard) {

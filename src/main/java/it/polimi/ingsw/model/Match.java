@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.action.PowerUpAction;
 import it.polimi.ingsw.model.branch.*;
 
 import java.util.ArrayList;
@@ -43,11 +44,22 @@ public class Match implements ActionsProvider {
         for(int i = 0; i < playersName.size(); i++) {
             Player p = new Player(playersName.get(i), playerColors.get(i), gameBoard);
             p.deathEvent.addEventHandler((s,a)->this.deadPlayers.add(s));
+            p.damagedEvent.addEventHandler(this::OnPlayerDamaged);
             players.add(p);
         }
         gameBoard.setPlayers(players);
         //this.deadPlayers = new ArrayList<>(players); TODO uncomment this line
         spawn(false);
+    }
+
+    public void OnPlayerDamaged(Player damaged, int val)
+    {
+        List<Action> backupActions = this.curActions;
+        BranchMap branchMap = BranchMapFactory.EndMovePowerUpBranchMap(damaged, PowerUpAction.Type.COUNTER_ATTACK);
+        branchMap.newActionsEvent.addEventHandler((a,actions) -> setNewActions(actions));
+        branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> setNewActions(backupActions));
+        setNewActions(branchMap.getPossibleActions());
+        //todo rollback
     }
 
     private void spawn(boolean respawn)
@@ -61,11 +73,12 @@ public class Match implements ActionsProvider {
         if(!respawn)
             p.addPowerUpCardRespawn();
         BranchMap branchMap = BranchMapFactory.spawnBranchMap(p);
-        branchMap.newActionsEvent.addEventHandler((bMap, actions)-> setNewActions(actions));
-        branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b)->{
+        branchMap.newActionsEvent.addEventHandler((bMap, actions) -> setNewActions(actions));
+        branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) ->
+        {
             this.deadPlayers.remove(p);
             spawn(respawn);
-        } );
+        });
         setNewActions(branchMap.getPossibleActions());
     }
 

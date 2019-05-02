@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.action.EndBranchAction;
+import it.polimi.ingsw.model.action.PowerUpAction;
 import it.polimi.ingsw.model.branch.*;
 
 import java.util.ArrayList;
@@ -22,7 +24,13 @@ public class Turn {
     public Turn(Player currentPlayer, Match match) {
         this.currentPlayer = currentPlayer;
         this.match = match;
-        createBranchMap();
+    }
+
+    private void newMove()
+    {
+        this.branchMap = BranchMapFactory.EndMovePowerUpBranchMap(currentPlayer, PowerUpAction.Type.END_TURN);
+        standardEventsSetup();
+        this.branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->createBranchMap());
     }
 
     private void standardEventsSetup() {
@@ -34,11 +42,12 @@ public class Turn {
     }
 
     private void onMoveTerminated() {
+        this.branchMap = BranchMapFactory.EndMovePowerUpBranchMap(currentPlayer, PowerUpAction.Type.END_TURN);
         moveCounter--;
         if (moveCounter == 0)
             endTurnEvent.invoke(this, currentPlayer);
         else
-            createBranchMap();
+           newMove();
     }
 
     private void createBranchMap() {

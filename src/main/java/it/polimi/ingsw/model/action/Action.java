@@ -11,22 +11,24 @@ import java.util.function.Consumer;
 public class Action
 {
     public final Event<Action, Action> completedActionEvent = new Event<>();
+    protected Action next;
     protected Ammo doActionCost = new Ammo(0,0,0);
     protected Player ownerPlayer;
     protected ArrayList<Square> targetSquares = new ArrayList<>();
     protected ArrayList<Player> targetPlayers = new ArrayList<>();
     protected ArrayList<WeaponCard> selectedWeapons = new ArrayList<>();
-    protected ArrayList<PowerUpCard> selectedPowerUps = new ArrayList<>();
+    protected PowerUpCard selectedPowerUp;
     protected boolean optional = false;
     private Consumer opMethod = a -> { };
 
-    protected Action(){}
 
+    protected Action(){}
     public Action(Consumer<Action> doActionMethod, boolean isOptional)
     {
         this.opMethod = doActionMethod;
         this.optional = isOptional;
     }
+
     public Action(Consumer<Action> doActionMethod)
     {
         this(doActionMethod, false);
@@ -39,7 +41,6 @@ public class Action
             completedActionEvent.invoke(this, this);
         }
     }
-
     public void initialize(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
@@ -64,16 +65,16 @@ public class Action
         if(this.getPossiblePlayers().contains(target))
             this.targetPlayers.add(target);
     }
-    public void addPowerUp(PowerUpCard powerUp)
+    public void usePowerUp(PowerUpCard powerUp)
     {
         if(getPossiblePowerUps().contains(powerUp))
-            this.selectedPowerUps.add(powerUp);
+            this.selectedPowerUp = powerUp;
     }
     public List<Player> getPossiblePlayers(){return Collections.emptyList();}
     public List<Square> getPossibleSquares(){return Collections.emptyList();}
     public List<PowerUpCard> getPossiblePowerUps(){return Collections.emptyList();}
-    public Player getOwnerPlayer(){ return this.ownerPlayer; }
 
+    public Player getOwnerPlayer(){ return this.ownerPlayer; }
     public boolean isCompatible(Action action)
     {
         return action.getClass().isInstance(this);
@@ -90,8 +91,8 @@ public class Action
         }
         return false;
     }
-
     public boolean isOptional(){return optional;}
+    public Action next(){return next;}
     protected void op() {
         this.opMethod.accept(this);
     }

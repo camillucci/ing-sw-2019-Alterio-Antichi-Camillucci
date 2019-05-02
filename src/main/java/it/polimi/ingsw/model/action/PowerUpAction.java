@@ -1,39 +1,64 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PowerUpCard;
-import it.polimi.ingsw.model.weapons.*;
+import it.polimi.ingsw.model.weapons.PlayersFilter;
+import it.polimi.ingsw.model.weapons.ShootFunc;
+import it.polimi.ingsw.model.weapons.SquaresFilter;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PowerUpAction extends ShootAction
 {
+    public final Type type;
 
+    public PowerUpAction(ShootFunc shootFunc, Type type)
+    {
+        super(null, null, shootFunc);
+        this.type = type;
+    }
+
+    // End-Turn powerUp Constructor
     public PowerUpAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
-        this.shootFunc = shootFunc;
-        this.playersFilter = playersFilter;
-        this.squaresFilter = squaresFilter;
+        super(playersFilter, squaresFilter, shootFunc);
+        type = Type.END_TURN;
     }
 
-    /*
-    public PowerUpAction(ShootFunc shootFunc)
+    public PowerUpAction(Type type)
     {
-        this(null, null, shootFunc);
+        this.type = type;
     }
 
     @Override
-    public void addPowerUp(PowerUpCard powerUpCard)
+    protected void preparePowerUp()
     {
-        if(Ammo.getAmmo(ownerPlayer).sub(doActionCost).isGreaterOrEqual(powerUpCard.getCost()))
-        {
-            this.doActionCost = this.doActionCost.add(powerUpCard.getCost());
-            this.playersFilter = powerUpCard.playersFilter;
-            this.squaresFilter = powerUpCard.squaresFilter;
-            this.selectedPowerUps.add(powerUpCard);
-        }
+        PowerUpAction tmp = selectedPowerUp.getEffect();
+        if(selectedPowerUp.getEffect().type == Type.IN_TURN)
+            tmp.setTargets(damagedPlayers);
+        this.next = tmp;
     }
-    */
 
     @Override
-    public void shoot() {
-        this.shootFunc.accept(ownerPlayer, targetPlayers, targetSquares);
+    public List<PowerUpCard> getPossiblePowerUps()
+    {
+        if(selectedPowerUp != null && ownerPlayer.getTotalAmmo() >= 1)
+            return ownerPlayer.getPowerUps().stream().filter(pu -> pu.getEffect().type == this.type).collect(Collectors.toList());
+        return Collections.emptyList();
+    }
+
+    public void setTargets(List<Player> targets)
+    {
+        this.playersFilter = (shooter, players) -> new ArrayList<>(targets);
+    }
+
+    public enum Type
+    {
+        COUNTER_ATTACK,
+        END_TURN,
+        IN_TURN
     }
 }

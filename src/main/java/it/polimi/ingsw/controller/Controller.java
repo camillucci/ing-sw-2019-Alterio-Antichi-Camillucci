@@ -53,6 +53,6 @@ public class Controller {
         if(lobby.get(lobby.size() - 1).getSpace())
             return lobby.get(lobby.size() - 1);
         newRoom();
-        return lobby.get(lobby.size());
+        return lobby.get(lobby.size()-1);
     }
 }

@@ -12,8 +12,8 @@ class PowerUpActionTest {
     private GameBoard gameBoard = new GameBoard(5, 10);
     private Player p1 = new Player("p", PlayerColor.BLUE, gameBoard);
     private Player p2 = new Player("p", PlayerColor.BLUE, gameBoard);
-    private PowerUpCard newton = PowerUpFactory.getPowerUps().get(1);
-    private PowerUpCard teleporter = PowerUpFactory.getPowerUps().get(3);
+    private PowerUpCard newton = CardsFactory.getPowerUps().get(1);
+    private PowerUpCard teleporter = CardsFactory.getPowerUps().get(3);
 
     @Test
     void shoot1()
@@ -23,7 +23,7 @@ class PowerUpActionTest {
         p2.setCurrentSquare(gameBoard.getSquares().get(5));
         p2.getCurrentSquare().addPlayer(p2);
         gameBoard.setPlayers(Arrays.asList(p1, p2));
-        Action powerUpAction = newton.getBranches().get(0).getCompatibleActions().get(0);
+        Action powerUpAction = newton.getEffect();
         powerUpAction.initialize(p1);
         powerUpAction.addTarget(p2);
         powerUpAction.addTarget(gameBoard.getSquares().get(4));
@@ -37,11 +37,12 @@ class PowerUpActionTest {
     {
         p1.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         p1.getCurrentSquare().addPlayer(p1);
-        Action powerUpAction = teleporter.getBranches().get(0).getCompatibleActions().get(0);
+        Action powerUpAction = teleporter.getEffect();
         powerUpAction.initialize(p1);
         powerUpAction.addTarget(p1);
         powerUpAction.addTarget(gameBoard.getSquares().get(6));
         powerUpAction.doAction();
         assertEquals(p1.gameBoard.getSquares().get(6), p1.getCurrentSquare());
     }
+
 }

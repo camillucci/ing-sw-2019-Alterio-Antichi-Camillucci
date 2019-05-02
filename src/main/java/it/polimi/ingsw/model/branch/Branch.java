@@ -104,20 +104,42 @@ public class Branch
         return ret;
     }
 
+    public Branch appendBefore(Action action)
+    {
+        List<Action> tmp = new ArrayList<>();
+        tmp.add(action);
+        tmp.addAll(this.actions);
+        return new Branch(this.finalAction, tmp);
+    }
+
     public boolean goNext(Action justDoneAction)
     {
-        Action nextAction = getNextCompatibleAction(justDoneAction);
-
-        if(invalidState || nextAction == null){
+        if(actions.isEmpty()) {
             setInvalidState();
             return false;
         }
 
-        // actions.size() > 0
-
-        while(!actions.isEmpty() && actions.get(0) != nextAction)
-            actions.remove(0);
-        return true;
+        boolean found = false;
+        while(!actions.isEmpty() && !found)
+            if(actions.get(0).isCompatible(justDoneAction))
+                if(actions.get(0).next() != null)
+                {
+                    actions.set(0, actions.get(0).next());
+                    found = true;
+                }
+                else
+                {
+                    actions.remove(0);
+                    found = true;
+                }
+            else if(actions.get(0).isOptional())
+                actions.remove(0);
+            else
+            {
+                setInvalidState();
+                found = true;
+            }
+        return found;
     }
     public boolean isInvalidBranch() {
         return invalidState;
@@ -134,7 +156,10 @@ public class Branch
 
         for(int i=0; i < actions.size()-1; i++)
             if(actions.get(i).isCompatible(action))
-                return actions.get(i+1);
+                if(actions.get(i).next() == null)
+                    return actions.get(i+1);
+                else
+                    return actions.get(i).next();
             else
                 if(!actions.get(i).isOptional())
                     return null;

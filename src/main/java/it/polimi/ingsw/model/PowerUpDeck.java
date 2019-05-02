@@ -10,7 +10,7 @@ public class PowerUpDeck {
     private List<PowerUpCard> discarded = new ArrayList<>();
 
     public PowerUpDeck() {
-        deck = PowerUpFactory.getPowerUps();
+        deck = CardsFactory.getPowerUps();
         Collections.shuffle(deck);
     }
 

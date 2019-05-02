@@ -8,7 +8,7 @@ public class WeaponDeck {
     private List<WeaponCard> deck;
 
     public WeaponDeck() {
-        deck = WeaponFactory.getWeapons();
+        deck = CardsFactory.getWeapons();
         Collections.shuffle(deck);
     }
 
