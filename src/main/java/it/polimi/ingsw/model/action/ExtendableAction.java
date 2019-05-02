@@ -21,4 +21,9 @@ public class ExtendableAction extends Action
     {
         return new ArrayList<>(this.branches);
     }
+
+    @Override
+    public boolean isCompatible(Action action) {
+        return action == this;
+    }
 }

@@ -3,6 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.action.FireModalityAction;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -98,8 +102,8 @@ class PlayerTest {
 
     @Test
     void addUnloadReloadRemoveGetWeapon() {
-        WeaponCard weaponCard1 = new WeaponCard("WC", null, null, (FireModalityAction) null);
-        WeaponCard weaponCard2 = new WeaponCard("WC", null, null, (FireModalityAction) null);
+        WeaponCard weaponCard1 = new WeaponCard("B", null, null, () -> Arrays.asList(new FireModalityAction(null, new ArrayList<>())));
+        WeaponCard weaponCard2 =  new WeaponCard("B", null, null, () -> Arrays.asList(new FireModalityAction(null, new ArrayList<>())));
         assertEquals(0, player.getLoadedWeapons().size());
         assertEquals(0, player.getUnloadedWeapons().size());
         assertEquals(0, player.getWeapons().size());
@@ -143,7 +147,7 @@ class PlayerTest {
     void getClone() {
         Player cloned = player.getClone();
         Player player2 = new Player("B", PlayerColor.VIOLET, gameBoard);
-        WeaponCard weaponCard = new WeaponCard("WC", null, null, (FireModalityAction) null);
+        WeaponCard weaponCard =  new WeaponCard("B", null, null, () -> Arrays.asList(new FireModalityAction(null, new ArrayList<>())));
 
         assertNotEquals(player, cloned);
 

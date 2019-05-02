@@ -60,11 +60,7 @@ class BranchMapTest {
 
     void checkNewActionsEvent(BranchMap branchMap, List<Action> newActions)
     {
-        // branchMap should be in the initial state of AdrenalineX1BranchMap = {M2RS, M3G } -> {G} after that M3 is done
-        ArrayList<Action> expectedActions = new ArrayList<>();
-        expectedActions.add(new GrabAction());
-        assertTrue(testEquality(newActions, expectedActions));
-        expectedActions.add(new MoveAction(2));
-        assertFalse(testEquality(newActions, expectedActions));
+        // branchMap should be in the initial state of AdrenalineX1BranchMap = {M2RS, M3G, R } -> {G, R} after that M3 is done
+        assertTrue(testEquality(newActions, new GrabAction(), new RollBackAction()));
     }
 }

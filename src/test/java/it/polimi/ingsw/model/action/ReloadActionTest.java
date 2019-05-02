@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,8 +14,8 @@ class ReloadActionTest {
     private Player player = new Player("A", PlayerColor.GREY, null);
     private Ammo ammo1 = new Ammo(0, 0, 0);
     private Ammo ammo2 = new Ammo(4, 4, 4);
-    private WeaponCard weaponCard1 = new WeaponCard("B", ammo1, ammo1, new FireModalityAction(ammo1, new ArrayList<>()));
-    private WeaponCard weaponCard2 = new WeaponCard("C", ammo2, ammo2, new FireModalityAction(ammo2, new ArrayList<>()), new FireModalityAction(ammo2, new ArrayList<>()));
+    private WeaponCard weaponCard1 = new WeaponCard("B", ammo1, ammo1, () -> Arrays.asList(new FireModalityAction(ammo1, new ArrayList<>())));
+    private WeaponCard weaponCard2 = new WeaponCard("C", ammo2, ammo2,() -> Arrays.asList(new FireModalityAction(ammo2, new ArrayList<>()), new FireModalityAction(ammo2, new ArrayList<>())));
 
     @Test
     void op() {

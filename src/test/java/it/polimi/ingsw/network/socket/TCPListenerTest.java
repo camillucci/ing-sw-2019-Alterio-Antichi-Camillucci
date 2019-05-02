@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TCPListenerTest {
 
     private static final int port = 9999;
-    private static final int maxConnected = 7;
+    private static final int maxConnected = 2;
     private String localHost = "127.0.0.1";
     private boolean connected = false;
 

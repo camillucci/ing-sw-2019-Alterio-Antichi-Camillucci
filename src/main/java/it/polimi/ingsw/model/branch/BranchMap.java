@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class BranchMap
@@ -12,20 +13,29 @@ public class BranchMap
     public final Event<BranchMap, List<Action>> newActionsEvent = new Event<>();
     public final Event<BranchMap, EndBranchAction> endOfBranchMapReachedEvent = new Event<>();
     public final Event<BranchMap, RollBackAction> rollbackEvent = new Event<>();
+    private boolean invalidState = false;
+    private RollBackAction rollBackAction = new RollBackAction();
     private List<Branch> branches;
 
     public BranchMap(List<Branch> branches)
     {
         this.setupBranches(branches);
+        rollBackAction.completedActionEvent.addEventHandler((s,a)->this.rollbackEvent.invoke(this, (RollBackAction)a));
+        rollbackEvent.addEventHandler((a,b)->this.invalidState = true);
+        endOfBranchMapReachedEvent.addEventHandler((a,b)->this.invalidState=true);
     }
 
     public BranchMap(Branch ... branches) {this(Arrays.asList(branches));}
 
     public List<Action> getPossibleActions()
     {
+        if(invalidState)
+            return Collections.emptyList();
+
         ArrayList<Action> ret = new ArrayList<>();
         for(Branch b: this.branches)
             ret.addAll(b.getCompatibleActions());
+        ret.add(rollBackAction);
         return ret;
     }
 
@@ -37,16 +47,14 @@ public class BranchMap
 
     private void onBranchExtActionCompleted(Branch senderBranch, ExtendableAction extendableAction)
     {
-        this.branches.addAll(extendableAction.getBranches());
         onBranchActionCompleted(senderBranch, extendableAction);
+        this.branches.addAll(extendableAction.getBranches());
+        setupBranches(branches);
     }
 
     protected void setupBranches(List<Branch> branches)
     {
         this.branches = new ArrayList<>(branches);
-        RollBackAction rollBackAction = new RollBackAction();
-        rollBackAction.completedActionEvent.addEventHandler((s,a)->this.rollbackEvent.invoke(this, (RollBackAction)a));
-        this.branches.add(new Branch(rollBackAction)); // Adding Rollback
 
         for(Branch b : this.branches) // Setup events
         {

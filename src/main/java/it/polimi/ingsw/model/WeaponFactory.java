@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.weapons.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,11 +25,11 @@ public class WeaponFactory
 
     private static void buildWeapons()
     {
-        weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0),
+        weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0), () -> Arrays.asList(
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers, damage(2).andThen(mark(1))), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(visiblePlayers, damage(2).andThen(mark(1,1))), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(visiblePlayers, damage(2).andThen(mark(1,1))), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Machine Gun", new Ammo(0,1,0), new Ammo(1,1,0),
+        weapons.add(new WeaponCard("Machine Gun", new Ammo(0,1,0), new Ammo(1,1,0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(new ShootAction(visiblePlayers, damage(1)), new EndBranchAction()),
                         new Branch(new ShootAction(visiblePlayers, damage(1,1)), new EndBranchAction())),
@@ -41,14 +42,14 @@ public class WeaponFactory
                         new Branch(new ShootAction(visiblePlayers, damage(2,1,1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 1),
                         new Branch(new ShootAction(visiblePlayers, damage(2,2)), new EndBranchAction()),
-                        new Branch(new ShootAction(visiblePlayers, damage(2,2,1)), new EndBranchAction()))));
+                        new Branch(new ShootAction(visiblePlayers, damage(2,2,1)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("T.H.O.R", new Ammo(0,1,0), new Ammo(1,1,0),
+        weapons.add(new WeaponCard("T.H.O.R", new Ammo(0,1,0), new Ammo(1,1,0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2,1)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(2, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2,1,2)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(2, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2,1,2)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Plasma Gun", new Ammo(0,0,1), new Ammo(1,0,1),
+        weapons.add(new WeaponCard("Plasma Gun", new Ammo(0,0,1), new Ammo(1,0,1), () -> Arrays.asList(
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers, damage(2)),new EndBranchAction())), //S
                 new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(new MoveAction(2), new ShootAction(visiblePlayers, damage(2)), new EndBranchAction()), //M2S
@@ -56,51 +57,51 @@ public class WeaponFactory
                 new FireModalityAction(new Ammo(1, 0, 0), new Branch(new ShootAction(visiblePlayers, damage(3)),new EndBranchAction())), //S
                 new FireModalityAction(new Ammo(1, 0, 0),
                         new Branch(new MoveAction(2), new ShootAction(visiblePlayers, damage(3)), new EndBranchAction()), //M2S
-                        new Branch(new ShootAction(visiblePlayers, damage(3)), new MoveAction(2), new EndBranchAction())))); //SM2
+                        new Branch(new ShootAction(visiblePlayers, damage(3)), new MoveAction(2), new EndBranchAction()))))); //SM2
 
-        weapons.add(new WeaponCard("Whisper", new Ammo(1,0,1), new Ammo(2,0,1),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(awayPlayers(2), damage(3).andThen(mark(1))), new EndBranchAction()))));
+        weapons.add(new WeaponCard("Whisper", new Ammo(1,0,1), new Ammo(2,0,1), () -> Arrays.asList (
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(awayPlayers(2), damage(3).andThen(mark(1))), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Electroscythe", new Ammo(0, 0, 0), new Ammo(1, 0, 0),
+        weapons.add(new WeaponCard("Electroscythe", new Ammo(0, 0, 0), new Ammo(1, 0, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1), nearSquares(0)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(1, 1, 0), new Branch(new ShootAction(damageAll(2), nearSquares(0)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(1, 1, 0), new Branch(new ShootAction(damageAll(2), nearSquares(0)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Tractor Beam", new Ammo(0, 0, 0), new Ammo(1, 0, 0),
+        weapons.add(new WeaponCard("Tractor Beam", new Ammo(0, 0, 0), new Ammo(1, 0, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(tractorBeamPlayers1, tractorBeamSquares1, move.andThen(damage(1))), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(tractorBeamPlayers2, tractorBeamSquares2, move.andThen(damage(3))), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(tractorBeamPlayers2, tractorBeamSquares2, move.andThen(damage(3))), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Vortex Cannon", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
+        weapons.add(new WeaponCard("Vortex Cannon", new Ammo(1, 0, 0), new Ammo(1, 1, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(vortexCannonPlayers1, vortexCannonSquares1, move.andThen(damage(2))), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 0),
                         new Branch(new ShootAction(vortexCannonPlayers2, vortexCannonSquares2, move.andThen(damage(2, 1))), new EndBranchAction()),
-                        new Branch(new ShootAction(vortexCannonPlayers2, vortexCannonSquares2, move.andThen(damage(2, 1, 1))), new EndBranchAction()))));
+                        new Branch(new ShootAction(vortexCannonPlayers2, vortexCannonSquares2, move.andThen(damage(2, 1, 1))), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Furnace", new Ammo(1, 0, 0), new Ammo(1, 1, 0),
+        weapons.add(new WeaponCard("Furnace", new Ammo(1, 0, 0), new Ammo(1, 1, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageRoom(1), roomSquares), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1).andThen(markAll(1)), betweenSquares(1,1)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1).andThen(markAll(1)), betweenSquares(1,1)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 1), new Ammo(0, 2, 1),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(nonVisiblePlayers, damage(3)), new EndBranchAction()))));
+        weapons.add(new WeaponCard("Heatseeker", new Ammo(0, 1, 1), new Ammo(0, 2, 1), () -> Arrays.asList (
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(nonVisiblePlayers, damage(3)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Hellion", new Ammo(0, 0, 1), new Ammo(0, 1, 1),
+        weapons.add(new WeaponCard("Hellion", new Ammo(0, 0, 1), new Ammo(0, 1, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(awayPlayers(1), damageMultiple(1, 0, 0, 1)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0 ,1 ,0), new Branch(new ShootAction(awayPlayers(1), damageMultiple(1, 0, 0, 2)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0 ,1 ,0), new Branch(new ShootAction(awayPlayers(1), damageMultiple(1, 0, 0, 2)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Flamethrower", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
+        weapons.add(new WeaponCard("Flamethrower", new Ammo(0, 0, 0), new Ammo(0, 1, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(new ShootAction(flamethrowerVisiblePlayers, damage(1)), new EndBranchAction()),
                         new Branch(new ShootAction(flamethrowerVisiblePlayers, damage(1,1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 2),
                         new Branch(new ShootAction(damageAll(2), flamethrowerVisibleSquares), new EndBranchAction()),
-                        new Branch(new ShootAction(damageAll(2, 1), flamethrowerVisibleSquares), new EndBranchAction()))));
+                        new Branch(new ShootAction(damageAll(2, 1), flamethrowerVisibleSquares), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Grenade Launcher", new Ammo(0, 0, 0), new Ammo(0, 1, 0),
+        weapons.add(new WeaponCard("Grenade Launcher", new Ammo(0, 0, 0), new Ammo(0, 1, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(grenadeLauncherPlayers, grenadeLauncherSquares, move.andThen(damage(1))), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 1, 0),
                         new Branch(new ShootAction(grenadeLauncherPlayers, grenadeLauncherSquares, move.andThen(damage(1))), new ShootAction(damageAll(1), visibleSquares), new EndBranchAction()),
-                        new Branch(new ShootAction(damageAll(1), visibleSquares), new ShootAction(grenadeLauncherPlayers, grenadeLauncherSquares, move.andThen(damage(1))), new EndBranchAction()))));
+                        new Branch(new ShootAction(damageAll(1), visibleSquares), new ShootAction(grenadeLauncherPlayers, grenadeLauncherSquares, move.andThen(damage(1))), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Rocket Launcher", new Ammo(0, 1, 0), new Ammo(0, 2, 0),
+        weapons.add(new WeaponCard("Rocket Launcher", new Ammo(0, 1, 0), new Ammo(0, 2, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(rocketLauncherPlayers, rocketLauncherSquares, move.andThen(damage(2))), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 0),
                         new Branch(new ShootAction(rocketLauncherPlayers, rocketLauncherSquares, move.andThen(damage(2))), new MoveAction(2), new EndBranchAction()),
@@ -108,13 +109,13 @@ public class WeaponFactory
                 new FireModalityAction(new Ammo(0, 0, 1), new Branch(new ShootAction(rocketLauncherPlayers, rocketLauncherSquares, move.andThen(damageMultiple(2, 1, 0, 0))), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 1),
                         new Branch(new ShootAction(rocketLauncherPlayers, rocketLauncherSquares, move.andThen(damageMultiple(2, 1, 0, 0))), new MoveAction(2), new EndBranchAction()),
-                        new Branch(new MoveAction(2), new ShootAction(rocketLauncherPlayers, rocketLauncherSquares, move.andThen(damageMultiple(2, 1, 0, 0))), new EndBranchAction()))));
+                        new Branch(new MoveAction(2), new ShootAction(rocketLauncherPlayers, rocketLauncherSquares, move.andThen(damageMultiple(2, 1, 0, 0))), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Railgun", new Ammo(1, 0, 1), new Ammo(1, 0, 2),
+        weapons.add(new WeaponCard("Railgun", new Ammo(1, 0, 1), new Ammo(1, 0, 2), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunVisiblePlayers, damage(3)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunVisiblePlayers, damage(2, 2)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunVisiblePlayers, damage(2, 2)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Cyberblade", new Ammo(0, 1, 0), new Ammo(0, 1, 1),
+        weapons.add(new WeaponCard("Cyberblade", new Ammo(0, 1, 0), new Ammo(0, 1, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(new ShootAction(damage(2), nearSquares(0)), new EndBranchAction()),
                         new Branch(new ShootAction(damage(2), nearSquares(0)), new MoveAction(1), new EndBranchAction()),
@@ -123,31 +124,31 @@ public class WeaponFactory
                         new Branch(new ShootAction(nearPlayers(0), damage(2, 2)), new EndBranchAction()),
                         new Branch(new ShootAction(nearPlayers(0), damage(2, 2)), new MoveAction(1), new EndBranchAction()),
                         new Branch(new MoveAction(1), new ShootAction(nearPlayers(0), damage(2, 2)), new EndBranchAction()),
-                        new Branch(new ShootAction(nearPlayers(0), damage(2)), new MoveAction(1, 1), new ShootAction(nearPlayers(0),damage(2)), new EndBranchAction()))));
+                        new Branch(new ShootAction(nearPlayers(0), damage(2)), new MoveAction(1, 1), new ShootAction(nearPlayers(0),damage(2)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("ZX-2", new Ammo(0, 1, 0), new Ammo(0, 1, 1),
+        weapons.add(new WeaponCard("ZX-2", new Ammo(0, 1, 0), new Ammo(0, 1, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers, damage(1).andThen(mark(2))), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers, mark(1, 1, 1)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers, mark(1, 1, 1)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Shotgun", new Ammo(0, 0, 1), new Ammo(0, 0, 2),
+        weapons.add(new WeaponCard("Shotgun", new Ammo(0, 0, 1), new Ammo(0, 0, 2), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(shotgunPlayers, shotgunSquares, move.andThen(damage(3))), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(betweenPlayers(1, 1), damage(2)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(betweenPlayers(1, 1), damage(2)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Power Glove", new Ammo(1, 0, 0), new Ammo(1, 0, 1),
+        weapons.add(new WeaponCard("Power Glove", new Ammo(1, 0, 0), new Ammo(1, 0, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new MoveAction(1, 1), new ShootAction(nearPlayers(0), damage(1).andThen(mark(2))), new EndBranchAction())),
                 new FireModalityAction(new Ammo(0, 0, 0),
                         new Branch(new MoveAction(1, 1), new ShootAction(nearPlayers(0), damage(2)), new EndBranchAction()),
                         new Branch(new MoveAction(1, 1), new ShootAction(nearPlayers(0), damage(2)), new MoveAction(1, 1), new EndBranchAction()),
-                        new Branch(new MoveAction(1, 1), new ShootAction(nearPlayers(0), damage(2)), new MoveAction(1, 1), new ShootAction(nearPlayers(0), damage(2)), new EndBranchAction()))));
+                        new Branch(new MoveAction(1, 1), new ShootAction(nearPlayers(0), damage(2)), new MoveAction(1, 1), new ShootAction(nearPlayers(0), damage(2)), new EndBranchAction())))));
                         //TODO Add a way to move in the same direction
 
-        weapons.add(new WeaponCard("Shockwave", new Ammo(0, 0, 0), new Ammo(0, 0, 1),
+        weapons.add(new WeaponCard("Shockwave", new Ammo(0, 0, 0), new Ammo(0, 0, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(betweenPlayers(1,1), damage(1, 1, 1)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 1), new Branch(new ShootAction(damageAll(1, 1, 1, 1), betweenSquares(1,1)), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 0, 1), new Branch(new ShootAction(damageAll(1, 1, 1, 1), betweenSquares(1,1)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("Sledgehammer", new Ammo(0, 0, 0), new Ammo(0, 0, 1),
+        weapons.add(new WeaponCard("Sledgehammer", new Ammo(0, 0, 0), new Ammo(0, 0, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(nearPlayers(0), damage(2)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(sledgehammerPlayers, sledgehammerSquares, move.andThen(damage(3))), new EndBranchAction()))));
+                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(sledgehammerPlayers, sledgehammerSquares, move.andThen(damage(3))), new EndBranchAction())))));
     }
 
     //------------------------------------------------------------------------------------------------------------------
