@@ -32,4 +32,6 @@ public class Room
     public List<String> getPlayerNames(){
         return new ArrayList<>(playerNames);
     }
+
+    public List<PlayerColor> getPlayerColors() { return colors;}
 }

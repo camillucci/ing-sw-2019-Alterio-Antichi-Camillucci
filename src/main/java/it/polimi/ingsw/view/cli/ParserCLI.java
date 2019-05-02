@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.model.PlayerColor;
+
 public class ParserCLI {
 
     public String parseName() {
@@ -16,6 +18,11 @@ public class ParserCLI {
             return false;
 
         //TODO catch exceptions
+    }
+
+    public PlayerColor parseColor() {
+        //TODO
+        return null;
     }
 
 }

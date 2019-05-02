@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.Square;
 
 import java.util.ArrayList;
@@ -22,6 +23,10 @@ public class MessengerCLI {
         System.out.println("Choose interface type");
         System.out.println("Press 0 for CLI");
         System.out.println("Press 1 for GUI");
+    }
+
+    public void askColor(ArrayList<PlayerColor> colors) {
+        //TODO
     }
 
     public void displayRollback() {
