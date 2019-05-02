@@ -38,6 +38,15 @@ public class MessengerCLI {
         return availableColors.size();
     }
 
+    public void askGameLenght() {
+        System.out.println("Choose how many skulls your game is going to have");
+    }
+
+    public void askGameMap() {
+        System.out.println("Choose one of the following maps");
+        //TODO add maps to show
+    }
+
     public void displayRollback() {
         //TODO
     }

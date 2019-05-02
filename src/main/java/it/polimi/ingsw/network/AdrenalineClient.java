@@ -49,7 +49,7 @@ public class AdrenalineClient
             if(!(takenColors.contains(pc)))
                 availableColors.add(pc);
         }
-        int size = messanger.askColor(availableColors);
-        server.out().sendObject(parser.parseColor(size));
+        messanger.askColor(availableColors);
+        server.out().sendObject(parser.parseColor(availableColors));
     }
 }

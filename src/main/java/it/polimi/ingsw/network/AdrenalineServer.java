@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
+import it.polimi.ingsw.model.PlayerColor;
 
 import java.io.Serializable;
 
@@ -20,12 +21,14 @@ public class AdrenalineServer
     private void login() throws Exception
     {
         boolean interfaeType = client.in().getBool();
-        while(controller.existName(client.in().getObject()))
+        String name = client.in().getObject();
+        while(controller.existName(name))
             client.out().sendBool(false); // name not accepted
         client.out().sendBool(true); // name accepted
         room = getAvailableRoom();
         client.out().sendObject((Serializable) room.getPlayerColors());
-        client.in().getObject(); //color chosen by user
+        PlayerColor color = client.in().getObject(); //color chosen by user
+        room.addPlayer(color, name);
     }
 
     private Room getAvailableRoom() {
