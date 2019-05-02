@@ -23,6 +23,12 @@ public class Controller {
     {
     }
 
+    private Room newRoom() {
+        Room room = new Room();
+        lobby.add(room);
+        return room;
+    }
+
     private Room newRoom(int gameLength, int gameSize)
     {
         Room ret = new Room(gameLength, gameSize);
@@ -41,5 +47,12 @@ public class Controller {
             if(s.equals(name))
                 return true;
         return false;
+    }
+
+    public Room getAvailableRoom() {
+        if(lobby.get(lobby.size() - 1).getSpace())
+            return lobby.get(lobby.size() - 1);
+        newRoom();
+        return lobby.get(lobby.size());
     }
 }

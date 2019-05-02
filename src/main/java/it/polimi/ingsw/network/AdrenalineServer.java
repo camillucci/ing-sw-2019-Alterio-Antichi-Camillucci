@@ -25,10 +25,10 @@ public class AdrenalineServer
         client.out().sendBool(true); // name accepted
         room = getAvailableRoom();
         client.out().sendObject((Serializable) room.getPlayerColors());
+        client.in().getObject(); //color chosen by user
     }
 
     private Room getAvailableRoom() {
-        //TODO
-        return null;
+        return controller.getAvailableRoom();
     }
 }

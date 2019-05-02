@@ -20,7 +20,7 @@ public class ParserCLI {
         //TODO catch exceptions
     }
 
-    public PlayerColor parseColor() {
+    public PlayerColor parseColor(int size) {
         //TODO
         return null;
     }

@@ -25,8 +25,17 @@ public class MessengerCLI {
         System.out.println("Press 1 for GUI");
     }
 
-    public void askColor(ArrayList<PlayerColor> colors) {
-        //TODO
+    public int askColor(ArrayList<PlayerColor> colors) {
+        System.out.println("Choose one of the available colors");
+        ArrayList<String> availableColors = new ArrayList<String>();
+        for(PlayerColor pc : colors) {
+            availableColors.add(pc.name());
+        }
+        for(int i = 0; i < availableColors.size(); i++) {
+            System.out.println("Press" + i + "if you want the color" + availableColors.get(i));
+        }
+
+        return availableColors.size();
     }
 
     public void displayRollback() {
