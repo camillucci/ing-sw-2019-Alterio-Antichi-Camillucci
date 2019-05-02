@@ -50,6 +50,18 @@ public class AdrenalineClient
                 availableColors.add(pc);
         }
         messanger.askColor(availableColors);
+        //TODO lock
         server.out().sendObject(parser.parseColor(availableColors));
+        if(server.in().getBool()) {
+            messanger.askGameLenght();
+            parser.parseGameLenght();
+            messanger.askGameMap();
+            parser.parseGameMap();
+        }
+    }
+
+    private void matchStart() throws Exception {
+        if(server.in().getBool())
+            messanger.matchStart();
     }
 }

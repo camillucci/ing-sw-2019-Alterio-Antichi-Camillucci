@@ -22,9 +22,12 @@ public class Room
         this.gameSize = gamesize;
     }
 
-    public void addPlayer(PlayerColor color, String playerName){
+    public boolean addPlayer(PlayerColor color, String playerName){
         colors.add(color);
         playerNames.add(playerName);
+        if(playerNames.size() == 1)
+            return true;
+        return false;
     }
 
     private void newMatch()
