@@ -28,8 +28,7 @@ public class AdrenalineServer
         room = getAvailableRoom();
         client.out().sendObject((Serializable) room.getPlayerColors());
         PlayerColor color = client.in().getObject(); //color chosen by user
-        boolean askMoreInfo = room.addPlayer(color, name);
-        client.out().sendBool(askMoreInfo);
+        client.out().sendBool(room.addPlayer(color, name));
     }
 
     public void matchStart() throws Exception {

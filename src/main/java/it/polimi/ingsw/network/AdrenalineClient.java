@@ -17,9 +17,12 @@ public class AdrenalineClient
     private MessengerCLI messanger;
     private final String hostname = "127.0.0.1";
     private final int ip = 10000;
+    private boolean onTurn;
+
     public AdrenalineClient() {
 
     }
+
     public void login() throws Exception {
         messanger.askConnection();
         boolean connectionType = parser.parseChoice();
@@ -63,5 +66,9 @@ public class AdrenalineClient
     private void matchStart() throws Exception {
         if(server.in().getBool())
             messanger.matchStart();
+    }
+
+    private void setOnTurn(boolean onTurn) {
+        this.onTurn = onTurn;
     }
 }
