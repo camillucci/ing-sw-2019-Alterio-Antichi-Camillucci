@@ -15,6 +15,8 @@ public class AdrenalineServer
 
     private void login() throws Exception
     {
+        boolean connectionType = client.in().getBool();
+        boolean interfaeType = client.in().getBool();
         while(controller.existName(client.in().getObject()))
             client.out().sendBool(false); // name not accepted
         client.out().sendBool(true); // name accepted

@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-import java.io.InputStream;
-
 public class ParserCLI {
-    private ManagerCLI manager;
 
     public String parseName() {
         String name = System.in.toString();
