@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SpawnAndShopSquare extends Square {
-    private AmmoColor color;
     private List<WeaponCard> weapons;
 
-    public SpawnAndShopSquare(int y, int x, AmmoColor color, SquareBorder[] borders, List<WeaponCard> weapons) {
+    public SpawnAndShopSquare(int y, int x, SquareBorder[] borders, List<WeaponCard> weapons) {
         this.y = y;
         this.x = x;
-        this.color = color;
         this.north = borders[0];
         this.south = borders[1];
         this.west = borders[2];

@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class BranchMapFactory
@@ -53,7 +54,6 @@ public class BranchMapFactory
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(1), new ReloadAction(), new WeaponSelectionAction()), //PM1RW
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(4), new EndBranchAction()), //PM4
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(2), new GrabAction()))); //PM2G
-        //addPowerups(branches, player);
         return new BranchMap(branches);
     }
 
@@ -72,13 +72,12 @@ public class BranchMapFactory
 
     public static BranchMap reloadEndTurn()
     {
-        List<Branch> branches = new ArrayList<>(Arrays.asList(
-                new Branch(new ReloadAction(), new EndBranchAction())));
-        //addPowerups(branches, player);
+        List<Branch> branches = new ArrayList<>(Collections.singletonList(
+                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new ReloadAction(), new EndBranchAction()))); //PR
         return new BranchMap(branches);
     }
 
-    public static BranchMap PowerUpBranchMap(Player player, PowerUpAction.Type type)
+    public static BranchMap powerUpBranchMap(PowerUpAction.Type type)
     {
         return new BranchMap(new Branch(new PowerUpAction(type), new EndBranchAction()));
     }

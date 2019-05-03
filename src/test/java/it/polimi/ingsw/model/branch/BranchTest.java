@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.branch;
 
+import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
@@ -160,11 +161,16 @@ class BranchTest {
     @Test
     void eventsTest()
     {
+        GameBoard gameBoard = new GameBoard(5, 11);
+        p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        p.getCurrentSquare().addPlayer(p);
+
         // Action completed
         eventTriggered = false;
         getM3GM2GW();
         curBranch.actionCompletedEvent.addEventHandler((a,b)->this.eventTriggered=true);
         curBranch.getCompatibleActions().get(0).initialize(p);
+        curBranch.getCompatibleActions().get(0).addTarget(p.getCurrentSquare());
         curBranch.getCompatibleActions().get(0).doAction();
         assertTrue(eventTriggered);
 

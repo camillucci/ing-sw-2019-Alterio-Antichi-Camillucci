@@ -48,13 +48,16 @@ class MoveActionTest {
     {
         Player p = new Player("name", PlayerColor.BLUE, gameBoard);
         p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
-        eventTriggered=false;
+        p.getCurrentSquare().addPlayer(p);
+        eventTriggered = false;
         Action action = new MoveAction(3);
         action.completedActionEvent.addEventHandler((a,b)->this.eventTriggered = true);
         action.initialize(p);
+        assertEquals(9, action.getPossibleSquares().size());
+        action.addTarget(gameBoard.getSquares().get(2));
         action.doAction();
         assertTrue(eventTriggered);
-        assertEquals(9, action.getPossibleSquares().size());
+        assertEquals(gameBoard.getSquares().get(2), p.getCurrentSquare());
 
         eventTriggered = false;
         triggeredAction = new MoveAction(3);
@@ -62,7 +65,6 @@ class MoveActionTest {
         action.initialize(p);
         action.doAction();
         assertTrue(eventTriggered);
-        assertEquals(9, action.getPossibleSquares().size());
     }
 
     @Test
@@ -70,13 +72,16 @@ class MoveActionTest {
     {
         Player p = new Player("name", PlayerColor.BLUE, gameBoard);
         p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
-        eventTriggered=false;
+        p.getCurrentSquare().addPlayer(p);
+        eventTriggered = false;
         Action action = new MoveAction(1, 3);
         action.completedActionEvent.addEventHandler((a,b)->this.eventTriggered = true);
         action.initialize(p);
+        assertEquals(8, action.getPossibleSquares().size());
+        action.addTarget(gameBoard.getSquares().get(1));
         action.doAction();
         assertTrue(eventTriggered);
-        assertEquals(8, action.getPossibleSquares().size());
+        assertEquals(gameBoard.getSquares().get(1), p.getCurrentSquare());
 
         eventTriggered = false;
         triggeredAction = new MoveAction(1, 3);
@@ -84,7 +89,6 @@ class MoveActionTest {
         action.initialize(p);
         action.doAction();
         assertTrue(eventTriggered);
-        assertEquals(8, action.getPossibleSquares().size());
     }
 
     void eventHandler(Action sender, Action completedAction)

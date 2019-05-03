@@ -16,10 +16,9 @@ public class Match implements ActionsProvider {
     private int turnPos = -1;
     private List<Action> curActions;
     private Player curPlayer;
-    private GameBoard gameBoard;
+    public final GameBoard gameBoard;
     private List<Player> players = new ArrayList<>();
     private List<Player> deadPlayers = new ArrayList<>();
-    private List<Player> getDeadPlayersClone;
     private Turn currentTurn;
     private List<PlayerColor> playerColors;
     private boolean finalFrenzy;
@@ -47,14 +46,14 @@ public class Match implements ActionsProvider {
             players.add(p);
         }
         gameBoard.setPlayers(players);
-        this.deadPlayers = new ArrayList<>(players); //TODO uncomment this line
+        this.deadPlayers = new ArrayList<>(players);
         spawn(false);
     }
 
     private void onPlayerDamaged(Player damaged, int val)
     {
         List<Action> backupActions = this.curActions;
-        BranchMap branchMap = BranchMapFactory.PowerUpBranchMap(damaged, PowerUpAction.Type.COUNTER_ATTACK);
+        BranchMap branchMap = BranchMapFactory.powerUpBranchMap(PowerUpAction.Type.COUNTER_ATTACK);
         branchMap.newActionsEvent.addEventHandler((a,actions) -> setNewActions(actions));
         branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> setNewActions(backupActions));
         setNewActions(branchMap.getPossibleActions());
@@ -124,6 +123,8 @@ public class Match implements ActionsProvider {
             if (damage.size() == MAX_DAMAGES)
                 tempKillShot.add(damage.get(MAX_DAMAGES - 1));
             gameBoard.addKillShotTrack(tempKillShot);
+            if(gameBoard.getKillShotTrack().size() == 8)
+                frenzyStarter = players.indexOf(curPlayer);
         }
     }
 

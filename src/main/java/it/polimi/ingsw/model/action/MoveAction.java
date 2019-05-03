@@ -32,7 +32,9 @@ public class MoveAction extends Action
 
     private void move()
     {
-        //TODO
+        ownerPlayer.getCurrentSquare().removePlayer(ownerPlayer);
+        ownerPlayer.setCurrentSquare(targetSquares.get(0));
+        ownerPlayer.getCurrentSquare().addPlayer(ownerPlayer);
     }
 
     @Override

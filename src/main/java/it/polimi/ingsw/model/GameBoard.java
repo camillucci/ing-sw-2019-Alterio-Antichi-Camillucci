@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static it.polimi.ingsw.model.AmmoColor.*;
 import static it.polimi.ingsw.model.SquareBorder.*;
 
 public class GameBoard {
@@ -37,44 +35,44 @@ public class GameBoard {
         if(gameSize == 10) {
             squares[0][0] = new AmmoSquare(0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, ammoDeck.draw());
             squares[0][1] = new AmmoSquare(0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck.draw());
-            squares[0][2] = new SpawnAndShopSquare(0, 2, BLUE, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, blueShop);
+            squares[0][2] = new SpawnAndShopSquare(0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, blueShop);
             squares[0][3] = null;
-            squares[1][0] = new SpawnAndShopSquare(1, 0, RED, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, redShop);
+            squares[1][0] = new SpawnAndShopSquare(1, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, redShop);
             squares[1][1] = new AmmoSquare(1, 1, new SquareBorder[]{WALL, DOOR, ROOM, ROOM}, ammoDeck.draw());
             squares[1][2] = new AmmoSquare(1, 2, new SquareBorder[]{DOOR, WALL, ROOM, DOOR}, ammoDeck.draw());
             squares[1][3] = new AmmoSquare(1, 3, new SquareBorder[]{NOTHING, ROOM, DOOR, NOTHING}, ammoDeck.draw());
             squares[2][0] = null;
             squares[2][1] = new AmmoSquare(2, 1, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck.draw());
             squares[2][2] = new AmmoSquare(2, 2, new SquareBorder[]{WALL, NOTHING, ROOM, DOOR}, ammoDeck.draw());
-            squares[2][3] = new SpawnAndShopSquare(2, 3, YELLOW, new SquareBorder[]{ROOM, NOTHING, DOOR, NOTHING}, yellowShop);
+            squares[2][3] = new SpawnAndShopSquare(2, 3, new SquareBorder[]{ROOM, NOTHING, DOOR, NOTHING}, yellowShop);
         }
         else if (gameSize == 11) {
             squares[0][0] = new AmmoSquare(0, 0, new SquareBorder[]{NOTHING, DOOR, NOTHING, ROOM}, ammoDeck.draw());
             squares[0][1] = new AmmoSquare(0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck.draw());
-            squares[0][2] = new SpawnAndShopSquare(0, 2, BLUE, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, blueShop);
+            squares[0][2] = new SpawnAndShopSquare(0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, blueShop);
             squares[0][3] = new AmmoSquare(0, 3, new SquareBorder[]{NOTHING, DOOR, DOOR, NOTHING}, ammoDeck.draw());
-            squares[1][0] = new SpawnAndShopSquare(1, 0, RED, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, redShop);
+            squares[1][0] = new SpawnAndShopSquare(1, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, redShop);
             squares[1][1] = new AmmoSquare(1, 1, new SquareBorder[]{WALL, DOOR, ROOM, WALL}, ammoDeck.draw());
             squares[1][2] = new AmmoSquare(1, 2, new SquareBorder[]{DOOR, ROOM, WALL, ROOM}, ammoDeck.draw());
             squares[1][3] = new AmmoSquare(1, 3, new SquareBorder[]{DOOR, ROOM, ROOM, NOTHING}, ammoDeck.draw());
             squares[2][0] = null;
             squares[2][1] = new AmmoSquare(2, 1, new SquareBorder[]{DOOR, NOTHING, NOTHING, DOOR}, ammoDeck.draw());
             squares[2][2] = new AmmoSquare(2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck.draw());
-            squares[2][3] = new SpawnAndShopSquare(2, 3, YELLOW, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, yellowShop);
+            squares[2][3] = new SpawnAndShopSquare(2, 3, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, yellowShop);
         }
         else {
             squares[0][0] = new AmmoSquare(0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, DOOR}, ammoDeck.draw());
             squares[0][1] = new AmmoSquare(0, 1, new SquareBorder[]{NOTHING, DOOR, DOOR, ROOM}, ammoDeck.draw());
-            squares[0][2] = new SpawnAndShopSquare(0, 2, BLUE, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, blueShop);
+            squares[0][2] = new SpawnAndShopSquare(0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, blueShop);
             squares[0][3] = new AmmoSquare(0, 3, new SquareBorder[]{NOTHING, DOOR, DOOR, NOTHING}, ammoDeck.draw());
-            squares[1][0] = new SpawnAndShopSquare(1, 0, RED, new SquareBorder[]{ROOM, DOOR, NOTHING, WALL}, redShop);
+            squares[1][0] = new SpawnAndShopSquare(1, 0, new SquareBorder[]{ROOM, DOOR, NOTHING, WALL}, redShop);
             squares[1][1] = new AmmoSquare(1, 1, new SquareBorder[]{DOOR, DOOR, WALL, WALL}, ammoDeck.draw());
             squares[1][2] = new AmmoSquare(1, 2, new SquareBorder[]{DOOR, ROOM, WALL, ROOM}, ammoDeck.draw());
             squares[1][3] = new AmmoSquare(1, 3, new SquareBorder[]{DOOR, ROOM, ROOM, NOTHING}, ammoDeck.draw());
             squares[2][0] = new AmmoSquare(2, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck.draw());
             squares[2][1] = new AmmoSquare(2, 1, new SquareBorder[]{DOOR, NOTHING, ROOM, DOOR}, ammoDeck.draw());
             squares[2][2] = new AmmoSquare(2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck.draw());
-            squares[2][3] = new SpawnAndShopSquare(2, 3, YELLOW, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, yellowShop);
+            squares[2][3] = new SpawnAndShopSquare(2, 3, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, yellowShop);
         }
     }
 

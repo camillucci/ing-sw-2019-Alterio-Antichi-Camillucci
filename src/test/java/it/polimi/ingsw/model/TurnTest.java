@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TurnTest
 {
     private boolean endTurn = false;
-    List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
-    List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
-    Match match = new Match(names, colors, 8, 10);
-    Bot bot = new Bot();
-    boolean triggered = false;
+    private List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
+    private List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
+    private Match match = new Match(names, colors, 8, 10);
+    private Bot bot = new Bot();
+    private boolean triggered = false;
 
     @Test
     void test1()
@@ -38,14 +38,17 @@ class TurnTest
     @Test
     void test2() // rollback in Turn
     {
-        Turn turn = new Turn(new Player("a", BLUE, new GameBoard(10,7)), match);
+        Turn turn = new Turn(new Player("a", BLUE, match.gameBoard), match);
+        turn.getPlayer().setCurrentSquare(match.gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
+        turn.getPlayer().getCurrentSquare().addPlayer(turn.getPlayer());
         turn.endTurnEvent.addEventHandler((a,b) -> triggered = true);
 
         bot.playNoAdrenaline(turn); // shooter damaged by 3 or 4
 
         for(int i = 0, N = 200; i < N; i++)
         {
-            BranchTestUtilities.searchAndDo(turn.getActions(), new MoveAction(2));
+            turn.getActions().stream().filter(a->BranchTestUtilities.isEqual(a, new MoveAction(2))).forEach(
+                    a->{a.initialize(turn.getPlayer()); a.addTarget(turn.getPlayer().getCurrentSquare()); a.doAction();});
             BranchTestUtilities.searchAndDo(turn.getActions(), new RollBackAction());
             assertFalse(triggered);
         }
@@ -53,5 +56,4 @@ class TurnTest
         bot.playThreeDamage(turn);
         assertTrue(triggered);
     }
-
 }

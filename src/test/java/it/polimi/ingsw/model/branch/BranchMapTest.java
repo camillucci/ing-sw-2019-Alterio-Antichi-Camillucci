@@ -1,13 +1,9 @@
 package it.polimi.ingsw.model.branch;
 
-import it.polimi.ingsw.model.ActionsProvider;
-import it.polimi.ingsw.model.GameBoard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerColor;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.action.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.model.branch.BranchTestUtilities.testEquality;
@@ -28,6 +24,10 @@ class BranchMapTest {
     @Test
     void eventsTest()
     {
+        GameBoard gameBoard = new GameBoard(5, 11);
+        p.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
+        p.getCurrentSquare().addPlayer(p);
+
         // Rollback event
         eventTriggered = false;
         curBranchMap = BranchMapFactory.threeDamage();
@@ -48,7 +48,10 @@ class BranchMapTest {
         curBranchMap.newActionsEvent.addEventHandler(this::checkNewActionsEvent);
         curBranchMap.newActionsEvent.addEventHandler((a,b)->this.eventTriggered=true);
         MoveAction M3 = new MoveAction(3);
-        curBranchMap.getPossibleActions().stream().filter(a->a.isCompatible(M3) && a instanceof MoveAction).forEach(a->{a.initialize(p);a.doAction();});
+        M3.initialize(p);
+        M3.addTarget(p.getCurrentSquare());
+        curBranchMap.getPossibleActions().stream().filter(a->a.isCompatible(M3) && a instanceof MoveAction).forEach(
+                a->{a.initialize(p); a.addTarget(p.getCurrentSquare()); a.doAction();});
         assertTrue(eventTriggered);
     }
 

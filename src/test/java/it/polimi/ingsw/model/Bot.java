@@ -2,12 +2,9 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
-import it.polimi.ingsw.model.branch.BranchMap;
-import it.polimi.ingsw.model.branch.BranchMapFactory;
 import it.polimi.ingsw.model.branch.BranchTestUtilities;
 import it.polimi.ingsw.model.weapons.ShootFunc;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class Bot
 {
 
-    Player player = new Player("A", PlayerColor.GREY, null);
+    private Player player = new Player("A", PlayerColor.GREY, null);
     private WeaponCard newWeaponCard(ShootFunc s)
     {
         Ammo ammo = new Ammo(0, 0, 0);
-        return new WeaponCard("B", ammo, ammo, () -> Arrays.asList(
+        return new WeaponCard("B", ammo, ammo, () -> Collections.singletonList(
                 new FireModalityAction(ammo, new Branch(new ShootAction((shooter, players) -> Collections.emptyList(), (shooter, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
     }
 
@@ -72,7 +69,7 @@ class Bot
 
     public void playSpawnBranchMap(ActionsProvider provider)
     {
-        assertTrue(provider.getActions().size() == 2);
+        assertEquals(2, provider.getActions().size());
         provider.getActions().get(0).doAction();
         provider.getActions().get(0).doAction();
         provider.getActions().get(0).doAction();
