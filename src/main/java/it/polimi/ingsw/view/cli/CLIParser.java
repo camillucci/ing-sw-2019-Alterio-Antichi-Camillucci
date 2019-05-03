@@ -23,12 +23,12 @@ public class CLIParser {
         //TODO catch exceptions
     }
 
-    public PlayerColor parseColor(ArrayList<PlayerColor> availableColors) {
+    public int parseColor(ArrayList<String> availableColors) {
         int answer = Integer.parseInt(System.in.toString());
         if(answer < availableColors.size() && answer >= 0)
-            return availableColors.get(answer);
+            return answer;
         //TODO catch exception
-        return null;
+        return -1;
     }
 
     public int parseGameLenght() {

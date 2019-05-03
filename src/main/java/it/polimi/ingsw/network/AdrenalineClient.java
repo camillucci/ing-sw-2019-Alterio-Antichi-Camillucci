@@ -44,15 +44,10 @@ public class AdrenalineClient
             server.out().sendObject(name);
         }while(server.in().getBool()); // name is ok?
 
-        ArrayList<PlayerColor> takenColors = server.in().getObject(); //get available colors
-        ArrayList<PlayerColor> availableColors = new ArrayList<PlayerColor>();
-        for(PlayerColor pc : PlayerColor.values()) {
-            if(!(takenColors.contains(pc)))
-                availableColors.add(pc);
-        }
+        ArrayList<String> availableColors = server.in().getObject();
         messanger.askColor(availableColors);
         //TODO lock
-        server.out().sendObject(parser.parseColor(availableColors)); //send user's color of choice
+        server.out().sendInt(parser.parseColor(availableColors)); //send user's color of choice
         if(server.in().getBool()) {
             messanger.askGameLenght();
             parser.parseGameLenght();
