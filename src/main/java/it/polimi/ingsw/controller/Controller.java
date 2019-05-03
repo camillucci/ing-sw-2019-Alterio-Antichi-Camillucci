@@ -18,13 +18,6 @@ public class Controller {
         return room;
     }
 
-    private Room newRoom(int gameLength, int gameSize)
-    {
-        Room ret = new Room(gameLength, gameSize);
-        lobby.add(ret);
-        return ret;
-    }
-
     public List<String> getPlayerNames()
     {
         return lobby.stream().flatMap(room -> room.getPlayerNames().stream()).collect(Collectors.toList());

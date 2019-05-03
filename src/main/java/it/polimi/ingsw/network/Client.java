@@ -16,7 +16,6 @@ public abstract class Client // same for Socket and RMI
     public abstract void close();
     /*
     private String name;
-    private boolean onTurn = false;
     private boolean connectionType;
     private boolean interfaceType;
     private TCPClient tcpClient;
