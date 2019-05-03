@@ -14,7 +14,6 @@ public class AdrenalineClient
     private CLIMessanger messanger;
     private final String hostname = "127.0.0.1";
     private final int ip = 10000;
-    private boolean onTurn;
 
     public AdrenalineClient() {
         parser = new CLIParser();
@@ -58,7 +57,6 @@ public class AdrenalineClient
 
     private void matchStart() throws Exception {
         messanger.threePlayers();
-        //TODO add timer method
         if(server.in().getBool())
             messanger.matchStart();
     }
@@ -67,9 +65,5 @@ public class AdrenalineClient
         ArrayList<String> powerupCards = server.in().getObject(); //Get two powerup cards
         messanger.spawn(powerupCards);
         server.out().sendInt(parser.parseSpawnChoice(powerupCards));
-    }
-
-    private void setOnTurn(boolean onTurn) {
-        this.onTurn = onTurn;
     }
 }

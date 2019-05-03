@@ -17,22 +17,14 @@ public class Room
     private List<String> playerNames = new ArrayList<>();
     private int gameLength;
     private int gameSize;
-    private Match match;
+    private Match match = null;
     private MatchManager matchManager;
 
     public Room() {
-        /*
-        for (PlayerColor pc : PlayerColor) {
+
+        for (PlayerColor pc : PlayerColor.values()) {
             availableColors.add(pc);
         }
-
-         */
-    }
-
-    public Room(int gamelength, int gamesize)
-    {
-        this.gameLength = gamelength;
-        this.gameSize = gamesize;
     }
 
     public void handleAction(Action action) {
@@ -40,21 +32,23 @@ public class Room
         //TODO update all players view
     }
 
-    public boolean addPlayer(int index, String playerName, AdrenalineServer client){
+    public boolean addPlayer(int index, String playerName, AdrenalineServer client) throws Exception {
         clients.add(client);
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
         playerNames.add(playerName);
         if(playerNames.size() == 5)
-            match = new Match(playerNames, playerColors, gameLength, gameSize);
+            match = newMatch();
         else if(playerNames.size() == 1)
             return true;
         return false;
     }
 
-    private void newMatch()
-    {
-        match = new Match(playerNames, playerColors, gameLength, gameSize);
+    private Match newMatch() throws Exception {
+        for(AdrenalineServer client : clients) {
+            client.matchStart();
+        }
+        return new Match(playerNames, playerColors, gameLength, gameSize);
     }
 
     public List<String> getPlayerNames(){
@@ -74,7 +68,8 @@ public class Room
         return false;
     }
 
-      public void spawn() throws Exception {
+    /*
+    public void spawn() throws Exception {
         for(int i = 0; i < clients.size(); i++) {
             ArrayList<PowerUpCard> temp = new ArrayList<>();
             temp.add(match.getPowerUpDeck().draw());
@@ -88,6 +83,14 @@ public class Room
             //TODO discard temp.get(choice);
             //TODO add the other card to player's card pool
         }
+    }
+
+     */
+
+    private void threePlayers() throws Exception {
+        //TODO add timer
+        if(match == null)
+            match = newMatch();
     }
 
     public void setGameSize(int gameSize) {
