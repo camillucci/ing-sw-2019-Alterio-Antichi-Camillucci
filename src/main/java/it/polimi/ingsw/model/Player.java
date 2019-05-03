@@ -211,6 +211,10 @@ public class Player implements Cloneable {
         return mark;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setCurrentSquare(Square currentSquare) {
         this.currentSquare = currentSquare;
     }

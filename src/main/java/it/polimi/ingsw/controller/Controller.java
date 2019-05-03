@@ -7,16 +7,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Controller {
-    MatchManager matchManager;
     private List<Room> lobby = new ArrayList<>();
 
-    public Controller() {
-        this.matchManager = new MatchManager();
-    }
-
-    public void handleAction(Action action) {
-        matchManager.handleAction(action);
-        //TODO update all players view
+    public Controller(){
     }
 
     private Room newRoom() {

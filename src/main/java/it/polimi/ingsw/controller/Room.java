@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.PlayerColor;
+import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.network.AdrenalineServer;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Room
     private int gameLength;
     private int gameSize;
     private Match match;
+    private MatchManager matchManager;
 
     public Room() {}
 
@@ -22,6 +24,11 @@ public class Room
     {
         this.gameLength = gamelength;
         this.gameSize = gamesize;
+    }
+
+    public void handleAction(Action action) {
+        matchManager.handleAction(action);
+        //TODO update all players view
     }
 
     public boolean addPlayer(PlayerColor color, String playerName){

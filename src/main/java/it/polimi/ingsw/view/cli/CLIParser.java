@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.PlayerColor;
 
 import java.util.ArrayList;
 
-public class ParserCLI {
+public class CLIParser {
 
     public String parseName() {
         String name = System.in.toString();
@@ -45,6 +45,10 @@ public class ParserCLI {
             return answer;
         //TODO catch exceptions
         return 0;
+    }
+
+    public void parseTargets() {
+        //TODO
     }
 
 }

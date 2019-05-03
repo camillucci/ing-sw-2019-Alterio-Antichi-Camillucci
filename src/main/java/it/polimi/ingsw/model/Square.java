@@ -77,6 +77,10 @@ public abstract class Square {
         return players;
     }
 
+    public String getName() {
+        return Integer.toString(x) + "-" + Integer.toString(y);
+    }
+
     public void addPlayer(Player player) {
         players.add(player);
     }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Square;
 
 import java.util.ArrayList;
 
-public class MessengerCLI {
+public class CLIMessanger {
     //TODO
 
     public void insertName() {
@@ -60,5 +60,22 @@ public class MessengerCLI {
 
     public void displayMap(int mapType) {
         //TODO add displayable map for every int between 0 and 2
+    }
+
+    public void displayTargetsPlayers(ArrayList<Player> targets) {
+        for(int i = 0; i < targets.size(); i++)
+            System.out.println("Press" + i + "if you want to target player" + targets.get(i).getName());
+    }
+
+    public void displayTargetsSquares(ArrayList<Square> targets) {
+        for(int i = 0; i < targets.size(); i++)
+            System.out.println("Press" + i + "if you want to target player" + targets.get(i).getName());
+    }
+
+    public void displayTargetsBoth(ArrayList<Player> targetPlayers, ArrayList<Square> targetSquares) {
+        for(int i = 0; i < targetPlayers.size(); i++)
+            System.out.println("Press" + i + "if you want to target player" + targetPlayers.get(i).getName());
+        for(int i = 0; i + targetPlayers.size() < targetSquares.size(); i++)
+            System.out.println("Press" + i + targetPlayers.size() + "if you want to target player" + targetSquares.get(i).getName());
     }
 }

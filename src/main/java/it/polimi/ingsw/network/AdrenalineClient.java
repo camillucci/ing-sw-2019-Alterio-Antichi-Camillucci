@@ -1,27 +1,24 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.network.socket.TCPClient;
-import it.polimi.ingsw.view.cli.MessengerCLI;
-import it.polimi.ingsw.view.cli.ParserCLI;
+import it.polimi.ingsw.view.cli.CLIMessanger;
+import it.polimi.ingsw.view.cli.CLIParser;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AdrenalineClient
 {
     private Client server;
-    private ParserCLI parser;
-    private MessengerCLI messanger;
+    private CLIParser parser;
+    private CLIMessanger messanger;
     private final String hostname = "127.0.0.1";
     private final int ip = 10000;
     private boolean onTurn;
 
     public AdrenalineClient() {
-        parser = new ParserCLI();
-        messanger = new MessengerCLI();
+        parser = new CLIParser();
+        messanger = new CLIMessanger();
     }
 
     public void login() throws Exception {
@@ -69,6 +66,11 @@ public class AdrenalineClient
         //TODO add timer method
         if(server.in().getBool())
             messanger.matchStart();
+    }
+
+    public void Spawn() throws Exception {
+        server.in().getObject(); //Get two powerup cards
+        //TODO
     }
 
     private void setOnTurn(boolean onTurn) {
