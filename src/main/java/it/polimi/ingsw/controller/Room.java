@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.PlayerColor;
+import it.polimi.ingsw.model.PowerUpCard;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.network.AdrenalineServer;
 
@@ -73,8 +74,20 @@ public class Room
         return false;
     }
 
-    public void spawn() {
-        //TODO
+      public void spawn() throws Exception {
+        for(int i = 0; i < clients.size(); i++) {
+            ArrayList<PowerUpCard> temp = new ArrayList<>();
+            temp.add(match.getPowerUpDeck().draw());
+            temp.add(match.getPowerUpDeck().draw());
+            ArrayList<String> tempString = new ArrayList<>();
+            for (int j = 0; j < temp.size(); j++) {
+                tempString.add(temp.get(j).getName());
+                tempString.add(temp.get(j).getColor().name());
+            }
+            int choice = clients.get(i).spawn(tempString);
+            //TODO discard temp.get(choice);
+            //TODO add the other card to player's card pool
+        }
     }
 
     public void setGameSize(int gameSize) {

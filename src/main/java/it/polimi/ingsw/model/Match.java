@@ -149,6 +149,10 @@ public class Match implements ActionsProvider {
         return frenzyStarter;
     }
 
+    public PowerUpDeck getPowerUpDeck() {
+        return gameBoard.getPowerUpDeck();
+    }
+
     @Override
     public Player getPlayer() {
         return this.curPlayer;

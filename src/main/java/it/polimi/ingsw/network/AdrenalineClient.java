@@ -64,8 +64,9 @@ public class AdrenalineClient
     }
 
     public void Spawn() throws Exception {
-        server.in().getObject(); //Get two powerup cards
-        //TODO
+        ArrayList<String> powerupCards = server.in().getObject(); //Get two powerup cards
+        messanger.spawn(powerupCards);
+        server.out().sendInt(parser.parseSpawnChoice(powerupCards));
     }
 
     private void setOnTurn(boolean onTurn) {
