@@ -19,6 +19,7 @@ public class PowerUpAction extends ShootAction
     {
         super(null, null, shootFunc);
         this.type = type;
+        this.optional = true;
     }
 
     // End-Turn powerUp Constructor
@@ -26,11 +27,13 @@ public class PowerUpAction extends ShootAction
     {
         super(playersFilter, squaresFilter, shootFunc);
         type = Type.END_START_MOVE;
+        this.optional = true;
     }
 
     public PowerUpAction(Type type)
     {
         this.type = type;
+        this.optional = true;
     }
 
     @Override

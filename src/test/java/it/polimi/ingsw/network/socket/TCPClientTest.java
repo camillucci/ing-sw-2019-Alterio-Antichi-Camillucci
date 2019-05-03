@@ -210,7 +210,7 @@ class TCPClientTest {
             // client connecting to server
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
-            // reciving and saving file
+            // receiving and saving file
             clientSocket.in().getFile(path2);
 
             // open file in an array tmp

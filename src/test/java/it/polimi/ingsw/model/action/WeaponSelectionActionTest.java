@@ -38,61 +38,12 @@ class WeaponSelectionActionTest {
 
     WeaponCard newWeaponCard(ShootFunc s)
     {
-       return new WeaponCard("B", ammo, ammo, () -> Arrays.asList(
+        return new WeaponCard("B", ammo, ammo, () -> Arrays.asList(
                 new FireModalityAction(ammo, new Branch(new ShootAction((shooter, players) -> Collections.emptyList(), (shooter, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
     }
 
     @Test
-    void op2()
+    public void op2()
     {
-        WeaponCard weaponCard1 = newWeaponCard((shooter, players, squares) -> this.shoot1 = true);
-        WeaponCard weaponCard2 = newWeaponCard((shooter, players, squares) -> this.shoot2 = true);
-        player.addWeapon(weaponCard1);
-        player.addWeapon(weaponCard2);
-        BranchMap branchMap = BranchMapFactory.noAdrenaline(player);
-        branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->triggered=true);
-
-        // branchmap = { M1G, M3, W, R } do = W
-
-        for(Action a : branchMap.getPossibleActions())
-            if(a instanceof WeaponSelectionAction)
-            {
-                a.initialize(player);
-                a.doAction();
-            }
-
-
-        // possible = { W1, W2, R } do = W1
-
-        List<Action> tmp = branchMap.getPossibleActions();
-        assertTrue(BranchTestUtilities.testEquality(tmp, new ExtendableAction(), new ExtendableAction(), new RollBackAction()));
-
-        branchMap.getPossibleActions().get(1).initialize(player);
-        branchMap.getPossibleActions().get(1).doAction();
-
-        // possible = {F1, R} do = F1
-        tmp = branchMap.getPossibleActions();
-        assertTrue(BranchTestUtilities.testEquality(tmp, new FireModalityAction(null,null,null), new RollBackAction()));
-        branchMap.getPossibleActions().get(0).initialize(player);
-        branchMap.getPossibleActions().get(0).doAction();
-
-        // possible = {S1, R} do = S1
-        tmp = branchMap.getPossibleActions();
-        assertTrue( BranchTestUtilities.testEquality(tmp, new ShootAction(null,null,null), new RollBackAction()));
-        branchMap.getPossibleActions().get(0).initialize(player);
-        branchMap.getPossibleActions().get(0).doAction();
-
-        assertTrue(shoot1 || shoot2);
-
-        // possible = {E, R} do = E
-        tmp = branchMap.getPossibleActions();
-        assertTrue( BranchTestUtilities.testEquality(tmp, new EndBranchAction(), new RollBackAction()));
-        branchMap.getPossibleActions().get(0).initialize(player);
-        branchMap.getPossibleActions().get(0).doAction();
-
-        // possible = {}
-        tmp = branchMap.getPossibleActions();
-        assertTrue(branchMap.getPossibleActions().isEmpty());
-        assertTrue(triggered);
     }
 }

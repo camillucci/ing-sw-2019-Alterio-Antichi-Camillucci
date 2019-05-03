@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.branch.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Turn {
+public class Turn implements ActionsProvider {
 
     public final Event<Turn, Player> endTurnEvent = new Event<>();
     public final Event<Turn, List<Action>> newActionsEvent = new Event<>();
@@ -23,13 +23,12 @@ public class Turn {
     public Turn(Player currentPlayer, Match match) {
         this.currentPlayer = currentPlayer;
         this.match = match;
+        newMove();
     }
 
     private void newMove()
     {
-        this.branchMap = BranchMapFactory.PowerUpBranchMap(currentPlayer, PowerUpAction.Type.END_START_MOVE);
-        standardEventsSetup();
-        this.branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->createBranchMap());
+        createBranchMap();
     }
 
     private void standardEventsSetup() {
@@ -41,7 +40,6 @@ public class Turn {
     }
 
     private void onMoveTerminated() {
-        this.branchMap = BranchMapFactory.PowerUpBranchMap(currentPlayer, PowerUpAction.Type.END_START_MOVE);
         moveCounter--;
         if (moveCounter == 0)
             endTurnEvent.invoke(this, currentPlayer);
@@ -54,18 +52,18 @@ public class Turn {
 
         if (match.getFinalFrenzy()) {
             if (frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter())
-                this.branchMap = BranchMapFactory.adrenalineX2(currentPlayer);
+                this.branchMap = BranchMapFactory.adrenalineX2();
             else
-                this.branchMap = BranchMapFactory.adrenalineX1(currentPlayer);
+                this.branchMap = BranchMapFactory.adrenalineX1();
             increaseFrenzyCounter();
         }
         else if (currentPlayer.getDamage().size() >= 3)
             if (currentPlayer.getDamage().size() >= 6)
-                this.branchMap = BranchMapFactory.sixDamage(currentPlayer);
+                this.branchMap = BranchMapFactory.sixDamage();
             else
-                this.branchMap = BranchMapFactory.threeDamage(currentPlayer);
+                this.branchMap = BranchMapFactory.threeDamage();
         else
-            this.branchMap = BranchMapFactory.noAdrenaline(currentPlayer);
+            this.branchMap = BranchMapFactory.noAdrenaline();
 
         standardEventsSetup();
         this.branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> onMoveTerminated());
@@ -91,5 +89,18 @@ public class Turn {
 
     private static void increaseFrenzyCounter() {
         frenzyCounter++;
+    }
+
+    @Override
+    public Player getPlayer() {
+        return currentPlayer;
+    }
+
+    @Override
+    public List<Action> getActions() {
+        List<Action> ret = this.branchMap.getPossibleActions();
+        for(Action a : ret)
+            a.initialize(currentPlayer);
+        return ret;
     }
 }

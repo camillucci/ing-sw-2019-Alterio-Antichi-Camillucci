@@ -32,9 +32,11 @@ public class BranchMap
         if(invalidState)
             return Collections.emptyList();
 
-        ArrayList<Action> ret = new ArrayList<>();
+        List<Action> ret = new ArrayList<>();
         for(Branch b: this.branches)
-            ret.addAll(b.getCompatibleActions());
+            for(Action a : b.getCompatibleActions())
+                if(ret.stream().noneMatch((a2 -> a2.isCompatible(a) && a.isCompatible(a2))))
+                    ret.add(a);
         ret.add(rollBackAction);
         return ret;
     }

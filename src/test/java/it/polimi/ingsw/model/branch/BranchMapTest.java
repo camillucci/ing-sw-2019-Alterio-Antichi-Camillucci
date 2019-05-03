@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.branch;
 
+import it.polimi.ingsw.model.ActionsProvider;
 import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
@@ -20,15 +21,8 @@ class BranchMapTest {
     @Test
     void getPossibleActions()
     {
-        curBranchMap = BranchMapFactory.noAdrenaline(p); // = {M1G, M3, W }
-        ArrayList<Action> expectedActions = new ArrayList<>();
-        expectedActions.add(new MoveAction(1)); //M1
-        expectedActions.add(new MoveAction(3)); //M3
-        expectedActions.add(new GrabAction()); //G
-        expectedActions.add(new WeaponSelectionAction()); //W
-        expectedActions.add(new RollBackAction()); //R
-        expectedActions.add(new EndBranchAction()); //EndBranch
-        assertTrue(testEquality(curBranchMap.getPossibleActions(), expectedActions));
+        curBranchMap = BranchMapFactory.noAdrenaline(); // = {PM1G, PM3, PW, R }
+        assertTrue(testEquality(curBranchMap.getPossibleActions(), BranchTestUtilities.noAdrenalinePossibleActions()));
     }
 
     @Test
@@ -36,21 +30,21 @@ class BranchMapTest {
     {
         // Rollback event
         eventTriggered = false;
-        curBranchMap = BranchMapFactory.threeDamage(p);
+        curBranchMap = BranchMapFactory.threeDamage();
         curBranchMap.rollbackEvent.addEventHandler((a,b)->this.eventTriggered = true);
         curBranchMap.getPossibleActions().stream().filter(a->a instanceof RollBackAction).forEach(a->{a.initialize(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // EndBranch event
         eventTriggered = false;
-        curBranchMap = BranchMapFactory.sixDamage(p);
+        curBranchMap = BranchMapFactory.sixDamage();
         curBranchMap.endOfBranchMapReachedEvent.addEventHandler((a,b)->this.eventTriggered = true);
         curBranchMap.getPossibleActions().stream().filter(a->a instanceof EndBranchAction).forEach(a->{a.initialize(p);a.doAction();});
         assertTrue(eventTriggered);
 
         // NewActions event
         eventTriggered = false;
-        curBranchMap = BranchMapFactory.adrenalineX1(p);
+        curBranchMap = BranchMapFactory.adrenalineX1();
         curBranchMap.newActionsEvent.addEventHandler(this::checkNewActionsEvent);
         curBranchMap.newActionsEvent.addEventHandler((a,b)->this.eventTriggered=true);
         MoveAction M3 = new MoveAction(3);
@@ -62,5 +56,10 @@ class BranchMapTest {
     {
         // branchMap should be in the initial state of AdrenalineX1BranchMap = {M2RS, M3G, R } -> {G, R} after that M3 is done
         assertTrue(testEquality(newActions, new GrabAction(), new RollBackAction()));
+    }
+
+    public void TestNoAdrenaline(ActionsProvider provider)
+    {
+
     }
 }

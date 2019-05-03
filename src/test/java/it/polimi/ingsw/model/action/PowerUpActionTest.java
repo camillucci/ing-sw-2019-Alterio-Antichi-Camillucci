@@ -45,4 +45,9 @@ class PowerUpActionTest {
         assertEquals(p1.gameBoard.getSquares().get(6), p1.getCurrentSquare());
     }
 
+    @Test
+    void shoot3()
+    {
+
+    }
 }

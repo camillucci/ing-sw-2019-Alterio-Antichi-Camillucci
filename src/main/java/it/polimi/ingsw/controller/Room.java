@@ -50,7 +50,7 @@ public class Room
         return new ArrayList<>(playerNames);
     }
 
-    public List<PlayerColor> getPlayerColors() { return colors;}
+    public ArrayList<PlayerColor> getPlayerColors() { return new ArrayList<>(colors);} // ArrayList is Serializable, List interface no. Don't change the type.
 
     public boolean getAvailableSeats() {
         if(playerNames.size() < 5)

@@ -44,15 +44,15 @@ public class Match implements ActionsProvider {
         for(int i = 0; i < playersName.size(); i++) {
             Player p = new Player(playersName.get(i), playerColors.get(i), gameBoard);
             p.deathEvent.addEventHandler((s,a)->this.deadPlayers.add(s));
-            p.damagedEvent.addEventHandler(this::OnPlayerDamaged);
+            p.damagedEvent.addEventHandler(this::onPlayerDamaged);
             players.add(p);
         }
         gameBoard.setPlayers(players);
-        //this.deadPlayers = new ArrayList<>(players); TODO uncomment this line
-        spawn(false);
+        //this.deadPlayers = new ArrayList<>(players); //TODO uncomment this line
+        //spawn(false);
     }
 
-    public void OnPlayerDamaged(Player damaged, int val)
+    private void onPlayerDamaged(Player damaged, int val)
     {
         List<Action> backupActions = this.curActions;
         BranchMap branchMap = BranchMapFactory.PowerUpBranchMap(damaged, PowerUpAction.Type.COUNTER_ATTACK);

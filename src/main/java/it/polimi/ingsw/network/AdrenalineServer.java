@@ -26,7 +26,7 @@ public class AdrenalineServer
             client.out().sendBool(false); // name not accepted
         client.out().sendBool(true); // name accepted
         room = getAvailableRoom();
-        client.out().sendObject((Serializable) room.getPlayerColors()); //Possible problems with serializable?
+        client.out().sendObject(room.getPlayerColors());
         PlayerColor color = client.in().getObject(); //color chosen by user
         client.out().sendBool(room.addPlayer(color, name));
     }
