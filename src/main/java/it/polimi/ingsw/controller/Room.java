@@ -11,14 +11,22 @@ import java.util.List;
 public class Room
 {
     private List<AdrenalineServer> clients = new ArrayList<>();
-    private List<PlayerColor> colors = new ArrayList<>();
+    private List<PlayerColor> playerColors = new ArrayList<>();
+    private List<PlayerColor> availableColors = new ArrayList<>();
     private List<String> playerNames = new ArrayList<>();
     private int gameLength;
     private int gameSize;
     private Match match;
     private MatchManager matchManager;
 
-    public Room() {}
+    public Room() {
+        /*
+        for (PlayerColor pc : PlayerColor) {
+            availableColors.add(pc);
+        }
+
+         */
+    }
 
     public Room(int gamelength, int gamesize)
     {
@@ -31,11 +39,13 @@ public class Room
         //TODO update all players view
     }
 
-    public boolean addPlayer(PlayerColor color, String playerName){
-        colors.add(color);
+    public boolean addPlayer(int index, String playerName, AdrenalineServer client){
+        clients.add(client);
+        playerColors.add(availableColors.get(index));
+        availableColors.remove(index);
         playerNames.add(playerName);
         if(playerNames.size() == 5)
-            match = new Match(playerNames, colors, gameLength, gameSize);
+            match = new Match(playerNames, playerColors, gameLength, gameSize);
         else if(playerNames.size() == 1)
             return true;
         return false;
@@ -43,19 +53,28 @@ public class Room
 
     private void newMatch()
     {
-        match = new Match(playerNames, colors, gameLength, gameSize);
+        match = new Match(playerNames, playerColors, gameLength, gameSize);
     }
 
     public List<String> getPlayerNames(){
         return new ArrayList<>(playerNames);
     }
 
-    public ArrayList<PlayerColor> getPlayerColors() { return new ArrayList<>(colors);} // ArrayList is Serializable, List interface no. Don't change the type.
+    public List<String> getAvailableColors() {
+        ArrayList<String> colors = new ArrayList<String>();
+        for (PlayerColor pc : availableColors)
+            colors.add(pc.name());
+        return colors;
+    }
 
     public boolean getAvailableSeats() {
         if(playerNames.size() < 5)
             return true;
         return false;
+    }
+
+    public void spawn() {
+        //TODO
     }
 
     public void setGameSize(int gameSize) {

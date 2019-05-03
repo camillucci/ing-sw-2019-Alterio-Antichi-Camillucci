@@ -25,12 +25,8 @@ public class CLIMessanger {
         System.out.println("Press 1 for GUI");
     }
 
-    public int askColor(ArrayList<PlayerColor> colors) {
+    public int askColor(ArrayList<String> availableColors) {
         System.out.println("Choose one of the available colors");
-        ArrayList<String> availableColors = new ArrayList<String>();
-        for(PlayerColor pc : colors) {
-            availableColors.add(pc.name());
-        }
         for(int i = 0; i < availableColors.size(); i++) {
             System.out.println("Press" + i + "if you want the color" + availableColors.get(i));
         }
@@ -62,20 +58,25 @@ public class CLIMessanger {
         //TODO add displayable map for every int between 0 and 2
     }
 
-    public void displayTargetsPlayers(ArrayList<Player> targets) {
+    public void displayTargetsPlayers(ArrayList<String> targets) {
         for(int i = 0; i < targets.size(); i++)
-            System.out.println("Press" + i + "if you want to target player" + targets.get(i).getName());
+            System.out.println("Press" + i + "if you want to target player" + targets.get(i));
     }
 
-    public void displayTargetsSquares(ArrayList<Square> targets) {
+    public void displayTargetsSquares(ArrayList<String> targets) {
         for(int i = 0; i < targets.size(); i++)
-            System.out.println("Press" + i + "if you want to target player" + targets.get(i).getName());
+            System.out.println("Press" + i + "if you want to target square" + targets.get(i));
     }
 
-    public void displayTargetsBoth(ArrayList<Player> targetPlayers, ArrayList<Square> targetSquares) {
+    public void displayTargetsBoth(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
         for(int i = 0; i < targetPlayers.size(); i++)
-            System.out.println("Press" + i + "if you want to target player" + targetPlayers.get(i).getName());
+            System.out.println("Press" + i + "if you want to target player" + targetPlayers.get(i));
         for(int i = 0; i + targetPlayers.size() < targetSquares.size(); i++)
-            System.out.println("Press" + i + targetPlayers.size() + "if you want to target player" + targetSquares.get(i).getName());
+            System.out.println("Press" + i + targetPlayers.size() + "if you want to target square" + targetSquares.get(i));
+    }
+
+    public void spawn(ArrayList<String> powerupCards) {
+        for(int i = 0, j = 0; i < powerupCards.size(); i = i + 2, j++)
+            System.out.println("Press" + j + "if you want to discard the powerup card" + powerupCards.get(i) + "|" + powerupCards.get(i + 1));
     }
 }
