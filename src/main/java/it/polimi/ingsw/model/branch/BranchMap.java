@@ -49,9 +49,10 @@ public class BranchMap
 
     private void onBranchExtActionCompleted(Branch senderBranch, ExtendableAction extendableAction)
     {
-        onBranchActionCompleted(senderBranch, extendableAction);
+        this.branches.removeIf(b -> !b.goNext(extendableAction));
         this.branches.addAll(extendableAction.getBranches());
         setupBranches(branches);
+        this.newActionsEvent.invoke(this, this.getPossibleActions());
     }
 
     protected void setupBranches(List<Branch> branches)

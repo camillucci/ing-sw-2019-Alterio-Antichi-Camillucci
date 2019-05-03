@@ -103,15 +103,6 @@ public class Branch
             ret.add(finalAction);
         return ret;
     }
-
-    public Branch appendBefore(Action action)
-    {
-        List<Action> tmp = new ArrayList<>();
-        tmp.add(action);
-        tmp.addAll(this.actions);
-        return new Branch(this.finalAction, tmp);
-    }
-
     public boolean goNext(Action justDoneAction)
     {
         if(actions.isEmpty()) {

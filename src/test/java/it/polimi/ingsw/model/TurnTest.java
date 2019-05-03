@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.action.MoveAction;
+import it.polimi.ingsw.model.action.RollBackAction;
 import it.polimi.ingsw.model.branch.BranchTestUtilities;
 import org.junit.jupiter.api.Test;
 
@@ -17,21 +19,39 @@ class TurnTest
     List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
     List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
     Match match = new Match(names, colors, 8, 10);
+    Bot bot = new Bot();
     boolean triggered = false;
+
     @Test
-    void testBranchMap()
+    void test1()
     {
         Turn turn = new Turn(new Player("a", BLUE, new GameBoard(10,7)), match);
         turn.endTurnEvent.addEventHandler((a,b) -> endTurn = true);
         assertFalse(endTurn);
 
-        Bot bot = new Bot();
         bot.playNoAdrenaline(turn); // shooter damaged by 3 or 4
-
         assertFalse(endTurn);
-        bot = new Bot();
         bot.playThreeDamage(turn);
         assertTrue(endTurn);
+    }
+
+    @Test
+    void test2() // rollback in Turn
+    {
+        Turn turn = new Turn(new Player("a", BLUE, new GameBoard(10,7)), match);
+        turn.endTurnEvent.addEventHandler((a,b) -> triggered = true);
+
+        bot.playNoAdrenaline(turn); // shooter damaged by 3 or 4
+
+        for(int i = 0, N = 200; i < N; i++)
+        {
+            BranchTestUtilities.searchAndDo(turn.getActions(), new MoveAction(2));
+            BranchTestUtilities.searchAndDo(turn.getActions(), new RollBackAction());
+            assertFalse(triggered);
+        }
+
+        bot.playThreeDamage(turn);
+        assertTrue(triggered);
     }
 
 }

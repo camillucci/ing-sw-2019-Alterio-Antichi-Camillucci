@@ -28,6 +28,10 @@ public class BranchTestUtilities
     {
         return (a.isCompatible(b) && b.isCompatible(a) || (a instanceof ExtendableAction && b instanceof  ExtendableAction));
     }
+    public static void searchAndDo(List<Action> actions, Action action)
+    {
+        actions.stream().filter(a->BranchTestUtilities.isEqual(a, action)).forEach(a->a.doAction());
+    }
     public static boolean testEquality(List<Action> curActions, Action ... expectedActions)
     {
         return testEquality(curActions, Arrays.asList(expectedActions));

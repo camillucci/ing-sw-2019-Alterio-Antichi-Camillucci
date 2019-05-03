@@ -15,16 +15,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Bot
 {
-    private Player player = new Player("A", PlayerColor.GREY, null);
-    private Ammo ammo = new Ammo(0, 0, 0);
 
+    Player player = new Player("A", PlayerColor.GREY, null);
     private WeaponCard newWeaponCard(ShootFunc s)
     {
+        Ammo ammo = new Ammo(0, 0, 0);
         return new WeaponCard("B", ammo, ammo, () -> Arrays.asList(
                 new FireModalityAction(ammo, new Branch(new ShootAction((shooter, players) -> Collections.emptyList(), (shooter, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
     }
 
-    public void playNoAdrenaline(ActionsProvider provider)
+    public void playNoAdrenaline(ActionsProvider provider) // add 3 or 4 damage to shooter
     {
         WeaponCard weaponCard1 = newWeaponCard((shooter, players, squares) -> shooter.addDamage(player, 3));
         WeaponCard weaponCard2 = newWeaponCard((shooter, players, squares) -> shooter.addDamage(player,4));
@@ -63,14 +63,18 @@ class Bot
         provider.getActions().get(0).doAction();
     }
 
-    void searchAndDo(List<Action> actions, Action action)
-    {
-        actions.stream().filter(a->BranchTestUtilities.isEqual(a, action)).forEach(a->a.doAction());
-    }
     public void playThreeDamage(ActionsProvider provider)
     {
         assertTrue(BranchTestUtilities.testEquality(BranchTestUtilities.threeDamagePossibleActions(), provider.getActions()));
         // todo logic, to end the turn I choose EndBranchAction right now
-        searchAndDo(provider.getActions(), new EndBranchAction());
+        BranchTestUtilities.searchAndDo(provider.getActions(), new EndBranchAction());
+    }
+
+    public void playSpawnBranchMap(ActionsProvider provider)
+    {
+        assertTrue(provider.getActions().size() == 2);
+        provider.getActions().get(0).doAction();
+        provider.getActions().get(0).doAction();
+        provider.getActions().get(0).doAction();
     }
 }

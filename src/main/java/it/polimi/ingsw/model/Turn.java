@@ -44,7 +44,10 @@ public class Turn implements ActionsProvider {
         if (moveCounter == 0)
             endTurnEvent.invoke(this, currentPlayer);
         else
-           newMove();
+        {
+            newMove();
+            this.newActionsEvent.invoke(this, getActions());
+        }
     }
 
     private void createBranchMap() {
@@ -70,8 +73,7 @@ public class Turn implements ActionsProvider {
     }
 
     private void rollback() {
-        moveCounter = moveCounter + 1;
-        match.rollback(clonedPlayers,clonedDeadPlayers);
+        match.rollback(clonedPlayers, clonedDeadPlayers);
         createBranchMap();
     }
 

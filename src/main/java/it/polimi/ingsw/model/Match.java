@@ -13,7 +13,7 @@ import java.util.List;
 public class Match implements ActionsProvider {
     public final Event<Match, List<Player>> endMatchEvent = new Event<>();
 
-    private int turnPos = 0;
+    private int turnPos = -1;
     private List<Action> curActions;
     private Player curPlayer;
     private GameBoard gameBoard;
@@ -36,7 +36,6 @@ public class Match implements ActionsProvider {
         this.playerColors = new ArrayList<>(playerColors);
         this.gameBoard = new GameBoard(gameLength, gameSize);
         createPlayers(playersName, playerColors);
-        newTurn();
     }
 
     private void createPlayers(List<String> playersName, List<PlayerColor> playerColors)
@@ -48,8 +47,8 @@ public class Match implements ActionsProvider {
             players.add(p);
         }
         gameBoard.setPlayers(players);
-        //this.deadPlayers = new ArrayList<>(players); //TODO uncomment this line
-        //spawn(false);
+        this.deadPlayers = new ArrayList<>(players); //TODO uncomment this line
+        spawn(false);
     }
 
     private void onPlayerDamaged(Player damaged, int val)
@@ -94,6 +93,7 @@ public class Match implements ActionsProvider {
         this.currentTurn = new Turn(curPlayer, this);
         this.currentTurn.newActionsEvent.addEventHandler((turn, actions) -> this.setNewActions(actions));
         this.currentTurn.endTurnEvent.addEventHandler(this::onTurnCompleted);
+        setNewActions(currentTurn.getActions());
     }
 
     private void setNewActions(List<Action> actions)
