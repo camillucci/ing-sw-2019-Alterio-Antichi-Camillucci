@@ -47,7 +47,7 @@ public class AdrenalineClient
         ArrayList<String> availableColors = server.in().getObject();
         messanger.askColor(availableColors);
         //TODO lock
-        server.out().sendInt(parser.parseColor(availableColors)); //send user's color of choice
+        server.out().sendInt(parser.parseIndex(availableColors)); //send user's color of choice
         if(server.in().getBool()) {
             messanger.askGameLenght();
             parser.parseGameLenght();

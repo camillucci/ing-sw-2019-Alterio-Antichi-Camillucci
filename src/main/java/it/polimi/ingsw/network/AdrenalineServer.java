@@ -30,7 +30,7 @@ public class AdrenalineServer
         room = getAvailableRoom();
         client.out().sendObject((Serializable) room.getAvailableColors()); //Possible problems with serializable?
         int color = client.in().getObject(); //color chosen by user
-        client.out().sendBool(room.addPlayer(color, name));
+        client.out().sendBool(room.addPlayer(color, name, this));
     }
 
     public void matchStart() throws Exception {
@@ -39,6 +39,11 @@ public class AdrenalineServer
 
     public void sendTargets(ArrayList<String> targets) throws Exception {
         client.out().sendObject(targets);
+    }
+
+    public int spawn(ArrayList<String> powerupCards) throws Exception {
+        client.out().sendObject(powerupCards);
+        return client.in().getInt();
     }
 
     private Room getAvailableRoom() {

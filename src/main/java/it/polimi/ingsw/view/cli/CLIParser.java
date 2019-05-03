@@ -23,9 +23,9 @@ public class CLIParser {
         //TODO catch exceptions
     }
 
-    public int parseColor(ArrayList<String> availableColors) {
+    public int parseIndex(ArrayList<String> options) {
         int answer = Integer.parseInt(System.in.toString());
-        if(answer < availableColors.size() && answer >= 0)
+        if(answer < options.size() && answer >= 0)
             return answer;
         //TODO catch exception
         return -1;
@@ -47,8 +47,10 @@ public class CLIParser {
         return 0;
     }
 
-    public void parseTargets() {
-        //TODO
+    public int parseSpawnChoice(ArrayList<String> powerupCards) {
+        int answer = Integer.parseInt(System.in.toString());
+        if(answer < powerupCards.size() / 2)
+            return answer * 2;
+        return -1;
     }
-
 }

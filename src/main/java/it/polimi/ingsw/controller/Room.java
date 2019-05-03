@@ -39,7 +39,8 @@ public class Room
         //TODO update all players view
     }
 
-    public boolean addPlayer(int index, String playerName){
+    public boolean addPlayer(int index, String playerName, AdrenalineServer client){
+        clients.add(client);
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
         playerNames.add(playerName);
@@ -70,6 +71,10 @@ public class Room
         if(playerNames.size() < 5)
             return true;
         return false;
+    }
+
+    public void spawn() {
+        //TODO
     }
 
     public void setGameSize(int gameSize) {

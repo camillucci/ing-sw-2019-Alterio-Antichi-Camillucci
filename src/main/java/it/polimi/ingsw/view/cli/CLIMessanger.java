@@ -74,4 +74,9 @@ public class CLIMessanger {
         for(int i = 0; i + targetPlayers.size() < targetSquares.size(); i++)
             System.out.println("Press" + i + targetPlayers.size() + "if you want to target square" + targetSquares.get(i));
     }
+
+    public void spawn(ArrayList<String> powerupCards) {
+        for(int i = 0, j = 0; i < powerupCards.size(); i = i + 2, j++)
+            System.out.println("Press" + j + "if you want to discard the powerup card" + powerupCards.get(i) + "|" + powerupCards.get(i + 1));
+    }
 }
