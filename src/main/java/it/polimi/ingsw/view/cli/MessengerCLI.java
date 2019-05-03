@@ -53,12 +53,12 @@ public class MessengerCLI {
         System.out.println("Have fun!");
     }
 
-    public void displayRollback() {
-        //TODO
+    public void threePlayers() {
+        System.out.println("Your room has reached 3 players");
+        System.out.println("180 seconds countdown has started");
     }
 
-    public void displayOptions(ArrayList<Player> players, ArrayList<Square> squares) {
-        //TODO
+    public void displayMap(int mapType) {
+        //TODO add displayable map for every int between 0 and 2
     }
-
 }

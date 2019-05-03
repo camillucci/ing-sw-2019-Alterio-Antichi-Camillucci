@@ -45,13 +45,17 @@ public class Room
 
     public List<PlayerColor> getPlayerColors() { return colors;}
 
-    public boolean getSpace() {
+    public boolean getAvailableSeats() {
         if(playerNames.size() < 5)
             return true;
         return false;
     }
 
-    public void setGameSize() {}
+    public void setGameSize(int gameSize) {
+        this.gameSize = gameSize;
+    }
 
-    public void setGameLength() {}
+    public void setGameLength(int gameLength) {
+        this.gameLength = gameLength;
+    }
 }

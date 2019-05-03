@@ -19,10 +19,6 @@ public class Controller {
         //TODO update all players view
     }
 
-    private void join(String newPlayer)
-    {
-    }
-
     private Room newRoom() {
         Room room = new Room();
         lobby.add(room);
@@ -50,7 +46,7 @@ public class Controller {
     }
 
     public Room getAvailableRoom() {
-        if(lobby.get(lobby.size() - 1).getSpace())
+        if(lobby.get(lobby.size() - 1).getAvailableSeats())
             return lobby.get(lobby.size() - 1);
         newRoom();
         return lobby.get(lobby.size()-1);

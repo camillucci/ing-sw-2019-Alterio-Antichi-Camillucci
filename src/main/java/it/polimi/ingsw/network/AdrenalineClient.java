@@ -20,7 +20,8 @@ public class AdrenalineClient
     private boolean onTurn;
 
     public AdrenalineClient() {
-
+        parser = new ParserCLI();
+        messanger = new MessengerCLI();
     }
 
     public void login() throws Exception {
@@ -46,7 +47,7 @@ public class AdrenalineClient
             server.out().sendObject(name);
         }while(server.in().getBool()); // name is ok?
 
-        ArrayList<PlayerColor> takenColors = server.in().getObject();
+        ArrayList<PlayerColor> takenColors = server.in().getObject(); //get available colors
         ArrayList<PlayerColor> availableColors = new ArrayList<PlayerColor>();
         for(PlayerColor pc : PlayerColor.values()) {
             if(!(takenColors.contains(pc)))
@@ -54,7 +55,7 @@ public class AdrenalineClient
         }
         messanger.askColor(availableColors);
         //TODO lock
-        server.out().sendObject(parser.parseColor(availableColors));
+        server.out().sendObject(parser.parseColor(availableColors)); //send user's color of choice
         if(server.in().getBool()) {
             messanger.askGameLenght();
             parser.parseGameLenght();
@@ -64,6 +65,8 @@ public class AdrenalineClient
     }
 
     private void matchStart() throws Exception {
+        messanger.threePlayers();
+        //TODO add timer method
         if(server.in().getBool())
             messanger.matchStart();
     }
