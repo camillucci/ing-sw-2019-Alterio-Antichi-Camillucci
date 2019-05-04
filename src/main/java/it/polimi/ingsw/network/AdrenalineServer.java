@@ -22,7 +22,7 @@ public class AdrenalineServer
 
     private void login() throws Exception
     {
-        boolean interfaeType = client.in().getBool();
+        boolean interfaceType = client.in().getBool();
         String name = client.in().getObject();
         while(controller.existName(name))
             client.out().sendBool(false); // name not accepted

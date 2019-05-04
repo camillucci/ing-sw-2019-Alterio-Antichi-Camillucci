@@ -3,17 +3,29 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.action.Action;
 
+import java.util.ArrayList;
+
 public class MatchManager {
     private Match match;
-    private TurnManager turnManager;
+    private Room room;
 
-    public MatchManager() {
-        //TODO this.match = new Match(lobby.getPlayers(), lobby.getPlayerColors(), lobby.getGameLength(), lobby.getGameSize());
-        this.turnManager = new TurnManager(match);
+    public MatchManager(Match match, Room room) {
+        this.match = match;
+        this.room = room;
+    }
+
+    private void spawn() {
+        match.spawn(false);
+        ArrayList<Action> actions = (ArrayList<Action>) match.getActions();
+        int client = match.getPlayerIndex();
+        room.sendActions(actions, client);
     }
 
     public void handleAction(Action action) {
-        turnManager.handleAction(action);
+        action.doAction();
+        ArrayList<Action> actions = (ArrayList<Action>) match.getActions();
+        int client = match.getPlayerIndex();
+        room.sendActions(actions, client);
     }
 
     public void calculateScore() {

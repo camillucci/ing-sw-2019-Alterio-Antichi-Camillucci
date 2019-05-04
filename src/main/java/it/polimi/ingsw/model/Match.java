@@ -60,7 +60,7 @@ public class Match implements ActionsProvider {
         //todo rollback
     }
 
-    private void spawn(boolean respawn)
+    public void spawn(boolean respawn)
     {
         if(deadPlayers.isEmpty()) {
             newTurn();
@@ -142,12 +142,17 @@ public class Match implements ActionsProvider {
     }
 
     public List<Player> getDeadPlayers() {return new ArrayList<>(deadPlayers);}
+
     public boolean getFinalFrenzy() {
         return finalFrenzy;
     }
 
     public int getFrenzyStarter() {
         return frenzyStarter;
+    }
+
+    public int getPlayerIndex() {
+        return players.indexOf(curPlayer);
     }
 
     public PowerUpDeck getPowerUpDeck() {
