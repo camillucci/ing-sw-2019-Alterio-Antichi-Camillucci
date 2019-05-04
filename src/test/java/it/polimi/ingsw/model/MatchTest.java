@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static it.polimi.ingsw.model.PlayerColor.*;
@@ -15,7 +15,7 @@ class MatchTest {
     private static final int n = 4;
     List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
     List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
-    Match match = new Match(names, colors, 8, 10);
+    Match match = new Match(names, colors, 5, 10);
     Bot bot = new Bot();
 
     public MatchTest()
@@ -50,11 +50,13 @@ class MatchTest {
         for(int i = 0; i < n; i++) {
             deadPlayer.addDamage(match.getPlayers().get(0), 1);
             deadPlayer.addDamage(match.getPlayers().get(1), 2);
+            match.gameBoard.addKillShotTrack(Collections.emptyList());
         }
         match.addDeadPlayers(deadPlayer);
         match.assignPoints();
         assertEquals(1, match.getPlayers().get(0).getPoints());
         assertEquals(2, match.getPlayers().get(1).getPoints());
+        assertEquals(1, match.getFrenzyStarter());
     }
 
     @Test
@@ -65,6 +67,7 @@ class MatchTest {
         Player p = match.getPlayer();
         bot.playNoAdrenaline(match); // shooter damage damaged of 3 or 4
         bot.playThreeDamage(match);
-        assertTrue(match.getPlayer() != p);
+        bot.reloadEndTurn(match);
+        assertNotSame(match.getPlayer(), p);
     }
 }

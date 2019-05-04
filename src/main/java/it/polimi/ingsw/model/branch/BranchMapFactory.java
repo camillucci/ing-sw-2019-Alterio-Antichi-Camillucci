@@ -15,46 +15,41 @@ public class BranchMapFactory
 
     public static BranchMap noAdrenaline()
     {
-        List<Branch> branches = new ArrayList<>(Arrays.asList(
+        return new BranchMap(new ArrayList<>(Arrays.asList(
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(1), new GrabAction()), //PM1G
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(3), new EndBranchAction()), //PM3
-                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new WeaponSelectionAction()))); //PW
-        return new BranchMap(branches);
+                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new WeaponSelectionAction())))); //PW
     }
 
     public static BranchMap threeDamage()
     {
-        List<Branch> branches = new ArrayList<>(Arrays.asList(
+        return new BranchMap(new ArrayList<>(Arrays.asList(
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(2), new GrabAction()), //PM2G
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(3), new EndBranchAction()), //PM3
-                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new WeaponSelectionAction()))); //PW
-        return new BranchMap(branches);
+                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new WeaponSelectionAction())))); //PW
     }
 
     public static BranchMap sixDamage()
     {
-        List<Branch> branches = new ArrayList<>(Arrays.asList(
+        return new BranchMap(new ArrayList<>(Arrays.asList(
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(3), new EndBranchAction()), //PM3
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(2), new GrabAction()), //PM2G
-                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(1), new WeaponSelectionAction()))); //PM1W
-        return new BranchMap(branches);
+                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(1), new WeaponSelectionAction())))); //PM1W
     }
 
     public static BranchMap adrenalineX1()
     {
-        List<Branch> branches = new ArrayList<>(Arrays.asList(
+        return new BranchMap(new ArrayList<>(Arrays.asList(
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(2), new ReloadAction(), new WeaponSelectionAction()), //PM2RW
-                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(3), new GrabAction()))); //PM3G
-        return new BranchMap(branches);
+                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(3), new GrabAction())))); //PM3G
     }
 
     public static BranchMap adrenalineX2()
     {
-        List<Branch> branches = new ArrayList<>(Arrays.asList(
+        return new BranchMap(new ArrayList<>(Arrays.asList(
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(1), new ReloadAction(), new WeaponSelectionAction()), //PM1RW
                 new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(4), new EndBranchAction()), //PM4
-                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(2), new GrabAction()))); //PM2G
-        return new BranchMap(branches);
+                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new MoveAction(2), new GrabAction())))); //PM2G
     }
 
     public static BranchMap spawnBranchMap(Player spawnPlayer)
@@ -72,15 +67,15 @@ public class BranchMapFactory
 
     public static BranchMap reloadEndTurn()
     {
-        List<Branch> branches = new ArrayList<>(Collections.singletonList(
-                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new ReloadAction(), new EndBranchAction()))); //PR
-        return new BranchMap(branches);
+        return new BranchMap(new ArrayList<>(Collections.singletonList(
+                new Branch(new PowerUpAction(PowerUpAction.Type.END_START_MOVE), new ReloadAction(), new EndBranchAction())))); //PR
     }
 
     public static BranchMap powerUpBranchMap(PowerUpAction.Type type)
     {
         return new BranchMap(new Branch(new PowerUpAction(type), new EndBranchAction()));
     }
+
     /*
     private static List<Branch> addPowerups(List<Branch> branches, Player player)
     {

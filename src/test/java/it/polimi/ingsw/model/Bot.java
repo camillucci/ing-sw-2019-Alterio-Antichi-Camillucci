@@ -63,6 +63,13 @@ class Bot
     public void playThreeDamage(ActionsProvider provider)
     {
         assertTrue(BranchTestUtilities.testEquality(BranchTestUtilities.threeDamagePossibleActions(), provider.getActions()));
+        // todo logic
+        BranchTestUtilities.searchAndDo(provider.getActions(), new EndBranchAction());
+    }
+
+    public void reloadEndTurn(ActionsProvider provider)
+    {
+        assertTrue(BranchTestUtilities.testEquality(BranchTestUtilities.reloadEndTurnPossibleActions(), provider.getActions()));
         // todo logic, to end the turn I choose EndBranchAction right now
         BranchTestUtilities.searchAndDo(provider.getActions(), new EndBranchAction());
     }

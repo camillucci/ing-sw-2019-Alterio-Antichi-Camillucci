@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -9,15 +10,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PowerUpActionTest {
 
-    private GameBoard gameBoard = new GameBoard(5, 10);
-    private Player p1 = new Player("p", PlayerColor.BLUE, gameBoard);
-    private Player p2 = new Player("p", PlayerColor.BLUE, gameBoard);
-    private PowerUpCard newton = CardsFactory.getPowerUps().get(1);
-    private PowerUpCard teleporter = CardsFactory.getPowerUps().get(3);
+    private GameBoard gameBoard;
+    private Player p1;
+    private Player p2;
+
+    @BeforeEach
+    void setUp() {
+        gameBoard = new GameBoard(5, 10);
+        p1 = new Player("p", PlayerColor.BLUE, gameBoard);
+        p2 = new Player("p", PlayerColor.BLUE, gameBoard);
+    }
 
     @Test
-    void shoot1()
+    void shootNewton()
     {
+        PowerUpCard newton = CardsFactory.getPowerUps().get(1);
         p1.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         p1.getCurrentSquare().addPlayer(p1);
         p2.setCurrentSquare(gameBoard.getSquares().get(5));
@@ -33,8 +40,9 @@ class PowerUpActionTest {
     }
 
     @Test
-    void shoot2()
+    void shootTeleporter()
     {
+        PowerUpCard teleporter = CardsFactory.getPowerUps().get(3);
         p1.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         p1.getCurrentSquare().addPlayer(p1);
         Action powerUpAction = teleporter.getEffect();

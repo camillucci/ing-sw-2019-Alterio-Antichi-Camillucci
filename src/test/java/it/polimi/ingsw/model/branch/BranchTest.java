@@ -42,6 +42,7 @@ class BranchTest {
         curBranch = new Branch(curBranchActions, new EndBranchAction());
         curBranchActions.add(new EndBranchAction());
     }
+
     private void getM2RW()
     {
         curBranchActions = new ArrayList<>();
@@ -51,6 +52,7 @@ class BranchTest {
         curBranch = new Branch(curBranchActions, wsa);
         curBranchActions.add(wsa);
     }
+
     @Test
     void getCompatibleActions()
     {
@@ -91,6 +93,9 @@ class BranchTest {
         curBranch.goNext(curBranchActions.get(3));
         tmp.add(curBranchActions.get(4));
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
+
+        assertFalse(curBranch.goNext(curBranchActions.get(4)));
+        assertEquals(0, curBranch.getCompatibleActions().size());
     }
 
     @Test
@@ -99,6 +104,12 @@ class BranchTest {
         getM2RW(); // M2 and R both optional -> compatibleActions() = { M2, R, W }
         ArrayList<Action> tmp = new ArrayList<>();
         tmp.add(new MoveAction(2));
+        tmp.add(new ReloadAction());
+        tmp.add(new WeaponSelectionAction());
+        assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));
+
+        tmp.clear();
+        curBranch.goNext(curBranchActions.get(0));
         tmp.add(new ReloadAction());
         tmp.add(new WeaponSelectionAction());
         assertTrue(testEquality(curBranch.getCompatibleActions(), tmp));

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.model.GameBoardSnapshot;
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.SquareBorder;
 import it.polimi.ingsw.model.SquareSnapshot;
@@ -247,12 +248,15 @@ class TCPClientTest {
         TCPListener listener = new TCPListener(listeningPort, maxConnected);
         try
         {
+            SquareSnapshot[][] squareSnapshots = new SquareSnapshot[3][4];
             SquareSnapshot squareSnapshot = new SquareSnapshot(new SquareBorder[]{SquareBorder.DOOR, SquareBorder.NOTHING, SquareBorder.ROOM, SquareBorder.ROOM}, PlayerColor.GREY);
+            squareSnapshots[0][0] = squareSnapshot;
+            GameBoardSnapshot gameBoardSnapshot = new GameBoardSnapshot(squareSnapshots);
             listener.newClientEvent.addEventHandler(((tcpListener, clientSocket) -> {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.out().sendObject(squareSnapshot);
+                    clientSocket.out().sendObject(gameBoardSnapshot);
                     clientSocket.close();
                 }
                 catch(Exception ecc)
@@ -266,13 +270,13 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            SquareSnapshot recived = clientSocket.in().getObject();
+            GameBoardSnapshot received = clientSocket.in().getObject();
 
             // Assert Equals
-            assertEquals(squareSnapshot.borders.length, recived.borders.length);
-            for(int i=0; i < squareSnapshot.borders.length; i++)
-                assertEquals(squareSnapshot.borders[i], recived.borders[i]);
-            assertEquals(squareSnapshot.color, recived.color);
+            assertEquals(gameBoardSnapshot.squares[0][0].borders.length, received.squares[0][0].borders.length);
+            for(int i=0; i < gameBoardSnapshot.squares[0][0].borders.length; i++)
+                assertEquals(gameBoardSnapshot.squares[0][0].borders[i], received.squares[0][0].borders[i]);
+            assertEquals(gameBoardSnapshot.squares[0][0].color, received.squares[0][0].color);
         }
         catch(Exception ecc)
         {

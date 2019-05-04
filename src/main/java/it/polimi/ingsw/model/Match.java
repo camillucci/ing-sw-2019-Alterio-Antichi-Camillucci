@@ -24,7 +24,7 @@ public class Match implements ActionsProvider {
     private boolean finalFrenzy;
     private int gameLength;
     private int gameSize;
-    private int frenzyStarter;
+    private int frenzyStarter = -1;
     private static final int MAX_DAMAGES = 12;
 
     public Match(List<String> playersName, List<PlayerColor> playerColors, int gameLength, int gameSize) {
@@ -123,8 +123,8 @@ public class Match implements ActionsProvider {
             if (damage.size() == MAX_DAMAGES)
                 tempKillShot.add(damage.get(MAX_DAMAGES - 1));
             gameBoard.addKillShotTrack(tempKillShot);
-            if(gameBoard.getKillShotTrack().size() == 8)
-                frenzyStarter = players.indexOf(curPlayer);
+            if(gameBoard.getKillShotTrack().size() == 8 && frenzyStarter == -1)
+                frenzyStarter = playerColors.indexOf(deadPlayer.getDamage().get(10));
         }
     }
 
@@ -141,17 +141,16 @@ public class Match implements ActionsProvider {
         return new ArrayList<>(players);
     }
 
-    public List<Player> getDeadPlayers() {return new ArrayList<>(deadPlayers);}
+    public List<Player> getDeadPlayers() {
+        return new ArrayList<>(deadPlayers);
+    }
+
     public boolean getFinalFrenzy() {
         return finalFrenzy;
     }
 
     public int getFrenzyStarter() {
         return frenzyStarter;
-    }
-
-    public PowerUpDeck getPowerUpDeck() {
-        return gameBoard.getPowerUpDeck();
     }
 
     @Override

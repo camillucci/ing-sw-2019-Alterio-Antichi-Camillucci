@@ -44,12 +44,6 @@ public class Action
     public void initialize(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
-        /*
-        this.targetSquares = new ArrayList<>();
-        this.targetPlayers = new ArrayList<>();
-        this.selectedWeapons = new ArrayList<>();
-        this.selectedPowerUps = new ArrayList<>();
-        */
     }
     public void addWeapon(WeaponCard weapon)
     {

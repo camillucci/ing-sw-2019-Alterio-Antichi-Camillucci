@@ -60,4 +60,13 @@ public class BranchTestUtilities
                 new RollBackAction(), //R
                 new EndBranchAction())); //EndBranch
     }
+
+    public static ArrayList<Action> reloadEndTurnPossibleActions()
+    {
+        return new ArrayList<>(Arrays.asList(
+                new PowerUpAction(PowerUpAction.Type.END_START_MOVE), //P
+                new ReloadAction(), //R
+                new RollBackAction(), //R
+                new EndBranchAction())); //EndBranch
+    }
 }

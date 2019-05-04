@@ -22,13 +22,7 @@ public class PowerUpCard {
         this.effectBuilder = effect;
     }
 
-    public PowerUpAction getEffect() { return effectBuilder.get(); }
-
-    public String getName() {
-        return name;
-    }
-
-    public AmmoColor getColor() {
-        return color;
+    public PowerUpAction getEffect() {
+        return effectBuilder.get();
     }
 }

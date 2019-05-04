@@ -3,7 +3,10 @@ package it.polimi.ingsw.model.branch;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Branch
 {
@@ -83,7 +86,6 @@ public class Branch
     public List<Action> getCompatibleActions()
     {
         if(invalidState){
-            setInvalidState();
             return Collections.emptyList();
         }
 
@@ -103,6 +105,7 @@ public class Branch
             ret.add(finalAction);
         return ret;
     }
+
     public boolean goNext(Action justDoneAction)
     {
         if(actions.isEmpty()) {
@@ -135,6 +138,7 @@ public class Branch
     public boolean isInvalidBranch() {
         return invalidState;
     }
+
     private void setInvalidState()
     {
         this.invalidState = true;

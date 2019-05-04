@@ -41,7 +41,7 @@ public class Turn implements ActionsProvider {
 
     private void onMoveTerminated() {
         moveCounter--;
-        if (moveCounter == 0)
+        if (moveCounter == -1)
             endTurnEvent.invoke(this, currentPlayer);
         else
         {
@@ -53,7 +53,9 @@ public class Turn implements ActionsProvider {
     private void createBranchMap() {
         clonePlayers();
 
-        if (match.getFinalFrenzy()) {
+        if(moveCounter == 0)
+            this.branchMap = BranchMapFactory.reloadEndTurn();
+        else if (match.getFinalFrenzy()) {
             if (frenzyCounter <= match.getPlayers().size() - match.getFrenzyStarter())
                 this.branchMap = BranchMapFactory.adrenalineX2();
             else

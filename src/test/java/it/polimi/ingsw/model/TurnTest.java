@@ -32,6 +32,7 @@ class TurnTest
         bot.playNoAdrenaline(turn); // shooter damaged by 3 or 4
         assertFalse(endTurn);
         bot.playThreeDamage(turn);
+        bot.reloadEndTurn(turn);
         assertTrue(endTurn);
     }
 
@@ -54,6 +55,7 @@ class TurnTest
         }
 
         bot.playThreeDamage(turn);
+        bot.reloadEndTurn(turn);
         assertTrue(triggered);
     }
 }
