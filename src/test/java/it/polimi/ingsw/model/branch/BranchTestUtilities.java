@@ -37,7 +37,7 @@ public class BranchTestUtilities
     }
     public static void searchAndDo(List<Action> actions, Action action)
     {
-        actions.stream().filter(a->BranchTestUtilities.isEqual(a, action)).forEach(a->a.doAction());
+        actions.stream().filter(a->BranchTestUtilities.isEqual(a, action)).forEach(Action::doAction);
     }
     public static boolean testEquality(List<Action> curActions, Action ... expectedActions)
     {
@@ -71,7 +71,7 @@ public class BranchTestUtilities
     public static ArrayList<Action> reloadEndTurnPossibleActions()
     {
         return new ArrayList<>(Arrays.asList(
-                new PowerUpAction(PowerUpAction.Type.END_START_MOVE), //P
+                new PowerUpAction(), //P
                 new ReloadAction(), //R
                 new RollBackAction(), //R
                 new EndBranchAction())); //EndBranch
