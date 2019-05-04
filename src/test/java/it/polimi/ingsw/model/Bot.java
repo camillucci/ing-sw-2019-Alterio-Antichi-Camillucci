@@ -10,9 +10,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Bot
+public class Bot
 {
-
     private Player player = new Player("A", PlayerColor.GREY, null);
     private WeaponCard newWeaponCard(ShootFunc s)
     {

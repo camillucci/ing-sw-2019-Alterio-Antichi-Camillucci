@@ -41,6 +41,8 @@ public class Room
             match = newMatch();
         else if(playerNames.size() == 1)
             return true;
+        else if(playerNames.size() == 3)
+            threePlayers();
         return false;
     }
 
@@ -48,7 +50,9 @@ public class Room
         for(AdrenalineServer client : clients) {
             client.matchStart();
         }
-        return new Match(playerNames, playerColors, gameLength, gameSize);
+        match = new Match(playerNames, playerColors, gameLength, gameSize);
+        matchManager = new MatchManager(match, this);
+        return match;
     }
 
     public List<String> getPlayerNames(){
@@ -68,25 +72,6 @@ public class Room
         return false;
     }
 
-    /*
-    public void spawn() throws Exception {
-        for(int i = 0; i < clients.size(); i++) {
-            ArrayList<PowerUpCard> temp = new ArrayList<>();
-            temp.add(match.getPowerUpDeck().draw());
-            temp.add(match.getPowerUpDeck().draw());
-            ArrayList<String> tempString = new ArrayList<>();
-            for (int j = 0; j < temp.size(); j++) {
-                tempString.add(temp.get(j).getName());
-                tempString.add(temp.get(j).getColor().name());
-            }
-            int choice = clients.get(i).spawn(tempString);
-            //TODO discard temp.get(choice);
-            //TODO add the other card to player's card pool
-        }
-    }
-
-     */
-
     private void threePlayers() throws Exception {
         //TODO add timer
         if(match == null)
@@ -99,5 +84,9 @@ public class Room
 
     public void setGameLength(int gameLength) {
         this.gameLength = gameLength;
+    }
+
+    public void sendActions(ArrayList<Action> actions, int client) {
+        //TODO send actions to client
     }
 }

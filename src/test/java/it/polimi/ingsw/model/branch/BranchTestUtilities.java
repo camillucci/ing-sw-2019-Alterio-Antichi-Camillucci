@@ -28,6 +28,13 @@ public class BranchTestUtilities
     {
         return (a.isCompatible(b) && b.isCompatible(a) || (a instanceof ExtendableAction && b instanceof  ExtendableAction));
     }
+    public static Action search(List<Action> actions, Action key)
+    {
+        for(Action a : actions)
+            if(isEqual(a, key))
+                return a;
+        return null;
+    }
     public static void searchAndDo(List<Action> actions, Action action)
     {
         actions.stream().filter(a->BranchTestUtilities.isEqual(a, action)).forEach(a->a.doAction());
@@ -40,7 +47,7 @@ public class BranchTestUtilities
     public static ArrayList<Action> noAdrenalinePossibleActions()
     {
         return new ArrayList<>(Arrays.asList(
-                new PowerUpAction(PowerUpAction.Type.END_START_MOVE), //P
+                new PowerUpAction(), //P
                 new MoveAction(1), //M1
                 new MoveAction(3), //M3
                 new GrabAction(), //G
@@ -52,7 +59,7 @@ public class BranchTestUtilities
     public static ArrayList<Action> threeDamagePossibleActions()
     {
         return new ArrayList<>(Arrays.asList(
-                new PowerUpAction(PowerUpAction.Type.END_START_MOVE), //P
+                new PowerUpAction(), //P
                 new MoveAction(2), //M2
                 new GrabAction(), //G
                 new MoveAction(3), //M3

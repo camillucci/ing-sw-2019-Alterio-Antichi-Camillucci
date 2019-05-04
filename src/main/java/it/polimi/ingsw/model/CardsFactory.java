@@ -36,10 +36,10 @@ public class CardsFactory
     private static void buildPowerUps() {
         List <AmmoColor> allColors = new ArrayList<>(Arrays.asList(BLUE, RED, YELLOW, BLUE, RED, YELLOW));
         for(AmmoColor ammoColor : allColors) {
-            powerUpCards.add(new PowerUpCard("Targeting Scope", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(damage(1), PowerUpAction.Type.IN_TURN)));
-            powerUpCards.add(new PowerUpCard("Newton", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(otherPlayers, near2Squares, move)));
-            powerUpCards.add(new PowerUpCard("Tagback Grenade", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(damage(1), PowerUpAction.Type.COUNTER_ATTACK)));
-            powerUpCards.add(new PowerUpCard("Teleporter", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(selfPlayer, allSquares, move)));
+            powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, new Ammo(0, 0, 0), damage(1)));
+            powerUpCards.add(new EndStartPowerUpCard("Newton", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(otherPlayers, near2Squares, move)));
+            powerUpCards.add(new CounterAttackPowerUpCard("Tagback Grenade", ammoColor, new Ammo(0, 0, 0), damage(1)));
+            powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(selfPlayer, allSquares, move)));
         }
     }
     private static void buildWeapons()

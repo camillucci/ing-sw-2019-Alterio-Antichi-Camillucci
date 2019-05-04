@@ -14,8 +14,8 @@ public class ShootAction extends Action
     protected List<Player> damagedPlayers = new ArrayList<>();
 
     protected ShootFunc shootFunc = (a, b, c) -> {};
-    protected PlayersFilter playersFilter;
-    protected SquaresFilter squaresFilter;
+    protected PlayersFilter playersFilter = (shooter, players) -> Collections.emptyList();
+    protected SquaresFilter squaresFilter = (shooter, squares) -> Collections.emptyList();
 
     protected ShootAction(){}
 
@@ -47,7 +47,7 @@ public class ShootAction extends Action
 
     protected void preparePowerUp()
     {
-        PowerUpAction tmp = selectedPowerUp.getEffect();
+        SupportPowerUpAction tmp = (SupportPowerUpAction)selectedPowerUp.getEffect();
         tmp.setTargets(damagedPlayers);
         this.next = tmp;
     }
@@ -76,9 +76,7 @@ public class ShootAction extends Action
 
         List <PowerUpCard> temp = new ArrayList<>();
         if(!this.damagedPlayers.isEmpty())
-            for(PowerUpCard powerUpCard : ownerPlayer.getPowerUps())
-                if(powerUpCard.getEffect().type == PowerUpAction.Type.IN_TURN && ownerPlayer.getTotalAmmo() >= 1)
-                    temp.add(powerUpCard);
+            temp.addAll(ownerPlayer.getPowerupSet().getInTurnPUs());
         return temp;
     }
 

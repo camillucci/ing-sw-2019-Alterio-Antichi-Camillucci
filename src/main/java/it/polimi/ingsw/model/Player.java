@@ -28,7 +28,7 @@ public class Player implements Cloneable {
     private ArrayList<PlayerColor> mark = new ArrayList<>();
     private ArrayList<WeaponCard> loadedWeapons = new ArrayList<>();
     private ArrayList<WeaponCard> unloadedWeapons = new ArrayList<>();
-    private ArrayList<PowerUpCard> powerUps = new ArrayList<>();
+    private PowerupSet powerupSet = new PowerupSet();
     private static final int MAX_AMMO = 3;
     private static final int MAX_POWER_UPS = 3;
     private static final int MAX_POWER_UPS_RESPAWN = 4;
@@ -72,20 +72,20 @@ public class Player implements Cloneable {
     }
 
     public void addPowerUpCard() {
-        if(powerUps.size() < MAX_POWER_UPS){
-            powerUps.add(gameBoard.getPowerUpDeck().draw());
+        if(powerupSet.getAll().size() < MAX_POWER_UPS){
+            powerupSet.add(gameBoard.getPowerUpDeck().draw());
         }
     }
 
     public void addPowerUpCardRespawn() {
-        if(powerUps.size() < MAX_POWER_UPS_RESPAWN){
-            powerUps.add(gameBoard.getPowerUpDeck().draw());
+        if(powerupSet.getAll().size() < MAX_POWER_UPS_RESPAWN){
+            powerupSet.add(gameBoard.getPowerUpDeck().draw());
         }
     }
 
     public void removePowerUpCard(PowerUpCard powerUpCard)
     {
-        powerUps.remove(powerUpCard);
+        powerupSet.remove(powerUpCard);
     }
 
     public void addDamage(Player shooter, int val) {
@@ -143,9 +143,9 @@ public class Player implements Cloneable {
             Player p = (Player)this.clone();
             p.damage = new ArrayList<>(this.damage);
             p.mark = new ArrayList<>(this.mark);
-            loadedWeapons = new ArrayList<>(this.loadedWeapons);
-            unloadedWeapons = new ArrayList<>(this.unloadedWeapons);
-            powerUps = new ArrayList<>(this.powerUps);
+            p.loadedWeapons = new ArrayList<>(this.loadedWeapons);
+            p.unloadedWeapons = new ArrayList<>(this.unloadedWeapons);
+            p.powerupSet = new PowerupSet(powerupSet);
             return p;
         }
         catch(CloneNotSupportedException cNSE){
@@ -200,12 +200,14 @@ public class Player implements Cloneable {
     }
 
     public List<PowerUpCard> getPowerUps() {
-        return powerUps;
+        return powerupSet.getAll();
     }
 
     public List<PlayerColor> getDamage() {
         return damage;
     }
+
+    public PowerupSet getPowerupSet() {return powerupSet;}
 
     public List<PlayerColor> getMark() {
         return mark;
