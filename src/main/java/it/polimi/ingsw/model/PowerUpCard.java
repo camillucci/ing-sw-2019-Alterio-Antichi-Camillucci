@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.action.PowerUpAction;
 import java.util.function.Supplier;
 
 public abstract class PowerUpCard {
+
     public final String name;
     public final AmmoColor color;
     public final Ammo cost;

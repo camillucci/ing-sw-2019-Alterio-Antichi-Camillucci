@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,18 +14,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class MatchTest {
 
     private static final int n = 4;
-    List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
-    List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
-    Match match = new Match(names, colors, 5, 10);
-    Bot bot = new Bot();
+    private Match match;
+    private Bot bot;
 
-    public MatchTest()
-    {
-        initialize();
-    }
+    @BeforeEach
+    void setUp() {
+        List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
+        match = new Match(names, colors, 5, 10);
+        bot = new Bot();
 
-    void initialize()
-    {
         // spawning players
         for(int i = 0; i < match.getPlayers().size(); i++)
             bot.playSpawnBranchMap(match);

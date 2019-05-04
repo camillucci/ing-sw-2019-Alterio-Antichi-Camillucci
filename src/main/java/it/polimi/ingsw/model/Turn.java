@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.Action;
-import it.polimi.ingsw.model.action.PowerUpAction;
 import it.polimi.ingsw.model.branch.*;
 
 import java.util.ArrayList;

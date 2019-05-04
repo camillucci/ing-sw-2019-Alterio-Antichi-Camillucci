@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.Player;import it.polimi.ingsw.model.PowerUpCard;
+import it.polimi.ingsw.model.PowerUpCard;
 import it.polimi.ingsw.model.weapons.PlayersFilter;
 import it.polimi.ingsw.model.weapons.ShootFunc;
 import it.polimi.ingsw.model.weapons.SquaresFilter;
 
 import java.util.ArrayList;
-import java.util.Collections;import java.util.List;
+import java.util.List;
 
 public class PowerUpAction extends ShootAction
 {

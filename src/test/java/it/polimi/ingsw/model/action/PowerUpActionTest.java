@@ -69,7 +69,7 @@ class PowerUpActionTest {
                 bot.playSpawnBranchMap(match);
         }while((p = match.getPlayer()).getPowerupSet().getEndStartPUs().size() != 2);
 
-        assertTrue(match.getPlayer().getPowerupSet().getEndStartPUs().size() == 2);
+        assertEquals(2, match.getPlayer().getPowerupSet().getEndStartPUs().size());
         Action a = BranchTestUtilities.search(match.getActions(), new PowerUpAction());
 
         List<PowerUpCard> tmp = a.getPossiblePowerUps();
@@ -80,12 +80,12 @@ class PowerUpActionTest {
         a = BranchTestUtilities.search(match.getActions(), new PowerUpAction());
         a.usePowerUp(a.getPossiblePowerUps().get(0));
         a.doAction();
-        assertTrue(BranchTestUtilities.search(match.getActions(), new PowerUpAction()) != null);
+        assertNotNull(BranchTestUtilities.search(match.getActions(), new PowerUpAction()));
 
         a = BranchTestUtilities.search(match.getActions(), new PowerUpAction());
         a.usePowerUp(a.getPossiblePowerUps().get(0));
         a.doAction();
-        assertTrue(BranchTestUtilities.search(match.getActions(), new PowerUpAction()) != null);
+        assertNotNull(BranchTestUtilities.search(match.getActions(), new PowerUpAction()));
 
         a = BranchTestUtilities.search(match.getActions(), new PowerUpAction());
         assertTrue(a.getPossiblePowerUps().isEmpty());

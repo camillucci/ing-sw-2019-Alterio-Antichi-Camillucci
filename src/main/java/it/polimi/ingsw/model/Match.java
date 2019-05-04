@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Match implements ActionsProvider {
-    public final Event<Match, List<Player>> endMatchEvent = new Event<>();
 
+    public final Event<Match, List<Player>> endMatchEvent = new Event<>();
     private int turnPos = -1;
     private List<Action> curActions;
     private Player curPlayer;
@@ -52,7 +52,7 @@ public class Match implements ActionsProvider {
     private void onPlayerDamaged(Player damaged, int val)
     {
         List<Action> backupActions = this.curActions;
-        BranchMap branchMap = BranchMapFactory.CounterAttacBranchMap();
+        BranchMap branchMap = BranchMapFactory.counterAttackBranchMap();
         branchMap.newActionsEvent.addEventHandler((a,actions) -> setNewActions(actions));
         branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> setNewActions(backupActions));
         setNewActions(branchMap.getPossibleActions());
@@ -61,6 +61,7 @@ public class Match implements ActionsProvider {
 
     public void spawn(boolean respawn)
     {
+        //At spawn players must be spawned one at the time, at respawn all together
         if(deadPlayers.isEmpty()) {
             newTurn();
             return;

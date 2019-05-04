@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class BranchMapFactory
@@ -71,7 +70,7 @@ public class BranchMapFactory
                 new Branch(new PowerUpAction(), new ReloadAction(), new EndBranchAction())))); //PR
     }
 
-    public static BranchMap CounterAttacBranchMap()
+    public static BranchMap counterAttackBranchMap()
     {
         return new BranchMap(new Branch(new SupportPowerUpAction(p->new ArrayList<>(p.getPowerupSet().getCounterAttackPUs())), new EndBranchAction()));
     }
