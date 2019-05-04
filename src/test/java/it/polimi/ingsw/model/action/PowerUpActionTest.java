@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.branch.BranchTestUtilities;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,6 +50,38 @@ class PowerUpActionTest {
     @Test
     void shoot3()
     {
+        Match match;
+        Bot bot = new Bot();
+        Player p;
+        do{
+            match = new Match(Arrays.asList("A", "B", "C"), Arrays.asList(PlayerColor.BLUE,PlayerColor.GREY, PlayerColor.GREEN),8, 10);
+            match.getPlayer().addPowerUpCard();
+            match.getPlayer().addPowerUpCard();
+            for(Player p2: match.getPlayers())
+                bot.playSpawnBranchMap(match);
+        }while((p = match.getPlayer()).getPowerupSet().getEndStartPUs().size() != 2);
 
+        assertTrue(match.getPlayer().getPowerupSet().getEndStartPUs().size() == 2);
+        Action a = BranchTestUtilities.search(match.getActions(), new PowerUpAction());
+
+        List<PowerUpCard> tmp = a.getPossiblePowerUps();
+        assertTrue(tmp.size() > 0);
+        a.usePowerUp(a.getPossiblePowerUps().get(0));
+        a.doAction();
+
+        a = BranchTestUtilities.search(match.getActions(), new PowerUpAction());
+        a.usePowerUp(a.getPossiblePowerUps().get(0));
+        a.doAction();
+        assertTrue(BranchTestUtilities.search(match.getActions(), new PowerUpAction()) != null);
+
+        a = BranchTestUtilities.search(match.getActions(), new PowerUpAction());
+        a.usePowerUp(a.getPossiblePowerUps().get(0));
+        a.doAction();
+        assertTrue(BranchTestUtilities.search(match.getActions(), new PowerUpAction()) != null);
+
+        a = BranchTestUtilities.search(match.getActions(), new PowerUpAction());
+        assertTrue(a.getPossiblePowerUps().isEmpty());
+        bot.playNoAdrenaline(match);
+        bot.playThreeDamage(match);
     }
 }

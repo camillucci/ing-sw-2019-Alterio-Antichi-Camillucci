@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.action.PowerUpAction;
+import it.polimi.ingsw.model.action.SupportPowerUpAction;
 import it.polimi.ingsw.model.branch.*;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class Match implements ActionsProvider {
     private void onPlayerDamaged(Player damaged, int val)
     {
         List<Action> backupActions = this.curActions;
-        BranchMap branchMap = BranchMapFactory.powerUpBranchMap(PowerUpAction.Type.COUNTER_ATTACK);
+        BranchMap branchMap = BranchMapFactory.CounterAttacBranchMap();
         branchMap.newActionsEvent.addEventHandler((a,actions) -> setNewActions(actions));
         branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> setNewActions(backupActions));
         setNewActions(branchMap.getPossibleActions());
