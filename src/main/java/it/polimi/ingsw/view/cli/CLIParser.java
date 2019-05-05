@@ -40,11 +40,4 @@ public class CLIParser {
         //TODO catch exceptions
         return 0;
     }
-
-    public int parseSpawnChoice(List<String> powerupCards) {
-        int answer = Integer.parseInt(System.in.toString());
-        if(answer < powerupCards.size() / 2)
-            return answer * 2;
-        return -1;
-    }
 }

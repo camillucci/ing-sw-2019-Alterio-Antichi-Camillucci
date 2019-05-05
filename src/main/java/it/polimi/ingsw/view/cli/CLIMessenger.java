@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+
 import java.util.List;
 
 public class CLIMessenger {
@@ -52,7 +54,7 @@ public class CLIMessenger {
         System.out.println("180 seconds countdown has started");
     }
 
-    public void displayMap(int mapType) {
+    public void displayMapOptions(int mapType) {
         //TODO add displayable map for every int between 0 and 2
     }
 
@@ -73,8 +75,11 @@ public class CLIMessenger {
             System.out.println(PRESS + i + targetPlayers.size() + " if you want to target square" + targetSquares.get(i));
     }
 
-    public void spawn(List<String> powerupCards) {
-        for(int i = 0, j = 0; i < powerupCards.size(); i = i + 2, j++)
-            System.out.println(PRESS + j + " if you want to discard the powerup card" + powerupCards.get(i) + "|" + powerupCards.get(i + 1));
+    public void displayMap(MatchSnapshot matchSnapshot) {
+        //TODO take info from snapshot and display current mapstate
+    }
+
+    public void displayPlayers(MatchSnapshot matchSnapshot) {
+        //TODO take info from snapshot and display cards in hand of all players
     }
 }

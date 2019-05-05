@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.socket.TCPClient;
 import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
@@ -13,6 +14,7 @@ public class AdrenalineClient
     private CLIMessenger messanger;
     private static final String HOSTNAME = "127.0.0.1";
     private static final int IP = 10000;
+    private MatchSnapshot matchSnapshot;
 
     public AdrenalineClient() {
         parser = new CLIParser();
@@ -60,9 +62,17 @@ public class AdrenalineClient
             messanger.matchStart();
     }
 
+    /*
     public void spawn() throws Exception {
         ArrayList<String> powerupCards = server.in().getObject(); //Get two powerup cards
         messanger.spawn(powerupCards);
         server.out().sendInt(parser.parseSpawnChoice(powerupCards));
+    }
+     */
+
+    public void updateView() throws Exception {
+        matchSnapshot = server.in().getObject();
+        messanger.displayMap(matchSnapshot);
+        messanger.displayPlayers(matchSnapshot);
     }
 }
