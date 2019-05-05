@@ -26,4 +26,8 @@ public abstract class PowerUpCard {
     public abstract void addTo(PowerupSet powerupSet);
 
     public abstract void removeFrom(PowerupSet powerupSet);
+
+    public String getName() {
+        return name.concat(" " + color.name());
+    }
 }

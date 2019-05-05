@@ -24,10 +24,10 @@ public class Player implements Cloneable {
     private int yellowAmmo;
     private Square currentSquare;
     private boolean finalFrenzy;
-    private ArrayList<PlayerColor> damage = new ArrayList<>();
-    private ArrayList<PlayerColor> mark = new ArrayList<>();
-    private ArrayList<WeaponCard> loadedWeapons = new ArrayList<>();
-    private ArrayList<WeaponCard> unloadedWeapons = new ArrayList<>();
+    private List<PlayerColor> damage = new ArrayList<>();
+    private List<PlayerColor> mark = new ArrayList<>();
+    private List<WeaponCard> loadedWeapons = new ArrayList<>();
+    private List<WeaponCard> unloadedWeapons = new ArrayList<>();
     private PowerupSet powerupSet = new PowerupSet();
     private static final int MAX_AMMO = 3;
     private static final int MAX_POWER_UPS = 3;
@@ -73,13 +73,13 @@ public class Player implements Cloneable {
 
     public void addPowerUpCard() {
         if(powerupSet.getAll().size() < MAX_POWER_UPS){
-            powerupSet.add(gameBoard.getPowerUpDeck().draw());
+            powerupSet.add(gameBoard.powerupDeck.draw());
         }
     }
 
     public void addPowerUpCardRespawn() {
         if(powerupSet.getAll().size() < MAX_POWER_UPS_RESPAWN){
-            powerupSet.add(gameBoard.getPowerUpDeck().draw());
+            powerupSet.add(gameBoard.powerupDeck.draw());
         }
     }
 
@@ -211,10 +211,6 @@ public class Player implements Cloneable {
 
     public List<PlayerColor> getMark() {
         return mark;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setCurrentSquare(Square currentSquare) {

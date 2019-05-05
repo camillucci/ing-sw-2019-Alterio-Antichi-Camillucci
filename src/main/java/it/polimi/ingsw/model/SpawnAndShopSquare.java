@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SpawnAndShopSquare extends Square {
+
     private List<WeaponCard> weapons;
 
     public SpawnAndShopSquare(int y, int x, SquareBorder[] borders, List<WeaponCard> weapons) {
@@ -47,5 +48,13 @@ public class SpawnAndShopSquare extends Square {
             if(Ammo.getAmmo(player).isGreaterOrEqual(w.buyCost))
                 ret.add(new Branch(new Action(a -> a.getOwnerPlayer().addWeapon(w)), new EndBranchAction()));
         return ret;
+    }
+
+    @Override
+    public List<String> getCardsName() {
+        List<String> temp = new ArrayList<>();
+        for(WeaponCard weaponCard : weapons)
+            temp.add(weaponCard.name);
+        return temp;
     }
 }

@@ -43,4 +43,9 @@ public class AmmoSquare extends Square {
     public void setAmmoCard(AmmoCard ammoCard) {
         this.ammoCard = ammoCard;
     }
+
+    @Override
+    public List<String> getCardsName() {
+        return Collections.singletonList(ammoCard.getName());
+    }
 }

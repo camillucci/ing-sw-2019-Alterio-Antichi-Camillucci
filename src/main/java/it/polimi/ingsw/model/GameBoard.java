@@ -9,10 +9,10 @@ import static it.polimi.ingsw.model.SquareBorder.*;
 public class GameBoard {
 
     private List<Player> players = new ArrayList<>();
-    private WeaponDeck weaponDeck = new WeaponDeck();
-    private PowerUpDeck powerupDeck = new PowerUpDeck();
-    private AmmoDeck ammoDeck = new AmmoDeck();
-    private Square[][] squares = new Square[3][4];
+    public final WeaponDeck weaponDeck = new WeaponDeck();
+    public final PowerUpDeck powerupDeck = new PowerUpDeck();
+    public final AmmoDeck ammoDeck = new AmmoDeck();
+    public final Square[][] squares = new Square[3][4];
     private int skulls;
     private int gameSize;
     private List<List<PlayerColor>> killShotTrack = new ArrayList<>();
@@ -385,8 +385,8 @@ public class GameBoard {
         this.players = new ArrayList<>(players);
     }
 
-    public PowerUpDeck getPowerUpDeck() {
-        return powerupDeck;
+    public int getSkulls() {
+        return skulls;
     }
 
     public List<List<PlayerColor>> getKillShotTrack() {

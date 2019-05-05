@@ -89,4 +89,5 @@ public abstract class Square {
         players.remove(player);
     }
 
+    public abstract List<String> getCardsName();
 }

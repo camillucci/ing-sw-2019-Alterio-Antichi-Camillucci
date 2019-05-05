@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.branch.*;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,6 +122,10 @@ public class Match implements ActionsProvider {
                 frenzyStarter = playerColors.indexOf(deadPlayer.getDamage().get(10));
             }
         }
+    }
+
+    public MatchSnapshot createSnapshot(int numPlayer) {
+        return new MatchSnapshot(this, players.get(numPlayer));
     }
 
     public void addDeadPlayers(Player deadPlayer) {
