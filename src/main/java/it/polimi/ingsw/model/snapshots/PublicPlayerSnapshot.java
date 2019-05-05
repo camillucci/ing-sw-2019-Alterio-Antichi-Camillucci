@@ -21,7 +21,7 @@ public class PublicPlayerSnapshot implements Serializable {
     public final List<PlayerColor> mark;
     public final int loadedWeaponsNumber;
     public final List<String> unloadedWeapons = new ArrayList<>();
-    public final int powerUps;
+    public final int powerUpsNumber;
 
     public PublicPlayerSnapshot(Player player) {
         this.color = player.color;
@@ -36,6 +36,6 @@ public class PublicPlayerSnapshot implements Serializable {
         this.loadedWeaponsNumber = player.getLoadedWeapons().size();
         for(WeaponCard weaponCard : player.getUnloadedWeapons())
             unloadedWeapons.add(weaponCard.name);
-        this.powerUps = player.getPowerUps().size();
+        this.powerUpsNumber = player.getPowerUps().size();
     }
 }
