@@ -17,20 +17,15 @@ public class Match implements ActionsProvider {
     private Player curPlayer;
     public final GameBoard gameBoard;
     private List<Player> players = new ArrayList<>();
-    private List<Player> deadPlayers = new ArrayList<>();
+    private List<Player> deadPlayers;
     private Turn currentTurn;
     private List<PlayerColor> playerColors;
-    private boolean finalFrenzy;
-    private int gameLength;
-    private int gameSize;
+    private boolean finalFrenzy = false;
     private int frenzyStarter = -1;
     private static final int MAX_DAMAGES = 12;
 
-    public Match(List<String> playersName, List<PlayerColor> playerColors, int gameLength, int gameSize) {
-
-        this.gameLength = gameLength;
-        this.gameSize = gameSize;
-        this.finalFrenzy = false;
+    public Match(List<String> playersName, List<PlayerColor> playerColors, int gameLength, int gameSize)
+    {
         this.playerColors = new ArrayList<>(playerColors);
         this.gameBoard = new GameBoard(gameLength, gameSize);
         createPlayers(playersName, playerColors);
@@ -46,7 +41,6 @@ public class Match implements ActionsProvider {
         }
         gameBoard.setPlayers(players);
         this.deadPlayers = new ArrayList<>(players);
-        spawn(false);
     }
 
     private void onPlayerDamaged(Player damaged, int val)
@@ -59,30 +53,29 @@ public class Match implements ActionsProvider {
         //todo rollback
     }
 
-    public void spawn(boolean respawn)
+    private void spawn(boolean respawn)
     {
         //At spawn players must be spawned one at the time, at respawn all together
-        if(deadPlayers.isEmpty()) {
-            newTurn();
-            return;
-        }
-        Player p = this.curPlayer = deadPlayers.get(0);
+        Player p = deadPlayers.get(0);
+        this.curPlayer = p;
         p.addPowerUpCardRespawn();
         if(!respawn)
-            p.addPowerUpCardRespawn();
+            p.addPowerUpCard();
         BranchMap branchMap = BranchMapFactory.spawnBranchMap(p);
         branchMap.newActionsEvent.addEventHandler((bMap, actions) -> setNewActions(actions));
-        branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) ->
-        {
-            this.deadPlayers.remove(p);
-            spawn(respawn);
-        });
+        if(!respawn)
+            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> { this.deadPlayers.remove(p); newTurn(); });
+        else
+            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> { this.deadPlayers.remove(p); onTurnCompleted(); });
         setNewActions(branchMap.getPossibleActions());
     }
 
-    private void onTurnCompleted(Turn turn, Player turnPlayer)
+    private void onTurnCompleted()
     {
-        spawn(true);
+        if(deadPlayers.isEmpty())
+            newTurn();
+        else
+            spawn(turnPos >= players.size());
     }
 
     private void newTurn()
@@ -91,7 +84,7 @@ public class Match implements ActionsProvider {
         curPlayer = players.get(turnPos);
         this.currentTurn = new Turn(curPlayer, this);
         this.currentTurn.newActionsEvent.addEventHandler((turn, actions) -> this.setNewActions(actions));
-        this.currentTurn.endTurnEvent.addEventHandler(this::onTurnCompleted);
+        this.currentTurn.endTurnEvent.addEventHandler((turn, turnPlayer) -> onTurnCompleted());
         setNewActions(currentTurn.getActions());
     }
 
@@ -123,8 +116,10 @@ public class Match implements ActionsProvider {
             if (damage.size() == MAX_DAMAGES)
                 tempKillShot.add(damage.get(MAX_DAMAGES - 1));
             gameBoard.addKillShotTrack(tempKillShot);
-            if(gameBoard.getKillShotTrack().size() == 8 && frenzyStarter == -1)
+            if(gameBoard.getKillShotTrack().size() == 8 && frenzyStarter == -1) {
+                finalFrenzy = true;
                 frenzyStarter = playerColors.indexOf(deadPlayer.getDamage().get(10));
+            }
         }
     }
 
@@ -155,6 +150,10 @@ public class Match implements ActionsProvider {
 
     public int getPlayerIndex() {
         return players.indexOf(curPlayer);
+    }
+
+    public void start() {
+        spawn(false);
     }
 
     @Override

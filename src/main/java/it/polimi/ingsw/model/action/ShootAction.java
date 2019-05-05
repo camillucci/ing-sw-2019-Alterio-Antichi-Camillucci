@@ -40,7 +40,7 @@ public class ShootAction extends Action
     protected void op() {
         this.shoot();
         for(Player p: damagedPlayers)
-            p.damagedEvent.removeEventHandler(this::damagedEventHandler);
+            p.damagedEvent.removeEventHandler((damaged, val) -> damagedEventHandler(damaged));
         if(selectedPowerUp != null)
             preparePowerUp();
     }
@@ -86,10 +86,10 @@ public class ShootAction extends Action
         if(!this.getPossiblePlayers().contains(target))
             return;
         targetPlayers.add(target);
-        target.damagedEvent.addEventHandler(this::damagedEventHandler);
+        target.damagedEvent.addEventHandler((damaged, val) -> damagedEventHandler(damaged));
     }
 
-    private void damagedEventHandler(Player damaged, int val)
+    private void damagedEventHandler(Player damaged)
     {
         if(!damagedPlayers.contains(damaged))
             this.damagedPlayers.add(damaged);

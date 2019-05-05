@@ -1,9 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerColor;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class CLIParser {
 
@@ -15,15 +12,12 @@ public class CLIParser {
 
     public boolean parseChoice() {
         String type = System.in.toString();
-        if(type == "1")
-            return true;
-        else
-            return false;
+        return type == "1";
 
         //TODO catch exceptions
     }
 
-    public int parseIndex(ArrayList<String> options) {
+    public int parseIndex(List<String> options) {
         int answer = Integer.parseInt(System.in.toString());
         if(answer < options.size() && answer >= 0)
             return answer;
@@ -47,7 +41,7 @@ public class CLIParser {
         return 0;
     }
 
-    public int parseSpawnChoice(ArrayList<String> powerupCards) {
+    public int parseSpawnChoice(List<String> powerupCards) {
         int answer = Integer.parseInt(System.in.toString());
         if(answer < powerupCards.size() / 2)
             return answer * 2;

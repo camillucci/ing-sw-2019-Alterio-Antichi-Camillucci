@@ -80,4 +80,12 @@ public class Bot
         provider.getActions().get(0).doAction();
         provider.getActions().get(0).doAction();
     }
+
+    public void playEmptyTurn(ActionsProvider provider)
+    {
+        assertEquals(7, provider.getActions().size());
+        provider.getActions().get(4).doAction(); //End first move
+        provider.getActions().get(4).doAction(); //End Second move
+        provider.getActions().get(2).doAction(); //End turn
+    }
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.PlayerColor;
-import it.polimi.ingsw.model.PowerUpCard;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.network.AdrenalineServer;
 
@@ -60,16 +59,14 @@ public class Room
     }
 
     public List<String> getAvailableColors() {
-        ArrayList<String> colors = new ArrayList<String>();
+        ArrayList<String> colors = new ArrayList<>();
         for (PlayerColor pc : availableColors)
             colors.add(pc.name());
         return colors;
     }
 
     public boolean getAvailableSeats() {
-        if(playerNames.size() < 5)
-            return true;
-        return false;
+        return playerNames.size() < 5;
     }
 
     private void threePlayers() throws Exception {
@@ -86,7 +83,7 @@ public class Room
         this.gameLength = gameLength;
     }
 
-    public void sendActions(ArrayList<Action> actions, int client) {
+    public void sendActions(List<Action> actions, int client) {
         //TODO send actions to client
     }
 }

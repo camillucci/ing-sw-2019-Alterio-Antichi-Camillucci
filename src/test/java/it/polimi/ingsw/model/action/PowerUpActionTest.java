@@ -63,10 +63,13 @@ class PowerUpActionTest {
         Player p;
         do{
             match = new Match(Arrays.asList("A", "B", "C"), Arrays.asList(PlayerColor.BLUE,PlayerColor.GREY, PlayerColor.GREEN),8, 10);
+            match.start();
             match.getPlayer().addPowerUpCard();
             match.getPlayer().addPowerUpCard();
-            for(Player p2: match.getPlayers())
+            for(Player p2: match.getPlayers()) {
                 bot.playSpawnBranchMap(match);
+                bot.playEmptyTurn(match);
+            }
         }while((p = match.getPlayer()).getPowerupSet().getEndStartPUs().size() != 2);
 
         assertEquals(2, match.getPlayer().getPowerupSet().getEndStartPUs().size());

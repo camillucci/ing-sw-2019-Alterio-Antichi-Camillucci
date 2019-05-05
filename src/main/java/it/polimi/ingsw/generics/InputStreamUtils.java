@@ -34,8 +34,7 @@ public class InputStreamUtils implements Closeable, InputInterface
     {
         return get ( () -> {
             ObjectInputStream inputStream = new ObjectInputStream(stream);
-            T ret = (T) inputStream.readObject();
-            return ret;});
+            return (T) inputStream.readObject();});
     }
 
     public void getFile(String filename) throws IOException

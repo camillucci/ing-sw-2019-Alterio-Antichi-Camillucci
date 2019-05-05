@@ -22,11 +22,14 @@ class MatchTest {
         List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
         List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
         match = new Match(names, colors, 5, 10);
+        match.start();
         bot = new Bot();
 
         // spawning players
-        for(int i = 0; i < match.getPlayers().size(); i++)
+        for(int i = 0; i < match.getPlayers().size(); i++) {
             bot.playSpawnBranchMap(match);
+            bot.playEmptyTurn(match);
+        }
     }
 
     @Test

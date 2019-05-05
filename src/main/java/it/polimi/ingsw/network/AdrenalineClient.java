@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.network.socket.TCPClient;
-import it.polimi.ingsw.view.cli.CLIMessanger;
+import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.util.ArrayList;
@@ -11,22 +10,22 @@ public class AdrenalineClient
 {
     private Client server;
     private CLIParser parser;
-    private CLIMessanger messanger;
-    private final String hostname = "127.0.0.1";
-    private final int ip = 10000;
+    private CLIMessenger messanger;
+    private static final String HOSTNAME = "127.0.0.1";
+    private static final int IP = 10000;
 
     public AdrenalineClient() {
         parser = new CLIParser();
-        messanger = new CLIMessanger();
+        messanger = new CLIMessenger();
     }
 
     public void login() throws Exception {
         messanger.askConnection();
         boolean connectionType = parser.parseChoice();
         if(!connectionType)
-            server = TCPClient.connect(hostname, ip);
+            server = TCPClient.connect(HOSTNAME, IP);
         else {
-            //server = RMIClient.connect(hostname, ip);
+            //server = RMIClient.connect(HOSTNAME, IP);
             server = null;
         }
 
@@ -61,7 +60,7 @@ public class AdrenalineClient
             messanger.matchStart();
     }
 
-    public void Spawn() throws Exception {
+    public void spawn() throws Exception {
         ArrayList<String> powerupCards = server.in().getObject(); //Get two powerup cards
         messanger.spawn(powerupCards);
         server.out().sendInt(parser.parseSpawnChoice(powerupCards));

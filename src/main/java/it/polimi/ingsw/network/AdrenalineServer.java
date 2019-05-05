@@ -2,8 +2,6 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerColor;
 
 import java.io.Serializable;
 import java.util.ArrayList;

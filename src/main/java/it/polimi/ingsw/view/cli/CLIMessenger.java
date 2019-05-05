@@ -1,12 +1,10 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerColor;
-import it.polimi.ingsw.model.Square;
+import java.util.List;
 
-import java.util.ArrayList;
+public class CLIMessenger {
 
-public class CLIMessanger {
+    private static final String PRESS = "Press ";
     //TODO
 
     public void insertName() {
@@ -15,20 +13,20 @@ public class CLIMessanger {
 
     public void askConnection() {
         System.out.println("Choose connection type:");
-        System.out.println("Press 0 for Socket");
-        System.out.println("Press 1 for RMI");
+        System.out.println(PRESS + "0 for Socket");
+        System.out.println(PRESS + "1 for RMI");
     }
 
     public void askInterface() {
         System.out.println("Choose interface type");
-        System.out.println("Press 0 for CLI");
-        System.out.println("Press 1 for GUI");
+        System.out.println(PRESS + "0 for CLI");
+        System.out.println(PRESS + "1 for GUI");
     }
 
-    public int askColor(ArrayList<String> availableColors) {
+    public int askColor(List<String> availableColors) {
         System.out.println("Choose one of the available colors");
         for(int i = 0; i < availableColors.size(); i++) {
-            System.out.println("Press" + i + "if you want the color" + availableColors.get(i));
+            System.out.println(PRESS + i + " if you want the color" + availableColors.get(i));
         }
 
         return availableColors.size();
@@ -58,25 +56,25 @@ public class CLIMessanger {
         //TODO add displayable map for every int between 0 and 2
     }
 
-    public void displayTargetsPlayers(ArrayList<String> targets) {
+    public void displayTargetsPlayers(List<String> targets) {
         for(int i = 0; i < targets.size(); i++)
-            System.out.println("Press" + i + "if you want to target player" + targets.get(i));
+            System.out.println(PRESS + i + " if you want to target player" + targets.get(i));
     }
 
-    public void displayTargetsSquares(ArrayList<String> targets) {
+    public void displayTargetsSquares(List<String> targets) {
         for(int i = 0; i < targets.size(); i++)
-            System.out.println("Press" + i + "if you want to target square" + targets.get(i));
+            System.out.println(PRESS + i + " if you want to target square" + targets.get(i));
     }
 
-    public void displayTargetsBoth(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
+    public void displayTargetsBoth(List<String> targetPlayers, List<String> targetSquares) {
         for(int i = 0; i < targetPlayers.size(); i++)
-            System.out.println("Press" + i + "if you want to target player" + targetPlayers.get(i));
+            System.out.println(PRESS + i + " if you want to target player" + targetPlayers.get(i));
         for(int i = 0; i + targetPlayers.size() < targetSquares.size(); i++)
-            System.out.println("Press" + i + targetPlayers.size() + "if you want to target square" + targetSquares.get(i));
+            System.out.println(PRESS + i + targetPlayers.size() + " if you want to target square" + targetSquares.get(i));
     }
 
-    public void spawn(ArrayList<String> powerupCards) {
+    public void spawn(List<String> powerupCards) {
         for(int i = 0, j = 0; i < powerupCards.size(); i = i + 2, j++)
-            System.out.println("Press" + j + "if you want to discard the powerup card" + powerupCards.get(i) + "|" + powerupCards.get(i + 1));
+            System.out.println(PRESS + j + " if you want to discard the powerup card" + powerupCards.get(i) + "|" + powerupCards.get(i + 1));
     }
 }

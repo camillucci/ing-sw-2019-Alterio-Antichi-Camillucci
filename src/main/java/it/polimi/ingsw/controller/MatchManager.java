@@ -14,8 +14,8 @@ public class MatchManager {
         this.room = room;
     }
 
-    private void spawn() {
-        match.spawn(false);
+    private void startMatch() {
+        match.start();
         ArrayList<Action> actions = (ArrayList<Action>) match.getActions();
         int client = match.getPlayerIndex();
         room.sendActions(actions, client);
