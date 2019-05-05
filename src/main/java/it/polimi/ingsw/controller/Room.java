@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
 
 import java.util.ArrayList;
@@ -26,9 +27,8 @@ public class Room
         }
     }
 
-    public void handleAction(Action action) {
-        matchManager.handleAction(action);
-        //TODO update all players view
+    public void handleAction(int index) throws Exception {
+        matchManager.handleAction(index);
     }
 
     public boolean addPlayer(int index, String playerName, AdrenalineServer client) throws Exception {
@@ -85,5 +85,9 @@ public class Room
 
     public void sendActions(List<Action> actions, int client) {
         //TODO send actions to client
+    }
+
+    public void updateView(MatchSnapshot snapshot, int index) throws Exception {
+        clients.get(index).updateView(snapshot);
     }
 }

@@ -21,8 +21,11 @@ public class MatchManager {
         room.sendActions(actions, client);
     }
 
-    public void handleAction(Action action) {
-        action.doAction();
+    public void handleAction(int index) throws Exception {
+        match.getActions().get(index).doAction();
+        for(int i = 0; i < room.getPlayerNames().size(); i++) {
+            room.updateView(match.createSnapshot(i), i);
+        }
         ArrayList<Action> actions = (ArrayList<Action>) match.getActions();
         int client = match.getPlayerIndex();
         room.sendActions(actions, client);

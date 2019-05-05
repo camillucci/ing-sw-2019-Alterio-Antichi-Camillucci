@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,5 +47,9 @@ public class AdrenalineServer
 
     private Room getAvailableRoom() {
         return controller.getAvailableRoom();
+    }
+
+    public void updateView(MatchSnapshot matchSnapshot) throws Exception {
+        client.out().sendObject(matchSnapshot);
     }
 }
