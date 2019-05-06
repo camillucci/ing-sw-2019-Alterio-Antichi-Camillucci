@@ -11,6 +11,7 @@ public class GameBoardSnapshot implements Serializable
     public final SquareSnapshot[][] squareSnapshots = new SquareSnapshot[3][4];
     public final int skulls;
     public final List<List<PlayerColor>> killShotTrack;
+    public final int mapType;
 
     public GameBoardSnapshot(GameBoard gameBoard)
     {
@@ -21,5 +22,6 @@ public class GameBoardSnapshot implements Serializable
 
         skulls = gameBoard.getSkulls();
         killShotTrack = gameBoard.getKillShotTrack();
+        mapType = gameBoard.getGameSize();
     }
 }

@@ -72,7 +72,10 @@ public class AdrenalineClient
 
     public void updateView() throws Exception {
         matchSnapshot = server.in().getObject();
-        messanger.displayMap(matchSnapshot);
-        messanger.displayPlayers(matchSnapshot);
+        messanger.updateView(matchSnapshot);
+    }
+
+    public MatchSnapshot getMatchSnapshot() {
+        return matchSnapshot;
     }
 }

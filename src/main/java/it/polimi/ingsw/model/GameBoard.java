@@ -404,4 +404,8 @@ public class GameBoard {
                     temp.add(s);
         return temp;
     }
+
+    public int getGameSize() {
+        return gameSize;
+    }
 }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public class CLIMessenger {
 
+    private MatchSnapshot matchSnapshot;
     private static final String PRESS = "Press ";
-    //TODO
 
     public void insertName() {
         System.out.println("Insert username here:");
@@ -51,13 +51,14 @@ public class CLIMessenger {
 
     public void threePlayers() {
         System.out.println("Your room has reached 3 players");
-        System.out.println("180 seconds countdown has started");
+        System.out.println("countdown has started");
     }
 
     public void displayMapOptions(int mapType) {
         //TODO add displayable map for every int between 0 and 2
     }
 
+    /*
     public void displayTargetsPlayers(List<String> targets) {
         for(int i = 0; i < targets.size(); i++)
             System.out.println(PRESS + i + " if you want to target player" + targets.get(i));
@@ -75,11 +76,46 @@ public class CLIMessenger {
             System.out.println(PRESS + i + targetPlayers.size() + " if you want to target square" + targetSquares.get(i));
     }
 
-    public void displayMap(MatchSnapshot matchSnapshot) {
-        //TODO take info from snapshot and display current mapstate
+    Possibly cancel this and use a more generic method for all actions
+     */
+
+    private void displayMap(int mapType) {
+        //TODO display map based on selected type
     }
 
-    public void displayPlayers(MatchSnapshot matchSnapshot) {
-        //TODO take info from snapshot and display cards in hand of all players
+    private void displayBoardState() {
+        displayMap(matchSnapshot.gameBoardSnapshot.mapType);
+        for(int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(!(matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].ammoSquare))
+                    System.out.println("Weapon Square -" + i + "|" + j + " - Current available weapons on this square are:" + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].cards.get(0) + "," + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].cards.get(1) + "," + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].cards.get(2));
+                else
+                    System.out.println("Ammo Square -" + i + "|" + j + " - Current available ammo card on this square is:" + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].cards.get(0));
+                System.out.println("The following players are on this square:");
+                for(int k = 0; k < matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].colors.size(); k++)
+                    System.out.println(matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].colors.get(k).name());
+                if(matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].colors.size() == 0)
+                    System.out.println("None");
+            }
+        }
+    }
+
+    private void displayPlayers() {
+        displayPrivatePlayer();
+        displayPublicPlayers();
+    }
+
+    public void updateView(MatchSnapshot matchSnapshot) {
+        this.matchSnapshot = matchSnapshot;
+        displayBoardState();
+        displayPlayers();
+    }
+
+    private void displayPrivatePlayer() {
+        //TODO
+    }
+
+    private void displayPublicPlayers() {
+        //TODO
     }
 }
