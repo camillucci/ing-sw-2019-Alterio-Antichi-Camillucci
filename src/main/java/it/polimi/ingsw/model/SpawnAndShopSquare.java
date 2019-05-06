@@ -11,16 +11,20 @@ import java.util.stream.Collectors;
 
 public class SpawnAndShopSquare extends Square {
 
-    private List<WeaponCard> weapons;
+    private WeaponDeck weaponDeck;
+    private List<WeaponCard> weapons = new ArrayList<>();
+    private static final int CARDS_IN_SHOPS = 3;
 
-    public SpawnAndShopSquare(int y, int x, SquareBorder[] borders, List<WeaponCard> weapons) {
+    public SpawnAndShopSquare(int y, int x, SquareBorder[] borders, WeaponDeck weaponDeck) {
         this.y = y;
         this.x = x;
         this.north = borders[0];
         this.south = borders[1];
         this.west = borders[2];
         this.east = borders[3];
-        this.weapons = weapons;
+        this.weaponDeck = weaponDeck;
+        for(int i = 0; i < CARDS_IN_SHOPS; i++)
+            weapons.add(weaponDeck.draw());
         this.players = new ArrayList<>();
     }
 
@@ -37,7 +41,7 @@ public class SpawnAndShopSquare extends Square {
                                                                                         .collect(Collectors.toList()));
         for (WeaponCard w : weapons)
             if(Ammo.getAmmo(player).isGreaterOrEqual(w.buyCost))
-                ret.add(new Branch(new Action(a -> a.getOwnerPlayer().addWeapon(w)), chooseToDropBranches));
+                ret.add(new Branch(new Action(a -> {a.getOwnerPlayer().addWeapon(w); a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);}), chooseToDropBranches));
         return ret;
     }
 
@@ -46,8 +50,19 @@ public class SpawnAndShopSquare extends Square {
         List<Branch> ret = new ArrayList<>();
         for(WeaponCard w : weapons)
             if(Ammo.getAmmo(player).isGreaterOrEqual(w.buyCost))
-                ret.add(new Branch(new Action(a -> a.getOwnerPlayer().addWeapon(w)), new EndBranchAction()));
+                ret.add(new Branch(new Action(a -> {a.getOwnerPlayer().addWeapon(w); a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);}), new EndBranchAction()));
         return ret;
+    }
+
+    @Override
+    public void removeWeapon(WeaponCard weaponCard) {
+        weapons.remove(weaponCard);
+    }
+
+    @Override
+    public void refill() {
+        while(weapons.size() < 3)
+            weapons.add(weaponDeck.draw());
     }
 
     @Override

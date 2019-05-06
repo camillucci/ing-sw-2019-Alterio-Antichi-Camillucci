@@ -9,6 +9,7 @@ import java.util.List;
 public class SquareSnapshot implements Serializable
 {
     public final boolean ammoSquare;
+    public final String name;
     public final SquareBorder north;
     public final SquareBorder south;
     public final SquareBorder west;
@@ -19,6 +20,7 @@ public class SquareSnapshot implements Serializable
     public SquareSnapshot(Square square)
     {
         this.ammoSquare = square instanceof AmmoSquare;
+        this.name = square.getName();
 
         this.north = square.getNorth();
         this.south = square.getSouth();

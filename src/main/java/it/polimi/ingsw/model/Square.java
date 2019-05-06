@@ -90,4 +90,8 @@ public abstract class Square {
     }
 
     public abstract List<String> getCardsName();
+
+    public void removeWeapon(WeaponCard weaponCard) { }
+
+    public abstract void refill();
 }

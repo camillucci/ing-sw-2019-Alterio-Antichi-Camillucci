@@ -83,10 +83,10 @@ public class ShootAction extends Action
     @Override
     public void addTarget(Player target)
     {
-        if(!this.getPossiblePlayers().contains(target))
-            return;
-        targetPlayers.add(target);
-        target.damagedEvent.addEventHandler((damaged, val) -> damagedEventHandler(damaged));
+        if(this.getPossiblePlayers().contains(target)) {
+            targetPlayers.add(target);
+            target.damagedEvent.addEventHandler((damaged, val) -> damagedEventHandler(damaged));
+        }
     }
 
     private void damagedEventHandler(Player damaged)

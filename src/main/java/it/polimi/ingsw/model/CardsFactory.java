@@ -16,8 +16,10 @@ public class CardsFactory
 {
     private CardsFactory(){}
 
-    private static ArrayList<WeaponCard> weapons = new ArrayList<>();
-    private static ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
+    private static List<WeaponCard> weapons = new ArrayList<>();
+    private static List<PowerUpCard> powerUpCards = new ArrayList<>();
+    private static List<AmmoCard> ammo = new ArrayList<>();
+    private static final int COPY_OF_AMMO = 3;
 
     public static List<WeaponCard> getWeapons()
     {
@@ -33,7 +35,15 @@ public class CardsFactory
         return new ArrayList<>(powerUpCards);
     }
 
-    private static void buildPowerUps() {
+    public static List<AmmoCard> getAmmo()
+    {
+        if(ammo.isEmpty())
+            buildAmmo();
+        return new ArrayList<>(ammo);
+    }
+
+    private static void buildPowerUps()
+    {
         List <AmmoColor> allColors = new ArrayList<>(Arrays.asList(BLUE, RED, YELLOW, BLUE, RED, YELLOW));
         for(AmmoColor ammoColor : allColors) {
             powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, new Ammo(0, 0, 0), damage(1)));
@@ -42,6 +52,25 @@ public class CardsFactory
             powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(selfPlayer, allSquares, move)));
         }
     }
+
+    private static void buildAmmo()
+    {
+        for (int i = 0; i < COPY_OF_AMMO; i++) {
+            ammo.add(new AmmoCard(0, 1, 2, false));
+            ammo.add(new AmmoCard(0, 2, 1, false));
+            ammo.add(new AmmoCard(1, 0, 2, false));
+            ammo.add(new AmmoCard(1, 2, 0, false));
+            ammo.add(new AmmoCard(2, 0, 1, false));
+            ammo.add(new AmmoCard(2, 1, 0, false));
+            ammo.add(new AmmoCard(0, 0, 2, true));
+            ammo.add(new AmmoCard(0, 1, 1, true));
+            ammo.add(new AmmoCard(0, 2, 0, true));
+            ammo.add(new AmmoCard(1, 0, 1, true));
+            ammo.add(new AmmoCard(1, 1, 0, true));
+            ammo.add(new AmmoCard(2, 0, 0, true));
+        }
+    }
+
     private static void buildWeapons()
     {
         weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0), () -> Arrays.asList(

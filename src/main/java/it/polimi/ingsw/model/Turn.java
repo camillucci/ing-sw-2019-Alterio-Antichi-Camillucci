@@ -40,8 +40,11 @@ public class Turn implements ActionsProvider {
 
     private void onMoveTerminated() {
         moveCounter--;
-        if (moveCounter == -1)
+        if (moveCounter == -1) {
+            for(Square square : match.gameBoard.getSquares())
+                square.refill();
             endTurnEvent.invoke(this, currentPlayer);
+        }
         else
         {
             newMove();
