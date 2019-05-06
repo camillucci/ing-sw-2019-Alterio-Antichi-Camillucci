@@ -17,8 +17,8 @@ public class AdrenalineClient
     private MatchSnapshot matchSnapshot;
 
     public AdrenalineClient() {
-        parser = new CLIParser();
         messanger = new CLIMessenger();
+        parser = new CLIParser(messanger);
     }
 
     public void login() throws Exception {

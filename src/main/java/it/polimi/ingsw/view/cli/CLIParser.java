@@ -3,6 +3,11 @@ package it.polimi.ingsw.view.cli;
 import java.util.List;
 
 public class CLIParser {
+    CLIMessenger messenger;
+
+    public CLIParser(CLIMessenger messenger) {
+        this.messenger = messenger;
+    }
 
     public String parseName() {
         String name = System.in.toString();
