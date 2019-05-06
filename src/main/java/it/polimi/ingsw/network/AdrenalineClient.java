@@ -23,8 +23,13 @@ public class AdrenalineClient
 
     public void login() throws Exception {
         messanger.askConnection();
-        boolean connectionType = parser.parseChoice();
-        if(!connectionType)
+        int choice = parser.parseChoice();
+        while(choice == -1) {
+            messanger.incorrectInput();
+            messanger.askConnection();
+            choice = parser.parseChoice();
+        }
+        if(choice == 0)
             server = TCPClient.connect(HOSTNAME, IP);
         else {
             //server = RMIClient.connect(HOSTNAME, IP);
@@ -32,8 +37,16 @@ public class AdrenalineClient
         }
 
         messanger.askInterface();
-        boolean interfaceType = parser.parseChoice();
-        server.out().sendBool(interfaceType);
+        choice = parser.parseChoice();
+        while(choice == -1) {
+            messanger.incorrectInput();
+            messanger.askInterface();
+            choice = parser.parseChoice();
+        }
+        if(choice == 0)
+            server.out().sendBool(true);
+        else
+            server.out().sendBool(false);
         /***/
         String name;
         do {
@@ -47,12 +60,31 @@ public class AdrenalineClient
         ArrayList<String> availableColors = server.in().getObject();
         messanger.askColor(availableColors);
         //TODO lock
-        server.out().sendInt(parser.parseIndex(availableColors)); //send user's color of choice
+        int index = parser.parseIndex(availableColors);
+        while(index == -1) {
+            messanger.incorrectInput();
+            messanger.askColor(availableColors);
+            index = parser.parseIndex(availableColors);
+        }
+        server.out().sendInt(index); //send user's color of choice
         if(server.in().getBool()) {
             messanger.askGameLenght();
-            parser.parseGameLenght();
+            choice = parser.parseGameLenght();
+            while(choice == -1) {
+                messanger.incorrectInput();
+                messanger.askGameLenght();
+                choice = parser.parseGameLenght();
+            }
             messanger.askGameMap();
             parser.parseGameMap();
+            server.out().sendInt(choice);
+            choice = parser.parseGameMap();
+            while(choice == -1) {
+                messanger.incorrectInput();
+                messanger.askGameMap();
+                choice = parser.parseGameMap();
+            }
+            server.out().sendInt(choice);
         }
     }
 

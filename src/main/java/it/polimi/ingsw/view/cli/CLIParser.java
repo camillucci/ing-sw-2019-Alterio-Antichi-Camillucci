@@ -15,34 +15,33 @@ public class CLIParser {
         return name;
     }
 
-    public boolean parseChoice() {
-        String type = System.in.toString();
-        return type == "1";
-
-        //TODO catch exceptions
+    public int parseChoice() {
+        int choice = Integer.parseInt(System.in.toString());
+        if (choice == 0 || choice == 1)
+            return choice;
+        return -1;
     }
 
     public int parseIndex(List<String> options) {
         int answer = Integer.parseInt(System.in.toString());
         if(answer < options.size() && answer >= 0)
             return answer;
-        //TODO catch exception
         return -1;
     }
+
+    //parseIndex is possibly usable as parse method for every choice regarding actions that the user might take
 
     public int parseGameLenght() {
         int answer = Integer.parseInt(System.in.toString());
         if(answer <= 8 && answer >= 5)
             return answer;
-        //TODO catch exceptions
-        return 0;
+        return -1;
     }
 
     public int parseGameMap() {
         int answer = Integer.parseInt(System.in.toString());
         if(answer < 3 && answer >= 0)
             return answer;
-        //TODO catch exceptions
-        return 0;
+        return -1;
     }
 }

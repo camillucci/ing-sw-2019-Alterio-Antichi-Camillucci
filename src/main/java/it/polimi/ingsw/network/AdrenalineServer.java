@@ -29,7 +29,14 @@ public class AdrenalineServer
         room = getAvailableRoom();
         client.out().sendObject((Serializable) room.getAvailableColors()); //Possible problems with serializable?
         int color = client.in().getObject(); //color chosen by user
-        client.out().sendBool(room.addPlayer(color, name, this));
+        boolean temp = room.addPlayer(color, name, this);
+        client.out().sendBool(temp);
+        if(temp) {
+            int lenght = client.in().getInt(); //game lenght chosen by user
+            int map = client.in().getInt(); //map chosen by user
+            room.setGameLength(lenght);
+            room.setGameSize(map);
+        }
     }
 
     public void matchStart() throws Exception {

@@ -9,6 +9,10 @@ public class CLIMessenger {
     private MatchSnapshot matchSnapshot;
     private static final String PRESS = "Press ";
 
+    public void incorrectInput() {
+        System.out.println("Your answer is not valid, please try again.");
+    }
+
     public void insertName() {
         System.out.println("Insert username here:");
     }
