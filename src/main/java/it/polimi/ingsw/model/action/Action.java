@@ -19,6 +19,7 @@ public class Action
     protected ArrayList<WeaponCard> selectedWeapons = new ArrayList<>();
     protected PowerUpCard selectedPowerUp;
     protected boolean optional = false;
+
     private Consumer opMethod = a -> { };
 
 
@@ -44,6 +45,10 @@ public class Action
     public void initialize(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
+    }
+    public void addDiscarded(PowerUpCard powerUpCard)
+    {
+
     }
     public void addWeapon(WeaponCard weapon)
     {

@@ -45,12 +45,7 @@ public class TCPListener {
             listener.close();
             listenThread.join();
          }
-        catch (IOException e) {/*TODO best practice?*/}
-        catch (InterruptedException e)
-        {
-            Thread.currentThread().interrupt();
-            //stop(); //TODO best practice?
-        }
+        catch (IOException | InterruptedException e) { e.printStackTrace();}
     }
 
     public synchronized List<TCPClient> getConnected()
