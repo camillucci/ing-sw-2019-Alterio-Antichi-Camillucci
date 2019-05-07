@@ -9,6 +9,7 @@ import java.util.List;
 public class RemoteAction implements Serializable
 {
     private Client server;
+    private boolean canBeDone;
     public void inizialize(Client server)
     {
         this.server = server;
@@ -23,11 +24,14 @@ public class RemoteAction implements Serializable
     {
     }
 
-    public void doAction(int index)
+    public void doAction()
     {
 
     }
 
     public List<PublicPlayerSnapshot> getPossiblePlayers(){return null;}
     public List<SquareSnapshot> getPossibleSquares(){return null; }
+    public boolean getCanBeDone() {
+        return canBeDone;
+    }
 }

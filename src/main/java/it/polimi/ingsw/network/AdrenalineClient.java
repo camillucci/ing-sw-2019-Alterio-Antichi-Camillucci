@@ -98,6 +98,10 @@ public class AdrenalineClient
             messenger.matchStart();
     }
 
+    private void handleTargets() {
+
+    }
+
     /*
     public void spawn() throws Exception {
         ArrayList<String> powerupCards = server.in().getObject(); //Get two powerup cards
@@ -128,6 +132,35 @@ public class AdrenalineClient
         ArrayList<PublicPlayerSnapshot> targetPlayers = (ArrayList<PublicPlayerSnapshot>) options.get(choice).getPossiblePlayers();
         ArrayList<SquareSnapshot> targetSquares = (ArrayList<SquareSnapshot>) options.get(choice).getPossibleSquares(); //gets targets relative to chosen action
         messenger.displayTargets(targetPlayers, targetSquares); //displays targets available
-        options.get(choice).doAction(parser.parseIndex(targetPlayers.size() + targetSquares.size())); //communicates choice to server
+        int index = parser.parseIndex(targetPlayers.size() + targetSquares.size()); //user's target of choice
+        while (index == -1) {
+            messenger.incorrectInput();
+            messenger.displayTargets(targetPlayers, targetSquares);
+            index = parser.parseIndex(targetPlayers.size() + targetSquares.size());
+        }
+        if (index < targetPlayers.size())
+            options.get(choice).addTarget(targetPlayers.get(index));
+        else
+            options.get(choice).addTarget(targetSquares.get(index - targetPlayers.size()));
+        while(!(options.get(choice).getCanBeDone())) {
+            targetPlayers = (ArrayList<PublicPlayerSnapshot>) options.get(choice).getPossiblePlayers();
+            targetSquares = (ArrayList<SquareSnapshot>) options.get(choice).getPossibleSquares();
+            messenger.displayTargets(targetPlayers, targetSquares);
+            index = parser.parseIndex(targetPlayers.size() + targetSquares.size());
+            while (index == -1) {
+                messenger.incorrectInput();
+                messenger.displayTargets(targetPlayers, targetSquares);
+                index = parser.parseIndex(targetPlayers.size() + targetSquares.size());
+            }
+            if (index < targetPlayers.size())
+                options.get(choice).addTarget(targetPlayers.get(index));
+            else
+                options.get(choice).addTarget(targetSquares.get(index - targetPlayers.size()));
+        }
+        boolean doneAction = false;
+        while(!(doneAction)) {
+            //TODO
+        }
+        options.get(choice).doAction(); //communicates choice to server
     }
 }
