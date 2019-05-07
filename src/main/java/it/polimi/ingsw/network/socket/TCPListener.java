@@ -65,7 +65,7 @@ public class TCPListener {
             do
             {
                 TCPClient tmp = new TCPClient(listener.accept());
-                tmp.closedEvent.addEventHandler((closingClient, b) -> onDisconnection((closingClient)));
+                tmp.disconnectedEvent.addEventHandler((closingClient, b) -> onDisconnection(((TCPClient)closingClient)));
                 addConnected(tmp);
             } while(connectedHosts.size() < maxConnected);
         }
@@ -88,7 +88,7 @@ public class TCPListener {
     }
     private synchronized void onDisconnection (TCPClient client)
     {
-        removeConnected(client);
+        connectedHosts.remove(client);
         clientDisconnectedEvent.invoke(this, client);
     }
     private void addConnected(TCPClient connectedHost)
@@ -98,10 +98,6 @@ public class TCPListener {
         // if newClientEvents is invoked  in this thread and calls this.stop() the thread joins itself -> deadlock
         // for this reason a tmp thread invokes the event
         (new Thread(()->this.newClientEvent.invoke(this, connectedHost))).start();
-    }
-    private synchronized void removeConnected(TCPClient connectedHost)
-    {
-        connectedHosts.remove(connectedHost);
     }
 
     private List<TCPClient> connectedHosts = new ArrayList<>();

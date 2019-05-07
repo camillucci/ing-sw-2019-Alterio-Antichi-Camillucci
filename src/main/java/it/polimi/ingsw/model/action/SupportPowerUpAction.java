@@ -9,20 +9,20 @@ import java.util.function.Function;
 
 public class SupportPowerUpAction extends PowerUpAction
 {
-    private Function<Player, List<PowerUpCard>> possiblePUFunc;
-    public SupportPowerUpAction(Function<Player, List<PowerUpCard>> possiblePUsFunc, ShootFunc shootFunc)
+    private Function<Player, List<PowerUpCard>> powerUpFilter;
+    public SupportPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter, ShootFunc shootFunc)
     {
         super(null, null, shootFunc);
-        this.possiblePUFunc = possiblePUsFunc;
+        this.powerUpFilter = powerUpFilter;
         this.completedActionEvent.addEventHandler((a,b)->{
             if(this.selectedPowerUp != null)
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
         });
     }
 
-    public SupportPowerUpAction(Function<Player, List<PowerUpCard>> possiblePUFunc)
+    public SupportPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter)
     {
-        this.possiblePUFunc = possiblePUFunc;
+        this.powerUpFilter = powerUpFilter;
     }
 
     @Override
@@ -38,6 +38,6 @@ public class SupportPowerUpAction extends PowerUpAction
 
     @Override
     public List<PowerUpCard> getPossiblePowerUps() {
-        return possiblePUFunc.apply(ownerPlayer);
+        return powerUpFilter.apply(ownerPlayer);
     }
 }

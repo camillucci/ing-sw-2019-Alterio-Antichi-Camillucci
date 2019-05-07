@@ -77,14 +77,4 @@ public class PowerupSet implements Cloneable
         ret.addAll(counterAttackPowerupCards);
         return ret;
     }
-
-    @Override
-    public PowerupSet clone()
-    {
-        try{
-            return (PowerupSet)super.clone();
-        }
-        catch(Exception e) {}//todo
-        return null;
-    }
 }

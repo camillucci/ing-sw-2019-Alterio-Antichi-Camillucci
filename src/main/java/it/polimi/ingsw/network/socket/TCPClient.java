@@ -9,7 +9,6 @@ import java.nio.channels.NotYetConnectedException;
 
 public class TCPClient extends Client
 {
-    public final Event<TCPClient, Object> closedEvent = new Event<>();
     private Socket connectedSocket;
 
     @Override
@@ -42,9 +41,10 @@ public class TCPClient extends Client
 
     public void close()
     {
-        try{
+        try
+        {
             connectedSocket.close();
-            closedEvent.invoke(this, null);
+            disconnectedEvent.invoke(this, null);
         }
         catch(IOException e) {/*TODO*/}
     }
