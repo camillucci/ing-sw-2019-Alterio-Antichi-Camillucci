@@ -156,9 +156,22 @@ public class AdrenalineClient
                 options.get(choice).addTarget(targetSquares.get(index - targetPlayers.size()));
         }
         boolean doneAction = false;
-        while(!(doneAction)) {
-            //TODO
+        while(!doneAction) {
+            messenger.displayTargetsAndAction(targetPlayers, targetSquares);
+            index = parser.parseIndex(targetPlayers.size() + targetSquares.size() + 1);
+            while(index == -1) {
+                messenger.incorrectInput();
+                messenger.displayTargetsAndAction(targetPlayers, targetSquares);
+                index = parser.parseIndex(targetPlayers.size() + targetSquares.size() + 1);
+            }
+            if (index < targetPlayers.size())
+                options.get(choice).addTarget(targetPlayers.get(index));
+            else if(index >= targetPlayers.size() && index < targetPlayers.size() + targetSquares.size())
+                options.get(choice).addTarget(targetSquares.get(index - targetPlayers.size()));
+            else {
+                options.get(choice).doAction(); //communicates choice to server
+                doneAction = true;
+            }
         }
-        options.get(choice).doAction(); //communicates choice to server
     }
 }

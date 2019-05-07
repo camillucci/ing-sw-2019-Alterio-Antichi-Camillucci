@@ -151,13 +151,21 @@ public class CLIMessenger {
         }
     }
 
-    public void displayTargets(ArrayList<PublicPlayerSnapshot> targetPlayers, ArrayList<SquareSnapshot> targetSquares) {
+    public int displayTargets(ArrayList<PublicPlayerSnapshot> targetPlayers, ArrayList<SquareSnapshot> targetSquares) {
+        int j = targetPlayers.size();
         for(int i = 0; i < targetPlayers.size(); i++) {
             System.out.println("Press" + i + "if you want to target" + targetPlayers.get(i).name);
         }
         for(int i = 0; i < targetSquares.size(); i++) {
-            int j = i + targetPlayers.size();
+            j = i + targetPlayers.size();
             System.out.println("Press" + j + "if you want to move in the square" + targetSquares.get(i).name);
         }
+
+        return j;
+    }
+
+    public void displayTargetsAndAction(ArrayList<PublicPlayerSnapshot> targetPlayers, ArrayList<SquareSnapshot> targetSquares) {
+        int temp = displayTargets(targetPlayers, targetSquares);
+        System.out.println("Press" + temp + "if you want to execute action with previously selected targets");
     }
 }
