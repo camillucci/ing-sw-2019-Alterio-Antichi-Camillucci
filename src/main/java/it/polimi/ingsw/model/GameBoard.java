@@ -76,7 +76,6 @@ public class GameBoard {
     }
 
     public List<Square> getSquares(Player player, int dist) {
-        int j = 1;
 
         if(dist == -1)
             return Collections.emptyList();
@@ -87,26 +86,23 @@ public class GameBoard {
         //Add all valid squares of distance 1
         List<Square> tempSquare = distanceOneSquares(player.getCurrentSquare());
 
-        // For each number beyond 1...
-        for (int i = 1; i < dist; i++) {
-            int temp = tempSquare.size();
-            //...add all valid squares of distance 1 not already added
-            for (; j < temp; j++) {
-                if ((tempSquare.get(j).okNorth())
-                        && !tempSquare.contains(squares[tempSquare.get(j).getY() - 1][tempSquare.get(j).getX()]))
-                    tempSquare.add(squares[tempSquare.get(j).getY() - 1][tempSquare.get(j).getX()]);
-                if ((tempSquare.get(j).okSouth())
-                        && !tempSquare.contains(squares[tempSquare.get(j).getY() + 1][tempSquare.get(j).getX()]))
-                    tempSquare.add(squares[tempSquare.get(j).getY() + 1][tempSquare.get(j).getX()]);
-                if ((tempSquare.get(j).okWest())
-                        && !tempSquare.contains(squares[tempSquare.get(j).getY()][tempSquare.get(j).getX() - 1]))
-                    tempSquare.add(squares[tempSquare.get(j).getY()][tempSquare.get(j).getX() - 1]);
-                if ((tempSquare.get(j).okEast())
-                        && !tempSquare.contains(squares[tempSquare.get(j).getY()][tempSquare.get(j).getX() + 1]))
-                    tempSquare.add(squares[tempSquare.get(j).getY()][tempSquare.get(j).getX() + 1]);
-            }
-        }
+        // For each number beyond 1 add all valid squares of distance 1 not already added
+        int j = 1;
+        for(int i = 1, temp = tempSquare.size(); i < dist; i++, temp = tempSquare.size())
+            for(; j < temp; j++)
+                addIfOk(tempSquare, tempSquare.get(j));
         return tempSquare;
+    }
+
+    private void addIfOk(List<Square> tempSquare, Square square) {
+        if ((square.okNorth()) && !tempSquare.contains(squares[square.y - 1][square.x]))
+            tempSquare.add(squares[square.y - 1][square.x]);
+        if ((square.okSouth()) && !tempSquare.contains(squares[square.y + 1][square.x]))
+            tempSquare.add(squares[square.y + 1][square.x]);
+        if ((square.okWest()) && !tempSquare.contains(squares[square.y][square.x - 1]))
+            tempSquare.add(squares[square.y][square.x - 1]);
+        if ((square.okEast()) && !tempSquare.contains(squares[square.y][square.x + 1]))
+            tempSquare.add(squares[square.y][square.x + 1]);
     }
 
     public List<Square> distanceOneSquares(Square square) {
@@ -114,13 +110,13 @@ public class GameBoard {
         tempSquare.add(square);
 
         if (tempSquare.get(0).okNorth())
-            tempSquare.add(squares[tempSquare.get(0).getY() - 1][tempSquare.get(0).getX()]);
+            tempSquare.add(squares[tempSquare.get(0).y - 1][tempSquare.get(0).x]);
         if (tempSquare.get(0).okSouth())
-            tempSquare.add(squares[tempSquare.get(0).getY() + 1][tempSquare.get(0).getX()]);
+            tempSquare.add(squares[tempSquare.get(0).y + 1][tempSquare.get(0).x]);
         if (tempSquare.get(0).okWest())
-            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() - 1]);
+            tempSquare.add(squares[tempSquare.get(0).y][tempSquare.get(0).x - 1]);
         if (tempSquare.get(0).okEast())
-            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() + 1]);
+            tempSquare.add(squares[tempSquare.get(0).y][tempSquare.get(0).x + 1]);
 
         return tempSquare;
     }
@@ -131,14 +127,14 @@ public class GameBoard {
 
         //...and add the other squares of those room
         for(int i = 0; i < tempSquare.size(); i++) {
-            if(tempSquare.get(i).getNorth() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY() - 1][tempSquare.get(i).getX()]))
-                tempSquare.add(squares[tempSquare.get(i).getY() - 1][tempSquare.get(i).getX()]);
-            if(tempSquare.get(i).getSouth() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY() + 1][tempSquare.get(i).getX()]))
-                tempSquare.add(squares[tempSquare.get(i).getY() + 1][tempSquare.get(i).getX()]);
-            if(tempSquare.get(i).getWest() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() - 1]))
-                tempSquare.add(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() - 1]);
-            if(tempSquare.get(i).getEast() == ROOM && !tempSquare.contains(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() + 1]))
-                tempSquare.add(squares[tempSquare.get(i).getY()][tempSquare.get(i).getX() + 1]);
+            if(tempSquare.get(i).north == ROOM && !tempSquare.contains(squares[tempSquare.get(i).y - 1][tempSquare.get(i).x]))
+                tempSquare.add(squares[tempSquare.get(i).y - 1][tempSquare.get(i).x]);
+            if(tempSquare.get(i).south == ROOM && !tempSquare.contains(squares[tempSquare.get(i).y + 1][tempSquare.get(i).x]))
+                tempSquare.add(squares[tempSquare.get(i).y + 1][tempSquare.get(i).x]);
+            if(tempSquare.get(i).west == ROOM && !tempSquare.contains(squares[tempSquare.get(i).y][tempSquare.get(i).x - 1]))
+                tempSquare.add(squares[tempSquare.get(i).y][tempSquare.get(i).x - 1]);
+            if(tempSquare.get(i).east == ROOM && !tempSquare.contains(squares[tempSquare.get(i).y][tempSquare.get(i).x + 1]))
+                tempSquare.add(squares[tempSquare.get(i).y][tempSquare.get(i).x + 1]);
         }
         return tempSquare;
     }
@@ -147,14 +143,14 @@ public class GameBoard {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(square);
 
-        if(tempSquare.get(0).getNorth() == type)
-            tempSquare.add(squares[tempSquare.get(0).getY() - 1][tempSquare.get(0).getX()]);
-        if(tempSquare.get(0).getSouth() == type)
-            tempSquare.add(squares[tempSquare.get(0).getY() + 1][tempSquare.get(0).getX()]);
-        if(tempSquare.get(0).getWest() == type)
-            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() - 1]);
-        if(tempSquare.get(0).getEast() == type)
-            tempSquare.add(squares[tempSquare.get(0).getY()][tempSquare.get(0).getX() + 1]);
+        if(tempSquare.get(0).north == type)
+            tempSquare.add(squares[tempSquare.get(0).y - 1][tempSquare.get(0).x]);
+        if(tempSquare.get(0).south == type)
+            tempSquare.add(squares[tempSquare.get(0).y + 1][tempSquare.get(0).x]);
+        if(tempSquare.get(0).west == type)
+            tempSquare.add(squares[tempSquare.get(0).y][tempSquare.get(0).x - 1]);
+        if(tempSquare.get(0).east == type)
+            tempSquare.add(squares[tempSquare.get(0).y][tempSquare.get(0).x + 1]);
 
         return tempSquare;
     }
@@ -280,44 +276,44 @@ public class GameBoard {
         if(player.getCurrentSquare().getPlayers().size() > 1)
             temp.add(player.getCurrentSquare());
         if (tempSquare.okNorth()) {
-            tempToAdd = squares[tempSquare.getY() - 1][tempSquare.getX()];
+            tempToAdd = squares[tempSquare.y - 1][tempSquare.x];
             temp.add(tempToAdd);
             if(tempToAdd.okNorth())
-                temp.add(squares[tempToAdd.getY() - 1][tempToAdd.getX()]);
+                temp.add(squares[tempToAdd.y - 1][tempToAdd.x]);
         }
         if (tempSquare.okSouth()) {
-            tempToAdd = squares[tempSquare.getY() + 1][tempSquare.getX()];
+            tempToAdd = squares[tempSquare.y + 1][tempSquare.x];
             temp.add(tempToAdd);
             if(tempToAdd.okSouth())
-                temp.add(squares[tempToAdd.getY() + 1][tempToAdd.getX()]);
+                temp.add(squares[tempToAdd.y + 1][tempToAdd.x]);
         }
         if (tempSquare.okWest()) {
-            tempToAdd = squares[tempSquare.getY()][tempSquare.getX() - 1];
+            tempToAdd = squares[tempSquare.y][tempSquare.x - 1];
             temp.add(tempToAdd);
             if(tempToAdd.okWest())
-                temp.add(squares[tempToAdd.getY()][tempToAdd.getX() - 1]);
+                temp.add(squares[tempToAdd.y][tempToAdd.x - 1]);
         }
         if (tempSquare.okEast()) {
-            tempToAdd = squares[tempSquare.getY()][tempSquare.getX() + 1];
+            tempToAdd = squares[tempSquare.y][tempSquare.x + 1];
             temp.add(tempToAdd);
             if(tempToAdd.okEast())
-                temp.add(squares[tempToAdd.getY()][tempToAdd.getX() + 1]);
+                temp.add(squares[tempToAdd.y][tempToAdd.x + 1]);
         }
         return removeEmptySquares(temp);
     }
 
     public List<Square> sameDirectionSquare(Player player, Square square) {
-        if(Math.abs(player.getCurrentSquare().getY() - square.getY()) == 2)
-            return removeEmptySquares(Collections.singletonList(squares[(player.getCurrentSquare().getY() + square.getY()) / 2][square.getX()]));
-        if(Math.abs(player.getCurrentSquare().getX() - square.getX()) == 2)
-            return removeEmptySquares(Collections.singletonList(squares[square.getY()][(player.getCurrentSquare().getX() + square.getX()) / 2]));
-        if(player.getCurrentSquare().getY() - square.getY() == 1 && square.okNorth())
-            return removeEmptySquares(Collections.singletonList(squares[square.getY() - 1][square.getX()]));
-        if(player.getCurrentSquare().getY() - square.getY() == -1 && square.okSouth())
-            return removeEmptySquares(Collections.singletonList(squares[square.getY() + 1][square.getX()]));
-        if(player.getCurrentSquare().getX() - square.getX() == 1 && square.okWest())
-            return removeEmptySquares(Collections.singletonList(squares[square.getY()][square.getX() - 1]));
-        return removeEmptySquares(Collections.singletonList(squares[square.getY()][square.getX() + 1]));
+        if(Math.abs(player.getCurrentSquare().y - square.y) == 2)
+            return removeEmptySquares(Collections.singletonList(squares[(player.getCurrentSquare().y + square.y) / 2][square.x]));
+        if(Math.abs(player.getCurrentSquare().x - square.x) == 2)
+            return removeEmptySquares(Collections.singletonList(squares[square.y][(player.getCurrentSquare().x + square.x) / 2]));
+        if(player.getCurrentSquare().y - square.y == 1 && square.okNorth())
+            return removeEmptySquares(Collections.singletonList(squares[square.y - 1][square.x]));
+        if(player.getCurrentSquare().y - square.y == -1 && square.okSouth())
+            return removeEmptySquares(Collections.singletonList(squares[square.y + 1][square.x]));
+        if(player.getCurrentSquare().x - square.x == 1 && square.okWest())
+            return removeEmptySquares(Collections.singletonList(squares[square.y][square.x - 1]));
+        return removeEmptySquares(Collections.singletonList(squares[square.y][square.x + 1]));
     }
 
     public List<Square> throughWalls(Player player) {
@@ -328,28 +324,28 @@ public class GameBoard {
         if(player.getCurrentSquare().getPlayers().size() > 1)
             temp.add(player.getCurrentSquare());
         if (tempSquare.existNorth()) {
-            tempToAdd = squares[tempSquare.getY() - 1][tempSquare.getX()];
+            tempToAdd = squares[tempSquare.y - 1][tempSquare.x];
             temp.add(tempToAdd);
             if(tempToAdd.existNorth())
-                temp.add(squares[tempToAdd.getY() - 1][tempToAdd.getX()]);
+                temp.add(squares[tempToAdd.y - 1][tempToAdd.x]);
         }
         if (tempSquare.existSouth()) {
-            tempToAdd = squares[tempSquare.getY() + 1][tempSquare.getX()];
+            tempToAdd = squares[tempSquare.y + 1][tempSquare.x];
             temp.add(tempToAdd);
             if(tempToAdd.existSouth())
-                temp.add(squares[tempToAdd.getY() + 1][tempToAdd.getX()]);
+                temp.add(squares[tempToAdd.y + 1][tempToAdd.x]);
         }
         if (tempSquare.existWest()) {
-            tempToAdd = squares[tempSquare.getY()][tempSquare.getX() - 1];
+            tempToAdd = squares[tempSquare.y][tempSquare.x - 1];
             temp.add(tempToAdd);
             if(tempToAdd.existWest())
-                temp.add(squares[tempToAdd.getY()][tempToAdd.getX() - 1]);
+                temp.add(squares[tempToAdd.y][tempToAdd.x - 1]);
         }
         if (tempSquare.existEast()) {
-            tempToAdd = squares[tempSquare.getY()][tempSquare.getX() + 1];
+            tempToAdd = squares[tempSquare.y][tempSquare.x + 1];
             temp.add(tempToAdd);
             if(tempToAdd.existEast())
-                temp.add(squares[tempToAdd.getY()][tempToAdd.getX() + 1]);
+                temp.add(squares[tempToAdd.y][tempToAdd.x + 1]);
         }
         return removeEmptySquares(temp);
     }

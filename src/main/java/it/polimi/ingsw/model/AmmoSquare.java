@@ -13,12 +13,7 @@ public class AmmoSquare extends Square {
     private AmmoCard ammoCard;
 
     public AmmoSquare(int y, int x, SquareBorder[] borders, AmmoDeck ammoDeck) {
-        this.y = y;
-        this.x = x;
-        this.north = borders[0];
-        this.south = borders[1];
-        this.west = borders[2];
-        this.east = borders[3];
+        super(y, x, borders);
         this.ammoDeck = ammoDeck;
         this.ammoCard = ammoDeck.draw();
         this.players = new ArrayList<>();

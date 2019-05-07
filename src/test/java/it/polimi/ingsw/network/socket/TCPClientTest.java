@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -246,6 +247,14 @@ class TCPClientTest {
     void sendObject()
     {
         Match match = new Match(Arrays.asList("A", "B", "C"), Arrays.asList(PlayerColor.BLUE, PlayerColor.GREY, PlayerColor.VIOLET), 5, 11);
+        match.gameBoard.addKillShotTrack(Collections.singletonList(PlayerColor.GREY));
+        match.gameBoard.getSquares().get(0).addPlayer(match.gameBoard.getPlayers().get(0));
+        match.gameBoard.getPlayers().get(0).addWeapon(match.gameBoard.weaponDeck.draw());
+        match.gameBoard.getPlayers().get(0).addWeapon(match.gameBoard.weaponDeck.draw());
+        match.gameBoard.getPlayers().get(0).unloadWeapon(match.gameBoard.getPlayers().get(0).getLoadedWeapons().get(0));
+        match.gameBoard.getPlayers().get(0).addPowerUpCard();
+        match.gameBoard.getPlayers().get(1).addDamage(match.gameBoard.getPlayers().get(2), 1);
+        match.gameBoard.getPlayers().get(2).addMark(match.gameBoard.getPlayers().get(1), 2);
         TCPListener listener = new TCPListener(listeningPort, maxConnected);
         try
         {

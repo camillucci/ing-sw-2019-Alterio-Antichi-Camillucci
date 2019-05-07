@@ -112,15 +112,19 @@ public class Match implements ActionsProvider {
                     players.get(tempCount.indexOf(Collections.max(tempCount))).addPoints(Math.max(2 - tempSkull * 2 - j * 2, 1));
                 tempCount.set(tempCount.indexOf(Collections.max(tempCount)), 0.0);
             }
-            List<PlayerColor> tempKillShot = new ArrayList<>();
-            tempKillShot.add(damage.get(MAX_DAMAGES - 2));
-            if (damage.size() == MAX_DAMAGES)
-                tempKillShot.add(damage.get(MAX_DAMAGES - 1));
-            gameBoard.addKillShotTrack(tempKillShot);
-            if(gameBoard.getKillShotTrack().size() == 8 && frenzyStarter == -1) {
-                finalFrenzy = true;
-                frenzyStarter = playerColors.indexOf(deadPlayer.getDamage().get(10));
-            }
+            updateKillShotTrack(damage, deadPlayer);
+        }
+    }
+
+    private void updateKillShotTrack(List<PlayerColor> damage, Player deadPlayer) {
+        List<PlayerColor> tempKillShot = new ArrayList<>();
+        tempKillShot.add(damage.get(MAX_DAMAGES - 2));
+        if (damage.size() == MAX_DAMAGES)
+            tempKillShot.add(damage.get(MAX_DAMAGES - 1));
+        gameBoard.addKillShotTrack(tempKillShot);
+        if(gameBoard.getKillShotTrack().size() == 8 && frenzyStarter == -1) {
+            finalFrenzy = true;
+            frenzyStarter = playerColors.indexOf(deadPlayer.getDamage().get(10));
         }
     }
 

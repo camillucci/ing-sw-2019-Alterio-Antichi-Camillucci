@@ -10,10 +10,10 @@ public class SquareSnapshot implements Serializable
 {
     public final boolean ammoSquare;
     public final String name;
-    public final SquareBorder north;
-    public final SquareBorder south;
-    public final SquareBorder west;
-    public final SquareBorder east;
+    public final String north;
+    public final String south;
+    public final String west;
+    public final String east;
     public final List<String> colors = new ArrayList<>(); // null = no player
     public final List<String> cards;
 
@@ -22,10 +22,10 @@ public class SquareSnapshot implements Serializable
         this.ammoSquare = square instanceof AmmoSquare;
         this.name = square.getName();
 
-        this.north = square.getNorth();
-        this.south = square.getSouth();
-        this.west = square.getWest();
-        this.east = square.getEast();
+        this.north = square.north.getName();
+        this.south = square.south.getName();
+        this.west = square.west.getName();
+        this.east = square.east.getName();
 
         for(Player player : square.getPlayers())
             colors.add(player.color.getName());
