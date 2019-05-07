@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.PrivatePlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.socket.TCPClient;
@@ -142,7 +140,7 @@ public class AdrenalineClient
             options.get(choice).addTarget(targetPlayers.get(index));
         else
             options.get(choice).addTarget(targetSquares.get(index - targetPlayers.size()));
-        while(!(options.get(choice).getCanBeDone())) {
+        while(!(options.get(choice).canBeDone())) {
             targetPlayers = (ArrayList<PublicPlayerSnapshot>) options.get(choice).getPossiblePlayers();
             targetSquares = (ArrayList<SquareSnapshot>) options.get(choice).getPossibleSquares();
             messenger.displayTargets(targetPlayers, targetSquares);

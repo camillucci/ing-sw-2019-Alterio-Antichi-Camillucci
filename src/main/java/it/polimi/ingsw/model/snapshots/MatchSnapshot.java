@@ -10,7 +10,7 @@ import java.util.List;
 public class MatchSnapshot implements Serializable {
 
     public final GameBoardSnapshot gameBoardSnapshot;
-    public final List<PublicPlayerSnapshot> publicPlayerSnapshot = new ArrayList<>();
+    private final List<PublicPlayerSnapshot> publicPlayerSnapshot = new ArrayList<>();
     public final PrivatePlayerSnapshot privatePlayerSnapshot;
 
     public MatchSnapshot(Match match, Player currentPlayer) {
@@ -19,5 +19,10 @@ public class MatchSnapshot implements Serializable {
             if(player != currentPlayer)
                 publicPlayerSnapshot.add(new PublicPlayerSnapshot(player));
         privatePlayerSnapshot = new PrivatePlayerSnapshot(currentPlayer);
+    }
+
+    public List<PublicPlayerSnapshot> getPublicPlayerSnapshot()
+    {
+        return new ArrayList<>(publicPlayerSnapshot);
     }
 }

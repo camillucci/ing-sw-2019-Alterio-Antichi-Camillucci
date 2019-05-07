@@ -20,8 +20,8 @@ public class Action
     protected PowerUpCard selectedPowerUp;
     protected boolean optional = false;
     protected boolean canBeDone = false;
+    
     private Consumer opMethod = a -> { };
-
 
     protected Action(){}
     public Action(Consumer<Action> doActionMethod, boolean isOptional)
@@ -45,6 +45,10 @@ public class Action
     public void initialize(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
+    }
+    public void addDiscarded(PowerUpCard powerUpCard)
+    {
+
     }
     public void addWeapon(WeaponCard weapon)
     {
