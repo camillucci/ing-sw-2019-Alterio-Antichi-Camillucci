@@ -14,7 +14,7 @@ public class SquareSnapshot implements Serializable
     public final SquareBorder south;
     public final SquareBorder west;
     public final SquareBorder east;
-    public final List<PlayerColor> colors = new ArrayList<>(); // null = no player
+    public final List<String> colors = new ArrayList<>(); // null = no player
     public final List<String> cards;
 
     public SquareSnapshot(Square square)
@@ -28,7 +28,7 @@ public class SquareSnapshot implements Serializable
         this.east = square.getEast();
 
         for(Player player : square.getPlayers())
-            colors.add(player.color);
+            colors.add(player.color.getName());
 
         cards = square.getCardsName();
     }

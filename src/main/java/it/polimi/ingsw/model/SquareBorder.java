@@ -1,10 +1,18 @@
 package it.polimi.ingsw.model;
 
-import java.io.Serializable;
+public enum SquareBorder {
+    DOOR("Door"),
+    WALL("Wall"),
+    ROOM("Room"),
+    NOTHING("Nothing");
 
-public enum SquareBorder implements Serializable {
-    DOOR,
-    WALL,
-    ROOM,
-    NOTHING
+    private String name;
+
+    SquareBorder(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

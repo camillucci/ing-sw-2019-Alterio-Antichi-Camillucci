@@ -1,11 +1,19 @@
 package it.polimi.ingsw.model;
 
-import java.io.Serializable;
+public enum PlayerColor {
+    BLUE("Blue"),
+    GREEN("Green"),
+    GREY("Grey"),
+    VIOLET("Violet"),
+    YELLOW("Yellow");
 
-public enum PlayerColor implements Serializable {
-    BLUE,
-    GREEN,
-    GREY,
-    VIOLET,
-    YELLOW
+    private String name;
+
+    PlayerColor(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

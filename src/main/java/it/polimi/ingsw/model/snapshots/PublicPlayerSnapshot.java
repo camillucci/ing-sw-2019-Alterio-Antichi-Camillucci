@@ -17,10 +17,10 @@ public class PublicPlayerSnapshot implements Serializable {
     public final int redAmmo;
     public final int yellowAmmo;
     public final boolean finalFrenzy;
-    public final List<PlayerColor> damage;
-    public final List<PlayerColor> mark;
-    public final int loadedWeaponsNumber;
+    public final List<String> damage = new ArrayList<>();
+    public final List<String> mark = new ArrayList<>();
     public final List<String> unloadedWeapons = new ArrayList<>();
+    public final int loadedWeaponsNumber;
     public final int powerUpsNumber;
 
     public PublicPlayerSnapshot(Player player) {
@@ -31,8 +31,10 @@ public class PublicPlayerSnapshot implements Serializable {
         this.redAmmo = player.getRedAmmo();
         this.yellowAmmo = player.getYellowAmmo();
         this.finalFrenzy = player.isFinalFrenzy();
-        this.damage = player.getDamage();
-        this.mark = player.getMark();
+        for(PlayerColor damageColor : player.getDamage())
+            this.damage.add(damageColor.getName());
+        for(PlayerColor markColor : player.getMark())
+            this.mark.add(markColor.getName());
         this.loadedWeaponsNumber = player.getLoadedWeapons().size();
         for(WeaponCard weaponCard : player.getUnloadedWeapons())
             unloadedWeapons.add(weaponCard.name);
