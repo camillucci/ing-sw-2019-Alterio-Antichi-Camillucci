@@ -21,7 +21,7 @@ public class MoveAction extends Action
     {
         this.minDistance = minDistance;
         this.maxDistance = maxDistance;
-        this.optional = true;
+        this.optional = false;
     }
 
     @Override

@@ -222,26 +222,26 @@ class GameBoardTest {
     void sameDirectionAndSameDirectionSquare1() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         player.getCurrentSquare().addPlayer(player);
-        assertEquals(0, gameBoard.sameDirection(player).size());
+        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         p2.setCurrentSquare(gameBoard.getSquares(p2, 1).get(2));
         p2.getCurrentSquare().addPlayer(p2);
-        assertEquals(1, gameBoard.sameDirection(player).size());
+        assertEquals(1, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(0, gameBoard.sameDirectionSquare(player, p2.getCurrentSquare()).size());
         p3.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         p3.setCurrentSquare(gameBoard.getSquares(p3, 1).get(1));
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(2, gameBoard.sameDirection(player).size());
+        assertEquals(2, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(0, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
         p3.getCurrentSquare().removePlayer(p3);
         p3.setCurrentSquare(gameBoard.getSquares(p2, 1).get(1));
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(2, gameBoard.sameDirection(player).size());
+        assertEquals(2, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(1, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
         p3.getCurrentSquare().removePlayer(p3);
         p3.setCurrentSquare(player.getCurrentSquare());
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(2, gameBoard.sameDirection(player).size());
+        assertEquals(2, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(0, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
     }
 
@@ -249,19 +249,19 @@ class GameBoardTest {
     void sameDirectionAndSameDirectionSquare2() {
         player.setCurrentSquare(gameBoard.getSquares().get(9));
         player.getCurrentSquare().addPlayer(player);
-        assertEquals(0, gameBoard.sameDirection(player).size());
+        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         p2.getCurrentSquare().addPlayer(p2);
-        assertEquals(1, gameBoard.sameDirection(player).size());
+        assertEquals(1, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(0, gameBoard.sameDirectionSquare(player, p2.getCurrentSquare()).size());
         p3.setCurrentSquare(gameBoard.getSquares().get(5));
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(2, gameBoard.sameDirection(player).size());
+        assertEquals(2, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(0, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
         p3.getCurrentSquare().removePlayer(p3);
         p3.setCurrentSquare(gameBoard.getSquares().get(10));
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(2, gameBoard.sameDirection(player).size());
+        assertEquals(2, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(1, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
     }
 
@@ -269,14 +269,14 @@ class GameBoardTest {
     void sameDirectionAndSameDirectionSquare3() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);
-        assertEquals(0, gameBoard.sameDirection(player).size());
+        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         p2.setCurrentSquare(gameBoard.getSquares().get(9));
         p2.getCurrentSquare().addPlayer(p2);
-        assertEquals(1, gameBoard.sameDirection(player).size());
+        assertEquals(1, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(0, gameBoard.sameDirectionSquare(player, p2.getCurrentSquare()).size());
         p3.setCurrentSquare(gameBoard.getSquares().get(10));
         p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(2, gameBoard.sameDirection(player).size());
+        assertEquals(2, gameBoard.removeNonPlayerSquares(player, gameBoard.sameDirection(player)).size());
         assertEquals(1, gameBoard.sameDirectionSquare(player, p2.getCurrentSquare()).size());
         assertEquals(1, gameBoard.sameDirectionSquare(player, p3.getCurrentSquare()).size());
     }

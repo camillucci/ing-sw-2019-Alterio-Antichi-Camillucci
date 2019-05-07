@@ -1,73 +1,90 @@
 package it.polimi.ingsw.model.weapons;
 
-import it.polimi.ingsw.generics.Pair;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
-public class TargetsFilters
-{
+public class TargetsFilters {
+
     private TargetsFilters(){}
 
-    public static List<Player> visiblePlayers(Player player) {
+    public static List<Player> visiblePlayers(Player player, List<Player> alreadyAdded, int maxTargets) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         return player.gameBoard.getInRangePlayers(player);
     }
 
-    /*
-    public static List<Player> noFilters(Player player, List<Player> addedPlayers, int maxTargets) {
-        if(addedPlayers.size() >= maxTargets)
+    public static List<Square> visibleSquares(Player player, List<Square> alreadyAdded, int maxTargets) {
+        if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
-        List<Player> ret = player.gameBoard.getPlayers();
-        addedPlayers.forEach(ret::remove);
-        return ret;
-    }
-    */
-
-    public static List<Square> visibleSquares(Player player) {
         return player.gameBoard.getInRangeSquares(player);
     }
 
-    public static List<Player> awayPlayers(Player player, int minDistance) {
+    public static List<Player> awayPlayers(Player player, List<Player> alreadyAdded, int maxTargets, int minDistance) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         return player.gameBoard.getAwayPlayers(player, minDistance);
     }
 
-    public static List<Player> nearPlayers(Player player, int maxDistance) {
+    public static List<Player> nearPlayers(Player player, List<Player> alreadyAdded, int maxTargets, int maxDistance) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         return player.gameBoard.getNearPlayers(player, maxDistance);
     }
 
-    public static List<Player> betweenPlayers(Player player, int minDistance, int maxDistance) {
+    public static List<Player> betweenPlayers(Player player, List<Player> alreadyAdded, int maxTargets, int minDistance, int maxDistance) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         return player.gameBoard.getBetweenPlayers(player, minDistance, maxDistance);
     }
 
     /*
-    public static List<Square> awaySquares(Player player, int minDistance) {
+    public static List<Square> awaySquares(Player player, List<Square> alreadyAdded, int maxTargets, int minDistance) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         List<Square> temp = player.gameBoard.getAwaySquares(player, minDistance);
         return player.gameBoard.removeNonPlayerSquares(player, temp);
     }
     */
 
-    public static List<Square> nearSquares(Player player, int maxDistance) {
+    public static List<Square> nearSquares(Player player, List<Square> alreadyAdded, int maxTargets, int maxDistance) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         List<Square> temp = player.gameBoard.getNearSquares(player, maxDistance);
         return player.gameBoard.removeNonPlayerSquares(player, temp);
     }
 
-    public static List<Square> betweenSquares(Player player, int minDistance, int maxDistance) {
+    public static List<Square> betweenSquares(Player player, List<Square> alreadyAdded, int maxTargets, int minDistance, int maxDistance) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         List<Square> temp = player.gameBoard.getBetweenSquares(player, minDistance, maxDistance);
         return player.gameBoard.removeNonPlayerSquares(player, temp);
     }
 
-    public static List<Player> nonVisiblePlayers(Player player) {
+    public static List<Player> nonVisiblePlayers(Player player, List<Player> alreadyAdded, int maxTargets) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         return player.gameBoard.getNonVisiblePlayers(player);
     }
 
-    public static List<Square> otherVisibleRoom(Player player) {
+    public static List<Square> otherVisibleRoom(Player player, List<Square> alreadyAdded, int maxTargets) {
+        if(alreadyAdded.size() >= maxTargets)
+            return Collections.emptyList();
         return player.gameBoard.getOtherVisibleRoom(player);
     }
 
+    public static List<Square> movable1Square(List<Player> players, List<Square> squares) {
+        if(players.isEmpty() || !squares.isEmpty())
+            return Collections.emptyList();
+        return players.get(0).gameBoard.getNearSquares(players.get(0), 1);
+    }
+
     //------------------------------------------------------------------------------------------------------------------
+    // LIST OF SPECIFIC TARGET FILTERS
 
     public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded) {
         if(alreadyAdded.size() >= 3)
@@ -79,77 +96,65 @@ public class TargetsFilters
         return temp;
     }
 
-    public static List<Pair<Player, Square>> tractorBeamMovableTargets1(Player player) {
+    public static List<Player> tractorBeamPlayers1(Player player, List<Player> players) {
+        if(!players.isEmpty())
+            return Collections.emptyList();
         List<Square> shooterVisibleSquares = player.gameBoard.getInRangeSquares(player);
-        List<Player> players = player.gameBoard.getPlayers();
-        players.remove(player);
-        List<Pair<Player, Square>> temp = new ArrayList<>();
-        for(Player p : players) {
-                List<Square> playersVisibleSquares = p.gameBoard.getNearSquares(p, 2);
-                for(Square s : playersVisibleSquares)
-                    if(shooterVisibleSquares.contains(s))
-                        temp.add(new Pair<>(p, s));
-        }
-        return temp;
+        List<Player> allPlayers = player.gameBoard.getPlayers();
+        allPlayers.remove(player);
+        LinkedHashSet<Player> temp = new LinkedHashSet<>();
+        for(Player p : allPlayers)
+            for(Square s : p.gameBoard.getNearSquares(p, 2))
+                if(shooterVisibleSquares.contains(s))
+                    temp.add(p);
+        return new ArrayList<>(temp);
     }
 
-    public static List<Pair<Player, Square>> tractorBeamMovableTargets2(Player player) {
-        List<Pair<Player, Square>> temp = new ArrayList<>();
-        for(Square s : player.gameBoard.getSquares(player, 2))
-            for(Player p : s.getPlayers())
-                if(p != player)
-                    temp.add(new Pair<>(p, p.getCurrentSquare()));
-        return temp;
-    }
-
-    public static List<Pair<Player, Square>> vortexCannonMovableTargets1(Player player) {
-        List<Pair<Player, Square>> temp = new ArrayList<>();
-        List<Player> tempPlayers = new ArrayList<>();
-        for(Square square : player.gameBoard.getAwaySquares(player, 1)) {
-            for(Square s : player.gameBoard.distanceOneSquares(square))
-                tempPlayers.addAll(s.getPlayers());
-            tempPlayers.remove(player);
-            for(Player p : tempPlayers)
-                temp.add(new Pair<>(p, square));
-            tempPlayers.clear();
-        }
-        return temp;
-    }
-
-    public static List<Player> vortexCannonMovablePlayers2(Player player, List<Player> alreadyAdded) {
-        if(alreadyAdded.size() >= 3)
+    public static List<Square> tractorBeamSquares1(Player player, List<Player> players, List<Square> squares) {
+        if(players.isEmpty() || !squares.isEmpty())
             return Collections.emptyList();
-        if(alreadyAdded.isEmpty())
-            return getLeftList(vortexCannonMovableTargets1(player));
-        return getVortexCannonPlayer(player, alreadyAdded.get(0).getCurrentSquare());
+        List<Square> shooterVisibleSquares = player.gameBoard.getInRangeSquares(player);
+        LinkedHashSet<Square> temp = new LinkedHashSet<>();
+        for(Square s : players.get(0).gameBoard.getNearSquares(players.get(0), 2))
+            if(shooterVisibleSquares.contains(s))
+                temp.add(s);
+        return new ArrayList<>(temp);
     }
 
-    public static List<Square> vortexCannonMovableSquares2(Player player, List<Square> alreadyAdded) {
-        if(alreadyAdded.size() >= 3)
+    public static List<Square> tractorBeamSquares2(Player player, List<Player> players, List<Square> squares) {
+        if(players.isEmpty() || !squares.isEmpty())
             return Collections.emptyList();
-        if(alreadyAdded.isEmpty())
-            return getRightList(vortexCannonMovableTargets1(player));
-        Square square = alreadyAdded.get(0);
-        List<Player> tempPlayers = getVortexCannonPlayer(player, square);
-        List<Square> temp = new ArrayList<>();
-        for(int i = 0; i < tempPlayers.size(); i++)
-            temp.add(square);
+        return Collections.singletonList(player.getCurrentSquare());
+    }
+
+    public static List<Player> vortexCannonPlayers1(Player player, List<Player> players, List<Square> squares) {
+        if(!players.isEmpty() || squares.isEmpty())
+            return Collections.emptyList();
+        List<Player> temp = new ArrayList<>();
+        for(Square s : player.gameBoard.distanceOneSquares(squares.get(0)))
+            temp.addAll(s.getPlayers());
         return temp;
     }
 
-    private static List<Player> getVortexCannonPlayer(Player player, Square square) {
-        List<Player> tempPlayers = new ArrayList<>();
-        for(Square s : player.gameBoard.distanceOneSquares(square))
-            tempPlayers.addAll(s.getPlayers());
-        return tempPlayers;
+    public static List<Player> vortexCannonPlayers2(Player player, List<Player> players, List<Square> squares) {
+        if(squares.isEmpty() || players.size() >= 3)
+            return Collections.emptyList();
+        List<Player> temp = new ArrayList<>();
+        for(Square s : player.gameBoard.distanceOneSquares(squares.get(0)))
+            temp.addAll(s.getPlayers());
+        temp.remove(player);
+        temp.removeAll(players);
+        return temp;
     }
 
-    public static List<Player> flamethrowerVisiblePlayers(Player player, List<Player> alreadyAdded) {
+    public static List<Player> flamethrowerPlayers(Player player, List<Player> alreadyAdded) {
         if(alreadyAdded.size() >= 2)
             return Collections.emptyList();
         List<Square> tempSquares;
-        if(alreadyAdded.isEmpty())
-            tempSquares = player.gameBoard.sameDirection(player);
+        if(alreadyAdded.isEmpty()) {
+            tempSquares = player.gameBoard.removeEmptySquares(player.gameBoard.sameDirection(player));
+            tempSquares.remove(player.getCurrentSquare());
+        }
         else
             tempSquares = player.gameBoard.sameDirectionSquare(player, alreadyAdded.get(0).getCurrentSquare());
         List<Player> temp = new ArrayList<>();
@@ -159,23 +164,20 @@ public class TargetsFilters
         return temp;
     }
 
-    public static List<Square> flamethrowerVisibleSquares(Player player, List<Square> alreadyAdded) {
+    public static List<Square> flamethrowerSquares(Player player, List<Square> alreadyAdded) {
         if(alreadyAdded.size() >= 2)
             return Collections.emptyList();
-        if(alreadyAdded.isEmpty())
-            return player.gameBoard.sameDirection(player);
+        if(alreadyAdded.isEmpty()) {
+            List<Square> tempSquares = player.gameBoard.removeEmptySquares(player.gameBoard.sameDirection(player));
+            tempSquares.remove(player.getCurrentSquare());
+            return tempSquares;
+        }
         return player.gameBoard.sameDirectionSquare(player, alreadyAdded.get(0));
     }
 
-    public static List<Pair<Player, Square>> grenadeLauncherMovableTargets(Player player) {
-        return movable1Shooted(visiblePlayers(player));
-    }
-
-    public static List<Pair<Player, Square>> rocketLauncherMovableTargets(Player player) {
-        return movable1Shooted(awayPlayers(player, 1));
-    }
-
-    public static List<Player> railgunVisiblePlayer(Player player) {
+    public static List<Player> railgunPlayers(Player player, List<Player> alreadyAdded) {
+        if(!alreadyAdded.isEmpty())
+            return Collections.emptyList();
         List<Player> temp = new ArrayList<>();
         for(Square square : player.gameBoard.throughWalls(player))
             temp.addAll(square.getPlayers());
@@ -183,59 +185,42 @@ public class TargetsFilters
         return temp;
     }
 
-    public static List<Pair<Player, Square>> shotgunMovableTargets(Player player) {
-        return movable1Shooted(nearPlayers(player, 0));
-    }
-
-    public static List<Pair<Player, Square>> sledgehammerMovableTargets(Player player) {
-        List<Pair<Player, Square>> temp = new ArrayList<>();
-        for(Player p : nearPlayers(player, 0)) {
-            List<Square> tempSquares = player.gameBoard.sameDirection(p);
-            for(Square s : tempSquares)
-                temp.add(new Pair<>(p, s));
-        }
-        return temp;
+    public static List<Square> sledgehammerSquares(List<Player> players, List<Square> squares) {
+        if(players.isEmpty() || !squares.isEmpty())
+            return Collections.emptyList();
+        return players.get(0).gameBoard.sameDirection(players.get(0));
     }
 
     //------------------------------------------------------------------------------------------------------------------
+    // POWER UP'S TARGET FILTERS
 
-    public static List<Pair<Player, Square>> newtonMovableTargets(Player player) {
-        List<Pair<Player, Square>> temp = new ArrayList<>();
-        List<Player> players = player.gameBoard.getPlayers();
-        players.remove(player);
-        for(Player p : players)
-            for (Square s : p.gameBoard.getSquares(p, 2))
-                temp.add(new Pair<>(p, s));
+    public static List<Player> newtonPlayers(Player player, List<Player> players) {
+        if(!players.isEmpty())
+            return Collections.emptyList();
+        List<Player> temp = new ArrayList<>(player.gameBoard.getPlayers());
+        temp.remove(player);
         return temp;
     }
 
-    public static List<Pair<Player, Square>> teleporterMovableTargets(Player player) {
-        List<Pair<Player, Square>> temp = new ArrayList<>();
-        for(Square s : player.gameBoard.getSquares())
-            temp.add(new Pair<>(player, s));
-        return temp;
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
-    private static List<Pair<Player, Square>> movable1Shooted(List<Player> targets) {
-        List<Pair<Player, Square>> temp = new ArrayList<>();
-        for(Player p : targets)
-            for(Square s : p.gameBoard.getNearSquares(p, 1))
-                temp.add(new Pair<>(p, s));
+    public static List<Square> newtonSquares(List<Player> players, List<Square> squares) {
+        if(players.isEmpty() || !squares.isEmpty())
+            return Collections.emptyList();
+        List<Square> temp = players.get(0).gameBoard.sameDirection(players.get(0));
+        temp.remove(players.get(0).getCurrentSquare());
         return temp;
     }
 
-    private static List<Player> getLeftList(List<Pair<Player, Square>> pairList) {
-        List<Player> temp = new ArrayList<>();
-        for(Pair<Player, Square> p : pairList)
-            temp.add(p.getLeft());
-        return temp;
+    public static List<Player> teleporterPlayers(Player player, List<Player> players) { //TODO To delete, it's always the shooter to be moved
+        if(!players.isEmpty())
+            return Collections.emptyList();
+        return Collections.singletonList(player);
     }
 
-    private static List<Square> getRightList(List<Pair<Player, Square>> pairList) {
-        List<Square> temp = new ArrayList<>();
-        for(Pair<Player, Square> p : pairList)
-            temp.add(p.getRight());
+    public static List<Square> teleporterSquares(List<Player> players, List<Square> squares) {
+        if(players.isEmpty() || !squares.isEmpty())
+            return Collections.emptyList();
+        List<Square> temp = players.get(0).gameBoard.getSquares();
+        temp.remove(players.get(0).getCurrentSquare());
         return temp;
     }
 }

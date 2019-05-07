@@ -19,6 +19,7 @@ public class Action
     protected ArrayList<WeaponCard> selectedWeapons = new ArrayList<>();
     protected PowerUpCard selectedPowerUp;
     protected boolean optional = false;
+    protected boolean canBeDone = false;
     private Consumer opMethod = a -> { };
 
 

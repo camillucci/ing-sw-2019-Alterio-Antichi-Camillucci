@@ -273,8 +273,7 @@ public class GameBoard {
         Square tempSquare = player.getCurrentSquare();
         Square tempToAdd;
         List<Square> temp = new ArrayList<>();
-        if(player.getCurrentSquare().getPlayers().size() > 1)
-            temp.add(player.getCurrentSquare());
+        temp.add(player.getCurrentSquare());
         if (tempSquare.okNorth()) {
             tempToAdd = squares[tempSquare.y - 1][tempSquare.x];
             temp.add(tempToAdd);
@@ -299,7 +298,7 @@ public class GameBoard {
             if(tempToAdd.okEast())
                 temp.add(squares[tempToAdd.y][tempToAdd.x + 1]);
         }
-        return removeEmptySquares(temp);
+        return temp;
     }
 
     public List<Square> sameDirectionSquare(Player player, Square square) {
@@ -350,7 +349,7 @@ public class GameBoard {
         return removeEmptySquares(temp);
     }
 
-    private List<Square> removeEmptySquares(List<Square> squareList) {
+    public List<Square> removeEmptySquares(List<Square> squareList) {
         List<Square> temp = new ArrayList<>();
         for (Square square : squareList)
             if (!square.getPlayers().isEmpty())
