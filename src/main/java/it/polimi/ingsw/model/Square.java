@@ -7,13 +7,22 @@ import java.util.List;
 import static it.polimi.ingsw.model.SquareBorder.*;
 
 public abstract class Square {
-    protected int y;
-    protected int x;
-    protected SquareBorder north;
-    protected SquareBorder south;
-    protected SquareBorder west;
-    protected SquareBorder east;
+    public final int y;
+    public final int x;
+    public final SquareBorder north;
+    public final SquareBorder south;
+    public final SquareBorder west;
+    public final SquareBorder east;
     protected List<Player> players;
+
+    protected Square(int y, int x, SquareBorder[] borders) {
+        this.y = y;
+        this.x = x;
+        this.north = borders[0];
+        this.south = borders[1];
+        this.west = borders[2];
+        this.east = borders[3];
+    }
 
     public abstract List<Branch> grab(Player player);
 
@@ -47,30 +56,6 @@ public abstract class Square {
 
     public boolean existEast() {
         return this.east == DOOR || this.east == ROOM || this.east == WALL;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public SquareBorder getNorth() {
-        return north;
-    }
-
-    public SquareBorder getSouth() {
-        return south;
-    }
-
-    public SquareBorder getWest() {
-        return west;
-    }
-
-    public SquareBorder getEast() {
-        return east;
     }
 
     public List<Player> getPlayers() {

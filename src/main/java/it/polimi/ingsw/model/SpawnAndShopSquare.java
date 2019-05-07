@@ -16,12 +16,7 @@ public class SpawnAndShopSquare extends Square {
     private static final int CARDS_IN_SHOPS = 3;
 
     public SpawnAndShopSquare(int y, int x, SquareBorder[] borders, WeaponDeck weaponDeck) {
-        this.y = y;
-        this.x = x;
-        this.north = borders[0];
-        this.south = borders[1];
-        this.west = borders[2];
-        this.east = borders[3];
+        super(y, x, borders);
         this.weaponDeck = weaponDeck;
         for(int i = 0; i < CARDS_IN_SHOPS; i++)
             weapons.add(weaponDeck.draw());
