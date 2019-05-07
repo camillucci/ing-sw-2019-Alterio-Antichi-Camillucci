@@ -22,14 +22,16 @@ public class CLIParser {
         return -1;
     }
 
-    public int parseIndex(List<String> options) {
+    public int parseIndex(int index) {
         int answer = Integer.parseInt(System.in.toString());
-        if(answer < options.size() && answer >= 0)
+        if(answer < index && answer >= 0)
             return answer;
         return -1;
     }
 
-    //parseIndex is possibly usable as parse method for every choice regarding actions that the user might take
+    public void parseActions() {
+
+    }
 
     public int parseGameLenght() {
         int answer = Integer.parseInt(System.in.toString());

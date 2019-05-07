@@ -9,7 +9,7 @@ import java.util.List;
 public class RemoteAction implements Serializable
 {
     private Client server;
-    public void iniialize(Client server)
+    public void inizialize(Client server)
     {
         this.server = server;
     }
@@ -23,7 +23,7 @@ public class RemoteAction implements Serializable
     {
     }
 
-    public void doAction()
+    public void doAction(int index)
     {
 
     }

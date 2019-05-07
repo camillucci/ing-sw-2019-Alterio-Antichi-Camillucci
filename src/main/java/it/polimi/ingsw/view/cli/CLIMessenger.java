@@ -1,7 +1,11 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.network.RemoteAction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CLIMessenger {
@@ -138,6 +142,22 @@ public class CLIMessenger {
             System.out.println("Player" + matchSnapshot.publicPlayerSnapshot.get(j).name + "-" + matchSnapshot.publicPlayerSnapshot.get(j).color + "has" + matchSnapshot.publicPlayerSnapshot.get(j).powerUpsNumber + "powerup cards");
             System.out.println("Deaths:" + matchSnapshot.publicPlayerSnapshot.get(j).skull + "Blue ammo available:" + matchSnapshot.publicPlayerSnapshot.get(j).blueAmmo + "Red ammo available:" + matchSnapshot.publicPlayerSnapshot.get(j).redAmmo + "Yellow ammo available:" + matchSnapshot.publicPlayerSnapshot.get(j).yellowAmmo);
             //TODO add way to show mark and damage
+        }
+    }
+
+    public void displayActions(ArrayList<RemoteAction> options) {
+        for(int i = 0; i < options.size(); i++){
+            System.out.println("Press" + i + "if you want to execute action" + options.get(i).toString());
+        }
+    }
+
+    public void displayTargets(ArrayList<PublicPlayerSnapshot> targetPlayers, ArrayList<SquareSnapshot> targetSquares) {
+        for(int i = 0; i < targetPlayers.size(); i++) {
+            System.out.println("Press" + i + "if you want to target" + targetPlayers.get(i).name);
+        }
+        for(int i = 0; i < targetSquares.size(); i++) {
+            int j = i + targetPlayers.size();
+            System.out.println("Press" + j + "if you want to move in the square" + targetSquares.get(i).name);
         }
     }
 }
