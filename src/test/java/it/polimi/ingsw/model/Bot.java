@@ -17,7 +17,7 @@ public class Bot
     {
         Ammo ammo = new Ammo(0, 0, 0);
         return new WeaponCard("B", ammo, ammo, () -> Collections.singletonList(
-                new FireModalityAction(ammo, new Branch(new ShootAction((shooter, players) -> Collections.emptyList(), (shooter, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
+                new FireModalityAction(ammo, new Branch(new ShootAction((shooter, players, squares) -> Collections.emptyList(), (shooter, players, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
     }
 
     public void playNoAdrenaline(ActionsProvider provider) // add 3 or 4 damage to shooter

@@ -14,8 +14,8 @@ public class ShootAction extends Action
     protected List<Player> damagedPlayers = new ArrayList<>();
 
     protected ShootFunc shootFunc = (a, b, c) -> {};
-    protected PlayersFilter playersFilter = (shooter, players) -> Collections.emptyList();
-    protected SquaresFilter squaresFilter = (shooter, squares) -> Collections.emptyList();
+    protected PlayersFilter playersFilter = (shooter, players, squares) -> Collections.emptyList();
+    protected SquaresFilter squaresFilter = (shooter, players, squares) -> Collections.emptyList();
 
     protected ShootAction(){}
 
@@ -60,13 +60,13 @@ public class ShootAction extends Action
     @Override
     public List<Player> getPossiblePlayers()
     {
-        return this.playersFilter.apply(ownerPlayer, targetPlayers);
+        return this.playersFilter.apply(ownerPlayer, targetPlayers, targetSquares);
     }
 
     @Override
     public List<Square> getPossibleSquares()
     {
-        return this.squaresFilter.apply(ownerPlayer, targetSquares);
+        return this.squaresFilter.apply(ownerPlayer, targetPlayers, targetSquares);
     }
 
     @Override

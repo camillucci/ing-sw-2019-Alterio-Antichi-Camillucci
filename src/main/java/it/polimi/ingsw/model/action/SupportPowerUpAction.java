@@ -33,7 +33,7 @@ public class SupportPowerUpAction extends PowerUpAction
 
     public void setTargets(List<Player> targets)
     {
-        this.playersFilter = (shooter, players) -> targets;
+        this.playersFilter = (shooter, players, squares) -> targets;
     }
 
     @Override

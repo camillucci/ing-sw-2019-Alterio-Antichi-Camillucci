@@ -39,7 +39,7 @@ class WeaponSelectionActionTest {
     WeaponCard newWeaponCard(ShootFunc s)
     {
         return new WeaponCard("B", ammo, ammo, () -> Arrays.asList(
-                new FireModalityAction(ammo, new Branch(new ShootAction((shooter, players) -> Collections.emptyList(), (shooter, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
+                new FireModalityAction(ammo, new Branch(new ShootAction((shooter, players, squares) -> Collections.emptyList(), (shooter, players, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
     }
 
     @Test
