@@ -34,10 +34,8 @@ public class RMIClient extends Client {
     public static RMIClient connect(String hostname) throws RemoteException, NotBoundException
     {
         Registry registry = LocateRegistry.getRegistry(hostname);
-        for(String s : registry.list())
-            System.out.println(s);
-        //RMIInputOutputInterface stub = (RMIInputOutputInterface) registry.lookup("Server");
-        //stub.connect();
+        RMIInputOutputInterface stub = (RMIInputOutputInterface) registry.lookup("Server");
+        stub.connect();
         return null;
     }
 

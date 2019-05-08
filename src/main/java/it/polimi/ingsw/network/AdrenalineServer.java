@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AdrenalineServer
+public abstract class AdrenalineServer
 {
     private Controller controller;
     private Client client;
@@ -18,6 +18,8 @@ public class AdrenalineServer
         this.controller = controller;
         this.client = client;
     }
+
+    public abstract void setName(String name);
 
     private void login() throws Exception
     {

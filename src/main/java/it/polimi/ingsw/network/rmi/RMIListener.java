@@ -4,9 +4,12 @@ import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.network.Client;
 
 import java.rmi.AlreadyBoundException;
+import java.rmi.NoSuchObjectException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +39,19 @@ public class RMIListener
     {
         try
         {
+            System.setProperty("java.rmi.server.hostname","127.0.0.1");
             RMIInputOutput server = new RMIInputOutput();
+            tryUnexport(server);
+            Registry registry = LocateRegistry.createRegistry(1099);
             server.connectedEvent.addEventHandler((rmiInputOutput, b) -> newClientConnected(rmiInputOutput));
             RMIInputOutputInterface stub = (RMIInputOutputInterface) UnicastRemoteObject.exportObject(server, 0);
-            Registry registry = LocateRegistry.getRegistry("127.0.0.1");
-            registry.bind("Server", stub);
+            LocateRegistry.getRegistry(1099).rebind("Server", stub);
         }
-        catch (RemoteException | AlreadyBoundException e) {
+        catch(ExportException e)
+        {
+
+        }
+        catch (RemoteException e) {
             e.printStackTrace();
         }
     }
@@ -65,4 +74,11 @@ public class RMIListener
     }
 
     private List<RMIClient> connectedHosts = new ArrayList<>();
+
+    private void tryUnexport(Remote obj){
+        try {
+            UnicastRemoteObject.unexportObject(obj, false);
+        } catch (NoSuchObjectException e) {
+        }
+    }
 }

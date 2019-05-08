@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.snapshots.GameBoardSnapshot;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import org.junit.jupiter.api.Test;
 
