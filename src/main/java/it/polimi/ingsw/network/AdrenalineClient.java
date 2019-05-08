@@ -8,8 +8,9 @@ import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class AdrenalineClient
+public abstract class AdrenalineClient
 {
     private Client server;
     private CLIParser parser;
@@ -23,9 +24,18 @@ public class AdrenalineClient
         parser = new CLIParser(messenger);
     }
 
+    protected abstract void notifyInterface(int choice);
+    protected abstract List<String> getAvaibleColors();
+    protected abstract void notifyColor(int colorIndex);
+    protected abstract boolean isOk(String name);
+    protected abstract void notifyGameLength(int gameLength);
+    protected abstract void notifyGameMap(int choice);
+
     public void login() throws Exception {
-        messenger.askConnection();
         int choice = parser.parseChoice();
+        // already chosen RMI or Socket
+        /*
+        messenger.askConnection();
         while(choice == -1) {
             messenger.incorrectInput();
             messenger.askConnection();
@@ -38,6 +48,8 @@ public class AdrenalineClient
             server = null;
         }
 
+         */
+
         messenger.askInterface();
         choice = parser.parseChoice();
         while(choice == -1) {
@@ -45,10 +57,7 @@ public class AdrenalineClient
             messenger.askInterface();
             choice = parser.parseChoice();
         }
-        if(choice == 0)
-            server.out().sendBool(true);
-        else
-            server.out().sendBool(false);
+        notifyInterface(choice);
         /***/
         String name;
         do {
@@ -57,9 +66,9 @@ public class AdrenalineClient
                 name = parser.parseName();
             } while (name == null);
             server.out().sendObject(name);
-        }while(server.in().getBool()); // name is ok?
+        }while(!isOk(name)); // name is ok?
 
-        ArrayList<String> availableColors = server.in().getObject();
+        List<String> availableColors = getAvaibleColors();
         messenger.askColor(availableColors);
         //TODO lock
         int index = parser.parseIndex(availableColors.size());
@@ -68,26 +77,24 @@ public class AdrenalineClient
             messenger.askColor(availableColors);
             index = parser.parseIndex(availableColors.size());
         }
-        server.out().sendInt(index); //send user's color of choice
-        if(server.in().getBool()) {
+        notifyColor(index);//send user's color of choice
+        messenger.askGameLenght();
+        choice = parser.parseGameLenght();
+        while(choice == -1) {
+            messenger.incorrectInput();
             messenger.askGameLenght();
             choice = parser.parseGameLenght();
-            while(choice == -1) {
-                messenger.incorrectInput();
-                messenger.askGameLenght();
-                choice = parser.parseGameLenght();
-            }
-            messenger.askGameMap();
-            parser.parseGameMap();
-            server.out().sendInt(choice);
-            choice = parser.parseGameMap();
-            while(choice == -1) {
-                messenger.incorrectInput();
-                messenger.askGameMap();
-                choice = parser.parseGameMap();
-            }
-            server.out().sendInt(choice);
         }
+        notifyGameLength(choice);
+        messenger.askGameMap();
+        parser.parseGameMap();
+        choice = parser.parseGameMap();
+        while(choice == -1) {
+            messenger.incorrectInput();
+            messenger.askGameMap();
+            choice = parser.parseGameMap();
+        }
+        notifyGameMap(choice);
     }
 
     private void matchStart() throws Exception {
@@ -109,6 +116,7 @@ public class AdrenalineClient
      */
 
     public void updateView() throws Exception {
+        //todo remove all socket-dependet code
         matchSnapshot = server.in().getObject();
         messenger.updateView(matchSnapshot);
     }
@@ -118,6 +126,7 @@ public class AdrenalineClient
     }
 
     public void chooseAction() throws Exception {
+        //todo remove all socket-dependet code
         ArrayList<RemoteAction> options = server.in().getObject(); //gets list of RemoteAction
         messenger.displayActions(options); //displays actions available
         int choice = parser.parseIndex(options.size()); //get's user action of choice
