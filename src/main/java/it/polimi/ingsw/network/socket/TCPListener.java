@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TCPListener {
     public final Event<TCPListener, TCPClient> newClientEvent = new Event<>();
@@ -14,6 +16,7 @@ public class TCPListener {
     private int port;
     private int maxConnected;
     private Thread listenThread;
+    private Logger logger;
 
     public TCPListener(int port)
     {
@@ -37,15 +40,21 @@ public class TCPListener {
     }
 
     public synchronized void stop() {
-        try
-        {
-            if (listenThread == null || listenThread.getState() == Thread.State.TERMINATED)
-                return;
 
+        if (listenThread == null || listenThread.getState() == Thread.State.TERMINATED)
+            return;
+        try {
             listener.close();
+        }
+        catch (IOException e) {
+            logger.log(Level.WARNING, "IOException, Class TCPListener, Line 51", e);
+        }
+        try {
             listenThread.join();
-         }
-        catch (IOException | InterruptedException e) { e.printStackTrace();}
+        }
+        catch(InterruptedException e) {
+            logger.log(Level.WARNING, "InterruptedException, Class TCPListener, Line 55", e);
+        }
     }
 
     public synchronized List<TCPClient> getConnected()
@@ -65,7 +74,7 @@ public class TCPListener {
             } while(connectedHosts.size() < maxConnected);
         }
         catch (IOException e) {
-            //TODO
+            //logger.log(Level.WARNING, "IOException, Class TCPListener, Line 77", e);
         }
         finally { closeListener(); }
     }
@@ -78,7 +87,7 @@ public class TCPListener {
         }
         catch(IOException e)
         {
-            // TODO best practice?
+            logger.log(Level.WARNING, "IOException, Class TCPListener, Line 90", e);
         }
     }
     private synchronized void onDisconnection (TCPClient client)

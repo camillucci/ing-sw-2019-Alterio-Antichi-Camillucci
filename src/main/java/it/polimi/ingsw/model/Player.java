@@ -148,8 +148,8 @@ public class Player implements Cloneable {
             p.powerupSet = new PowerupSet(powerupSet);
             return p;
         }
-        catch(CloneNotSupportedException cNSE){
-            logger.log(Level.INFO, "CloneNotSupportedException, Class Match, Line 158");
+        catch(CloneNotSupportedException e){
+            logger.log(Level.INFO, "CloneNotSupportedException, Class Match, Line 152", e);
         }
         return null;
     }

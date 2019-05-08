@@ -10,13 +10,16 @@ import java.util.function.Function;
 public class SupportPowerUpAction extends PowerUpAction
 {
     private Function<Player, List<PowerUpCard>> powerUpFilter;
+
     public SupportPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter, ShootFunc shootFunc)
     {
         super(null, null, shootFunc);
         this.powerUpFilter = powerUpFilter;
         this.completedActionEvent.addEventHandler((a,b)->{
-            if(this.selectedPowerUp != null)
+            if(this.selectedPowerUp != null) {
+                ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
+            }
         });
     }
 

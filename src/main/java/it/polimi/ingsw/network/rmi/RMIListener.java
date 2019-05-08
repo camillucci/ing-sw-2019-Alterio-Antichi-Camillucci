@@ -13,12 +13,15 @@ import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RMIListener
 {
     public final Event<RMIListener, RMIClient> newClientEvent = new Event<>();
     public final Event<RMIListener, RMIClient> clientDisconnectedEvent = new Event<>();
     private RMIInputOutput curServer;
+    private Logger logger;
 
     public synchronized void start()
     {
@@ -49,10 +52,10 @@ public class RMIListener
         }
         catch(ExportException e)
         {
-
+            //logger.log(Level.WARNING, "ExportException, Class RMIListener, Line 55", e);
         }
         catch (RemoteException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "RemoteException, Class RMIListener, Line 58", e);
         }
     }
 
@@ -65,8 +68,11 @@ public class RMIListener
             connectedHosts.add(connected);
             newClientEvent.invoke(this, connected);
             newServer();
-        }catch(RemoteException e){}
+        }catch(RemoteException e){
+            logger.log(Level.WARNING, "RemoteException, Class RMIListener, Line 72", e);
+        }
     }
+
     private synchronized void onDisconnection (RMIClient client)
     {
         this.connectedHosts.remove(client);
@@ -79,6 +85,7 @@ public class RMIListener
         try {
             UnicastRemoteObject.unexportObject(obj, false);
         } catch (NoSuchObjectException e) {
+            //logger.log(Level.WARNING, "NoSuchObjectException, Class RMIListener, Line 85", e);
         }
     }
 }

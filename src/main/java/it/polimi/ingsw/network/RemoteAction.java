@@ -10,8 +10,8 @@ public class RemoteAction implements Serializable
 {
     private Client server;
     private boolean canBeDone;
-    List<PublicPlayerSnapshot> possiblePlayers;
-    List<SquareSnapshot> possibleSquares;
+    private List<PublicPlayerSnapshot> possiblePlayers;
+    private List<SquareSnapshot> possibleSquares;
 
     public void inizialize(Client server)
     {

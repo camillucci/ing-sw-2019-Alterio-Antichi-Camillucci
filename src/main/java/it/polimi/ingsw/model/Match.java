@@ -19,7 +19,6 @@ public class Match implements ActionsProvider {
     public final GameBoard gameBoard;
     private List<Player> players = new ArrayList<>();
     private List<Player> deadPlayers;
-    private Turn currentTurn;
     private List<PlayerColor> playerColors;
     private boolean finalFrenzy = false;
     private int frenzyStarter = -1;
@@ -83,9 +82,9 @@ public class Match implements ActionsProvider {
     {
         turnPos = (turnPos + 1) % players.size();
         curPlayer = players.get(turnPos);
-        this.currentTurn = new Turn(curPlayer, this);
-        this.currentTurn.newActionsEvent.addEventHandler((turn, actions) -> this.setNewActions(actions));
-        this.currentTurn.endTurnEvent.addEventHandler((turn, turnPlayer) -> onTurnCompleted());
+        Turn currentTurn = new Turn(curPlayer, this);
+        currentTurn.newActionsEvent.addEventHandler((turn, actions) -> this.setNewActions(actions));
+        currentTurn.endTurnEvent.addEventHandler((turn, turnPlayer) -> onTurnCompleted());
         setNewActions(currentTurn.getActions());
     }
 

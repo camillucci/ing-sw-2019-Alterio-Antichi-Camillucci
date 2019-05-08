@@ -12,6 +12,7 @@ public class CLIMessenger {
 
     private MatchSnapshot matchSnapshot;
     private static final String PRESS = "Press ";
+    private static final String PLAYER = "Player ";
 
     public void incorrectInput() {
         System.out.println("Your answer is not valid, please try again.");
@@ -135,11 +136,11 @@ public class CLIMessenger {
 
     private void displayPublicPlayers() {
         for (int j = 0; j < matchSnapshot.getPublicPlayerSnapshot().size(); j++) {
-            System.out.println("Player" + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has" + matchSnapshot.getPublicPlayerSnapshot().get(j).loadedWeaponsNumber + "loaded weapons:");
-            System.out.println("Player" + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has the following unloaded weapons:");
+            System.out.println(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has" + matchSnapshot.getPublicPlayerSnapshot().get(j).loadedWeaponsNumber + "loaded weapons:");
+            System.out.println(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has the following unloaded weapons:");
             for (int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().size(); i++)
                 System.out.println(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i));
-            System.out.println("Player" + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has" + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber + "powerup cards");
+            System.out.println(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has" + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber + "powerup cards");
             System.out.println("Deaths:" + matchSnapshot.getPublicPlayerSnapshot().get(j).skull + "Blue ammo available:" + matchSnapshot.getPublicPlayerSnapshot().get(j).blueAmmo + "Red ammo available:" + matchSnapshot.getPublicPlayerSnapshot().get(j).redAmmo + "Yellow ammo available:" + matchSnapshot.getPublicPlayerSnapshot().get(j).yellowAmmo);
             //TODO add way to show mark and damage
         }
@@ -147,18 +148,18 @@ public class CLIMessenger {
 
     public void displayActions(ArrayList<RemoteAction> options) {
         for(int i = 0; i < options.size(); i++){
-            System.out.println("Press" + i + "if you want to execute action" + options.get(i).toString());
+            System.out.println(PRESS + i + " if you want to execute action" + options.get(i).toString());
         }
     }
 
     public int displayTargets(ArrayList<PublicPlayerSnapshot> targetPlayers, ArrayList<SquareSnapshot> targetSquares) {
         int j = targetPlayers.size();
         for(int i = 0; i < targetPlayers.size(); i++) {
-            System.out.println("Press" + i + "if you want to target" + targetPlayers.get(i).name);
+            System.out.println(PRESS + i + " if you want to target" + targetPlayers.get(i).name);
         }
         for(int i = 0; i < targetSquares.size(); i++) {
             j = i + targetPlayers.size();
-            System.out.println("Press" + j + "if you want to move in the square" + targetSquares.get(i).name);
+            System.out.println(PRESS + j + " if you want to move in the square" + targetSquares.get(i).name);
         }
 
         return j;
@@ -166,6 +167,6 @@ public class CLIMessenger {
 
     public void displayTargetsAndAction(ArrayList<PublicPlayerSnapshot> targetPlayers, ArrayList<SquareSnapshot> targetSquares) {
         int temp = displayTargets(targetPlayers, targetSquares);
-        System.out.println("Press" + temp + "if you want to execute action with previously selected targets");
+        System.out.println(PRESS + temp + " if you want to execute action with previously selected targets");
     }
 }

@@ -41,6 +41,6 @@ public class RMIClient extends Client {
 
     @Override
     public void close() {
-
+        //TODO
     }
 }

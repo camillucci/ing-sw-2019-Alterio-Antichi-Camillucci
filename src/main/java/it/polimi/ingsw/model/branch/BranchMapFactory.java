@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class BranchMapFactory
@@ -66,7 +67,7 @@ public class BranchMapFactory
 
     public static BranchMap reloadEndTurn()
     {
-        return new BranchMap(new ArrayList<>(Arrays.asList(
+        return new BranchMap(new ArrayList<>(Collections.singletonList(
                 new Branch(new PowerUpAction(), new ReloadAction(), new EndBranchAction())))); //PR
     }
 
