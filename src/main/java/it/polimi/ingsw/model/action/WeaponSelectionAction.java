@@ -13,7 +13,7 @@ public class WeaponSelectionAction extends ExtendableAction
         ArrayList<Branch> w = new ArrayList<>();
         for(WeaponCard wc : ownerPlayer.getLoadedWeapons())
         {
-            ExtendableAction wi = new ExtendableAction(wc.getFireModalities()); //
+            ExtendableAction wi = new ExtendableAction(wc.getFireModalities());
             w.add(new Branch(wi));
         }
         this.branches = w;

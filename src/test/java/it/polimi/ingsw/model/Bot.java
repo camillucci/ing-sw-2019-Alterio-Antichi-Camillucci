@@ -23,7 +23,7 @@ public class Bot
     public void playNoAdrenaline(ActionsProvider provider) // add 3 or 4 damage to shooter
     {
         WeaponCard weaponCard1 = newWeaponCard((shooter, players, squares) -> shooter.addDamage(player, 3));
-        WeaponCard weaponCard2 = newWeaponCard((shooter, players, squares) -> shooter.addDamage(player,4));
+        WeaponCard weaponCard2 = newWeaponCard((shooter, players, squares) -> shooter.addDamage(player, 4));
         provider.getPlayer().addWeapon(weaponCard1);
         provider.getPlayer().addWeapon(weaponCard2);
 
@@ -43,12 +43,13 @@ public class Bot
 
         // possible = {F1, R} do = F1
         tmp = provider.getActions();
-        assertTrue(BranchTestUtilities.testEquality(tmp, new FireModalityAction(null,null,null), new RollBackAction()));
+        assertTrue(BranchTestUtilities.testEquality(tmp, new FireModalityAction(null,null, null), new RollBackAction()));
         provider.getActions().get(0).doAction();
 
         // possible = {S1, R} do = S1
         tmp = provider.getActions();
         assertTrue( BranchTestUtilities.testEquality(tmp, new ShootAction(null,null,null), new RollBackAction()));
+        provider.getActions().get(0).setCanBeDone(true);
         provider.getActions().get(0).doAction();
 
         assertTrue(provider.getPlayer().getDamage().size() >= 3);

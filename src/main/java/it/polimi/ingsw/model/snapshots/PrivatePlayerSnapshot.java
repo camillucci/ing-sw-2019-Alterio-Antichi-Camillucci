@@ -9,8 +9,8 @@ import java.util.List;
 
 public class PrivatePlayerSnapshot extends PublicPlayerSnapshot {
 
-    public final List<String> loadedWeapons = new ArrayList<>();
-    public final List<String> powerUps = new ArrayList<>();
+    private final List<String> loadedWeapons = new ArrayList<>();
+    private final List<String> powerUps = new ArrayList<>();
 
     protected PrivatePlayerSnapshot(Player player) {
         super(player);
@@ -18,5 +18,13 @@ public class PrivatePlayerSnapshot extends PublicPlayerSnapshot {
             loadedWeapons.add(weaponCard.name);
         for(PowerUpCard powerUpCard : player.getPowerUps())
             powerUps.add(powerUpCard.getName());
+    }
+
+    public List<String> getLoadedWeapons() {
+        return loadedWeapons;
+    }
+
+    public List<String> getPowerUps() {
+        return powerUps;
     }
 }

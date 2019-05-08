@@ -284,10 +284,11 @@ class TCPClientTest {
             assertEquals(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0].south, received.gameBoardSnapshot.squareSnapshots[0][0].south);
             assertEquals(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0].west, received.gameBoardSnapshot.squareSnapshots[0][0].west);
             assertEquals(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0].east, received.gameBoardSnapshot.squareSnapshots[0][0].east);
-            assertEquals(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0].colors, received.gameBoardSnapshot.squareSnapshots[0][0].colors);
+            assertEquals(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0].getColors(), received.gameBoardSnapshot.squareSnapshots[0][0].getColors());
+            assertEquals(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0].getCards(), received.gameBoardSnapshot.squareSnapshots[0][0].getCards());
             assertEquals(matchSnapshot.gameBoardSnapshot.mapType, received.gameBoardSnapshot.mapType);
             assertEquals(matchSnapshot.gameBoardSnapshot.skulls, received.gameBoardSnapshot.skulls);
-            assertEquals(matchSnapshot.gameBoardSnapshot.killShotTrack, received.gameBoardSnapshot.killShotTrack);
+            assertEquals(matchSnapshot.gameBoardSnapshot.getKillShotTrack(), received.gameBoardSnapshot.getKillShotTrack());
 
             assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).color, received.getPublicPlayerSnapshot().get(0).color);
             assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).name, received.getPublicPlayerSnapshot().get(0).name);
@@ -296,14 +297,14 @@ class TCPClientTest {
             assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).redAmmo, received.getPublicPlayerSnapshot().get(0).redAmmo);
             assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).yellowAmmo, received.getPublicPlayerSnapshot().get(0).yellowAmmo);
             assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).finalFrenzy, received.getPublicPlayerSnapshot().get(0).finalFrenzy);
-            assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).damage, received.getPublicPlayerSnapshot().get(0).damage);
-            assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).mark, received.getPublicPlayerSnapshot().get(0).mark);
-            assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).unloadedWeapons, received.getPublicPlayerSnapshot().get(0).unloadedWeapons);
+            assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).getDamage(), received.getPublicPlayerSnapshot().get(0).getDamage());
+            assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).getMark(), received.getPublicPlayerSnapshot().get(0).getMark());
+            assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).getUnloadedWeapons(), received.getPublicPlayerSnapshot().get(0).getUnloadedWeapons());
             assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).loadedWeaponsNumber, received.getPublicPlayerSnapshot().get(0).loadedWeaponsNumber);
             assertEquals(matchSnapshot.getPublicPlayerSnapshot().get(0).powerUpsNumber, received.getPublicPlayerSnapshot().get(0).powerUpsNumber);
 
-            assertEquals(matchSnapshot.privatePlayerSnapshot.loadedWeapons, received.privatePlayerSnapshot.loadedWeapons);
-            assertEquals(matchSnapshot.privatePlayerSnapshot.powerUps, received.privatePlayerSnapshot.powerUps);
+            assertEquals(matchSnapshot.privatePlayerSnapshot.getLoadedWeapons(), received.privatePlayerSnapshot.getLoadedWeapons());
+            assertEquals(matchSnapshot.privatePlayerSnapshot.getPowerUps(), received.privatePlayerSnapshot.getPowerUps());
         }
         catch(Exception ecc)
         {

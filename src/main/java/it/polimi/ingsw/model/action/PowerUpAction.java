@@ -21,7 +21,7 @@ public class PowerUpAction extends ShootAction
     }
     public PowerUpAction()
     {
-       this.optional = true;
+        this.optional = true;
     }
 
     @Override

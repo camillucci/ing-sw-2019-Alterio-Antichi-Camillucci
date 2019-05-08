@@ -36,7 +36,11 @@ public class SpawnAndShopSquare extends Square {
                                                                                         .collect(Collectors.toList()));
         for (WeaponCard w : weapons)
             if(Ammo.getAmmo(player).isGreaterOrEqual(w.buyCost))
-                ret.add(new Branch(new Action(a -> {a.getOwnerPlayer().addWeapon(w); a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);}), chooseToDropBranches));
+                ret.add(new Branch(new Action(a -> {
+                    a.setDoActionCost(w.buyCost);
+                    a.getOwnerPlayer().addWeapon(w);
+                    a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
+                }), chooseToDropBranches));
         return ret;
     }
 
@@ -45,7 +49,11 @@ public class SpawnAndShopSquare extends Square {
         List<Branch> ret = new ArrayList<>();
         for(WeaponCard w : weapons)
             if(Ammo.getAmmo(player).isGreaterOrEqual(w.buyCost))
-                ret.add(new Branch(new Action(a -> {a.getOwnerPlayer().addWeapon(w); a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);}), new EndBranchAction()));
+                ret.add(new Branch(new Action(a -> {
+                    a.setDoActionCost(w.buyCost);
+                    a.getOwnerPlayer().addWeapon(w);
+                    a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
+                }), new EndBranchAction()));
         return ret;
     }
 

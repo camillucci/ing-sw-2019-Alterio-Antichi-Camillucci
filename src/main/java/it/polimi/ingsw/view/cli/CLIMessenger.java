@@ -96,13 +96,13 @@ public class CLIMessenger {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 if (!(matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].ammoSquare))
-                    System.out.println("Weapon Square -" + i + "|" + j + " - Current available weapons on this square are:" + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].cards.get(0) + "," + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].cards.get(1) + "," + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].cards.get(2));
+                    System.out.println("Weapon Square -" + i + "|" + j + " - Current available weapons on this square are:" + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getCards().get(0) + "," + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getCards().get(1) + "," + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getCards().get(2));
                 else
-                    System.out.println("Ammo Square -" + i + "|" + j + " - Current available ammo card on this square is:" + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].cards.get(0));
+                    System.out.println("Ammo Square -" + i + "|" + j + " - Current available ammo card on this square is:" + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getCards().get(0));
                 System.out.println("The following players are on this square:");
-                for (int k = 0; k < matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].colors.size(); k++)
-                    System.out.println(matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].colors.get(k));
-                if (matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].colors.size() == 0)
+                for (int k = 0; k < matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getColors().size(); k++)
+                    System.out.println(matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getColors().get(k));
+                if (matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getColors().isEmpty())
                     System.out.println("None");
             }
         }
@@ -121,14 +121,14 @@ public class CLIMessenger {
 
     private void displayPrivatePlayer() {
         System.out.println("You (" + matchSnapshot.privatePlayerSnapshot.name + "-" + matchSnapshot.privatePlayerSnapshot.color + ") have the following loaded weapons:");
-        for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.loadedWeapons.size(); i++)
-            System.out.println(matchSnapshot.privatePlayerSnapshot.loadedWeapons.get(i));
+        for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().size(); i++)
+            System.out.println(matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().get(i));
         System.out.println("You have the following unloaded weapons:");
-        for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.unloadedWeapons.size(); i++)
-            System.out.println(matchSnapshot.privatePlayerSnapshot.unloadedWeapons.get(i));
+        for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().size(); i++)
+            System.out.println(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i));
         System.out.println("You have the following powerup cards:");
-        for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.powerUps.size(); i++)
-            System.out.println(matchSnapshot.privatePlayerSnapshot.powerUps.get(i));
+        for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getPowerUps().size(); i++)
+            System.out.println(matchSnapshot.privatePlayerSnapshot.getPowerUps().get(i));
         System.out.println("Deaths:" + matchSnapshot.privatePlayerSnapshot.skull + "Blue ammo available:" + matchSnapshot.privatePlayerSnapshot.blueAmmo + "Red ammo available:" + matchSnapshot.privatePlayerSnapshot.redAmmo + "Yellow ammo available:" + matchSnapshot.privatePlayerSnapshot.yellowAmmo);
         //TODO add way to show mark and damage
     }
@@ -137,8 +137,8 @@ public class CLIMessenger {
         for (int j = 0; j < matchSnapshot.getPublicPlayerSnapshot().size(); j++) {
             System.out.println("Player" + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has" + matchSnapshot.getPublicPlayerSnapshot().get(j).loadedWeaponsNumber + "loaded weapons:");
             System.out.println("Player" + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has the following unloaded weapons:");
-            for (int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).unloadedWeapons.size(); i++)
-                System.out.println(matchSnapshot.privatePlayerSnapshot.unloadedWeapons.get(i));
+            for (int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().size(); i++)
+                System.out.println(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i));
             System.out.println("Player" + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has" + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber + "powerup cards");
             System.out.println("Deaths:" + matchSnapshot.getPublicPlayerSnapshot().get(j).skull + "Blue ammo available:" + matchSnapshot.getPublicPlayerSnapshot().get(j).blueAmmo + "Red ammo available:" + matchSnapshot.getPublicPlayerSnapshot().get(j).redAmmo + "Yellow ammo available:" + matchSnapshot.getPublicPlayerSnapshot().get(j).yellowAmmo);
             //TODO add way to show mark and damage

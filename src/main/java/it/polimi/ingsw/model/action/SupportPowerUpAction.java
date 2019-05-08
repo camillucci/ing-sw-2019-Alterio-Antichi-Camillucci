@@ -23,6 +23,7 @@ public class SupportPowerUpAction extends PowerUpAction
     public SupportPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter)
     {
         this.powerUpFilter = powerUpFilter;
+        this.canBeDone = true;
     }
 
     @Override

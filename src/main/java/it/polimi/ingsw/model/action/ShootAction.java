@@ -13,20 +13,20 @@ public class ShootAction extends Action
 {
     protected List<Player> damagedPlayers = new ArrayList<>();
 
-    protected ShootFunc shootFunc = (a, b, c) -> {};
-    protected PlayersFilter playersFilter = (shooter, players, squares) -> Collections.emptyList();
-    protected SquaresFilter squaresFilter = (shooter, players, squares) -> Collections.emptyList();
+    protected ShootFunc shootFunc;
+    protected PlayersFilter playersFilter;
+    protected SquaresFilter squaresFilter;
 
     protected ShootAction(){}
 
     public ShootAction(ShootFunc shootFunc, SquaresFilter squaresFilter)
     {
-        this(null, squaresFilter, shootFunc);
+        this(noPlayersFilter, squaresFilter, shootFunc);
     }
 
     public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc)
     {
-        this(playersFilter, null, shootFunc);
+        this(playersFilter, noSquaresFilter, shootFunc);
     }
 
     public ShootAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
@@ -34,6 +34,7 @@ public class ShootAction extends Action
         this.shootFunc = shootFunc;
         this.playersFilter = playersFilter;
         this.squaresFilter = squaresFilter;
+        this.canBeDone = false;
     }
 
     @Override
@@ -86,6 +87,17 @@ public class ShootAction extends Action
         if(this.getPossiblePlayers().contains(target)) {
             targetPlayers.add(target);
             target.damagedEvent.addEventHandler((damaged, val) -> damagedEventHandler(damaged));
+            if(squaresFilter == noSquaresFilter || !this.targetSquares.isEmpty())
+                this.canBeDone = true;
+        }
+    }
+
+    @Override
+    public void addTarget(Square target) {
+        if(this.getPossibleSquares().contains(target)) {
+            this.targetSquares.add(target);
+            if(playersFilter == noPlayersFilter || !this.targetPlayers.isEmpty())
+                this.canBeDone = true;
         }
     }
 
@@ -94,4 +106,7 @@ public class ShootAction extends Action
         if(!damagedPlayers.contains(damaged))
             this.damagedPlayers.add(damaged);
     }
+
+    private static PlayersFilter noPlayersFilter = (shooter, players, squares) -> Collections.emptyList();
+    private static SquaresFilter noSquaresFilter = (shooter, players, squares) -> Collections.emptyList();
 }

@@ -30,4 +30,12 @@ public abstract class PowerUpCard {
     public String getName() {
         return name.concat(" " + color.getName());
     }
+
+    public Ammo colorToAmmo() {
+        if(color == AmmoColor.BLUE)
+            return new Ammo(1, 0, 0);
+        if(color == AmmoColor.RED)
+            return new Ammo(0, 1, 1);
+        return new Ammo(0, 0, 1);
+    }
 }

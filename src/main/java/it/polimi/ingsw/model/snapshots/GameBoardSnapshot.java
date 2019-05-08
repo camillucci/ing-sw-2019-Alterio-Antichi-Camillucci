@@ -12,7 +12,7 @@ public class GameBoardSnapshot implements Serializable
     public final SquareSnapshot[][] squareSnapshots = new SquareSnapshot[3][4];
     public final int skulls;
     public final int mapType;
-    public final List<List<String>> killShotTrack = new ArrayList<>();
+    private final List<List<String>> killShotTrack = new ArrayList<>();
 
     public GameBoardSnapshot(GameBoard gameBoard)
     {
@@ -30,5 +30,9 @@ public class GameBoardSnapshot implements Serializable
             for (PlayerColor color : temp.get(i))
                 killShotTrack.get(i).add(color.getName());
         }
+    }
+
+    public List<List<String>> getKillShotTrack() {
+        return killShotTrack;
     }
 }
