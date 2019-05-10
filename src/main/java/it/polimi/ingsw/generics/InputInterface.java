@@ -1,11 +1,13 @@
 package it.polimi.ingsw.generics;
 
+import java.io.IOException;
+
 public interface InputInterface
 {
-    byte[] getBytes() throws Exception;
-    <T> T getObject() throws Exception;
-    void getFile(String filename) throws Exception;
-    int getInt() throws Exception;
-    long getLong() throws Exception;
-    boolean getBool() throws Exception;
+    byte[] getBytes() throws IOException;
+    <T> T getObject() throws IOException, ClassNotFoundException;
+    void getFile(String filename) throws IOException;
+    int getInt() throws IOException;
+    long getLong() throws IOException;
+    boolean getBool() throws IOException;
 }

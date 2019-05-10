@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 
 public class InputStreamUtils implements Closeable, InputInterface
 {
-    public final Event<InputStreamUtils, InputStream> streamFailEvent = new Event<>();
+    public final IEvent<InputStreamUtils, InputStreamUtils> streamFailEvent = new Event<>();
     private InputStream stream;
     public InputStreamUtils(InputStream inputStream)
     {
@@ -83,13 +83,13 @@ public class InputStreamUtils implements Closeable, InputInterface
         return get( ()-> bytesToInt(getBytesOnly(Integer.BYTES)));
     }
 
-    public boolean getBool() throws Exception
+    public boolean getBool() throws IOException
     {
         int b = getByteOnly();
         switch (b)
         {
             case -1:
-                throw new Exception();
+                throw new RuntimeException("impossible to get a bool from the Input Stream");
             case 0:
                 return false;
             default:
@@ -120,7 +120,7 @@ public class InputStreamUtils implements Closeable, InputInterface
         }
         catch(IOException ecc)
         {
-            streamFailEvent.invoke(this, stream);
+            ((Event<InputStreamUtils, InputStreamUtils>)streamFailEvent).invoke(this, this);
             throw ecc;
         }
     }
@@ -133,7 +133,7 @@ public class InputStreamUtils implements Closeable, InputInterface
         }
         catch(IOException ecc)
         {
-            streamFailEvent.invoke(this, stream);
+            ((Event<InputStreamUtils, InputStreamUtils>)streamFailEvent).invoke(this, this);
             throw ecc;
         }
     }

@@ -3,10 +3,10 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
-import it.polimi.ingsw.network.socket.TCPClient;
 import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +24,12 @@ public abstract class AdrenalineClient
         parser = new CLIParser(messenger);
     }
 
-    protected abstract void notifyInterface(int choice);
-    protected abstract List<String> getAvaibleColors();
-    protected abstract void notifyColor(int colorIndex);
-    protected abstract boolean isOk(String name);
-    protected abstract void notifyGameLength(int gameLength);
-    protected abstract void notifyGameMap(int choice);
+    protected abstract void notifyInterface(int choice) throws IOException;
+    protected abstract List<String> getAvailableColors() throws IOException, ClassNotFoundException;
+    protected abstract void notifyColor(int colorIndex) throws IOException;
+    protected abstract boolean notifyName(String name) throws IOException;
+    protected abstract void notifyGameLength(int gameLength) throws IOException;
+    protected abstract void notifyGameMap(int choice) throws IOException;
 
     public void login() throws Exception {
         int choice = parser.parseChoice();
@@ -50,8 +50,6 @@ public abstract class AdrenalineClient
 
          */
 
-        messenger.askInterface();
-        choice = parser.parseChoice();
         while(choice == -1) {
             messenger.incorrectInput();
             messenger.askInterface();
@@ -65,10 +63,9 @@ public abstract class AdrenalineClient
                 messenger.insertName();
                 name = parser.parseName();
             } while (name == null);
-            server.out().sendObject(name);
-        }while(!isOk(name)); // name is ok?
+        }while(!notifyName(name)); // name is ok?
 
-        List<String> availableColors = getAvaibleColors();
+        List<String> availableColors = getAvailableColors();
         messenger.askColor(availableColors);
         //TODO lock
         int index = parser.parseIndex(availableColors.size());

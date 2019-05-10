@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
@@ -10,7 +11,8 @@ import java.util.function.Consumer;
 
 public class Action
 {
-    public final Event<Action, Action> completedActionEvent = new Event<>();
+    public final IEvent<Action, Action> completedActionEvent = new Event<>();
+
     protected Action next;
     protected Ammo doActionCost = new Ammo(0,0,0);
     protected Player ownerPlayer;
@@ -21,27 +23,33 @@ public class Action
     protected List<PowerUpCard> discardedPowerUps = new ArrayList<>();
     protected boolean optional = false;
     protected boolean canBeDone = true;
-    
+
     private Consumer opMethod = a -> { };
 
     protected Action() {}
 
-    public Action(Consumer<Action> doActionMethod, boolean isOptional)
+    public Action(Ammo doActionCost,  boolean isOptional,  Consumer<Action> doActionMethod)
     {
         this.opMethod = doActionMethod;
+        this.doActionCost = doActionCost;
         this.optional = isOptional;
+    }
+
+    public Action(Ammo doActionCost, Consumer<Action> doActionMethod)
+    {
+        this(doActionCost, false, doActionMethod);
     }
 
     public Action(Consumer<Action> doActionMethod)
     {
-        this(doActionMethod, false);
+        this(new Ammo(0,0,0), doActionMethod);
     }
 
     public void doAction()
     {
         if(canBeDone && spendAmmo()) {
             this.op();
-            completedActionEvent.invoke(this, this);
+            ((Event<Action, Action>)completedActionEvent).invoke(this, this);
         }
     }
 
@@ -105,11 +113,11 @@ public class Action
         return false;
     }
 
-    public void setDoActionCost(Ammo ammo) { this.doActionCost = ammo; }
     public boolean isOptional() { return optional; }
     public Action next() { return next; }
     protected void op() {
         this.opMethod.accept(this);
     }
+
     public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
 }

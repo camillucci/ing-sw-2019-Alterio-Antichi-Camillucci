@@ -1,46 +1,20 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.generics.InputInterface;
-import it.polimi.ingsw.generics.OutputInterface;
-import it.polimi.ingsw.network.Client;
+import it.polimi.ingsw.network.IConnection;
 
-import java.nio.channels.NotYetConnectedException;
 import java.rmi.NotBoundException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-public class RMIClient extends Client {
+public class RMIClient {
 
-    private RMIInputOutputInterface server;
-
-    public RMIClient(RMIInputOutputInterface server) throws RemoteException
+    public static <T extends IConnection & Remote> T connect(String hostname, int port) throws Exception, RemoteException, NotBoundException
     {
-        if(!server.isConnected())
-            throw new NotYetConnectedException();
-        this.server = server;
-    }
-
-    @Override
-    public InputInterface in() throws Exception {
-        return server;
-    }
-
-    @Override
-    public OutputInterface out() throws Exception {
-        return server;
-    }
-
-    public static RMIClient connect(String hostname) throws RemoteException, NotBoundException
-    {
-        Registry registry = LocateRegistry.getRegistry(hostname);
-        RMIInputOutputInterface stub = (RMIInputOutputInterface) registry.lookup("Server");
+        Registry registry = LocateRegistry.getRegistry(hostname, port);
+        T stub  = (T) registry.lookup("Server");
         stub.connect();
-        return null;
-    }
-
-    @Override
-    public void close() {
-        //TODO
+        return stub;
     }
 }

@@ -1,64 +1,92 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.controller.Room;
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.network.rmi.AdrenalineServerRMI;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.List;
 
-public abstract class AdrenalineServer
+public abstract class AdrenalineServer extends ConnectionAbstract implements IAdrenalineServer
 {
-    private Controller controller;
-    private Client client;
-    private Room room;
+    public final IEvent<AdrenalineServer, List<String>> matchStartEvent = new Event<>();
+    public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatedEvent = new Event<>();
+    boolean connected = false;
+    protected Controller controller;
+    protected boolean gameInterface;
+    protected int colorIndex;
+    protected int gameLength;
+    protected int gameMap;
+    protected String name;
 
-    protected AdrenalineServer(Controller controller, Client client)
+    public AdrenalineServer(Controller controller)
     {
         this.controller = controller;
-        this.client = client;
     }
 
-    public abstract void setName(String name);
-
-    private void login() throws Exception
+    @Override
+    public void setInterface(boolean CLI) throws RemoteException
     {
-        boolean interfaceType = client.in().getBool();
-        String name = client.in().getObject();
-        while(controller.existName(name))
-            client.out().sendBool(false); // name not accepted
-        client.out().sendBool(true); // name accepted
-        room = getAvailableRoom();
-        client.out().sendObject((Serializable) room.getAvailableColors());
-        int color = client.in().getObject(); //color chosen by user
-        boolean temp = room.addPlayer(color, name, this);
-        client.out().sendBool(temp);
-        if(temp) {
-            int lenght = client.in().getInt(); //game lenght chosen by user
-            int map = client.in().getInt(); //map chosen by user
-            room.setGameLength(lenght);
-            room.setGameSize(map);
+        this.gameInterface = CLI;
+    }
+
+    @Override
+    public List<String> availableColors() throws RemoteException
+    {
+       // return controller.getAvailableRoom().getAvailableColors();
+        return null;
+    }
+
+    @Override
+    public void setColor(int colorIndex) throws RemoteException {
+        this.colorIndex = colorIndex;
+    }
+
+    @Override
+    public boolean setName(String name) throws RemoteException
+    {
+        if(controller.existName(name)) {
+            this.name = name;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void connect()
+    {
+        if(!connected) {
+            ((Event<ConnectionAbstract, Object>)this.connectedEvent).invoke(this, null);
+            connected = true;
         }
     }
 
-    public void matchStart() throws Exception {
-        client.out().sendBool(true);
+    @Override
+    public void setGameLength(int gameLength) throws RemoteException {
+        this.gameLength = gameLength;
     }
 
-    public void sendTargets(ArrayList<String> targets) throws Exception {
-        client.out().sendObject(targets);
+    @Override
+    public void setGameMap(int choice) throws RemoteException {
+        this.gameMap = choice;
     }
 
-    public int spawn(ArrayList<String> powerupCards) throws Exception {
-        client.out().sendObject(powerupCards);
-        return client.in().getInt();
+    @Override
+    public boolean joinRoom() throws IOException
+    {
+        return controller.getAvailableRoom().addPlayer(colorIndex, name, this);
     }
 
-    private Room getAvailableRoom() {
-        return controller.getAvailableRoom();
+    @Override
+    public void matchStart() throws IOException {
+        ((Event<AdrenalineServer, List<String>>) matchStartEvent).invoke(this, controller.getPlayerNames());
     }
 
-    public void updateView(MatchSnapshot matchSnapshot) throws Exception {
-        client.out().sendObject(matchSnapshot);
+    @Override
+    public void updateView(MatchSnapshot matchSnapshot) throws IOException {
+        ((Event<AdrenalineServer, MatchSnapshot>) viewUpdatedEvent).invoke(this, matchSnapshot);
     }
 }

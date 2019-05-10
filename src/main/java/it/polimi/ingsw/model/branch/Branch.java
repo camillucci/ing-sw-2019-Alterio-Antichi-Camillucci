@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.branch;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;
@@ -10,30 +11,34 @@ import java.util.List;
 
 public class Branch
 {
-    public final Event<Branch, Action> actionCompletedEvent = new Event<>();
-    public final Event<Branch, ExtendableAction> extActionCompletedEvent = new Event<>();
-    public final Event<Branch, EndBranchAction> endBranchEvent = new Event<>();
+    public final IEvent<Branch, Action> actionCompletedEvent = new Event<>();
+    public final IEvent<Branch, ExtendableAction> extActionCompletedEvent = new Event<>();
+    public final IEvent<Branch, EndBranchAction> endBranchEvent = new Event<>();
 
     private boolean invalidState = false;
     private ArrayList<Action> actions;
     private Action finalAction;
 
+    @SuppressWarnings("unchecked")
     private Branch(Action finalAction, List<Action> actions) {
         this.actions = new ArrayList<>(actions);
         this.finalAction = finalAction;
         for (Action ac : this.actions)
-            ac.completedActionEvent.addEventHandler((s,a)->this.actionCompletedEvent.invoke(this, a));
+            ac.completedActionEvent.addEventHandler((s,a)-> ((Event<Branch, Action>)this.actionCompletedEvent).invoke(this, a));
     }
 
+    @SuppressWarnings("unchecked")
     public Branch(List<Action> actions, EndBranchAction endBranchAction)
     {
         this(endBranchAction, actions);
-        endBranchAction.completedActionEvent.addEventHandler((s, a)->this.endBranchEvent.invoke(this, (EndBranchAction)a));
+        endBranchAction.completedActionEvent.addEventHandler((s, a) -> ((Event<Branch, EndBranchAction>)this.endBranchEvent).invoke(this, (EndBranchAction)a));
     }
+
+    @SuppressWarnings("unchecked")
     public Branch(List<Action> actions, ExtendableAction extendableAction)
     {
         this(extendableAction, actions);
-        extendableAction.completedActionEvent.addEventHandler((s, a)->this.extActionCompletedEvent.invoke(this, (ExtendableAction)a));
+        extendableAction.completedActionEvent.addEventHandler((s, a)->((Event<Branch, ExtendableAction>)this.extActionCompletedEvent).invoke(this, (ExtendableAction)a));
     }
     public Branch(RollBackAction rollBackAction)
     {

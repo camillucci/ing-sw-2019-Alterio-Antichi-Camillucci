@@ -10,7 +10,7 @@ import java.nio.channels.NotYetConnectedException;
 
 public abstract class Client // same for Socket and RMI
 {
-    public final Event<Client, Object> disconnectedEvent = new Event<>();
+    public final IEvent<Client, Object> disconnectedEvent = new Event<>();
     public abstract InputInterface in() throws Exception;
     public abstract OutputInterface out() throws Exception;
     public abstract void close();

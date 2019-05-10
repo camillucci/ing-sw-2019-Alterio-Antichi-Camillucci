@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,6 @@ public class Room
     private MatchManager matchManager;
 
     public Room() {
-
         for (PlayerColor pc : PlayerColor.values()) {
             availableColors.add(pc);
         }
@@ -31,7 +31,7 @@ public class Room
         matchManager.handleAction(index);
     }
 
-    public boolean addPlayer(int index, String playerName, AdrenalineServer client) throws Exception {
+    public boolean addPlayer(int index, String playerName, AdrenalineServer client) throws IOException {
         clients.add(client);
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
@@ -45,7 +45,7 @@ public class Room
         return false;
     }
 
-    private Match newMatch() throws Exception {
+    private Match newMatch() throws IOException {
         for(AdrenalineServer client : clients) {
             client.matchStart();
         }
@@ -69,7 +69,7 @@ public class Room
         return playerNames.size() < 5;
     }
 
-    private void threePlayers() throws Exception {
+    private void threePlayers() throws IOException {
         //TODO add timer
         if(match == null)
             match = newMatch();
