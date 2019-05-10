@@ -49,7 +49,7 @@ public class CardsFactory {
             powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, damage(1)));
             powerUpCards.add(new EndStartPowerUpCard("Newton", ammoColor, () -> new PowerUpAction(otherPlayers, near2Squares, move)));
             powerUpCards.add(new CounterAttackPowerUpCard("Tagback Grenade", ammoColor, mark(1)));
-            powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, () -> new PowerUpAction(selfPlayer, allSquares, move)));
+            powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, () -> new PowerUpAction(allSquares, moveSelf)));
         }
     }
 
@@ -105,7 +105,7 @@ public class CardsFactory {
 
         weapons.add(new WeaponCard("Tractor Beam", new Ammo(0, 0, 0), new Ammo(1, 0, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(tractorBeamPlayers1, tractorBeamSquares1, move.andThen(damage(1))), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(nearPlayers(1, 2), tractorBeamSquares2, move.andThen(damage(3))), new EndBranchAction())))));
+                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(tractorBeamPlayers2, tractorBeamSquares2, move.andThen(damage(3))), new EndBranchAction())))));
 
         weapons.add(new WeaponCard("Vortex Cannon", new Ammo(1, 0, 0), new Ammo(1, 1, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(vortexCannonPlayers1, visibleSquares(1), move.andThen(damage(2))), new EndBranchAction())),
@@ -187,6 +187,7 @@ public class CardsFactory {
     private static ShootFunc damageMultiple(Integer ... damage) { return (player, players, squares) -> Effects.damageMultiple(player, players, Arrays.asList(damage)); }
     private static ShootFunc move = (player, players, squares) -> Effects.move(players, squares);
     private static ShootFunc powerGlove = (player, players, squares) -> Effects.powerGlove(player, players);
+    private static ShootFunc moveSelf = (player, players, squares) -> Effects.move(Collections.singletonList(player), squares);
 
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF PARAMETRIZED TARGET FILTERS
@@ -212,6 +213,7 @@ public class CardsFactory {
 
     private static PlayersFilter tractorBeamPlayers1 = (player, players, squares) -> TargetsFilters.tractorBeamPlayers1(player, players);
     private static SquaresFilter tractorBeamSquares1 = TargetsFilters::tractorBeamSquares1;
+    private static PlayersFilter tractorBeamPlayers2 = (player, players, squares) -> TargetsFilters.tractorBeamPlayers2(player, players);
     private static SquaresFilter tractorBeamSquares2 = TargetsFilters::tractorBeamSquares2;
 
     private static PlayersFilter vortexCannonPlayers1 = TargetsFilters::vortexCannonPlayers1;
@@ -230,7 +232,6 @@ public class CardsFactory {
     private static PlayersFilter otherPlayers = (player, players, squares) -> TargetsFilters.newtonPlayers(player, players);
     private static SquaresFilter near2Squares = (player, players, squares) -> TargetsFilters.newtonSquares(players, squares);
 
-    private static PlayersFilter selfPlayer = (player, players, squares) -> TargetsFilters.teleporterPlayers(player, players);
-    private static SquaresFilter allSquares = (player, players, squares) -> TargetsFilters.teleporterSquares(players, squares);
+    private static SquaresFilter allSquares = (player, players, squares) -> TargetsFilters.teleporterSquares(player, squares);
 
 }

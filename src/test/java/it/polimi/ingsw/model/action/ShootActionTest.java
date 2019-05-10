@@ -30,7 +30,6 @@ class ShootActionTest {
         p2.getCurrentSquare().addPlayer(p2);
         Action shootAction = machineGun.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shootAction.initialize(p1);
-        shootAction.addWeapon(machineGun);
         shootAction.addTarget(p2);
         shootAction.doAction();
         assertEquals(1, p2.getDamage().size());
@@ -47,7 +46,6 @@ class ShootActionTest {
         p2.getCurrentSquare().addPlayer(p2);
         Action shootAction = electroschyte.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shootAction.initialize(p1);
-        shootAction.addWeapon(electroschyte);
         shootAction.addTarget(p2.getCurrentSquare());
         shootAction.doAction();
         assertEquals(1, p2.getDamage().size());
@@ -64,7 +62,6 @@ class ShootActionTest {
         p2.getCurrentSquare().addPlayer(p2);
         Action shootAction = grenadeLauncher.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shootAction.initialize(p1);
-        shootAction.addWeapon(grenadeLauncher);
         shootAction.addTarget(p2);
         shootAction.addTarget(p1.gameBoard.getSquares().get(5));
         shootAction.doAction();

@@ -38,6 +38,8 @@ class GrabActionTest {
         assertEquals(2, player.getCurrentSquare().getCardsName().size());
         player.getCurrentSquare().refill();
         assertEquals(3, player.getCurrentSquare().getCardsName().size());
+        action.getBranches().get(0).goNext(action.getBranches().get(0).getCompatibleActions().get(0));
+        assertTrue(action.getBranches().get(0).getCompatibleActions().get(0) instanceof EndBranchAction);
     }
 
     @Test
@@ -64,10 +66,12 @@ class GrabActionTest {
         assertEquals(3, action.getBranches().size());
         assertEquals(3, player.getCurrentSquare().getCardsName().size());
         action.getBranches().get(0).getCompatibleActions().get(0).initialize(player);
+        action.getBranches().get(0).getCompatibleActions().get(0).doAction();
         action.getBranches().get(0).goNext(action.getBranches().get(0).getCompatibleActions().get(0));
-        action.initialize(player);
-        action.doAction();
-        assertEquals(3, player.getLoadedWeapons().size());
-        assertEquals(3, player.getCurrentSquare().getCardsName().size());
+        action.getBranches().get(0).getCompatibleActions().get(0).initialize(player);
+        action.getBranches().get(0).getCompatibleActions().get(0).doAction();
+        assertEquals(4, player.getLoadedWeapons().size());
+        assertEquals(2, player.getCurrentSquare().getCardsName().size());
+        //TODO Check if discard is correct
     }
 }

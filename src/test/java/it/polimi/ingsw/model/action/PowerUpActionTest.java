@@ -49,7 +49,6 @@ class PowerUpActionTest {
         p1.getCurrentSquare().addPlayer(p1);
         Action powerUpAction = teleporter.getEffect();
         powerUpAction.initialize(p1);
-        powerUpAction.addTarget(p1);
         powerUpAction.addTarget(gameBoard.getSquares().get(6));
         powerUpAction.doAction();
         assertEquals(p1.gameBoard.getSquares().get(6), p1.getCurrentSquare());

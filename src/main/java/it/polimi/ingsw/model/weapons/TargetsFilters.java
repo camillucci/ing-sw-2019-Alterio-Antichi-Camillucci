@@ -15,31 +15,41 @@ public class TargetsFilters {
     public static List<Player> visiblePlayers(Player player, List<Player> alreadyAdded, int maxTargets) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
-        return player.gameBoard.getInRangePlayers(player);
+        List<Player> temp = player.gameBoard.getInRangePlayers(player);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Square> visibleSquares(Player player, List<Square> alreadyAdded, int maxTargets) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
-        return player.gameBoard.getInRangeSquares(player);
+        List<Square> temp = player.gameBoard.getInRangeSquares(player);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Player> awayPlayers(Player player, List<Player> alreadyAdded, int maxTargets, int minDistance) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
-        return player.gameBoard.getAwayPlayers(player, minDistance);
+        List<Player> temp = player.gameBoard.getAwayPlayers(player, minDistance);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Player> nearPlayers(Player player, List<Player> alreadyAdded, int maxTargets, int maxDistance) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
-        return player.gameBoard.getNearPlayers(player, maxDistance);
+        List<Player> temp = player.gameBoard.getNearPlayers(player, maxDistance);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Player> betweenPlayers(Player player, List<Player> alreadyAdded, int maxTargets, int minDistance, int maxDistance) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
-        return player.gameBoard.getBetweenPlayers(player, minDistance, maxDistance);
+        List<Player> temp = player.gameBoard.getBetweenPlayers(player, minDistance, maxDistance);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     /*
@@ -48,6 +58,8 @@ public class TargetsFilters {
             return Collections.emptyList();
         List<Square> temp = player.gameBoard.getAwaySquares(player, minDistance);
         return player.gameBoard.removeNonPlayerSquares(player, temp);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
     */
 
@@ -55,32 +67,40 @@ public class TargetsFilters {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
         List<Square> temp = player.gameBoard.getNearSquares(player, maxDistance);
-        return player.gameBoard.removeNonPlayerSquares(player, temp);
+        temp = player.gameBoard.removeNonPlayerSquares(player, temp);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Square> betweenSquares(Player player, List<Square> alreadyAdded, int maxTargets, int minDistance, int maxDistance) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
         List<Square> temp = player.gameBoard.getBetweenSquares(player, minDistance, maxDistance);
-        return player.gameBoard.removeNonPlayerSquares(player, temp);
+        temp = player.gameBoard.removeNonPlayerSquares(player, temp);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Player> nonVisiblePlayers(Player player, List<Player> alreadyAdded, int maxTargets) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
-        return player.gameBoard.getNonVisiblePlayers(player);
+        List<Player> temp = player.gameBoard.getNonVisiblePlayers(player);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Square> otherVisibleRoom(Player player, List<Square> alreadyAdded, int maxTargets) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
-        return player.gameBoard.getOtherVisibleRoom(player);
+        List<Square> temp = player.gameBoard.getOtherVisibleRoom(player);
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Square> movable1Square(List<Player> players, List<Square> squares) {
         if(players.isEmpty() || !squares.isEmpty())
             return Collections.emptyList();
-        return players.get(0).gameBoard.getNearSquares(players.get(0), 1);
+        return players.get(0).gameBoard.getSquares(players.get(0), 1);
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -93,6 +113,7 @@ public class TargetsFilters {
             return player.gameBoard.getInRangePlayers(player);
         List<Player> temp = player.gameBoard.getInRangePlayers(alreadyAdded.get(alreadyAdded.size()-1));
         temp.remove(player);
+        temp.removeAll(alreadyAdded);
         return temp;
     }
 
@@ -104,7 +125,7 @@ public class TargetsFilters {
         allPlayers.remove(player);
         LinkedHashSet<Player> temp = new LinkedHashSet<>();
         for(Player p : allPlayers)
-            for(Square s : p.gameBoard.getNearSquares(p, 2))
+            for(Square s : p.gameBoard.getSquares(p, 2))
                 if(shooterVisibleSquares.contains(s))
                     temp.add(p);
         return new ArrayList<>(temp);
@@ -115,10 +136,21 @@ public class TargetsFilters {
             return Collections.emptyList();
         List<Square> shooterVisibleSquares = player.gameBoard.getInRangeSquares(player);
         LinkedHashSet<Square> temp = new LinkedHashSet<>();
-        for(Square s : players.get(0).gameBoard.getNearSquares(players.get(0), 2))
+        for(Square s : players.get(0).gameBoard.getSquares(players.get(0), 2))
             if(shooterVisibleSquares.contains(s))
                 temp.add(s);
         return new ArrayList<>(temp);
+    }
+
+    public static List<Player> tractorBeamPlayers2(Player player, List<Player> players) {
+        if(!players.isEmpty())
+            return Collections.emptyList();
+        List<Square> tempSquares = player.gameBoard.getSquares(player, 2);
+        List<Player> temp = new ArrayList<>();
+        for(Square square : tempSquares)
+            temp.addAll(square.getPlayers());
+        temp.remove(player);
+        return temp;
     }
 
     public static List<Square> tractorBeamSquares2(Player player, List<Player> players, List<Square> squares) {
@@ -161,6 +193,7 @@ public class TargetsFilters {
         for(Square square : tempSquares)
             temp.addAll(square.getPlayers());
         temp.remove(player);
+        temp.removeAll(alreadyAdded);
         return temp;
     }
 
@@ -172,7 +205,9 @@ public class TargetsFilters {
             tempSquares.remove(player.getCurrentSquare());
             return tempSquares;
         }
-        return player.gameBoard.sameDirectionSquare(player, alreadyAdded.get(0));
+        List<Square> temp = player.gameBoard.sameDirectionSquare(player, alreadyAdded.get(0));
+        temp.removeAll(alreadyAdded);
+        return temp;
     }
 
     public static List<Player> railgunPlayers(Player player, List<Player> alreadyAdded) {
@@ -210,17 +245,11 @@ public class TargetsFilters {
         return temp;
     }
 
-    public static List<Player> teleporterPlayers(Player player, List<Player> players) { //TODO To delete, it's always the shooter to be moved
-        if(!players.isEmpty())
+    public static List<Square> teleporterSquares(Player player, List<Square> squares) {
+        if(!squares.isEmpty())
             return Collections.emptyList();
-        return Collections.singletonList(player);
-    }
-
-    public static List<Square> teleporterSquares(List<Player> players, List<Square> squares) {
-        if(players.isEmpty() || !squares.isEmpty())
-            return Collections.emptyList();
-        List<Square> temp = players.get(0).gameBoard.getSquares();
-        temp.remove(players.get(0).getCurrentSquare());
+        List<Square> temp = player.gameBoard.getSquares();
+        temp.remove(player.getCurrentSquare());
         return temp;
     }
 }

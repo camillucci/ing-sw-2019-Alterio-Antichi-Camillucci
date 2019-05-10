@@ -12,13 +12,24 @@ public class PowerUpAction extends ShootAction
 {
     public PowerUpAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
-        super(playersFilter,squaresFilter, shootFunc);
+        super(playersFilter, squaresFilter, shootFunc);
         this.optional = true;
         this.completedActionEvent.addEventHandler((a,b)->{
             if(this.selectedPowerUp != null)
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
         });
     }
+
+    public PowerUpAction(SquaresFilter squaresFilter, ShootFunc shootFunc)
+    {
+        super(shootFunc, squaresFilter);
+        this.optional = true;
+        this.completedActionEvent.addEventHandler((a,b)->{
+            if(this.selectedPowerUp != null)
+                ownerPlayer.getPowerupSet().remove(selectedPowerUp);
+        });
+    }
+
     public PowerUpAction()
     {
         this.optional = true;
