@@ -47,7 +47,7 @@ public class TCPClient extends Client
         try
         {
             connectedSocket.close();
-            disconnectedEvent.invoke(this, null);
+            ((Event<Client,Object>)disconnectedEvent).invoke(this, null);
         }
         catch(IOException e) {
             logger.log(Level.WARNING, "IOException, Class TCPClient, Line 51", e);

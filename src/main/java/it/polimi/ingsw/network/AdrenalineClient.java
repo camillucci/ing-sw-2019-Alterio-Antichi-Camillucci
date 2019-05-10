@@ -3,10 +3,10 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
-import it.polimi.ingsw.network.socket.TCPClient;
 import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,14 +24,12 @@ public abstract class AdrenalineClient
         parser = new CLIParser(messenger);
     }
 
-    protected abstract void notifyInterface(int choice);
-    protected abstract List<String> getAvaibleColors();
-    protected abstract void notifyColor(int colorIndex);
-    protected abstract boolean isOk(String name);
-    protected abstract void notifyGameLength(int gameLength);
-    protected abstract void notifyGameMap(int choice);
-    protected abstract MatchSnapshot receiveMatchSnapshot();
-    protected abstract ArrayList<RemoteAction> receiveActions();
+    protected abstract void notifyInterface(int choice) throws IOException;
+    protected abstract List<String> getAvailableColors() throws IOException, ClassNotFoundException;
+    protected abstract void notifyColor(int colorIndex) throws IOException;
+    protected abstract boolean notifyName(String name) throws IOException;
+    protected abstract void notifyGameLength(int gameLength) throws IOException;
+    protected abstract void notifyGameMap(int choice) throws IOException;
 
     public void login() throws Exception {
         int choice = parser.parseChoice();
@@ -52,8 +50,6 @@ public abstract class AdrenalineClient
 
          */
 
-        messenger.askInterface();
-        choice = parser.parseChoice();
         while(choice == -1) {
             messenger.incorrectInput();
             messenger.askInterface();
@@ -67,10 +63,9 @@ public abstract class AdrenalineClient
                 messenger.insertName();
                 name = parser.parseName();
             } while (name == null);
-            server.out().sendObject(name);
-        }while(!isOk(name)); // name is ok?
+        }while(!notifyName(name)); // name is ok?
 
-        List<String> availableColors = getAvaibleColors();
+        List<String> availableColors = getAvailableColors();
         messenger.askColor(availableColors);
         //TODO lock
         int index = parser.parseIndex(availableColors.size());
@@ -117,75 +112,9 @@ public abstract class AdrenalineClient
     }
      */
 
-    /*
     public void updateView() throws Exception {
         //todo remove all socket-dependet code
         matchSnapshot = server.in().getObject();
-        messenger.updateView(matchSnapshot);
-    }
-
-    public void chooseAction() throws Exception {
-        //todo remove all socket-dependet code
-        ArrayList<RemoteAction> options = server.in().getObject(); //gets list of RemoteAction
-        messenger.displayActions(options); //displays actions available
-        int choice = parser.parseIndex(options.size()); //get's user action of choice
-        while(choice == -1) {
-            messenger.incorrectInput();
-            messenger.displayActions(options);
-            choice = parser.parseIndex(options.size());
-        }
-        options.get(choice).inizialize(server); //communicates choice to server
-        ArrayList<PublicPlayerSnapshot> targetPlayers = (ArrayList<PublicPlayerSnapshot>) options.get(choice).getPossiblePlayers();
-        ArrayList<SquareSnapshot> targetSquares = (ArrayList<SquareSnapshot>) options.get(choice).getPossibleSquares(); //gets targets relative to chosen action
-        messenger.displayTargets(targetPlayers, targetSquares); //displays targets available
-        int index = parser.parseIndex(targetPlayers.size() + targetSquares.size()); //user's target of choice
-        while (index == -1) {
-            messenger.incorrectInput();
-            messenger.displayTargets(targetPlayers, targetSquares);
-            index = parser.parseIndex(targetPlayers.size() + targetSquares.size());
-        }
-        if (index < targetPlayers.size())
-            options.get(choice).addTarget(targetPlayers.get(index));
-        else
-            options.get(choice).addTarget(targetSquares.get(index - targetPlayers.size()));
-        while(!(options.get(choice).canBeDone())) {
-            targetPlayers = (ArrayList<PublicPlayerSnapshot>) options.get(choice).getPossiblePlayers();
-            targetSquares = (ArrayList<SquareSnapshot>) options.get(choice).getPossibleSquares();
-            messenger.displayTargets(targetPlayers, targetSquares);
-            index = parser.parseIndex(targetPlayers.size() + targetSquares.size());
-            while (index == -1) {
-                messenger.incorrectInput();
-                messenger.displayTargets(targetPlayers, targetSquares);
-                index = parser.parseIndex(targetPlayers.size() + targetSquares.size());
-            }
-            if (index < targetPlayers.size())
-                options.get(choice).addTarget(targetPlayers.get(index));
-            else
-                options.get(choice).addTarget(targetSquares.get(index - targetPlayers.size()));
-        }
-        boolean doneAction = false;
-        while(!doneAction) {
-            messenger.displayTargetsAndAction(targetPlayers, targetSquares);
-            index = parser.parseIndex(targetPlayers.size() + targetSquares.size() + 1);
-            while(index == -1) {
-                messenger.incorrectInput();
-                messenger.displayTargetsAndAction(targetPlayers, targetSquares);
-                index = parser.parseIndex(targetPlayers.size() + targetSquares.size() + 1);
-            }
-            if (index < targetPlayers.size())
-                options.get(choice).addTarget(targetPlayers.get(index));
-            else if(index >= targetPlayers.size() && index < targetPlayers.size() + targetSquares.size())
-                options.get(choice).addTarget(targetSquares.get(index - targetPlayers.size()));
-            else {
-                options.get(choice).doAction(); //communicates choice to server
-                doneAction = true;
-            }
-        }
-    }
-    */
-
-    public void updateView() throws Exception {
-        matchSnapshot = receiveMatchSnapshot();
         messenger.updateView(matchSnapshot);
     }
 
@@ -194,7 +123,8 @@ public abstract class AdrenalineClient
     }
 
     public void chooseAction() throws Exception {
-        ArrayList<RemoteAction> options = receiveActions(); //gets list of RemoteAction
+        //todo remove all socket-dependet code
+        ArrayList<RemoteAction> options = server.in().getObject(); //gets list of RemoteAction
         messenger.displayActions(options); //displays actions available
         int choice = parser.parseIndex(options.size()); //get's user action of choice
         while(choice == -1) {

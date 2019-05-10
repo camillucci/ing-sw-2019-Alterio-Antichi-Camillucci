@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,9 @@ import java.util.stream.Stream;
 
 public class Player implements Cloneable {
 
-    public final Event<Player, Integer> damagedEvent = new Event<>();
-    public final Event<Player, Integer> markedEvent = new Event<>();
-    public final Event<Player, Player> deathEvent = new Event<>();
+    public final IEvent<Player, Integer> damagedEvent = new Event<>();
+    public final IEvent<Player, Integer> markedEvent = new Event<>();
+    public final IEvent<Player, Player> deathEvent = new Event<>();
     public final GameBoard gameBoard;
     public final PlayerColor color;
     public final String name;
@@ -94,7 +95,7 @@ public class Player implements Cloneable {
 
         for(int i = temp.size() - 1; i >= 0; i--)
             mark.remove(i);
-        this.damagedEvent.invoke(this, val);
+        ((Event<Player, Integer>)this.damagedEvent).invoke(this, val);
     }
 
     public void addMark(Player shooter, int val) {
@@ -105,7 +106,7 @@ public class Player implements Cloneable {
 
         for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++)
             mark.add(shooter.color);
-        this.markedEvent.invoke(this, val);
+        ((Event<Player, Integer>)this.markedEvent).invoke(this, val);
     }
 
     public void addWeapon(WeaponCard weaponCard) {

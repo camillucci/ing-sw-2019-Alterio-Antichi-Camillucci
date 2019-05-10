@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 
 public class OutputStreamUtils implements Closeable, OutputInterface
 {
-    public final Event<OutputStreamUtils, OutputStream> streamFailedEvent = new Event<>();
+    public final IEvent<OutputStreamUtils, OutputStreamUtils> streamFailedEvent = new Event<>();
     private OutputStream stream;
 
     public OutputStreamUtils(OutputStream inputStream)
@@ -69,7 +69,7 @@ public class OutputStreamUtils implements Closeable, OutputInterface
         send( () -> stream.write(intToBytes(val)));
     }
 
-    public void sendBool(boolean bool) throws Exception
+    public void sendBool(boolean bool) throws IOException
     {
         byte b = bool ? (byte)1 : (byte)0;
         sendByte(b);
@@ -97,7 +97,7 @@ public class OutputStreamUtils implements Closeable, OutputInterface
         }
         catch(IOException ecc)
         {
-            streamFailedEvent.invoke(this, stream);
+            ((Event<OutputStreamUtils, OutputStreamUtils>)streamFailedEvent).invoke(this, this);
             throw ecc;
         }
     }

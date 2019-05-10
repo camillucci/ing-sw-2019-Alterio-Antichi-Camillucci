@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.branch.*;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class Match implements ActionsProvider {
 
-    public final Event<Match, List<Player>> endMatchEvent = new Event<>();
+    public final IEvent<Match, List<Player>> endMatchEvent = new Event<>();
     private int turnPos = -1;
     private List<Action> curActions;
     private Player curPlayer;
@@ -92,7 +93,7 @@ public class Match implements ActionsProvider {
     {
         actions.forEach(a->a.initialize(curPlayer));
         this.curActions = actions;
-        newActionsEvent.invoke(this.curPlayer, this.curActions);
+        ((Event<Player, List<Action>>)newActionsEvent).invoke(this.curPlayer, this.curActions);
     }
 
     public void assignPoints(){

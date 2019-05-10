@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.branch.*;
 
@@ -9,8 +10,8 @@ import java.util.List;
 
 public class Turn implements ActionsProvider {
 
-    public final Event<Turn, Player> endTurnEvent = new Event<>();
-    public final Event<Turn, List<Action>> newActionsEvent = new Event<>();
+    public final IEvent<Turn, Player> endTurnEvent = new Event<>();
+    public final IEvent<Turn, List<Action>> newActionsEvent = new Event<>();
     private static int frenzyCounter = 0;
     private Player currentPlayer;
     private int moveCounter = 2;
@@ -34,7 +35,7 @@ public class Turn implements ActionsProvider {
         this.branchMap.rollbackEvent.addEventHandler((s, e) -> rollback());
         this.branchMap.newActionsEvent.addEventHandler((s, actions) -> {
             actions.forEach(a -> a.initialize(currentPlayer));
-            this.newActionsEvent.invoke(this, actions);
+            ((Event<Turn, List<Action>>)this.newActionsEvent).invoke(this, actions);
         });
     }
 
@@ -43,12 +44,12 @@ public class Turn implements ActionsProvider {
         if (moveCounter == -1) {
             for(Square square : match.gameBoard.getSquares())
                 square.refill();
-            endTurnEvent.invoke(this, currentPlayer);
+            ((Event<Turn, Player>)endTurnEvent).invoke(this, currentPlayer);
         }
         else
         {
             newMove();
-            this.newActionsEvent.invoke(this, getActions());
+            ((Event<Turn, List<Action>>)this.newActionsEvent).invoke(this, getActions());
         }
     }
 
