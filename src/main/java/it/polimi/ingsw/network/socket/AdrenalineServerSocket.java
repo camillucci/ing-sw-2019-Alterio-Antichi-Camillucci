@@ -46,6 +46,8 @@ public class AdrenalineServerSocket extends AdrenalineServer
         client.out().sendBool(true);
     }
 
+    //spawn should probably be included in the parts of the game managed by actions.
+
     public int spawn(List<String> powerupCards) throws IOException {
         client.out().sendObject(new ArrayList<>(powerupCards));
         return client.in().getInt();

@@ -30,6 +30,7 @@ public abstract class AdrenalineClient
     protected abstract boolean notifyName(String name) throws IOException;
     protected abstract void notifyGameLength(int gameLength) throws IOException;
     protected abstract void notifyGameMap(int choice) throws IOException;
+    protected abstract void notifyHandleAction(int selection, int extra) throws IOException;
 
     public void login() throws Exception {
         int choice = parser.parseChoice();

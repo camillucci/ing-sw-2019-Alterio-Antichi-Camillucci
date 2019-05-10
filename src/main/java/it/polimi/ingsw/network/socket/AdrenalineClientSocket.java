@@ -44,4 +44,9 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     protected void notifyGameMap(int choice) throws IOException {
         server.out().sendInt(choice);
     }
+
+    @Override
+    protected void notifyHandleAction(int selection, int extra) {
+        //TODO
+    }
 }

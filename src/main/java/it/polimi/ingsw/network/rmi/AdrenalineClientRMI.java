@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.network.AdrenalineClient;
 import it.polimi.ingsw.network.IAdrenalineServer;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -43,5 +44,10 @@ public class AdrenalineClientRMI extends AdrenalineClient {
     @Override
     protected void notifyGameMap(int choice) throws RemoteException {
         server.setGameMap(choice);
+    }
+
+    @Override
+    protected void notifyHandleAction(int selection, int extra) throws IOException {
+        server.handleAction(selection, extra);
     }
 }

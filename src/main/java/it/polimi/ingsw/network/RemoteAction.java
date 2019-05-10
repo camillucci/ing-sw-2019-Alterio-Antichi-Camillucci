@@ -20,18 +20,24 @@ public class RemoteAction implements Serializable
 
     public void addTarget(PublicPlayerSnapshot target) throws Exception
     {
+        //server.handleAction(RemoteActionsHandler.ADD_PLAYER, possiblePlayers.indexOf(target));
+
         server.out().sendInt(RemoteActionsHandler.ADD_PLAYER);
         server.out().sendInt(possiblePlayers.indexOf(target));
     }
 
     public void addTarget(SquareSnapshot target) throws Exception
     {
+        //server.handleAction(RemoteActionsHandler.ADD_SQUARE, possibleSquares.indexOf(target));
+
         server.out().sendInt(RemoteActionsHandler.ADD_SQUARE);
         server.out().sendInt(possibleSquares.indexOf(target));
     }
 
     public void doAction() throws Exception
     {
+        //server.handleAction(RemoteActionsHandler.DO_ACTION, 0);
+
         server.out().sendInt(RemoteActionsHandler.DO_ACTION);
     }
 

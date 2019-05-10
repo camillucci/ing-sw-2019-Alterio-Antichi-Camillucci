@@ -21,10 +21,12 @@ public abstract class AdrenalineServer extends ConnectionAbstract implements IAd
     protected int gameLength;
     protected int gameMap;
     protected String name;
+    protected RemoteActionsHandler remoteActionsHandler;
 
     public AdrenalineServer(Controller controller)
     {
         this.controller = controller;
+        //this.remoteActionsHandler = remoteActionsHandler;
     }
 
     @Override
@@ -88,5 +90,11 @@ public abstract class AdrenalineServer extends ConnectionAbstract implements IAd
     @Override
     public void updateView(MatchSnapshot matchSnapshot) throws IOException {
         ((Event<AdrenalineServer, MatchSnapshot>) viewUpdatedEvent).invoke(this, matchSnapshot);
+    }
+
+    @Override
+    public void handleAction(int selection, int extra) {
+        //remoteActionsHandler(selection, extra);
+        //TODO
     }
 }

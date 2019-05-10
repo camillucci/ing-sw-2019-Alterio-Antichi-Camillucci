@@ -36,27 +36,27 @@ public class RemoteActionsHandler
             do
             {
                 sendActions();
-                handleAction(provider.getActions().get(client.in().getInt()));
+                //handleAction(provider.getActions().get(client.in().getInt()));
             }while(!stop);
         }
         catch(Exception e) {}
     }
 
-    private void handleAction(Action action) throws Exception
+    private void handleAction(Action action, int selection, int extra) throws Exception
     {
         boolean completed = false;
         while(!completed)
-            switch ((client.in().getInt()))
+            switch (selection)
             {
                 case DO_ACTION:
                     action.doAction();
                     completed = true;
                     break;
                 case ADD_PLAYER:
-                    action.addTarget(action.getPossiblePlayers().get(client.in().getInt()));
+                    action.addTarget(action.getPossiblePlayers().get(extra));
                     break;
                 case ADD_SQUARE:
-                    action.addTarget(action.getPossibleSquares().get(client.in().getInt()));
+                    action.addTarget(action.getPossibleSquares().get(extra));
                     break;
                 case GET_PLAYERS:
                 {
