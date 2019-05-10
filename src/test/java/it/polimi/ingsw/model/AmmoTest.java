@@ -55,7 +55,7 @@ class AmmoTest {
 
     @Test
     void getAmmo() {
-        assertTrue(new Ammo(1, 1, 1).isEqual(Ammo.getAmmo(p)));
+        assertTrue(new Ammo(1, 1, 1).isEqual(p.getAmmo()));
     }
 
     @Test

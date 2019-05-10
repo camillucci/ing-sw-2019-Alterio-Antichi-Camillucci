@@ -28,7 +28,7 @@ public class ReloadAction extends Action
         Ammo ammo = new Ammo(0, 0, 0);
         for(PowerUpCard pu : discardedPowerUps)
             ammo = ammo.add(pu.colorToAmmo());
-        if(Ammo.getAmmo(ownerPlayer).sub(doActionCost).add(ammo).isGreaterOrEqual(weapon.reloadCost))
+        if(ownerPlayer.getAmmo().sub(doActionCost).add(ammo).isGreaterOrEqual(weapon.reloadCost))
         {
             this.doActionCost = this.doActionCost.add(weapon.reloadCost);
             this.selectedWeapons.add(weapon);

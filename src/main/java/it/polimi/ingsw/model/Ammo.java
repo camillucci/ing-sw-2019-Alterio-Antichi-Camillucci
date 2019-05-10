@@ -36,10 +36,6 @@ public class Ammo {
         return ammo.isLessThan(this);
     }
 
-    public static Ammo getAmmo(Player player) {
-        return new Ammo(player.getBlueAmmo(), player.getRedAmmo(), player.getYellowAmmo());
-    }
-
     public boolean isEqual(Ammo ammo) {
         return this.blue == ammo.blue && this.red == ammo.red && this.yellow == ammo.yellow;
     }

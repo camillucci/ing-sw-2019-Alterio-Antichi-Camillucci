@@ -8,14 +8,12 @@ public abstract class PowerUpCard {
 
     public final String name;
     public final AmmoColor color;
-    public final Ammo cost;
     private Supplier<PowerUpAction> effectBuilder;
 
-    public PowerUpCard(String name, AmmoColor color, Ammo cost, Supplier<PowerUpAction> effect)
+    public PowerUpCard(String name, AmmoColor color, Supplier<PowerUpAction> effect)
     {
         this.name = name;
         this.color = color;
-        this.cost = cost;
         this.effectBuilder = effect;
     }
 
@@ -23,9 +21,9 @@ public abstract class PowerUpCard {
         return effectBuilder.get();
     }
 
-    public abstract void addTo(PowerupSet powerupSet);
+    public abstract void addTo(PowerUpSet powerupSet);
 
-    public abstract void removeFrom(PowerupSet powerupSet);
+    public abstract void removeFrom(PowerUpSet powerupSet);
 
     public String getName() {
         return name.concat(" " + color.getName());

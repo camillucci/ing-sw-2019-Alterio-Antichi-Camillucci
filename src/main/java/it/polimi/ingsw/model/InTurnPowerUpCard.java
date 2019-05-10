@@ -7,18 +7,18 @@ import java.util.ArrayList;
 
 public class InTurnPowerUpCard extends PowerUpCard {
 
-    public InTurnPowerUpCard(String name, AmmoColor color, Ammo cost, ShootFunc shootFunc)
+    public InTurnPowerUpCard(String name, AmmoColor color, ShootFunc shootFunc)
     {
-        super(name, color, cost, () -> new SupportPowerUpAction(p -> new ArrayList<>(p.getPowerupSet().getCounterAttackPUs()), shootFunc));
+        super(name, color, () -> new SupportPowerUpAction(p -> new ArrayList<>(p.getPowerupSet().getCounterAttackPUs()), shootFunc));
     }
 
     @Override
-    public void addTo(PowerupSet powerupSet) {
+    public void addTo(PowerUpSet powerupSet) {
         powerupSet.add(this);
     }
 
     @Override
-    public void removeFrom(PowerupSet powerupSet) {
+    public void removeFrom(PowerUpSet powerupSet) {
         powerupSet.remove(this);
     }
 }

@@ -2,43 +2,23 @@ package it.polimi.ingsw.model;
 
 public class AmmoCard {
 
-    private int blue;
-    private int yellow;
-    private int red;
-    private  boolean powerUpCard;
+    public final Ammo ammo;
+    public final boolean powerUpCard;
 
-    public AmmoCard(int blue, int yellow, int red, boolean powerUpCard) {
+    public AmmoCard(Ammo ammo, boolean powerUpCard) {
 
-        this.blue = blue;
-        this.yellow = yellow;
-        this.red = red;
+        this.ammo = ammo;
         this.powerUpCard = powerUpCard;
-    }
-
-    public int getBlue() {
-        return blue;
-    }
-
-    public int getYellow() {
-        return yellow;
-    }
-
-    public int getRed() {
-        return red;
-    }
-
-    public boolean isPowerUpCard() {
-        return powerUpCard;
     }
 
     public String getName() {
         String temp = "";
-        if(blue > 0)
-            temp = temp.concat(blue + "B ");
-        if(red > 0)
-            temp = temp.concat(red + "R ");
-        if(yellow > 0)
-            temp = temp.concat(yellow + "Y ");
+        if(ammo.blue > 0)
+            temp = temp.concat(ammo.blue + "B ");
+        if(ammo.red > 0)
+            temp = temp.concat(ammo.red + "R ");
+        if(ammo.yellow > 0)
+            temp = temp.concat(ammo.yellow + "Y ");
         if(powerUpCard)
             temp = temp.concat("PowerUp");
         return temp;

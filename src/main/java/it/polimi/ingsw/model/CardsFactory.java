@@ -46,28 +46,28 @@ public class CardsFactory {
     {
         List <AmmoColor> allColors = new ArrayList<>(Arrays.asList(BLUE, RED, YELLOW, BLUE, RED, YELLOW));
         for(AmmoColor ammoColor : allColors) {
-            powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, new Ammo(0, 0, 0), damage(1)));
-            powerUpCards.add(new EndStartPowerUpCard("Newton", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(otherPlayers, near2Squares, move)));
-            powerUpCards.add(new CounterAttackPowerUpCard("Tagback Grenade", ammoColor, new Ammo(0, 0, 0), damage(1)));
-            powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, new Ammo(0, 0, 0), () -> new PowerUpAction(selfPlayer, allSquares, move)));
+            powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, damage(1)));
+            powerUpCards.add(new EndStartPowerUpCard("Newton", ammoColor, () -> new PowerUpAction(otherPlayers, near2Squares, move)));
+            powerUpCards.add(new CounterAttackPowerUpCard("Tagback Grenade", ammoColor, mark(1)));
+            powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, () -> new PowerUpAction(selfPlayer, allSquares, move)));
         }
     }
 
     private static void buildAmmo()
     {
         for (int i = 0; i < COPY_OF_AMMO; i++) {
-            ammo.add(new AmmoCard(0, 1, 2, false));
-            ammo.add(new AmmoCard(0, 2, 1, false));
-            ammo.add(new AmmoCard(1, 0, 2, false));
-            ammo.add(new AmmoCard(1, 2, 0, false));
-            ammo.add(new AmmoCard(2, 0, 1, false));
-            ammo.add(new AmmoCard(2, 1, 0, false));
-            ammo.add(new AmmoCard(0, 0, 2, true));
-            ammo.add(new AmmoCard(0, 1, 1, true));
-            ammo.add(new AmmoCard(0, 2, 0, true));
-            ammo.add(new AmmoCard(1, 0, 1, true));
-            ammo.add(new AmmoCard(1, 1, 0, true));
-            ammo.add(new AmmoCard(2, 0, 0, true));
+            ammo.add(new AmmoCard(new Ammo(0, 1, 2), false));
+            ammo.add(new AmmoCard(new Ammo(0, 2, 1), false));
+            ammo.add(new AmmoCard(new Ammo(1, 0, 2), false));
+            ammo.add(new AmmoCard(new Ammo(1, 2, 0), false));
+            ammo.add(new AmmoCard(new Ammo(2, 0, 1), false));
+            ammo.add(new AmmoCard(new Ammo(2, 1, 0), false));
+            ammo.add(new AmmoCard(new Ammo(0, 0, 2), true));
+            ammo.add(new AmmoCard(new Ammo(0, 1, 1), true));
+            ammo.add(new AmmoCard(new Ammo(0, 2, 0), true));
+            ammo.add(new AmmoCard(new Ammo(1, 0, 1), true));
+            ammo.add(new AmmoCard(new Ammo(1, 1, 0), true));
+            ammo.add(new AmmoCard(new Ammo(2, 0, 0), true));
         }
     }
 
@@ -179,7 +179,7 @@ public class CardsFactory {
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF EFFECTS
 
-    public static ShootFunc damage(Integer ... damage) { return (player, players, squares) -> Effects.damage(player, players, Arrays.asList(damage)); }
+    private static ShootFunc damage(Integer ... damage) { return (player, players, squares) -> Effects.damage(player, players, Arrays.asList(damage)); }
     private static ShootFunc mark(Integer ... marks) { return (player, players, squares) -> Effects.mark(player, players, Arrays.asList(marks)); }
     private static ShootFunc damageAll(Integer ... damage) { return (player, players, squares) -> Effects.damageAll(player, squares, Arrays.asList(damage)); }
     private static ShootFunc markAll(Integer ... marks) { return (player, players, squares) -> Effects.markAll(player, squares, Arrays.asList(marks)); }

@@ -17,18 +17,16 @@ public class Player implements Cloneable {
     public final GameBoard gameBoard;
     public final PlayerColor color;
     public final String name;
-    private int points;
-    private int skull;
-    private int blueAmmo;
-    private int redAmmo;
-    private int yellowAmmo;
+    private int points = 0;
+    private int skull = 0;
+    private Ammo ammo = new Ammo(1, 1, 1);
     private Square currentSquare;
     private boolean finalFrenzy;
     private List<PlayerColor> damage = new ArrayList<>();
     private List<PlayerColor> mark = new ArrayList<>();
     private List<WeaponCard> loadedWeapons = new ArrayList<>();
     private List<WeaponCard> unloadedWeapons = new ArrayList<>();
-    private PowerupSet powerupSet = new PowerupSet();
+    private PowerUpSet powerupSet = new PowerUpSet();
     private static final int MAX_AMMO = 3;
     private static final int MAX_POWER_UPS = 3;
     private static final int MAX_POWER_UPS_RESPAWN = 4;
@@ -40,35 +38,30 @@ public class Player implements Cloneable {
     public Player (String name, PlayerColor color, GameBoard gameBoard) {
 
         this.name = name;
-        this.points = 0;
-        this.blueAmmo = 1;
-        this.yellowAmmo = 1;
-        this.redAmmo = 1;
-        this.skull = 0;
         this.color = color;
         this.gameBoard = gameBoard;
         this.finalFrenzy = false;
     }
 
     public void addBlue(int val){
-        blueAmmo = blueAmmo + val;
-        if(blueAmmo >= MAX_AMMO) {
-            blueAmmo = MAX_AMMO;
-        }
+        if(ammo.blue + val > MAX_AMMO)
+            ammo = new Ammo(MAX_AMMO, ammo.red, ammo.yellow);
+        else
+            ammo = new Ammo(ammo.blue + val, ammo.red, ammo.yellow);
     }
 
     public void addRed(int val){
-        redAmmo = redAmmo + val;
-        if(redAmmo >= MAX_AMMO) {
-            redAmmo = MAX_AMMO;
-        }
+        if(ammo.red + val > MAX_AMMO)
+            ammo = new Ammo(ammo.blue, MAX_AMMO, ammo.yellow);
+        else
+            ammo = new Ammo(ammo.blue, ammo.red + val, ammo.yellow);
     }
 
     public void addYellow(int val){
-        yellowAmmo = yellowAmmo + val;
-        if(yellowAmmo >= MAX_AMMO) {
-            yellowAmmo = MAX_AMMO;
-        }
+        if(ammo.yellow + val > MAX_AMMO)
+            ammo = new Ammo(ammo.blue, ammo.red, MAX_AMMO);
+        else
+            ammo = new Ammo(ammo.blue, ammo.red, ammo.yellow + val);
     }
 
     public void addPowerUpCard() {
@@ -145,7 +138,7 @@ public class Player implements Cloneable {
             p.mark = new ArrayList<>(this.mark);
             p.loadedWeapons = new ArrayList<>(this.loadedWeapons);
             p.unloadedWeapons = new ArrayList<>(this.unloadedWeapons);
-            p.powerupSet = new PowerupSet(powerupSet);
+            p.powerupSet = new PowerUpSet(powerupSet);
             return p;
         }
         catch(CloneNotSupportedException e){
@@ -162,20 +155,12 @@ public class Player implements Cloneable {
         return skull;
     }
 
-    public int getBlueAmmo() {
-        return blueAmmo;
-    }
-
-    public int getRedAmmo() {
-        return redAmmo;
-    }
-
-    public int getYellowAmmo() {
-        return yellowAmmo;
+    public Ammo getAmmo() {
+        return ammo;
     }
 
     public int getTotalAmmo() {
-        return blueAmmo + redAmmo + yellowAmmo;
+        return ammo.blue + ammo.red + ammo.yellow;
     }
 
     public Square getCurrentSquare() {
@@ -207,7 +192,7 @@ public class Player implements Cloneable {
         return damage;
     }
 
-    public PowerupSet getPowerupSet() {return powerupSet;}
+    public PowerUpSet getPowerupSet() {return powerupSet;}
 
     public List<PlayerColor> getMark() {
         return mark;
@@ -219,5 +204,16 @@ public class Player implements Cloneable {
 
     public void setFinalFrenzy(boolean finalFrenzy) {
         this.finalFrenzy = finalFrenzy;
+    }
+
+    public List<Ammo> getDiscardableAmmo() {
+        List<Ammo> temp = new ArrayList<>();
+        if(ammo.blue > 1)
+            temp.add(new Ammo(1, 0, 0));
+        if(ammo.red > 1)
+            temp.add(new Ammo(0, 1, 0));
+        if(ammo.yellow > 1)
+            temp.add(new Ammo(0, 0, 1));
+        return temp;
     }
 }

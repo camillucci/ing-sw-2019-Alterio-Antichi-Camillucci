@@ -22,11 +22,11 @@ public class AmmoSquare extends Square {
     @Override
     public List<Branch> grab(Player player) {
         if(!this.isEmpty()) {
-            player.addRed(ammoCard.getRed());
-            player.addBlue(ammoCard.getBlue());
-            player.addYellow(ammoCard.getYellow());
+            player.addBlue(ammoCard.ammo.blue);
+            player.addRed(ammoCard.ammo.red);
+            player.addYellow(ammoCard.ammo.yellow);
 
-            if (ammoCard.isPowerUpCard()) {
+            if (ammoCard.powerUpCard) {
                 player.addPowerUpCard();
             }
             ammoDeck.addDiscarded(ammoCard);

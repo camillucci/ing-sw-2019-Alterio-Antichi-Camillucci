@@ -35,7 +35,7 @@ public class SpawnAndShopSquare extends Square {
                                                                                         .map(w->new Branch(new Action(a->a.getOwnerPlayer().removeWeapon(w)), new EndBranchAction()))
                                                                                         .collect(Collectors.toList()));
         for (WeaponCard w : weapons)
-            if(Ammo.getAmmo(player).isGreaterOrEqual(w.buyCost))
+            if(player.getAmmo().isGreaterOrEqual(w.buyCost))
                 ret.add(new Branch(new Action(a -> {
                     a.setDoActionCost(w.buyCost);
                     a.getOwnerPlayer().addWeapon(w);
@@ -48,7 +48,7 @@ public class SpawnAndShopSquare extends Square {
     {
         List<Branch> ret = new ArrayList<>();
         for(WeaponCard w : weapons)
-            if(Ammo.getAmmo(player).isGreaterOrEqual(w.buyCost))
+            if(player.getAmmo().isGreaterOrEqual(w.buyCost))
                 ret.add(new Branch(new Action(a -> {
                     a.setDoActionCost(w.buyCost);
                     a.getOwnerPlayer().addWeapon(w);

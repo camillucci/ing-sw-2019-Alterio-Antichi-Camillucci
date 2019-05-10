@@ -6,18 +6,18 @@ import java.util.function.Supplier;
 
 public class EndStartPowerUpCard extends PowerUpCard
 {
-    public EndStartPowerUpCard(String name, AmmoColor color, Ammo cost, Supplier<PowerUpAction> effect)
+    public EndStartPowerUpCard(String name, AmmoColor color, Supplier<PowerUpAction> effect)
     {
-        super(name, color, cost, effect);
+        super(name, color, effect);
     }
     @Override
-    public void addTo(PowerupSet powerupSet)
+    public void addTo(PowerUpSet powerupSet)
     {
         powerupSet.add(this);
     }
 
     @Override
-    public void removeFrom(PowerupSet powerupSet) {
+    public void removeFrom(PowerUpSet powerupSet) {
         powerupSet.remove(this);
     }
 }

@@ -20,7 +20,7 @@ class PlayerTest {
     @Test
     void addRed() {
         for(int i = 0; i < N; i++) {
-            assertEquals(Math.min(i + 1, MAX_AMMO), player.getRedAmmo());
+            assertEquals(Math.min(i + 1, MAX_AMMO), player.getAmmo().red);
             player.addRed(1);
         }
     }
@@ -28,7 +28,7 @@ class PlayerTest {
     @Test
     void addBlue() {
         for(int i = 0; i < N; i++) {
-            assertEquals(Math.min(i + 1, MAX_AMMO), player.getBlueAmmo());
+            assertEquals(Math.min(i + 1, MAX_AMMO), player.getAmmo().blue);
             player.addBlue(1);
         }
     }
@@ -36,7 +36,7 @@ class PlayerTest {
     @Test
     void addYellow() {
         for(int i = 0; i < N; i++) {
-            assertEquals(Math.min(i + 1, MAX_AMMO), player.getYellowAmmo());
+            assertEquals(Math.min(i + 1, MAX_AMMO), player.getAmmo().yellow);
             player.addYellow(1);
         }
     }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.model.SquareBorder.ROOM;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AmmoSquareTest {
@@ -11,20 +10,20 @@ class AmmoSquareTest {
 
     @Test
     void grab() {
-        assertEquals(1, player.getBlueAmmo());
-        assertEquals(1, player.getYellowAmmo());
-        assertEquals(1, player.getRedAmmo());
+        assertEquals(1, player.getAmmo().blue);
+        assertEquals(1, player.getAmmo().yellow);
+        assertEquals(1, player.getAmmo().red);
         assertEquals(0, player.getPowerUps().size());
         assertEquals(1, gameBoard.getSquares().get(0).grab(player).size());
-        int blue =  player.getBlueAmmo();
-        int red =  player.getRedAmmo();
-        int yellow = player.getYellowAmmo();
+        int blue =  player.getAmmo().blue;
+        int red =  player.getAmmo().red;
+        int yellow = player.getAmmo().yellow;
         int pu = player.getPowerUps().size();
         assertEquals(6, blue + red + yellow + pu);
         assertEquals(1, gameBoard.getSquares().get(0).grab(player).size());
-        assertEquals(blue, player.getBlueAmmo());
-        assertEquals(red, player.getRedAmmo());
-        assertEquals(yellow, player.getYellowAmmo());
+        assertEquals(blue, player.getAmmo().blue);
+        assertEquals(red, player.getAmmo().red);
+        assertEquals(yellow, player.getAmmo().yellow);
         assertEquals(pu, player.getPowerUps().size());
         gameBoard.getSquares().get(0).refill();
         assertEquals(1, gameBoard.getSquares().get(0).grab(player).size());

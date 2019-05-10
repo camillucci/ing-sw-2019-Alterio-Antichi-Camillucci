@@ -27,9 +27,9 @@ public class PublicPlayerSnapshot implements Serializable {
         this.color = player.color;
         this.name = player.name;
         this.skull = player.getSkull();
-        this.blueAmmo = player.getBlueAmmo();
-        this.redAmmo = player.getRedAmmo();
-        this.yellowAmmo = player.getYellowAmmo();
+        this.blueAmmo = player.getAmmo().blue;
+        this.redAmmo = player.getAmmo().red;
+        this.yellowAmmo = player.getAmmo().yellow;
         this.finalFrenzy = player.isFinalFrenzy();
         for(PlayerColor damageColor : player.getDamage())
             this.damage.add(damageColor.getName());
