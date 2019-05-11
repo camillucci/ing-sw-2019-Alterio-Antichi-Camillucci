@@ -19,7 +19,6 @@ public class Branch
     private ArrayList<Action> actions;
     private Action finalAction;
 
-    @SuppressWarnings("unchecked")
     private Branch(Action finalAction, List<Action> actions) {
         this.actions = new ArrayList<>(actions);
         this.finalAction = finalAction;
@@ -34,7 +33,6 @@ public class Branch
         endBranchAction.completedActionEvent.addEventHandler((s, a) -> ((Event<Branch, EndBranchAction>)this.endBranchEvent).invoke(this, (EndBranchAction)a));
     }
 
-    @SuppressWarnings("unchecked")
     public Branch(List<Action> actions, ExtendableAction extendableAction)
     {
         this(extendableAction, actions);

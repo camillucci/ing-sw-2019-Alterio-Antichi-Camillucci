@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class Event<T, U> implements IEvent<T,U>{
+public class Event<T, U> implements IEvent<T,U> {
 
     @Override
     public synchronized void addEventHandler(BiConsumer<T, U> eventHandler)

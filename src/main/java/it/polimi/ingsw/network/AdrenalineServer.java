@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.network.rmi.AdrenalineServerRMI;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -38,8 +37,7 @@ public abstract class AdrenalineServer extends ConnectionAbstract implements IAd
     @Override
     public List<String> availableColors() throws RemoteException
     {
-       // return controller.getAvailableRoom().getAvailableColors();
-        return null;
+       return controller.getAvailableRoom().getAvailableColors();
     }
 
     @Override
@@ -67,12 +65,12 @@ public abstract class AdrenalineServer extends ConnectionAbstract implements IAd
     }
 
     @Override
-    public void setGameLength(int gameLength) throws RemoteException {
+    public void setGameLength(int gameLength) {
         this.gameLength = gameLength;
     }
 
     @Override
-    public void setGameMap(int choice) throws RemoteException {
+    public void setGameMap(int choice) {
         this.gameMap = choice;
     }
 

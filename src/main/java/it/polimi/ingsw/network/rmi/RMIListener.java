@@ -4,10 +4,9 @@ import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.network.ConnectionAbstract;
 
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -26,23 +25,42 @@ public class RMIListener <T extends ConnectionAbstract & Remote>
     private Supplier<T> remoteSupplier;
     List<T> exported = new ArrayList<>();
     private T curRemote;
+    private Registry registry;
 
     public RMIListener(int port, Supplier<T> remoteSupplier) throws RemoteException
     {
         this.port = port;
         this.remoteSupplier = remoteSupplier;
-        LocateRegistry.createRegistry(port);
+        registry = LocateRegistry.createRegistry(port);
     }
 
     public synchronized void start()
     {
-        if(curRemote == null)
-            newRemote();
+        try {
+            if (registry == null) {
+                registry = LocateRegistry.createRegistry(1099);
+                newRemote();
+            }
+            else if (curRemote == null)
+                newRemote();
+        }
+        catch (RemoteException e){logger.log(Level.WARNING, "RemoteException, Class RMIListener, Line 45", e);}
     }
 
     public synchronized void stop() {
-        for(T t : exported)
-            tryUnexport(t);
+        try
+        {
+            registry.unbind("Server");
+            for(T t : exported)
+                UnicastRemoteObject.unexportObject(t, false);
+            UnicastRemoteObject.unexportObject(registry, false);
+            registry = null;
+            curRemote = null;
+        }
+        catch (NotBoundException | RemoteException e)
+        {
+            logger.log(Level.WARNING, "Exception, Class RMIListener, Line 59", e);
+        }
     }
 
     public synchronized List<T> getConnected()
