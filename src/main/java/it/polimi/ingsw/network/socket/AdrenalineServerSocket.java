@@ -11,7 +11,7 @@ import java.util.List;
 public class AdrenalineServerSocket extends AdrenalineServer
 {
     private TCPClient client;
-    private TCPRemoteActionsHandler remoteActionsHandler;
+    private RemoteActionsHandlerSocket remoteActionsHandler;
 
     protected AdrenalineServerSocket(Controller controller, TCPClient client)
     {

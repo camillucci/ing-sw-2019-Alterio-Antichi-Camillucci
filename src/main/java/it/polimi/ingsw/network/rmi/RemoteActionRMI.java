@@ -34,7 +34,7 @@ public class RemoteActionRMI extends RemoteAction
     @Override
     public void addTarget(SquareSnapshot target) throws RemoteException
     {
-        //server.handleAction(TCPRemoteActionsHandler.ADD_SQUARE, possibleSquares.indexOf(target));
+        //server.handleAction(RemoteActionsHandlerSocket.ADD_SQUARE, possibleSquares.indexOf(target));
 
         int i = possibleSquares.indexOf(target);
         if(i != -1)
@@ -44,7 +44,7 @@ public class RemoteActionRMI extends RemoteAction
     @Override
     public void doAction() throws RemoteException
     {
-        //server.handleAction(TCPRemoteActionsHandler.DO_ACTION, 0);
+        //server.handleAction(RemoteActionsHandlerSocket.DO_ACTION, 0);
         remoteActionsHandler.doAction();
     }
 

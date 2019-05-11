@@ -132,7 +132,7 @@ public abstract class AdrenalineClient
     /*
     public void chooseAction() throws Exception {
         //todo remove all socket-dependet code
-        ArrayList<RemoteActionTCP> options = server.in().getObject(); //gets list of RemoteActionTCP
+        ArrayList<RemoteActionSocket> options = server.in().getObject(); //gets list of RemoteActionSocket
         messenger.displayActions(options); //displays actions available
         int choice = parser.parseIndex(options.size()); //get's user action of choice
         while(choice == -1) {

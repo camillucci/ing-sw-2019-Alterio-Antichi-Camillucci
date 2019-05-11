@@ -5,15 +5,13 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
-import it.polimi.ingsw.network.socket.RemoteActionTCP;
-import it.polimi.ingsw.network.socket.TCPClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class TCPRemoteActionsHandler extends RemoteActionsHandler
+public class RemoteActionsHandlerSocket extends RemoteActionsHandler
 {
     public static final int DO_ACTION = 0;
     public static final int ADD_PLAYER = 1;
@@ -24,7 +22,7 @@ public class TCPRemoteActionsHandler extends RemoteActionsHandler
 
     TCPClient client;
 
-    public TCPRemoteActionsHandler(ActionsProvider provider, Player player, TCPClient client)
+    public RemoteActionsHandlerSocket(ActionsProvider provider, Player player, TCPClient client)
     {
         super(provider,player);
         this.client = client;
@@ -98,7 +96,7 @@ public class TCPRemoteActionsHandler extends RemoteActionsHandler
     protected List<RemoteAction> createRemoteActions(List<Action> actions) {
         List<RemoteAction> ret = new ArrayList<>();
         for(int i=0; i < actions.size(); i++)
-            ret.add(new RemoteActionTCP(i));
+            ret.add(new RemoteActionSocket(i));
         return ret;
     }
 }

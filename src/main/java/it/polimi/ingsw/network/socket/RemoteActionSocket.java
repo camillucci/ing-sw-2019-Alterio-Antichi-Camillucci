@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-public class RemoteActionTCP extends RemoteAction implements Serializable
+public class RemoteActionSocket extends RemoteAction implements Serializable
 {
     private int index;
     private TCPClient server;
     private List<PublicPlayerSnapshot> possiblePlayers;
     private List<SquareSnapshot> possibleSquares;
 
-    public RemoteActionTCP(int index){
+    public RemoteActionSocket(int index){
         super(index);
         this.index = index;
     }
@@ -29,32 +29,32 @@ public class RemoteActionTCP extends RemoteAction implements Serializable
     @Override
     public void addTarget(PublicPlayerSnapshot target) throws IOException
     {
-        //server.handleAction(TCPRemoteActionsHandler.ADD_PLAYER, possiblePlayers.indexOf(target));
-        server.out().sendInt(TCPRemoteActionsHandler.ADD_PLAYER);
+        //server.handleAction(RemoteActionsHandlerSocket.ADD_PLAYER, possiblePlayers.indexOf(target));
+        server.out().sendInt(RemoteActionsHandlerSocket.ADD_PLAYER);
         server.out().sendInt(possiblePlayers.indexOf(target));
     }
 
     @Override
     public void addTarget(SquareSnapshot target) throws IOException
     {
-        //server.handleAction(TCPRemoteActionsHandler.ADD_SQUARE, possibleSquares.indexOf(target));
+        //server.handleAction(RemoteActionsHandlerSocket.ADD_SQUARE, possibleSquares.indexOf(target));
 
-        server.out().sendInt(TCPRemoteActionsHandler.ADD_SQUARE);
+        server.out().sendInt(RemoteActionsHandlerSocket.ADD_SQUARE);
         server.out().sendInt(possibleSquares.indexOf(target));
     }
 
     @Override
     public void doAction() throws IOException
     {
-        //server.handleAction(TCPRemoteActionsHandler.DO_ACTION, 0);
+        //server.handleAction(RemoteActionsHandlerSocket.DO_ACTION, 0);
 
-        server.out().sendInt(TCPRemoteActionsHandler.DO_ACTION);
+        server.out().sendInt(RemoteActionsHandlerSocket.DO_ACTION);
     }
 
     @Override
     public List<PublicPlayerSnapshot> getPossiblePlayers() throws IOException, ClassNotFoundException
     {
-        server.out().sendInt(TCPRemoteActionsHandler.GET_PLAYERS);
+        server.out().sendInt(RemoteActionsHandlerSocket.GET_PLAYERS);
         return server.in().getObject();
 
     }
@@ -62,13 +62,13 @@ public class RemoteActionTCP extends RemoteAction implements Serializable
     @Override
     public List<SquareSnapshot> getPossibleSquares() throws IOException, ClassNotFoundException
     {
-        server.out().sendInt(TCPRemoteActionsHandler.GET_SQUARES);
+        server.out().sendInt(RemoteActionsHandlerSocket.GET_SQUARES);
         return server.in().getObject();
     }
 
     @Override
     public boolean canBeDone() throws IOException {
-        server.out().sendInt(TCPRemoteActionsHandler.CAN_BE_DONE);
+        server.out().sendInt(RemoteActionsHandlerSocket.CAN_BE_DONE);
         return server.in().getBool();
     }
 }
