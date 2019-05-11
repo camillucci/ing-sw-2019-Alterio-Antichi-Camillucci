@@ -1,8 +1,10 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
-import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
 
@@ -12,7 +14,7 @@ import java.util.List;
 
 public class Room
 {
-    private List<AdrenalineServer> clients = new ArrayList<>();
+    public final IEvent<Room, Match> matchStartedEvent = new Event<>();
     private List<PlayerColor> playerColors = new ArrayList<>();
     private List<PlayerColor> availableColors = new ArrayList<>();
     private List<String> playerNames = new ArrayList<>();
@@ -32,12 +34,14 @@ public class Room
     }
 
     public boolean addPlayer(int index, String playerName, AdrenalineServer client) throws IOException {
-        clients.add(client);
+        if(match != null)
+            return false;
+
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
         playerNames.add(playerName);
         if(playerNames.size() == 5)
-            match = newMatch();
+            newMatch();
         else if(playerNames.size() == 1)
             return true;
         else if(playerNames.size() == 3)
@@ -45,13 +49,10 @@ public class Room
         return false;
     }
 
-    private Match newMatch() throws IOException {
-        for(AdrenalineServer client : clients) {
-            client.matchStart();
-        }
+    private void newMatch() throws IOException {
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         matchManager = new MatchManager(match, this);
-        return match;
+        ((Event<Room, Match>)matchStartedEvent).invoke(this, match);
     }
 
     public List<String> getPlayerNames(){
@@ -70,9 +71,9 @@ public class Room
     }
 
     private void threePlayers() throws IOException {
-        //TODO add timer
-        if(match == null)
-            match = newMatch();
+        //todo add timer
+            if(match == null)
+                newMatch();
     }
 
     public void setGameSize(int gameSize) {
@@ -83,11 +84,8 @@ public class Room
         this.gameLength = gameLength;
     }
 
-    public void sendActions(List<Action> actions, int client) {
-        //TODO send actions to client
-    }
 
     public void updateView(MatchSnapshot snapshot, int index) throws Exception {
-        clients.get(index).updateView(snapshot);
+       // clients.get(index).updateView(snapshot);
     }
 }

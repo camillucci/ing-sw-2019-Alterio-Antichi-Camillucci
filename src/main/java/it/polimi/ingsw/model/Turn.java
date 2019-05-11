@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.branch.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Turn implements ActionsProvider {
+public class Turn extends ActionsProvider {
 
     public final IEvent<Turn, Player> endTurnEvent = new Event<>();
     public final IEvent<Turn, List<Action>> newActionsEvent = new Event<>();

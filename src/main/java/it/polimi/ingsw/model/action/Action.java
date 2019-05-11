@@ -93,7 +93,7 @@ public class Action
     {
         return action.getClass().isInstance(this);
     }
-
+    public boolean canBeDone() {return canBeDone;}
     private boolean spendAmmo()
     {
         Ammo ammo = new Ammo(0, 0, 0);

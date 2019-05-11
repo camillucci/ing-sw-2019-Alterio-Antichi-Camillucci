@@ -18,7 +18,7 @@ public class MatchManager {
         match.start();
         ArrayList<Action> actions = (ArrayList<Action>) match.getActions();
         int client = match.getPlayerIndex();
-        room.sendActions(actions, client);
+        //room.sendActions(actions, client);
     }
 
     public void handleAction(int index) throws Exception {
@@ -28,7 +28,7 @@ public class MatchManager {
         }
         ArrayList<Action> actions = (ArrayList<Action>) match.getActions();
         int client = match.getPlayerIndex();
-        room.sendActions(actions, client);
+        //room.sendActions(actions, client);
     }
 
     public void calculateScore() {

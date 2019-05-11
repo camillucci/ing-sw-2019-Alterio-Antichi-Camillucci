@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.generics.IEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

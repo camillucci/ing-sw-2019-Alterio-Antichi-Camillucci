@@ -1,15 +1,10 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
-import it.polimi.ingsw.network.TCPRemoteActionsHandler;
-import it.polimi.ingsw.network.socket.TCPClient;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +36,6 @@ public class AdrenalineServerSocket extends AdrenalineServer
             setGameLength(gameLength);
             setGameMap(gameMap);
         }
-    }
-
-    @Override
-    public void matchStart() throws IOException {
-        client.out().sendBool(true);
     }
 
     //spawn should probably be included in the parts of the game managed by actions.

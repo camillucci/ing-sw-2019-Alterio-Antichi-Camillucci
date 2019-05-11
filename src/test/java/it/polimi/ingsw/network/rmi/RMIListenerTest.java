@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.network.AdrenalineServer;
 import it.polimi.ingsw.network.IAdrenalineServer;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ class RMIListenerTest
     @Test
     void connectionTest() throws Exception
     {
-            RMIListener listener = new RMIListener<>(1099, () -> new AdrenalineServerRMI(new Controller()));
+            RMIListener listener = new RMIListener<>(1099, () -> new AdrenalineServer(new Controller()));
             listener.newClientEvent.addEventHandler((a, b) -> n++);
             listener.start();
             final int N = 100;

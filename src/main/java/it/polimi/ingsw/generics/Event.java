@@ -12,6 +12,7 @@ public class Event<T, U> implements IEvent<T,U> {
         this.eventHandlers.add(eventHandler);
     }
 
+    @Override
     public synchronized void removeEventHandler(BiConsumer<T, U> eventHandler)
     {
         this.eventHandlers.remove(eventHandler);
@@ -24,5 +25,4 @@ public class Event<T, U> implements IEvent<T,U> {
     }
 
     private List<BiConsumer<T, U>> eventHandlers = new ArrayList<>();
-
 }

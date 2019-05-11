@@ -16,7 +16,6 @@ public interface IAdrenalineServer extends Remote, IConnection
     void setGameLength(int gameLength) throws RemoteException;
     void setGameMap(int choice) throws RemoteException;
     boolean joinRoom() throws IOException;
-    void matchStart() throws IOException;
     void updateView(MatchSnapshot matchSnapshot) throws IOException;
-    public void handleAction(int selection, int extra) throws IOException;
+    void handleAction(int selection, int extra) throws IOException;
 }

@@ -6,9 +6,9 @@ import it.polimi.ingsw.model.action.Action;
 
 import java.util.List;
 
-public interface ActionsProvider
+public abstract class ActionsProvider
 {
-    IEvent<Player, List<Action>> newActionsEvent = new Event<>();
-    Player getPlayer();
-    List<Action> getActions();
+    public final IEvent<Player, List<Action>> newActionsEvent = new Event<>();
+    public abstract Player getPlayer();
+    public abstract List<Action> getActions();
 }

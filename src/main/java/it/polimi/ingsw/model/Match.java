@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Match implements ActionsProvider {
+public class Match extends ActionsProvider {
 
     public final IEvent<Match, List<Player>> endMatchEvent = new Event<>();
     private int turnPos = -1;

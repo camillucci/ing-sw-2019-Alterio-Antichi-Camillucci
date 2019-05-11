@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.generics.*;
-import it.polimi.ingsw.network.Client;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -9,12 +8,12 @@ import java.nio.channels.NotYetConnectedException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TCPClient extends Client
+public class TCPClient
 {
+    public final IEvent<TCPClient, Object> disconnectedEvent = new Event<>();
     private Socket connectedSocket;
     private Logger logger;
 
-    @Override
     public InputInterface in() throws IOException
     {
         InputStreamUtils ret = new InputStreamUtils(connectedSocket.getInputStream());
@@ -22,7 +21,6 @@ public class TCPClient extends Client
         return ret;
     }
 
-    @Override
     public OutputInterface out() throws IOException
     {
         OutputStreamUtils ret = new OutputStreamUtils(connectedSocket.getOutputStream());
@@ -47,7 +45,7 @@ public class TCPClient extends Client
         try
         {
             connectedSocket.close();
-            ((Event<Client,Object>)disconnectedEvent).invoke(this, null);
+            ((Event<TCPClient,Object>)disconnectedEvent).invoke(this, null);
         }
         catch(IOException e) {
             logger.log(Level.WARNING, "IOException, Class TCPClient, Line 51", e);

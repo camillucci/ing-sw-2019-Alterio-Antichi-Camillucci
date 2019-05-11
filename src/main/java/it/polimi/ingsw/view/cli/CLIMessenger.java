@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
-import it.polimi.ingsw.network.RemoteAction;
+import it.polimi.ingsw.network.socket.RemoteActionTCP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +146,7 @@ public class CLIMessenger {
         }
     }
 
-    public void displayActions(ArrayList<RemoteAction> options) {
+    public void displayActions(ArrayList<RemoteActionTCP> options) {
         for(int i = 0; i < options.size(); i++){
             System.out.println(PRESS + i + " if you want to execute action" + options.get(i).toString());
         }

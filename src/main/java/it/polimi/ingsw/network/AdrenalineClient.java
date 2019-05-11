@@ -12,7 +12,6 @@ import java.util.List;
 
 public abstract class AdrenalineClient
 {
-    private Client server;
     private CLIParser parser;
     private CLIMessenger messenger;
     private static final String HOSTNAME = "127.0.0.1";
@@ -95,6 +94,7 @@ public abstract class AdrenalineClient
         notifyGameMap(choice);
     }
 
+    /*
     private void matchStart() throws Exception {
         messenger.threePlayers();
         if(server.in().getBool())
@@ -129,9 +129,10 @@ public abstract class AdrenalineClient
         return matchSnapshot;
     }
 
+    /*
     public void chooseAction() throws Exception {
         //todo remove all socket-dependet code
-        ArrayList<RemoteAction> options = server.in().getObject(); //gets list of RemoteAction
+        ArrayList<RemoteActionTCP> options = server.in().getObject(); //gets list of RemoteActionTCP
         messenger.displayActions(options); //displays actions available
         int choice = parser.parseIndex(options.size()); //get's user action of choice
         while(choice == -1) {
@@ -187,4 +188,6 @@ public abstract class AdrenalineClient
             }
         }
     }
+
+     */
 }

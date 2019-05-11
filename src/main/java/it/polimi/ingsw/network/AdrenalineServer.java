@@ -1,17 +1,18 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
+import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public abstract class AdrenalineServer extends ConnectionAbstract implements IAdrenalineServer
+public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineServer
 {
-    public final IEvent<AdrenalineServer, List<String>> matchStartEvent = new Event<>();
     public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatedEvent = new Event<>();
     boolean connected = false;
     protected Controller controller;
@@ -20,6 +21,8 @@ public abstract class AdrenalineServer extends ConnectionAbstract implements IAd
     protected int gameLength;
     protected int gameMap;
     protected String name;
+    private Room joinedRoom;
+    private Match match;
 
     public AdrenalineServer(Controller controller)
     {
@@ -76,12 +79,19 @@ public abstract class AdrenalineServer extends ConnectionAbstract implements IAd
     @Override
     public boolean joinRoom() throws IOException
     {
-        return controller.getAvailableRoom().addPlayer(colorIndex, name, this);
+        Room room = controller.getAvailableRoom();
+        if(room.addPlayer(colorIndex, name, this)) {
+            this.joinedRoom = room;
+            joinedRoom.matchStartedEvent.addEventHandler((r, match) -> onMatchStart(match));
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void matchStart() throws IOException {
-        ((Event<AdrenalineServer, List<String>>) matchStartEvent).invoke(this, controller.getPlayerNames());
+
+    private void onMatchStart(Match match) {
+        this.match = match;
+        // todo
     }
 
     @Override

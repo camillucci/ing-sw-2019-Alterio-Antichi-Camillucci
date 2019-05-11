@@ -3,55 +3,26 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class RemoteAction implements Serializable
+public abstract class RemoteAction implements Serializable
 {
-    private Client server;
-    private boolean canBeDone;
-    private List<PublicPlayerSnapshot> possiblePlayers;
-    private List<SquareSnapshot> possibleSquares;
+    protected int index;
+    protected ArrayList<PublicPlayerSnapshot> possiblePlayers;
+    protected ArrayList<SquareSnapshot> possibleSquares;
 
-    public void inizialize(Client server)
-    {
-        this.server = server;
+    public RemoteAction(int index){
+        this.index = index;
     }
 
-    public void addTarget(PublicPlayerSnapshot target) throws Exception
-    {
-        //server.handleAction(TCPRemoteActionsHandler.ADD_PLAYER, possiblePlayers.indexOf(target));
-
-        server.out().sendInt(TCPRemoteActionsHandler.ADD_PLAYER);
-        server.out().sendInt(possiblePlayers.indexOf(target));
-    }
-
-    public void addTarget(SquareSnapshot target) throws Exception
-    {
-        //server.handleAction(TCPRemoteActionsHandler.ADD_SQUARE, possibleSquares.indexOf(target));
-
-        server.out().sendInt(TCPRemoteActionsHandler.ADD_SQUARE);
-        server.out().sendInt(possibleSquares.indexOf(target));
-    }
-
-    public void doAction() throws Exception
-    {
-        //server.handleAction(TCPRemoteActionsHandler.DO_ACTION, 0);
-
-        server.out().sendInt(TCPRemoteActionsHandler.DO_ACTION);
-    }
-
-    public List<PublicPlayerSnapshot> getPossiblePlayers() throws Exception
-    {
-        server.out().sendInt(TCPRemoteActionsHandler.GET_PLAYERS);
-        return server.in().getObject();
-    }
-    public List<SquareSnapshot> getPossibleSquares() throws Exception
-    {
-        server.out().sendInt(TCPRemoteActionsHandler.GET_SQUARES);
-        return server.in().getObject();
-    }
-    public boolean canBeDone() {
-        return canBeDone;
-    }
+    public abstract void addTarget(PublicPlayerSnapshot target) throws IOException;
+    public abstract void addTarget(SquareSnapshot target) throws IOException;
+    public abstract void doAction() throws IOException;
+    public abstract List<PublicPlayerSnapshot> getPossiblePlayers() throws IOException, ClassNotFoundException;
+    public abstract List<SquareSnapshot> getPossibleSquares() throws IOException, ClassNotFoundException;
+    public abstract boolean canBeDone() throws IOException;
 }

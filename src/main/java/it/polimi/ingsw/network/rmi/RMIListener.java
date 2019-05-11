@@ -23,7 +23,7 @@ public class RMIListener <T extends ConnectionAbstract & Remote>
     public final int port;
     private Logger logger;
     private Supplier<T> remoteSupplier;
-    List<T> exported = new ArrayList<>();
+    private List<Remote> exported = new ArrayList<>();
     private T curRemote;
     private Registry registry;
 
@@ -51,8 +51,8 @@ public class RMIListener <T extends ConnectionAbstract & Remote>
         try
         {
             registry.unbind("Server");
-            for(T t : exported)
-                UnicastRemoteObject.unexportObject(t, false);
+            for(Remote r : exported)
+                UnicastRemoteObject.unexportObject(r, false);
             UnicastRemoteObject.unexportObject(registry, false);
             registry = null;
             curRemote = null;
@@ -68,6 +68,15 @@ public class RMIListener <T extends ConnectionAbstract & Remote>
         return new ArrayList<>(connectedHosts);
     }
 
+    public void export(Remote object)
+    {
+        try{
+            UnicastRemoteObject.exportObject(object, port);
+            this.exported.add(object);
+        }
+        catch(RemoteException e){logger.log(Level.WARNING, "ExportException, Class RMIListener, Line 76", e);}
+    }
+
     private void newRemote()
     {
         try
@@ -75,7 +84,7 @@ public class RMIListener <T extends ConnectionAbstract & Remote>
             //System.setProperty("java.rmi.server.hostname","127.0.0.1");
             curRemote = remoteSupplier.get();
             curRemote.connectedEvent.addEventHandler((remote, b) -> newClientConnected((T)remote));
-            Remote stub = UnicastRemoteObject.exportObject(curRemote, 0);
+            Remote stub = UnicastRemoteObject.exportObject(curRemote, port);
             LocateRegistry.getRegistry(port).rebind("Server", stub);
         }
         catch(ExportException e)
