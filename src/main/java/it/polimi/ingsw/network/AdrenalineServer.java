@@ -4,7 +4,6 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.network.rmi.AdrenalineServerRMI;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -21,7 +20,6 @@ public abstract class AdrenalineServer extends ConnectionAbstract implements IAd
     protected int gameLength;
     protected int gameMap;
     protected String name;
-    protected RemoteActionsHandler remoteActionsHandler;
 
     public AdrenalineServer(Controller controller)
     {

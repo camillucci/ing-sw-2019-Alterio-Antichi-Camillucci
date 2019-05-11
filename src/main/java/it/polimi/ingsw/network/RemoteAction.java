@@ -20,35 +20,35 @@ public class RemoteAction implements Serializable
 
     public void addTarget(PublicPlayerSnapshot target) throws Exception
     {
-        //server.handleAction(RemoteActionsHandler.ADD_PLAYER, possiblePlayers.indexOf(target));
+        //server.handleAction(TCPRemoteActionsHandler.ADD_PLAYER, possiblePlayers.indexOf(target));
 
-        server.out().sendInt(RemoteActionsHandler.ADD_PLAYER);
+        server.out().sendInt(TCPRemoteActionsHandler.ADD_PLAYER);
         server.out().sendInt(possiblePlayers.indexOf(target));
     }
 
     public void addTarget(SquareSnapshot target) throws Exception
     {
-        //server.handleAction(RemoteActionsHandler.ADD_SQUARE, possibleSquares.indexOf(target));
+        //server.handleAction(TCPRemoteActionsHandler.ADD_SQUARE, possibleSquares.indexOf(target));
 
-        server.out().sendInt(RemoteActionsHandler.ADD_SQUARE);
+        server.out().sendInt(TCPRemoteActionsHandler.ADD_SQUARE);
         server.out().sendInt(possibleSquares.indexOf(target));
     }
 
     public void doAction() throws Exception
     {
-        //server.handleAction(RemoteActionsHandler.DO_ACTION, 0);
+        //server.handleAction(TCPRemoteActionsHandler.DO_ACTION, 0);
 
-        server.out().sendInt(RemoteActionsHandler.DO_ACTION);
+        server.out().sendInt(TCPRemoteActionsHandler.DO_ACTION);
     }
 
     public List<PublicPlayerSnapshot> getPossiblePlayers() throws Exception
     {
-        server.out().sendInt(RemoteActionsHandler.GET_PLAYERS);
+        server.out().sendInt(TCPRemoteActionsHandler.GET_PLAYERS);
         return server.in().getObject();
     }
     public List<SquareSnapshot> getPossibleSquares() throws Exception
     {
-        server.out().sendInt(RemoteActionsHandler.GET_SQUARES);
+        server.out().sendInt(TCPRemoteActionsHandler.GET_SQUARES);
         return server.in().getObject();
     }
     public boolean canBeDone() {

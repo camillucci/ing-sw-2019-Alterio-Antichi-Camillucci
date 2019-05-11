@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
+import it.polimi.ingsw.network.TCPRemoteActionsHandler;
 import it.polimi.ingsw.network.socket.TCPClient;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.List;
 public class AdrenalineServerSocket extends AdrenalineServer
 {
     private TCPClient client;
+    private TCPRemoteActionsHandler remoteActionsHandler;
 
     protected AdrenalineServerSocket(Controller controller, TCPClient client)
     {
