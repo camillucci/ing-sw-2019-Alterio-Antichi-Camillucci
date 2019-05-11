@@ -6,14 +6,13 @@ import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RemoteActionSocket extends RemoteAction implements Serializable
 {
     private int index;
-    private TCPClient server;
-    private List<PublicPlayerSnapshot> possiblePlayers;
-    private List<SquareSnapshot> possibleSquares;
+    private transient TCPClient server;
 
     public RemoteActionSocket(int index){
         super(index);
@@ -55,15 +54,14 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     public List<PublicPlayerSnapshot> getPossiblePlayers() throws IOException, ClassNotFoundException
     {
         server.out().sendInt(RemoteActionsHandlerSocket.GET_PLAYERS);
-        return server.in().getObject();
-
+        return new ArrayList<>(possiblePlayers = server.in().getObject());
     }
 
     @Override
     public List<SquareSnapshot> getPossibleSquares() throws IOException, ClassNotFoundException
     {
         server.out().sendInt(RemoteActionsHandlerSocket.GET_SQUARES);
-        return server.in().getObject();
+        return new ArrayList<>(possibleSquares = server.in().getObject());
     }
 
     @Override
