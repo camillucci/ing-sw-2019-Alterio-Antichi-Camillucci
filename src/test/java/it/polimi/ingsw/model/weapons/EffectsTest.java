@@ -108,9 +108,9 @@ class EffectsTest {
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(RED));
         gameBoard.getSpawnAndShopSquare(YELLOW).addPlayer(p3);
         p3.setCurrentSquare(gameBoard.getSpawnAndShopSquare(YELLOW));
-        Effects.move(Arrays.asList(p2, p3), Arrays.asList(gameBoard.getSpawnAndShopSquare(YELLOW), gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE)));
+        Effects.move(Arrays.asList(p2, p3), Collections.singletonList(gameBoard.getSpawnAndShopSquare(YELLOW)));
         assertEquals(gameBoard.getSpawnAndShopSquare(YELLOW), p2.getCurrentSquare());
-        assertEquals(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE), p3.getCurrentSquare());
+        assertEquals(gameBoard.getSpawnAndShopSquare(YELLOW), p3.getCurrentSquare());
     }
 
     /*

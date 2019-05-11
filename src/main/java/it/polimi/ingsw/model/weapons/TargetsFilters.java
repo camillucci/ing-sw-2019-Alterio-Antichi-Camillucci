@@ -159,6 +159,21 @@ public class TargetsFilters {
         return Collections.singletonList(player.getCurrentSquare());
     }
 
+    public static List<Square> vortexCannonSquares(Player player, List<Square> alreadyAdded) {
+        if(!alreadyAdded.isEmpty())
+            return Collections.emptyList();
+        List<Square> temp = new ArrayList<>();
+        for(Square square : player.gameBoard.getInRangeSquares(player))
+            if(!square.getPlayers().isEmpty())
+                temp.add(square);
+            else
+                for(Square s : player.gameBoard.distanceOneSquares(square))
+                    if((s.getPlayers().size() >= 2 || (!s.getPlayers().isEmpty() && s != player.getCurrentSquare())) && !temp.contains(square))
+                        temp.add(square);
+        temp.remove(player.getCurrentSquare());
+        return temp;
+    }
+
     public static List<Player> vortexCannonPlayers1(Player player, List<Player> players, List<Square> squares) {
         if(!players.isEmpty() || squares.isEmpty())
             return Collections.emptyList();
@@ -201,12 +216,24 @@ public class TargetsFilters {
         if(alreadyAdded.size() >= 2)
             return Collections.emptyList();
         if(alreadyAdded.isEmpty()) {
-            List<Square> tempSquares = player.gameBoard.removeEmptySquares(player.gameBoard.sameDirection(player));
-            tempSquares.remove(player.getCurrentSquare());
-            return tempSquares;
+            return flamethrowerFirstSquare(player);
         }
         List<Square> temp = player.gameBoard.sameDirectionSquare(player, alreadyAdded.get(0));
         temp.removeAll(alreadyAdded);
+        return temp;
+    }
+
+    private static List<Square> flamethrowerFirstSquare(Player player) {
+        List<Square> temp = new ArrayList<>();
+        List<Square> tempSquares = player.gameBoard.removeEmptySquares(player.gameBoard.getSquares(player, 1));
+        for(Square square : tempSquares)
+            if(!square.getPlayers().isEmpty())
+                temp.add(square);
+            else
+                for(Square s : player.gameBoard.sameDirectionSquare(player, square))
+                    if(!s.getPlayers().isEmpty())
+                        temp.add(square);
+        temp.remove(player.getCurrentSquare());
         return temp;
     }
 

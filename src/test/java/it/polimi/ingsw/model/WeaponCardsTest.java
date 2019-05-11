@@ -181,4 +181,137 @@ class WeaponCardsTest {
         assertEquals(0, p3.getMark().size());
         assertEquals(gameBoard.getSquares().get(9), p3.getCurrentSquare());
     }
+
+    @Test
+    void vortexCannon1() {
+        WeaponCard vortexCannon = CardsFactory.getWeapons().get(7);
+        shoot = vortexCannon.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p2);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(4, shoot.getPossibleSquares().size());
+        shoot.addTarget(gameBoard.getSquares().get(7));
+        assertEquals(2, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.addTarget(p3);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(2, p3.getDamage().size());
+        assertEquals(0, p3.getMark().size());
+        assertEquals(gameBoard.getSquares().get(7), p3.getCurrentSquare());
+        assertEquals(0, p4.getDamage().size());
+        assertEquals(0, p4.getMark().size());
+        assertEquals(gameBoard.getSquares().get(6), p4.getCurrentSquare());
+    }
+
+    @Test
+    void vortexCannon2() {
+        WeaponCard vortexCannon = CardsFactory.getWeapons().get(7);
+        shoot = vortexCannon.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p2);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(4, shoot.getPossibleSquares().size());
+        shoot.addTarget(gameBoard.getSquares().get(6));
+        assertEquals(3, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.addTarget(p3);
+        assertEquals(2, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.addTarget(p5);
+        assertEquals(1, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(2, p3.getDamage().size());
+        assertEquals(0, p3.getMark().size());
+        assertEquals(gameBoard.getSquares().get(6), p3.getCurrentSquare());
+        assertEquals(1, p5.getDamage().size());
+        assertEquals(0, p5.getMark().size());
+        assertEquals(gameBoard.getSquares().get(6), p5.getCurrentSquare());
+        assertEquals(0, p4.getDamage().size());
+        assertEquals(0, p4.getMark().size());
+        assertEquals(gameBoard.getSquares().get(6), p4.getCurrentSquare());
+    }
+
+    @Test
+    void furnace() {
+        WeaponCard furnace = CardsFactory.getWeapons().get(8);
+        shoot = furnace.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p2);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot = furnace.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p2);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(1, shoot.getPossibleSquares().size());
+        shoot.addTarget(gameBoard.getSquares().get(10));
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(1, p3.getDamage().size());
+        assertEquals(0, p3.getMark().size());
+        assertEquals(1, p4.getDamage().size());
+        assertEquals(0, p4.getMark().size());
+    }
+
+    @Test
+    void heatseeker() {
+        WeaponCard heatseeker = CardsFactory.getWeapons().get(9);
+        shoot = heatseeker.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p1);
+        assertEquals(3, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.addTarget(p5);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(3, p5.getDamage().size());
+        assertEquals(0, p5.getMark().size());
+    }
+
+    @Test
+    void hellion() {
+        WeaponCard hellion = CardsFactory.getWeapons().get(10);
+        shoot = hellion.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p3);
+        assertEquals(1, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.initialize(p5);
+        assertEquals(2, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.addTarget(p4);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(1, p4.getDamage().size());
+        assertEquals(1, p4.getMark().size());
+        assertEquals(0, p3.getDamage().size());
+        assertEquals(1, p3.getMark().size());
+    }
+
+    @Test
+    void flamethrower() {
+        WeaponCard flamethrower = CardsFactory.getWeapons().get(11);
+        p1.getCurrentSquare().removePlayer(p1);
+        p1.setCurrentSquare(gameBoard.getSquares().get(10));
+        p1.getCurrentSquare().addPlayer(p1);
+        shoot = flamethrower.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p1);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(2, shoot.getPossibleSquares().size());
+        shoot = flamethrower.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p1);
+        assertEquals(4, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.addTarget(p3);
+        assertEquals(1, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.addTarget(p5);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(1, p3.getDamage().size());
+        assertEquals(0, p3.getMark().size());
+        assertEquals(1, p5.getDamage().size());
+        assertEquals(0, p5.getMark().size());
+    }
 }

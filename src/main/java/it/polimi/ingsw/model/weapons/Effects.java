@@ -65,10 +65,10 @@ public class Effects
 
     public static void move(List<Player> players, List<Square> squares)
     {
-        for(int i = 0; i < players.size(); i++) {
-            players.get(i).getCurrentSquare().removePlayer(players.get(i));
-            players.get(i).setCurrentSquare(squares.get(i));
-            squares.get(i).addPlayer(players.get(i));
+        for(Player player : players) {
+            player.getCurrentSquare().removePlayer(player);
+            player.setCurrentSquare(squares.get(0));
+            squares.get(0).addPlayer(player);
         }
     }
 

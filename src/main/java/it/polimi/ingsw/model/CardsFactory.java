@@ -108,8 +108,8 @@ public class CardsFactory {
                 new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(tractorBeamPlayers2, tractorBeamSquares2, move.andThen(damage(3))), new EndBranchAction())))));
 
         weapons.add(new WeaponCard("Vortex Cannon", new Ammo(1, 0, 0), new Ammo(1, 1, 0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(vortexCannonPlayers1, visibleSquares(1), move.andThen(damage(2))), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(vortexCannonPlayers2, visibleSquares(1), move.andThen(damage(2, 1, 1))), new EndBranchAction())))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(vortexCannonPlayers1, vortexCannonSquares, move.andThen(damage(2))), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(vortexCannonPlayers2, vortexCannonSquares, move.andThen(damage(2, 1, 1))), new EndBranchAction())))));
 
         weapons.add(new WeaponCard("Furnace", new Ammo(1, 0, 0), new Ammo(1, 1, 0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageRoom(1), roomSquares(1)), new EndBranchAction())),
@@ -216,6 +216,7 @@ public class CardsFactory {
     private static PlayersFilter tractorBeamPlayers2 = (player, players, squares) -> TargetsFilters.tractorBeamPlayers2(player, players);
     private static SquaresFilter tractorBeamSquares2 = TargetsFilters::tractorBeamSquares2;
 
+    private static SquaresFilter vortexCannonSquares = (player, players, squares) -> TargetsFilters.vortexCannonSquares(player, squares);
     private static PlayersFilter vortexCannonPlayers1 = TargetsFilters::vortexCannonPlayers1;
     private static PlayersFilter vortexCannonPlayers2 = TargetsFilters::vortexCannonPlayers2;
 
