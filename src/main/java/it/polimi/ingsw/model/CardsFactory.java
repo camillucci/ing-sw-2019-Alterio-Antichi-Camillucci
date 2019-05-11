@@ -143,8 +143,8 @@ public class CardsFactory {
                         new Branch(new MoveAction(2), new ShootAction(awayPlayers(1, 1), movable1Square, damageMultiple(2, 1, 0, 0).andThen(move)), new EndBranchAction())))));
 
         weapons.add(new WeaponCard("Railgun", new Ammo(1, 0, 1), new Ammo(1, 0, 2), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunPlayers, damage(3)), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunPlayers, damage(2, 2)), new EndBranchAction())))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunPlayers1, damage(3)), new EndBranchAction())),
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunPlayers2, damage(2, 2)), new EndBranchAction())))));
 
         weapons.add(new WeaponCard("Cyberblade", new Ammo(0, 1, 0), new Ammo(0, 1, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0),
@@ -223,7 +223,8 @@ public class CardsFactory {
     private static PlayersFilter flamethrowerPlayers = (player, players, squares) -> TargetsFilters.flamethrowerPlayers(player, players);
     private static SquaresFilter flamethrowerSquares = (player, players, squares) -> TargetsFilters.flamethrowerSquares(player, squares);
 
-    private static PlayersFilter railGunPlayers = (player, players, squares) -> TargetsFilters.railgunPlayers(player, players);
+    private static PlayersFilter railGunPlayers1 = (player, players, squares) -> TargetsFilters.railgunPlayers1(player, players);
+    private static PlayersFilter railGunPlayers2 = (player, players, squares) -> TargetsFilters.railgunPlayers2(player, players);
 
     private static SquaresFilter sledgehammerSquares = (player, players, squares) -> TargetsFilters.sledgehammerSquares(players, squares);
 

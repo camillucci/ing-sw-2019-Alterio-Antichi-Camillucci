@@ -215,9 +215,8 @@ public class TargetsFilters {
     public static List<Square> flamethrowerSquares(Player player, List<Square> alreadyAdded) {
         if(alreadyAdded.size() >= 2)
             return Collections.emptyList();
-        if(alreadyAdded.isEmpty()) {
+        if(alreadyAdded.isEmpty())
             return flamethrowerFirstSquare(player);
-        }
         List<Square> temp = player.gameBoard.sameDirectionSquare(player, alreadyAdded.get(0));
         temp.removeAll(alreadyAdded);
         return temp;
@@ -225,7 +224,7 @@ public class TargetsFilters {
 
     private static List<Square> flamethrowerFirstSquare(Player player) {
         List<Square> temp = new ArrayList<>();
-        List<Square> tempSquares = player.gameBoard.removeEmptySquares(player.gameBoard.getSquares(player, 1));
+        List<Square> tempSquares = player.gameBoard.getSquares(player, 1);
         for(Square square : tempSquares)
             if(!square.getPlayers().isEmpty())
                 temp.add(square);
@@ -237,13 +236,29 @@ public class TargetsFilters {
         return temp;
     }
 
-    public static List<Player> railgunPlayers(Player player, List<Player> alreadyAdded) {
+    public static List<Player> railgunPlayers1(Player player, List<Player> alreadyAdded) {
         if(!alreadyAdded.isEmpty())
             return Collections.emptyList();
         List<Player> temp = new ArrayList<>();
         for(Square square : player.gameBoard.throughWalls(player))
             temp.addAll(square.getPlayers());
         temp.remove(player);
+        return temp;
+    }
+
+    public static List<Player> railgunPlayers2(Player player, List<Player> alreadyAdded) {
+        if(alreadyAdded.size() >= 2)
+            return Collections.emptyList();
+        List<Square> tempSquares;
+        if(alreadyAdded.isEmpty())
+            return railgunPlayers1(player, alreadyAdded);
+
+        tempSquares = player.gameBoard.throughWalls(player, alreadyAdded.get(0).getCurrentSquare());
+        List<Player> temp = new ArrayList<>();
+        for(Square square : tempSquares)
+            temp.addAll(square.getPlayers());
+        temp.remove(player);
+        temp.removeAll(alreadyAdded);
         return temp;
     }
 

@@ -312,7 +312,9 @@ public class GameBoard {
             return removeEmptySquares(Collections.singletonList(squares[square.y + 1][square.x]));
         if(player.getCurrentSquare().x - square.x == 1 && square.okWest())
             return removeEmptySquares(Collections.singletonList(squares[square.y][square.x - 1]));
-        return removeEmptySquares(Collections.singletonList(squares[square.y][square.x + 1]));
+        if(player.getCurrentSquare().x - square.x == -1 && square.okEast())
+            return removeEmptySquares(Collections.singletonList(squares[square.y][square.x + 1]));
+        return Collections.emptyList();
     }
 
     public List<Square> throughWalls(Player player) {
@@ -347,6 +349,43 @@ public class GameBoard {
                 temp.add(squares[tempToAdd.y][tempToAdd.x + 1]);
         }
         return removeEmptySquares(temp);
+    }
+
+    public List<Square> throughWalls(Player player, Square square) {
+        List<Square> temp = new ArrayList<>();
+        temp.add(player.getCurrentSquare());
+        if(player.getCurrentSquare().x > square.x) {
+            return throughWallsDirection(temp, 0);
+        }
+        if(player.getCurrentSquare().x < square.x) {
+            return throughWallsDirection(temp, 1);
+        }
+        if(player.getCurrentSquare().y > square.y) {
+            return throughWallsDirection(temp, 2);
+        }
+        return throughWallsDirection(temp, 3);
+    }
+
+    private List<Square> throughWallsDirection(List<Square> temp, int val) {
+        for(int i = 0; i < temp.size(); i++)
+            switch(val) {
+                case 0:
+                    if(temp.get(i).existWest())
+                        temp.add(squares[temp.get(i).y][temp.get(i).x - 1]);
+                    break;
+                case 1:
+                    if(temp.get(i).existEast())
+                        temp.add(squares[temp.get(i).y][temp.get(i).x + 1]);
+                    break;
+                case 2:
+                    if(temp.get(i).existNorth())
+                        temp.add(squares[temp.get(i).y - 1][temp.get(i).x]);
+                    break;
+                default:
+                    if(temp.get(i).existSouth())
+                        temp.add(squares[temp.get(i).y + 1][temp.get(i).x]);
+            }
+        return temp;
     }
 
     public List<Square> removeEmptySquares(List<Square> squareList) {

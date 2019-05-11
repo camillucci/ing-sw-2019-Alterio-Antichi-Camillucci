@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameBoardTest {
 
-    private GameBoard gameBoard = new GameBoard(gameLength, 12);
-    private Player player = new Player("A", GREY, gameBoard);
+    private GameBoard gameBoard;
+    private Player player;
     private Player p2;
     private Player p3;
     private static final int gameLength = 6;
@@ -22,6 +22,8 @@ class GameBoardTest {
 
     @BeforeEach
     void setUp() {
+        gameBoard = new GameBoard(gameLength, 12);
+        player = new Player("A", GREY, gameBoard);
         p2 = new Player("B", YELLOW, gameBoard);
         p3 = new Player("C", VIOLET, gameBoard);
     }
@@ -320,6 +322,7 @@ class GameBoardTest {
         p3.getCurrentSquare().addPlayer(p3);
         assertEquals(2, gameBoard.throughWalls(player).size());
     }
+
     @Test
     void throughWalls3() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
@@ -327,6 +330,16 @@ class GameBoardTest {
         p2.setCurrentSquare(gameBoard.getSquares().get(5));
         p2.getCurrentSquare().addPlayer(p2);
         assertEquals(1, gameBoard.throughWalls(player).size());
+    }
+
+    @Test
+    void throughWallsSquare() {
+        player.setCurrentSquare(gameBoard.getSquares().get(6));
+        player.getCurrentSquare().addPlayer(player);
+        assertEquals(2, gameBoard.throughWalls(player, gameBoard.getSquares().get(2)).size());
+        assertEquals(2, gameBoard.throughWalls(player, gameBoard.getSquares().get(10)).size());
+        assertEquals(3, gameBoard.throughWalls(player, gameBoard.getSquares().get(5)).size());
+        assertEquals(2, gameBoard.throughWalls(player, gameBoard.getSquares().get(7)).size());
     }
 
     @Test
