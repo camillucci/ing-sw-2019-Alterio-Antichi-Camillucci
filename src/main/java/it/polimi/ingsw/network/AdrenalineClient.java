@@ -111,11 +111,17 @@ public abstract class AdrenalineClient
         messanger.spawn(powerupCards);
         server.out().sendInt(parser.parseSpawnChoice(powerupCards));
     }
-     */
+
 
     public void updateView() throws Exception {
         //todo remove all socket-dependet code
         matchSnapshot = server.in().getObject();
+        messenger.updateView(matchSnapshot);
+    }
+    */
+
+    public void updateView(MatchSnapshot matchSnapshot) throws Exception {
+        this.matchSnapshot = matchSnapshot;
         messenger.updateView(matchSnapshot);
     }
 

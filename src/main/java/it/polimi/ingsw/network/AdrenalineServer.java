@@ -20,7 +20,6 @@ public abstract class AdrenalineServer extends ConnectionAbstract implements IAd
     protected int gameLength;
     protected int gameMap;
     protected String name;
-    protected RemoteActionsHandler remoteActionsHandler;
 
     public AdrenalineServer(Controller controller)
     {
