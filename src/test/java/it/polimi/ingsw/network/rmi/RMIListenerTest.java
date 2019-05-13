@@ -2,8 +2,10 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.AdrenalineServer;
 import it.polimi.ingsw.network.IAdrenalineServer;
+import it.polimi.ingsw.network.socket.TCPListener;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
@@ -50,6 +52,9 @@ class RMIListenerTest
     {
         RMIListener listener = new RMIListener(9999, () -> new AdrenalineServer(new Controller()));
         listener.start();
+        while(listener.getConnected().size() == 0)
+            ;
+        Thread.sleep(200);
     }
 
     @Test

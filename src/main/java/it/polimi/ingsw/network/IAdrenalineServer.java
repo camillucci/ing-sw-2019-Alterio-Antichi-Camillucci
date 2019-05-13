@@ -7,7 +7,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface IAdrenalineServer extends Remote, IConnection
+public interface IAdrenalineServer extends Remote
 {
     void setInterface(boolean ClI) throws RemoteException;
     List<String> availableColors() throws RemoteException;
@@ -18,4 +18,5 @@ public interface IAdrenalineServer extends Remote, IConnection
     boolean joinRoom() throws IOException;
     void updateView(MatchSnapshot matchSnapshot) throws IOException;
     void handleAction(int selection, int extra) throws IOException;
+    void connect(Runnable func) throws RemoteException;
 }
