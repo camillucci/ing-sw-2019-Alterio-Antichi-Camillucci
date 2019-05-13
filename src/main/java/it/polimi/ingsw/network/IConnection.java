@@ -2,5 +2,5 @@ package it.polimi.ingsw.network;
 
 public interface IConnection
 {
-    void connect() throws Exception;
+    void connect(Runnable func) throws Exception;
 }

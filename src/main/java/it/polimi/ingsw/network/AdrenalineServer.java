@@ -58,15 +58,6 @@ public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineS
     }
 
     @Override
-    public void connect()
-    {
-        if(!connected) {
-            ((Event<ConnectionAbstract, Object>)this.connectedEvent).invoke(this, null);
-            connected = true;
-        }
-    }
-
-    @Override
     public void setGameLength(int gameLength) {
         this.gameLength = gameLength;
     }

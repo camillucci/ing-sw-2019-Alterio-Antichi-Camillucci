@@ -45,4 +45,16 @@ class RMIListenerTest
         }
     }
 
+    @Test
+    void testServer() throws Exception
+    {
+        RMIListener listener = new RMIListener(9999, () -> new AdrenalineServer(new Controller()));
+        listener.start();
+    }
+
+    @Test
+    void testClient() throws Exception
+    {
+        RMIClient.connect("quel che scrivo su tg", 9999);
+    }
 }
