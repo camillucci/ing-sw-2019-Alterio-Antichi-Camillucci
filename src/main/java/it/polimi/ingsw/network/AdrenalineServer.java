@@ -12,10 +12,12 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineServer
 {
     public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatedEvent = new Event<>();
+    public final IEvent<IAdrenalineServer, String> newMessageEvent = new Event<>();
     boolean connected = false;
     protected Controller controller;
     protected boolean gameInterface;
@@ -53,6 +55,7 @@ public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineS
     @Override
     public boolean setName(String name) throws RemoteException
     {
+        ((Event<IAdrenalineServer, String>)newMessageEvent).invoke(this, "Name ok");
         if(controller.existName(name)) {
             this.name = name;
             return true;
@@ -98,5 +101,10 @@ public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineS
     public void handleAction(int selection, int extra) {
         //remoteActionsHandler(selection, extra);
         //TODO
+    }
+
+    @Override
+    public void subscribeNewMessageEvent(BiConsumer<IAdrenalineServer, String> eventHandler) throws IOException {
+        this.newMessageEvent.addEventHandler(eventHandler);
     }
 }
