@@ -6,8 +6,10 @@ import it.polimi.ingsw.network.socket.TCPListener;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,22 +52,5 @@ class RMIListenerTest
     @Test
     void serverTest() throws Exception
     {
-        RMIListener listener = new RMIListener(1099, () -> new AdrenalineServer(new Controller()));
-        listener.start();
-        /*
-        (new Thread(() ->{
-            try{
-                Thread.sleep(1000);
-                RMIClient.connect("169.254.87.91", 1099);
-            }
-            catch (Exception e){
-
-            }
-        })).start();
-
-         */
-        while(listener.getConnected().isEmpty())
-            Thread.sleep(200);
-        System.out.println();
     }
 }
