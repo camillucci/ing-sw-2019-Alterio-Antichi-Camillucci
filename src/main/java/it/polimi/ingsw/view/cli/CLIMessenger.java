@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.socket.RemoteActionSocket;
 
 import java.util.ArrayList;
@@ -146,26 +147,26 @@ public class CLIMessenger {
         }
     }
 
-    public void displayActions(ArrayList<RemoteActionSocket> options) {
+    public void displayActions(ArrayList<RemoteAction> options) {
         for(int i = 0; i < options.size(); i++){
             System.out.println(PRESS + i + " if you want to execute action" + options.get(i).toString());
         }
     }
 
-    public int displayTargets(ArrayList<PublicPlayerSnapshot> targetPlayers, ArrayList<SquareSnapshot> targetSquares) {
+    public int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
         int j = targetPlayers.size();
         for(int i = 0; i < targetPlayers.size(); i++) {
-            System.out.println(PRESS + i + " if you want to target" + targetPlayers.get(i).name);
+            System.out.println(PRESS + i + " if you want to target" + targetPlayers.get(i));
         }
         for(int i = 0; i < targetSquares.size(); i++) {
             j = i + targetPlayers.size();
-            System.out.println(PRESS + j + " if you want to move in the square" + targetSquares.get(i).name);
+            System.out.println(PRESS + j + " if you want to move in the square" + targetSquares.get(i));
         }
 
         return j;
     }
 
-    public void displayTargetsAndAction(ArrayList<PublicPlayerSnapshot> targetPlayers, ArrayList<SquareSnapshot> targetSquares) {
+    public void displayTargetsAndAction(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
         int temp = displayTargets(targetPlayers, targetSquares);
         System.out.println(PRESS + temp + " if you want to execute action with previously selected targets");
     }

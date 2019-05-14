@@ -94,4 +94,9 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
         server.out().sendInt(RemoteActionsHandlerSocket.CAN_BE_DONE);
         return server.in().getBool();
     }
+
+    @Override
+    public String toString() {
+        return "Azione";
+    }
 }

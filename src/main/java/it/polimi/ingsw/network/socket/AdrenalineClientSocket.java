@@ -1,9 +1,13 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.AdrenalineClient;
+import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdrenalineClientSocket extends AdrenalineClient {
@@ -47,6 +51,11 @@ public class AdrenalineClientSocket extends AdrenalineClient {
 
     @Override
     protected void notifyHandleAction(int selection, int extra) {
+        //TODO
+    }
+
+    @Override
+    protected void inizialize(RemoteAction remoteAction) {
         //TODO
     }
 }

@@ -92,4 +92,9 @@ public class RemoteActionRMI extends RemoteAction
     {
         return remoteActionsHandler.canBeDone();
     }
+
+    @Override
+    public String toString() {
+        return "Azione";
+    }
 }

@@ -36,4 +36,5 @@ public abstract class RemoteAction implements Serializable
     public abstract List<String> getDiscardablePowerups() throws IOException, ClassNotFoundException;
     public abstract boolean canBeDone() throws IOException;
     public abstract void doAction() throws IOException;
+    public abstract String toString();
 }

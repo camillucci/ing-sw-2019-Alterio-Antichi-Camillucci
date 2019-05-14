@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.network.AdrenalineClient;
 import it.polimi.ingsw.network.IAdrenalineServer;
+import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -12,7 +13,7 @@ import java.util.List;
 public class AdrenalineClientRMI extends AdrenalineClient {
     private IAdrenalineServer server;
 
-    public AdrenalineClientRMI(String serverName, int port) throws RemoteException, NotBoundException
+    public AdrenalineClientRMI(String serverName, int port) throws IOException, NotBoundException
     {
         this.server = RMIClient.connect(serverName, port);
     }
@@ -50,5 +51,10 @@ public class AdrenalineClientRMI extends AdrenalineClient {
     @Override
     protected void notifyHandleAction(int selection, int extra) throws IOException {
         server.handleAction(selection, extra);
+    }
+
+    @Override
+    protected void inizialize(RemoteAction remoteAction) {
+        //TODO
     }
 }
