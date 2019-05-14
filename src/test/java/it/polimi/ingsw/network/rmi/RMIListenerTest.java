@@ -48,9 +48,4 @@ class RMIListenerTest
             assert(false);
         }
     }
-
-    @Test
-    void serverTest() throws Exception
-    {
-    }
 }

@@ -123,6 +123,8 @@ public abstract class AdrenalineClient
         return matchSnapshot;
     }
 
+
+
     /*
     public void chooseAction() throws Exception {
         //todo remove all socket-dependet code

@@ -21,5 +21,4 @@ public interface IAdrenalineServer extends IConnection, Remote
     boolean joinRoom() throws IOException;
     void updateView(MatchSnapshot matchSnapshot) throws IOException;
     void handleAction(int selection, int extra) throws IOException;
-    void subscribeNewMessageEvent(BiConsumer<IAdrenalineServer, String> eventHandler) throws IOException;
 }
