@@ -28,7 +28,6 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     @Override
     public void addTargetPlayer(String target) throws IOException
     {
-        //server.handleAction(RemoteActionsHandlerSocket.ADD_PLAYER, possiblePlayers.indexOf(target));
         server.out().sendInt(RemoteActionsHandlerSocket.ADD_PLAYER);
         server.out().sendInt(possiblePlayers.indexOf(target));
     }
@@ -36,32 +35,31 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     @Override
     public void addTargetSquare(String target) throws IOException
     {
-        //server.handleAction(RemoteActionsHandlerSocket.ADD_SQUARE, possibleSquares.indexOf(target));
-
         server.out().sendInt(RemoteActionsHandlerSocket.ADD_SQUARE);
         server.out().sendInt(possibleSquares.indexOf(target));
     }
 
     @Override
     public void usePowerUp(String powerUp) throws IOException {
-
+        server.out().sendInt(RemoteActionsHandlerSocket.ADD_POWERUP);
+        server.out().sendInt(discardablePowerUps.indexOf(powerUp));
     }
 
     @Override
     public void addDiscardable(String powerUp) throws IOException {
-
+        server.out().sendInt(RemoteActionsHandlerSocket.ADD_DISCARDABLE);
+        server.out().sendInt(discardablePowerUps.indexOf(powerUp));
     }
 
     @Override
     public void addWeapon(String weapon) throws IOException {
-
+        server.out().sendInt(RemoteActionsHandlerSocket.ADD_WEAPON);
+        server.out().sendInt(ownerPlayer.getUnloadedWeapons().indexOf(weapon));
     }
 
     @Override
     public void doAction() throws IOException
     {
-        //server.handleAction(RemoteActionsHandlerSocket.DO_ACTION, 0);
-
         server.out().sendInt(RemoteActionsHandlerSocket.DO_ACTION);
     }
 
@@ -80,13 +78,15 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     }
 
     @Override
-    public List<String> getPossiblePowerups() throws IOException {
-        return null;
+    public List<String> getPossiblePowerups() throws IOException, ClassNotFoundException {
+        server.out().sendInt(RemoteActionsHandlerSocket.GET_POWERUPS);
+        return new ArrayList<>(possiblePowerUps = server.in().getObject());
     }
 
     @Override
-    public List<String> getDiscardablePowerups() throws IOException {
-        return null;
+    public List<String> getDiscardablePowerups() throws IOException, ClassNotFoundException {
+        server.out().sendInt(RemoteActionsHandlerSocket.GET_DISCARDABLES);
+        return new ArrayList<>(discardablePowerUps = server.in().getObject());
     }
 
     @Override
