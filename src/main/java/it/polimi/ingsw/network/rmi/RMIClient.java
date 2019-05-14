@@ -12,11 +12,10 @@ public class RMIClient {
 
     public static void func()
     {
-        int a = 3;
-        System.out.println("connected");
+        //todo
     }
 
-    public static <T extends IConnection & Remote> T connect(String hostname, int port) throws Exception, RemoteException, NotBoundException
+    public static <T extends IConnection & Remote> T connect(String hostname, int port) throws RemoteException, NotBoundException
     {
         Registry registry = LocateRegistry.getRegistry(hostname, port);
         T stub  = (T) registry.lookup("Server");

@@ -27,40 +27,33 @@ public class RemoteActionRMI extends RemoteAction
     @Override
     public void addTargetPlayer(String target) throws RemoteException
     {
-        int i = possiblePlayers.indexOf(target);
-        if(i != -1)
-            remoteActionsHandler.addTargetPlayer(i);
+        remoteActionsHandler.addTargetPlayer(possiblePlayers.indexOf(target));
     }
 
     @Override
     public void addTargetSquare(String target) throws RemoteException
     {
-        //server.handleAction(RemoteActionsHandlerSocket.ADD_SQUARE, possibleSquares.indexOf(target));
-
-        int i = possibleSquares.indexOf(target);
-        if(i != -1)
-            remoteActionsHandler.addTargetSquare(i);
+        remoteActionsHandler.addTargetSquare(possiblePlayers.indexOf(target));
     }
 
     @Override
     public void usePowerUp(String powerUp) throws IOException {
-
+        remoteActionsHandler.addPowerup(possiblePowerUps.indexOf(powerUp));
     }
 
     @Override
     public void addDiscardable(String powerUp) throws IOException {
-
+        remoteActionsHandler.addDiscardablePowerup(discardablePowerUps.indexOf(powerUp));
     }
 
     @Override
     public void addWeapon(String weapon) throws IOException {
-
+        remoteActionsHandler.addWeapon(ownerPlayer.getUnloadedWeapons().indexOf(weapon));
     }
 
     @Override
     public void doAction() throws RemoteException
     {
-        //server.handleAction(RemoteActionsHandlerSocket.DO_ACTION, 0);
         remoteActionsHandler.doAction();
     }
 
@@ -82,12 +75,16 @@ public class RemoteActionRMI extends RemoteAction
 
     @Override
     public List<String> getPossiblePowerups() throws IOException {
-        return null;
+        List<String> ret = remoteActionsHandler.getPossiblePowerups();
+        this.possiblePowerUps = new ArrayList<>(ret);
+        return ret;
     }
 
     @Override
     public List<String> getDiscardablePowerups() throws IOException {
-        return null;
+        List<String> ret = remoteActionsHandler.getDiscardablePowerUps();
+        this.discardablePowerUps = new ArrayList<>(ret);
+        return ret;
     }
 
     @Override

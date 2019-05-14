@@ -9,18 +9,20 @@ import java.util.List;
 
 public abstract class RemoteAction implements Serializable
 {
-    protected transient MatchSnapshot matchSnapshot;
+    protected transient PrivatePlayerSnapshot ownerPlayer;
     protected int index;
     protected ArrayList<String> possiblePlayers;
     protected ArrayList<String> possibleSquares;
+    protected ArrayList<String> possiblePowerUps;
+    protected ArrayList<String> discardablePowerUps;
 
     public RemoteAction(int index){
         this.index = index;
     }
 
-    public void initialize(MatchSnapshot matchSnapshot)
+    public void initialize(PrivatePlayerSnapshot player)
     {
-        this.matchSnapshot = matchSnapshot;
+        this.ownerPlayer = player;
     }
 
     public abstract void addTargetPlayer(String target) throws IOException;
