@@ -9,9 +9,9 @@ import java.util.List;
 public class AdrenalineClientSocket extends AdrenalineClient {
     private TCPClient server;
 
-    public AdrenalineClientSocket(TCPClient server)
+    public AdrenalineClientSocket(String serverName, int port) throws IOException
     {
-        this.server = server;
+        this.server = TCPClient.connect(serverName, port);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class RMIClient {
 
     public static void func()
     {
-        //todo
+        System.out.println("Connected!");
     }
 
     public static <T extends IConnection & Remote> T connect(String hostname, int port) throws RemoteException, NotBoundException

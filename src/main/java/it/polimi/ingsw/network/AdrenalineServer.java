@@ -9,6 +9,8 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineServer
@@ -39,7 +41,8 @@ public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineS
     @Override
     public List<String> availableColors() throws RemoteException
     {
-       return controller.getAvailableRoom().getAvailableColors();
+        return new ArrayList<>(Collections.singletonList("noice"));
+      // return controller.getAvailableRoom().getAvailableColors();
     }
 
     @Override
