@@ -1,8 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.Ammo;
+import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
-import it.polimi.ingsw.model.weapons.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

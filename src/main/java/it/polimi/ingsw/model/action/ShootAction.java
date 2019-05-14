@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PowerUpCard;
+import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.Square;
-import it.polimi.ingsw.model.weapons.*;
+import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
 import java.util.Collections;

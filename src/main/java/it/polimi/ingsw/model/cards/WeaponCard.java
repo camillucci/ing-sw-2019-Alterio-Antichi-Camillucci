@@ -1,5 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.action.FireModalityAction;
 import it.polimi.ingsw.model.branch.Branch;
 
@@ -12,7 +13,7 @@ public class WeaponCard {
     public final String name;
     public final Ammo buyCost;
     public final Ammo reloadCost;
-    private Supplier<List<FireModalityAction>> fireBuilder;
+    public final Supplier<List<FireModalityAction>> fireBuilder;
 
     public WeaponCard(String name, Ammo buyCost, Ammo reloadCost, Supplier<List<FireModalityAction>> fireBuilder)
     {

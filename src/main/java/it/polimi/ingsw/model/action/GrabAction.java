@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Ammo;
-import it.polimi.ingsw.model.PowerUpCard;
-import it.polimi.ingsw.model.WeaponCard;
+import it.polimi.ingsw.model.cards.PowerUpCard;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -27,7 +27,7 @@ public class GrabAction extends ExtendableAction
         Ammo alreadyAdded = new Ammo(0, 0, 0);
         for(PowerUpCard pu : discardedPowerUps)
             alreadyAdded = alreadyAdded.add(pu.colorToAmmo());
-        for(WeaponCard wc : this.selectedWeapons)
+        for(WeaponCard wc : ownerPlayer.getCurrentSquare().getWeapons())
             for(PowerUpCard pu : ownerPlayer.getPowerUps())
                 if(!discardedPowerUps.contains(pu) && alreadyAdded.add(pu.colorToAmmo()).isLessOrEqualThan(wc.buyCost))
                     temp.add(pu);

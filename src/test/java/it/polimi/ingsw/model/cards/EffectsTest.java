@@ -1,6 +1,5 @@
-package it.polimi.ingsw.model.weapons;
+package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.BeforeEach;

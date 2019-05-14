@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.weapons;
+package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.GameBoard;
@@ -45,15 +45,18 @@ class TargetsFiltersTest {
     @Test
     void visibleSquares() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
-        assertEquals(7, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
-        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
-        assertEquals(4, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
-        player.setCurrentSquare(gameBoard.getInRangeSquares(player).get(1));
-        assertEquals(4, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
-        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
-        assertEquals(4, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
-        player.setCurrentSquare(gameBoard.getInRangeSquares(player).get(2));
-        assertEquals(6, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
+        player.getCurrentSquare().addPlayer(player);
+        assertEquals(0, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
+        p2.setCurrentSquare(gameBoard.getSquares().get(1));
+        p2.getCurrentSquare().addPlayer(p2);
+        assertEquals(1, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
+        p3.setCurrentSquare(gameBoard.getSquares().get(3));
+        p3.getCurrentSquare().addPlayer(p3);
+        assertEquals(2, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
+        p2.getCurrentSquare().removePlayer(p2);
+        p2.setCurrentSquare(gameBoard.getSquares().get(8));
+        p2.getCurrentSquare().addPlayer(p2);
+        assertEquals(1, TargetsFilters.visibleSquares(player, Collections.emptyList(), 1).size());
     }
 
     @Test

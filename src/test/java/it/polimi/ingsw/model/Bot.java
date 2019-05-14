@@ -3,7 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.action.*;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.branch.BranchTestUtilities;
-import it.polimi.ingsw.model.weapons.ShootFunc;
+import it.polimi.ingsw.model.cards.ShootFunc;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.Collections;
 import java.util.List;
@@ -63,14 +64,12 @@ public class Bot
     public void playThreeDamage(ActionsProvider provider)
     {
         assertTrue(BranchTestUtilities.testEquality(BranchTestUtilities.threeDamagePossibleActions(), provider.getActions()));
-        // todo logic
         BranchTestUtilities.searchAndDo(provider.getActions(), new EndBranchAction());
     }
 
     public void reloadEndTurn(ActionsProvider provider)
     {
         assertTrue(BranchTestUtilities.testEquality(BranchTestUtilities.reloadEndTurnPossibleActions(), provider.getActions()));
-        // todo logic, to end the turn I choose EndBranchAction right now
         BranchTestUtilities.searchAndDo(provider.getActions(), new EndBranchAction());
     }
 

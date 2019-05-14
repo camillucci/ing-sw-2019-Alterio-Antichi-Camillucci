@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.PowerUpCard;
-import it.polimi.ingsw.model.weapons.PlayersFilter;
-import it.polimi.ingsw.model.weapons.ShootFunc;
-import it.polimi.ingsw.model.weapons.SquaresFilter;
+import it.polimi.ingsw.model.cards.PowerUpCard;
+import it.polimi.ingsw.model.cards.PlayersFilter;
+import it.polimi.ingsw.model.cards.ShootFunc;
+import it.polimi.ingsw.model.cards.SquaresFilter;
 
 import java.util.ArrayList;
 import java.util.List;

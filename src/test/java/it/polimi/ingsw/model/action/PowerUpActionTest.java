@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.CardsFactory;
+import it.polimi.ingsw.model.cards.PowerUpCard;
 import org.junit.jupiter.api.BeforeEach;
 import it.polimi.ingsw.model.branch.BranchTestUtilities;
 import org.junit.jupiter.api.Test;
@@ -34,8 +36,14 @@ class PowerUpActionTest {
         gameBoard.setPlayers(Arrays.asList(p1, p2));
         Action powerUpAction = newton.getEffect();
         powerUpAction.initialize(p1);
+        assertEquals(1, powerUpAction.getPossiblePlayers().size());
+        assertEquals(0, powerUpAction.getPossibleSquares().size());
         powerUpAction.addTarget(p2);
+        assertEquals(0, powerUpAction.getPossiblePlayers().size());
+        assertEquals(4, powerUpAction.getPossibleSquares().size());
         powerUpAction.addTarget(gameBoard.getSquares().get(4));
+        assertEquals(0, powerUpAction.getPossiblePlayers().size());
+        assertEquals(0, powerUpAction.getPossibleSquares().size());
         powerUpAction.doAction();
         assertEquals(0, p2.getDamage().size());
         assertEquals(p1.gameBoard.getSquares().get(4), p2.getCurrentSquare());
@@ -49,7 +57,11 @@ class PowerUpActionTest {
         p1.getCurrentSquare().addPlayer(p1);
         Action powerUpAction = teleporter.getEffect();
         powerUpAction.initialize(p1);
+        assertEquals(0, powerUpAction.getPossiblePlayers().size());
+        assertEquals(9, powerUpAction.getPossibleSquares().size());
         powerUpAction.addTarget(gameBoard.getSquares().get(6));
+        assertEquals(0, powerUpAction.getPossiblePlayers().size());
+        assertEquals(0, powerUpAction.getPossibleSquares().size());
         powerUpAction.doAction();
         assertEquals(p1.gameBoard.getSquares().get(6), p1.getCurrentSquare());
     }

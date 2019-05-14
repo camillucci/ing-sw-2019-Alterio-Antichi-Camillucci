@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.action.MoveAction;
 import it.polimi.ingsw.model.action.ShootAction;
+import it.polimi.ingsw.model.cards.CardsFactory;
+import it.polimi.ingsw.model.cards.WeaponCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -245,12 +247,8 @@ class WeaponCardsTest {
     }
 
     @Test
-    void furnace() {
+    void furnace1() {
         WeaponCard furnace = CardsFactory.getWeapons().get(8);
-        shoot = furnace.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
-        shoot.initialize(p2);
-        assertEquals(0, shoot.getPossiblePlayers().size());
-        assertEquals(0, shoot.getPossibleSquares().size());
         shoot = furnace.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(0, shoot.getPossiblePlayers().size());
@@ -263,6 +261,23 @@ class WeaponCardsTest {
         assertEquals(0, p3.getMark().size());
         assertEquals(1, p4.getDamage().size());
         assertEquals(0, p4.getMark().size());
+    }
+
+    @Test
+    void furnace2() {
+        WeaponCard furnace = CardsFactory.getWeapons().get(8);
+        shoot = furnace.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p5);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(1, shoot.getPossibleSquares().size());
+        shoot.addTarget(gameBoard.getSquares().get(6));
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(1, p3.getDamage().size());
+        assertEquals(1, p3.getMark().size());
+        assertEquals(1, p4.getDamage().size());
+        assertEquals(1, p4.getMark().size());
     }
 
     @Test
@@ -349,7 +364,7 @@ class WeaponCardsTest {
     }
 
     @Test
-    void grenadeLauncher() {
+    void grenadeLauncher1() {
         WeaponCard grenadeLauncher = CardsFactory.getWeapons().get(12);
         shoot = grenadeLauncher.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
@@ -368,6 +383,23 @@ class WeaponCardsTest {
         assertEquals(0, p4.getDamage().size());
         assertEquals(0, p4.getMark().size());
         assertEquals(gameBoard.getSquares().get(6), p4.getCurrentSquare());
+    }
+
+    @Test
+    void grenadeLauncher2() {
+        WeaponCard grenadeLauncher = CardsFactory.getWeapons().get(12);
+        shoot = grenadeLauncher.getFireModalitysBranch(1).get(1).getCompatibleActions().get(0);
+        shoot.initialize(p2);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(1, shoot.getPossibleSquares().size());
+        shoot.addTarget(gameBoard.getSquares().get(6));
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(1, p3.getDamage().size());
+        assertEquals(0, p3.getMark().size());
+        assertEquals(1, p4.getDamage().size());
+        assertEquals(0, p4.getMark().size());
     }
 
     @Test

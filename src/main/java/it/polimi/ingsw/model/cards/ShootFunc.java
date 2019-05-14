@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.weapons;
+package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.generics.TriConsumer;
 import it.polimi.ingsw.model.Player;

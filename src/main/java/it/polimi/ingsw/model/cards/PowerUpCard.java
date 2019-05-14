@@ -1,5 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.Ammo;
+import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.PowerUpSet;
 import it.polimi.ingsw.model.action.PowerUpAction;
 
 import java.util.function.Supplier;
@@ -33,7 +36,7 @@ public abstract class PowerUpCard {
         if(color == AmmoColor.BLUE)
             return new Ammo(1, 0, 0);
         if(color == AmmoColor.RED)
-            return new Ammo(0, 1, 1);
+            return new Ammo(0, 1, 0);
         return new Ammo(0, 0, 1);
     }
 }

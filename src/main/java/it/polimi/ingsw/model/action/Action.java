@@ -3,6 +3,8 @@ package it.polimi.ingsw.model.action;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.PowerUpCard;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,7 +88,7 @@ public class Action
     public List<Player> getPossiblePlayers() { return Collections.emptyList(); }
     public List<Square> getPossibleSquares() { return Collections.emptyList(); }
     public List<PowerUpCard> getPossiblePowerUps() { return Collections.emptyList(); }
-    public List<PowerUpCard> getDiscardablePowerUps() { return Collections.emptyList();}
+    public List<PowerUpCard> getDiscardablePowerUps() { return Collections.emptyList(); }
 
     public Player getOwnerPlayer() { return this.ownerPlayer; }
     public boolean isCompatible(Action action)
