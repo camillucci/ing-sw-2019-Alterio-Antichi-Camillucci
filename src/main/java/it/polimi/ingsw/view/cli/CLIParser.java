@@ -1,9 +1,13 @@
 package it.polimi.ingsw.view.cli;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class CLIParser {
     CLIMessenger messenger;
+    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public CLIParser(CLIMessenger messenger) {
         this.messenger = messenger;
@@ -15,8 +19,8 @@ public class CLIParser {
         return name;
     }
 
-    public int parseChoice() {
-        int choice = Integer.parseInt(System.in.toString());
+    public int parseChoice() throws IOException {
+        int choice = Integer.parseInt(reader.readLine());
         if (choice == 0 || choice == 1)
             return choice;
         return -1;

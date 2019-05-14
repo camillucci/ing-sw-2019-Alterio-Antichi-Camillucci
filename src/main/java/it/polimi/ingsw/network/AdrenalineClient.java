@@ -32,24 +32,8 @@ public abstract class AdrenalineClient
     protected abstract void notifyHandleAction(int selection, int extra) throws IOException;
 
     public void login() throws Exception {
+        messenger.askInterface();
         int choice = parser.parseChoice();
-        // already chosen RMI or Socket
-        /*
-        messenger.askConnection();
-        while(choice == -1) {
-            messenger.incorrectInput();
-            messenger.askConnection();
-            choice = parser.parseChoice();
-        }
-        if(choice == 0)
-            server = TCPClient.connect(HOSTNAME, IP);
-        else {
-            //server = RMIClient.connect(HOSTNAME, IP);
-            server = null;
-        }
-
-         */
-
         while(choice == -1) {
             messenger.incorrectInput();
             messenger.askInterface();
@@ -92,6 +76,16 @@ public abstract class AdrenalineClient
             choice = parser.parseGameMap();
         }
         notifyGameMap(choice);
+    }
+
+    public void loginFinto(int interf, int zero) throws IOException, ClassNotFoundException {
+        messenger.askInterface();
+        notifyInterface(interf);
+        List<String> availableColors = getAvailableColors();
+        messenger.askColor(availableColors);
+        notifyColor(zero);
+        messenger.askGameLenght();
+        notifyGameLength(zero);
     }
 
     /*
