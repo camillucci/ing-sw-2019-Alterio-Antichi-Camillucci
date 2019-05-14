@@ -32,8 +32,8 @@ public abstract class RemoteAction implements Serializable
     public abstract void addWeapon(String weapon) throws IOException;
     public abstract List<String> getPossiblePlayers() throws IOException, ClassNotFoundException;
     public abstract List<String> getPossibleSquares() throws IOException, ClassNotFoundException;
-    public abstract List<String> getPossiblePowerups() throws IOException;
-    public abstract List<String> getDiscardablePowerups() throws IOException;
+    public abstract List<String> getPossiblePowerups() throws IOException, ClassNotFoundException;
+    public abstract List<String> getDiscardablePowerups() throws IOException, ClassNotFoundException;
     public abstract boolean canBeDone() throws IOException;
     public abstract void doAction() throws IOException;
 }
