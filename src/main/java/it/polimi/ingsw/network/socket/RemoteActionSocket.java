@@ -26,7 +26,7 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     }
 
     @Override
-    public void addTarget(PublicPlayerSnapshot target) throws IOException
+    public void addTargetPlayer(String target) throws IOException
     {
         //server.handleAction(RemoteActionsHandlerSocket.ADD_PLAYER, possiblePlayers.indexOf(target));
         server.out().sendInt(RemoteActionsHandlerSocket.ADD_PLAYER);
@@ -34,12 +34,27 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     }
 
     @Override
-    public void addTarget(SquareSnapshot target) throws IOException
+    public void addTargetSquare(String target) throws IOException
     {
         //server.handleAction(RemoteActionsHandlerSocket.ADD_SQUARE, possibleSquares.indexOf(target));
 
         server.out().sendInt(RemoteActionsHandlerSocket.ADD_SQUARE);
         server.out().sendInt(possibleSquares.indexOf(target));
+    }
+
+    @Override
+    public void usePowerUp(String powerUp) throws IOException {
+
+    }
+
+    @Override
+    public void addDiscardable(String powerUp) throws IOException {
+
+    }
+
+    @Override
+    public void addWeapon(String weapon) throws IOException {
+
     }
 
     @Override
@@ -51,17 +66,27 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     }
 
     @Override
-    public List<PublicPlayerSnapshot> getPossiblePlayers() throws IOException, ClassNotFoundException
+    public List<String> getPossiblePlayers() throws IOException, ClassNotFoundException
     {
         server.out().sendInt(RemoteActionsHandlerSocket.GET_PLAYERS);
         return new ArrayList<>(possiblePlayers = server.in().getObject());
     }
 
     @Override
-    public List<SquareSnapshot> getPossibleSquares() throws IOException, ClassNotFoundException
+    public List<String> getPossibleSquares() throws IOException, ClassNotFoundException
     {
         server.out().sendInt(RemoteActionsHandlerSocket.GET_SQUARES);
         return new ArrayList<>(possibleSquares = server.in().getObject());
+    }
+
+    @Override
+    public List<String> getPossiblePowerups() throws IOException {
+        return null;
+    }
+
+    @Override
+    public List<String> getDiscardablePowerups() throws IOException {
+        return null;
     }
 
     @Override

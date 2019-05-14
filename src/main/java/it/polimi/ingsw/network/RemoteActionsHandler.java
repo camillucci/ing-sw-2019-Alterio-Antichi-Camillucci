@@ -5,15 +5,11 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.ActionsProvider;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class RemoteActionsHandler implements IRemoteActionsHandler {
+public abstract class RemoteActionsHandler implements IRemoteActionHandler {
 
     private final ActionsProvider provider;
     private final Player player;
@@ -59,6 +55,21 @@ public abstract class RemoteActionsHandler implements IRemoteActionsHandler {
     }
 
     @Override
+    public void addPowerup(int index){
+        this.selectedAction.usePowerUp(selectedAction.getPossiblePowerUps().get(index));
+    }
+
+    @Override
+    public void addDiscardablePowerup(int index) {
+        selectedAction.addDiscarded(selectedAction.getDiscardablePowerUps().get(index));
+    }
+
+    @Override
+    public void addWeapon(int index) {
+        selectedAction.addWeapon(player.getUnloadedWeapons().get(index));
+    }
+
+    @Override
     public void addTargetPlayer(int index)
     {
         selectedAction.addTarget(selectedAction.getPossiblePlayers().get(index));
@@ -71,15 +82,25 @@ public abstract class RemoteActionsHandler implements IRemoteActionsHandler {
     }
 
     @Override
-    public List<PublicPlayerSnapshot> getPossiblePlayers()
+    public List<String> getPossiblePlayers()
     {
-        return selectedAction.getPossiblePlayers().stream().map(PublicPlayerSnapshot::new).collect(Collectors.toList());
+        return selectedAction.getPossiblePlayers().stream().map(p -> p.name).collect(Collectors.toList());
     }
 
     @Override
-    public List<SquareSnapshot> getPossibleSquares()
+    public List<String> getPossibleSquares()
     {
-        return selectedAction.getPossibleSquares().stream().map(SquareSnapshot::new).collect(Collectors.toList());
+        return selectedAction.getPossibleSquares().stream().map(s -> s.getName()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getDiscardablePowerUps(){
+        return selectedAction.getDiscardablePowerUps().stream().map(p -> p.name).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getPossiblePowerups(){
+        return selectedAction.getPossiblePowerUps().stream().map(p -> p.name).collect(Collectors.toList());
     }
 
     @Override

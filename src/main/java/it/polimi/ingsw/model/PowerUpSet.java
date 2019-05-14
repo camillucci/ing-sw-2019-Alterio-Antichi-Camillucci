@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PowerUpSet implements Cloneable
+public class PowerUpSet
 {
     private List<EndStartPowerUpCard> endStartPowerUpCards = new ArrayList<>();
     private List<InTurnPowerUpCard> inTurnPowerUpCards = new ArrayList<>();
