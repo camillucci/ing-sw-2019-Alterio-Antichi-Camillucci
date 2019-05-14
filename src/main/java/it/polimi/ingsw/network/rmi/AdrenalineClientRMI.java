@@ -23,7 +23,7 @@ public class AdrenalineClientRMI extends AdrenalineClient {
     }
 
     @Override
-    protected List<String> getAvailableColors() throws RemoteException {
+    protected List<String> getAvailableColors() throws IOException {
         return server.availableColors();
     }
 

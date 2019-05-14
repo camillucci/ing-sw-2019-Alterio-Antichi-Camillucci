@@ -39,10 +39,10 @@ public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineS
     }
 
     @Override
-    public List<String> availableColors() throws RemoteException
+    public List<String> availableColors() throws IOException
     {
-        return new ArrayList<>(Collections.singletonList("noice"));
-      // return controller.getAvailableRoom().getAvailableColors();
+        joinRoom();
+        return joinedRoom.getAvailableColors();
     }
 
     @Override
@@ -73,6 +73,7 @@ public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineS
     @Override
     public boolean joinRoom() throws IOException
     {
+        //remove method from interface
         Room room = controller.getAvailableRoom();
         if(room.addPlayer(colorIndex, name, this)) {
             this.joinedRoom = room;
