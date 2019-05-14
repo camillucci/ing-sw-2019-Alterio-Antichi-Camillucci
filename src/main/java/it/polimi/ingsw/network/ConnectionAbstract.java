@@ -11,11 +11,10 @@ public abstract class ConnectionAbstract implements IConnection {
     private boolean connected = false;
 
     @Override
-    public void connect(Runnable func) throws RemoteException
+    public void connect() throws RemoteException
     {
         if(!connected) {
             ((Event<ConnectionAbstract, Object>)this.connectedEvent).invoke(this, null);
-            func.run();
             connected = true;
         }
     }

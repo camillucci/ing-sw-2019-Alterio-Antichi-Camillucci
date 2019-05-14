@@ -10,16 +10,11 @@ import java.rmi.registry.Registry;
 
 public class RMIClient {
 
-    public static void func()
-    {
-        System.out.println("Connected!");
-    }
-
     public static <T extends IConnection & Remote> T connect(String hostname, int port) throws RemoteException, NotBoundException
     {
         Registry registry = LocateRegistry.getRegistry(hostname, port);
         T stub  = (T) registry.lookup("Server");
-        stub.connect((Runnable & Serializable)() ->  func());
+        stub.connect();
         return stub;
     }
 }
