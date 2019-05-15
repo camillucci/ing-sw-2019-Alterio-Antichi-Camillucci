@@ -57,17 +57,12 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     }
 
     @Override
-    protected void inizialize(RemoteAction remoteAction) {
+    protected void initializeAction(RemoteAction remoteAction) {
         //TODO
     }
 
     @Override
-    public void connect() throws IOException, NotBoundException {
-        //todo
-    }
-
-    @Override
-    public void newMatchSnapshot(MatchSnapshot matchSnapshot) throws RemoteException {
+    public void modelChanged(MatchSnapshot matchSnapshot) throws RemoteException {
 
     }
 }

@@ -15,11 +15,11 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RMIListener <T extends NotifiedConnection & RMIConnection & Remote, V extends Remote>
+public class RMIListener <T extends Remote, V extends Remote>
 {
-    public final IEvent<RMIListener, RMIClient<T,V>> newClientEvent = new Event<>();
-    public final IEvent<RMIListener, T> clientDisconnectedEvent = new Event<>();
-    private List<RMIClient<T,V>> connectedHosts = new ArrayList<>();
+    public final IEvent<RMIListener, RMIServer<T,V>> newClientEvent = new Event<>();
+    public final IEvent<RMIListener, RMIServer<T,V>> clientDisconnectedEvent = new Event<>();
+    private List<RMIServer<T,V>> connectedHosts = new ArrayList<>();
     public final int port;
     private Logger logger;
     private Supplier<T> remoteSupplier;
@@ -43,7 +43,10 @@ public class RMIListener <T extends NotifiedConnection & RMIConnection & Remote,
             else if (curRemote == null)
                 newRemote();
         }
-        catch (RemoteException e){logger.log(Level.WARNING, "RemoteException, Class RMIListener, Line 45", e);}
+        catch (RemoteException e)
+        {
+            logger.log(Level.WARNING, "RemoteException, Class RMIListener, Line 45", e);
+        }
     }
 
     public synchronized void stop() {
@@ -52,8 +55,6 @@ public class RMIListener <T extends NotifiedConnection & RMIConnection & Remote,
         try
         {
             registry.unbind("Server");
-            for(RMIClient c : connectedHosts)
-                c.close();
             UnicastRemoteObject.unexportObject(registry, false);
             registry = null;
             curRemote = null;
@@ -64,7 +65,7 @@ public class RMIListener <T extends NotifiedConnection & RMIConnection & Remote,
         }
     }
 
-    public synchronized List<RMIClient<T,V>> getConnected()
+    public synchronized List<RMIServer<T,V>> getConnected()
     {
         return new ArrayList<>(connectedHosts);
     }
@@ -83,9 +84,12 @@ public class RMIListener <T extends NotifiedConnection & RMIConnection & Remote,
         {
             //System.setProperty("java.rmi.server.hostname","127.0.0.1");
             curRemote = remoteSupplier.get();
-            curRemote.connectedEvent().addEventHandler((remote, client) -> newClientConnected((T)remote, (V)client));
-            Remote stub = UnicastRemoteObject.exportObject(curRemote, port);
+            RMIServer<T,V> tmp = new RMIServer<>(curRemote);
+            tmp.connectedEvent().addEventHandler((server, client) -> newClientConnected((RMIServer<T,V>)server));
+            UnicastRemoteObject.exportObject(curRemote, port);
+            Remote stub = UnicastRemoteObject.exportObject(tmp, port);
             LocateRegistry.getRegistry(port).rebind("Server", stub);
+            registry.lookup("Server");
         }
         catch(ExportException e)
         {
@@ -93,30 +97,22 @@ public class RMIListener <T extends NotifiedConnection & RMIConnection & Remote,
         }
         catch (IOException e) {
             logger.log(Level.WARNING, "RemoteException, Class RMIListener, Line 58", e);
+        } catch (NotBoundException e) {
+            e.printStackTrace();
         }
     }
 
-    private void newClientConnected(T server, V client)
+    private void newClientConnected(RMIServer<T, V> server)
     {
-        //server.disconnectedEvent().addEventHandler((rmiClient, b) -> onDisconnection(server));
-        RMIClient<T,V> tmp;
-        connectedHosts.add(tmp = new RMIClient<>(server, client, true));
-        ((Event<RMIListener, RMIClient<T,V>>) newClientEvent).invoke(this, tmp);
+        server.disconnectedEvent().addEventHandler((rmiserver, b) -> onDisconnection((RMIServer<T,V>)rmiserver));
+        connectedHosts.add(server);
+        ((Event<RMIListener, RMIServer<T,V>>) newClientEvent).invoke(this, server);
         newRemote();
     }
 
-    private synchronized void onDisconnection (T client)
+    private synchronized void onDisconnection (RMIServer<T, V> server)
     {
-        this.connectedHosts.remove(client);
-        ((Event<RMIListener,T>)this.clientDisconnectedEvent).invoke(this, client);
-    }
-
-    private void tryUnexport(Remote obj){
-        try {
-            if(obj != null)
-                UnicastRemoteObject.unexportObject(obj, false);
-        } catch (NoSuchObjectException e) {
-            //logger.log(Level.WARNING, "NoSuchObjectException, Class RMIListener, Line 85", e);
-        }
+        this.connectedHosts.remove(server);
+        ((Event<RMIListener,RMIServer<T,V>>)this.clientDisconnectedEvent).invoke(this, server);
     }
 }

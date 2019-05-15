@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public abstract class AdrenalineServer implements IAdrenalineServer
+public class AdrenalineServer implements IAdrenalineServer
 {
     public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatEvent = new Event<>();
     protected Controller controller;

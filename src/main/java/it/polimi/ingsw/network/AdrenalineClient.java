@@ -1,25 +1,20 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.generics.Event;
-import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.network.rmi.IRemoteAdrenalineClient;
+import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
 import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AdrenalineClient implements IRemoteAdrenalineClient
+public abstract class AdrenalineClient extends AdrenalineEvents implements ICallbackAdrenalineClient
 {
-    public final IEvent<AdrenalineClient, MatchSnapshot> matchSnapshotUpdatedEvent = new Event<>();
     protected CLIParser parser;
     protected CLIMessenger messenger;
-    protected static final String HOSTNAME = "127.0.0.1";
-    protected static final int IP = 10000;
     protected MatchSnapshot matchSnapshot;
 
     public AdrenalineClient() {
@@ -34,18 +29,26 @@ public abstract class AdrenalineClient implements IRemoteAdrenalineClient
     protected abstract void notifyGameLength(int gameLength) throws IOException;
     protected abstract void notifyGameMap(int choice) throws IOException;
     protected abstract void notifyHandleAction(int selection, int extra) throws IOException;
-    protected abstract void inizialize(RemoteAction remoteAction);
-    public abstract void connect() throws IOException, NotBoundException;
+    protected abstract void initializeAction(RemoteAction remoteAction);
 
+    @Override
+    public void newActions(List<RemoteAction> newActions) throws RemoteException {
+        ((Event<AdrenalineEvents, List<RemoteAction>>)newActionsEvent).invoke(this, newActions);
+    }
+
+    @Override
+    public void matchStart(MatchSnapshot matchSnapshot) throws RemoteException {
+        ((Event<AdrenalineEvents, MatchSnapshot>)matchStartEvent).invoke(this, matchSnapshot);
+    }
 
     @Override
     public void newMessage(String message) throws RemoteException {
-        //todo
+        ((Event<AdrenalineEvents, String>)newMessage).invoke(this, message);
     }
 
-    public void setMatchSnapshot(MatchSnapshot matchSnapshot) {
-        this.matchSnapshot = matchSnapshot;
-        ((Event<AdrenalineClient, MatchSnapshot>)matchSnapshotUpdatedEvent).invoke(this, matchSnapshot);
+    @Override
+    public void modelChanged(MatchSnapshot matchSnapshot) throws RemoteException {
+        ((Event<AdrenalineEvents, MatchSnapshot>)modelChangedEvent).invoke(this, matchSnapshot);
     }
 
     public void login() throws Exception {
@@ -148,7 +151,7 @@ public abstract class AdrenalineClient implements IRemoteAdrenalineClient
             messenger.displayActions(options);
             choice = parser.parseIndex(options.size());
         }
-        inizialize(options.get(choice)); //communicates choice to server
+        initializeAction(options.get(choice)); //communicates choice to server
         ArrayList<String> targetPlayers = (ArrayList<String>) options.get(choice).getPossiblePlayers();
         ArrayList<String> targetSquares = (ArrayList<String>) options.get(choice).getPossibleSquares(); //gets targets relative to chosen action
         messenger.displayTargets(targetPlayers, targetSquares); //displays targets available
@@ -208,7 +211,7 @@ public abstract class AdrenalineClient implements IRemoteAdrenalineClient
             messenger.displayActions(options);
             choice = parser.parseIndex(options.size());
         }
-        options.get(choice).inizialize(server); //communicates choice to server
+        options.get(choice).initializeAction(server); //communicates choice to server
         ArrayList<PublicPlayerSnapshot> targetPlayers = (ArrayList<PublicPlayerSnapshot>) options.get(choice).getPossiblePlayers();
         ArrayList<SquareSnapshot> targetSquares = (ArrayList<SquareSnapshot>) options.get(choice).getPossibleSquares(); //gets targets relative to chosen action
         messenger.displayTargets(targetPlayers, targetSquares); //displays targets available
