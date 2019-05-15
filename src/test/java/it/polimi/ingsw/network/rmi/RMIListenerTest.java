@@ -11,7 +11,6 @@ class RMIListenerTest
 {
     int n = 0;
 
-    /* Commented because maven-test could not finish test
     @Test
     void connectionTest() throws Exception
     {
@@ -54,6 +53,4 @@ class RMIListenerTest
             listener.stop();
         }
     }
-
-     */
 }
