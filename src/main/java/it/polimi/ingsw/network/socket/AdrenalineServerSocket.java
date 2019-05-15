@@ -44,9 +44,4 @@ public class AdrenalineServerSocket extends AdrenalineServer
         client.out().sendObject(new ArrayList<>(powerupCards));
         return client.in().getInt();
     }
-
-    @Override
-    public void updateView(MatchSnapshot matchSnapshot) throws IOException {
-        client.out().sendObject(matchSnapshot);
-    }
 }

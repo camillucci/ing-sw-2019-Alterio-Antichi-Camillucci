@@ -1,17 +1,21 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.network.rmi.IRemoteAdrenalineClient;
 import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AdrenalineClient
+public abstract class AdrenalineClient implements IRemoteAdrenalineClient
 {
+    public final IEvent<AdrenalineClient, MatchSnapshot> matchSnapshotUpdatedEvent = new Event<>();
     protected CLIParser parser;
     protected CLIMessenger messenger;
     protected static final String HOSTNAME = "127.0.0.1";
@@ -31,6 +35,18 @@ public abstract class AdrenalineClient
     protected abstract void notifyGameMap(int choice) throws IOException;
     protected abstract void notifyHandleAction(int selection, int extra) throws IOException;
     protected abstract void inizialize(RemoteAction remoteAction);
+    public abstract void connect() throws IOException, NotBoundException;
+
+
+    @Override
+    public void newMessage(String message) throws RemoteException {
+        //todo
+    }
+
+    public void setMatchSnapshot(MatchSnapshot matchSnapshot) {
+        this.matchSnapshot = matchSnapshot;
+        ((Event<AdrenalineClient, MatchSnapshot>)matchSnapshotUpdatedEvent).invoke(this, matchSnapshot);
+    }
 
     public void login() throws Exception {
         messenger.askInterface();

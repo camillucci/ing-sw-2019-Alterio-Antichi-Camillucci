@@ -1,25 +1,25 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineClient;
-import it.polimi.ingsw.network.IAdrenalineServer;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 public class AdrenalineClientRMI extends AdrenalineClient {
-    private IAdrenalineServer server;
+    private RMIClient<IAdrenalineServerRMI, IRemoteAdrenalineClient> client;
+    private IAdrenalineServerRMI server;
+    private String serverName;
+    private int port;
 
-
-    public AdrenalineClientRMI(String serverName, int port) throws IOException, RemoteException, NotBoundException
-
+    public AdrenalineClientRMI(String serverName, int port)
     {
-        this.server = RMIClient.connect(serverName, port);
+        this.serverName = serverName;
+        this.port = port;
     }
 
     @Override
@@ -60,5 +60,21 @@ public class AdrenalineClientRMI extends AdrenalineClient {
     @Override
     protected void inizialize(RemoteAction remoteAction) {
         //TODO
+    }
+
+    @Override
+    public void connect() throws IOException, NotBoundException {
+        this.client = RMIClient.connect(serverName, port, this);
+        this.server = client.server;
+    }
+
+    @Override
+    public void newMessage(String message) throws RemoteException {
+        //todo
+    }
+
+    @Override
+    public void newMatchSnapshot(MatchSnapshot matchSnapshot) throws RemoteException {
+        ((Event<AdrenalineClient, MatchSnapshot>)matchSnapshotUpdatedEvent).invoke(this, matchSnapshot);
     }
 }

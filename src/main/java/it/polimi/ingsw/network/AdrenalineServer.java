@@ -9,14 +9,11 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.BiConsumer;
 
-public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineServer
+public abstract class AdrenalineServer implements IAdrenalineServer
 {
-    public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatedEvent = new Event<>();
+    public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatEvent = new Event<>();
     protected Controller controller;
     protected boolean gameInterface;
     protected int colorIndex;
@@ -48,6 +45,7 @@ public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineS
     @Override
     public void setColor(int colorIndex) throws RemoteException {
         this.colorIndex = colorIndex;
+        updateView(null);
     }
 
     @Override
@@ -83,15 +81,13 @@ public class AdrenalineServer extends ConnectionAbstract implements IAdrenalineS
         return false;
     }
 
-
     private void onMatchStart(Match match) {
         this.match = match;
         // todo
     }
 
-    @Override
-    public void updateView(MatchSnapshot matchSnapshot) throws IOException {
-        ((Event<AdrenalineServer, MatchSnapshot>) viewUpdatedEvent).invoke(this, matchSnapshot);
+    protected void updateView(MatchSnapshot matchSnapshot) {
+        ((Event<AdrenalineServer, MatchSnapshot>) viewUpdatEvent).invoke(this, matchSnapshot);
     }
 
     @Override

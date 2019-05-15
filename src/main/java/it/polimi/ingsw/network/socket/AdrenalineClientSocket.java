@@ -1,11 +1,13 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.AdrenalineClient;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,5 +59,15 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     @Override
     protected void inizialize(RemoteAction remoteAction) {
         //TODO
+    }
+
+    @Override
+    public void connect() throws IOException, NotBoundException {
+        //todo
+    }
+
+    @Override
+    public void newMatchSnapshot(MatchSnapshot matchSnapshot) throws RemoteException {
+
     }
 }

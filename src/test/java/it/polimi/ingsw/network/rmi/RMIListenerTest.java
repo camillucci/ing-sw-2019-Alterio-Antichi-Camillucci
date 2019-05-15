@@ -1,15 +1,9 @@
 package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.network.AdrenalineServer;
-import it.polimi.ingsw.network.IAdrenalineServer;
-import it.polimi.ingsw.network.socket.TCPListener;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,18 +13,21 @@ class RMIListenerTest
     @Test
     void connectionTest() throws Exception
     {
-            RMIListener listener = new RMIListener<>(1099, () -> new AdrenalineServer(new Controller()));
+            RMIListener listener = new RMIListener<>(1099, () -> new AdrenalineServerRMI(new Controller()));
             listener.newClientEvent.addEventHandler((a, b) -> n++);
             listener.start();
             final int N = 100;
-            IAdrenalineServer server = null;
             for (int i = 0; i < N; i++)
-                 server = RMIClient.connect("127.0.0.1", 1099);
+            {
+                AdrenalineClientRMI clientRMI = new AdrenalineClientRMI("127.0.0.1", 1099);
+                clientRMI.connect();
+            }
             assertEquals(N, listener.getConnected().size());
             assertEquals(N, n);
         try {
             listener.stop();
-            RMIClient.connect("127.0.0.1", 1099);
+            AdrenalineClientRMI clientRMI = new AdrenalineClientRMI("127.0.0.1", 1099);
+            clientRMI.connect();
             fail();
             assert(false);
         }
@@ -38,14 +35,21 @@ class RMIListenerTest
         {
             assertTrue(true);
         }
+        finally {
+            listener.stop();
+        }
         try {
             listener.start();
-            RMIClient.connect("127.0.0.1", 1099);
+            AdrenalineClientRMI clientRMI = new AdrenalineClientRMI("127.0.0.1", 1099);
+            clientRMI.connect();
             assert(true);
         }
         catch (RemoteException | NotBoundException e)
         {
             assert(false);
+        }
+        finally {
+            listener.stop();
         }
     }
 }
