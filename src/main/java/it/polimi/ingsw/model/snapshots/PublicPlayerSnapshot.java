@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.snapshots;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
-import it.polimi.ingsw.model.WeaponCard;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static it.polimi.ingsw.model.AmmoColor.*;
 import static it.polimi.ingsw.model.SquareBorder.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +27,7 @@ class GrabActionTest {
     }
 
     @Test
-    void op1() {
+    void grabNoDrop() {
         action.initialize(player);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         action.doAction();
@@ -43,7 +44,7 @@ class GrabActionTest {
     }
 
     @Test
-    void op2()
+    void grabAmmoSquare()
     {
         action.initialize(player);
         player.setCurrentSquare(square2);
@@ -56,7 +57,7 @@ class GrabActionTest {
     }
 
     @Test
-    void op3() {
+    void grabAndDrop() {
         player.addWeapon(gameBoard.weaponDeck.draw());
         player.addWeapon(gameBoard.weaponDeck.draw());
         player.addWeapon(gameBoard.weaponDeck.draw());
@@ -73,5 +74,29 @@ class GrabActionTest {
         assertEquals(4, player.getLoadedWeapons().size());
         assertEquals(2, player.getCurrentSquare().getCardsName().size());
         //TODO Check if discard is correct
+    }
+
+    @Test
+    void getDiscardablePowerUps() {
+        action.initialize(player);
+        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
+        player.addPowerUpCard();
+        player.addPowerUpCard();
+        player.addPowerUpCard();
+        player.addPowerUpCardRespawn();
+        if(action.getDiscardablePowerUps().size() >= 1) {
+            assertTrue(action.getDiscardablePowerUps().size() >= 1 && action.getDiscardablePowerUps().size() <= 4);
+            action.addDiscarded(action.getDiscardablePowerUps().get(0));
+            assertTrue(action.getDiscardablePowerUps().size() < 4);
+            action.doAction();
+            action.getBranches().get(0).getCompatibleActions().get(0).initialize(player);
+            action.getBranches().get(0).getCompatibleActions().get(0).doAction();
+            assertEquals(1, player.getLoadedWeapons().size());
+            assertEquals(3, player.getPowerUps().size());
+        }
+        else {
+            assertEquals(0, player.getLoadedWeapons().size());
+            assertEquals(0, action.getDiscardablePowerUps().size());
+        }
     }
 }

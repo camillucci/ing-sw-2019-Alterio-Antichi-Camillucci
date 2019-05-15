@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.action.EndBranchAction;
 import it.polimi.ingsw.model.action.ExtendableAction;
 import it.polimi.ingsw.model.branch.Branch;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,5 +73,10 @@ public class SpawnAndShopSquare extends Square {
         for(WeaponCard weaponCard : weapons)
             temp.add(weaponCard.name);
         return temp;
+    }
+
+    @Override
+    public List<WeaponCard> getWeapons() { // Only for tests
+        return new ArrayList<>(weapons);
     }
 }

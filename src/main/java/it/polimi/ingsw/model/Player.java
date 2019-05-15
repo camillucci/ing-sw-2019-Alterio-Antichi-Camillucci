@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
+import it.polimi.ingsw.model.cards.PowerUpCard;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.List;

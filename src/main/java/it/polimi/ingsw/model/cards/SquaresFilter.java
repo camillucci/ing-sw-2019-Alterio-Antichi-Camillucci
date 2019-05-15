@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.weapons;
+package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.generics.TriFunction;
 import it.polimi.ingsw.model.Player;
@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Square;
 
 import java.util.List;
 
-public interface PlayersFilter extends TriFunction<Player, List<Player>, List<Square>, List<Player>>
+public interface SquaresFilter extends TriFunction<Player, List<Player>, List<Square>, List<Square>>
 {
     // kinda typedef
 }

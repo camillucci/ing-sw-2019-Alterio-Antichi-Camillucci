@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.CardsFactory;
+import it.polimi.ingsw.model.cards.WeaponCard;
+
 import java.util.Collections;
 import java.util.List;
 

@@ -1,5 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.PowerUpSet;
 import it.polimi.ingsw.model.action.PowerUpAction;
 
 import java.util.function.Supplier;

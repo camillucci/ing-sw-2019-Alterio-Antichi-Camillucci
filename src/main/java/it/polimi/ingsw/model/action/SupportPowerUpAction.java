@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PowerUpCard;
-import it.polimi.ingsw.model.weapons.ShootFunc;
+import it.polimi.ingsw.model.cards.PowerUpCard;
+import it.polimi.ingsw.model.cards.ShootFunc;
 
 import java.util.List;
 import java.util.function.Function;

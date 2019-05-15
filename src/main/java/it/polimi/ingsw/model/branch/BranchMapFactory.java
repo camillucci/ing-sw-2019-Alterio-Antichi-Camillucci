@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.branch;
 
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PowerUpCard;
+import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.action.*;
 
 import java.util.ArrayList;

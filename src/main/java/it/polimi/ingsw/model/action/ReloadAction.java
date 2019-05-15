@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Ammo;
-import it.polimi.ingsw.model.PowerUpCard;
-import it.polimi.ingsw.model.WeaponCard;
+import it.polimi.ingsw.model.cards.PowerUpCard;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -26,7 +26,7 @@ public class ReloadAction extends Action
     public void addWeapon(WeaponCard weapon)
     {
         Ammo ammo = new Ammo(0, 0, 0);
-        for(PowerUpCard pu : discardedPowerUps)
+        for(PowerUpCard pu : ownerPlayer.getPowerUps())
             ammo = ammo.add(pu.colorToAmmo());
         if(ownerPlayer.getAmmo().sub(doActionCost).add(ammo).isGreaterOrEqual(weapon.reloadCost))
         {

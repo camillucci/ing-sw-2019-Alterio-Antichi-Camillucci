@@ -19,6 +19,8 @@ class BranchMapTest {
     {
         curBranchMap = BranchMapFactory.noAdrenaline(); // = {PM1G, PM3, PW, R }
         assertTrue(testEquality(curBranchMap.getPossibleActions(), BranchTestUtilities.noAdrenalinePossibleActions()));
+        curBranchMap = BranchMapFactory.adrenalineX2();
+        assertEquals(9, curBranchMap.getPossibleActions().size());
     }
 
     @Test

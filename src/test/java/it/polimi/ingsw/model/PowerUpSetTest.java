@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.action.PowerUpAction;
+import it.polimi.ingsw.model.cards.EndStartPowerUpCard;
+import it.polimi.ingsw.model.cards.PowerUpCard;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.weapons;
+package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
@@ -24,6 +24,7 @@ public class TargetsFilters {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
         List<Square> temp = player.gameBoard.getInRangeSquares(player);
+        temp = player.gameBoard.removeNonPlayerSquares(player, temp);
         temp.removeAll(alreadyAdded);
         return temp;
     }

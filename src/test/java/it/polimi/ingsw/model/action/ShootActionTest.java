@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.CardsFactory;
+import it.polimi.ingsw.model.cards.WeaponCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

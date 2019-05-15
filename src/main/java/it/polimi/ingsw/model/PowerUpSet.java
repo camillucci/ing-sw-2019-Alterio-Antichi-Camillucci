@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.CounterAttackPowerUpCard;
+import it.polimi.ingsw.model.cards.EndStartPowerUpCard;
+import it.polimi.ingsw.model.cards.InTurnPowerUpCard;
+import it.polimi.ingsw.model.cards.PowerUpCard;
+
 import java.util.ArrayList;
 import java.util.List;
 

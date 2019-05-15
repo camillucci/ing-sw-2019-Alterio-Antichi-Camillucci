@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.branch.Branch;
-import it.polimi.ingsw.model.WeaponCard;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 

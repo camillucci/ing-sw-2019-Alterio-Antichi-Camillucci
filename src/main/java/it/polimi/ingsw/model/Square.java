@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.branch.Branch;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
+import java.util.Collections;
 import java.util.List;
 
 import static it.polimi.ingsw.model.SquareBorder.*;
@@ -77,6 +79,8 @@ public abstract class Square {
     public abstract List<String> getCardsName();
 
     public void removeWeapon(WeaponCard weaponCard) { }
+
+    public List<WeaponCard> getWeapons() { return Collections.emptyList(); }
 
     public abstract void refill();
 }

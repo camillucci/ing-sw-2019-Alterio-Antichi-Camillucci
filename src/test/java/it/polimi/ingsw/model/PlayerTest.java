@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.action.FireModalityAction;
+import it.polimi.ingsw.model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
