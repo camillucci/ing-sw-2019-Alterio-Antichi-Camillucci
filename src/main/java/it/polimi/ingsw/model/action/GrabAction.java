@@ -18,7 +18,7 @@ public class GrabAction extends ExtendableAction
 
     private void grab()
     {
-        this.branches = this.ownerPlayer.getCurrentSquare().grab(this.ownerPlayer);
+        this.branches = this.ownerPlayer.getCurrentSquare().grab(this.ownerPlayer, this.discardedPowerUps);
     }
 
     @Override

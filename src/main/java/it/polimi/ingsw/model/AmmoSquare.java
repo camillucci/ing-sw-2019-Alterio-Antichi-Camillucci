@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.action.EndBranchAction;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.cards.AmmoCard;
+import it.polimi.ingsw.model.cards.PowerUpCard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,15 +14,15 @@ public class AmmoSquare extends Square {
     private AmmoDeck ammoDeck;
     private AmmoCard ammoCard;
 
-    public AmmoSquare(int y, int x, SquareBorder[] borders, AmmoDeck ammoDeck) {
-        super(y, x, borders);
+    public AmmoSquare(String name, int y, int x, SquareBorder[] borders, AmmoDeck ammoDeck) {
+        super(name, y, x, borders);
         this.ammoDeck = ammoDeck;
         this.ammoCard = ammoDeck.draw();
         this.players = new ArrayList<>();
     }
 
     @Override
-    public List<Branch> grab(Player player) {
+    public List<Branch> grab(Player player, List<PowerUpCard> powerUpCards) {
         if(!this.isEmpty()) {
             player.addBlue(ammoCard.ammo.blue);
             player.addRed(ammoCard.ammo.red);

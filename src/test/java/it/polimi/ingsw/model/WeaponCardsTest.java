@@ -364,6 +364,27 @@ class WeaponCardsTest {
     }
 
     @Test
+    void flamethrower3() {
+        WeaponCard flamethrower = CardsFactory.getWeapons().get(11);
+        p1.getCurrentSquare().removePlayer(p1);
+        p1.setCurrentSquare(gameBoard.getSquares().get(0));
+        p1.getCurrentSquare().addPlayer(p1);
+        shoot = flamethrower.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot.initialize(p5);
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(2, shoot.getPossibleSquares().size());
+        shoot.addTarget(gameBoard.getSquares().get(1));
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(1, shoot.getPossibleSquares().size());
+        shoot.addTarget(gameBoard.getSquares().get(0));
+        assertEquals(0, shoot.getPossiblePlayers().size());
+        assertEquals(0, shoot.getPossibleSquares().size());
+        shoot.doAction();
+        assertEquals(1, p1.getDamage().size());
+        assertEquals(0, p1.getMark().size());
+    }
+
+    @Test
     void grenadeLauncher1() {
         WeaponCard grenadeLauncher = CardsFactory.getWeapons().get(12);
         shoot = grenadeLauncher.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.branch.Branch;
+import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.Collections;
@@ -9,6 +10,7 @@ import java.util.List;
 import static it.polimi.ingsw.model.SquareBorder.*;
 
 public abstract class Square {
+    public final String name;
     public final int y;
     public final int x;
     public final SquareBorder north;
@@ -17,7 +19,8 @@ public abstract class Square {
     public final SquareBorder east;
     protected List<Player> players;
 
-    protected Square(int y, int x, SquareBorder[] borders) {
+    protected Square(String name, int y, int x, SquareBorder[] borders) {
+        this.name = name;
         this.y = y;
         this.x = x;
         this.north = borders[0];
@@ -26,7 +29,7 @@ public abstract class Square {
         this.east = borders[3];
     }
 
-    public abstract List<Branch> grab(Player player);
+    public abstract List<Branch> grab(Player player, List<PowerUpCard> powerUpCards);
 
     public boolean okNorth() {
         return this.north == DOOR || this.north == ROOM;
@@ -64,10 +67,6 @@ public abstract class Square {
         return players;
     }
 
-    public String getName() {
-        return Integer.toString(x) + "-" + Integer.toString(y);
-    }
-
     public void addPlayer(Player player) {
         players.add(player);
     }
@@ -79,6 +78,8 @@ public abstract class Square {
     public abstract List<String> getCardsName();
 
     public void removeWeapon(WeaponCard weaponCard) { }
+
+    public void addWeapon(WeaponCard weaponCard) { }
 
     public List<WeaponCard> getWeapons() { return Collections.emptyList(); }
 

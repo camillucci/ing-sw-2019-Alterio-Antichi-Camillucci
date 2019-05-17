@@ -26,7 +26,6 @@ public class Branch
             ac.completedActionEvent.addEventHandler((s,a)-> ((Event<Branch, Action>)this.actionCompletedEvent).invoke(this, a));
     }
 
-    @SuppressWarnings("unchecked")
     public Branch(List<Action> actions, EndBranchAction endBranchAction)
     {
         this(endBranchAction, actions);
@@ -38,10 +37,12 @@ public class Branch
         this(extendableAction, actions);
         extendableAction.completedActionEvent.addEventHandler((s, a)->((Event<Branch, ExtendableAction>)this.extActionCompletedEvent).invoke(this, (ExtendableAction)a));
     }
+    /*
     public Branch(RollBackAction rollBackAction)
     {
         this(rollBackAction, Collections.emptyList());
     }
+    */
     // Useful Constructors. They are all particular cases of the previous //
 
     // EndBranchAction constructors //
@@ -57,10 +58,12 @@ public class Branch
     {
         this(Arrays.asList(action1, action2, action3),endBranchAction);
     }
+    /*
     public Branch(Action action1, Action action2, Action action3, Action action4, EndBranchAction endBranchAction)
     {
         this(Arrays.asList(action1, action2, action3, action4),endBranchAction);
     }
+    */
 
     // ExtendableAction constructors
     public Branch(ExtendableAction extendableAction)
@@ -79,10 +82,12 @@ public class Branch
     {
         this(Arrays.asList(action1, action2, action3),extendableAction);
     }
+    /*
     public Branch(Action action1, Action action2, Action action3, Action action4, ExtendableAction extendableAction)
     {
         this(Arrays.asList(action1, action2, action3, action4), extendableAction);
     }
+    */
 
     /*****************************************************************/
 
@@ -138,6 +143,7 @@ public class Branch
             }
         return found;
     }
+
     public boolean isInvalidBranch() {
         return invalidState;
     }
@@ -146,5 +152,4 @@ public class Branch
     {
         this.invalidState = true;
     }
-
 }

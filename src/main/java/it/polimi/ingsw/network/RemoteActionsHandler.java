@@ -90,7 +90,7 @@ public abstract class RemoteActionsHandler implements IRemoteActionHandler {
     @Override
     public List<String> getPossibleSquares()
     {
-        return selectedAction.getPossibleSquares().stream().map(s -> s.getName()).collect(Collectors.toList());
+        return selectedAction.getPossibleSquares().stream().map(s -> s.name).collect(Collectors.toList());
     }
 
     @Override

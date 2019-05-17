@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.branch;
 
+import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.action.*;
 import org.junit.jupiter.api.Test;
@@ -63,8 +64,11 @@ class BranchMapTest {
         assertTrue(testEquality(newActions, new GrabAction(), new RollBackAction()));
     }
 
-    public void TestNoAdrenaline(ActionsProvider provider)
-    {
-
+    @Test
+    void invalidState() {
+        curBranchMap = BranchMapFactory.noAdrenaline();
+        assertEquals(7, curBranchMap.getPossibleActions().size());
+        ((Event<BranchMap, EndBranchAction>)curBranchMap.endOfBranchMapReachedEvent).invoke(null, null);
+        assertEquals(0, curBranchMap.getPossibleActions().size());
     }
 }

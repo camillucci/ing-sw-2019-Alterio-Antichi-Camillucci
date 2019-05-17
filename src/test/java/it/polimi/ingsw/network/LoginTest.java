@@ -25,6 +25,8 @@ public class LoginTest {
             catch(RemoteException e){}
         });
 
+        while(listener.getConnected().isEmpty())
+            ;
         listener.stop();
     }
 

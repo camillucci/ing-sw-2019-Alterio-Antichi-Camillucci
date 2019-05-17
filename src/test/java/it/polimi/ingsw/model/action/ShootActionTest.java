@@ -54,7 +54,7 @@ class ShootActionTest {
     }
 
     @Test
-    void shootMove()
+    void shootMoveAndCanBeDone()
     {
         WeaponCard grenadeLauncher = CardsFactory.getWeapons().get(12);
         p1.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
@@ -64,7 +64,13 @@ class ShootActionTest {
         p2.getCurrentSquare().addPlayer(p2);
         Action shootAction = grenadeLauncher.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shootAction.initialize(p1);
+        shootAction.doAction();
+        assertEquals(0, p2.getDamage().size());
+        assertEquals(p1.gameBoard.getSquares().get(4), p2.getCurrentSquare());
         shootAction.addTarget(p2);
+        shootAction.doAction();
+        assertEquals(0, p2.getDamage().size());
+        assertEquals(p1.gameBoard.getSquares().get(4), p2.getCurrentSquare());
         shootAction.addTarget(p1.gameBoard.getSquares().get(5));
         shootAction.doAction();
         assertEquals(1, p2.getDamage().size());

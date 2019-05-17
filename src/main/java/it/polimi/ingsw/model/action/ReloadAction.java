@@ -25,10 +25,10 @@ public class ReloadAction extends Action
     @Override
     public void addWeapon(WeaponCard weapon)
     {
-        Ammo ammo = new Ammo(0, 0, 0);
+        Ammo powerUpAmmo = new Ammo(0, 0, 0);
         for(PowerUpCard pu : ownerPlayer.getPowerUps())
-            ammo = ammo.add(pu.colorToAmmo());
-        if(ownerPlayer.getAmmo().sub(doActionCost).add(ammo).isGreaterOrEqual(weapon.reloadCost))
+            powerUpAmmo = powerUpAmmo.add(pu.colorToAmmo());
+        if(ownerPlayer.getAmmo().sub(doActionCost).add(powerUpAmmo).isGreaterOrEqual(weapon.reloadCost))
         {
             this.doActionCost = this.doActionCost.add(weapon.reloadCost);
             this.selectedWeapons.add(weapon);

@@ -257,7 +257,7 @@ class TCPClientTest {
         TCPListener listener = new TCPListener(listeningPort, maxConnected);
         try
         {
-            MatchSnapshot matchSnapshot = new MatchSnapshot(match, match.gameBoard.getPlayers().get(0));
+            MatchSnapshot matchSnapshot = match.createSnapshot(0);
             listener.newClientEvent.addEventHandler(((tcpListener, clientSocket) -> {
                 // Server sends bytes to client
                 try
