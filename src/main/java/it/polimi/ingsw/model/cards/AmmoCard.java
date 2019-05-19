@@ -21,12 +21,12 @@ public class AmmoCard {
             if(temp.equals(""))
                 temp = temp.concat(ammo.red + "R");
             else
-                temp = temp.concat(ammo.red + " R");
+                temp = temp.concat(" " + ammo.red + "R");
         if(ammo.yellow > 0)
             if(temp.equals(""))
                 temp = temp.concat(ammo.yellow + "Y");
             else
-                temp = temp.concat(ammo.yellow + " Y");
+                temp = temp.concat(" " + ammo.yellow + "Y");
         if(powerUpCard)
             temp = temp.concat(" PU");
         return temp;
