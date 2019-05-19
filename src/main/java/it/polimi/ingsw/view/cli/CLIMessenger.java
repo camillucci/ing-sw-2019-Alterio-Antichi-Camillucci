@@ -10,16 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CLIMessenger {
-
-    private MatchSnapshot matchSnapshot;
     private static final String PRESS = "Press ";
     private static final String PLAYER = "Player ";
 
-    public void incorrectInput() {
+    public static void incorrectInput() {
         System.out.println("Your answer is not valid, please try again.");
     }
 
-    public void insertName() {
+    public static void insertName() {
         System.out.println("Insert username here:");
     }
 
@@ -29,13 +27,13 @@ public class CLIMessenger {
         System.out.println(PRESS + "1 for RMI");
     }
 
-    public void askInterface() {
+    public static void askInterface() {
         System.out.println("Choose interface type");
         System.out.println(PRESS + "0 for CLI");
         System.out.println(PRESS + "1 for GUI");
     }
 
-    public int askColor(List<String> availableColors) {
+    public static int askColor(List<String> availableColors) {
         System.out.println("Choose one of the available colors");
         for (int i = 0; i < availableColors.size(); i++) {
             System.out.println(PRESS + i + " if you want the color" + availableColors.get(i));
@@ -44,27 +42,28 @@ public class CLIMessenger {
         return availableColors.size();
     }
 
-    public void askGameLenght() {
+    public static void askGameLenght() {
         System.out.println("Choose how many skulls your game is going to have");
         System.out.println("You can choose any number between 5 and 8");
     }
 
-    public void askGameMap() {
+    public static void askGameMap() {
         System.out.println("Choose one of the following maps");
+        System.out.println("todo show maps");
         //TODO add maps to show
     }
 
-    public void matchStart() {
+    public static void matchStart() {
         System.out.println("Your game has started");
         System.out.println("Have fun!");
     }
 
-    public void threePlayers() {
+    public static void threePlayers() {
         System.out.println("Your room has reached 3 players");
         System.out.println("countdown has started");
     }
 
-    public void displayMapOptions(int mapType) {
+    public static void displayMapOptions(int mapType) {
         //TODO add displayable map for every int between 0 and 2
     }
 
@@ -89,11 +88,11 @@ public class CLIMessenger {
     Possibly cancel this and use a more generic method for all actions
      */
 
-    private void displayMap(int mapType) {
+    private static void displayMap(int mapType) {
         //TODO display map based on selected type
     }
 
-    private void displayBoardState() {
+    private static void displayBoardState(MatchSnapshot matchSnapshot) {
         displayMap(matchSnapshot.gameBoardSnapshot.mapType);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -110,18 +109,22 @@ public class CLIMessenger {
         }
     }
 
-    private void displayPlayers() {
-        displayPrivatePlayer();
-        displayPublicPlayers();
+    public static void printMessage(String message)
+    {
+        System.out.println(message);
     }
 
-    public void updateView(MatchSnapshot matchSnapshot) {
-        this.matchSnapshot = matchSnapshot;
-        displayBoardState();
-        displayPlayers();
+    private static void displayPlayers(MatchSnapshot matchSnapshot) {
+        displayPrivatePlayer(matchSnapshot);
+        displayPublicPlayers(matchSnapshot);
     }
 
-    private void displayPrivatePlayer() {
+    public static  void updateView(MatchSnapshot matchSnapshot) {
+        displayBoardState(matchSnapshot);
+        displayPlayers(matchSnapshot);
+    }
+
+    private static void displayPrivatePlayer(MatchSnapshot matchSnapshot) {
         System.out.println("You (" + matchSnapshot.privatePlayerSnapshot.name + "-" + matchSnapshot.privatePlayerSnapshot.color + ") have the following loaded weapons:");
         for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().size(); i++)
             System.out.println(matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().get(i));
@@ -135,7 +138,7 @@ public class CLIMessenger {
         //TODO add way to show mark and damage
     }
 
-    private void displayPublicPlayers() {
+    private static void displayPublicPlayers(MatchSnapshot matchSnapshot) {
         for (int j = 0; j < matchSnapshot.getPublicPlayerSnapshot().size(); j++) {
             System.out.println(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has" + matchSnapshot.getPublicPlayerSnapshot().get(j).loadedWeaponsNumber + "loaded weapons:");
             System.out.println(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + "has the following unloaded weapons:");
@@ -147,13 +150,13 @@ public class CLIMessenger {
         }
     }
 
-    public void displayActions(ArrayList<RemoteAction> options) {
+    public static void displayActions(ArrayList<RemoteAction> options) {
         for(int i = 0; i < options.size(); i++){
             System.out.println(PRESS + i + " if you want to execute action" + options.get(i).toString());
         }
     }
 
-    public int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
+    public static int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
         int j = targetPlayers.size();
         for(int i = 0; i < targetPlayers.size(); i++) {
             System.out.println(PRESS + i + " if you want to target" + targetPlayers.get(i));
@@ -166,7 +169,7 @@ public class CLIMessenger {
         return j;
     }
 
-    public void displayTargetsAndAction(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
+    public static void displayTargetsAndAction(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
         int temp = displayTargets(targetPlayers, targetSquares);
         System.out.println(PRESS + temp + " if you want to execute action with previously selected targets");
     }

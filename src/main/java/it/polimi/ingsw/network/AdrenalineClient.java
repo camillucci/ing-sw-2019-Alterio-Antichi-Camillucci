@@ -1,103 +1,70 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
+import it.polimi.ingsw.generics.SafeAction;
+import it.polimi.ingsw.generics.SafeSupplier;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
+import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 
-public abstract class AdrenalineClient extends AdrenalineEvents implements ICallbackAdrenalineClient
+public abstract class AdrenalineClient implements ICallbackAdrenalineClient
 {
-    protected CLIParser parser;
-    protected CLIMessenger messenger;
-    protected MatchSnapshot matchSnapshot;
+    protected View view;
+    protected String serverName;
+    protected int serverPort;
 
-    public AdrenalineClient() {
-        messenger = new CLIMessenger();
-        parser = new CLIParser(messenger);
+    public AdrenalineClient(String serverName, int serverPort, View view)
+    {
+        this.view = view;
+        this.serverName = serverName;
+        this.serverPort = serverPort;
+        setupView();
     }
 
-    protected abstract void notifyInterface(int choice) throws IOException;
-    protected abstract List<String> getAvailableColors() throws IOException, ClassNotFoundException;
+    protected abstract void setupView();
+
+    public void start() throws IOException, NotBoundException {
+        connect();
+        view.login.login();
+    }
+
+    protected abstract void connect() throws IOException, NotBoundException;
     protected abstract void notifyColor(int colorIndex) throws IOException;
-    protected abstract boolean notifyName(String name) throws IOException;
-    protected abstract void notifyGameLength(int gameLength) throws IOException;
-    protected abstract void notifyGameMap(int choice) throws IOException;
-    protected abstract void notifyHandleAction(int selection, int extra) throws IOException;
-    protected abstract void initializeAction(RemoteAction remoteAction);
+    protected abstract void notifyName(String name) throws IOException, ClassNotFoundException;
 
     @Override
     public void newActions(List<RemoteAction> newActions) throws RemoteException {
-        ((Event<AdrenalineEvents, List<RemoteAction>>)newActionsEvent).invoke(this, newActions);
+        //todo
     }
 
     @Override
     public void matchStart(MatchSnapshot matchSnapshot) throws RemoteException {
-        ((Event<AdrenalineEvents, MatchSnapshot>)matchStartEvent).invoke(this, matchSnapshot);
+        view.login.notifyMatchStart();
+        //todo
     }
 
     @Override
     public void newMessage(String message) throws RemoteException {
-        ((Event<AdrenalineEvents, String>)newMessage).invoke(this, message);
+        view.getCurViewElement().onNewMessage(message);
     }
 
     @Override
     public void modelChanged(MatchSnapshot matchSnapshot) throws RemoteException {
-        ((Event<AdrenalineEvents, MatchSnapshot>)modelChangedEvent).invoke(this, matchSnapshot);
+        //todo
     }
 
-    public void login() throws Exception {
-        messenger.askInterface();
-        int choice = parser.parseChoice();
-        while(choice == -1) {
-            messenger.incorrectInput();
-            messenger.askInterface();
-            choice = parser.parseChoice();
-        }
-        notifyInterface(choice);
-        /***/
-        String name;
-        do {
-            do {
-                messenger.insertName();
-                name = parser.parseName();
-            } while (name == null);
-        }while(!notifyName(name)); // name is ok?
-
-        List<String> availableColors = getAvailableColors();
-        messenger.askColor(availableColors);
-        //TODO lock
-        int index = parser.parseIndex(availableColors.size());
-        while(index == -1) {
-            messenger.incorrectInput();
-            messenger.askColor(availableColors);
-            index = parser.parseIndex(availableColors.size());
-        }
-        notifyColor(index);//send user's color of choice
-        messenger.askGameLenght();
-        choice = parser.parseGameLenght();
-        while(choice == -1) {
-            messenger.incorrectInput();
-            messenger.askGameLenght();
-            choice = parser.parseGameLenght();
-        }
-        notifyGameLength(choice);
-        messenger.askGameMap();
-        parser.parseGameMap();
-        choice = parser.parseGameMap();
-        while(choice == -1) {
-            messenger.incorrectInput();
-            messenger.askGameMap();
-            choice = parser.parseGameMap();
-        }
-        notifyGameMap(choice);
-    }
-
+    /*
     public void loginFinto(int interf, int zero) throws IOException, ClassNotFoundException {
         messenger.askInterface();
         notifyInterface(interf);
@@ -107,7 +74,7 @@ public abstract class AdrenalineClient extends AdrenalineEvents implements ICall
         messenger.askGameLenght();
         notifyGameLength(zero);
     }
-
+ \
     /*
     private void matchStart() throws Exception {
         messenger.threePlayers();
@@ -133,7 +100,7 @@ public abstract class AdrenalineClient extends AdrenalineEvents implements ICall
         messenger.updateView(matchSnapshot);
     }
     */
-
+    /*
     public void updateView(MatchSnapshot matchSnapshot) throws Exception {
         this.matchSnapshot = matchSnapshot;
         messenger.updateView(matchSnapshot);

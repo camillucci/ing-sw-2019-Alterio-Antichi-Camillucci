@@ -21,6 +21,7 @@ public class MatchManager {
         //room.sendActions(actions, client);
     }
 
+    /*
     public void handleAction(int index) throws Exception {
         match.getActions().get(index).doAction();
         for(int i = 0; i < room.getPlayerNames().size(); i++) {
@@ -30,6 +31,8 @@ public class MatchManager {
         int client = match.getPlayerIndex();
         //room.sendActions(actions, client);
     }
+
+     */
 
     public void calculateScore() {
         //TODO

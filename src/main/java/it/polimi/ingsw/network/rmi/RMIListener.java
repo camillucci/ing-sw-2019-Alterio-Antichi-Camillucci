@@ -55,7 +55,7 @@ public class RMIListener <T extends Remote, V extends Remote>
         try
         {
             registry.unbind("Server");
-            UnicastRemoteObject.unexportObject(registry, false);
+            UnicastRemoteObject.unexportObject(registry, true);
             registry = null;
             curRemote = null;
         }
