@@ -44,7 +44,7 @@ public class CLIMessenger {
     }
 
     public static void insertName() {
-        display("Insert username here:");
+        display("Insert username here (max 16 character long):");
     }
 
     public static void askConnection() {
@@ -62,7 +62,7 @@ public class CLIMessenger {
     public static int askColor(List<String> availableColors) {
         display("Choose one of the following available colors:");
         for (int i = 0; i < availableColors.size(); i++) {
-            display(PRESS + i + " if you want the color" + availableColors.get(i));
+            display(PRESS + i + " if you want the color " + availableColors.get(i));
         }
         return availableColors.size();
     }
@@ -73,7 +73,7 @@ public class CLIMessenger {
     }
 
     public static void askGameMap() {
-        display("Choose one of the following maps");
+        display("Choose one of the following maps:");
         display("todo show maps");
         //TODO add maps to show
     }

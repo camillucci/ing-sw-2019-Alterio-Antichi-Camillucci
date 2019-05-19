@@ -16,13 +16,19 @@ public class AmmoCard {
     public String getName() {
         String temp = "";
         if(ammo.blue > 0)
-            temp = temp.concat(ammo.blue + "B ");
+            temp = temp.concat(ammo.blue + "B");
         if(ammo.red > 0)
-            temp = temp.concat(ammo.red + "R ");
+            if(temp.equals(""))
+                temp = temp.concat(ammo.red + "R");
+            else
+                temp = temp.concat(ammo.red + " R");
         if(ammo.yellow > 0)
-            temp = temp.concat(ammo.yellow + "Y ");
+            if(temp.equals(""))
+                temp = temp.concat(ammo.yellow + "Y");
+            else
+                temp = temp.concat(ammo.yellow + " Y");
         if(powerUpCard)
-            temp = temp.concat("PowerUp");
+            temp = temp.concat(" PU");
         return temp;
     }
 }

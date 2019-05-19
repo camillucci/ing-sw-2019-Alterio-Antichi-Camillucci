@@ -12,7 +12,7 @@ class CLIMessengerTest {
 
     @Test
     void updateView() {
-        Match match = new Match(Arrays.asList("ThisIsAVLongName", "Jimmy", "John"), Arrays.asList(VIOLET, GRAY, YELLOW), 5, 10);
+        Match match = new Match(Arrays.asList("ThisIsAVLongName", "Jimmy", "John"), Arrays.asList(VIOLET, GREY, YELLOW), 5, 10);
         match.gameBoard.getPlayers().get(0).setCurrentSquare(match.gameBoard.getSquares().get(0));
         match.gameBoard.getPlayers().get(0).getCurrentSquare().addPlayer(match.gameBoard.getPlayers().get(0));
         match.gameBoard.getPlayers().get(1).setCurrentSquare(match.gameBoard.getSquares().get(1));
