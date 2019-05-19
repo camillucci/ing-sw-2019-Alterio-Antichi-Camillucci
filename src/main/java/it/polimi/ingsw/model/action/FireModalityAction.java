@@ -23,6 +23,23 @@ public class FireModalityAction extends ExtendableAction
     }
 
     @Override
+    public void addDiscarded(PowerUpCard powerUpCard)
+    {
+        if(getDiscardablePowerUps().contains(powerUpCard)) {
+            this.discardedPowerUps.add(powerUpCard);
+            Ammo powerUpAmmo = new Ammo(0, 0, 0);
+            for(PowerUpCard pu : ownerPlayer.getPowerUps())
+                powerUpAmmo = powerUpAmmo.add(pu.colorToAmmo());
+            int i = 0;
+            while(i < branches.size())
+                if(branches.get(i).getCompatibleActions().get(0).getDoActionCost().isLessThan(powerUpAmmo))
+                    branches.remove(branches.get(i));
+                else
+                    i++;
+        }
+    }
+
+    @Override
     public List<PowerUpCard> getDiscardablePowerUps() {
         LinkedHashSet<PowerUpCard> temp = new LinkedHashSet<>();
         Ammo alreadyAdded = new Ammo(0, 0, 0);

@@ -121,5 +121,9 @@ public class Action
         this.opMethod.accept(this);
     }
 
+    public Ammo getDoActionCost() {
+        return doActionCost;
+    }
+
     public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
 }
