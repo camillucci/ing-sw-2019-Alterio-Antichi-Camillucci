@@ -9,83 +9,87 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Room
 {
     public final IEvent<Room, Match> matchStartedEvent = new Event<>();
+    public final IEvent<Room, Integer> timerStartEvent = new Event<>();
+    public final IEvent<Room, Integer> timerTickEvent = new Event<>();
+    public final IEvent<Room, String> newPlayerEvent = new Event<>();
+    private final int TIMEOUT = 10;
+    private final int PERIOD = 1;
     private List<PlayerColor> playerColors = new ArrayList<>();
     private List<PlayerColor> availableColors = new ArrayList<>();
     private List<String> playerNames = new ArrayList<>();
+    private int readyCounter = 0;
     private int gameLength;
     private int gameSize;
     private Match match = null;
     private MatchManager matchManager;
+    private RoomTimer timer = new RoomTimer(TIMEOUT, PERIOD);
 
     public Room() {
-        for (PlayerColor pc : PlayerColor.values()) {
-            availableColors.add(pc);
-        }
+        availableColors.addAll(Arrays.asList(PlayerColor.values()));
+        setupEvents();
     }
 
-    public void handleAction(int index) throws Exception {
-        matchManager.handleAction(index);
+    private void setupEvents()
+    {
+        timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, TIMEOUT - timeElapsed));
+        timer.timeoutEvent.addEventHandler((a, b) -> startMatch());
     }
 
-    public boolean addPlayer(int index, String playerName, AdrenalineServer client) throws IOException {
+    public void startMatch(){
+        match = new Match(playerNames, playerColors, gameLength, gameSize);
+        matchManager = new MatchManager(match, this);
+        ((Event<Room, Match>)matchStartedEvent).invoke(this, match);
+    }
+
+    public synchronized boolean addPlayer(int index, String playerName) {
         if(match != null)
             return false;
 
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
         playerNames.add(playerName);
-        if(playerNames.size() == 5)
-            newMatch();
-        else if(playerNames.size() == 1)
-            return true;
-        else if(playerNames.size() == 3)
-            threePlayers();
-        return false;
+        return playerNames.size() == 1;
     }
 
-    private void newMatch() throws IOException {
-        match = new Match(playerNames, playerColors, gameLength, gameSize);
-        matchManager = new MatchManager(match, this);
-        ((Event<Room, Match>)matchStartedEvent).invoke(this, match);
+    private void newPlayer(String name){
+        ((Event<Room, String>)newPlayerEvent).invoke(this, name);
     }
 
-    public List<String> getPlayerNames(){
+    public synchronized List<String> getPlayerNames(){
         return new ArrayList<>(playerNames);
     }
 
-    public List<String> getAvailableColors() {
+    public synchronized void notifyPlayerReady()
+    {
+        if (++readyCounter == 3) {
+            timer.start();
+            ((Event<Room, Integer>) timerStartEvent).invoke(this, TIMEOUT);
+        } else if (readyCounter == 5) {
+            timer.stop();
+            startMatch();
+        }
+    }
+    public synchronized List<String> getAvailableColors() {
         ArrayList<String> colors = new ArrayList<>();
         for (PlayerColor pc : availableColors)
             colors.add(pc.name());
         return colors;
     }
 
-    public boolean getAvailableSeats() {
+    public synchronized boolean getAvailableSeats() {
         return playerNames.size() < 5;
-    }
-
-    private void threePlayers() throws IOException {
-        //todo add timer
-            if(match == null)
-                newMatch();
-    }
-
-    public void setGameSize(int gameSize) {
-        this.gameSize = gameSize;
     }
 
     public void setGameLength(int gameLength) {
         this.gameLength = gameLength;
     }
 
-
-    public void updateView(MatchSnapshot snapshot, int index) throws Exception {
-       // clients.get(index).updateView(snapshot);
+    public void setGameSize(int gameSize) {
+        this.gameSize = gameSize;
     }
 }

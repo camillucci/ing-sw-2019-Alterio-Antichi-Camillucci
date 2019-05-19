@@ -7,12 +7,11 @@ import java.util.List;
 
 public interface IAdrenalineServer extends Remote
 {
-    void setInterface(boolean ClI) throws RemoteException;
     List<String> availableColors() throws IOException, RemoteException;
-    void setColor(int colorIndex) throws RemoteException;
+    void setColor(int colorIndex) throws IOException;
     boolean setName(String name) throws RemoteException;
     void setGameLength(int gameLength) throws RemoteException;
     void setGameMap(int choice) throws RemoteException;
-    boolean joinRoom() throws IOException, RemoteException;
-    void handleAction(int selection, int extra) throws IOException, RemoteException;
+    boolean isHost() throws IOException, RemoteException;
+    void ready() throws RemoteException;
 }

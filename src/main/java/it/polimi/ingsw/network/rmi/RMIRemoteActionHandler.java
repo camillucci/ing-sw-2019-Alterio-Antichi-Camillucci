@@ -20,7 +20,6 @@ public class RMIRemoteActionHandler extends RemoteActionsHandler
         super(provider, player);
         this.listener = listener;
         listener.export(this);
-        listener.export(this.getNewActionsEvent());
     }
 
     @Override

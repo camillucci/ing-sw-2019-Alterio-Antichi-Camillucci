@@ -11,47 +11,35 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public class AdrenalineServer implements IAdrenalineServer
+import static it.polimi.ingsw.generics.Utils.tryDo;
+
+public abstract class AdrenalineServer implements IAdrenalineServer
 {
     public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatEvent = new Event<>();
-    protected Controller controller;
-    protected boolean gameInterface;
+    protected Controller controller = new Controller();
     protected int colorIndex;
-    protected int gameLength;
-    protected int gameMap;
     protected String name;
-    private Room joinedRoom;
+    protected boolean isHost;
+    protected Room joinedRoom;
     private Match match;
 
-    public AdrenalineServer(Controller controller)
-    {
-        this.controller = controller;
-        //this.remoteActionsHandler = remoteActionsHandler;
-    }
-
     @Override
-    public void setInterface(boolean CLI) throws RemoteException
+    public List<String> availableColors()
     {
-        this.gameInterface = CLI;
-    }
-
-    @Override
-    public List<String> availableColors() throws IOException
-    {
-        joinRoom();
+        joinedRoom = controller.getAvailableRoom();
         return joinedRoom.getAvailableColors();
     }
 
     @Override
-    public void setColor(int colorIndex) throws RemoteException {
+    public void setColor(int colorIndex) throws IOException {
         this.colorIndex = colorIndex;
-        updateView(null);
+        joinRoom();
     }
 
     @Override
     public boolean setName(String name) throws RemoteException
     {
-        if(controller.existName(name)) {
+        if(!controller.existName(name)) {
             this.name = name;
             return true;
         }
@@ -60,39 +48,44 @@ public class AdrenalineServer implements IAdrenalineServer
 
     @Override
     public void setGameLength(int gameLength) {
-        this.gameLength = gameLength;
+        joinedRoom.setGameLength(gameLength);
     }
 
     @Override
     public void setGameMap(int choice) {
-        this.gameMap = choice;
+        joinedRoom.setGameSize(choice);
     }
 
     @Override
-    public boolean joinRoom() throws IOException
+    public boolean isHost() throws IOException, RemoteException {
+        return isHost;
+    }
+
+    @Override
+    public void ready() throws RemoteException {
+        joinedRoom.notifyPlayerReady();
+    }
+
+    protected abstract void sendMessage(String message) throws IOException;
+
+    private void setupRoomEvents()
     {
-        //remove method from interface
-        Room room = controller.getAvailableRoom();
-        if(room.addPlayer(colorIndex, name, this)) {
-            this.joinedRoom = room;
-            joinedRoom.matchStartedEvent.addEventHandler((r, match) -> onMatchStart(match));
-            return true;
-        }
-        return false;
+        joinedRoom.timerStartEvent.addEventHandler((a, timeout) -> tryDo( () -> sendMessage(timerStartMessage(timeout))));
+        joinedRoom.timerTickEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerTickMessage(timeLeft))));
+        joinedRoom.timerTickEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerStoppedMessage)));
     }
 
-    private void onMatchStart(Match match) {
-        this.match = match;
-        // todo
+    private void joinRoom()
+    {
+        isHost = joinedRoom.addPlayer(colorIndex, name);
+        setupRoomEvents();
     }
 
-    protected void updateView(MatchSnapshot matchSnapshot) {
-        ((Event<AdrenalineServer, MatchSnapshot>) viewUpdatEvent).invoke(this, matchSnapshot);
+    private String timerStartMessage(int timeout){
+        return "Countdown is started: " + timeout + " seconds left\n";
     }
-
-    @Override
-    public void handleAction(int selection, int extra) {
-        //remoteActionsHandler(selection, extra);
-        //TODO
+    private String timerTickMessage(int timeLeft){
+        return "" + timeLeft + " seconds left\n";
     }
+    private final String timerStoppedMessage = "Countdown stopped\n";
 }

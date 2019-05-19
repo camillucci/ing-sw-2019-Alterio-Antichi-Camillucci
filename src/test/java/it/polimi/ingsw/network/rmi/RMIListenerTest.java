@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.AdrenalineServer;
 import it.polimi.ingsw.network.IAdrenalineServer;
+import it.polimi.ingsw.view.cli.CLIView;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.NotBoundException;
@@ -16,19 +17,19 @@ class RMIListenerTest
     @Test
     void connectionTest() throws Exception
     {
-            RMIListener<IAdrenalineServer, ICallbackAdrenalineClient> listener = new RMIListener<>(1099, () -> new AdrenalineServer(new Controller()));
+            RMIListener<IAdrenalineServer, ICallbackAdrenalineClient> listener = new RMIListener<>(1099, () -> new AdrenalineServerRMI());
             RMIClient<IAdrenalineServer, ICallbackAdrenalineClient> client;
 
             listener.newClientEvent.addEventHandler((a, b) -> n++);
             listener.start();
             final int N = 100;
             for (int i = 0; i < N; i++)
-                client = RMIClient.connect("127.0.0.1", 1099, new AdrenalineClientRMI());
+                client = RMIClient.connect("127.0.0.1", 1099, new AdrenalineClientRMI("127.0.0.1", 10000, new CLIView()));
             assertEquals(N, listener.getConnected().size());
             assertEquals(N, n);
         try {
             listener.stop();
-            client =  RMIClient.connect("127.0.0.1", 1099, new AdrenalineClientRMI());
+            client =  RMIClient.connect("127.0.0.1", 1099, new AdrenalineClientRMI("127.0.0.1", 10000, new CLIView()));
             fail();
             assert(false);
         }
@@ -41,7 +42,7 @@ class RMIListenerTest
         }
         try {
             listener.start();
-            client = RMIClient.connect("127.0.0.1", 1099, new AdrenalineClientRMI());
+            client = RMIClient.connect("127.0.0.1", 1099, new AdrenalineClientRMI("127.0.0.1", 10000, new CLIView()));
             assert(true);
         }
         catch (RemoteException | NotBoundException e)
