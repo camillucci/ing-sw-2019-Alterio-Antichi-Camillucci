@@ -31,6 +31,13 @@ public class CLIMessenger {
     private static final String PLAYER = "Player ";
     private static final String NONE = "None";
     private static final int MAX_SIZE_SQUARE = 47;
+    private static final int SMALL_MAP = 10;
+    private static final int MIDDLE_MAP = 11;
+    private static final int LARGE_MAP = 12;
+    private static final int MAP_HEIGHT = 3;
+    private static final int MAP_WIDTH = 4;
+    private static final int SQUARE_LINES = 7;
+
     private static final String BLANK = " ";
     private static final String HORIZONTAL = "═";
     private static final String VERTICAL = "║";
@@ -46,6 +53,10 @@ public class CLIMessenger {
     private static final String HORIZONTAL_WALL = "═══════════════════════════════════════════════";
     private static final String HORIZONTAL_DOOR = "═══════════════════╣       ╠═══════════════════";
     private static final String HORIZONTAL_ROOM = "═════                                     ═════";
+
+    private static final String[] WALL = {VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL};
+    private static final String[] ROOM = {VERTICAL, BLANK, BLANK, BLANK, BLANK, BLANK, VERTICAL};
+    private static final String[] DOOR = {VERTICAL, VERTICAL, BOTTOM, BLANK, TOP, VERTICAL, VERTICAL};
 
     private CLIMessenger() { }
 
@@ -141,29 +152,13 @@ public class CLIMessenger {
     Possibly cancel this and use a more generic method for all actions
     */
 
-    /*
-    private static void displayBoardState(MatchSnapshot matchSnapshot) {
-        displayMap(matchSnapshot.gameBoardSnapshot.mapType);
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (!(matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].ammoSquare))
-                    display("Weapon Square -" + i + "|" + j + " - Current available weapons on this square are:" + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getCards().get(0) + "," + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getCards().get(1) + "," + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getCards().get(2));
-                else
-                    display("Ammo Square -" + i + "|" + j + " - Current available ammo card on this square is:" + matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getCards().get(0));
-                display("The following players are on this square:");
-                for (int k = 0; k < matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getColors().size(); k++)
-                    display(matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getColors().get(k));
-                if (matchSnapshot.gameBoardSnapshot.squareSnapshots[i][j].getColors().isEmpty())
-                    display("None");
-            }
-        }
-    }
-    */
-
     public static void printMessage(String message)
     {
         display(message);
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // DISPLAY VIEW
 
     public static void updateView(MatchSnapshot matchSnapshot) {
         displayMap(matchSnapshot);
@@ -211,6 +206,9 @@ public class CLIMessenger {
         }
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+    // DISPLAY ACTIONS AND TARGETS
+
     public static void displayActions(ArrayList<RemoteAction> options) {
         for(int i = 0; i < options.size(); i++){
             display(PRESS + i + " if you want to execute action" + options.get(i).toString());
@@ -220,11 +218,11 @@ public class CLIMessenger {
     public static int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
         int j = targetPlayers.size();
         for(int i = 0; i < targetPlayers.size(); i++) {
-            display(PRESS + i + " if you want to target" + targetPlayers.get(i));
+            display(PRESS + i + " if you want to target player " + targetPlayers.get(i));
         }
         for(int i = 0; i < targetSquares.size(); i++) {
             j = i + targetPlayers.size();
-            display(PRESS + j + " if you want to move in the square" + targetSquares.get(i));
+            display(PRESS + j + " if you want to target square " + targetSquares.get(i));
         }
 
         return j;
@@ -235,144 +233,125 @@ public class CLIMessenger {
         display(PRESS + temp + " if you want to execute action with previously selected targets");
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+    // DISPLAY MAP
+
     private static void displayMap(MatchSnapshot matchSnapshot) {
-        if(matchSnapshot.gameBoardSnapshot.mapType == 10)
-            displaySmallMap(matchSnapshot);
-        else if(matchSnapshot.gameBoardSnapshot.mapType == 11)
-            displayMiddleMap(matchSnapshot);
+        String[] mapBorder;
+        if(matchSnapshot.gameBoardSnapshot.mapType == SMALL_MAP)
+            mapBorder = smallMap();
+        else if(matchSnapshot.gameBoardSnapshot.mapType == MIDDLE_MAP)
+            mapBorder = middleMap();
         else
-            displayLargeMap(matchSnapshot);
+            mapBorder = largeMap();
+        for(int i = 0; i < MAP_HEIGHT; i++) {
+            display(mapBorder[i]);
+            displaySquareLine(matchSnapshot.gameBoardSnapshot.squareSnapshots[i]);
+        }
+        display(mapBorder[MAP_HEIGHT]);
         display("");
     }
 
-    private static void displaySmallMap(MatchSnapshot matchSnapshot) {
-        // FIRST LINE
-        display(TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT);
-        // FIRST HORIZONTAL SQUARES
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0], 1) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][1], 1) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][2], 1) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0], 2) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][1], 2) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][2], 2) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0], 3) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][1], 3) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][2], 3) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0], 4) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][1], 4) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][2], 4) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0], 5) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][1], 5) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][2], 5) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0], 6) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][1], 6) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][2], 6) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][0], 7) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][1], 7) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[0][2], 7) + VERTICAL);
-        // SECOND LINE
-        display(LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + TOP_RIGHT);
-        // SECOND HORIZONTAL SQUARES
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][0], 1) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][1], 1) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][2], 1) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][3], 1) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][0], 2) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][1], 2) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][2], 2) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][3], 2) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][0], 3) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][1], 3) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][2], 3) + BOTTOM +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][3], 3) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][0], 4) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][1], 4) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][2], 4) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][3], 4) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][0], 5) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][1], 5) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][2], 5) + TOP +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][3], 5) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][0], 6) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][1], 6) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][2], 6) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][3], 6) + VERTICAL);
-        display(VERTICAL + square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][0], 7) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][1], 7) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][2], 7) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[1][3], 7) + VERTICAL);
-        // THIRD LINE
-        display(BOTTOM_LEFT + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_ROOM + RIGHT);
-        // THIRD HORIZONTAL SQUARES
-        display(BLANK + blanks().get(MAX_SIZE_SQUARE) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][1], 1) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][2], 1) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][3], 1) + VERTICAL);
-        display(BLANK + blanks().get(MAX_SIZE_SQUARE) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][1], 2) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][2], 2) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][3], 2) + VERTICAL);
-        display(BLANK + blanks().get(MAX_SIZE_SQUARE) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][1], 3) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][2], 3) + BOTTOM +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][3], 3) + VERTICAL);
-        display(BLANK + blanks().get(MAX_SIZE_SQUARE) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][1], 4) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][2], 4) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][3], 4) + VERTICAL);
-        display(BLANK + blanks().get(MAX_SIZE_SQUARE) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][1], 5) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][2], 5) + TOP +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][3], 5) + VERTICAL);
-        display(BLANK + blanks().get(MAX_SIZE_SQUARE) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][1], 6) + BLANK +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][2], 6) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][3], 6) + VERTICAL);
-        display(BLANK + blanks().get(MAX_SIZE_SQUARE) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][1], 7) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][2], 7) + VERTICAL +
-                square(matchSnapshot.gameBoardSnapshot.squareSnapshots[2][3], 7) + VERTICAL);
-        // FOURTH LINE
-        display(BLANK + blanks().get(MAX_SIZE_SQUARE) + BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT);
+    private static String[] smallMap() {
+        return new String[] {
+                TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
+                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + TOP_RIGHT,
+                BOTTOM_LEFT + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_ROOM + RIGHT,
+                BLANK + blanks(MAX_SIZE_SQUARE) + BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
+        };
     }
 
-    private static void displayMiddleMap(MatchSnapshot matchSnapshot) {
-        //TODO
+    private static String[] middleMap() {
+        return new String[] {
+                TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
+                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + RIGHT,
+                BOTTOM_LEFT + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_ROOM + RIGHT,
+                BLANK + blanks(MAX_SIZE_SQUARE) + BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
+        };
     }
 
-    private static void displayLargeMap(MatchSnapshot matchSnapshot) {
-        //TODO
+    private static String[] largeMap() {
+        return new String[] {
+                TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
+                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + RIGHT,
+                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_ROOM + RIGHT,
+                BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
+        };
+    }
+
+    private static void displaySquareLine(SquareSnapshot[] squareSnapshots) {
+        for(int i = 1; i <= SQUARE_LINES; i++)
+            display(horizontalLine(squareSnapshots, i));
+    }
+
+    private static String horizontalLine(SquareSnapshot[] squareSnapshots, int line) {
+        String temp = leftSide(squareSnapshots[0], line);
+        for(int i = 0; i < MAP_WIDTH; i++)
+            if(squareSnapshots[i] == null) {
+                temp = temp.concat(blanks(MAX_SIZE_SQUARE));
+                if(i == 0)
+                    temp = temp.concat(VERTICAL);
+            }
+            else {
+                temp = temp.concat(square(squareSnapshots[i], line));
+                temp = temp.concat(rightSide(squareSnapshots[i], line));
+            }
+        return temp;
+    }
+
+    private static String leftSide(SquareSnapshot squareSnapshot, int line) {
+        if(squareSnapshot == null)
+            return BLANK;
+        switch(squareSnapshot.west) {
+            case "Room": return ROOM[line - 1];
+            case "Door": return DOOR[line - 1];
+            default: return WALL[line - 1];
+        }
+    }
+
+    private static String rightSide(SquareSnapshot squareSnapshot, int line) {
+        if(squareSnapshot == null)
+            return BLANK;
+        switch(squareSnapshot.east) {
+            case "Room": return ROOM[line - 1];
+            case "Door": return DOOR[line - 1];
+            default: return WALL[line - 1];
+        }
     }
 
     private static String square(SquareSnapshot square, int lineNumber) {
         int line = lineNumber - 1;
-        if(line == 6)
-            return BLANK + blanks().get(MAX_SIZE_SQUARE - square.name.length() - 4) + "[" + square.name + "]" + BLANK;
-        if(square.getColors().size() > line && square.getCards().size() > line)
-            return BLANK + "[" + square.getNames().get(line) + "-" + square.getColors().get(line) + "]" +
-                    blanks().get(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getColors().get(line).length() - square.getCards().get(line).length() - 7) +
-                    "[" + square.getCards().get(line) + "]" + BLANK;
-        if(square.getColors().size() > line && square.getCards().size() <= line)
-            return BLANK + "[" + square.getNames().get(line) + "-" + square.getColors().get(line) + "]" +
-                    blanks().get(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getColors().get(line).length() - 4);
-        if(square.getColors().size() <= line && square.getCards().size() > line)
-            return blanks().get(MAX_SIZE_SQUARE - square.getCards().get(line).length() - 3) + "[" + square.getCards().get(line) + "]" + BLANK;
-        return blanks().get(MAX_SIZE_SQUARE);
+        if(line == SQUARE_LINES - 1)
+            return BLANK + blanks(MAX_SIZE_SQUARE - square.name.length() - 4) + "[" + square.name + "]" + BLANK;
+        if(square != null) {
+            if (square.getColors().size() > line && square.getCards().size() > line)
+                return BLANK + "[" + square.getNames().get(line) + "-" + square.getColors().get(line) + "]" +
+                        blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getColors().get(line).length() - square.getCards().get(line).length() - 7) +
+                        "[" + square.getCards().get(line) + "]" + BLANK;
+            if (square.getColors().size() > line && square.getCards().size() <= line)
+                return BLANK + "[" + square.getNames().get(line) + "-" + square.getColors().get(line) + "]" +
+                        blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getColors().get(line).length() - 4);
+            if (square.getColors().size() <= line && square.getCards().size() > line)
+                return blanks(MAX_SIZE_SQUARE - square.getCards().get(line).length() - 3) + "[" + square.getCards().get(line) + "]" + BLANK;
+        }
+        return blanks(MAX_SIZE_SQUARE);
     }
 
-    private static List<String> blanks() {
-        List<String> blanks = new ArrayList<>();
+    private static String blanks(int num) {
         String temp = "";
-        for(int i = 0; i < MAX_SIZE_SQUARE + 1; i++) {
-            blanks.add(temp);
+        for(int i = 0; i < num; i++) {
             temp = temp.concat(" ");
         }
-        return blanks;
+        return temp;
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+    //DISPLAY
 
     private static void display(String string) {
         System.out.println(curColor + string);
     }
+
     private static void display(String string, boolean bold){
         if(bold)
             display("\u001B[1m" + string);
