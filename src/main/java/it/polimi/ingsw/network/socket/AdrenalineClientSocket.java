@@ -67,4 +67,9 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         if(accepted)
             view.login.notifyAvailableColor(server.in().getObject());
     }
+
+    protected void manageActions(List<RemoteAction> options) throws IOException {
+        //view.actionHandler.choiceEvent.addEventHandler((a,choice) -> tryDo( () -> options.get(choice).initialize(server)));
+        view.actionHandler.chooseAction(options);
+    }
 }

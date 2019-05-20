@@ -19,7 +19,7 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
         this.index = index;
     }
 
-    public void inizialize(TCPClient server) throws IOException
+    public void initialize(TCPClient server) throws IOException
     {
         this.server = server;
         server.out().sendInt(this.index);
