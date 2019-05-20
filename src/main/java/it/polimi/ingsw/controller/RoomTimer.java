@@ -25,7 +25,6 @@ public class RoomTimer
         elapsed += period;
         if(elapsed >= timeout) {
             elapsed = 0;
-            timer = null;
             ((Event<RoomTimer, Integer>)timeoutEvent).invoke(this, timeout);
             this.stop();
         }
@@ -46,6 +45,7 @@ public class RoomTimer
         while (true) {
             try {
                 if (timer.awaitTermination(200, TimeUnit.MILLISECONDS)) {
+                    timer = null;
                     break;
                 }
             } catch (InterruptedException e) {

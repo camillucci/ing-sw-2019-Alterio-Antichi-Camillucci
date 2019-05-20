@@ -8,6 +8,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CLIMessenger {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
+    private static String curColor = "";
     private static final String PRESS = "Press ";
     private static final String PLAYER = "Player ";
     private static final String NONE = "None";
@@ -30,62 +49,75 @@ public class CLIMessenger {
 
     private CLIMessenger() { }
 
+    private static void resetColor(){
+        curColor = ANSI_WHITE;
+    }
+
     public static void intro() {
+        curColor = ANSI_RED;
         display("   _____  ________ _____________________ _______      _____  .____    .___ _______  ___________");
         display("  /  _  \\ \\______ \\\\______   \\_   _____/ \\      \\    /  _  \\ |    |   |   |\\      \\ \\_   _____/");
         display(" /  /_\\  \\ |    |  \\|       _/|    __)_  /   |   \\  /  /_\\  \\|    |   |   |/   |   \\ |    __)_ ");
         display("/    |    \\|    `   \\    |   \\|        \\/    |    \\/    |    \\    |___|   /    |    \\|        \\");
         display("\\____|__  /_______  /____|_  /_______  /\\____|__  /\\____|__  /_______ \\___\\____|__  /_______  /");
         display("        \\/        \\/       \\/        \\/         \\/         \\/        \\/           \\/        \\/ ");
+        display("\n");
+        resetColor();
+    }
+
+    public static void login(){
+        curColor = ANSI_BLUE;
+        display("Welcome to Adrenaline!" + ANSI_RESET +"\n\n", true);
+        resetColor();
     }
 
     public static void incorrectInput() {
-        display("Your answer is not valid, please try again.");
+        display("Your answer is not valid, please try again.", true);
     }
 
     public static void insertName() {
-        display("Insert username here (max 16 character long):");
+        display("Insert username here (max 16 character long):", true);
     }
 
     public static void askConnection() {
-        display("Choose connection type:");
-        display(PRESS + "0 for Socket");
-        display(PRESS + "1 for RMI");
+        display("Choose connection type:", true);
+        display(PRESS + "0 for Socket", true);
+        display(PRESS + "1 for RMI", true);
     }
 
     public static void askInterface() {
-        display("Choose interface type");
-        display(PRESS + "0 for CLI");
-        display(PRESS + "1 for GUI");
+        display("Choose interface type", true);
+        display(PRESS + "0 for CLI", true);
+        display(PRESS + "1 for GUI", true);
     }
 
     public static int askColor(List<String> availableColors) {
-        display("Choose one of the following available colors:");
+        display("Choose one of the following available colors:", true);
         for (int i = 0; i < availableColors.size(); i++) {
-            display(PRESS + i + " if you want the color " + availableColors.get(i));
+            display(PRESS + i + " if you want the color " + availableColors.get(i), true);
         }
         return availableColors.size();
     }
 
     public static void askGameLenght() {
-        display("Choose how many skulls your game is going to have");
-        display("You can choose any number between 5 and 8");
+        display("Choose how many skulls your game is going to have", true);
+        display("You can choose any number between 5 and 8", true);
     }
 
     public static void askGameMap() {
-        display("Choose one of the following maps:");
-        display("todo show maps");
+        display("Choose one of the following maps:", true);
+        display("todo show maps", true);
         //TODO add maps to show
     }
 
     public static void matchStart() {
-        display("Your game has started");
-        display("Have fun!");
+        display("Your game has started", true);
+        display("Have fun!", true);
     }
 
     public static void threePlayers() {
-        display("Your room has reached 3 players");
-        display("Countdown has started");
+        display("Your room has reached 3 players", true);
+        display("Countdown has started", true);
     }
 
     /*
@@ -339,6 +371,12 @@ public class CLIMessenger {
     }
 
     private static void display(String string) {
-        System.out.println(string);
+        System.out.println(curColor + string);
+    }
+    private static void display(String string, boolean bold){
+        if(bold)
+            display("\u001B[1m" + string);
+        else
+            display(string);
     }
 }

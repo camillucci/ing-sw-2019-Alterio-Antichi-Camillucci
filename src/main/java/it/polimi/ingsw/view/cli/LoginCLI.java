@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.Login;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class LoginCLI extends Login {
     @Override
     public void notifyAvailableColor(List<String> availableColors) throws IOException {
         CLIMessenger.askColor(availableColors);
-        ((Event<Login, Integer>)colorEvent).invoke(this, CLIParser.parseIndex(availableColors.size()));
+        ((Event<Login, Integer>)colorEvent).invoke(this, CLIParser.parser.parseIndex(availableColors.size()));
     }
 
     @Override
@@ -19,9 +20,9 @@ public class LoginCLI extends Login {
         if(isHost)
         {
             CLIMessenger.askGameLenght();
-            ((Event<Login, Integer>)gameLengthEvent).invoke(this, CLIParser.parseIndex(13));
+            ((Event<Login, Integer>)gameLengthEvent).invoke(this, CLIParser.parser.parseIndex(13));
             CLIMessenger.askGameMap();
-            ((Event<Login, Integer>)gameMapEvent).invoke(this, CLIParser.parseIndex(13));
+            ((Event<Login, Integer>)gameMapEvent).invoke(this, CLIParser.parser.parseIndex(13));
         }
     }
 
@@ -31,24 +32,25 @@ public class LoginCLI extends Login {
             askName();
     }
 
-
-    @Override
-    public void notifyMatchStart() {
-        //todo
-    }
-
     @Override
     public void login() throws IOException {
+        CLIMessenger.intro();
+        CLIMessenger.login();
         askName();
     }
 
     private void askName() throws IOException {
         CLIMessenger.insertName();
-        ((Event<Login, String>)nameEvent).invoke(this, CLIParser.parseName());
+        ((Event<Login, String>)nameEvent).invoke(this, CLIParser.parser.parseName());
     }
 
     @Override
     public void onNewMessage(String message) {
         CLIMessenger.printMessage(message);
+    }
+
+    @Override
+    public void onModelChanged(MatchSnapshot matchSnapshot) {
+        CLIMessenger.updateView(matchSnapshot);
     }
 }

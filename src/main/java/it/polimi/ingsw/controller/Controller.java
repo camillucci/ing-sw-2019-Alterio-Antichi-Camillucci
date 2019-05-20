@@ -7,17 +7,17 @@ import java.util.stream.Collectors;
 public class Controller {
     private List<Room> lobby = new ArrayList<>();
 
-    public Controller() {
+    public Controller(){
         newRoom();
     }
 
-    private Room newRoom() {
+    private void newRoom() {
         Room room = new Room();
         lobby.add(room);
-        return room;
+        room.matchStartedEvent.addEventHandler((a,b) -> newRoom());
     }
 
-    public List<String> getPlayerNames() {
+    private List<String> getPlayerNames() {
         return lobby.stream().flatMap(room -> room.getPlayerNames().stream()).collect(Collectors.toList());
     }
 
@@ -29,9 +29,6 @@ public class Controller {
     }
 
     public Room getAvailableRoom() {
-        if (lobby.get(lobby.size() - 1).getAvailableSeats())
-            return lobby.get(lobby.size() - 1);
-        newRoom();
-        return lobby.get(lobby.size() - 1);
+        return lobby.get(lobby.size()-1);
     }
 }

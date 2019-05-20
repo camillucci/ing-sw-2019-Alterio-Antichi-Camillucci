@@ -1,22 +1,14 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.generics.Event;
-import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.generics.SafeAction;
-import it.polimi.ingsw.generics.SafeSupplier;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.cli.CLIMessenger;
-import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.io.IOException;
-import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 public abstract class AdrenalineClient implements ICallbackAdrenalineClient
 {
@@ -40,7 +32,7 @@ public abstract class AdrenalineClient implements ICallbackAdrenalineClient
     }
 
     protected abstract void connect() throws IOException, NotBoundException;
-    protected abstract void notifyColor(int colorIndex) throws IOException;
+    protected abstract void notifyColor(int colorIndex) throws IOException, ClassNotFoundException;
     protected abstract void notifyName(String name) throws IOException, ClassNotFoundException;
 
     @Override
@@ -50,8 +42,7 @@ public abstract class AdrenalineClient implements ICallbackAdrenalineClient
 
     @Override
     public void matchStart(MatchSnapshot matchSnapshot) throws RemoteException {
-        view.login.notifyMatchStart();
-        //todo
+        modelChanged(matchSnapshot);
     }
 
     @Override
@@ -61,7 +52,7 @@ public abstract class AdrenalineClient implements ICallbackAdrenalineClient
 
     @Override
     public void modelChanged(MatchSnapshot matchSnapshot) throws RemoteException {
-        //todo
+        view.getCurViewElement().onModelChanged(matchSnapshot);
     }
 
     /*

@@ -17,7 +17,7 @@ class RMIListenerTest
     @Test
     void connectionTest() throws Exception
     {
-            RMIListener<IAdrenalineServer, ICallbackAdrenalineClient> listener = new RMIListener<>(1099, () -> new AdrenalineServerRMI());
+            RMIListener<IAdrenalineServer, ICallbackAdrenalineClient> listener = new RMIListener<>(1099, () -> new AdrenalineServerRMI(new Controller()));
             RMIClient<IAdrenalineServer, ICallbackAdrenalineClient> client;
 
             listener.newClientEvent.addEventHandler((a, b) -> n++);

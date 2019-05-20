@@ -3,12 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Match;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.network.AdrenalineServer;
-
-import java.io.IOException;
 import java.util.*;
 
 public class Room
@@ -16,8 +11,9 @@ public class Room
     public final IEvent<Room, Match> matchStartedEvent = new Event<>();
     public final IEvent<Room, Integer> timerStartEvent = new Event<>();
     public final IEvent<Room, Integer> timerTickEvent = new Event<>();
+    public final IEvent<Room, Integer> timerStopEvent = new Event<>();
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
-    private final int TIMEOUT = 10;
+    private final int TIMEOUT = 5;
     private final int PERIOD = 1;
     private List<PlayerColor> playerColors = new ArrayList<>();
     private List<PlayerColor> availableColors = new ArrayList<>();
@@ -53,6 +49,7 @@ public class Room
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
         playerNames.add(playerName);
+        newPlayer(playerName);
         return playerNames.size() == 1;
     }
 

@@ -37,11 +37,14 @@ public class AdrenalineClientRMI extends AdrenalineClient {
     protected void notifyColor(int colorIndex) throws IOException {
         server.setColor(colorIndex);
         boolean isHost = server.isHost();
-        view.login.notifyHost(isHost);
-        if(!isHost)
+        if(isHost) {
+            view.login.gameMapEvent.addEventHandler((a, map) -> tryDo(() -> server.ready()));
+            view.login.notifyHost(isHost);
+        }
+        else {
+            view.login.notifyHost(isHost);
             server.ready();
-        else
-            view.login.gameMapEvent.addEventHandler((a,map) -> tryDo( () -> server.ready()));
+        }
     }
 
     @Override

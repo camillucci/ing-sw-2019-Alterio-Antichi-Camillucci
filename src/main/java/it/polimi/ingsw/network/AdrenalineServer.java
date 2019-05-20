@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
 import java.io.IOException;
@@ -15,13 +16,16 @@ import static it.polimi.ingsw.generics.Utils.tryDo;
 
 public abstract class AdrenalineServer implements IAdrenalineServer
 {
+    private final Controller controller;
     public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatEvent = new Event<>();
-    protected Controller controller = new Controller();
     protected int colorIndex;
     protected String name;
     protected boolean isHost;
     protected Room joinedRoom;
-    private Match match;
+
+    public AdrenalineServer(Controller controller){
+        this.controller = controller;
+    }
 
     @Override
     public List<String> availableColors()
@@ -31,13 +35,14 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     @Override
-    public void setColor(int colorIndex) throws IOException {
+    public void setColor(int colorIndex) {
         this.colorIndex = colorIndex;
-        joinRoom();
+        isHost = joinedRoom.addPlayer(colorIndex, name);
+        setupRoomEvents();
     }
 
     @Override
-    public boolean setName(String name) throws RemoteException
+    public boolean setName(String name)
     {
         if(!controller.existName(name)) {
             this.name = name;
@@ -57,30 +62,33 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     @Override
-    public boolean isHost() throws IOException, RemoteException {
+    public boolean isHost() {
         return isHost;
     }
 
     @Override
-    public void ready() throws RemoteException {
+    public void ready() {
         joinedRoom.notifyPlayerReady();
     }
 
     protected abstract void sendMessage(String message) throws IOException;
+    protected abstract void notifyMatchStarted(MatchSnapshot matchSnapshot) throws IOException;
 
     private void setupRoomEvents()
     {
         joinedRoom.timerStartEvent.addEventHandler((a, timeout) -> tryDo( () -> sendMessage(timerStartMessage(timeout))));
         joinedRoom.timerTickEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerTickMessage(timeLeft))));
-        joinedRoom.timerTickEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerStoppedMessage)));
+        joinedRoom.timerStopEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerStoppedMessage)));
+        joinedRoom.matchStartedEvent.addEventHandler((a, match) -> tryDo( () -> onMatchStarted(match) ));
     }
 
-    private void joinRoom()
-    {
-        isHost = joinedRoom.addPlayer(colorIndex, name);
-        setupRoomEvents();
+    private void onMatchStarted(Match match) throws IOException {
+        for(Player p : match.getPlayers())
+            if(p.name.equals(name)) {
+                notifyMatchStarted(new MatchSnapshot(match, p));
+                return;
+            }
     }
-
     private String timerStartMessage(int timeout){
         return "Countdown is started: " + timeout + " seconds left\n";
     }

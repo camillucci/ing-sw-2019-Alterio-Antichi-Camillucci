@@ -38,9 +38,25 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     }
 
     @Override
-    protected void notifyColor(int colorIndex) throws IOException {
+    protected void notifyColor(int colorIndex) throws IOException, ClassNotFoundException {
         server.out().sendInt(colorIndex);
-        view.login.notifyHost(server.in().getBool());
+        boolean isHost = server.in().getBool();
+        if(isHost){
+            view.login.gameMapEvent.addEventHandler((a,b) -> tryDo( () -> waitForMessage()));
+            view.login.notifyHost(true);
+        }
+        else
+            waitForMessage();
+    }
+
+    private void waitForMessage() throws IOException, ClassNotFoundException {
+        String message = server.in().getObject();
+        while(!message.equals(AdrenalineServerSocket.matchStartedMessage)) {
+            newMessage(message);
+            message = server.in().getObject();
+        }
+        MatchSnapshot matchSnapshot = server.in().getObject();
+        matchStart(matchSnapshot);
     }
 
     @Override
@@ -50,10 +66,5 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         view.login.notifyAccepted(accepted);
         if(accepted)
             view.login.notifyAvailableColor(server.in().getObject());
-    }
-
-    @Override
-    public void modelChanged(MatchSnapshot matchSnapshot) throws RemoteException {
-        //TODO
     }
 }

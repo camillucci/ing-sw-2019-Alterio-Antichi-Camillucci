@@ -16,8 +16,9 @@ public class AdrenalineServerSocket extends AdrenalineServer
     private TCPClient client;
     private RemoteActionsHandlerSocket remoteActionsHandler;
 
-    public AdrenalineServerSocket(TCPClient client)
+    public AdrenalineServerSocket(TCPClient client, Controller controller)
     {
+        super(controller);
         this.client = client;
     }
 
@@ -48,4 +49,11 @@ public class AdrenalineServerSocket extends AdrenalineServer
     protected void sendMessage(String message) throws IOException {
         client.out().sendObject(message);
     }
+
+    @Override
+    protected void notifyMatchStarted(MatchSnapshot matchSnapshot) throws IOException {
+        sendMessage(matchStartedMessage);
+        client.out().sendObject(matchSnapshot);
+    }
+    public static final String matchStartedMessage = "Match started\n";
 }

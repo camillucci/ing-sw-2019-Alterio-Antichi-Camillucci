@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.Login;
 
 import java.io.IOException;
@@ -22,11 +23,6 @@ public class LoginGUI extends Login {
     }
 
     @Override
-    public void notifyMatchStart() {
-        //todo
-    }
-
-    @Override
     public void login() {
         //todo
     }
@@ -34,5 +30,10 @@ public class LoginGUI extends Login {
     @Override
     public void onNewMessage(String message) {
         //todo
+    }
+
+    @Override
+    public void onModelChanged(MatchSnapshot matchSnapshot) {
+        //TODO
     }
 }
