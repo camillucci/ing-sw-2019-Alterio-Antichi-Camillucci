@@ -13,5 +13,5 @@ public abstract class ActionHandler extends ViewElement
 {
     public final IEvent<ActionHandler, Integer> choiceEvent = new Event<>();
 
-    public abstract void chooseAction(List<RemoteAction> options) throws IOException;
+    public abstract void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException;
 }
