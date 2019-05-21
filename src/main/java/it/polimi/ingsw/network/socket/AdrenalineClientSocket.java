@@ -68,8 +68,12 @@ public class AdrenalineClientSocket extends AdrenalineClient {
             view.login.notifyAvailableColor(server.in().getObject());
     }
 
-    protected void manageActions(List<RemoteActionSocket> options) throws IOException, ClassNotFoundException {
+    private void manageActions(List<RemoteActionSocket> options) throws IOException, ClassNotFoundException {
         view.actionHandler.choiceEvent.addEventHandler((a,choice) -> tryDo( () -> options.get(choice).initialize(server))); //communicates choice to server
         view.actionHandler.chooseAction(new ArrayList<>(options));
+    }
+
+    protected void waitForAction() throws IOException, ClassNotFoundException {
+            manageActions(server.in().getObject());
     }
 }

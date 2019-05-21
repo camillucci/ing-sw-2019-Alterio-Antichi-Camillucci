@@ -1,14 +1,19 @@
 package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.network.AdrenalineClient;
 import it.polimi.ingsw.network.IAdrenalineServer;
+import it.polimi.ingsw.network.IRemoteActionHandler;
+import it.polimi.ingsw.network.socket.RemoteActionSocket;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.generics.Utils.tryDo;
 
 public class AdrenalineClientRMI extends AdrenalineClient {
     private IAdrenalineServer server;
+    private IRemoteActionHandler remoteActionHandler;
 
     public AdrenalineClientRMI(String serverName, int serverPort, View view) {
         super(serverName, serverPort, view);
@@ -53,5 +58,10 @@ public class AdrenalineClientRMI extends AdrenalineClient {
         view.login.notifyAccepted(accepted);
         if(accepted)
             view.login.notifyAvailableColor(server.availableColors());
+    }
+
+    protected void manageActions(List<RemoteActionRMI> options) throws IOException, ClassNotFoundException {
+        view.actionHandler.choiceEvent.addEventHandler((a,choice) -> tryDo( () -> options.get(choice).initialize(remoteActionHandler))); //communicates choice to server
+        view.actionHandler.chooseAction(new ArrayList<>(options));
     }
 }

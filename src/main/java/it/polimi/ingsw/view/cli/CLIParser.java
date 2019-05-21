@@ -25,14 +25,14 @@ public class CLIParser {
         int choice = Integer.parseInt(reader.readLine());
         if (choice == 0 || choice == 1)
             return choice;
-        throw new RuntimeException("not valid choice");
+        return -1;
     }
 
     public int parseIndex(int index) throws IOException {
         int answer = Integer.parseInt(reader.readLine());
         if(answer < index && answer >= 0)
             return answer;
-        throw new RuntimeException("not valid choice");
+        return -1;
     }
 
     public void parseActions() {
@@ -43,13 +43,13 @@ public class CLIParser {
         int answer = Integer.parseInt(System.in.toString());
         if(answer <= 8 && answer >= 5)
             return answer;
-        throw new RuntimeException("not valid choice");
+        return -1;
     }
 
     public int parseGameMap() {
         int answer = Integer.parseInt(System.in.toString());
         if(answer < 3 && answer >= 0)
             return answer;
-        throw new RuntimeException("not valid choice");
+        return -1;
     }
 }

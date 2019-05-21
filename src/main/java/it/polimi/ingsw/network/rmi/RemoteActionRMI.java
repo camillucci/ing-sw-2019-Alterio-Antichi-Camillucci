@@ -18,7 +18,7 @@ public class RemoteActionRMI extends RemoteAction
         super(index);
     }
 
-    public void inizialize(IRemoteActionHandler remoteActionsHandler) throws RemoteException
+    public void initialize(IRemoteActionHandler remoteActionsHandler) throws RemoteException
     {
         this.remoteActionsHandler = remoteActionsHandler;
         remoteActionsHandler.chooseAction(this.index);
