@@ -15,13 +15,13 @@ public class MoveAction extends Action
         this.minDistance = -1;
         this.maxDistance = maxDistance;
         this.optional = true;
+        this.canBeDone = false;
     }
 
     public MoveAction(int minDistance, int maxDistance)
     {
+        this(maxDistance);
         this.minDistance = minDistance;
-        this.maxDistance = maxDistance;
-        this.optional = false;
     }
 
     @Override
@@ -35,6 +35,15 @@ public class MoveAction extends Action
         ownerPlayer.getCurrentSquare().removePlayer(ownerPlayer);
         ownerPlayer.setCurrentSquare(targetSquares.get(0));
         ownerPlayer.getCurrentSquare().addPlayer(ownerPlayer);
+    }
+
+    @Override
+    public void addTarget(Square target)
+    {
+        if(this.getPossibleSquares().contains(target)) {
+            this.targetSquares.add(target);
+            this.canBeDone = true;
+        }
     }
 
     @Override

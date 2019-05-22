@@ -83,4 +83,11 @@ public class Effects
             else
                 move(Collections.singletonList(shooter), Collections.singletonList(targets.get(1).getCurrentSquare()));
     }
+
+    public static void damageNoMark(Player shooter, List<Player> targets, List<Integer> damage)
+    {
+        for(int i = 0; i < targets.size(); i++)
+            if(damage.get(i) > 0)
+                targets.get(i).addDamageNoMarks(shooter, damage.get(i));
+    }
 }

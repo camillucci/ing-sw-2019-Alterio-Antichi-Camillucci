@@ -16,17 +16,18 @@ public class ShootAction extends Action
     protected ShootFunc shootFunc;
     protected PlayersFilter playersFilter;
     protected SquaresFilter squaresFilter;
+    private boolean doesDamage = true;
 
     protected ShootAction(){}
 
     public ShootAction(ShootFunc shootFunc, SquaresFilter squaresFilter)
     {
-        this(noPlayersFilter, squaresFilter, shootFunc);
+        this(TargetsFilters.noPlayersFilter, squaresFilter, shootFunc);
     }
 
     public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc)
     {
-        this(playersFilter, noSquaresFilter, shootFunc);
+        this(playersFilter, TargetsFilters.noSquaresFilter, shootFunc);
     }
 
     public ShootAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
@@ -37,19 +38,27 @@ public class ShootAction extends Action
         this.canBeDone = false;
     }
 
+    public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc, boolean doesDamage)
+    {
+        this(playersFilter, TargetsFilters.noSquaresFilter, shootFunc);
+        this.doesDamage = doesDamage;
+    }
+
     @Override
     protected void op() {
         this.shoot();
         for(Player p: damagedPlayers)
             p.damagedEvent.removeEventHandler((damaged, val) -> damagedEventHandler(damaged));
-        if(selectedPowerUp != null)
+        if(selectedPowerUp != null) {
             preparePowerUp();
+            targetPlayers.clear();
+        }
     }
 
-    protected void preparePowerUp()
-    {
+    protected void preparePowerUp() {
         SupportPowerUpAction tmp = (SupportPowerUpAction)selectedPowerUp.getEffect();
         tmp.setTargets(damagedPlayers);
+        tmp.damagedPlayers = damagedPlayers;
         this.next = tmp;
     }
 
@@ -72,13 +81,10 @@ public class ShootAction extends Action
 
     @Override
     public List<PowerUpCard> getPossiblePowerUps(){
-        if(selectedPowerUp != null)
+        if(selectedPowerUp != null || !doesDamage)
             return Collections.emptyList();
 
-        List <PowerUpCard> temp = new ArrayList<>();
-        if(!this.damagedPlayers.isEmpty())
-            temp.addAll(ownerPlayer.getPowerupSet().getInTurnPUs());
-        return temp;
+        return new ArrayList<>(ownerPlayer.getPowerupSet().getInTurnPUs());
     }
 
     @Override
@@ -86,8 +92,9 @@ public class ShootAction extends Action
     {
         if(this.getPossiblePlayers().contains(target)) {
             targetPlayers.add(target);
-            target.damagedEvent.addEventHandler((damaged, val) -> damagedEventHandler(damaged));
-            if(squaresFilter == noSquaresFilter || !this.targetSquares.isEmpty())
+            if(doesDamage)
+                target.damagedEvent.addEventHandler((damaged, val) -> damagedEventHandler(damaged));
+            if(squaresFilter == TargetsFilters.noSquaresFilter || !this.targetSquares.isEmpty())
                 this.canBeDone = true;
         }
     }
@@ -96,7 +103,7 @@ public class ShootAction extends Action
     public void addTarget(Square target) {
         if(this.getPossibleSquares().contains(target)) {
             this.targetSquares.add(target);
-            if(playersFilter == noPlayersFilter || !this.targetPlayers.isEmpty())
+            if(playersFilter == TargetsFilters.noPlayersFilter || !this.targetPlayers.isEmpty())
                 this.canBeDone = true;
         }
     }
@@ -106,7 +113,4 @@ public class ShootAction extends Action
         if(!damagedPlayers.contains(damaged))
             this.damagedPlayers.add(damaged);
     }
-
-    private static PlayersFilter noPlayersFilter = (shooter, players, squares) -> Collections.emptyList();
-    private static SquaresFilter noSquaresFilter = (shooter, players, squares) -> Collections.emptyList();
 }

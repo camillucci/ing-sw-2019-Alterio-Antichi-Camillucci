@@ -13,6 +13,7 @@ public class ReloadAction extends Action
     public ReloadAction()
     {
         this.optional = true;
+        this.canBeDone = false;
     }
 
     @Override
@@ -32,6 +33,7 @@ public class ReloadAction extends Action
         {
             this.doActionCost = this.doActionCost.add(weapon.reloadCost);
             this.selectedWeapons.add(weapon);
+            this.canBeDone = true;
         }
     }
 

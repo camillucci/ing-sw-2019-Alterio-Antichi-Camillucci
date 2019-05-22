@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.branch.Branch;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.model.AmmoColor.*;
 import static it.polimi.ingsw.model.SquareBorder.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,9 +62,11 @@ class GrabActionTest {
         player.addWeapon(gameBoard.weaponDeck.draw());
         player.addWeapon(gameBoard.weaponDeck.draw());
         player.addWeapon(gameBoard.weaponDeck.draw());
-        action.initialize(player);
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         player.getCurrentSquare().addPlayer(player);
+        Branch branch = new Branch(new GrabAction(), new EndBranchAction());
+        action = (ExtendableAction) branch.getCompatibleActions().get(0);
+        action.initialize(player);
         action.doAction();
         assertEquals(3, action.getBranches().size());
         assertEquals(3, player.getCurrentSquare().getCardsName().size());

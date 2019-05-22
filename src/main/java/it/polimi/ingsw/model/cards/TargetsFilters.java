@@ -12,6 +12,10 @@ public class TargetsFilters {
 
     private TargetsFilters(){}
 
+    public static final PlayersFilter noPlayersFilter = (shooter, players, squares) -> Collections.emptyList();
+
+    public static final SquaresFilter noSquaresFilter = (shooter, players, squares) -> Collections.emptyList();
+
     public static List<Player> visiblePlayers(Player player, List<Player> alreadyAdded, int maxTargets) {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();

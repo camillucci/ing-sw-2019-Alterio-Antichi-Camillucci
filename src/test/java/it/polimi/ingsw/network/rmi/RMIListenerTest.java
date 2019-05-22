@@ -1,12 +1,16 @@
 package it.polimi.ingsw.network.rmi;
+import it.polimi.ingsw.controller.AdrenalineLauncherClient;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.AdrenalineServer;
 import it.polimi.ingsw.network.IAdrenalineServer;
+import it.polimi.ingsw.view.cli.CLIParser;
 import it.polimi.ingsw.view.cli.CLIView;
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,4 +57,33 @@ class RMIListenerTest
             listener.stop();
         }
     }
+
+    /*
+    @Test
+    void client() {
+        System.setProperty("java.rmi.server.hostname","169.254.87.91");
+        try {
+            LocateRegistry.createRegistry(25377);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        String userInput = "turangla_lella3\n1\n";
+        CLIParser.parser.setInputStream(new ByteArrayInputStream(userInput.getBytes()));
+        AdrenalineLauncherClient client = null;
+        try {
+            client = new AdrenalineLauncherClient(false, false, "169.254.87.91", 25377);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            client.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
+    }
+    */
 }

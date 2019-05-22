@@ -79,6 +79,10 @@ public class Player implements Cloneable {
         }
     }
 
+    public void addPowerUpCard(PowerUpCard powerUpCard) { // Only for tests
+        powerupSet.add(powerUpCard);
+    }
+
     public void removePowerUpCard(PowerUpCard powerUpCard)
     {
         powerupSet.remove(powerUpCard);
@@ -98,6 +102,11 @@ public class Player implements Cloneable {
         for(int i = temp.size() - 1; i >= 0; i--)
             mark.remove(i);
         ((Event<Player, Integer>)this.damagedEvent).invoke(this, val);
+    }
+
+    public void addDamageNoMarks(Player shooter, int val) {
+        for (int i = 0; i < val && damage.size() < MAX_DAMAGES; i++)
+            damage.add(shooter.color);
     }
 
     public void addMark(Player shooter, int val) {

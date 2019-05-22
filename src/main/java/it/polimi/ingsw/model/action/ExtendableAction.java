@@ -15,7 +15,7 @@ public class ExtendableAction extends Action
         this.branches = new ArrayList<>(branches);
     }
 
-    public ExtendableAction(Branch ... branches){this(Arrays.asList(branches));}
+    public ExtendableAction(Branch ... branches){ this(Arrays.asList(branches)); }
 
     public List<Branch> getBranches()
     {

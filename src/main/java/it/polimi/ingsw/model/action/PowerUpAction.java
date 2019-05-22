@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.cards.PowerUpCard;
-import it.polimi.ingsw.model.cards.PlayersFilter;
-import it.polimi.ingsw.model.cards.ShootFunc;
-import it.polimi.ingsw.model.cards.SquaresFilter;
+import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +30,18 @@ public class PowerUpAction extends ShootAction
     public PowerUpAction()
     {
         this.optional = true;
+        this.playersFilter = TargetsFilters.noPlayersFilter;
+        this.squaresFilter = TargetsFilters.noSquaresFilter;
     }
 
     @Override
     protected void op()
     {
         this.shoot();
-        if(selectedPowerUp != null)
+        if(selectedPowerUp != null) {
             preparePowerUp();
+            targetPlayers.clear();
+        }
     }
 
     @Override

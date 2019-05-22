@@ -75,14 +75,4 @@ public class BranchMapFactory
     {
         return new BranchMap(new Branch(new SupportPowerUpAction(p->new ArrayList<>(p.getPowerupSet().getCounterAttackPUs())), new EndBranchAction()));
     }
-
-    /*
-    private static List<Branch> addPowerups(List<Branch> branches, Player player)
-    {
-        for(PowerUpCard powerUpCard : player.getPowerUps())
-            branches.addAll(powerUpCard.getEffect());
-        return branches;
-    }
-
-     */
 }

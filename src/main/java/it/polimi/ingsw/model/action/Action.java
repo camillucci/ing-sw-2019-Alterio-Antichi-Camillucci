@@ -60,25 +60,24 @@ public class Action
         this.ownerPlayer = ownerPlayer;
     }
 
-    public void addWeapon(WeaponCard weapon)
-    {
-        this.selectedWeapons.add(weapon);
+    public void addWeapon(WeaponCard weapon) {
+        //Only for Override
     }
-    public void addTarget(Square target)
-    {
-        if(this.getPossibleSquares().contains(target))
-            this.targetSquares.add(target);
+
+    public void addTarget(Square target) {
+        //Only for Override
     }
-    public void addTarget(Player target)
-    {
-        if(this.getPossiblePlayers().contains(target))
-            this.targetPlayers.add(target);
+
+    public void addTarget(Player target) {
+        //Only for Override
     }
+
     public void usePowerUp(PowerUpCard powerUp)
     {
         if(getPossiblePowerUps().contains(powerUp))
             this.selectedPowerUp = powerUp;
     }
+
     public void addDiscarded(PowerUpCard powerUpCard)
     {
         if(getDiscardablePowerUps().contains(powerUpCard))
@@ -91,11 +90,14 @@ public class Action
     public List<PowerUpCard> getDiscardablePowerUps() { return Collections.emptyList(); }
 
     public Player getOwnerPlayer() { return this.ownerPlayer; }
+
     public boolean isCompatible(Action action)
     {
         return action.getClass().isInstance(this);
     }
-    public boolean canBeDone() {return canBeDone;}
+
+    public boolean canBeDone() { return canBeDone; }
+
     private boolean spendAmmo()
     {
         Ammo ammo = new Ammo(0, 0, 0);
@@ -116,14 +118,12 @@ public class Action
     }
 
     public boolean isOptional() { return optional; }
-    public Action next() { return next; }
-    protected void op() {
-        this.opMethod.accept(this);
-    }
 
-    public Ammo getDoActionCost() {
-        return doActionCost;
-    }
+    public Action next() { return next; }
+
+    protected void op() { this.opMethod.accept(this); }
+
+    public Ammo getDoActionCost() { return doActionCost; }
 
     public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
 }

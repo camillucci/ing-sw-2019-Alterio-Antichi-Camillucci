@@ -3,7 +3,9 @@ package it.polimi.ingsw.model.action;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.ShootFunc;
+import it.polimi.ingsw.model.cards.TargetsFilters;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -13,7 +15,7 @@ public class SupportPowerUpAction extends PowerUpAction
 
     public SupportPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter, ShootFunc shootFunc)
     {
-        super(null, null, shootFunc);
+        super(TargetsFilters.noPlayersFilter, TargetsFilters.noSquaresFilter, shootFunc);
         this.powerUpFilter = powerUpFilter;
         this.completedActionEvent.addEventHandler((a,b)->{
             if(this.selectedPowerUp != null) {
@@ -25,19 +27,26 @@ public class SupportPowerUpAction extends PowerUpAction
 
     public SupportPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter)
     {
+        this.playersFilter = TargetsFilters.noPlayersFilter;
+        this.squaresFilter = TargetsFilters.noSquaresFilter;
         this.powerUpFilter = powerUpFilter;
-        this.canBeDone = true;
     }
 
     @Override
     protected void preparePowerUp() {
-        super.preparePowerUp();
-        ((SupportPowerUpAction)next).setTargets(getPossiblePlayers());
+        SupportPowerUpAction tmp = (SupportPowerUpAction)selectedPowerUp.getEffect();
+        tmp.setTargets(damagedPlayers);
+        tmp.damagedPlayers = damagedPlayers;
+        this.next = tmp;
     }
 
     public void setTargets(List<Player> targets)
     {
-        this.playersFilter = (shooter, players, squares) -> targets;
+        this.playersFilter = (shooter, players, squares) -> {
+            if(targetPlayers.isEmpty())
+                return targets;
+            return Collections.emptyList();
+        };
     }
 
     @Override

@@ -47,7 +47,7 @@ public class CardsFactory {
     {
         List <AmmoColor> allColors = new ArrayList<>(Arrays.asList(BLUE, RED, YELLOW, BLUE, RED, YELLOW));
         for(AmmoColor ammoColor : allColors) {
-            powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, damage(1)));
+            powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, damageNoMark(1)));
             powerUpCards.add(new EndStartPowerUpCard("Newton", ammoColor, () -> new PowerUpAction(otherPlayers, near2Squares, move)));
             powerUpCards.add(new CounterAttackPowerUpCard("Tagback Grenade", ammoColor, mark(1)));
             powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, () -> new PowerUpAction(allSquares, moveSelf)));
@@ -158,7 +158,7 @@ public class CardsFactory {
 
         weapons.add(new WeaponCard("ZX-2", new Ammo(0, 1, 0), new Ammo(0, 1, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers(1), damage(1).andThen(mark(2))), new EndBranchAction())),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers(3), mark(1, 1, 1)), new EndBranchAction())))));
+                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers(3), mark(1, 1, 1), false), new EndBranchAction())))));
 
         weapons.add(new WeaponCard("Shotgun", new Ammo(0, 0, 1), new Ammo(0, 0, 2), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(nearPlayers(1, 0), movable1Square, move.andThen(damage(3))), new EndBranchAction())),
@@ -189,6 +189,7 @@ public class CardsFactory {
     private static ShootFunc move = (player, players, squares) -> Effects.move(players, squares);
     private static ShootFunc powerGlove = (player, players, squares) -> Effects.powerGlove(player, players);
     private static ShootFunc moveSelf = (player, players, squares) -> Effects.move(Collections.singletonList(player), squares);
+    private static ShootFunc damageNoMark(Integer ... damage) {return (player, players, squares) -> Effects.damageNoMark(player, players, Arrays.asList(damage)); }
 
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF PARAMETRIZED TARGET FILTERS
