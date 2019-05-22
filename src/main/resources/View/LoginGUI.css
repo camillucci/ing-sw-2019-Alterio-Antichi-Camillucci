@@ -1,0 +1,8 @@
+.root{
+    -fx-background-color: derive(#000000, 25%);
+    -fx-background-image:  url("../adrenaline.jpg");
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+
+}

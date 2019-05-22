@@ -1,17 +1,25 @@
 package it.polimi.ingsw.view.gui;
 
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 
-import static javafx.scene.layout.BackgroundRepeat.NO_REPEAT;
+import java.io.IOException;
 
 public class GUI extends Application {
 
+    public PasswordField passwordField;
+    @FXML private Text actionTarget;
+    private Button handleSubmitButtonAction;
     private Stage window; // The window
     private Scene scene; // The current view of the window
     private Scene scene2;
@@ -29,7 +37,14 @@ public class GUI extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/View/LoginGUI.fxml"));
+        Scene scene = new Scene(root, 300, 275);
+
+        primaryStage.setTitle("FXML Welcome");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        /*
         window = primaryStage;
         window.setTitle("Adrenaline");
 
@@ -52,5 +67,12 @@ public class GUI extends Application {
         scene2 = new Scene(layout2, 1273, 964);
         window.setScene(scene);
         window.show();
+
+         */
+    }
+
+    @FXML
+    public void handleSubmitButtonAction(ActionEvent actionEvent) {
+        actionTarget.setText("lol");
     }
 }
