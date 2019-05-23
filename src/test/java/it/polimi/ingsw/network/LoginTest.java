@@ -1,15 +1,12 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.AdrenalineLauncherClient;
-import it.polimi.ingsw.controller.AdrenalineLauncherServer;
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.network.rmi.*;
+import it.polimi.ingsw.AdrenalineLauncherClient;
+import it.polimi.ingsw.AdrenalineLauncherServer;
 import it.polimi.ingsw.view.cli.CLIParser;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.generics.Utils.tryDo;
 

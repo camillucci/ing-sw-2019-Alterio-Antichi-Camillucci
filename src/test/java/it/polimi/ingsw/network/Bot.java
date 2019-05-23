@@ -1,12 +1,10 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.AdrenalineLauncherClient;
+import it.polimi.ingsw.AdrenalineLauncherClient;
 import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.rmi.NotBoundException;
 
 public class Bot
