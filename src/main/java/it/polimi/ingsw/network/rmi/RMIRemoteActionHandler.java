@@ -5,8 +5,6 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
-import it.polimi.ingsw.network.rmi.RMIListener;
-import it.polimi.ingsw.network.rmi.RemoteActionRMI;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,16 +10,16 @@ import java.util.List;
 public class ActionHandlerGUI extends ActionHandler {
     @Override
     public void chooseAction(List<RemoteAction> options) throws IOException {
-
+        //TODO
     }
 
     @Override
     public void onNewMessage(String message) {
-
+        //TODO
     }
 
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
-
+        //TODO
     }
 }

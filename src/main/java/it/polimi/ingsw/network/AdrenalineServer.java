@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.List;
 
 import static it.polimi.ingsw.generics.Utils.tryDo;
@@ -78,7 +77,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     {
         joinedRoom.timerStartEvent.addEventHandler((a, timeout) -> tryDo( () -> sendMessage(timerStartMessage(timeout))));
         joinedRoom.timerTickEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerTickMessage(timeLeft))));
-        joinedRoom.timerStopEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerStoppedMessage)));
+        joinedRoom.timerStopEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE)));
         joinedRoom.matchStartedEvent.addEventHandler((a, match) -> tryDo( () -> onMatchStarted(match) ));
     }
 
@@ -95,5 +94,5 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private String timerTickMessage(int timeLeft){
         return "" + timeLeft + " seconds left\n";
     }
-    private final String timerStoppedMessage = "Countdown stopped\n";
+    private static final String TIMER_STOPPED_MESSAGE = "Countdown stopped\n";
 }

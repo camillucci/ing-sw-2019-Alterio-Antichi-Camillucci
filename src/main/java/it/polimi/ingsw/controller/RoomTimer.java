@@ -5,6 +5,8 @@ import it.polimi.ingsw.generics.IEvent;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RoomTimer
 {
@@ -15,6 +17,8 @@ public class RoomTimer
     private int timeout;
     private int period;
     private int elapsed = 0;
+
+    Logger logger = Logger.getLogger("roomTimer");
 
     public RoomTimer(int timeout, int period){
         this.timeout = timeout;
@@ -49,6 +53,7 @@ public class RoomTimer
                     break;
                 }
             } catch (InterruptedException e) {
+                logger.log(Level.WARNING, e.getMessage());
             }
         }
     }

@@ -1,10 +1,13 @@
 package it.polimi.ingsw.view.cli;
 
-import java.io.*;
-import java.util.List;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class CLIParser {
-    public final static CLIParser parser = new CLIParser(System.in);
+    public static final CLIParser parser = new CLIParser(System.in);
     private BufferedReader reader;
 
     public CLIParser(InputStream inputStream){

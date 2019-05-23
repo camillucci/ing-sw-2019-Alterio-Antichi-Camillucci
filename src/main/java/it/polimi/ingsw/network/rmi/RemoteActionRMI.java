@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.IRemoteActionHandler;
 import it.polimi.ingsw.network.RemoteAction;
 

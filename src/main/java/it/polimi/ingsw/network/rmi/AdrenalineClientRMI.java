@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.network.AdrenalineClient;
 import it.polimi.ingsw.network.IAdrenalineServer;
 import it.polimi.ingsw.network.IRemoteActionHandler;
-import it.polimi.ingsw.network.socket.RemoteActionSocket;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.rmi.NotBoundException;
