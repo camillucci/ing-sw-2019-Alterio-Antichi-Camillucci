@@ -89,7 +89,6 @@ public class RMIListener <T extends Remote, V extends Remote>
             UnicastRemoteObject.exportObject(curRemote, port);
             Remote stub = UnicastRemoteObject.exportObject(tmp, port);
             LocateRegistry.getRegistry(port).rebind("Server", stub);
-            registry.lookup("Server");
         }
         catch(ExportException e)
         {
@@ -97,8 +96,6 @@ public class RMIListener <T extends Remote, V extends Remote>
         }
         catch (IOException e) {
             logger.log(Level.WARNING, "RemoteException, Class RMIListener, Line 58", e);
-        } catch (NotBoundException e) {
-            e.printStackTrace();
         }
     }
 
