@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RMIServer <T extends Remote, V extends Remote> implements RMIConnection<T, V>, NotifiedConnection<V> {
     private final IEvent<NotifiedConnection, V> newClientConnectedEvent = new Event<>();
@@ -14,6 +16,7 @@ public class RMIServer <T extends Remote, V extends Remote> implements RMIConnec
     private V client;
     private T server;
     private boolean connected;
+    private Logger logger = Logger.getLogger("RMIServer");
 
     public RMIServer(T server)
     {
@@ -45,7 +48,9 @@ public class RMIServer <T extends Remote, V extends Remote> implements RMIConnec
             UnicastRemoteObject.unexportObject(server, false);
             UnicastRemoteObject.unexportObject(this, false);
         }
-        catch(NoSuchObjectException e){/*todo*/}
+        catch(NoSuchObjectException e){
+            logger.log(Level.WARNING, e.getMessage());
+        }
     }
 
     public V client()

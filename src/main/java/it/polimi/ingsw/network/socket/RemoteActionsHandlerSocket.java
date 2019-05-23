@@ -27,8 +27,8 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
     public static final int CAN_BE_DONE = 9;
     public static final int DO_ACTION = 10;
 
-    TCPClient client;
-    Logger logger = Logger.getLogger("remoteActionsHandlerSocket");
+    private TCPClient client;
+    private Logger logger = Logger.getLogger("remoteActionsHandlerSocket");
 
     public RemoteActionsHandlerSocket(ActionsProvider provider, Player player, TCPClient client)
     {
@@ -107,7 +107,7 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
         }
         catch(IOException e)
         {
-            //todo
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 

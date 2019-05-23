@@ -12,7 +12,7 @@ public class TCPClient
 {
     public final IEvent<TCPClient, Object> disconnectedEvent = new Event<>();
     private Socket connectedSocket;
-    private Logger logger;
+    private Logger logger = Logger.getLogger("TCPClient");
 
     public InputInterface in() throws IOException
     {

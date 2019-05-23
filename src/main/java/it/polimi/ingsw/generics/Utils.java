@@ -23,7 +23,7 @@ public class Utils
             return safeSupplier.get();
         }
         catch(IOException e){
-            //todo
+            Logger.getLogger("utils.tryGet()").log(Level.WARNING, e.getMessage());
             return null;
         }
     }
