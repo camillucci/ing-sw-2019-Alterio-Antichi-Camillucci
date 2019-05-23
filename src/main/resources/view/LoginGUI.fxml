@@ -32,7 +32,7 @@
     <HBox spacing="10" alignment="bottom_right"
           GridPane.columnIndex="1" GridPane.rowIndex="4">
         <Button text="Log in"
-                onAction="#onLoginClicked_EventHandler"/>
+                onAction="#onLoginClickedEventHandler"/>
     </HBox>
 
     <Text fx:id="randomText"

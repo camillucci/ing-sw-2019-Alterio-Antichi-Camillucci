@@ -13,8 +13,8 @@ public class Room
     public final IEvent<Room, Integer> timerTickEvent = new Event<>();
     public final IEvent<Room, Integer> timerStopEvent = new Event<>();
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
-    private final int TIMEOUT = 5;
-    private final int PERIOD = 1;
+    private static final int TIMEOUT = 5;
+    private static final int PERIOD = 1;
     private List<PlayerColor> playerColors = new ArrayList<>();
     private List<PlayerColor> availableColors = new ArrayList<>();
     private List<String> playerNames = new ArrayList<>();

@@ -25,6 +25,7 @@ public class RMIListener <T extends Remote, V extends Remote>
     private Supplier<T> remoteSupplier;
     private T curRemote;
     private Registry registry;
+    private static final String SERVER = "Server";
 
     public RMIListener(int port, Supplier<T> remoteSupplier) throws RemoteException
     {
@@ -54,7 +55,7 @@ public class RMIListener <T extends Remote, V extends Remote>
             return;
         try
         {
-            registry.unbind("Server");
+            registry.unbind(SERVER);
             UnicastRemoteObject.unexportObject(registry, true);
             registry = null;
             curRemote = null;
@@ -88,8 +89,8 @@ public class RMIListener <T extends Remote, V extends Remote>
             tmp.connectedEvent().addEventHandler((server, client) -> newClientConnected((RMIServer<T,V>)server));
             UnicastRemoteObject.exportObject(curRemote, port);
             Remote stub = UnicastRemoteObject.exportObject(tmp, port);
-            LocateRegistry.getRegistry(port).rebind("Server", stub);
-            registry.lookup("Server");
+            LocateRegistry.getRegistry(port).rebind(SERVER, stub);
+            registry.lookup(SERVER);
         }
         catch(ExportException e)
         {

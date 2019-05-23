@@ -1,15 +1,11 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.AdrenalineClient;
-import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +38,7 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         server.out().sendInt(colorIndex);
         boolean isHost = server.in().getBool();
         if(isHost){
-            view.login.gameMapEvent.addEventHandler((a,b) -> tryDo( () -> waitForMessage()));
+            view.login.gameMapEvent.addEventHandler((a,b) -> tryDo(this::waitForMessage));
             view.login.notifyHost(true);
         }
         else
@@ -51,7 +47,7 @@ public class AdrenalineClientSocket extends AdrenalineClient {
 
     private void waitForMessage() throws IOException, ClassNotFoundException {
         String message = server.in().getObject();
-        while(!message.equals(AdrenalineServerSocket.matchStartedMessage)) {
+        while(!message.equals(AdrenalineServerSocket.MATCH_STARTED_MESSAGE)) {
             newMessage(message);
             message = server.in().getObject();
         }

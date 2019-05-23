@@ -3,7 +3,6 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.cli.CLIMessenger;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;

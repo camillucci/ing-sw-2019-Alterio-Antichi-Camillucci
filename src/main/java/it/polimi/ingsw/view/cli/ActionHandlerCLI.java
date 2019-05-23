@@ -3,16 +3,16 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
-import it.polimi.ingsw.network.socket.RemoteActionSocket;
 import it.polimi.ingsw.view.ActionHandler;
-import it.polimi.ingsw.view.Login;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActionHandlerCLI extends ActionHandler {
+
     private RemoteAction action;
+
     @Override
     public void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException {
         CLIMessenger.displayActions((ArrayList<RemoteAction>) options);

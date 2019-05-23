@@ -1,18 +1,15 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IRemoteActionHandler extends Remote
 {
-    IEvent<RemoteActionsHandler, List<RemoteAction>> getNewActionsEvent() throws RemoteException, IOException;
+    IEvent<RemoteActionsHandler, List<RemoteAction>> getNewActionsEvent() throws IOException;
     void chooseAction(int index) throws RemoteException;
     void doAction() throws RemoteException;
     void addTargetPlayer(int index) throws RemoteException;

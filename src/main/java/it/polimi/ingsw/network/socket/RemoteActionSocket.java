@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.socket;
 
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
@@ -11,18 +9,18 @@ import java.util.List;
 
 public class RemoteActionSocket extends RemoteAction implements Serializable
 {
-    private int index;
+    private int socketIndex;
     private transient TCPClient server;
 
-    public RemoteActionSocket(int index){
-        super(index);
-        this.index = index;
+    public RemoteActionSocket(int socketIndex){
+        super(socketIndex);
+        this.socketIndex = socketIndex;
     }
 
     public void initialize(TCPClient server) throws IOException
     {
         this.server = server;
-        server.out().sendInt(this.index);
+        server.out().sendInt(this.socketIndex);
     }
 
     @Override
@@ -67,26 +65,30 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     public List<String> getPossiblePlayers() throws IOException, ClassNotFoundException
     {
         server.out().sendInt(RemoteActionsHandlerSocket.GET_PLAYERS);
-        return new ArrayList<>(possiblePlayers = server.in().getObject());
+        possiblePlayers = server.in().getObject();
+        return new ArrayList<>(possiblePlayers);
     }
 
     @Override
     public List<String> getPossibleSquares() throws IOException, ClassNotFoundException
     {
         server.out().sendInt(RemoteActionsHandlerSocket.GET_SQUARES);
-        return new ArrayList<>(possibleSquares = server.in().getObject());
+        possibleSquares = server.in().getObject();
+        return new ArrayList<>(possibleSquares);
     }
 
     @Override
     public List<String> getPossiblePowerups() throws IOException, ClassNotFoundException {
         server.out().sendInt(RemoteActionsHandlerSocket.GET_POWERUPS);
-        return new ArrayList<>(possiblePowerUps = server.in().getObject());
+        possiblePowerUps = server.in().getObject();
+        return new ArrayList<>(possiblePowerUps);
     }
 
     @Override
     public List<String> getDiscardablePowerups() throws IOException, ClassNotFoundException {
         server.out().sendInt(RemoteActionsHandlerSocket.GET_DISCARDABLES);
-        return new ArrayList<>(discardablePowerUps = server.in().getObject());
+        discardablePowerUps = server.in().getObject();
+        return new ArrayList<>(discardablePowerUps);
     }
 
     @Override

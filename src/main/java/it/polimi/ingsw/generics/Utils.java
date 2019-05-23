@@ -2,6 +2,8 @@ package it.polimi.ingsw.generics;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Utils
 {
@@ -10,10 +12,8 @@ public class Utils
         try{
             safeAction.invoke();
         }
-        catch(IOException e){
-            //todo
-        } catch (ClassNotFoundException e) {
-            //todo
+        catch(IOException | ClassNotFoundException e) {
+            Logger.getLogger("utils").log(Level.WARNING, e.getMessage());
         }
     }
 

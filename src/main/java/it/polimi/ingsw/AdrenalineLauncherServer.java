@@ -87,6 +87,7 @@ public class AdrenalineLauncherServer
         catch (IOException e) {
             logger.log(Level.WARNING, "Could not start server");
         }
+
     }
 
     public void setInputStream(InputStream stream){

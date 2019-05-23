@@ -9,6 +9,8 @@ import it.polimi.ingsw.network.RemoteActionsHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class RemoteActionsHandlerSocket extends RemoteActionsHandler
@@ -26,6 +28,7 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
     public static final int DO_ACTION = 10;
 
     TCPClient client;
+    Logger logger = Logger.getLogger("remoteActionsHandlerSocket");
 
     public RemoteActionsHandlerSocket(ActionsProvider provider, Player player, TCPClient client)
     {
@@ -45,7 +48,9 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
                 handleAction();
             }while(!stop);
         }
-        catch(Exception e) {}
+        catch(Exception e) {
+            logger.log(Level.WARNING, e.getMessage());
+        }
     }
 
     private void handleAction() throws IOException
@@ -55,59 +60,39 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
             switch (client.in().getInt())
             {
                 case GET_PLAYERS:
-                {
                     client.out().sendObject(new ArrayList<>(getPossiblePlayers()));
                     break;
-                }
                 case GET_SQUARES:
-                {
                     client.out().sendObject(new ArrayList<>(getPossibleSquares()));
                     break;
-                }
                 case GET_POWERUPS:
-                {
                     client.out().sendObject(new ArrayList<>(getPossiblePowerups()));
                     break;
-                }
                 case GET_DISCARDABLES:
-                {
                     client.out().sendObject(new ArrayList<>(getDiscardablePowerUps()));
                     break;
-                }
                 case ADD_PLAYER:
-                {
                     addTargetPlayer(client.in().getInt());
                     break;
-                }
                 case ADD_SQUARE:
-                {
                     addTargetSquare(client.in().getInt());
                     break;
-                }
                 case ADD_POWERUP:
-                {
                     addPowerup(client.in().getInt());
                     break;
-                }
                 case ADD_DISCARDABLE:
-                {
                     addDiscardablePowerup(client.in().getInt());
-                }
+                    break;
                 case ADD_WEAPON:
-                {
                     addWeapon(client.in().getInt());
-                }
+                    break;
                 case CAN_BE_DONE:
-                {
                     client.out().sendBool(canBeDone());
                     break;
-                }
                 case DO_ACTION:
-                {
                     doAction();
                     completed = true;
                     break;
-                }
                 default:
                     throw new IllegalStateException("Unexpected value: " + "oluc oissela");
             }

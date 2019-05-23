@@ -41,7 +41,7 @@ public class LoginGUI extends Login {
         //TODO
     }
 
-    public void onLoginClicked_EventHandler(ActionEvent actionEvent)
+    public void onLoginClickedEventHandler(ActionEvent actionEvent)
     {
         randomText.setText("oh boy");
     }

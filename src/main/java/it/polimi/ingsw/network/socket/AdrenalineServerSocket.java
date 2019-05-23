@@ -5,16 +5,15 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.List;
-
-import static it.polimi.ingsw.generics.Utils.tryDo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdrenalineServerSocket extends AdrenalineServer
 {
     private TCPClient client;
     private RemoteActionsHandlerSocket remoteActionsHandler;
+    private Logger logger = Logger.getLogger("adrenalineServerSocket");
 
     public AdrenalineServerSocket(TCPClient client, Controller controller)
     {
@@ -26,8 +25,9 @@ public class AdrenalineServerSocket extends AdrenalineServer
         try {
             login();
         }
-        catch(IOException e){}
-        catch (ClassNotFoundException e){}
+        catch(IOException | ClassNotFoundException e){
+            logger.log(Level.WARNING, e.getMessage());
+        }
     }
 
     private void login() throws IOException, ClassNotFoundException {
@@ -52,8 +52,8 @@ public class AdrenalineServerSocket extends AdrenalineServer
 
     @Override
     protected void notifyMatchStarted(MatchSnapshot matchSnapshot) throws IOException {
-        sendMessage(matchStartedMessage);
+        sendMessage(MATCH_STARTED_MESSAGE);
         client.out().sendObject(matchSnapshot);
     }
-    public static final String matchStartedMessage = "Match started\n";
+    public static final String MATCH_STARTED_MESSAGE = "Match started\n";
 }

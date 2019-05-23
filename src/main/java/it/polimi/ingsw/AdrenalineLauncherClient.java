@@ -44,30 +44,12 @@ public class AdrenalineLauncherClient
             }
         }
 
-        if(args.length > 0)
-            viewType = args[0];
-        else
-            viewType = properties.getProperty("view");
+        viewType = args.length > 0 ? args[0] : properties.getProperty("view");
+        view = viewType.equals("gui") ? new GUIView() : new CLIView();
 
-        if(viewType.equals("gui"))
-            view = new GUIView();
-        else
-            view = new CLIView();
-
-        if(args.length > 1)
-            serverName = args[1];
-        else
-            serverName = properties.getProperty("ipAddress", "127.0.0.1");
-
-        if(args.length > 2)
-            port = Integer.parseInt(args[2]);
-        else
-            port = Integer.parseInt(properties.getProperty("port", "21508"));
-
-        if(args.length > 3)
-            networkType = args[3];
-        else
-            networkType = properties.getProperty("network", "socket");
+        serverName = args.length > 1 ? args[1] : properties.getProperty("ipAddress", "127.0.0.1");
+        port = args.length > 2 ? Integer.parseInt(args[2]) : Integer.parseInt(properties.getProperty("port", "21508"));
+        networkType = args.length > 3 ? args[3] : properties.getProperty("network", "socket");
 
         try {
             if(networkType.equals("rmi"))
