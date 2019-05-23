@@ -1,6 +1,5 @@
 .root {
-    -fx-font-size: 17px;
-    -fx-background-color: derive(#000000, 25%);
+    -fx-font-size: 20px;
     -fx-background-image:  url("../adrenaline_blur.jpg");
     -fx-background-position: center center;
     -fx-background-repeat: no-repeat;
@@ -9,6 +8,8 @@
 
 #user {
     -fx-background-color: rgba(0,0,0,0.8);
+    -fx-border-color: rgba(0,0,0,0.8);;
+    -fx-border-width: 2px;
     -fx-text-fill: #1abc9c;
     -fx-prompt-text-fill: #95a5a6;
     -fx-highlight-fill: #1abc9c;
@@ -17,7 +18,7 @@
 }
 
 #label {
-    -fx-font-size: 20px;
+    -fx-font-size: 30px;
     -fx-text-fill: #ecf0f1;
 }
 

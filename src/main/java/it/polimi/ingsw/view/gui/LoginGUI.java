@@ -9,6 +9,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class LoginGUI extends Login
 {
+    public TextField loginText;
     @FXML private Label robotText;
 
     @FXML
@@ -26,7 +28,7 @@ public class LoginGUI extends Login
     private void robotSpeach(String str, Runnable onEnd){
         final IntegerProperty i = new SimpleIntegerProperty(0);
         Timeline timeline = new Timeline();
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(110),
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(60),
                 event -> {
                     if (i.get() > str.length()) {
                         timeline.stop();
@@ -45,7 +47,9 @@ public class LoginGUI extends Login
         String destroyerStr = "Hey, my name is :D-STRUCT-0R,";
         String welcomeStr = "Welcome to Adrenaline!";
         String usernameStr = "Please, choose a nickname!";
-        robotSpeach(destroyerStr, () -> robotSpeach(welcomeStr, () -> robotSpeach(usernameStr, () -> {})));
+        robotSpeach(destroyerStr, () -> robotSpeach(welcomeStr, () -> robotSpeach(usernameStr, () -> {
+            loginText.setStyle("-fx-border-color: #1abc9c;");
+        })));
     }
 
     @Override
