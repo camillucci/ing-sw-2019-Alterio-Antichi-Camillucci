@@ -14,6 +14,8 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class LoginGUI extends Login
 {
@@ -22,13 +24,16 @@ public class LoginGUI extends Login
 
     @FXML
     protected void initialize(){
-        animation();
+        Executors.newSingleThreadScheduledExecutor().schedule(this::animation, 1, TimeUnit.SECONDS);
+    }
+    private void robotSpeach(String str, Runnable onEnd){
+        robotSpeach(str,60, onEnd);
     }
 
-    private void robotSpeach(String str, Runnable onEnd){
+    private void robotSpeach(String str, int duration, Runnable onEnd){
         final IntegerProperty i = new SimpleIntegerProperty(0);
         Timeline timeline = new Timeline();
-        KeyFrame keyFrame = new KeyFrame(Duration.millis(60),
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(duration),
                 event -> {
                     if (i.get() > str.length()) {
                         timeline.stop();
@@ -47,9 +52,15 @@ public class LoginGUI extends Login
         String destroyerStr = "Hey, my name is :D-STRUCT-0R,";
         String welcomeStr = "Welcome to Adrenaline!";
         String usernameStr = "Please, choose a nickname!";
-        robotSpeach(destroyerStr, () -> robotSpeach(welcomeStr, () -> robotSpeach(usernameStr, () -> {
+        String str3 = "i can choose for you";
+        String str4 = "turanga_lella is perfect!";
+        String str2 = "mmh, maybe..";
+        robotSpeach(destroyerStr, () -> robotSpeach(welcomeStr, () -> robotSpeach(usernameStr, () -> robotSpeach(str2, 140, () -> robotSpeach(str3, () -> robotSpeach(str4, () -> {
             loginText.setStyle("-fx-border-color: #1abc9c;");
-        })));
+            loginText.setText("Diegay");
+        }))))));
+
+
     }
 
     @Override
