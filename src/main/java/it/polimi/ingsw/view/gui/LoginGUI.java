@@ -57,7 +57,7 @@ public class LoginGUI extends Login
         String str2 = "mmh, maybe..";
         robotSpeach(destroyerStr, () -> robotSpeach(welcomeStr, () -> robotSpeach(usernameStr, () -> robotSpeach(str2, 140, () -> robotSpeach(str3, () -> robotSpeach(str4, () -> {
             loginText.setStyle("-fx-border-color: #1abc9c;");
-            loginText.setText("Diegay");
+            loginText.setText("turanga_lella");
         }))))));
 
 
