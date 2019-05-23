@@ -2,14 +2,51 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.Login;
-import javafx.event.ActionEvent;
-import javafx.scene.text.Text;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.List;
 
-public class LoginGUI extends Login {
-    public Text randomText;
+public class LoginGUI extends Login
+{
+    @FXML private Label robotText;
+
+    @FXML
+    protected void initialize(){
+        animation();
+    }
+
+    private void robotSpeach(String str, Runnable onEnd){
+        final IntegerProperty i = new SimpleIntegerProperty(0);
+        Timeline timeline = new Timeline();
+        KeyFrame keyFrame = new KeyFrame(Duration.millis(110),
+                event -> {
+                    if (i.get() > str.length()) {
+                        timeline.stop();
+                        onEnd.run();
+                    } else {
+                        robotText.setText(str.substring(0, i.get()));
+                        i.set(i.get() + 1);
+                    }
+                });
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    private void animation(){
+        String destroyerStr = "Hey, my name is :D-STRUCT-0R,";
+        String welcomeStr = "Welcome to Adrenaline!";
+        String usernameStr = "Please, choose a nickname!";
+        robotSpeach(destroyerStr, () -> robotSpeach(welcomeStr, () -> robotSpeach(usernameStr, () -> {})));
+    }
 
     @Override
     public void notifyAccepted(boolean accepted) {
@@ -28,7 +65,6 @@ public class LoginGUI extends Login {
 
     @Override
     public void login() {
-        //todo
     }
 
     @Override
@@ -41,8 +77,4 @@ public class LoginGUI extends Login {
         //TODO
     }
 
-    public void onLoginClicked_EventHandler(ActionEvent actionEvent)
-    {
-        randomText.setText("oh boy");
-    }
 }
