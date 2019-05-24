@@ -32,9 +32,9 @@ class ShootActionTest {
         p2.getCurrentSquare().addPlayer(p2);
         Action shootAction = machineGun.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shootAction.initialize(p1);
-        assertFalse(shootAction.canBeDone);
+        assertFalse(shootAction.canBeDone());
         shootAction.addTarget(p2);
-        assertTrue(shootAction.canBeDone);
+        assertTrue(shootAction.canBeDone());
         assertEquals(0, shootAction.getDiscardablePowerUps().size());
         shootAction.addDiscarded(gameBoard.powerupDeck.draw());
         shootAction.doAction();

@@ -12,14 +12,14 @@ class GrabActionTest {
 
     private ExtendableAction action;
     private GameBoard gameBoard;
-    private Square square2;
+    private Square ammoSquare;
     private Player player;
 
     @BeforeEach
     void setUp() {
         action = new GrabAction();
         gameBoard = new GameBoard(8, 12);
-        square2 = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, gameBoard.ammoDeck);
+        ammoSquare = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, gameBoard.ammoDeck);
         player = new Player("A", PlayerColor.GREY, gameBoard);
         player.addBlue(2);
         player.addRed(2);
@@ -48,7 +48,8 @@ class GrabActionTest {
     void grabAmmoSquare()
     {
         action.initialize(player);
-        player.setCurrentSquare(square2);
+        player.setCurrentSquare(ammoSquare);
+        player.getCurrentSquare().addPlayer(player);
         assertEquals(1, player.getCurrentSquare().getCardsName().size());
         assertEquals(0, action.getPossiblePlayers().size());
         assertEquals(0, action.getPossibleSquares().size());
@@ -65,31 +66,44 @@ class GrabActionTest {
         assertEquals(0, action.getPossiblePlayers().size());
         assertEquals(0, action.getPossibleSquares().size());
         assertEquals(0, action.getPossiblePowerUps().size());
+        player.getCurrentSquare().addWeapon(gameBoard.weaponDeck.draw());
+        player.getCurrentSquare().removeWeapon(gameBoard.weaponDeck.draw());
+        assertEquals(0, player.getCurrentSquare().getWeapons().size());
     }
 
     @Test
     void grabAndDrop() {
+        Action action;
         player.addWeapon(gameBoard.weaponDeck.draw());
         player.addWeapon(gameBoard.weaponDeck.draw());
         player.addWeapon(gameBoard.weaponDeck.draw());
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         player.getCurrentSquare().addPlayer(player);
         Branch branch = new Branch(new GrabAction(), new EndBranchAction());
-        action = (ExtendableAction) branch.getCompatibleActions().get(0);
+        action = branch.getCompatibleActions().get(0);
+        assertTrue(action instanceof GrabAction);
         action.initialize(player);
         action.doAction();
-        assertEquals(3, action.getBranches().size());
+        assertEquals(3, player.getLoadedWeapons().size());
         assertEquals(3, player.getCurrentSquare().getCardsName().size());
-        action.getBranches().get(0).getCompatibleActions().get(0).initialize(player);
-        action.getBranches().get(0).getCompatibleActions().get(0).doAction();
+        assertEquals(3, ((ExtendableAction)action).getBranches().size());
+        branch = ((ExtendableAction)action).getBranches().get(0);
+        action = branch.getCompatibleActions().get(0);
+        action.initialize(player);
+        action.doAction();
         assertEquals(4, player.getLoadedWeapons().size());
         assertEquals(2, player.getCurrentSquare().getCardsName().size());
-        action.getBranches().get(0).goNext(action.getBranches().get(0).getCompatibleActions().get(0));
-        action.getBranches().get(0).getCompatibleActions().get(0).initialize(player);
-        action.getBranches().get(0).getCompatibleActions().get(0).doAction();
-        assertEquals(4, player.getLoadedWeapons().size()); // Should be 3
-        assertEquals(2, player.getCurrentSquare().getCardsName().size()); // Should be 3
-        //TODO Check if discard is correct
+        branch.goNext(action);
+        action = branch.getCompatibleActions().get(0);
+        action.initialize(player);
+        action.doAction();
+        assertEquals(3, ((ExtendableAction)action).getBranches().size());
+        branch = ((ExtendableAction)action).getBranches().get(0);
+        action = branch.getCompatibleActions().get(0);
+        action.initialize(player);
+        action.doAction();
+        assertEquals(3, player.getLoadedWeapons().size());
+        assertEquals(3, player.getCurrentSquare().getCardsName().size());
     }
 
     @Test
