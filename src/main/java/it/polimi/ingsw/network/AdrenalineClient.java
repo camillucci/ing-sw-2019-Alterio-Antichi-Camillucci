@@ -27,7 +27,7 @@ public abstract class AdrenalineClient implements ICallbackAdrenalineClient
 
     public void start() throws IOException, NotBoundException {
         connect();
-        view.login.login();
+        view.getLogin().login();
     }
 
     protected abstract void connect() throws IOException, NotBoundException;

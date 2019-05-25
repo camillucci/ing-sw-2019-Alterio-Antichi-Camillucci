@@ -21,10 +21,10 @@ public class AdrenalineClientRMI extends AdrenalineClient {
     @Override
     protected void setupView()
     {
-        view.login.nameEvent.addEventHandler((a,name) -> tryDo( () -> notifyName(name)));
-        view.login.colorEvent.addEventHandler((a, color) -> tryDo(() -> notifyColor(color)));
-        view.login.gameLengthEvent.addEventHandler((a,len) -> tryDo(() -> server.setGameLength(len)));
-        view.login.gameMapEvent.addEventHandler((a,map) -> tryDo(() -> server.setGameMap(map)));
+        view.getLogin().nameEvent.addEventHandler((a, name) -> tryDo( () -> notifyName(name)));
+        view.getLogin().colorEvent.addEventHandler((a, color) -> tryDo(() -> notifyColor(color)));
+        view.getLogin().gameLengthEvent.addEventHandler((a, len) -> tryDo(() -> server.setGameLength(len)));
+        view.getLogin().gameMapEvent.addEventHandler((a, map) -> tryDo(() -> server.setGameMap(map)));
     }
 
     @Override
@@ -42,11 +42,11 @@ public class AdrenalineClientRMI extends AdrenalineClient {
         server.setColor(colorIndex);
         boolean isHost = server.isHost();
         if(isHost) {
-            view.login.gameMapEvent.addEventHandler((a, map) -> tryDo(() -> server.ready()));
-            view.login.notifyHost(isHost);
+            view.getLogin().gameMapEvent.addEventHandler((a, map) -> tryDo(() -> server.ready()));
+            view.getLogin().notifyHost(isHost);
         }
         else {
-            view.login.notifyHost(isHost);
+            view.getLogin().notifyHost(isHost);
             server.ready();
         }
     }
@@ -54,13 +54,13 @@ public class AdrenalineClientRMI extends AdrenalineClient {
     @Override
     protected void notifyName(String name) throws IOException {
         boolean accepted = server.setName(name);
-        view.login.notifyAccepted(accepted);
+        view.getLogin().notifyAccepted(accepted);
         if(accepted)
-            view.login.notifyAvailableColor(server.availableColors());
+            view.getLogin().notifyAvailableColor(server.availableColors());
     }
 
     protected void manageActions(List<RemoteActionRMI> options) throws IOException, ClassNotFoundException {
-        view.actionHandler.choiceEvent.addEventHandler((a,choice) -> tryDo( () -> options.get(choice).initialize(remoteActionHandler))); //communicates choice to server
-        view.actionHandler.chooseAction(new ArrayList<>(options));
+        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> tryDo( () -> options.get(choice).initialize(remoteActionHandler))); //communicates choice to server
+        view.getActionHandler().chooseAction(new ArrayList<>(options));
     }
 }

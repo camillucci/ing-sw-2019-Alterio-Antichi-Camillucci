@@ -16,16 +16,14 @@
       prefHeight="400.0" prefWidth="600.0">
     <HBox alignment="CENTER">
         <ImageView fitHeight="200" fitWidth="200">
-            <image>
-                <Image url="/robot.png"  />
-            </image>
+            <Image url="/robot.png"  />
         </ImageView>
-        <Label fx:id="robotText" minWidth="500" id="label"/>
+        <Label fx:id="robotLabel" minWidth="500" id="label"/>
     </HBox>
     <VBox alignment="CENTER" spacing="20">
-        <HBox alignment="CENTER" spacing="20">
+        <HBox fx:id="userHBox"  alignment="CENTER" spacing="20">
             <TextField fx:id="loginText" promptText="turanga_lella" minWidth="250" id="user" maxWidth="200" alignment="CENTER"/>
-            <Button id="button" alignment="CENTER" text="Next"/>
+            <Button fx:id="next" id="button" alignment="CENTER" text="Next"/>
         </HBox>
     </VBox>
 </VBox>

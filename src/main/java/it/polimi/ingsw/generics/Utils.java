@@ -27,4 +27,8 @@ public class Utils
             return null;
         }
     }
+
+    public static void newThread(Runnable run){
+        (new Thread(run)).start();
+    }
 }

@@ -22,10 +22,10 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     @Override
     protected void setupView()
     {
-        view.login.nameEvent.addEventHandler((a,name) -> tryDo( () -> notifyName(name)));
-        view.login.colorEvent.addEventHandler((a, color) -> tryDo(() -> notifyColor(color)));
-        view.login.gameLengthEvent.addEventHandler((a,len) -> tryDo(() -> server.out().sendInt(len)));
-        view.login.gameMapEvent.addEventHandler((a,map) -> tryDo(() -> server.out().sendInt(map)));
+        view.getLogin().nameEvent.addEventHandler((a, name) -> tryDo( () -> notifyName(name)));
+        view.getLogin().colorEvent.addEventHandler((a, color) -> tryDo(() -> notifyColor(color)));
+        view.getLogin().gameLengthEvent.addEventHandler((a, len) -> tryDo(() -> server.out().sendInt(len)));
+        view.getLogin().gameMapEvent.addEventHandler((a, map) -> tryDo(() -> server.out().sendInt(map)));
     }
 
     @Override
@@ -38,8 +38,8 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         server.out().sendInt(colorIndex);
         boolean isHost = server.in().getBool();
         if(isHost){
-            view.login.gameMapEvent.addEventHandler((a,b) -> tryDo(this::waitForMessage));
-            view.login.notifyHost(true);
+            view.getLogin().gameMapEvent.addEventHandler((a, b) -> tryDo(this::waitForMessage));
+            view.getLogin().notifyHost(true);
         }
         else
             waitForMessage();
@@ -59,14 +59,14 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     protected void notifyName(String name) throws IOException, ClassNotFoundException {
         server.out().sendObject(name);
         boolean accepted = server.in().getBool();
-        view.login.notifyAccepted(accepted);
+        view.getLogin().notifyAccepted(accepted);
         if(accepted)
-            view.login.notifyAvailableColor(server.in().getObject());
+            view.getLogin().notifyAvailableColor(server.in().getObject());
     }
 
     private void manageActions(List<RemoteActionSocket> options) throws IOException, ClassNotFoundException {
-        view.actionHandler.choiceEvent.addEventHandler((a,choice) -> tryDo( () -> options.get(choice).initialize(server))); //communicates choice to server
-        view.actionHandler.chooseAction(new ArrayList<>(options));
+        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> tryDo( () -> options.get(choice).initialize(server))); //communicates choice to server
+        view.getActionHandler().chooseAction(new ArrayList<>(options));
     }
 
     protected void waitForAction() throws IOException, ClassNotFoundException {

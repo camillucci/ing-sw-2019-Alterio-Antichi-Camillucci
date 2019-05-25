@@ -1,0 +1,66 @@
+.root {
+    -fx-font-size: 18px;
+    -fx-background-image:  url("../../adrenaline_blur.jpg");
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover, auto;
+}
+
+#user {
+    -fx-background-color: rgba(0,0,0,0.8);
+    -fx-border-color: rgba(0,0,0,0.8);;
+    -fx-border-width: 2px;
+    -fx-text-fill: #1abc9c;
+    -fx-prompt-text-fill: #95a5a6;
+    -fx-highlight-fill: #0a3d62;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-color: #95a5a6;
+}
+
+#user:focused {
+    -fx-border-color: #1abc9c;
+}
+
+#label {
+    -fx-font-size: 30px;
+    -fx-text-fill: #ecf0f1;
+}
+
+#button {
+    -fx-background-color: #0a3d62;
+    -fx-text-fill: #dfe6e9;
+}
+
+.button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.buttonSkullHover, .buttonSkullHover:hover {
+    -fx-scale-x: 1.20;
+    -fx-scale-y: 1.20;
+}
+
+.buttonSkull:pressed {
+    -fx-scale-x: 1.10;
+    -fx-scale-y: 1.10;
+}
+
+#button:hover {
+    -fx-background-color: #004D40;
+}
+
+#button:pressed {
+    -fx-padding: 5 10 5 10;
+}
+
+.colorButton {
+    -fx-min-width: 50;
+    -fx-min-height: 50;
+}
+
+.colorButton:hover {
+    -fx-scale-x: 1.15;
+    -fx-scale-y: 1.15;
+}

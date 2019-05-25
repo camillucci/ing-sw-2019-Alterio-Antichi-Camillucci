@@ -40,9 +40,6 @@ public class AdrenalineLauncherServer
         CLIParser parser = new CLIParser(System.in);
         Controller controller = new Controller();
 
-        int port;
-        String networkType;
-
         if(input != null) {
             try {
                 properties.load(input);
@@ -51,16 +48,8 @@ public class AdrenalineLauncherServer
             }
         }
 
-        if(args.length > 0)
-            port = Integer.parseInt(args[0]);
-        else
-            port = Integer.parseInt(properties.getProperty("port", "21508"));
-
-
-        if(args.length > 1)
-            networkType = args[1];
-        else
-            networkType = properties.getProperty("network", "socket");
+        int port = args.length > 0 ? Integer.parseInt(args[0]) : Integer.parseInt(properties.getProperty("port", "21508"));
+        String networkType = args.length > 1 ? args[1] : properties.getProperty("network", "socket");
 
         try {
             if (networkType.equals("rmi")) {

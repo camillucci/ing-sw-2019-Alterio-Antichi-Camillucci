@@ -25,6 +25,8 @@ public class Bot
             e.printStackTrace();
         } catch (NotBoundException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
