@@ -22,7 +22,7 @@ class GameBoardTest {
 
     @BeforeEach
     void setUp() {
-        gameBoard = new GameBoard(gameLength, 12);
+        gameBoard = new GameBoard(gameLength, 3);
         player = new Player("A", GREY, gameBoard);
         p2 = new Player("B", YELLOW, gameBoard);
         p3 = new Player("C", VIOLET, gameBoard);

@@ -18,7 +18,7 @@ class TurnTest
     private boolean endTurn = false;
     private List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
     private List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
-    private Match match = new Match(names, colors, 8, 10);
+    private Match match = new Match(names, colors, 8, 0);
     private Bot bot = new Bot();
     private boolean triggered = false;
 

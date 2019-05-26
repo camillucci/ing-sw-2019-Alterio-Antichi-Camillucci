@@ -146,7 +146,7 @@ public class LoginGUI extends Login
 
     private void chooseGameSize()
     {
-        final int totMaps = 3;
+        final int totMaps = 4;
         Platform.runLater(() -> {
             userHBox.setSpacing(40);
             robotSpeak("Great! now choose the map");

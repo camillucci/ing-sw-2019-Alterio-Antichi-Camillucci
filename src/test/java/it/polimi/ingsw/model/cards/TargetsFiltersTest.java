@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TargetsFiltersTest {
 
-    private GameBoard gameBoard = new GameBoard(6, 12);
+    private GameBoard gameBoard = new GameBoard(6, 3);
     private Player player = new Player("A", GREY, gameBoard);
     private Player p2;
     private Player p3;

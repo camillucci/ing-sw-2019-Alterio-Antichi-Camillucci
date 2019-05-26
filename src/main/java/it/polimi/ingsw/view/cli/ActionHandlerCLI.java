@@ -11,32 +11,22 @@ import java.util.List;
 
 public class ActionHandlerCLI extends ActionHandler {
 
-    private RemoteAction action;
-
     @Override
     public void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException {
+        RemoteAction action;
+        ArrayList<String> targetPlayers;
+        ArrayList<String> targetSquares;
+        int index;
+
         CLIMessenger.displayActions((ArrayList<RemoteAction>) options);
         int choice = CLIParser.parser.parseIndex(options.size());
         ((Event<ActionHandler, Integer>)choiceEvent).invoke(this, choice);
         action = options.get(choice);
-        ArrayList<String> targetPlayers = (ArrayList<String>) action.getPossiblePlayers();
-        ArrayList<String> targetSquares = (ArrayList<String>) action.getPossibleSquares();
-        CLIMessenger.displayTargets(targetPlayers, targetSquares); //displays targets available
-        int index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size()); //user's target of choice
-        while (index == -1) {
-            CLIMessenger.incorrectInput();
-            CLIMessenger.displayTargets(targetPlayers, targetSquares);
-            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size());
-        }
-        if (index < targetPlayers.size())
-            action.addTargetPlayer(targetPlayers.get(index));
-        else
-            action.addTargetSquare(targetSquares.get(index - targetPlayers.size()));
-        while(!(action.canBeDone())) {
+        do {
             targetPlayers = (ArrayList<String>) action.getPossiblePlayers();
             targetSquares = (ArrayList<String>) action.getPossibleSquares();
-            CLIMessenger.displayTargets(targetPlayers, targetSquares);
-            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size());
+            CLIMessenger.displayTargets(targetPlayers, targetSquares); //displays targets available
+            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size()); //user's target of choice
             while (index == -1) {
                 CLIMessenger.incorrectInput();
                 CLIMessenger.displayTargets(targetPlayers, targetSquares);
@@ -47,6 +37,7 @@ public class ActionHandlerCLI extends ActionHandler {
             else
                 action.addTargetSquare(targetSquares.get(index - targetPlayers.size()));
         }
+        while(!(action.canBeDone()));
 
         boolean doneAction = false;
         while(!doneAction) {
@@ -59,7 +50,7 @@ public class ActionHandlerCLI extends ActionHandler {
             }
             if (index < targetPlayers.size())
                 action.addTargetPlayer(targetPlayers.get(index));
-            else if(index >= targetPlayers.size() && index < targetPlayers.size() + targetSquares.size())
+            else if(index < targetPlayers.size() + targetSquares.size())
                 action.addTargetSquare(targetSquares.get(index - targetPlayers.size()));
             else {
                 action.doAction(); //communicates choice to server

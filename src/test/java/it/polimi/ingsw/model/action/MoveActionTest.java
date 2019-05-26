@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MoveActionTest {
-    private GameBoard gameBoard = new GameBoard(3, 10);
+    private GameBoard gameBoard = new GameBoard(3, 0);
     private ArrayList<MoveAction> moveActions = new ArrayList<>();
     private Action triggeredAction = null;
     private boolean eventTriggered = false;

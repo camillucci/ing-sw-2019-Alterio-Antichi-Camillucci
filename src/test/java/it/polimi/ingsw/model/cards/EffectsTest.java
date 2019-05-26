@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EffectsTest {
 
-    private GameBoard gameBoard = new GameBoard(8, 10);
+    private GameBoard gameBoard = new GameBoard(8, 2);
     private Player p1;
     private Player p2;
     private Player p3;

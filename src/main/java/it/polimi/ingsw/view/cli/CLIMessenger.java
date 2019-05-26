@@ -31,9 +31,10 @@ public class CLIMessenger {
     private static final String PLAYER = "Player ";
     private static final String NONE = "None";
     private static final int MAX_SIZE_SQUARE = 47;
-    private static final int SMALL_MAP = 10;
-    private static final int MIDDLE_MAP = 11;
-    private static final int LARGE_MAP = 12;
+    private static final int FIRST_MAP = 0;
+    private static final int SECOND_MAP = 1;
+    private static final int THIRD_MAP = 2;
+    private static final int FOURTH_MAP = 3;
     private static final int MAP_HEIGHT = 3;
     private static final int MAP_WIDTH = 4;
     private static final int SQUARE_LINES = 7;
@@ -53,6 +54,7 @@ public class CLIMessenger {
     private static final String HORIZONTAL_WALL = "═══════════════════════════════════════════════";
     private static final String HORIZONTAL_DOOR = "═══════════════════╣       ╠═══════════════════";
     private static final String HORIZONTAL_ROOM = "═════                                     ═════";
+    private static final String POINT = "█";
 
     private static final String[] WALL = {VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL};
     private static final String[] ROOM = {VERTICAL, BLANK, BLANK, BLANK, BLANK, BLANK, VERTICAL};
@@ -186,8 +188,24 @@ public class CLIMessenger {
             display(NONE);
         for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getPowerUps().size(); i++)
             display(matchSnapshot.privatePlayerSnapshot.getPowerUps().get(i));
-        display("Deaths: " + matchSnapshot.privatePlayerSnapshot.skull + ", Blue ammo available: " + matchSnapshot.privatePlayerSnapshot.blueAmmo + ", Red ammo available: " + matchSnapshot.privatePlayerSnapshot.redAmmo + ", Yellow ammo available: " + matchSnapshot.privatePlayerSnapshot.yellowAmmo);
-        //TODO add way to show mark and damage
+        display("Deaths: " + matchSnapshot.privatePlayerSnapshot.skull);
+        display("Blue ammo: " + matchSnapshot.privatePlayerSnapshot.blueAmmo + ", Red ammo: " + matchSnapshot.privatePlayerSnapshot.redAmmo + ", Yellow ammo: " + matchSnapshot.privatePlayerSnapshot.yellowAmmo);
+
+        String damage = "Damages: ";
+        if(matchSnapshot.privatePlayerSnapshot.getDamage().isEmpty())
+            damage = damage.concat(NONE);
+        else
+            for(int i = 0; i < matchSnapshot.privatePlayerSnapshot.getDamage().size(); i++)
+                damage = damage.concat(coloredString(matchSnapshot.privatePlayerSnapshot.getDamage().get(i)) + " ");
+        display(damage);
+        String mark = "Marks: ";
+        if(matchSnapshot.privatePlayerSnapshot.getMark().isEmpty())
+            mark = mark.concat(NONE);
+        else
+            for(int i = 0; i < matchSnapshot.privatePlayerSnapshot.getMark().size(); i++)
+                mark = mark.concat(coloredString(matchSnapshot.privatePlayerSnapshot.getMark().get(i)) + " ");
+        display(mark);
+
         display("");
     }
 
@@ -200,9 +218,40 @@ public class CLIMessenger {
             for (int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().size(); i++)
                 display(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i));
             display(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + " has " + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber + " powerup cards");
-            display("Deaths: " + matchSnapshot.getPublicPlayerSnapshot().get(j).skull + ", Blue ammo available: " + matchSnapshot.getPublicPlayerSnapshot().get(j).blueAmmo + ", Red ammo available: " + matchSnapshot.getPublicPlayerSnapshot().get(j).redAmmo + ", Yellow ammo available: " + matchSnapshot.getPublicPlayerSnapshot().get(j).yellowAmmo);
-            //TODO add way to show mark and damage
+            display("Deaths: " + matchSnapshot.getPublicPlayerSnapshot().get(j).skull);
+            display("Blue ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).blueAmmo + ", Red ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).redAmmo + ", Yellow ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).yellowAmmo);
+
+            String damage = "Damages: ";
+            if(matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().isEmpty())
+                damage = damage.concat(NONE);
+            else
+                for(int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().size(); i++)
+                    damage = damage.concat(coloredString(matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().get(i)) + " ");
+            display(damage);
+            String mark = "Marks: ";
+            if(matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().isEmpty())
+                mark = mark.concat(NONE);
+            else
+                for(int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().size(); i++)
+                    mark = mark.concat(coloredString(matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().get(i)) + " ");
+            display(mark);
+
             display("");
+        }
+    }
+
+    private static String coloredString(String color) {
+        switch (color) {
+            case "Blue":
+                return ANSI_BLUE + POINT + ANSI_WHITE;
+            case "Green":
+                return  ANSI_GREEN + POINT + ANSI_WHITE;
+            case "Grey":
+                return  ANSI_WHITE + POINT + ANSI_WHITE; // Change to GREY
+            case "Violet":
+                return  ANSI_PURPLE + POINT + ANSI_WHITE;
+            default:
+                return  ANSI_YELLOW + POINT + ANSI_WHITE;
         }
     }
 
@@ -238,12 +287,14 @@ public class CLIMessenger {
 
     private static void displayMap(MatchSnapshot matchSnapshot) {
         String[] mapBorder;
-        if(matchSnapshot.gameBoardSnapshot.mapType == SMALL_MAP)
-            mapBorder = smallMap();
-        else if(matchSnapshot.gameBoardSnapshot.mapType == MIDDLE_MAP)
-            mapBorder = middleMap();
+        if(matchSnapshot.gameBoardSnapshot.mapType == FIRST_MAP)
+            mapBorder = firstMap();
+        else if(matchSnapshot.gameBoardSnapshot.mapType == SECOND_MAP)
+            mapBorder = secondMap();
+        else if(matchSnapshot.gameBoardSnapshot.mapType == THIRD_MAP)
+            mapBorder = thirdMap();
         else
-            mapBorder = largeMap();
+            mapBorder = fourthMap();
         for(int i = 0; i < MAP_HEIGHT; i++) {
             display(mapBorder[i]);
             displaySquareLine(matchSnapshot.gameBoardSnapshot.squareSnapshots[i]);
@@ -252,7 +303,7 @@ public class CLIMessenger {
         display("");
     }
 
-    private static String[] smallMap() {
+    private static String[] firstMap() {
         return new String[] {
                 TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
                 LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + TOP_RIGHT,
@@ -261,7 +312,7 @@ public class CLIMessenger {
         };
     }
 
-    private static String[] middleMap() {
+    private static String[] secondMap() {
         return new String[] {
                 TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
                 LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + RIGHT,
@@ -270,7 +321,16 @@ public class CLIMessenger {
         };
     }
 
-    private static String[] largeMap() {
+    private static String[] thirdMap() {
+        return new String[] {
+                TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
+                LEFT + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + TOP_RIGHT,
+                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_ROOM + RIGHT,
+                BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
+        };
+    }
+
+    private static String[] fourthMap() {
         return new String[] {
                 TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
                 LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + RIGHT,

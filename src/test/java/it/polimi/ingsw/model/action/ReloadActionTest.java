@@ -26,7 +26,7 @@ class ReloadActionTest {
     @BeforeEach
     void setUp() {
         action = new ReloadAction();
-        gameBoard = new GameBoard(7, 10);
+        gameBoard = new GameBoard(7, 0);
         player = new Player("A", PlayerColor.GREY, gameBoard);
         gameBoard.setPlayers(Collections.singletonList(player));
         ammo1 = new Ammo(0, 0, 0);

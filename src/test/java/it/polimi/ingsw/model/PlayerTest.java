@@ -10,7 +10,7 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-    private GameBoard gameBoard = new GameBoard(3, 10);
+    private GameBoard gameBoard = new GameBoard(3, 0);
     private Player player = new Player("A", PlayerColor.YELLOW, gameBoard);
     private static final int N = 10;
     private static final int MAX_AMMO = 3;

@@ -13,7 +13,7 @@ class FireModalityActionTest {
 
     @Test
     void getDiscardablePowerUps() {
-        GameBoard gameBoard = new GameBoard(5, 11);
+        GameBoard gameBoard = new GameBoard(5, 1);
         Player player = new Player("A", PlayerColor.VIOLET, gameBoard);
         gameBoard.setPlayers(Collections.singletonList(player));
         player.addBlue(2);
