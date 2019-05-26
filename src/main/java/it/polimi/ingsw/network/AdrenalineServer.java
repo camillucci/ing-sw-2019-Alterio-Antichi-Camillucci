@@ -68,6 +68,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     @Override
     public void ready() {
         joinedRoom.notifyPlayerReady();
+        for(String name : joinedRoom.getPlayerNames())
+            tryDo(() -> sendMessage(newPlayerMessage(name)));
     }
 
     protected abstract void sendMessage(String message) throws IOException;
@@ -78,6 +80,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.timerStartEvent.addEventHandler((a, timeout) -> tryDo( () -> sendMessage(timerStartMessage(timeout))));
         joinedRoom.timerTickEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerTickMessage(timeLeft))));
         joinedRoom.timerStopEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE)));
+        joinedRoom.newPlayerEvent.addEventHandler((a, name) -> tryDo(() -> sendMessage(newPlayerMessage(name))));
         joinedRoom.matchStartedEvent.addEventHandler((a, match) -> tryDo( () -> onMatchStarted(match) ));
     }
 
@@ -88,11 +91,12 @@ public abstract class AdrenalineServer implements IAdrenalineServer
                 return;
             }
     }
+    private String newPlayerMessage(String name){ return name + " joined the room";}
     private String timerStartMessage(int timeout){
         return "Countdown is started: " + timeout + " seconds left\n";
     }
     private String timerTickMessage(int timeLeft){
-        return "" + timeLeft + " seconds left\n";
+        return timeLeft + " seconds left\n";
     }
     private static final String TIMER_STOPPED_MESSAGE = "Countdown stopped\n";
 }

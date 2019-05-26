@@ -1,0 +1,29 @@
+.mapButton{
+    -fx-fit-to-width: 700px;
+    -fx-fit-to-height: 535px;
+}
+
+.arrowButton {
+    -fx-fill:  #0a3d62;
+}
+
+.arrowButton:hover {
+    -fx-scale-x: 1.20;
+    -fx-scale-y: 1.20;
+    -fx-fill: #004D40;
+}
+
+.arrowButton:pressed {
+    -fx-scale-x: 1.10;
+    -fx-scale-y: 1.10;
+}
+
+.mapButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.mapButton:pressed {
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}

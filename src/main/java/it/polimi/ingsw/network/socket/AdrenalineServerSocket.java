@@ -42,7 +42,7 @@ public class AdrenalineServerSocket extends AdrenalineServer
             setGameLength(client.in().getInt()); //game length chosen by user
             setGameMap(client.in().getInt()); //map chosen by user
         }
-        joinedRoom.notifyPlayerReady();
+        ready();
     }
 
     @Override

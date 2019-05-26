@@ -41,8 +41,10 @@ public class AdrenalineClientSocket extends AdrenalineClient {
             view.getLogin().gameMapEvent.addEventHandler((a, b) -> tryDo(this::waitForMessage));
             view.getLogin().notifyHost(true);
         }
-        else
+        else{
+            view.getLogin().notifyHost(false);
             waitForMessage();
+        }
     }
 
     private void waitForMessage() throws IOException, ClassNotFoundException {

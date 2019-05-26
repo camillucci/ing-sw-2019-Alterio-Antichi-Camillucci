@@ -1,0 +1,13 @@
+.rectangle {
+    -fx-fill: #ecf0f1;
+}
+
+.joinedRectangle {
+    -fx-fill: #004D40;
+}
+
+.newPlayerLabel
+{
+    -fx-font-size: 20;
+    -fx-text-fill: #ecf0f1;
+}

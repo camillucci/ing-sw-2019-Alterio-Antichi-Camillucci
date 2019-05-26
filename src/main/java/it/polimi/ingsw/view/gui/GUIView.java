@@ -2,11 +2,11 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.login.LoginGUI;
+import it.polimi.ingsw.view.gui.login.NicknameController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
@@ -17,11 +17,11 @@ public class GUIView extends View
     private final Object lock = new Object();
     private App app;
     private Stage primaryStage;
-    public GUIView() throws InterruptedException {
+    public GUIView() throws InterruptedException, IOException {
         startupGUI();
     }
 
-    private void startupGUI() throws InterruptedException {
+    private void startupGUI() throws InterruptedException, IOException {
         App.applicationStartedEvent.addEventHandler((app, stage) -> {
             synchronized (lock){
                 this.app = app;
@@ -34,31 +34,7 @@ public class GUIView extends View
             lock.wait();
         }
         setupStage();
-        setupLoginScene();
-    }
-
-    private void setupLoginScene()
-    {
-        try
-        {
-            int risY = 4323;
-            int risX = 3024;
-            double scale = 1.3/10;
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/login/LoginGUI.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene loginScene = new Scene(root, risY*scale, risX*scale);
-            loginScene.getStylesheets().add("/view/login/LoginGUI.css");
-            loginScene.setOnKeyPressed(e -> {
-                if (e.getCode() == KeyCode.ESCAPE) {
-                    Platform.exit();
-                }});
-            LoginGUI tmp = fxmlLoader.getController();
-            tmp.loginStarted.addEventHandler((a,b) -> app.show());
-            this.login = tmp;
-            app.setScene(loginScene);
-        } catch (IOException e) {
-            //todo
-        }
+        this.curViewElement = this.login = LoginGUI.createLoginScene(app);
     }
 
     private void setupStage(){
@@ -66,9 +42,28 @@ public class GUIView extends View
             primaryStage.setTitle("Welcome Adrenaline!");
             primaryStage.setResizable(false);
             primaryStage.setFullScreenExitHint("");
-            primaryStage.setFullScreen(true);
+            //primaryStage.setFullScreen(true);
             primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         });
     }
 
+    public static <V> V getController(String url) throws IOException {
+       return getController(url, null);
+    }
+
+    public static <V> V getController(String fxmlUrl, String cssUrl) {
+        FXMLLoader fxmlLoader = new FXMLLoader(NicknameController.class.getResource(fxmlUrl));
+        try
+        {
+            Parent root = null;
+            root = fxmlLoader.load();
+            if(cssUrl != null)
+                root.getStylesheets().add(cssUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return (V) fxmlLoader.getController();
+    }
+
 }
+

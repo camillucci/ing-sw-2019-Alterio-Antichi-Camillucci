@@ -1,0 +1,13 @@
+.buttonSkullHover, .buttonSkullHover:hover {
+    -fx-scale-x: 1.20;
+    -fx-scale-y: 1.20;
+}
+
+.buttonSkull:pressed {
+    -fx-scale-x: 1.10;
+    -fx-scale-y: 1.10;
+}
+
+.buttonSkull {
+    -fx-image: url("../../../skull.png");
+}

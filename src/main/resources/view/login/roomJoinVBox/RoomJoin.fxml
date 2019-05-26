@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Rectangle?>
+<VBox fx:id="vBox" alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.polimi.ingsw.view.gui.login.RoomJoinController"
+      prefHeight="400.0" prefWidth="600.0">
+    <HBox fx:id="row1" alignment="CENTER" spacing="30">
+        <Rectangle width="40" height="40" styleClass="rectangle"/>
+        <Label minWidth="300" styleClass="newPlayerLabel"/>
+    </HBox>
+    <HBox fx:id="row2" alignment="CENTER" spacing="30">
+        <Rectangle width="40" height="40" styleClass="rectangle"/>
+        <Label minWidth="300" styleClass="newPlayerLabel"/>
+    </HBox>
+    <HBox fx:id="row3" alignment="CENTER" spacing="30">
+        <Rectangle width="40" height="40" styleClass="rectangle"/>
+        <Label minWidth="300" styleClass="newPlayerLabel"/>
+    </HBox>
+    <HBox fx:id="row4" alignment="CENTER" spacing="30">
+        <Rectangle width="40" height="40" styleClass="rectangle"/>
+        <Label  minWidth="300" styleClass="newPlayerLabel"/>
+    </HBox>
+    <HBox fx:id="row5" alignment="CENTER" spacing="30">
+        <Rectangle width="40" height="40" styleClass="rectangle"/>
+        <Label  minWidth="300" styleClass="newPlayerLabel"/>
+    </HBox>
+</VBox>

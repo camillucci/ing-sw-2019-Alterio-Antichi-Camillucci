@@ -10,20 +10,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<VBox spacing="110" alignment="CENTER" xmlns="http://javafx.com/javafx"
+<VBox fx:id="upperVBox" spacing="110" alignment="CENTER" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.polimi.ingsw.view.gui.LoginGUI"
+      fx:controller="it.polimi.ingsw.view.gui.login.LoginGUI"
       prefHeight="400.0" prefWidth="600.0">
-    <HBox alignment="CENTER">
+    <HBox spacing="10" fx:id="robotHBox" alignment="CENTER">
         <ImageView fitHeight="200" fitWidth="200">
             <Image url="/robot.png"  />
         </ImageView>
-        <Label fx:id="robotLabel" minWidth="500" id="label"/>
+        <Label fx:id="robotLabel" minWidth="437" id="label"/>
     </HBox>
-    <VBox alignment="CENTER" spacing="20">
-        <HBox fx:id="userHBox"  alignment="CENTER" spacing="20">
-            <TextField fx:id="loginText" promptText="turanga_lella" minWidth="250" id="user" maxWidth="200" alignment="CENTER"/>
-            <Button fx:id="next" styleClass="button" alignment="CENTER" text="Next"/>
-        </HBox>
+    <VBox fx:id="bottomVBox" alignment="CENTER" spacing="20">
     </VBox>
 </VBox>

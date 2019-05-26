@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Rectangle?>
+<HBox fx:id="hBox" alignment="CENTER" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.view.gui.login.SkullChoiceController"
+            prefHeight="400.0" prefWidth="600.0">
+    <Rectangle fx:id="rect1" styleClass="buttonSkull" width="90" height="100"/>
+    <Rectangle fx:id="rect2" styleClass="buttonSkull" width="90" height="100"/>
+    <Rectangle fx:id="rect3" styleClass="buttonSkull" width="90" height="100"/>
+    <Rectangle fx:id="rect4" styleClass="buttonSkull" width="90" height="100"/>
+    <Rectangle fx:id="rect5" styleClass="buttonSkull" width="90" height="100"/>
+    <Rectangle fx:id="rect6" styleClass="buttonSkull" width="90" height="100"/>
+    <Rectangle fx:id="rect7" styleClass="buttonSkull" width="90" height="100"/>
+    <Rectangle fx:id="rect8" styleClass="buttonSkull" width="90" height="100"/>
+</HBox>
