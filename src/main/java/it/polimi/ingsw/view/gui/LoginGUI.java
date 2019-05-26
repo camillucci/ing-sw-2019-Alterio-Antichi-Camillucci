@@ -1,5 +1,4 @@
 package it.polimi.ingsw.view.gui;
-
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
@@ -7,23 +6,22 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.Login;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +30,7 @@ import static it.polimi.ingsw.generics.Utils.newThread;
 
 public class LoginGUI extends Login
 {
-    private final int MAX_SKULL = 8;
+    private static final int MAX_SKULL = 8;
     public final IEvent<LoginGUI, Object> loginStarted = new Event<>();
     private App app;
     private String[] robotSpeech = new String[]{ "Hey, my name is :D-STRUCT-0R,", "Welcome to Adrenaline!", "Please, choose a nickname!"};
@@ -123,7 +121,10 @@ public class LoginGUI extends Login
         ret.setOnMouseClicked(e -> {
             if(i >=4) {
                 disableHBox();
-                newThread(() -> ((Event<Login, Integer>) gameLengthEvent).invoke(this, i));
+                newThread(() -> {
+                    ((Event<Login, Integer>) gameLengthEvent).invoke(this, i);
+                    chooseGameSize();
+                });
             }
         });
         return ret;
@@ -131,15 +132,67 @@ public class LoginGUI extends Login
 
     @Override
     public void notifyHost(boolean isHost) throws IOException {
+        if(isHost)
+            Platform.runLater(this::chooseSkull);
+    }
+
+    private void chooseSkull(){
+        robotSpeak("You are the first in the room", () -> robotSpeak("How many skulls?"));
+        userHBox.getChildren().clear();
+        userHBox.setSpacing(0);
+        for (int i = 0; i < MAX_SKULL; i++)
+            userHBox.getChildren().add(newSkullButton(i));
+    }
+
+    private void chooseGameSize()
+    {
+        final int totMaps = 3;
         Platform.runLater(() -> {
-            if (isHost) {
-                robotSpeak("You are the first in the room", () -> robotSpeak("How many skulls?"));
-                userHBox.getChildren().clear();
-                userHBox.setSpacing(0);
-                for (int i = 0; i < MAX_SKULL; i++)
-                    userHBox.getChildren().add(newSkullButton(i));
+            userHBox.setSpacing(40);
+            robotSpeak("Great! now choose the map");
+            userHBox.getChildren().clear();
+            HBox imageBox = new HBox();
+            userHBox.getChildren().add(imageBox);
+            Polygon nextButton = nextMapButton();
+            nextButton.getStyleClass().add("arrowButton");
+            nextButton.getStyleClass().add("button");
+            ImageView [] maps = new ImageView[totMaps];
+            for(IntegerProperty i = new SimpleIntegerProperty(0); i.get() < totMaps; i.set(i.get()+1)) {
+                maps[i.get()] = newMap(i.get());
+                maps[i.get()].setOnMouseClicked(e -> {
+                    disableHBox();
+                    newThread(() -> ((Event<Login, Integer>) gameMapEvent).invoke(this, i.get()));
+                });
             }
+            userHBox.getChildren().add(maps[0]);
+            userHBox.getChildren().add(nextButton);
+            imageBox.getChildren().add(maps[0]);
+            IntegerProperty i = new SimpleIntegerProperty(0);
+            nextButton.setOnMouseClicked(e -> {
+                i.set(i.get() == totMaps - 1 ? 0 : i.get() + 1);
+                imageBox.getChildren().clear();
+                imageBox.getChildren().add(maps[i.get()]);
+            });
         });
+    }
+
+    private Polygon nextMapButton(){
+        final double scale = 0.5;
+        Polygon triangle = new Polygon(scale*80, scale*40, 0, scale*80, 0, 0);
+        triangle.getStyleClass().add("arrowButton");
+        triangle.setFill(Color.web("#0a3d62"));
+        return triangle;
+    }
+
+    private ImageView newMap(int i)
+    {
+        final String partialUrl = "map";
+        String url = partialUrl + i +".png";
+        ImageView ret = new ImageView(new Image(url));
+        ret.setFitWidth(700);
+        ret.setFitHeight(536);
+        ret.getStyleClass().add("mapImage");
+        return ret;
     }
 
     @Override
