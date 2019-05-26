@@ -12,7 +12,7 @@ import javafx.scene.shape.Polygon;
 
 public class MapChoiceController implements Ifxml<HBox>
 {
-    public static final int TOT_MAPS = 3;
+    public static final int TOT_MAPS = 4;
     @FXML private HBox hBox;
     @FXML private HBox imageBox;
     private ImageView[] maps = new ImageView[TOT_MAPS];

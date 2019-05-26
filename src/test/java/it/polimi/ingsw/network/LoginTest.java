@@ -17,7 +17,7 @@ import static it.polimi.ingsw.generics.Utils.tryDo;
 
 public class LoginTest {
     private final boolean REMOTE_TESTING = false;
-    private final boolean GUI_TEST = false;
+    private final boolean GUI_TEST = true;
     static int j = 0;
     @Test
     void loginSocket_CLI() throws IOException, NotBoundException, InterruptedException {
@@ -96,13 +96,17 @@ public class LoginTest {
     void mainStart() throws InterruptedException {
         if(!GUI_TEST)
             return;
+
         (new Thread(() -> AdrenalineLauncherServer.main(new String[]{}))).start();
         Thread.sleep(300);
 
+        /*
         for(int i=0; i < 1; i++) {
             (new Thread(() -> Bot.login(Bot.getLoginString(++j), true, "127.0.0.1", 21508))).start();
             Thread.sleep(1000);
         }
+
+         */
         AdrenalineLauncherClient.main(new String[]{});
         Thread.sleep(200000);
     }

@@ -12,7 +12,7 @@
 <?import javafx.scene.image.Image?>
 <VBox fx:id="upperVBox" spacing="110" alignment="CENTER" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.polimi.ingsw.view.gui.login.LoginGUI"
+      fx:controller="it.polimi.ingsw.view.gui.login.NewLoginGUI"
       prefHeight="400.0" prefWidth="600.0">
     <HBox spacing="10" fx:id="robotHBox" alignment="CENTER">
         <ImageView fitHeight="200" fitWidth="200">

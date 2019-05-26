@@ -2,11 +2,13 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.gui.login.LoginGUI;
+import it.polimi.ingsw.view.gui.login.NewLoginGUI;
 import it.polimi.ingsw.view.gui.login.NicknameController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
@@ -34,7 +36,7 @@ public class GUIView extends View
             lock.wait();
         }
         setupStage();
-        this.curViewElement = this.login = LoginGUI.createLoginScene(app);
+        this.curViewElement = this.login = NewLoginGUI.createLoginScene(app);
     }
 
     private void setupStage(){

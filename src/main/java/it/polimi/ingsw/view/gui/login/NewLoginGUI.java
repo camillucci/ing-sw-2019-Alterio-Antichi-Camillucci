@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.login;
 
 import it.polimi.ingsw.App;
+import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
+import it.polimi.ingsw.view.gui.LoginGUI;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -30,9 +32,9 @@ import java.util.concurrent.TimeUnit;
 
 import static it.polimi.ingsw.generics.Utils.newThread;
 
-public class LoginGUI extends Login implements Ifxml<VBox>
+public class NewLoginGUI extends Login implements Ifxml<VBox>
 {
-    public final IEvent<LoginGUI, Object> loginStarted = new Event<>();
+    public final IEvent<NewLoginGUI, Object> loginStarted = new Event<>();
     @FXML private VBox upperVBox;
     @FXML private HBox robotHBox;
     @FXML private Label robotLabel;
@@ -177,7 +179,7 @@ public class LoginGUI extends Login implements Ifxml<VBox>
     @Override
     public void login()
     {
-        newThread( () -> ((Event<LoginGUI, Object>)loginStarted).invoke(this, null));
+        newThread( () -> ((Event<NewLoginGUI, Object>)loginStarted).invoke(this, null));
     }
 
     @Override
@@ -225,15 +227,15 @@ public class LoginGUI extends Login implements Ifxml<VBox>
         return upperVBox;
     }
 
-    private static LoginGUI getController () throws IOException {
+    private static NewLoginGUI getController () throws IOException {
         return GUIView.getController("/view/login/LoginGUI.fxml");
     }
 
-    public static LoginGUI createLoginScene(App app) throws IOException {
+    public static NewLoginGUI createLoginScene(App app) throws IOException {
         int risY = 4323;
         int risX = 3024;
         double scale = 3/10;
-        LoginGUI ret = LoginGUI.getController();
+        NewLoginGUI ret = NewLoginGUI.getController();
         Scene loginScene = new Scene(ret.getRoot(), risY*scale, risX*scale);
         loginScene.getStylesheets().add("/view/login/LoginGUI.css");
         loginScene.setOnKeyPressed(e -> {
