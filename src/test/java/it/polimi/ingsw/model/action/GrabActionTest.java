@@ -18,7 +18,7 @@ class GrabActionTest {
     @BeforeEach
     void setUp() {
         action = new GrabAction();
-        gameBoard = new GameBoard(8, 12);
+        gameBoard = new GameBoard(8, 3);
         ammoSquare = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, gameBoard.ammoDeck);
         player = new Player("A", PlayerColor.GREY, gameBoard);
         player.addBlue(2);

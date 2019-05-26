@@ -25,7 +25,7 @@ class WeaponCardsTest {
 
     @BeforeEach
     void setUp() {
-        gameBoard = new GameBoard(8, 12);
+        gameBoard = new GameBoard(8, 3);
         p1 = new Player("A", BLUE, gameBoard);
         p2 = new Player("B", GREEN, gameBoard);
         p3 = new Player("C", GREY, gameBoard);

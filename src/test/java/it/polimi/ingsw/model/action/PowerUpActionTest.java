@@ -22,7 +22,7 @@ class PowerUpActionTest {
 
     @BeforeEach
     void setUp() {
-        gameBoard = new GameBoard(5, 10);
+        gameBoard = new GameBoard(5, 0);
         p1 = new Player("p", PlayerColor.BLUE, gameBoard);
         p2 = new Player("p", PlayerColor.BLUE, gameBoard);
     }

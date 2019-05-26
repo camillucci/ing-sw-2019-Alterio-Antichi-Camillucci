@@ -7,7 +7,7 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AmmoSquareTest {
-    private GameBoard gameBoard = new GameBoard(3, 11);
+    private GameBoard gameBoard = new GameBoard(3, 1);
     private Player player = new Player("", PlayerColor.YELLOW, gameBoard);
 
     @Test

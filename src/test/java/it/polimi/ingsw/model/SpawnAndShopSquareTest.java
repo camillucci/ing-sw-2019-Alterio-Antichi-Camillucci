@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SpawnAndShopSquareTest {
 
-    private GameBoard gameBoard = new GameBoard(7, 11);
+    private GameBoard gameBoard = new GameBoard(7, 1);
     private Player player = new Player("A", PlayerColor.GREY, gameBoard);
 
     @Test

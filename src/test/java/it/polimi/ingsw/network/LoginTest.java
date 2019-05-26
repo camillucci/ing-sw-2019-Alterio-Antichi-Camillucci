@@ -2,19 +2,22 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.AdrenalineLauncherClient;
 import it.polimi.ingsw.AdrenalineLauncherServer;
+import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.network.rmi.AdrenalineServerRMI;
+import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
+import it.polimi.ingsw.network.rmi.RMIListener;
 import it.polimi.ingsw.view.cli.CLIParser;
-import javafx.application.Platform;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.rmi.NotBoundException;
-import java.util.Collections;
+import java.rmi.RemoteException;
 
 import static it.polimi.ingsw.generics.Utils.tryDo;
 
 public class LoginTest {
     private final boolean REMOTE_TESTING = false;
-    private final boolean GUI_TEST = true;
+    private final boolean GUI_TEST = false;
     static int j = 0;
     @Test
     void loginSocket_CLI() throws IOException, NotBoundException, InterruptedException {
@@ -103,7 +106,6 @@ public class LoginTest {
         AdrenalineLauncherClient.main(new String[]{});
         Thread.sleep(200000);
     }
-    /*
 
     @Test
     void callbackServer() throws Exception
@@ -126,6 +128,7 @@ public class LoginTest {
         listener.stop();
     }
 
+    /*
     @Test
     void callbackClient() throws Exception {
         if(!REMOTE_TESTING)
@@ -137,6 +140,5 @@ public class LoginTest {
         while(!triggered)
             ;
     }
-
-     */
+    */
 }

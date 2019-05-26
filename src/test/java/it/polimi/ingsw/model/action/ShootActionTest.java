@@ -16,7 +16,7 @@ class ShootActionTest {
 
     @BeforeEach
     void setUp() {
-        gameBoard = new GameBoard(5, 10);
+        gameBoard = new GameBoard(5, 0);
         p1 = new Player("A", PlayerColor.BLUE, gameBoard);
         p2 = new Player("B", PlayerColor.GREEN, gameBoard);
     }

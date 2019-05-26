@@ -21,7 +21,7 @@ class MatchTest {
     void setUp() {
         List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C"));
         List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
-        match = new Match(names, colors, 5, 10);
+        match = new Match(names, colors, 5, 0);
         match.start();
         bot = new Bot();
 
