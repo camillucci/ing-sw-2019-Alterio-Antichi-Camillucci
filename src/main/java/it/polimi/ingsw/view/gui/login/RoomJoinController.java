@@ -27,10 +27,11 @@ public class RoomJoinController implements Ifxml<VBox>
 
         for(int i=0; i < rows.length; i++){
             Label label = (Label)rows[i].getChildren().get(1);
-            if(label.getText() == ""){
+            if(label.getText().equals("")){
                 Rectangle rectangle = (Rectangle)rows[i].getChildren().get(0);
                 rectangle.getStyleClass().add("joinedRectangle");
                 label.setText(name);
+                return;
             }
         }
     }
@@ -44,6 +45,7 @@ public class RoomJoinController implements Ifxml<VBox>
                 Rectangle rectangle = (Rectangle)rows[i].getChildren().get(0);
                 rectangle.getStyleClass().remove("joinedRectangle");
                 label.setText("");
+                return;
             }
         }
     }
