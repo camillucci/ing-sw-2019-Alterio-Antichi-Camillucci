@@ -28,7 +28,7 @@ public class GUI extends Application {
     private Button loginButton = new Button("Login");
     private Button changeSceneButton = new Button("Go to map");
     private Image adrenalineImage = new Image("adrenaline.jpg");
-    private Image map = new Image("map10.png");
+    private Image map = new Image("map0.png");
     private BackgroundImage backgroundImage;
     private BackgroundImage backgroundImage2;
 
