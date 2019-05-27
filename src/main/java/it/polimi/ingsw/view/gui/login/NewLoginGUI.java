@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.login;
 
 import it.polimi.ingsw.App;
-import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
@@ -9,7 +8,6 @@ import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
-import it.polimi.ingsw.view.gui.LoginGUI;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -30,8 +28,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static it.polimi.ingsw.generics.Utils.newThread;
-
 public class NewLoginGUI extends Login implements Ifxml<VBox>
 {
     public final IEvent<NewLoginGUI, Object> loginStarted = new Event<>();
@@ -49,8 +45,8 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private RoomJoinController roomJoinController;
     int colorChoiceErrorsCOunter = 0;
     public void initialize(){
-            setupIntro();
-            //setupNickname();
+            //setupIntro();
+            setupNickname();
             Executors.newSingleThreadScheduledExecutor().schedule(() -> animation(0), 1, TimeUnit.SECONDS);
     }
 
@@ -76,7 +72,8 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
             nicknameController.getLoginText().requestFocus();
     }
 
-    private void setupNickname() throws IOException {
+    private void setupNickname() {
+        enable();
         nicknameController = NicknameController.getController();
         nicknameController.getNextButton().setOnAction(e -> disableAnd(() -> ((Event<Login, String>)nameEvent).invoke(this, nicknameController.getLoginText().getText())));
         setBottomVBox(nicknameController.getRoot());
@@ -191,7 +188,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     @Override
     public void login()
     {
-        newThread( () -> ((Event<NewLoginGUI, Object>)loginStarted).invoke(this, null));
+        ((Event<NewLoginGUI, Object>)loginStarted).invoke(this, null);
     }
 
     @Override
@@ -209,23 +206,29 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     {
         if(message.contains("seconds left\n"))
             countdownMessage(message);
+        else if(message.contains(" left the room"))
+            playerLeft(message);
         else if (message.contains("Countdown stopped\\n"))
             timerStopMessage(message);
         else if(message.contains("joined the room"))
             playerJoined(message);
     }
 
-    private void playerJoined(String message)
-    {
+    String getName(String playerMessageInfo){
         int nameLen;
-        for(nameLen = 0; message.charAt(nameLen) != ' '; nameLen++)
+        for(nameLen = 0; playerMessageInfo.charAt(nameLen) != ' '; nameLen++)
             ;
-        String name = message.substring(0, nameLen);
-        roomJoinController.newPlayerJoined(name);
+        return playerMessageInfo.substring(0, nameLen);
     }
 
-    private void playerLeft(String name){
+    private void playerJoined(String message)
+    {
+        roomJoinController.newPlayerJoined(getName(message));
+    }
 
+    private void playerLeft(String message)
+    {
+        roomJoinController.playerLeft(getName(message));
     }
 
 

@@ -18,7 +18,7 @@ public class MapChoiceController implements Ifxml<HBox>
     private ImageView[] maps = new ImageView[TOT_MAPS];
     private Polygon nextButton;
 
-    public void C()
+    public void initialize()
     {
         for(int i=0; i < maps.length; i++)
             maps[i] = newMap(i);

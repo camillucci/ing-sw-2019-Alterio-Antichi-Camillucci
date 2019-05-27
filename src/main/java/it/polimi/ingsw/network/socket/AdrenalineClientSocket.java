@@ -9,8 +9,6 @@ import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.generics.Utils.tryDo;
-
 public class AdrenalineClientSocket extends AdrenalineClient {
     private TCPClient server;
 
@@ -22,12 +20,12 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     @Override
     protected void setupView()
     {
-        view.getLogin().nameEvent.addEventHandler((a, name) -> tryDo( () -> notifyName(name)));
-        view.getLogin().colorEvent.addEventHandler((a, color) -> tryDo(() -> notifyColor(color)));
-        view.getLogin().gameLengthEvent.addEventHandler((a, len) -> tryDo(() -> server.out().sendInt(len)));
-        view.getLogin().gameMapEvent.addEventHandler((a, map) -> tryDo(() -> server.out().sendInt(map)));
-        view.getLogin().rmiEvent.addEventHandler((a, choice) -> tryDo(() -> server.out().sendBool(choice)));
-        view.getLogin().socketEvent.addEventHandler((a, choice) -> tryDo(() -> server.out().sendBool(choice)));
+        view.getLogin().nameEvent.addEventHandler((a, name) -> bottleneck.tryDo( () -> notifyName(name)));
+        view.getLogin().colorEvent.addEventHandler((a, color) -> bottleneck.tryDo(() -> notifyColor(color)));
+        view.getLogin().gameLengthEvent.addEventHandler((a, len) -> bottleneck.tryDo(() -> server.out().sendInt(len)));
+        view.getLogin().gameMapEvent.addEventHandler((a, map) -> bottleneck.tryDo(() -> server.out().sendInt(map)));
+        view.getLogin().rmiEvent.addEventHandler((a, choice) -> bottleneck.tryDo(() -> server.out().sendBool(choice)));
+        view.getLogin().socketEvent.addEventHandler((a, choice) -> bottleneck.tryDo(() -> server.out().sendBool(choice)));
     }
 
     @Override
@@ -43,7 +41,7 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         else {
             boolean isHost = server.in().getBool();
             if (isHost) {
-                view.getLogin().gameMapEvent.addEventHandler((a, b) -> tryDo(this::waitForMessage));
+                view.getLogin().gameMapEvent.addEventHandler((a, b) -> bottleneck.tryDo(this::waitForMessage));
                 view.getLogin().notifyHost(true);
             } else {
                 view.getLogin().notifyHost(false);
@@ -72,7 +70,7 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     }
 
     private void manageActions(List<RemoteActionSocket> options) throws IOException, ClassNotFoundException {
-        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> tryDo( () -> options.get(choice).initialize(server))); //communicates choice to server
+        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> bottleneck.tryDo( () -> options.get(choice).initialize(server))); //communicates choice to server
         view.getActionHandler().chooseAction(new ArrayList<>(options));
     }
 

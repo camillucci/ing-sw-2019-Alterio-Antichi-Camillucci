@@ -5,5 +5,6 @@ import java.util.function.BiConsumer;
 public interface IEvent<T,U>
 {
     void addEventHandler(BiConsumer<T, U> eventHandler);
+    void addTmpEventHandler(BiConsumer<T, U> eventHandler);
     void removeEventHandler(BiConsumer<T, U> eventHandler);
 }

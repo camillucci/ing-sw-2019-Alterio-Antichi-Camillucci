@@ -37,7 +37,7 @@ public class RMIClient <T extends Remote, V extends Remote>
     {
         Registry registry = LocateRegistry.getRegistry(hostname, port);
         RMIConnection<T,V> stub  = (RMIConnection<T,V>) registry.lookup("Server");
-        UnicastRemoteObject.exportObject(client, 0);
+        UnicastRemoteObject.exportObject(client, port);
         T tmp = stub.connect(client);
         return new RMIClient<>(tmp, client);
     }
