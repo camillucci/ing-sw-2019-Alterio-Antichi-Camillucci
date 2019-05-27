@@ -94,7 +94,7 @@
                 <version>3.1.1</version>
             </plugin>
 
-            <!-- Reporting plugins: Plugins which generate reports, are configured as reports in the POM and tryDo under the site generation lifecycle. -->
+            <!-- Reporting plugins: Plugins which generate reports, are configured as reports in the POM and run under the site generation lifecycle. -->
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.1.0</version>
