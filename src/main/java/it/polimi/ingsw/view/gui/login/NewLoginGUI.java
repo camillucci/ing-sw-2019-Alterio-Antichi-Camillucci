@@ -82,6 +82,12 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         setBottomVBox(nicknameController.getRoot());
     }
 
+    private void DoStuff() throws IOException {
+        introController = IntroController.getController();
+        //introController.getRMIButton.setOnAction(e -> disableAnd(() -> ((Event<Login, String>)rmiEvent.invoke(this, false))));
+        //introController.getSocketButton.setOnAction(e -> disableAnd(() -> ((Event<Login, String>)socketEvent.invoke(this, true))));
+    }
+
     private void enable(){
         bottomVBox.setDisable(false);
     }

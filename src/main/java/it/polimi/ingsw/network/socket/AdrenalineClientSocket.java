@@ -26,6 +26,8 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         view.getLogin().colorEvent.addEventHandler((a, color) -> tryDo(() -> notifyColor(color)));
         view.getLogin().gameLengthEvent.addEventHandler((a, len) -> tryDo(() -> server.out().sendInt(len)));
         view.getLogin().gameMapEvent.addEventHandler((a, map) -> tryDo(() -> server.out().sendInt(map)));
+        view.getLogin().rmiEvent.addEventHandler((a, choice) -> tryDo(() -> server.out().sendBool(choice)));
+        view.getLogin().socketEvent.addEventHandler((a, choice) -> tryDo(() -> server.out().sendBool(choice)));
     }
 
     @Override

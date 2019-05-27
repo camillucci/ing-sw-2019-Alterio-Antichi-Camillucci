@@ -12,6 +12,8 @@ public abstract class Login extends ViewElement
     public final IEvent<Login, Integer> colorEvent = new Event<>();
     public final IEvent<Login, Integer> gameLengthEvent = new Event<>();
     public final IEvent<Login, Integer> gameMapEvent = new Event<>();
+    public final IEvent<Login, Boolean> rmiEvent = new Event<>();
+    public final IEvent<Login, Boolean> socketEvent = new Event<>();
     public abstract void notifyAccepted(boolean accepted) throws IOException;
     public abstract void notifyAvailableColor(List<String> availableColors) throws IOException;
     public abstract void notifyHost(boolean isHost) throws IOException;
