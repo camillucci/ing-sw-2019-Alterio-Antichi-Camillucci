@@ -48,29 +48,24 @@ public class AdrenalineLauncherServer
             }
         }
 
-        int port = args.length > 0 ? Integer.parseInt(args[0]) : Integer.parseInt(properties.getProperty("port", "21508"));
-        String networkType = args.length > 1 ? args[1] : properties.getProperty("network", "socket");
-
+        int socketPort = args.length > 0 ? Integer.parseInt(args[0]) : Integer.parseInt(properties.getProperty("socketPort", "21508"));
+        int rmiPort = args.length > 1 ? Integer.parseInt(args[1]) : Integer.parseInt(properties.getProperty("rmiPort", "21508"));
         try {
-            if (networkType.equals("rmi")) {
-                listenerRMI = new RMIListener<>(port, () -> new AdrenalineServerRMI(controller));
+
+                listenerRMI = new RMIListener<>(rmiPort, () -> new AdrenalineServerRMI(controller));
                 listenerRMI.newClientEvent.addEventHandler((a, rmiServer) -> rmiServer.server().initialize(rmiServer.client()));
                 listenerRMI.start();
-            } else {
-                listenerTCP = new TCPListener(port);
+                listenerTCP = new TCPListener(socketPort) ;
                 listenerTCP.newClientEvent.addEventHandler((a, client) -> {
                     Thread thread = new Thread((new AdrenalineServerSocket(client, controller))::start);
                     thread.start();
                 });
                 listenerTCP.start();
-            }
             do{
                 System.out.println("Press 1 to close");
             }
             while(parser.parseChoice() != 1);
-            if(listenerTCP != null)
                 listenerTCP.stop();
-            else
                 listenerRMI.stop();
         }
         catch (IOException e) {

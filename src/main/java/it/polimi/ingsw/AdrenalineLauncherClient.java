@@ -38,7 +38,7 @@ public class AdrenalineLauncherClient
         {
             String viewType = args.length > 0 ? args[0] : properties.getProperty("view");
             String serverName = args.length > 1 ? args[1] : properties.getProperty("ipAddress", "127.0.0.1");
-            int port = args.length > 2 ? Integer.parseInt(args[2]) : Integer.parseInt(properties.getProperty("port", "21508"));
+            int port = args.length > 2 ? Integer.parseInt(args[2]) : Integer.parseInt(properties.getProperty("socketPort", "21508"));
             String networkType = args.length > 3 ? args[3] : properties.getProperty("network", "socket");
             View view = viewType.equals("gui") ? new GUIView() : new CLIView();
             AdrenalineClient client = networkType.equals("rmi") ? new AdrenalineClientRMI(serverName, port, view) : new AdrenalineClientSocket(serverName, port, view);

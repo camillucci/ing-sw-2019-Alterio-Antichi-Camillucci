@@ -51,11 +51,11 @@ public class LoginTest {
         PipedOutputStream serverStreamWrite = new PipedOutputStream();
         InputStream serverStreamRead = new PipedInputStream(serverStreamWrite);
         CLIParser.parser.setInputStream(new ByteArrayInputStream(userInput.getBytes())); // set Input stream for CLIParser to userInput String
-        AdrenalineLauncherServer server = new AdrenalineLauncherServer(false, 10001);
-        server.setInputStream(serverStreamRead);
-        (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
+       // AdrenalineLauncherServer server = new AdrenalineLauncherServer(false, 1099);
+        //server.setInputStream(serverStreamRead);
+       // (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
         Thread.sleep(100);
-        AdrenalineLauncherClient client = new AdrenalineLauncherClient(false, false, "127.0.0.1", 10001);
+        AdrenalineLauncherClient client = new AdrenalineLauncherClient(false, false, "127.0.0.1", 1099);
         client.start();
         serverStreamWrite.write(serverInput.getBytes());
     }
