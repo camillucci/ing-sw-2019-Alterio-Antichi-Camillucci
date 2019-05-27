@@ -102,9 +102,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     private synchronized void notifyPlayerDisconnected(String name){
-        if(otherPlayers.contains(name))
-            otherPlayers.remove(name);
-        otherPlayers.add(name);
+        otherPlayers.remove(name);
         bottleneck.tryDo(() -> sendMessage(playerDisconnectedMessage(name)));
     }
     @Override
