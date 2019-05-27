@@ -48,10 +48,10 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private static Scene loginScene;
     public void initialize(){
             setupIntro();
-            Executors.newSingleThreadScheduledExecutor().schedule(() -> animation(0), 1, TimeUnit.SECONDS);
     }
 
     private void setupIntro(){
+        Executors.newSingleThreadScheduledExecutor().schedule(() -> Platform.runLater(() ->robotSpeak("RMI or Socket?")), 1, TimeUnit.SECONDS);
         introController = IntroController.getController();
         introController.getRMIButton().setOnAction(e -> notifySocketRMI(false));
         introController.getSocketButton().setOnAction(e -> notifySocketRMI(true));
@@ -77,6 +77,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
 
     private void setupNickname() {
         enable();
+         animation(0);
         nicknameController = NicknameController.getController();
         nicknameController.getNextButton().setOnAction(e -> disableAnd(() -> ((Event<Login, String>)nameEvent).invoke(this, nicknameController.getLoginText().getText())));
         setBottomVBox(nicknameController.getRoot());
