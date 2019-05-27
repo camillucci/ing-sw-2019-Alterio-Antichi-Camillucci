@@ -31,17 +31,15 @@ public class RMIListener <T extends Remote, V extends Remote>
     {
         this.port = port;
         this.remoteSupplier = remoteSupplier;
-        registry = LocateRegistry.createRegistry(port);
+        this.registry = LocateRegistry.createRegistry(port);
     }
 
     public synchronized void start()
     {
         try {
-            if (registry == null) {
+            if (registry == null)
                 registry = LocateRegistry.createRegistry(1099);
-                newRemote();
-            }
-            else if (curRemote == null)
+            if (curRemote == null)
                 newRemote();
         }
         catch (RemoteException e)
@@ -92,14 +90,8 @@ public class RMIListener <T extends Remote, V extends Remote>
             LocateRegistry.getRegistry(port).rebind(SERVER, stub);
             registry.lookup(SERVER);
         }
-        catch(ExportException e)
-        {
-            logger.log(Level.WARNING, "ExportException, Class RMIListener, Line 55", e);
-        }
-        catch (IOException e) {
-            logger.log(Level.WARNING, "RemoteException, Class RMIListener, Line 58", e);
-        } catch (NotBoundException e) {
-            e.printStackTrace();
+        catch(IOException | NotBoundException e) {
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 

@@ -24,7 +24,7 @@ public class AdrenalineLauncherClient
     }
 
     public static void main(String[] args) {
-        Logger logger = Logger.getLogger("client");
+        Logger logger = Logger.getLogger("AdrenalineLauncherClient");
         InputStream input = AdrenalineLauncherClient.class.getClassLoader().getResourceAsStream("clientConfig.properties");
         Properties properties = new Properties();
 
@@ -34,19 +34,19 @@ public class AdrenalineLauncherClient
             } catch (IOException e) {
                 logger.log(Level.WARNING, "No config file found");
             }
-        try
-        {
-            String viewType = args.length > 0 ? args[0] : properties.getProperty("view");
-            String serverName = args.length > 1 ? args[1] : properties.getProperty("ipAddress", "127.0.0.1");
-            int port = args.length > 2 ? Integer.parseInt(args[2]) : Integer.parseInt(properties.getProperty("socketPort", "21508"));
-            String networkType = args.length > 3 ? args[3] : properties.getProperty("network", "socket");
-            View view = viewType.equals("gui") ? new GUIView() : new CLIView();
-            AdrenalineClient client = networkType.equals("rmi") ? new AdrenalineClientRMI(serverName, port, view) : new AdrenalineClientSocket(serverName, port, view);
 
+        String viewType = args.length > 0 ? args[0] : properties.getProperty("view", "cli");
+        String networkType = args.length > 1 ? args[1] : properties.getProperty("network", "socket");
+        String serverName = args.length > 2 ? args[2] : properties.getProperty("ipAddress", "127.0.0.1");
+        int socketPort = args.length > 3 ? Integer.parseInt(args[3]) : Integer.parseInt(properties.getProperty("socketPort", "9999"));
+        int rmiPort = args.length > 4 ? Integer.parseInt(args[4]) : Integer.parseInt(properties.getProperty("rmiPort", "1099"));
+
+        try {
+            View view = viewType.equals("gui") ? new GUIView() : new CLIView();
+            AdrenalineClient client = networkType.equals("rmi") ? new AdrenalineClientRMI(serverName, rmiPort, view) : new AdrenalineClientSocket(serverName, socketPort, view);
             client.start();
         }
-        catch(IOException | NotBoundException | InterruptedException e )
-        {
+        catch(IOException | NotBoundException | InterruptedException e) {
             logger.log(Level.WARNING, "Could not start client");
         }
     }

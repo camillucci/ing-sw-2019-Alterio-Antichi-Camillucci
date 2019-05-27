@@ -17,7 +17,7 @@ import java.rmi.RemoteException;
 
 public class LoginTest {
     private final boolean REMOTE_TESTING = false;
-    private final boolean GUI_TEST = true;
+    private final boolean GUI_TEST = false;
     static int j = 0;
     Bottleneck bottleneck = new Bottleneck();
     @Test
@@ -46,14 +46,16 @@ public class LoginTest {
 
     @Test
     void LoginRMI_CLI() throws IOException, NotBoundException, InterruptedException {
+        if(!REMOTE_TESTING)
+            return;
         String userInput = "turangla_lella\n1\n5\n10\n";
         String serverInput = "1\n";
         PipedOutputStream serverStreamWrite = new PipedOutputStream();
         InputStream serverStreamRead = new PipedInputStream(serverStreamWrite);
         CLIParser.parser.setInputStream(new ByteArrayInputStream(userInput.getBytes())); // set Input stream for CLIParser to userInput String
-       // AdrenalineLauncherServer server = new AdrenalineLauncherServer(false, 1099);
-        //server.setInputStream(serverStreamRead);
-       // (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
+        // AdrenalineLauncherServer server = new AdrenalineLauncherServer(false, 1099);
+        // server.setInputStream(serverStreamRead);
+        // (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
         Thread.sleep(100);
         AdrenalineLauncherClient client = new AdrenalineLauncherClient(false, false, "127.0.0.1", 1099);
         client.start();
@@ -95,11 +97,15 @@ public class LoginTest {
 
     @Test
     void test2() throws InterruptedException {
+        if(!GUI_TEST)
+            return;
         AdrenalineLauncherClient.main(new String[]{});
         Thread.sleep(20000);
     }
     @Test
     void test32() throws InterruptedException {
+        if(!GUI_TEST)
+            return;
         AdrenalineLauncherClient.main(new String[]{});
         Thread.sleep(20000);
     }
