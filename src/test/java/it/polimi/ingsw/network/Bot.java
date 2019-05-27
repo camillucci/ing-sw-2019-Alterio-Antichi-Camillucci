@@ -12,7 +12,7 @@ public class Bot
     static int i=0;
     public static String getLoginString(int playerNum){
         if(playerNum == 1)
-            return "turangla_lella"+ i++ +"\n0\n5\n10\n";
+            return "turangla_lella"+ i++ +"\n0\n0\n0\n";
         else
             return "turanga_lella" + i++ + "\n0\n";
     }

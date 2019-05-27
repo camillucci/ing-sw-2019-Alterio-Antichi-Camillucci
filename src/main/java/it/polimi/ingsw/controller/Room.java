@@ -14,7 +14,7 @@ public class Room
     public final IEvent<Room, Integer> timerStopEvent = new Event<>();
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
     public final IEvent<Room, String> playerDisconnectedEvent = new Event<>();
-    private static final int TIMEOUT = 10000;
+    private static final int TIMEOUT = 5;
     private static final int PERIOD = 1;
     private List<PlayerColor> playerColors = new ArrayList<>();
     private List<PlayerColor> availableColors = new ArrayList<>();

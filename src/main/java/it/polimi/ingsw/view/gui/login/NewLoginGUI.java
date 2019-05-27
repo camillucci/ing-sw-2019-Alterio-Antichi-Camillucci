@@ -19,8 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
@@ -43,7 +43,9 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private SkullChoiceController skullChoiceController;
     private MapChoiceController mapChoiceController;
     private RoomJoinController roomJoinController;
+    private ImageView map;
     int colorChoiceErrorsCOunter = 0;
+    private static Scene loginScene;
     public void initialize(){
             setupIntro();
             Executors.newSingleThreadScheduledExecutor().schedule(() -> animation(0), 1, TimeUnit.SECONDS);
@@ -235,7 +237,13 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
 
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
-
+        Platform.runLater(() ->{
+            upperVBox.getChildren().clear();
+            ImageView imageView = new ImageView(new Image("map" + matchSnapshot.gameBoardSnapshot.mapType+".png"));
+            imageView.setFitWidth(loginScene.widthProperty().get());
+            imageView.setFitHeight(loginScene.heightProperty().get());
+            upperVBox.getChildren().add(imageView);
+        });
     }
 
     @Override
@@ -252,7 +260,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         int risX = 3024;
         double scale = 3.0/10;
         NewLoginGUI ret = NewLoginGUI.getController();
-        Scene loginScene = new Scene(ret.getRoot(), risY*scale, risX*scale);
+        loginScene = new Scene(ret.getRoot(), risY*scale, risX*scale);
         loginScene.getStylesheets().add("/view/login/LoginGUI.css");
         loginScene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
