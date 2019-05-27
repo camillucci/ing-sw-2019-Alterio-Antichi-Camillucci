@@ -13,7 +13,7 @@ public class Room
     public final IEvent<Room, Integer> timerTickEvent = new Event<>();
     public final IEvent<Room, Integer> timerStopEvent = new Event<>();
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
-    private static final int TIMEOUT = 5;
+    private static final int TIMEOUT = 10;
     private static final int PERIOD = 1;
     private List<PlayerColor> playerColors = new ArrayList<>();
     private List<PlayerColor> availableColors = new ArrayList<>();
@@ -24,6 +24,9 @@ public class Room
     private Match match = null;
     private MatchManager matchManager;
     private RoomTimer timer = new RoomTimer(TIMEOUT, PERIOD);
+    private String hostName;
+    private int pendingPlayers = 0;
+    private boolean matchStarting = false;
 
     public Room() {
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
@@ -33,26 +36,41 @@ public class Room
     private void setupEvents()
     {
         timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, TIMEOUT - timeElapsed));
-        timer.timeoutEvent.addEventHandler((a, b) -> startMatch());
+        timer.timeoutEvent.addEventHandler((a, b) -> onTimeout());
     }
 
-    public void startMatch(){
+    private synchronized void onTimeout(){
+        matchStarting = true;
+        if(pendingPlayers == 0)
+            startMatch();
+    }
+
+    private synchronized void startMatch(){
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         matchManager = new MatchManager(match, this);
         ((Event<Room, Match>)matchStartedEvent).invoke(this, match);
     }
 
-    public synchronized boolean addPlayer(int index, String playerName) {
-        if(match != null)
-            return false;
+    public synchronized void addPlayer(String color, String playerName) throws MatchStartingException, NotAvailableColorException {
+        if(matchStarting || availableColors.isEmpty())
+            throw new MatchStartingException();
 
+        int index = getAvailableColors().indexOf(color);
+
+        if(index == -1)
+            throw new NotAvailableColorException();
+
+        pendingPlayers++;
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
         playerNames.add(playerName);
-        newPlayer(playerName);
-        return playerNames.size() == 1;
+        if(playerNames.size() == 1)
+            hostName = playerName;
     }
 
+    public boolean isHost(String name) {
+        return name.equals(hostName);
+    }
     private void newPlayer(String name){
         ((Event<Room, String>)newPlayerEvent).invoke(this, name);
     }
@@ -61,9 +79,13 @@ public class Room
         return new ArrayList<>(playerNames);
     }
 
-    public synchronized void notifyPlayerReady()
+    public synchronized void notifyPlayerReady(String playerName)
     {
-        if (++readyCounter == 3) {
+        newPlayer(playerName);
+        if(--pendingPlayers == 0 && matchStarting) {
+            startMatch();
+        }
+        else if (++readyCounter == 3) {
             timer.start();
             ((Event<Room, Integer>) timerStartEvent).invoke(this, TIMEOUT);
         } else if (readyCounter == 5) {
@@ -71,22 +93,30 @@ public class Room
             startMatch();
         }
     }
-    public synchronized List<String> getAvailableColors() {
+
+    public synchronized List<String> getAvailableColors() throws MatchStartingException
+    {
+        if(availableColors.isEmpty())
+            throw new MatchStartingException();
+
         ArrayList<String> colors = new ArrayList<>();
         for (PlayerColor pc : availableColors)
             colors.add(pc.name());
         return colors;
     }
 
-    public synchronized boolean getAvailableSeats() {
-        return playerNames.size() < 5;
+    public synchronized boolean isJoinable(){
+        return !availableColors.isEmpty() && !matchStarting;
     }
 
-    public void setGameLength(int gameLength) {
+    public synchronized void setGameLength(int gameLength) {
         this.gameLength = gameLength;
     }
 
-    public void setGameSize(int gameSize) {
+    public synchronized void setGameSize(int gameSize) {
         this.gameSize = gameSize;
     }
+
+    public class MatchStartingException extends Exception {}
+    public class NotAvailableColorException extends Exception {}
 }

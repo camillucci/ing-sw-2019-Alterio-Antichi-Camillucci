@@ -100,15 +100,18 @@ public class LoginTest {
         (new Thread(() -> AdrenalineLauncherServer.main(new String[]{}))).start();
         Thread.sleep(300);
 
-        /*
-        for(int i=0; i < 1; i++) {
-            (new Thread(() -> Bot.login(Bot.getLoginString(++j), true, "127.0.0.1", 21508))).start();
-            Thread.sleep(1000);
-        }
 
-         */
         AdrenalineLauncherClient.main(new String[]{});
-        Thread.sleep(200000);
+/*
+        for(int h = 0; h < 10; h++, j=0)
+            for (int i = 0; i < 5; i++) {
+                (new Thread(() -> Bot.login(Bot.getLoginString(++j), true, "127.0.0.1", 21508))).start();
+                Thread.sleep(1000);
+            }
+
+ */
+        Thread.sleep(20000);
+
     }
 
     @Test

@@ -36,14 +36,17 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     @Override
     protected void notifyColor(int colorIndex) throws IOException, ClassNotFoundException {
         server.out().sendInt(colorIndex);
-        boolean isHost = server.in().getBool();
-        if(isHost){
-            view.getLogin().gameMapEvent.addEventHandler((a, b) -> tryDo(this::waitForMessage));
-            view.getLogin().notifyHost(true);
-        }
-        else{
-            view.getLogin().notifyHost(false);
-            waitForMessage();
+        if(!server.in().getBool())
+            view.getLogin().notifyAvailableColor(server.in().getObject());
+        else {
+            boolean isHost = server.in().getBool();
+            if (isHost) {
+                view.getLogin().gameMapEvent.addEventHandler((a, b) -> tryDo(this::waitForMessage));
+                view.getLogin().notifyHost(true);
+            } else {
+                view.getLogin().notifyHost(false);
+                waitForMessage();
+            }
         }
     }
 

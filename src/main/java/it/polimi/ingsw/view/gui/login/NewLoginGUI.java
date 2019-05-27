@@ -41,22 +41,23 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     @FXML private VBox bottomVBox;
     private String[] robotSpeech = new String[]{ "Hey, my name is :D-STRUCT-0R,", "Welcome to Adrenaline!", "Please, choose a nickname!"};
     private Timeline timeline;
+    private IntroController introController;
     private NicknameController nicknameController;
     private ColorChoiceController colorChoiceController;
     private SkullChoiceController skullChoiceController;
     private MapChoiceController mapChoiceController;
     private RoomJoinController roomJoinController;
-
+    int colorChoiceErrorsCOunter = 0;
     public void initialize(){
-        try
-        {
-            setupNickname();
+            setupIntro();
+            //setupNickname();
             Executors.newSingleThreadScheduledExecutor().schedule(() -> animation(0), 1, TimeUnit.SECONDS);
-        } catch (IOException e) {
-            //todo
-        }
     }
 
+    private void setupIntro(){
+        introController = IntroController.getController();
+        setBottomVBox(introController.getRoot());
+    }
     private void robotSpeak(String text, int millisecPerCar, Runnable onEnd){
         if(timeline != null)
             timeline.stop();
@@ -103,6 +104,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     public void notifyAccepted(boolean accepted) throws IOException {
         Platform.runLater(() -> {
             if (!accepted) {
+                enable();
                 robotSpeak("I'm sorry, this name it's not valid", () -> robotSpeak("Please, try again"));
                 nicknameController.getLoginText().setText("");
                 nicknameController.getLoginText().requestFocus();
@@ -110,10 +112,14 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     }
 
     @Override
-    public void notifyAvailableColor(List<String> availableColors) throws IOException {
+    public void notifyAvailableColor(List<String> availableColors) throws IOException
+    {
         Platform.runLater(() -> {
+            if(colorChoiceErrorsCOunter++ > 0)
+                robotSpeak("Something has gone wrong", () -> robotSpeak("Please, try again!"));
+            else
+                robotSpeak("Great! what's your favourite color?");
             enable();
-            robotSpeak("Great! what's your favourite color?");
             colorChoiceController = ColorChoiceController.getController();
             setBottomVBox(colorChoiceController.getRoot());
             for (int i = 0; i < availableColors.size(); i++) {
@@ -208,7 +214,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         int nameLen;
         for(nameLen = 0; message.charAt(nameLen) != ' '; nameLen++)
             ;
-        String name = message.substring(0, nameLen -1);
+        String name = message.substring(0, nameLen);
         roomJoinController.newPlayerJoined(name);
     }
 
@@ -234,7 +240,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     public static NewLoginGUI createLoginScene(App app) throws IOException {
         int risY = 4323;
         int risX = 3024;
-        double scale = 3/10;
+        double scale = 3.0/10;
         NewLoginGUI ret = NewLoginGUI.getController();
         Scene loginScene = new Scene(ret.getRoot(), risY*scale, risX*scale);
         loginScene.getStylesheets().add("/view/login/LoginGUI.css");
@@ -244,6 +250,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
             }});
         ret.loginStarted.addEventHandler((a,b) -> app.show());
         app.setScene(loginScene);
+        app.show();
         return ret;
     }
 }

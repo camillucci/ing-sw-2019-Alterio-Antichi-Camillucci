@@ -1,34 +1,41 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.PlayerColor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Controller {
     private List<Room> lobby = new ArrayList<>();
-
+    private List<String> joiningPlayers = new ArrayList<>();
     public Controller(){
         newRoom();
     }
 
-    private void newRoom() {
+    private Room newRoom() {
         Room room = new Room();
+        room.newPlayerEvent.addEventHandler((a, name) -> joiningPlayers.remove(name));
         lobby.add(room);
-        room.matchStartedEvent.addEventHandler((a,b) -> newRoom());
+        return room;
     }
 
-    private List<String> getPlayerNames() {
-        return lobby.stream().flatMap(room -> room.getPlayerNames().stream()).collect(Collectors.toList());
+    public synchronized Room getAvailableRoom() {
+        Room ret = lobby.get(lobby.size()-1);
+        if(ret.isJoinable())
+            return ret;
+        return newRoom();
     }
 
-    public boolean existName(String name) {
-        for (String s : getPlayerNames())
-            if (s.equals(name))
-                return true;
-        return false;
+    public synchronized boolean newPlayer(String name) {
+        for (Room room : lobby)
+            if (room.getPlayerNames().contains(name))
+                return false;
+        if(joiningPlayers.contains(name))
+            return false;
+        joiningPlayers.add(name);
+        return true;
     }
 
-    public Room getAvailableRoom() {
-        return lobby.get(lobby.size()-1);
-    }
+
 }

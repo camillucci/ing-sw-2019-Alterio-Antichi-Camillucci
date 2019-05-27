@@ -9,11 +9,12 @@ import java.rmi.NotBoundException;
 
 public class Bot
 {
+    static int i=0;
     public static String getLoginString(int playerNum){
         if(playerNum == 1)
-            return "turangla_lella" + playerNum + "\n3\n5\n10\n";
+            return "turangla_lella"+ i++ +"\n0\n5\n10\n";
         else
-            return "turanga_lella" + playerNum + "\n0\n";
+            return "turanga_lella" + i++ + "\n0\n";
     }
     public static void login(String input, boolean socket, String serverName, int port) {
         try {

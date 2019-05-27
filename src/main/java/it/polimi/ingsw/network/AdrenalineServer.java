@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.generics.Utils.tryDo;
@@ -17,33 +18,46 @@ public abstract class AdrenalineServer implements IAdrenalineServer
 {
     private final Controller controller;
     public final IEvent<AdrenalineServer, MatchSnapshot> viewUpdatEvent = new Event<>();
-    protected int colorIndex;
+    protected int colorIndex = -1;
     protected String name;
     protected boolean isHost;
     protected Room joinedRoom;
-
+    private List<String> availableColors;
     public AdrenalineServer(Controller controller){
         this.controller = controller;
     }
+    private List<String> otherPlayers = new ArrayList<>();
 
     @Override
     public List<String> availableColors()
     {
-        joinedRoom = controller.getAvailableRoom();
-        return joinedRoom.getAvailableColors();
+        try {
+            joinedRoom = controller.getAvailableRoom();
+            availableColors = joinedRoom.getAvailableColors();
+        }
+        catch (Room.MatchStartingException e) {
+            return availableColors();
+        }
+        return availableColors;
     }
 
     @Override
-    public void setColor(int colorIndex) {
-        this.colorIndex = colorIndex;
-        isHost = joinedRoom.addPlayer(colorIndex, name);
-        setupRoomEvents();
+    public boolean setColor(int colorIndex) {
+        try
+        {
+            joinedRoom.addPlayer(availableColors.get(colorIndex), name);
+            this.colorIndex = colorIndex;
+            this.isHost = isHost();
+            return true;
+        } catch (Room.MatchStartingException | Room.NotAvailableColorException e) {
+            return false;
+        }
     }
 
     @Override
     public boolean setName(String name)
     {
-        if(!controller.existName(name)) {
+        if(controller.newPlayer(name)) {
             this.name = name;
             return true;
         }
@@ -62,14 +76,22 @@ public abstract class AdrenalineServer implements IAdrenalineServer
 
     @Override
     public boolean isHost() {
-        return isHost;
+        return joinedRoom.isHost(name);
+    }
+
+    private synchronized void notifyPlayer(String name){
+        if(otherPlayers.contains(name))
+            return;
+        otherPlayers.add(name);
+        tryDo(() -> sendMessage(newPlayerMessage(name)));
     }
 
     @Override
     public void ready() {
-        joinedRoom.notifyPlayerReady();
+        joinedRoom.notifyPlayerReady(name);
+        setupRoomEvents();
         for(String name : joinedRoom.getPlayerNames())
-            tryDo(() -> sendMessage(newPlayerMessage(name)));
+            notifyPlayer(name);
     }
 
     protected abstract void sendMessage(String message) throws IOException;
@@ -80,7 +102,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.timerStartEvent.addEventHandler((a, timeout) -> tryDo( () -> sendMessage(timerStartMessage(timeout))));
         joinedRoom.timerTickEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(timerTickMessage(timeLeft))));
         joinedRoom.timerStopEvent.addEventHandler((a, timeLeft) -> tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE)));
-        joinedRoom.newPlayerEvent.addEventHandler((a, name) -> tryDo(() -> sendMessage(newPlayerMessage(name))));
+        joinedRoom.newPlayerEvent.addEventHandler((a, name) -> notifyPlayer(name));
         joinedRoom.matchStartedEvent.addEventHandler((a, match) -> tryDo( () -> onMatchStarted(match) ));
     }
 

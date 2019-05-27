@@ -34,9 +34,13 @@ public class AdrenalineServerSocket extends AdrenalineServer
         while(!setName(client.in().getObject())) // get name
             client.out().sendBool(false); // name not accepted
         client.out().sendBool(true); // name accepted
-        client.out().sendObject(new ArrayList<>(availableColors()));
-        int color = client.in().getInt(); //color chosen by user
-        setColor(color);
+        boolean colorOk;
+        do {
+            client.out().sendObject(new ArrayList<>(availableColors()));
+            int color = client.in().getInt(); //color chosen by user
+            colorOk = setColor(color);
+            client.out().sendBool(colorOk);
+        }while(!colorOk);
         client.out().sendBool(isHost);
         if(isHost) {
             setGameLength(client.in().getInt()); //game length chosen by user
