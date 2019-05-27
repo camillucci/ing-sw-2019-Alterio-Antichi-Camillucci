@@ -45,13 +45,14 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private RoomJoinController roomJoinController;
     int colorChoiceErrorsCOunter = 0;
     public void initialize(){
-            //setupIntro();
-            setupNickname();
+            setupIntro();
             Executors.newSingleThreadScheduledExecutor().schedule(() -> animation(0), 1, TimeUnit.SECONDS);
     }
 
     private void setupIntro(){
         introController = IntroController.getController();
+        introController.getRMIButton().setOnAction(e -> notifySocketRMI(false));
+        introController.getSocketButton().setOnAction(e -> notifySocketRMI(true));
         setBottomVBox(introController.getRoot());
     }
     private void robotSpeak(String text, int millisecPerCar, Runnable onEnd){
@@ -79,10 +80,9 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         setBottomVBox(nicknameController.getRoot());
     }
 
-    private void DoStuff() throws IOException {
-        introController = IntroController.getController();
-        //introController.getRMIButton.setOnAction(e -> disableAnd(() -> ((Event<Login, String>)rmiEvent.invoke(this, false))));
-        //introController.getSocketButton.setOnAction(e -> disableAnd(() -> ((Event<Login, String>)socketEvent.invoke(this, true))));
+    private void notifySocketRMI(boolean socket) {
+        disableAnd(() -> ((Event<Login, Boolean>)socketEvent).invoke(this, socket));
+        setupNickname();
     }
 
     private void enable(){
@@ -98,6 +98,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         upperVBox.getChildren().clear();
         upperVBox.getChildren().add(root);
     }
+
     private void setBottomVBox(Parent root){
         bottomVBox.getChildren().clear();
         bottomVBox.getChildren().add(root);

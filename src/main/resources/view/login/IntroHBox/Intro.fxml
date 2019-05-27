@@ -6,11 +6,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER" fx:id="hBox" xmlns="http://javafx.com/javafx"
+<HBox spacing="30" alignment="CENTER" fx:id="hBox" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="it.polimi.ingsw.view.gui.login.IntroController"
             prefHeight="400.0" prefWidth="600.0">
     <Button fx:id="rmiButton" styleClass="button" alignment="CENTER" text="RMI"/>
-    <Button fx:id="tcpButton" styleClass="button" alignment="CENTER" text="Socket"/>
-    <Button fx:id="nomeCheCompariràMagicamenteInIntroController" text="prova"/>
+    <Button fx:id="socketButton" styleClass="button" alignment="CENTER" text="Socket"/>
 </HBox>

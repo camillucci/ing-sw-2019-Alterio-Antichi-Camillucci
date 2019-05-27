@@ -43,8 +43,14 @@ public class Room
     }
 
     private synchronized void onTimeout(){
+        int tot = readyPlayers.size() + pendingPlayers.size();
+        if(tot < 3){
+            ((Event<Room, Integer>)timerStopEvent).invoke(this, TIMEOUT);
+            return;
+        }
+
         matchStarting = true;
-        if(pendingPlayers.size() == 0)
+        if(pendingPlayers.isEmpty())
             startMatch();
     }
 
