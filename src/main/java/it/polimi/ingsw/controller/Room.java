@@ -13,19 +13,21 @@ public class Room
     public final IEvent<Room, Integer> timerTickEvent = new Event<>();
     public final IEvent<Room, Integer> timerStopEvent = new Event<>();
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
-    private static final int TIMEOUT = 10;
+    public final IEvent<Room, String> playerDisconnectedEvent = new Event<>();
+    private static final int TIMEOUT = 10000;
     private static final int PERIOD = 1;
     private List<PlayerColor> playerColors = new ArrayList<>();
     private List<PlayerColor> availableColors = new ArrayList<>();
     private List<String> playerNames = new ArrayList<>();
-    private int readyCounter = 0;
+    private List<String> disconnectedPlayers = new ArrayList<>();
+    private List<String> pendingPlayers = new ArrayList<>();
+    private List<String> readyPlayers = new ArrayList<>();
     private int gameLength;
     private int gameSize;
     private Match match = null;
     private MatchManager matchManager;
     private RoomTimer timer = new RoomTimer(TIMEOUT, PERIOD);
     private String hostName;
-    private int pendingPlayers = 0;
     private boolean matchStarting = false;
 
     public Room() {
@@ -37,11 +39,12 @@ public class Room
     {
         timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, TIMEOUT - timeElapsed));
         timer.timeoutEvent.addEventHandler((a, b) -> onTimeout());
+        playerDisconnectedEvent.addTmpEventHandler((a, name) -> disconnectedPlayers.add(name));
     }
 
     private synchronized void onTimeout(){
         matchStarting = true;
-        if(pendingPlayers == 0)
+        if(pendingPlayers.size() == 0)
             startMatch();
     }
 
@@ -49,6 +52,9 @@ public class Room
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         matchManager = new MatchManager(match, this);
         ((Event<Room, Match>)matchStartedEvent).invoke(this, match);
+    }
+
+    public void reconnect(String playerName){
     }
 
     public synchronized void addPlayer(String color, String playerName) throws MatchStartingException, NotAvailableColorException {
@@ -60,7 +66,7 @@ public class Room
         if(index == -1)
             throw new NotAvailableColorException();
 
-        pendingPlayers++;
+        pendingPlayers.add(playerName);
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
         playerNames.add(playerName);
@@ -79,19 +85,37 @@ public class Room
         return new ArrayList<>(playerNames);
     }
 
+    private synchronized void removePlayer(String name){
+        int index = playerNames.indexOf(name);
+        pendingPlayers.remove(name);
+        playerNames.remove(index);
+        availableColors.add(playerColors.get(index));
+        playerColors.remove(index);
+    }
+
     public synchronized void notifyPlayerReady(String playerName)
     {
         newPlayer(playerName);
-        if(--pendingPlayers == 0 && matchStarting) {
+        pendingPlayers.remove(playerName);
+        readyPlayers.add(playerName);
+        int readyCounter = readyPlayers.size();
+        if(pendingPlayers.isEmpty() && matchStarting)
             startMatch();
-        }
-        else if (++readyCounter == 3) {
+        else if (readyCounter == 3) {
             timer.start();
             ((Event<Room, Integer>) timerStartEvent).invoke(this, TIMEOUT);
         } else if (readyCounter == 5) {
             timer.stop();
             startMatch();
         }
+    }
+
+    public void notifyPlayerDisconnected(String name){
+        if(!matchStarting) {
+            removePlayer(name);
+            readyPlayers.remove(name);
+        }
+        ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
     }
 
     public synchronized List<String> getAvailableColors() throws MatchStartingException

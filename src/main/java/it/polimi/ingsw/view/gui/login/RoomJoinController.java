@@ -17,17 +17,35 @@ public class RoomJoinController implements Ifxml<VBox>
     @FXML private HBox row3;
     @FXML private HBox row4;
     @FXML private HBox row5;
-    private int totJoined = 0;
 
     public HBox[] getRows(){
         return new HBox[]{row1, row2, row3, row4, row5};
     }
 
-    public void newPlayerJoined(String name){
-        Rectangle rectangle = (Rectangle) getRows()[totJoined].getChildren().get(0);
-        rectangle.getStyleClass().add("joinedRectangle");
-        Label playerLabel = (Label) getRows()[totJoined++].getChildren().get(1);
-        playerLabel.setText(name);
+    public synchronized void newPlayerJoined(String name){
+        HBox[] rows = getRows();
+
+        for(int i=0; i < rows.length; i++){
+            Label label = (Label)rows[i].getChildren().get(1);
+            if(label.getText() == ""){
+                Rectangle rectangle = (Rectangle)rows[i].getChildren().get(0);
+                rectangle.getStyleClass().add("joinedRectangle");
+                label.setText(name);
+            }
+        }
+    }
+
+    public synchronized void playerLeft(String name){
+        HBox[] rows = getRows();
+
+        for(int i=0; i < rows.length; i++){
+            Label label = (Label)rows[i].getChildren().get(1);
+            if(label.getText().equals(name)){
+                Rectangle rectangle = (Rectangle)rows[i].getChildren().get(0);
+                rectangle.getStyleClass().remove("joinedRectangle");
+                label.setText("");
+            }
+        }
     }
 
     @Override

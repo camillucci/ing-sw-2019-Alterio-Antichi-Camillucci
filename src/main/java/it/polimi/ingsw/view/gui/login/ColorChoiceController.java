@@ -9,9 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 
-import java.io.IOException;
-
-import static it.polimi.ingsw.generics.Utils.newThread;
 
 public class ColorChoiceController implements Ifxml<HBox> {
     @FXML private HBox hBox;

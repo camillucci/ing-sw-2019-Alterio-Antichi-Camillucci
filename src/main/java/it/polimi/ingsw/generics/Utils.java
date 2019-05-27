@@ -7,10 +7,11 @@ import java.util.logging.Logger;
 
 public class Utils
 {
-    public static void tryDo(SafeAction<IOException, RemoteException, ClassNotFoundException> safeAction)
+    /*
+    public static void tryDo(ThrowingAction<IOException, RemoteException, ClassNotFoundException> ThrowingAction)
     {
         try{
-            safeAction.invoke();
+            ThrowingAction.invoke();
         }
         catch(IOException | ClassNotFoundException e) {
             Logger.getLogger("utils").log(Level.WARNING, e.getMessage());
@@ -28,7 +29,9 @@ public class Utils
         }
     }
 
-    public static void newThread(Runnable run){
-        (new Thread(run)).start();
+    public static void newThread(Runnable tryDo){
+        (new Thread(tryDo)).start();
     }
+
+     */
 }

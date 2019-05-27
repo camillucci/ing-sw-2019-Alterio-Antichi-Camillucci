@@ -3,6 +3,7 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.AdrenalineLauncherClient;
 import it.polimi.ingsw.AdrenalineLauncherServer;
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.generics.Bottleneck;
 import it.polimi.ingsw.network.rmi.AdrenalineServerRMI;
 import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
 import it.polimi.ingsw.network.rmi.RMIListener;
@@ -13,12 +14,12 @@ import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import static it.polimi.ingsw.generics.Utils.tryDo;
 
 public class LoginTest {
     private final boolean REMOTE_TESTING = false;
     private final boolean GUI_TEST = true;
     static int j = 0;
+    Bottleneck bottleneck = new Bottleneck();
     @Test
     void loginSocket_CLI() throws IOException, NotBoundException, InterruptedException {
         String userInput = "turangla_lella\n1\n5\n10\n";
@@ -28,7 +29,7 @@ public class LoginTest {
         CLIParser.parser.setInputStream(new ByteArrayInputStream(userInput.getBytes()));// set Input stream for CLIParser to userInput String
         AdrenalineLauncherServer server = new AdrenalineLauncherServer(true, 10000);
         server.setInputStream(serverStreamRead);
-        (new Thread(() -> tryDo(() -> server.start()))).start();
+        (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
         Thread.sleep(100);
         AdrenalineLauncherClient client = new AdrenalineLauncherClient(false, true, "127.0.0.1", 10000);
         (new Thread( () -> {
@@ -52,7 +53,7 @@ public class LoginTest {
         CLIParser.parser.setInputStream(new ByteArrayInputStream(userInput.getBytes())); // set Input stream for CLIParser to userInput String
         AdrenalineLauncherServer server = new AdrenalineLauncherServer(false, 10001);
         server.setInputStream(serverStreamRead);
-        (new Thread(() -> tryDo(() -> server.start()))).start();
+        (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
         Thread.sleep(100);
         AdrenalineLauncherClient client = new AdrenalineLauncherClient(false, false, "127.0.0.1", 10001);
         client.start();
@@ -66,7 +67,7 @@ public class LoginTest {
         InputStream serverStreamRead = new PipedInputStream(serverStreamWrite);
         AdrenalineLauncherServer server = new AdrenalineLauncherServer(false, 10004);
         server.setInputStream(serverStreamRead);
-        (new Thread(() -> tryDo(() -> server.start()))).start();
+        (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
         Thread.sleep(300);
         for(int i=0; i < 4; i++) {
             Bot.login(Bot.getLoginString(i+1), false, "127.0.0.1", 10004);
@@ -82,7 +83,7 @@ public class LoginTest {
         InputStream serverStreamRead = new PipedInputStream(serverStreamWrite);
         AdrenalineLauncherServer server = new AdrenalineLauncherServer(true, 10005);
         server.setInputStream(serverStreamRead);
-        (new Thread(() -> tryDo(() -> server.start()))).start();
+        (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
         Thread.sleep(300);
         for(int i=0; i < 5; i++) {
             (new Thread(() -> Bot.login(Bot.getLoginString(++j), true, "127.0.0.1", 10005))).start();
@@ -90,6 +91,17 @@ public class LoginTest {
         }
         j = 0;
         Thread.sleep(3000);
+    }
+
+    @Test
+    void test2() throws InterruptedException {
+        AdrenalineLauncherClient.main(new String[]{});
+        Thread.sleep(20000);
+    }
+    @Test
+    void test32() throws InterruptedException {
+        AdrenalineLauncherClient.main(new String[]{});
+        Thread.sleep(20000);
     }
 
     @Test
@@ -102,15 +114,14 @@ public class LoginTest {
 
 
         AdrenalineLauncherClient.main(new String[]{});
-/*
-        for(int h = 0; h < 10; h++, j=0)
-            for (int i = 0; i < 5; i++) {
-                (new Thread(() -> Bot.login(Bot.getLoginString(++j), true, "127.0.0.1", 21508))).start();
+
+        for(int h = 0; h < 1; h++, j=0)
+            for (int i = 0; i < 1; i++) {
+                (new Thread(() -> Bot.login(Bot.getLoginString(++j), true, "127.0.0.1", 9999))).start();
                 Thread.sleep(1000);
             }
 
- */
-        Thread.sleep(20000);
+        Thread.sleep(2000000);
 
     }
 

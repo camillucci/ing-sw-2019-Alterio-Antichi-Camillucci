@@ -16,7 +16,7 @@ public class NicknameController implements Ifxml<HBox>
     @FXML private TextField loginText;
     @FXML private Button nextButton;
 
-    public static NicknameController getController() throws IOException {
+    public static NicknameController getController() {
         return GUIView.getController("/view/login/nicknameHBox/NicknameHBox.fxml", "/view/login/nicknameHBox/NicknameHBox.css");
     }
 

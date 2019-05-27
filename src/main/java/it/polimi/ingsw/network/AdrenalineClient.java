@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.generics.Bottleneck;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
 import it.polimi.ingsw.view.View;
@@ -14,13 +15,19 @@ public abstract class AdrenalineClient implements ICallbackAdrenalineClient
     protected View view;
     protected String serverName;
     protected int serverPort;
+    protected Bottleneck bottleneck = new Bottleneck();
 
     public AdrenalineClient(String serverName, int serverPort, View view)
     {
         this.view = view;
         this.serverName = serverName;
         this.serverPort = serverPort;
+        bottleneck.exceptionGenerated.addEventHandler((a, exception) -> onExceptionGenerated(exception));
         setupView();
+    }
+
+    protected void onExceptionGenerated(Exception exception){
+        view.getCurViewElement().onNewMessage("Disconnected");
     }
 
     protected abstract void setupView();
