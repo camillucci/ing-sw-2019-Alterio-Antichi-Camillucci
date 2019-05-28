@@ -46,17 +46,8 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private ImageView map;
     int colorChoiceErrorsCOunter = 0;
     private static Scene loginScene;
-    public void initialize(){
-            setupIntro();
-    }
+    public void initialize(){}
 
-    private void setupIntro(){
-        Executors.newSingleThreadScheduledExecutor().schedule(() -> Platform.runLater(() ->robotSpeak("RMI or Socket?")), 1, TimeUnit.SECONDS);
-        introController = IntroController.getController();
-        introController.getRMIButton().setOnAction(e -> notifySocketRMI(false));
-        introController.getSocketButton().setOnAction(e -> notifySocketRMI(true));
-        setBottomVBox(introController.getRoot());
-    }
     private void robotSpeak(String text, int millisecPerCar, Runnable onEnd){
         if(timeline != null)
             timeline.stop();
@@ -105,6 +96,15 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private void setBottomVBox(Parent root){
         bottomVBox.getChildren().clear();
         bottomVBox.getChildren().add(root);
+    }
+
+    @Override
+    public void askConnection() {
+        Executors.newSingleThreadScheduledExecutor().schedule(() -> Platform.runLater(() ->robotSpeak("RMI or Socket?")), 1, TimeUnit.SECONDS);
+        introController = IntroController.getController();
+        introController.getRMIButton().setOnAction(e -> notifySocketRMI(false));
+        introController.getSocketButton().setOnAction(e -> notifySocketRMI(true));
+        setBottomVBox(introController.getRoot());
     }
 
     @Override

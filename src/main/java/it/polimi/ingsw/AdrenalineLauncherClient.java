@@ -50,6 +50,7 @@ public class AdrenalineLauncherClient
                     logger.log(Level.WARNING, "Could not start client");
                 }
             });
+            view.getLogin().askConnection();
         }
         catch(IOException | InterruptedException e) {
             logger.log(Level.WARNING, "Could not start client");

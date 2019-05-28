@@ -8,6 +8,20 @@ import java.io.IOException;
 import java.util.List;
 
 public class LoginCLI extends Login {
+    @Override
+    public void askConnection() throws IOException {
+        CLIMessenger.askConnection();
+        boolean connection;
+        int choice = CLIParser.parser.parseChoice();
+        while(choice == -1) {
+            //todo
+        }
+        if(choice == 0)
+            connection = true;
+        else
+            connection = false;
+        ((Event<Login, Boolean>)socketEvent).invoke(this, connection);
+    }
 
     @Override
     public void notifyAvailableColor(List<String> availableColors) throws IOException {
