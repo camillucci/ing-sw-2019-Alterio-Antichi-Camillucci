@@ -266,6 +266,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         loginScene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
                 Platform.exit();
+                System.exit(0);
             }});
         ret.loginStarted.addEventHandler((a,b) -> app.show());
         app.setScene(loginScene);
