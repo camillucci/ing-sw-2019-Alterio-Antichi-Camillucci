@@ -30,7 +30,7 @@ public class CLIMessenger {
     private static final String PRESS = "Press ";
     private static final String PLAYER = "Player ";
     private static final String NONE = "None";
-    private static final int MAX_SIZE_SQUARE = 47;
+    private static final int MAX_SIZE_SQUARE = 41;
     private static final int FIRST_MAP = 0;
     private static final int SECOND_MAP = 1;
     private static final int THIRD_MAP = 2;
@@ -51,9 +51,9 @@ public class CLIMessenger {
     private static final String LEFT = "╠";
     private static final String RIGHT = "╣";
     private static final String MIDDLE = "╬";
-    private static final String HORIZONTAL_WALL = "═══════════════════════════════════════════════";
-    private static final String HORIZONTAL_DOOR = "═══════════════════╣       ╠═══════════════════";
-    private static final String HORIZONTAL_ROOM = "═════                                     ═════";
+    private static final String HORIZONTAL_WALL = "═════════════════════════════════════════";
+    private static final String HORIZONTAL_DOOR = "════════════════╣       ╠════════════════";
+    private static final String HORIZONTAL_ROOM = "═════                               ═════";
     private static final String POINT = "█";
 
     private static final String[] WALL = {VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL};
@@ -173,17 +173,18 @@ public class CLIMessenger {
     }
 
     private static void displayPrivatePlayer(MatchSnapshot matchSnapshot) {
-        display("You (" + matchSnapshot.privatePlayerSnapshot.name + "-" + matchSnapshot.privatePlayerSnapshot.color + ") have the following loaded weapons:");
+        display("You " + coloredString("[" + matchSnapshot.privatePlayerSnapshot.name + "-" + matchSnapshot.privatePlayerSnapshot.color + "]", matchSnapshot.privatePlayerSnapshot.color) + " have:");
+        display("Loaded weapons:");
         if(matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().isEmpty())
             display(NONE);
         for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().size(); i++)
             display(matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().get(i));
-        display("You have the following unloaded weapons:");
+        display("Unloaded weapons:");
         if(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().isEmpty())
             display(NONE);
         for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().size(); i++)
             display(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i));
-        display("You have the following powerup cards:");
+        display("Powerup cards:");
         if(matchSnapshot.privatePlayerSnapshot.getPowerUps().isEmpty())
             display(NONE);
         for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getPowerUps().size(); i++)
@@ -196,14 +197,14 @@ public class CLIMessenger {
             damage = damage.concat(NONE);
         else
             for(int i = 0; i < matchSnapshot.privatePlayerSnapshot.getDamage().size(); i++)
-                damage = damage.concat(coloredString(matchSnapshot.privatePlayerSnapshot.getDamage().get(i)) + " ");
+                damage = damage.concat(coloredString(POINT, matchSnapshot.privatePlayerSnapshot.getDamage().get(i)) + " ");
         display(damage);
         String mark = "Marks: ";
         if(matchSnapshot.privatePlayerSnapshot.getMark().isEmpty())
             mark = mark.concat(NONE);
         else
             for(int i = 0; i < matchSnapshot.privatePlayerSnapshot.getMark().size(); i++)
-                mark = mark.concat(coloredString(matchSnapshot.privatePlayerSnapshot.getMark().get(i)) + " ");
+                mark = mark.concat(coloredString(POINT, matchSnapshot.privatePlayerSnapshot.getMark().get(i)) + " ");
         display(mark);
 
         display("");
@@ -211,13 +212,14 @@ public class CLIMessenger {
 
     private static void displayPublicPlayers(MatchSnapshot matchSnapshot) {
         for (int j = 0; j < matchSnapshot.getPublicPlayerSnapshot().size(); j++) {
-            display(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + " has " + matchSnapshot.getPublicPlayerSnapshot().get(j).loadedWeaponsNumber + " loaded weapons");
-            display(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + " has the following unloaded weapons:");
+            display(PLAYER + coloredString(matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color, matchSnapshot.getPublicPlayerSnapshot().get(j).color) + " has:");
+            display("Loaded weapons: " + matchSnapshot.getPublicPlayerSnapshot().get(j).loadedWeaponsNumber);
+            display("Unloaded weapons:");
             if(matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().isEmpty())
                 display(NONE);
             for (int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().size(); i++)
                 display(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i));
-            display(PLAYER + matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color + " has " + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber + " powerup cards");
+            display("Powerup cards: " + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber);
             display("Deaths: " + matchSnapshot.getPublicPlayerSnapshot().get(j).skull);
             display("Blue ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).blueAmmo + ", Red ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).redAmmo + ", Yellow ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).yellowAmmo);
 
@@ -226,32 +228,17 @@ public class CLIMessenger {
                 damage = damage.concat(NONE);
             else
                 for(int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().size(); i++)
-                    damage = damage.concat(coloredString(matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().get(i)) + " ");
+                    damage = damage.concat(coloredString(POINT, matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().get(i)) + " ");
             display(damage);
             String mark = "Marks: ";
             if(matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().isEmpty())
                 mark = mark.concat(NONE);
             else
                 for(int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().size(); i++)
-                    mark = mark.concat(coloredString(matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().get(i)) + " ");
+                    mark = mark.concat(coloredString(POINT, matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().get(i)) + " ");
             display(mark);
 
             display("");
-        }
-    }
-
-    private static String coloredString(String color) {
-        switch (color) {
-            case "Blue":
-                return ANSI_BLUE + POINT + ANSI_WHITE;
-            case "Green":
-                return  ANSI_GREEN + POINT + ANSI_WHITE;
-            case "Grey":
-                return  ANSI_WHITE + POINT + ANSI_WHITE; // Change to GREY
-            case "Violet":
-                return  ANSI_PURPLE + POINT + ANSI_WHITE;
-            default:
-                return  ANSI_YELLOW + POINT + ANSI_WHITE;
         }
     }
 
@@ -385,12 +372,12 @@ public class CLIMessenger {
             return BLANK + blanks(MAX_SIZE_SQUARE - square.name.length() - 4) + "[" + square.name + "]" + BLANK;
         if(square != null) {
             if (square.getColors().size() > line && square.getCards().size() > line)
-                return BLANK + "[" + square.getNames().get(line) + "-" + square.getColors().get(line) + "]" +
-                        blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getColors().get(line).length() - square.getCards().get(line).length() - 7) +
+                return BLANK + coloredString("[" + square.getNames().get(line) + "]", square.getColors().get(line)) +
+                        blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getCards().get(line).length() - 6) +
                         "[" + square.getCards().get(line) + "]" + BLANK;
             if (square.getColors().size() > line && square.getCards().size() <= line)
-                return BLANK + "[" + square.getNames().get(line) + "-" + square.getColors().get(line) + "]" +
-                        blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getColors().get(line).length() - 4);
+                return BLANK + coloredString("[" + square.getNames().get(line) + "]", square.getColors().get(line)) +
+                        blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - 5);
             if (square.getColors().size() <= line && square.getCards().size() > line)
                 return blanks(MAX_SIZE_SQUARE - square.getCards().get(line).length() - 3) + "[" + square.getCards().get(line) + "]" + BLANK;
         }
@@ -417,5 +404,20 @@ public class CLIMessenger {
             display("\u001B[1m" + string);
         else
             display(string);
+    }
+
+    private static String coloredString(String text, String color) {
+        switch (color) {
+            case "Blue":
+                return ANSI_BLUE + text + ANSI_WHITE;
+            case "Green":
+                return  ANSI_GREEN + text + ANSI_WHITE;
+            case "Grey":
+                return  ANSI_WHITE + text + ANSI_WHITE; // Change to GREY
+            case "Violet":
+                return  ANSI_PURPLE + text + ANSI_WHITE;
+            default:
+                return  ANSI_YELLOW + text + ANSI_WHITE;
+        }
     }
 }

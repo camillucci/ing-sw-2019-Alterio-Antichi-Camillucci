@@ -32,7 +32,7 @@ public class FireModalityAction extends ExtendableAction
                 powerUpAmmo = powerUpAmmo.add(pu.colorToAmmo());
             int i = 0;
             while(i < branches.size())
-                if(branches.get(i).getCompatibleActions().get(0).getDoActionCost().isLessThan(powerUpAmmo))
+                if(branches.get(i).getCompatibleActions().get(0).doActionCost.isLessThan(powerUpAmmo))
                     branches.remove(branches.get(i));
                 else
                     i++;

@@ -56,7 +56,7 @@ public class ShootAction extends Action
     }
 
     protected void preparePowerUp() {
-        SupportPowerUpAction tmp = (SupportPowerUpAction)selectedPowerUp.getEffect();
+        InTurnPowerUpAction tmp = (InTurnPowerUpAction)selectedPowerUp.getEffect();
         tmp.setTargets(damagedPlayers);
         tmp.damagedPlayers = damagedPlayers;
         this.next = tmp;

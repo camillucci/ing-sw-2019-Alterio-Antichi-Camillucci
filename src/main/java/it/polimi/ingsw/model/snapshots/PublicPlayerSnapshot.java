@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PublicPlayerSnapshot implements Serializable {
 
-    public final PlayerColor color;
+    public final String color;
     public final String name;
     public final int skull;
     public final int blueAmmo;
@@ -24,7 +24,7 @@ public class PublicPlayerSnapshot implements Serializable {
     public final int powerUpsNumber;
 
     public PublicPlayerSnapshot(Player player) {
-        this.color = player.color;
+        this.color = player.color.getName();
         this.name = player.name;
         this.skull = player.getSkull();
         this.blueAmmo = player.getAmmo().blue;

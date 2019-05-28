@@ -220,11 +220,11 @@ public class Player implements Cloneable {
 
     public List<Ammo> getDiscardableAmmo() {
         List<Ammo> temp = new ArrayList<>();
-        if(ammo.blue > 1)
+        if(ammo.blue >= 1)
             temp.add(new Ammo(1, 0, 0));
-        if(ammo.red > 1)
+        if(ammo.red >= 1)
             temp.add(new Ammo(0, 1, 0));
-        if(ammo.yellow > 1)
+        if(ammo.yellow >= 1)
             temp.add(new Ammo(0, 0, 1));
         return temp;
     }

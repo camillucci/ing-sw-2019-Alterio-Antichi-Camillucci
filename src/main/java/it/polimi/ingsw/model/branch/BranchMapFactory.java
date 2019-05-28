@@ -73,6 +73,6 @@ public class BranchMapFactory
 
     public static BranchMap counterAttackBranchMap()
     {
-        return new BranchMap(new Branch(new SupportPowerUpAction(p->new ArrayList<>(p.getPowerupSet().getCounterAttackPUs())), new EndBranchAction()));
+        return new BranchMap(new Branch(new CounterPowerUpAction(p->new ArrayList<>(p.getPowerupSet().getCounterAttackPUs())), new EndBranchAction()));
     }
 }

@@ -54,10 +54,12 @@ class GrabActionTest {
         assertEquals(0, action.getPossiblePlayers().size());
         assertEquals(0, action.getPossibleSquares().size());
         assertEquals(0, action.getPossiblePowerUps().size());
+        assertEquals(0, action.getDiscardableAmmos().size());
         action.addTarget(player);
         action.addTarget(player.getCurrentSquare());
         action.addWeapon(gameBoard.weaponDeck.draw());
         action.usePowerUp(gameBoard.powerupDeck.draw());
+        action.addDiscardedAmmo(new Ammo(0, 0, 0));
         action.doAction();
         assertEquals(1, action.getBranches().size());
         action.getBranches().get(0).getCompatibleActions().get(0).initialize(player);
@@ -66,6 +68,7 @@ class GrabActionTest {
         assertEquals(0, action.getPossiblePlayers().size());
         assertEquals(0, action.getPossibleSquares().size());
         assertEquals(0, action.getPossiblePowerUps().size());
+        assertEquals(0, action.getDiscardableAmmos().size());
         player.getCurrentSquare().addWeapon(gameBoard.weaponDeck.draw());
         player.getCurrentSquare().removeWeapon(gameBoard.weaponDeck.draw());
         assertEquals(0, player.getCurrentSquare().getWeapons().size());

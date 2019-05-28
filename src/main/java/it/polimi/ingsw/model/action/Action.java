@@ -23,6 +23,7 @@ public class Action
     protected List<WeaponCard> selectedWeapons = new ArrayList<>();
     protected PowerUpCard selectedPowerUp;
     protected List<PowerUpCard> discardedPowerUps = new ArrayList<>();
+    protected Ammo discardedAmmo;
     protected boolean optional = false;
     protected boolean canBeDone = true;
 
@@ -84,10 +85,15 @@ public class Action
             this.discardedPowerUps.add(powerUpCard);
     }
 
+    public void addDiscardedAmmo(Ammo ammo) {
+        //Only for Override
+    }
+
     public List<Player> getPossiblePlayers() { return Collections.emptyList(); }
     public List<Square> getPossibleSquares() { return Collections.emptyList(); }
     public List<PowerUpCard> getPossiblePowerUps() { return Collections.emptyList(); }
     public List<PowerUpCard> getDiscardablePowerUps() { return Collections.emptyList(); }
+    public List<Ammo> getDiscardableAmmos() { return Collections.emptyList(); }
 
     public Player getOwnerPlayer() { return this.ownerPlayer; }
 
@@ -103,6 +109,8 @@ public class Action
         Ammo ammo = new Ammo(0, 0, 0);
         for(PowerUpCard pu : discardedPowerUps)
             ammo = ammo.add(pu.colorToAmmo());
+        if(discardedAmmo != null)
+            doActionCost = discardedAmmo;
         if(ownerPlayer.getAmmo().isGreaterOrEqual(this.doActionCost))
         {
             this.ownerPlayer.addBlue(-(doActionCost.sub(ammo).blue));
@@ -122,8 +130,6 @@ public class Action
     public Action next() { return next; }
 
     protected void op() { this.opMethod.accept(this); }
-
-    public Ammo getDoActionCost() { return doActionCost; }
 
     public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
 }
