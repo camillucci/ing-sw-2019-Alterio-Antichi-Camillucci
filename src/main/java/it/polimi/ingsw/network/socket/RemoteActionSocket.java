@@ -56,6 +56,11 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     }
 
     @Override
+    public void addDiscardableAmmo(String ammo) throws IOException {
+        //TODO
+    }
+
+    @Override
     public void doAction() throws IOException
     {
         server.out().sendInt(RemoteActionsHandlerSocket.DO_ACTION);
@@ -92,6 +97,18 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     }
 
     @Override
+    public List<String> getDiscardableAmmos() throws IOException, ClassNotFoundException {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public List<String> getPossibleWeapons() throws IOException, ClassNotFoundException {
+        //TODO
+        return null;
+    }
+
+    @Override
     public boolean canBeDone() throws IOException {
         server.out().sendInt(RemoteActionsHandlerSocket.CAN_BE_DONE);
         return server.in().getBool();
@@ -99,6 +116,6 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
 
     @Override
     public String toString() {
-        return "Azione";
+        return "Action";
     }
 }

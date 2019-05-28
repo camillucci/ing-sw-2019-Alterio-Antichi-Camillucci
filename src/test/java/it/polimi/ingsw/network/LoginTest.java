@@ -15,7 +15,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 
-public class LoginTest {
+class LoginTest {
+    private final boolean SOCKET_TESTING = false;
     private final boolean REMOTE_TESTING = false;
     private final boolean GUI_TEST = false;
     static int j = 0;
@@ -64,6 +65,8 @@ public class LoginTest {
 
     @Test
     void multiple_loginRMI_CLI() throws IOException, InterruptedException {
+        if(!REMOTE_TESTING)
+            return;
         String serverInput = "1\n";
         PipedOutputStream serverStreamWrite = new PipedOutputStream();
         InputStream serverStreamRead = new PipedInputStream(serverStreamWrite);
@@ -80,6 +83,8 @@ public class LoginTest {
 
     @Test
     void multiple_loginSocket_CLI() throws IOException, InterruptedException {
+        if(!SOCKET_TESTING)
+            return;
         String serverInput = "1\n";
         PipedOutputStream serverStreamWrite = new PipedOutputStream();
         InputStream serverStreamRead = new PipedInputStream(serverStreamWrite);
