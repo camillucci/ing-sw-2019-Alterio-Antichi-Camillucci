@@ -2,46 +2,37 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.ActionsProvider;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class RemoteActionsHandler implements IRemoteActionHandler {
+public abstract class RemoteActionsHandler implements IActionHandler {
 
-    private final ActionsProvider provider;
     private final Player player;
-    protected final IEvent<RemoteActionsHandler, List<RemoteAction>> newActionsEvent = new Event<>();
+    public final IEvent<RemoteActionsHandler, List<RemoteAction>> newActionsEvent = new Event<>();
     private List<Action> curActions;
-    private List<RemoteAction> curRemoteActions;
-    protected Action selectedAction = null;
+    private Action selectedAction;
 
-    public RemoteActionsHandler(ActionsProvider provider, Player player)
+    public RemoteActionsHandler(Player player)
     {
-        this.provider = provider;
         this.player = player;
-        this.provider.newActionsEvent.addEventHandler(this::onNewActions);
-    }
-
-    private void onNewActions(Player player, List<Action> actions)
-    {
-        if(this.player != player)
-            return;
-
-        curActions = actions;
-        curRemoteActions = createRemoteActions(actions);
-        ((Event<RemoteActionsHandler, List<RemoteAction>>)newActionsEvent).invoke(this, curRemoteActions);
     }
 
     protected abstract List<RemoteAction> createRemoteActions(List<Action> actions);
 
-    @Override
-    public IEvent<RemoteActionsHandler, List<RemoteAction>> getNewActionsEvent()
+    public List<RemoteAction> getRemoteActions(Player player, List<Action> actions)
     {
-        return newActionsEvent;
+        if(this.player == player)
+            return createRemoteActions(curActions =  new ArrayList<>(actions));
+        return Collections.emptyList();
     }
+
+    public abstract void waitForClient() throws IOException;
 
     @Override
     public void chooseAction(int index) {

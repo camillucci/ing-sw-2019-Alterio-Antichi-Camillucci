@@ -6,18 +6,15 @@ import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RMIRemoteActionHandler extends RemoteActionsHandler
 {
-    private RMIListener listener;
-
-    public RMIRemoteActionHandler(RMIListener listener, ActionsProvider provider, Player player)
+    public RMIRemoteActionHandler(ActionsProvider provider, Player player)
     {
-        super(provider, player);
-        this.listener = listener;
-        listener.export(this);
+        super(player);
     }
 
     @Override
@@ -27,5 +24,10 @@ public class RMIRemoteActionHandler extends RemoteActionsHandler
         for(int i=0; i < actions.size(); i++)
             ret.add(new RemoteActionRMI(i));
         return ret;
+    }
+
+    @Override
+    public void waitForClient() {
+        // nothing
     }
 }

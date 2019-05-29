@@ -6,10 +6,11 @@ import java.util.function.BiConsumer;
 
 public class Event<T, U> implements IEvent<T,U> {
 
+    private int eventHandlerIndex = 0;
     @Override
     public synchronized void addEventHandler(BiConsumer<T, U> eventHandler)
     {
-        this.eventHandlers.add(eventHandler);
+        eventHandlers.add(eventHandler);
     }
 
     @Override
@@ -20,23 +21,22 @@ public class Event<T, U> implements IEvent<T,U> {
     @Override
     public synchronized void removeEventHandler(BiConsumer<T, U> eventHandler)
     {
-        this.toRemoveEventHandlers.add(eventHandler);
+        int index = eventHandlers.indexOf(eventHandler);
+        if(index == -1)
+            return;
+        eventHandlers.remove(eventHandler);
+        if(eventHandlerIndex >= index)
+            eventHandlerIndex--;
     }
 
     public synchronized void invoke(T sender, U args)
     {
-        eventHandlers.removeAll(toRemoveEventHandlers);
-        toRemoveEventHandlers.clear();
-        for(BiConsumer<T,U> s: eventHandlers)
-            s.accept(sender, args);
-
-        for(BiConsumer<T, U> s : tmpEventHandlers)
-            s.accept(sender, args);
-
-        tmpEventHandlers = new ArrayList<>();
+        for(eventHandlerIndex = 0; eventHandlerIndex < eventHandlers.size(); eventHandlerIndex++)
+            eventHandlers.get(eventHandlerIndex).accept(sender, args);
+        for(BiConsumer<T, U> eventHandler : tmpEventHandlers)
+            eventHandler.accept(sender, args);
     }
 
-    private List<BiConsumer<T, U>> toRemoveEventHandlers = new ArrayList<>();
     private List<BiConsumer<T, U>> eventHandlers = new ArrayList<>();
     private List<BiConsumer<T, U>> tmpEventHandlers = new ArrayList<>();
 }

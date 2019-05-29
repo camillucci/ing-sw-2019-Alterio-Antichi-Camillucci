@@ -10,12 +10,14 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public abstract class AdrenalineClient implements ICallbackAdrenalineClient
+public abstract class AdrenalineClient
 {
     protected View view;
     protected String serverName;
     protected int serverPort;
     protected Bottleneck bottleneck = new Bottleneck();
+    protected boolean matchStarted;
+    public final static int PING_PERIOD = 1; // 1 millisecond to test ping synchronization  todo change in final version
 
     public AdrenalineClient(String serverName, int serverPort, View view)
     {
@@ -26,7 +28,7 @@ public abstract class AdrenalineClient implements ICallbackAdrenalineClient
         setupView();
     }
 
-    protected void onExceptionGenerated(Exception exception){
+    protected synchronized void onExceptionGenerated(Exception exception){
         view.getCurViewElement().onNewMessage("Disconnected");
     }
 
@@ -34,33 +36,36 @@ public abstract class AdrenalineClient implements ICallbackAdrenalineClient
 
     public void start() throws IOException, NotBoundException {
         connect();
+        startPing();
         view.getLogin().login();
+    }
+
+    protected abstract void startPing();
+    public abstract void newActions(List<RemoteAction> newActions);
+
+    public void modelChanged(MatchSnapshot matchSnapshot)  {
+        view.getCurViewElement().onModelChanged(matchSnapshot);
     }
 
     protected abstract void connect() throws IOException, NotBoundException;
     protected abstract void notifyColor(int colorIndex) throws IOException, ClassNotFoundException;
+
     protected abstract void notifyName(String name) throws IOException, ClassNotFoundException;
 
-    @Override
-    public void newActions(List<RemoteAction> newActions) throws RemoteException {
-        //todo
-    }
-
-    @Override
     public void matchStart(MatchSnapshot matchSnapshot) throws RemoteException {
         modelChanged(matchSnapshot);
     }
 
-    @Override
-    public void newMessage(String message) throws RemoteException {
+    public void newMessage(String message) {
         view.getCurViewElement().onNewMessage(message);
+        if(message.contains("Match is starting")) {
+            view.loginCompleted();
+            stopPing();
+            matchStarted = true;
+        }
     }
 
-    @Override
-    public void modelChanged(MatchSnapshot matchSnapshot) throws RemoteException {
-        view.getCurViewElement().onModelChanged(matchSnapshot);
-    }
-
+    protected abstract void stopPing();
     /*
     public void loginFinto(int interf, int zero) throws IOException, ClassNotFoundException {
         messenger.askInterface();
@@ -167,7 +172,7 @@ public abstract class AdrenalineClient implements ICallbackAdrenalineClient
     /*
     public void chooseAction() throws Exception {
         //todo remove all socket-dependet code
-        ArrayList<RemoteActionSocket> options = server.in().getObject(); //gets list of RemoteActionSocket
+        ArrayList<SocketAction> options = server.in().getObject(); //gets list of SocketAction
         messenger.displayActions(options); //displays actions available
         int choice = parser.parseIndex(options.size()); //get's user action of choice
         while(choice == -1) {

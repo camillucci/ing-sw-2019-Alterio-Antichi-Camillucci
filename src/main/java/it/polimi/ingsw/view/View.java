@@ -20,4 +20,7 @@ public abstract class View
     public ActionHandler getActionHandler() {
         return actionHandler;
     }
+    public void loginCompleted() {
+        this.curViewElement = actionHandler;
+    }
 }

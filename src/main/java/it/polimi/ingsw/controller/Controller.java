@@ -37,7 +37,7 @@ public class Controller {
         return true;
     }
 
-    public void notifyPlayerDisconnected(String name){
+    public synchronized void notifyPlayerDisconnected(String name){
         if(name == null) // name not registered
             return;
         if(joiningPlayers.contains(name))
