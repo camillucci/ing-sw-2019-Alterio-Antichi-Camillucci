@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.network.IRemoteActionHandler;
+import it.polimi.ingsw.network.IActionHandler;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
@@ -10,13 +10,13 @@ import java.util.List;
 
 public class RemoteActionRMI extends RemoteAction
 {
-    private IRemoteActionHandler remoteActionsHandler;
+    private transient IActionHandler remoteActionsHandler;
 
     public RemoteActionRMI(int index){
         super(index);
     }
 
-    public void initialize(IRemoteActionHandler remoteActionsHandler) throws RemoteException
+    public void initialize(IActionHandler remoteActionsHandler) throws RemoteException
     {
         this.remoteActionsHandler = remoteActionsHandler;
         remoteActionsHandler.chooseAction(this.index);

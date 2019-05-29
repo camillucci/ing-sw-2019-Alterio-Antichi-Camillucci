@@ -7,6 +7,7 @@ public class OutputStreamUtils implements Closeable, OutputInterface
 {
     public final IEvent<OutputStreamUtils, OutputStreamUtils> streamFailedEvent = new Event<>();
     private OutputStream stream;
+    private int count = 0;
 
     public OutputStreamUtils(OutputStream inputStream)
     {
@@ -33,7 +34,8 @@ public class OutputStreamUtils implements Closeable, OutputInterface
     {
         send(() -> {
             sendLong(bytes.length);
-            stream.write(bytes); });
+            stream.write(bytes);
+        });
     }
 
     public void sendFileOnly(String filename) throws IOException
@@ -48,7 +50,8 @@ public class OutputStreamUtils implements Closeable, OutputInterface
     {
         send( () -> {
             ObjectOutputStream objectStream = new ObjectOutputStream(stream);
-            objectStream.writeObject(object); });
+            objectStream.writeObject(object);
+        });
     }
 
     public void sendFile(String filename) throws IOException
@@ -61,7 +64,8 @@ public class OutputStreamUtils implements Closeable, OutputInterface
 
     public void sendLong(long val) throws IOException
     {
-        send( () -> stream.write(longToBytes(val)));
+        send( () ->{
+            stream.write(longToBytes(val));});
     }
 
     public void sendInt(int val) throws IOException
@@ -89,11 +93,15 @@ public class OutputStreamUtils implements Closeable, OutputInterface
         return buffer.array();
     }
 
-    private void send(StreamActionInterface sendFunc) throws IOException
+    private synchronized void send(StreamActionInterface sendFunc) throws IOException
     {
         try
         {
+            if(count == 0)
+                stream.write((byte) InputStreamUtils.DATA);
+            count++;
             sendFunc.invoke();
+            count--;
         }
         catch(IOException ecc)
         {
@@ -106,6 +114,18 @@ public class OutputStreamUtils implements Closeable, OutputInterface
     public void close() throws IOException
     {
         stream.close();
+    }
+
+    public synchronized void ping() throws IOException {
+        try
+        {
+            stream.write((byte)InputStreamUtils.PING);
+        }
+        catch(IOException ecc)
+        {
+            ((Event<OutputStreamUtils, OutputStreamUtils>)streamFailedEvent).invoke(this, this);
+            throw ecc;
+        }
     }
 
     @FunctionalInterface

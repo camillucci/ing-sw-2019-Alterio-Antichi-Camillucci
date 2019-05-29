@@ -8,6 +8,7 @@ public class Bottleneck
         try{
             f.invoke();
         } catch (Exception e) {
+            e.printStackTrace(); //todo
             ((Event<Bottleneck, Exception>)exceptionGenerated).invoke(this, e);
         }
     }

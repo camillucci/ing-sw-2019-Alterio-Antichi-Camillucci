@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.generics.Bottleneck;
 import it.polimi.ingsw.model.ActionsProvider;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
@@ -9,7 +10,6 @@ import it.polimi.ingsw.network.RemoteActionsHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -30,29 +30,11 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
     private TCPClient client;
     private Logger logger = Logger.getLogger("remoteActionsHandlerSocket");
 
-    public RemoteActionsHandlerSocket(ActionsProvider provider, Player player, TCPClient client)
+    public RemoteActionsHandlerSocket(Player player, TCPClient client)
     {
-        super(provider,player);
+        super(player);
         this.client = client;
-        newActionsEvent.addEventHandler((a, actions) -> sendActions(actions));
     }
-
-    private void getChoice() throws Exception
-    {
-        try
-        {
-            boolean stop = false;
-            do
-            {
-                chooseAction(client.in().getInt());
-                handleAction();
-            }while(!stop);
-        }
-        catch(Exception e) {
-            logger.log(Level.WARNING, e.getMessage());
-        }
-    }
-
     private void handleAction() throws IOException
     {
         boolean completed = false;
@@ -98,24 +80,16 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
             }
     }
 
-    private void sendActions(List<RemoteAction> remoteActions)
-    {
-        try
-        {
-            for(RemoteAction a : remoteActions)
-                client.out().sendObject(a);
-        }
-        catch(IOException e)
-        {
-            logger.log(Level.WARNING, e.getMessage());
-        }
-    }
-
     @Override
     protected List<RemoteAction> createRemoteActions(List<Action> actions) {
         List<RemoteAction> ret = new ArrayList<>();
         for(int i=0; i < actions.size(); i++)
             ret.add(new RemoteActionSocket(i));
         return ret;
+    }
+
+    @Override
+    public void waitForClient() throws IOException {
+        handleAction();
     }
 }

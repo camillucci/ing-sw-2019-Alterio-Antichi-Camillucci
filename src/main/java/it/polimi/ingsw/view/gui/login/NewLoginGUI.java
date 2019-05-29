@@ -210,7 +210,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     {
         if(message.contains("seconds left\n"))
             countdownMessage(message);
-        else if(message.contains(" left the room"))
+        else if(message.contains("left the room"))
             playerLeft(message);
         else if (message.contains("Countdown stopped\\n"))
             timerStopMessage(message);

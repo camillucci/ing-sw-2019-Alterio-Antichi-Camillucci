@@ -2,17 +2,16 @@ package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineClient;
+import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdrenalineClientSocket extends AdrenalineClient {
     private TCPClient server;
 
-    public AdrenalineClientSocket(String serverName, int serverPort, View view) throws IOException
+    public AdrenalineClientSocket(String serverName, int serverPort, View view)
     {
         super(serverName, serverPort, view);
     }
@@ -26,10 +25,22 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         view.getLogin().gameMapEvent.addEventHandler((a, map) -> bottleneck.tryDo(() -> server.out().sendInt(map)));
         view.getLogin().rmiEvent.addEventHandler((a, choice) -> bottleneck.tryDo(() -> server.out().sendBool(choice)));
         view.getLogin().socketEvent.addEventHandler((a, choice) -> bottleneck.tryDo(() -> server.out().sendBool(choice)));
+        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> bottleneck.tryDo( () -> ((RemoteActionSocket)choice).initialize(server))); //communicates choice to server
+        view.getActionHandler().actionDoneEvent.addEventHandler((a, choice) -> bottleneck.tryDo(this::waitForActions)); //communicates choice to server
     }
 
     @Override
-    protected void connect() throws IOException, NotBoundException {
+    protected void startPing() {
+       server.startPinging(PING_PERIOD, this::onExceptionGenerated);
+    }
+
+    @Override
+    public void newActions(List<RemoteAction> newActions) {
+        bottleneck.tryDo( () -> manageActions(newActions));
+    }
+
+    @Override
+    protected void connect() throws IOException {
         this.server = TCPClient.connect(serverName, serverPort);
     }
 
@@ -41,24 +52,23 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         else {
             boolean isHost = server.in().getBool();
             if (isHost) {
-                view.getLogin().gameMapEvent.addEventHandler((a, b) -> bottleneck.tryDo(this::waitForMessage));
+                view.getLogin().gameMapEvent.addEventHandler((a, b) -> bottleneck.tryDo(this::waitForMatchStart));
                 view.getLogin().notifyHost(true);
             } else {
                 view.getLogin().notifyHost(false);
-                waitForMessage();
+                waitForMatchStart();
             }
         }
     }
 
-    private void waitForMessage() throws IOException, ClassNotFoundException {
-        String message = server.in().getObject();
-        while(!message.equals(AdrenalineServerSocket.MATCH_STARTED_MESSAGE)) {
-            newMessage(message);
-            message = server.in().getObject();
-        }
-        MatchSnapshot matchSnapshot = server.in().getObject();
-        matchStart(matchSnapshot);
+    private void waitForMatchStart() throws IOException, ClassNotFoundException {
+        do{
+            newMessage(server.in().getObject());
+        }while(!matchStarted);
+        view.loginCompleted();
+        waitForActions();
     }
+
 
     @Override
     protected void notifyName(String name) throws IOException, ClassNotFoundException {
@@ -69,12 +79,20 @@ public class AdrenalineClientSocket extends AdrenalineClient {
             view.getLogin().notifyAvailableColor(server.in().getObject());
     }
 
-    private void manageActions(List<RemoteActionSocket> options) throws IOException, ClassNotFoundException {
-        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> bottleneck.tryDo( () -> options.get(choice).initialize(server))); //communicates choice to server
-        view.getActionHandler().chooseAction(new ArrayList<>(options));
+    @Override
+    protected void stopPing() {
+        server.stopPinging();
     }
 
-    protected void waitForAction() throws IOException, ClassNotFoundException {
-            manageActions(server.in().getObject());
+
+    private void manageActions(List<RemoteAction> options) throws IOException, ClassNotFoundException {
+        view.getActionHandler().chooseAction(options);
+    }
+
+    private void waitForActions() throws IOException, ClassNotFoundException {
+        MatchSnapshot matchSnapshots = server.in().getObject();
+        List<RemoteAction> actions = server.in().getObject();
+        modelChanged(matchSnapshots);
+        newActions(actions);
     }
 }

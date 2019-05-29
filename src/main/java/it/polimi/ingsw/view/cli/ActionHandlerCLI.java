@@ -20,9 +20,9 @@ public class ActionHandlerCLI extends ActionHandler {
         ArrayList<String> discardablePowerUps;
         int index;
 
-        CLIMessenger.displayActions((ArrayList<RemoteAction>) options);
+        CLIMessenger.displayActions(options);
         int choice = CLIParser.parser.parseIndex(options.size());
-        ((Event<ActionHandler, Integer>)choiceEvent).invoke(this, choice);
+        ((Event<ActionHandler, RemoteAction>)choiceEvent).invoke(this, options.get(choice));
         action = options.get(choice);
         do {
             targetPlayers = (ArrayList<String>) action.getPossiblePlayers();
@@ -69,6 +69,7 @@ public class ActionHandlerCLI extends ActionHandler {
                 doneAction = true;
             }
         }
+        ((Event<ActionHandler, RemoteAction>)actionDoneEvent).invoke(this, action);
     }
 
     @Override

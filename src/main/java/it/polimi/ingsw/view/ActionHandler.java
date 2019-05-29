@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class ActionHandler extends ViewElement
 {
-    public final IEvent<ActionHandler, Integer> choiceEvent = new Event<>();
-
+    public final IEvent<ActionHandler, RemoteAction> choiceEvent = new Event<>();
+    public final IEvent<ActionHandler, RemoteAction> actionDoneEvent = new Event<>();
     public abstract void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException;
 }

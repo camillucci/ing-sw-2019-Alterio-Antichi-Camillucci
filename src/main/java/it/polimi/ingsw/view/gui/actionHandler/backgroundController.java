@@ -5,8 +5,10 @@ import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class backgroundController implements Ifxml<AnchorPane> {
+    @FXML private VBox vBox;
     @FXML private AnchorPane anchorPane;
 
     @Override

@@ -1,19 +1,26 @@
 package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.network.AdrenalineClient;
 import it.polimi.ingsw.network.IAdrenalineServer;
-import it.polimi.ingsw.network.IRemoteActionHandler;
+import it.polimi.ingsw.network.IActionHandler;
+import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdrenalineClientRMI extends AdrenalineClient {
+public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAdrenalineClient{
     private IAdrenalineServer server;
-    private IRemoteActionHandler remoteActionHandler;
+    private IActionHandler remoteActionHandler;
 
     public AdrenalineClientRMI(String serverName, int serverPort, View view) {
         super(serverName, serverPort, view);
+    }
+
+    @Override
+    public void setRemoteActionHandler(IActionHandler remoteActionHandler) throws RemoteException {
+        this.remoteActionHandler = remoteActionHandler;
     }
 
     @Override
@@ -23,6 +30,17 @@ public class AdrenalineClientRMI extends AdrenalineClient {
         view.getLogin().colorEvent.addEventHandler((a, color) -> bottleneck.tryDo(() -> notifyColor(color)));
         view.getLogin().gameLengthEvent.addEventHandler((a, len) -> bottleneck.tryDo(() -> server.setGameLength(len)));
         view.getLogin().gameMapEvent.addEventHandler((a, map) -> bottleneck.tryDo(() -> server.setGameMap(map)));
+        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> bottleneck.tryDo( () -> ((RemoteActionRMI)choice).initialize(remoteActionHandler))); //communicates choice to server
+    }
+
+    @Override
+    protected void startPing() {
+
+    }
+
+    @Override
+    public void newActions(List<RemoteAction> newActions) {
+        bottleneck.tryDo( () ->  manageActions(newActions));
     }
 
     @Override
@@ -59,8 +77,12 @@ public class AdrenalineClientRMI extends AdrenalineClient {
             view.getLogin().notifyAvailableColor(server.availableColors());
     }
 
-    protected void manageActions(List<RemoteActionRMI> options) throws IOException, ClassNotFoundException {
-        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> bottleneck.tryDo( () -> options.get(choice).initialize(remoteActionHandler))); //communicates choice to server
-        view.getActionHandler().chooseAction(new ArrayList<>(options));
+    @Override
+    protected void stopPing() {
+
+    }
+
+    protected void manageActions(List<RemoteAction> options) throws IOException, ClassNotFoundException {
+       view.getActionHandler().chooseAction(new ArrayList<>(options));
     }
 }

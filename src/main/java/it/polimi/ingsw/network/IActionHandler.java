@@ -1,15 +1,11 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.generics.IEvent;
-
-import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface IRemoteActionHandler extends Remote
-{
-    IEvent<RemoteActionsHandler, List<RemoteAction>> getNewActionsEvent() throws IOException;
+public interface IActionHandler extends Remote {
+
     void chooseAction(int index) throws RemoteException;
     void doAction() throws RemoteException;
     void addTargetPlayer(int index) throws RemoteException;
@@ -23,3 +19,4 @@ public interface IRemoteActionHandler extends Remote
     List<String> getDiscardablePowerUps() throws RemoteException;
     boolean canBeDone() throws RemoteException;
 }
+

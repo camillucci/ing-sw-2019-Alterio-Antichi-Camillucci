@@ -7,6 +7,10 @@ public class InputStreamUtils implements Closeable, InputInterface
 {
     public final IEvent<InputStreamUtils, InputStreamUtils> streamFailEvent = new Event<>();
     private InputStream stream;
+    public final static int DATA = 0;
+    public final static int PING = 1;
+    private int count = 0;
+
     public InputStreamUtils(InputStream inputStream)
     {
         this.stream = inputStream;
@@ -112,11 +116,17 @@ public class InputStreamUtils implements Closeable, InputInterface
         return buffer.getInt();
     }
 
-    private <T, E extends Exception> T get(GetInterface<T, E> getFunc) throws IOException, E
+    private synchronized  <T, E extends Exception> T get(GetInterface<T, E> getFunc) throws IOException, E
     {
         try
         {
-            return getFunc.get();
+            if(count == 0)
+                while (stream.read() == PING)
+                    ;
+            count++;
+            T ret = getFunc.get();
+            count--;
+            return  ret;
         }
         catch(IOException ecc)
         {
@@ -125,11 +135,16 @@ public class InputStreamUtils implements Closeable, InputInterface
         }
     }
 
-    private void get(StreamActionInterface getFunc) throws IOException
+    private synchronized void get(StreamActionInterface getFunc) throws IOException
     {
         try
         {
+            if(count == 0)
+                while (stream.read() != DATA)
+                    ;
+            count++;
             getFunc.invoke();
+            count--;
         }
         catch(IOException ecc)
         {
