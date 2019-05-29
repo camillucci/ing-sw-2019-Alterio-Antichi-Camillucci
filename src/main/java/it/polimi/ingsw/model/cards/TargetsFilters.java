@@ -62,7 +62,7 @@ public class TargetsFilters {
         if(alreadyAdded.size() >= maxTargets)
             return Collections.emptyList();
         List<Square> temp = player.gameBoard.getAwaySquares(player, minDistance);
-        return player.gameBoard.removeNonPlayerSquares(player, temp);
+        temp = player.gameBoard.removeNonPlayerSquares(player, temp);
         temp.removeAll(alreadyAdded);
         return temp;
     }

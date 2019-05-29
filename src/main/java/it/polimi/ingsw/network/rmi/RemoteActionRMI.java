@@ -50,6 +50,11 @@ public class RemoteActionRMI extends RemoteAction
     }
 
     @Override
+    public void addDiscardableAmmo(String ammo) throws IOException {
+        //TODO
+    }
+
+    @Override
     public void doAction() throws RemoteException
     {
         remoteActionsHandler.doAction();
@@ -83,6 +88,18 @@ public class RemoteActionRMI extends RemoteAction
         List<String> ret = remoteActionsHandler.getDiscardablePowerUps();
         this.discardablePowerUps = new ArrayList<>(ret);
         return ret;
+    }
+
+    @Override
+    public List<String> getDiscardableAmmos() throws IOException, ClassNotFoundException {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public List<String> getPossibleWeapons() throws IOException, ClassNotFoundException {
+        //TODO
+        return null;
     }
 
     @Override

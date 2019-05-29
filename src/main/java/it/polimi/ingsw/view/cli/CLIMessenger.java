@@ -251,21 +251,21 @@ public class CLIMessenger {
         }
     }
 
-    public static int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
-        int j = targetPlayers.size();
-        for(int i = 0; i < targetPlayers.size(); i++) {
-            display(PRESS + i + " if you want to target player " + targetPlayers.get(i));
-        }
-        for(int i = 0; i < targetSquares.size(); i++) {
-            j = i + targetPlayers.size();
+    public static int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares, ArrayList<String> usablePowerUps, ArrayList<String> discardablePowerUps) {
+        int j = 0;
+        for(int i = 0; i < targetPlayers.size(); i++, j++)
+            display(PRESS + j + " if you want to target player " + targetPlayers.get(i));
+        for(int i = 0; i < targetSquares.size(); i++, j++)
             display(PRESS + j + " if you want to target square " + targetSquares.get(i));
-        }
-
+        for(int i = 0; i < usablePowerUps.size(); i++, j++)
+            display(PRESS + j + " if you want to use " + targetSquares.get(i));
+        for(int i = 0; i < discardablePowerUps.size(); i++, j++)
+            display(PRESS + j + " if you want to discard " + targetSquares.get(i));
         return j;
     }
 
-    public static void displayTargetsAndAction(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
-        int temp = displayTargets(targetPlayers, targetSquares);
+    public static void displayTargetsAndAction(ArrayList<String> targetPlayers, ArrayList<String> targetSquares, ArrayList<String> usablePowerUps, ArrayList<String> discardablePowerUps) {
+        int temp = displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
         display(PRESS + temp + " if you want to execute action with previously selected targets");
     }
 
