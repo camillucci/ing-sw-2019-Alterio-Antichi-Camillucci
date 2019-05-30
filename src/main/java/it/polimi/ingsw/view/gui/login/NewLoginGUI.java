@@ -125,7 +125,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
             if(colorChoiceErrorsCOunter++ > 0)
                 robotSpeak("Something has gone wrong", () -> robotSpeak("Please, try again!"));
             else
-                robotSpeak("Great! what's your favourite color?");
+                robotSpeak("Great! Now choose a character!");
             enable();
             colorChoiceController = ColorChoiceController.getController();
             setBottomVBox(colorChoiceController.getRoot());
