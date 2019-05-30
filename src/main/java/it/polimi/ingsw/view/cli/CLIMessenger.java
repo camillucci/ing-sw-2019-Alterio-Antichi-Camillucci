@@ -119,8 +119,33 @@ public class CLIMessenger {
 
     public static void askGameMap() {
         display("Choose one of the following maps:", true);
-        display("todo show maps", true);
-        //TODO add maps to show
+        display("0 ╔══════════════════╦══════════════════╦══════════════════╗                    1 ╔══════════════════╦══════════════════╦══════════════════╦══════════════════╗");
+        display("  ║                                                        ║                      ║                                                        ╩                  ║");
+        display("  ║                                                        ║                      ║                                                                           ║");
+        display("  ║                                                        ║                      ║                                                        ╦                  ║");
+        display("  ╠══════╣    ╠══════╬══════════════════╬══════╣    ╠══════╬══════════════════╗   ╠══════╣    ╠══════╬══════════════════╬══════╣    ╠══════╬══════╣    ╠══════╣");
+        display("  ║                                                        ╩                  ║   ║                                     ║                                     ║");
+        display("  ║                                                                           ║   ║                                     ║                                     ║");
+        display("  ║                                                        ╦                  ║   ║                                     ║                                     ║");
+        display("  ╚══════════════════╬══════╣    ╠══════╬══════════════════╬══              ══╣   ╚══════════════════╬══════╣    ╠══════╬══              ══╬══              ══╣");
+        display("                     ║                                     ╩                  ║                      ║                  ╩                                     ║");
+        display("                     ║                                                        ║                      ║                                                        ║");
+        display("                     ║                                     ╦                  ║                      ║                  ╦                                     ║");
+        display("                     ╚══════════════════╩══════════════════╩══════════════════╝                      ╚══════════════════╩══════════════════╩══════════════════╝");
+        display("");
+        display("2 ╔══════════════════╦══════════════════╦══════════════════╗                    3 ╔══════════════════╦══════════════════╦══════════════════╦══════════════════╗");
+        display("  ║                  ╩                                     ║                      ║                  ╩                                     ╩                  ║");
+        display("  ║                                                        ║                      ║                                                                           ║");
+        display("  ║                  ╦                                     ║                      ║                  ╦                                     ╦                  ║");
+        display("  ╠══              ══╬══════╣    ╠══════╬══════╣    ╠══════╬══════════════════╗   ╠══════╣    ╠══════╬══════╣    ╠══════╬══════╣    ╠══════╬══════╣    ╠══════╣");
+        display("  ║                  ║                                     ╩                  ║   ║                  ║                  ║                                     ║");
+        display("  ║                  ║                                                        ║   ║                  ║                  ║                                     ║");
+        display("  ║                  ║                                     ╦                  ║   ║                  ║                  ║                                     ║");
+        display("  ╠══════╣    ╠══════╬══════╣    ╠══════╬══════════════════╬══              ══╣   ╠══════╣    ╠══════╬══════╣    ╠══════╬══              ══╬══              ══╣");
+        display("  ║                                                        ╩                  ║   ║                                     ╩                                     ║");
+        display("  ║                                                                           ║   ║                                                                           ║");
+        display("  ║                                                        ╦                  ║   ║                                     ╦                                     ║");
+        display("  ╚══════════════════╩══════════════════╩══════════════════╩══════════════════╝   ╚══════════════════╩══════════════════╩══════════════════╩══════════════════╝");
     }
 
     public static void matchStart() {
@@ -245,27 +270,27 @@ public class CLIMessenger {
     //------------------------------------------------------------------------------------------------------------------
     // DISPLAY ACTIONS AND TARGETS
 
-    public static void displayActions(ArrayList<RemoteAction> options) {
+    public static void displayActions(List<RemoteAction> options) {
         for(int i = 0; i < options.size(); i++){
             display(PRESS + i + " if you want to execute action" + options.get(i).toString());
         }
     }
 
-    public static int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
-        int j = targetPlayers.size();
-        for(int i = 0; i < targetPlayers.size(); i++) {
-            display(PRESS + i + " if you want to target player " + targetPlayers.get(i));
-        }
-        for(int i = 0; i < targetSquares.size(); i++) {
-            j = i + targetPlayers.size();
+    public static int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares, ArrayList<String> usablePowerUps, ArrayList<String> discardablePowerUps) {
+        int j = 0;
+        for(int i = 0; i < targetPlayers.size(); i++, j++)
+            display(PRESS + j + " if you want to target player " + targetPlayers.get(i));
+        for(int i = 0; i < targetSquares.size(); i++, j++)
             display(PRESS + j + " if you want to target square " + targetSquares.get(i));
-        }
-
+        for(int i = 0; i < usablePowerUps.size(); i++, j++)
+            display(PRESS + j + " if you want to use " + targetSquares.get(i));
+        for(int i = 0; i < discardablePowerUps.size(); i++, j++)
+            display(PRESS + j + " if you want to discard " + targetSquares.get(i));
         return j;
     }
 
-    public static void displayTargetsAndAction(ArrayList<String> targetPlayers, ArrayList<String> targetSquares) {
-        int temp = displayTargets(targetPlayers, targetSquares);
+    public static void displayTargetsAndAction(ArrayList<String> targetPlayers, ArrayList<String> targetSquares, ArrayList<String> usablePowerUps, ArrayList<String> discardablePowerUps) {
+        int temp = displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
         display(PRESS + temp + " if you want to execute action with previously selected targets");
     }
 
@@ -275,13 +300,13 @@ public class CLIMessenger {
     private static void displayMap(MatchSnapshot matchSnapshot) {
         String[] mapBorder;
         if(matchSnapshot.gameBoardSnapshot.mapType == FIRST_MAP)
-            mapBorder = firstMap();
+            mapBorder = firstMap;
         else if(matchSnapshot.gameBoardSnapshot.mapType == SECOND_MAP)
-            mapBorder = secondMap();
+            mapBorder = secondMap;
         else if(matchSnapshot.gameBoardSnapshot.mapType == THIRD_MAP)
-            mapBorder = thirdMap();
+            mapBorder = thirdMap;
         else
-            mapBorder = fourthMap();
+            mapBorder = fourthMap;
         for(int i = 0; i < MAP_HEIGHT; i++) {
             display(mapBorder[i]);
             displaySquareLine(matchSnapshot.gameBoardSnapshot.squareSnapshots[i]);
@@ -290,41 +315,33 @@ public class CLIMessenger {
         display("");
     }
 
-    private static String[] firstMap() {
-        return new String[] {
-                TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
-                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + TOP_RIGHT,
-                BOTTOM_LEFT + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_ROOM + RIGHT,
-                BLANK + blanks(MAX_SIZE_SQUARE) + BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
-        };
-    }
+    private static String[] firstMap = {
+            TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
+            LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + TOP_RIGHT,
+            BOTTOM_LEFT + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_ROOM + RIGHT,
+            BLANK + blanks(MAX_SIZE_SQUARE) + BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
+    };
 
-    private static String[] secondMap() {
-        return new String[] {
-                TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
-                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + RIGHT,
-                BOTTOM_LEFT + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_ROOM + RIGHT,
-                BLANK + blanks(MAX_SIZE_SQUARE) + BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
-        };
-    }
+    private static String[] secondMap = {
+            TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
+            LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + RIGHT,
+            BOTTOM_LEFT + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_ROOM + RIGHT,
+            BLANK + blanks(MAX_SIZE_SQUARE) + BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
+    };
 
-    private static String[] thirdMap() {
-        return new String[] {
-                TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
-                LEFT + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + TOP_RIGHT,
-                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_ROOM + RIGHT,
-                BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
-        };
-    }
+    private static String[] thirdMap = {
+            TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
+            LEFT + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + TOP_RIGHT,
+            LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_WALL + MIDDLE + HORIZONTAL_ROOM + RIGHT,
+            BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
+    };
 
-    private static String[] fourthMap() {
-        return new String[] {
-                TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
-                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + RIGHT,
-                LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_ROOM + RIGHT,
-                BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
-        };
-    }
+    private static String[] fourthMap = {
+            TOP_LEFT + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP + HORIZONTAL_WALL + TOP_RIGHT,
+            LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + RIGHT,
+            LEFT + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_DOOR + MIDDLE + HORIZONTAL_ROOM + MIDDLE + HORIZONTAL_ROOM + RIGHT,
+            BOTTOM_LEFT + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM + HORIZONTAL_WALL + BOTTOM_RIGHT
+    };
 
     private static void displaySquareLine(SquareSnapshot[] squareSnapshots) {
         for(int i = 1; i <= SQUARE_LINES; i++)

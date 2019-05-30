@@ -1,38 +1,59 @@
 package it.polimi.ingsw.network.rmi;
-import it.polimi.ingsw.network.AdrenalineClient;
-import it.polimi.ingsw.network.IAdrenalineServer;
-import it.polimi.ingsw.network.IRemoteActionHandler;
+import it.polimi.ingsw.network.*;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdrenalineClientRMI extends AdrenalineClient {
-    private IAdrenalineServer server;
-    private IRemoteActionHandler remoteActionHandler;
+public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAdrenalineClient {
+    private IRMIAdrenalineServer server;
+    private IActionHandler remoteActionHandler;
+    private boolean stopPinging = true;
+    private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
+        while(!getStopPinging()) {
+            server.ping();
+            Thread.sleep(PING_PERIOD);
+        }
+    }));
 
     public AdrenalineClientRMI(String serverName, int serverPort, View view) {
         super(serverName, serverPort, view);
     }
+    public void initialize(IRMIAdrenalineServer server)
+    {
+        this.server = server;
+    }
 
     @Override
-    protected void setupView()
-    {
-        view.getLogin().nameEvent.addEventHandler((a, name) -> bottleneck.tryDo( () -> notifyName(name)));
-        view.getLogin().colorEvent.addEventHandler((a, color) -> bottleneck.tryDo(() -> notifyColor(color)));
-        view.getLogin().gameLengthEvent.addEventHandler((a, len) -> bottleneck.tryDo(() -> server.setGameLength(len)));
-        view.getLogin().gameMapEvent.addEventHandler((a, map) -> bottleneck.tryDo(() -> server.setGameMap(map)));
+    public void setRemoteActionHandler(IActionHandler remoteActionHandler) throws RemoteException {
+        this.remoteActionHandler = remoteActionHandler;
+    }
+
+    @Override
+    public void ping() {
+        // called by server periodically to test connection
     }
 
     @Override
     protected void connect() throws IOException, NotBoundException {
-        server = RMIClient.<IAdrenalineServer, ICallbackAdrenalineClient>connect(serverName, serverPort, this).server;
+        server = RMIClient.<IRMIAdrenalineServer, ICallbackAdrenalineClient>connect(serverName, serverPort, this).server;
     }
 
-    public void initialize(IAdrenalineServer server)
-    {
-        this.server = server;
+    @Override
+    protected void startPing() {
+        if(pingingThread.getState() != Thread.State.TERMINATED)
+            return;
+        pingingThread.start();
+    }
+
+    @Override
+    protected void notifyName(String name) throws IOException {
+        boolean accepted = server.setName(name);
+        view.getLogin().notifyAccepted(accepted);
+        if(accepted)
+            view.getLogin().notifyAvailableColor(server.availableColors());
     }
 
     @Override
@@ -52,15 +73,42 @@ public class AdrenalineClientRMI extends AdrenalineClient {
     }
 
     @Override
-    protected void notifyName(String name) throws IOException {
-        boolean accepted = server.setName(name);
-        view.getLogin().notifyAccepted(accepted);
-        if(accepted)
-            view.getLogin().notifyAvailableColor(server.availableColors());
+    protected void notifyGameLength(int gameLength) throws IOException {
+        server.setGameLength(gameLength);
     }
 
-    protected void manageActions(List<RemoteActionRMI> options) throws IOException, ClassNotFoundException {
-        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> bottleneck.tryDo( () -> options.get(choice).initialize(remoteActionHandler))); //communicates choice to server
-        view.getActionHandler().chooseAction(new ArrayList<>(options));
+    @Override
+    protected void notifyGameMap(int gameMap) throws IOException {
+        server.setGameMap(gameMap);
+    }
+
+    @Override
+    protected void stopPing()
+    {
+        if(pingingThread.getState() == Thread.State.TERMINATED)
+            return;
+        setStopPinging(true);
+        try {
+            pingingThread.join();
+        } catch (InterruptedException e) {
+            //todo
+        }
+    }
+
+    private synchronized void setStopPinging(boolean value){
+        stopPinging = value;
+    }
+    private synchronized boolean getStopPinging(){
+        return stopPinging;
+    }
+
+    @Override
+    public void newActions(List<RemoteAction> newActions) throws IOException, ClassNotFoundException {
+        view.getActionHandler().chooseAction(new ArrayList<>(newActions));
+    }
+
+    @Override
+    protected void initializeAction(RemoteAction action) throws RemoteException {
+        ((RemoteActionRMI)action).initialize(remoteActionHandler); //communicates choice to server
     }
 }

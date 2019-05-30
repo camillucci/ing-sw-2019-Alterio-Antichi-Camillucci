@@ -56,6 +56,7 @@ public class Room
 
     private synchronized void startMatch(){
         match = new Match(playerNames, playerColors, gameLength, gameSize);
+        match.start();
         matchManager = new MatchManager(match, this);
         ((Event<Room, Match>)matchStartedEvent).invoke(this, match);
     }

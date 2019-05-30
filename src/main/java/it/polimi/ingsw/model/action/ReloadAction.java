@@ -26,15 +26,23 @@ public class ReloadAction extends Action
     @Override
     public void addWeapon(WeaponCard weapon)
     {
-        Ammo powerUpAmmo = new Ammo(0, 0, 0);
-        for(PowerUpCard pu : ownerPlayer.getPowerUps())
-            powerUpAmmo = powerUpAmmo.add(pu.colorToAmmo());
-        if(ownerPlayer.getAmmo().sub(doActionCost).add(powerUpAmmo).isGreaterOrEqual(weapon.reloadCost))
-        {
+        if(getPossibleWeapons().contains(weapon)) {
             this.doActionCost = this.doActionCost.add(weapon.reloadCost);
             this.selectedWeapons.add(weapon);
             this.canBeDone = true;
         }
+    }
+
+    @Override
+    public List<WeaponCard> getPossibleWeapons() {
+        Ammo powerUpAmmo = new Ammo(0, 0, 0);
+        for(PowerUpCard pu : ownerPlayer.getPowerUps())
+            powerUpAmmo = powerUpAmmo.add(pu.colorToAmmo());
+        List<WeaponCard> temp = new ArrayList<>();
+        for(WeaponCard weapon : ownerPlayer.getUnloadedWeapons())
+            if(ownerPlayer.getAmmo().sub(doActionCost).add(powerUpAmmo).isGreaterOrEqual(weapon.reloadCost))
+                temp.add(weapon);
+        return temp;
     }
 
     @Override

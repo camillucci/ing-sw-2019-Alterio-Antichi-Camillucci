@@ -1,24 +1,28 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
+import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AdrenalineServerSocket extends AdrenalineServer
 {
     private TCPClient client;
-    private RemoteActionsHandlerSocket remoteActionsHandler;
-    private Logger logger = Logger.getLogger("adrenalineServerSocket");
+    //private Logger logger = Logger.getLogger("adrenalineServerSocket");
 
     public AdrenalineServerSocket(TCPClient client, Controller controller)
     {
         super(controller);
         this.client = client;
+        startPinging();
     }
 
     public void start() {
@@ -26,7 +30,8 @@ public class AdrenalineServerSocket extends AdrenalineServer
             login();
         }
         catch(IOException | ClassNotFoundException e){
-            logger.log(Level.WARNING, e.getMessage());
+            e.printStackTrace();
+            //logger.log(Level.WARNING, e.getMessage());
         }
     }
 
@@ -50,14 +55,32 @@ public class AdrenalineServerSocket extends AdrenalineServer
     }
 
     @Override
+    protected void startPinging() {
+        client.startPinging(PING_PERIOD, this::onExceptionGenerated);
+    }
+
+    @Override
+    protected void stopPinging() {
+        client.stopPinging();
+    }
+
+    @Override
+    protected void createActionHandler(Player curPlayer) {
+        this.remoteActionsHandler = new RemoteActionsHandlerSocket(curPlayer, client);
+    }
+
+    @Override
     protected void sendMessage(String message) throws IOException {
         client.out().sendObject(message);
     }
 
     @Override
-    protected void notifyMatchStarted(MatchSnapshot matchSnapshot) throws IOException {
-        sendMessage(MATCH_STARTED_MESSAGE);
-        client.out().sendObject(matchSnapshot);
+    protected void notifyMatchChanged(MatchSnapshot matchSnapshot) throws IOException {
+         client.out().sendObject(matchSnapshot);
     }
-    public static final String MATCH_STARTED_MESSAGE = "Match started\n";
+
+    @Override
+    protected void newActions(List<RemoteAction> actions) throws IOException {
+        client.out().sendObject(new ArrayList<>(actions));
+    }
 }

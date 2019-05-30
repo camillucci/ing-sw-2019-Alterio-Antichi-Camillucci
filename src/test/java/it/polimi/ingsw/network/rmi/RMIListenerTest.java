@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.AdrenalineLauncherClient;
 import it.polimi.ingsw.network.IAdrenalineServer;
+import it.polimi.ingsw.network.IRMIAdrenalineServer;
 import it.polimi.ingsw.view.cli.CLIParser;
 import it.polimi.ingsw.view.cli.CLIView;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,8 @@ class RMIListenerTest
     @Test
     void connectionTest() throws Exception
     {
-            RMIListener<IAdrenalineServer, ICallbackAdrenalineClient> listener = new RMIListener<>(1099, () -> new AdrenalineServerRMI(new Controller()));
-            RMIClient<IAdrenalineServer, ICallbackAdrenalineClient> client;
+            RMIListener<IRMIAdrenalineServer, ICallbackAdrenalineClient> listener = new RMIListener<>(1099, () -> new AdrenalineServerRMI(new Controller()));
+            RMIClient<IRMIAdrenalineServer, ICallbackAdrenalineClient> client;
 
             listener.newClientEvent.addEventHandler((a, b) -> n++);
             listener.start();

@@ -16,56 +16,69 @@ public class ActionHandlerCLI extends ActionHandler {
         RemoteAction action;
         ArrayList<String> targetPlayers;
         ArrayList<String> targetSquares;
+        ArrayList<String> usablePowerUps;
+        ArrayList<String> discardablePowerUps;
         int index;
 
-        CLIMessenger.displayActions((ArrayList<RemoteAction>) options);
+        CLIMessenger.displayActions(options);
         int choice = CLIParser.parser.parseIndex(options.size());
-        ((Event<ActionHandler, Integer>)choiceEvent).invoke(this, choice);
+        ((Event<ActionHandler, RemoteAction>)choiceEvent).invoke(this, options.get(choice));
         action = options.get(choice);
         do {
             targetPlayers = (ArrayList<String>) action.getPossiblePlayers();
             targetSquares = (ArrayList<String>) action.getPossibleSquares();
-            CLIMessenger.displayTargets(targetPlayers, targetSquares); //displays targets available
-            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size()); //user's target of choice
+            usablePowerUps = (ArrayList<String>) action.getPossiblePowerups();
+            discardablePowerUps = (ArrayList<String>) action.getDiscardablePowerups();
+            CLIMessenger.displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps); //displays targets available
+            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size()); //user's target of choice
             while (index == -1) {
                 CLIMessenger.incorrectInput();
-                CLIMessenger.displayTargets(targetPlayers, targetSquares);
-                index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size());
+                CLIMessenger.displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
+                index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size());
             }
-            if (index < targetPlayers.size())
+            if(index < targetPlayers.size())
                 action.addTargetPlayer(targetPlayers.get(index));
-            else
+            else if(index < targetPlayers.size() + targetSquares.size())
                 action.addTargetSquare(targetSquares.get(index - targetPlayers.size()));
+            else if(index < targetPlayers.size() + targetSquares.size() + usablePowerUps.size())
+                action.usePowerUp(usablePowerUps.get(index - targetPlayers.size() - targetSquares.size()));
+            else
+                action.addDiscardable(discardablePowerUps.get(index - targetPlayers.size() - targetSquares.size() - usablePowerUps.size()));
         }
         while(!(action.canBeDone()));
 
         boolean doneAction = false;
         while(!doneAction) {
-            CLIMessenger.displayTargetsAndAction(targetPlayers, targetSquares);
-            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + 1);
+            CLIMessenger.displayTargetsAndAction(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
+            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size() + 1);
             while(index == -1) {
                 CLIMessenger.incorrectInput();
-                CLIMessenger.displayTargetsAndAction(targetPlayers, targetSquares);
-                index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + 1);
+                CLIMessenger.displayTargetsAndAction(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
+                index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size() + 1);
             }
             if (index < targetPlayers.size())
                 action.addTargetPlayer(targetPlayers.get(index));
             else if(index < targetPlayers.size() + targetSquares.size())
                 action.addTargetSquare(targetSquares.get(index - targetPlayers.size()));
+            else if(index < targetPlayers.size() + targetSquares.size() + usablePowerUps.size())
+                action.usePowerUp(usablePowerUps.get(index - targetPlayers.size() - targetSquares.size()));
+            else if(index < targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size())
+                action.addDiscardable(discardablePowerUps.get(index - targetPlayers.size() - targetSquares.size() - usablePowerUps.size()));
             else {
                 action.doAction(); //communicates choice to server
                 doneAction = true;
             }
         }
+        ((Event<ActionHandler, RemoteAction>)actionDoneEvent).invoke(this, action);
     }
 
     @Override
     public void onNewMessage(String message) {
-        //TODO
+        CLIMessenger.printMessage(message);
     }
 
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
-        //TODO
+        CLIMessenger.updateView(matchSnapshot);
     }
 }

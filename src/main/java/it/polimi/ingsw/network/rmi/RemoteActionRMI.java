@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.network.IRemoteActionHandler;
+import it.polimi.ingsw.network.IActionHandler;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
@@ -10,13 +10,13 @@ import java.util.List;
 
 public class RemoteActionRMI extends RemoteAction
 {
-    private IRemoteActionHandler remoteActionsHandler;
+    private transient IActionHandler remoteActionsHandler;
 
     public RemoteActionRMI(int index){
         super(index);
     }
 
-    public void initialize(IRemoteActionHandler remoteActionsHandler) throws RemoteException
+    public void initialize(IActionHandler remoteActionsHandler) throws RemoteException
     {
         this.remoteActionsHandler = remoteActionsHandler;
         remoteActionsHandler.chooseAction(this.index);
@@ -47,6 +47,11 @@ public class RemoteActionRMI extends RemoteAction
     @Override
     public void addWeapon(String weapon) throws IOException {
         remoteActionsHandler.addWeapon(ownerPlayer.getUnloadedWeapons().indexOf(weapon));
+    }
+
+    @Override
+    public void addDiscardableAmmo(String ammo) throws IOException {
+        //TODO
     }
 
     @Override
@@ -83,6 +88,18 @@ public class RemoteActionRMI extends RemoteAction
         List<String> ret = remoteActionsHandler.getDiscardablePowerUps();
         this.discardablePowerUps = new ArrayList<>(ret);
         return ret;
+    }
+
+    @Override
+    public List<String> getDiscardableAmmos() throws IOException, ClassNotFoundException {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public List<String> getPossibleWeapons() throws IOException, ClassNotFoundException {
+        //TODO
+        return null;
     }
 
     @Override

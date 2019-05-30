@@ -15,7 +15,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 
-public class LoginTest {
+class LoginTest {
+    private final boolean SOCKET_TESTING = false;
     private final boolean REMOTE_TESTING = false;
     private final boolean GUI_TEST = false;
     static int j = 0;
@@ -64,6 +65,8 @@ public class LoginTest {
 
     @Test
     void multiple_loginRMI_CLI() throws IOException, InterruptedException {
+        if(!REMOTE_TESTING)
+            return;
         String serverInput = "1\n";
         PipedOutputStream serverStreamWrite = new PipedOutputStream();
         InputStream serverStreamRead = new PipedInputStream(serverStreamWrite);
@@ -71,15 +74,15 @@ public class LoginTest {
         server.setInputStream(serverStreamRead);
         (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
         Thread.sleep(300);
-        for(int i=0; i < 4; i++) {
+        for(int i=0; i < 2; i++) {
             Bot.login(Bot.getLoginString(i+1), false, "127.0.0.1", 10004);
-            //Thread.sleep(3000);
         }
-        Thread.sleep(9000);
     }
 
     @Test
     void multiple_loginSocket_CLI() throws IOException, InterruptedException {
+        if(!SOCKET_TESTING)
+            return;
         String serverInput = "1\n";
         PipedOutputStream serverStreamWrite = new PipedOutputStream();
         InputStream serverStreamRead = new PipedInputStream(serverStreamWrite);
@@ -87,12 +90,11 @@ public class LoginTest {
         server.setInputStream(serverStreamRead);
         (new Thread(() -> bottleneck.tryDo(() -> server.start()))).start();
         Thread.sleep(300);
-        for(int i=0; i < 5; i++) {
+        for(int i=0; i < 2; i++) {
             (new Thread(() -> Bot.login(Bot.getLoginString(++j), true, "127.0.0.1", 10005))).start();
             Thread.sleep(1000);
         }
         j = 0;
-        Thread.sleep(3000);
     }
 
     @Test

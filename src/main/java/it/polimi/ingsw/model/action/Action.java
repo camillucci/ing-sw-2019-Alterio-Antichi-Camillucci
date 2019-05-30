@@ -94,6 +94,7 @@ public class Action
     public List<PowerUpCard> getPossiblePowerUps() { return Collections.emptyList(); }
     public List<PowerUpCard> getDiscardablePowerUps() { return Collections.emptyList(); }
     public List<Ammo> getDiscardableAmmos() { return Collections.emptyList(); }
+    public List<WeaponCard> getPossibleWeapons() { return Collections.emptyList(); }
 
     public Player getOwnerPlayer() { return this.ownerPlayer; }
 
