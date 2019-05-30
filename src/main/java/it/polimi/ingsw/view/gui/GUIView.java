@@ -37,6 +37,7 @@ public class GUIView extends View
         }
         setupStage();
         this.curViewElement = this.login = NewLoginGUI.createLoginScene(app);
+        this.actionHandler = new ActionHandlerGUI();
     }
 
     private void setupStage(){

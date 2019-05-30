@@ -4,7 +4,7 @@ public abstract class View
 {
     protected ViewElement curViewElement;
     protected Login login;
-    private ActionHandler actionHandler;
+    protected ActionHandler actionHandler;
 
     protected View(){}
     protected View (Login login, ActionHandler actionHandler){

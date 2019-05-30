@@ -1,5 +1,4 @@
 package it.polimi.ingsw.network;
-
 import it.polimi.ingsw.AdrenalineLauncherClient;
 import it.polimi.ingsw.AdrenalineLauncherServer;
 import it.polimi.ingsw.controller.Controller;
@@ -9,7 +8,6 @@ import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
 import it.polimi.ingsw.network.rmi.RMIListener;
 import it.polimi.ingsw.view.cli.CLIParser;
 import org.junit.jupiter.api.Test;
-
 import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -18,7 +16,7 @@ import java.rmi.RemoteException;
 class LoginTest {
     private final boolean SOCKET_TESTING = false;
     private final boolean REMOTE_TESTING = false;
-    private final boolean GUI_TEST = false;
+    private final boolean GUI_TEST = true;
     static int j = 0;
     Bottleneck bottleneck = new Bottleneck();
     @Test
@@ -120,7 +118,6 @@ class LoginTest {
         (new Thread(() -> AdrenalineLauncherServer.main(new String[]{}))).start();
         Thread.sleep(300);
 
-
         AdrenalineLauncherClient.main(new String[]{});
 
         for(int h = 0; h < 1; h++, j=0)
@@ -130,7 +127,6 @@ class LoginTest {
             }
 
         Thread.sleep(2000000);
-
     }
 
     @Test

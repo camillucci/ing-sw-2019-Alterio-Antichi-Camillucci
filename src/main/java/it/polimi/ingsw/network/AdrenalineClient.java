@@ -25,7 +25,7 @@ public abstract class AdrenalineClient
     }
 
     protected synchronized void onExceptionGenerated(Exception exception){
-        view.getCurViewElement().onNewMessage("Disconnected");
+        view.getCurViewElement().onNewMessage("I'm sorry, you have been disconnected");
     }
 
     protected void setupView(){
