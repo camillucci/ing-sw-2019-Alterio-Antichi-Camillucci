@@ -14,11 +14,11 @@ public class TCPClient
 {
     public final IEvent<TCPClient, Object> disconnectedEvent = new Event<>();
     private Socket connectedSocket;
-    private Logger logger = Logger.getLogger("TCPClient");
     private Thread pingingBot;
     private boolean stopPinging = false;
     private InputStreamUtils in;
     private OutputStreamUtils out;
+    private Logger logger = Logger.getLogger("TCPClient");
 
     public InputStreamUtils in() throws IOException
     {
@@ -55,6 +55,9 @@ public class TCPClient
     }
 
     public void startPinging(int period, Consumer<Exception> onPingFail) {
+        if(pingingBot != null && pingingBot.getState() != Thread.State.TERMINATED)
+            return;
+
         pingingBot = new Thread(() -> {
             try {
                 while (!getStopPinging()) {
@@ -70,17 +73,17 @@ public class TCPClient
         pingingBot.start();
     }
 
-    public void stopPinging(){
+    public void stopPinging()
+    {
+        if(pingingBot == null || pingingBot.getState() == Thread.State.TERMINATED)
+            return;
 
-        if(pingingBot != null && pingingBot.getState() != Thread.State.TERMINATED){
-            setStopPinging(true);
-            try {
-                pingingBot.join();
-            } catch (InterruptedException e) {
-                //todo
-            }
+        setStopPinging(true);
+        try {
+            pingingBot.join();
+        } catch (InterruptedException e) {
+            //todo
         }
-
     }
 
     public void close()
@@ -93,10 +96,6 @@ public class TCPClient
         catch(IOException e) {
             logger.log(Level.WARNING, "IOException, Class TCPClient, Line 51", e);
         }
-    }
-
-    public void setName(String name) {
-        //TODO
     }
 }
 

@@ -24,7 +24,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private Room joinedRoom;
     private List<String> availableColors;
     private List<String> otherPlayers = new ArrayList<>();
-    private Bottleneck bottleneck = new Bottleneck();
+    protected Bottleneck bottleneck = new Bottleneck();
     protected Match match;
     private Player player;
     private int playerIndex;
@@ -36,44 +36,34 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
     private BiConsumer<Room, Match> matchStartedEventHandler = (a, match) -> bottleneck.tryDo( () -> onMatchStarted(match));
     private BiConsumer<Player, List<Action>> onNewActionsEventHandler = (a,b) -> bottleneck.tryDo( () -> onModelChanged(match));
-
-
-    private void onMatchStarted(Match match) throws IOException, ClassNotFoundException {
-        this.match = match;
-        setupMatchEvents();
-        List<Player> players = match.getPlayers();
-        for(int i=0; i < players.size(); i++)
-            if(players.get(i).name.equals(this.name))
-                this.player = players.get(playerIndex = i);
-        createActionHandler(player);
-        sendMessage(MATCH_STARTING_MESSAGE);
-        onModelChanged(match);
-    }
-
-    private void onModelChanged(Match match) throws IOException, ClassNotFoundException {
-        notifyMatchChanged(match.createSnapshot(playerIndex));
-        newActions(remoteActionsHandler.getRemoteActions(match.getPlayer(), match.getActions()));
-    }
-
-    protected abstract void notifyMatchChanged(MatchSnapshot matchSnapshot) throws IOException;
-    protected abstract void newActions(List<RemoteAction> actions) throws IOException, ClassNotFoundException;
-
-    private void setupMatchEvents(){
-        match.newActionsEvent.addEventHandler(onNewActionsEventHandler);
-    }
-
-    protected abstract void createActionHandler(Player curPlayer) throws RemoteException;
+    protected final static int PING_PERIOD = 1; // 1 millisecond to test synchronization todo change in final version
 
     public AdrenalineServer(Controller controller){
         this.controller = controller;
         bottleneck.exceptionGenerated.addEventHandler((a, exception) -> onExceptionGenerated(exception));
     }
 
-    private void onExceptionGenerated(Exception e){
+    protected void onExceptionGenerated(Exception e){
         removeEvents();
         controller.notifyPlayerDisconnected(name);
     }
+    private synchronized void notifyPlayerDisconnected(String name){
+        otherPlayers.remove(name);
+        bottleneck.tryDo(() -> sendMessage(playerDisconnectedMessage(name)));
+    }
 
+    protected abstract void startPinging();
+    protected abstract void stopPinging();
+
+    @Override
+    public boolean setName(String name)
+    {
+        if(controller.newPlayer(name)) {
+            this.name = name;
+            return true;
+        }
+        return false;
+    }
     @Override
     public List<String> availableColors()
     {
@@ -100,29 +90,19 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     @Override
-    public boolean setName(String name)
-    {
-        if(controller.newPlayer(name)) {
-            this.name = name;
-            return true;
-        }
-        return false;
+    public boolean isHost() {
+        return joinedRoom.isHost(name);
     }
 
     @Override
     public void setGameLength(int gameLength) {
         joinedRoom.setGameLength(gameLength);
     }
-
     @Override
     public void setGameMap(int choice) {
         joinedRoom.setGameSize(choice);
     }
 
-    @Override
-    public boolean isHost() {
-        return joinedRoom.isHost(name);
-    }
     private synchronized void notifyPlayer(String name){
         if(otherPlayers.contains(name))
             return;
@@ -130,10 +110,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         bottleneck.tryDo(() -> sendMessage(newPlayerMessage(name)));
     }
 
-    private synchronized void notifyPlayerDisconnected(String name){
-        otherPlayers.remove(name);
-        bottleneck.tryDo(() -> sendMessage(playerDisconnectedMessage(name)));
-    }
     @Override
     public void ready() {
         joinedRoom.notifyPlayerReady(name);
@@ -142,6 +118,29 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             notifyPlayer(name);
     }
 
+    private void onMatchStarted(Match match) throws IOException, ClassNotFoundException {
+        this.match = match;
+        setupMatchEvents();
+        List<Player> players = match.getPlayers();
+        for(int i=0; i < players.size(); i++)
+            if(players.get(i).name.equals(this.name))
+                this.player = players.get(playerIndex = i);
+        createActionHandler(player);
+        sendMessage(MATCH_STARTING_MESSAGE);
+        onModelChanged(match);
+        stopPinging();
+    }
+    private void onModelChanged(Match match) throws IOException, ClassNotFoundException {
+        notifyMatchChanged(match.createSnapshot(playerIndex));
+        newActions(remoteActionsHandler.getRemoteActions(match.getPlayer(), match.getActions()));
+    }
+    private void setupMatchEvents(){
+        match.newActionsEvent.addEventHandler(onNewActionsEventHandler);
+    }
+
+    protected abstract void createActionHandler(Player curPlayer) throws RemoteException;
+    protected abstract void notifyMatchChanged(MatchSnapshot matchSnapshot) throws IOException;
+    protected abstract void newActions(List<RemoteAction> actions) throws IOException, ClassNotFoundException;
     protected abstract void sendMessage(String message) throws IOException;
 
     private void removeEvents() {

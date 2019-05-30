@@ -19,14 +19,13 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     @Override
     protected void setupView()
     {
-        view.getLogin().nameEvent.addEventHandler((a, name) -> bottleneck.tryDo( () -> notifyName(name)));
-        view.getLogin().colorEvent.addEventHandler((a, color) -> bottleneck.tryDo(() -> notifyColor(color)));
-        view.getLogin().gameLengthEvent.addEventHandler((a, len) -> bottleneck.tryDo(() -> server.out().sendInt(len)));
-        view.getLogin().gameMapEvent.addEventHandler((a, map) -> bottleneck.tryDo(() -> server.out().sendInt(map)));
-        view.getLogin().rmiEvent.addEventHandler((a, choice) -> bottleneck.tryDo(() -> server.out().sendBool(choice)));
-        view.getLogin().socketEvent.addEventHandler((a, choice) -> bottleneck.tryDo(() -> server.out().sendBool(choice)));
-        view.getActionHandler().choiceEvent.addEventHandler((a, choice) -> bottleneck.tryDo( () -> ((RemoteActionSocket)choice).initialize(server))); //communicates choice to server
+        super.setupView();
         view.getActionHandler().actionDoneEvent.addEventHandler((a, choice) -> bottleneck.tryDo(this::waitForActions)); //communicates choice to server
+    }
+
+    @Override
+    protected void connect() throws IOException {
+        this.server = TCPClient.connect(serverName, serverPort);
     }
 
     @Override
@@ -35,13 +34,12 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     }
 
     @Override
-    public void newActions(List<RemoteAction> newActions) {
-        bottleneck.tryDo( () -> manageActions(newActions));
-    }
-
-    @Override
-    protected void connect() throws IOException {
-        this.server = TCPClient.connect(serverName, serverPort);
+    protected void notifyName(String name) throws IOException, ClassNotFoundException {
+        server.out().sendObject(name);
+        boolean accepted = server.in().getBool();
+        view.getLogin().notifyAccepted(accepted);
+        if(accepted)
+            view.getLogin().notifyAvailableColor(server.in().getObject());
     }
 
     @Override
@@ -61,22 +59,21 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         }
     }
 
+    @Override
+    protected void notifyGameLength(int gameLength) throws IOException {
+        server.out().sendInt(gameLength);
+    }
+
+    @Override
+    protected void notifyGameMap(int gameMap) throws IOException {
+        server.out().sendInt(gameMap);
+    }
+
     private void waitForMatchStart() throws IOException, ClassNotFoundException {
         do{
             newMessage(server.in().getObject());
         }while(!matchStarted);
-        view.loginCompleted();
         waitForActions();
-    }
-
-
-    @Override
-    protected void notifyName(String name) throws IOException, ClassNotFoundException {
-        server.out().sendObject(name);
-        boolean accepted = server.in().getBool();
-        view.getLogin().notifyAccepted(accepted);
-        if(accepted)
-            view.getLogin().notifyAvailableColor(server.in().getObject());
     }
 
     @Override
@@ -84,9 +81,14 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         server.stopPinging();
     }
 
+    @Override
+    public void newActions(List<RemoteAction> newActions) throws IOException, ClassNotFoundException {
+        view.getActionHandler().chooseAction(newActions);
+    }
 
-    private void manageActions(List<RemoteAction> options) throws IOException, ClassNotFoundException {
-        view.getActionHandler().chooseAction(options);
+    @Override
+    protected void initializeAction(RemoteAction action) throws IOException {
+        ((RemoteActionSocket)action).initialize(server);
     }
 
     private void waitForActions() throws IOException, ClassNotFoundException {

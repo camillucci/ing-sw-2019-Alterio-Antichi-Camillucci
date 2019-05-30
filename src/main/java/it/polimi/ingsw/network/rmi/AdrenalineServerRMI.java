@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
+import it.polimi.ingsw.network.IRMIAdrenalineServer;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
@@ -12,9 +13,15 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class AdrenalineServerRMI extends AdrenalineServer {
+public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenalineServer {
     private ICallbackAdrenalineClient client;
-    private RMIListener<AdrenalineServerRMI, ICallbackAdrenalineClient> listener;
+    private boolean stopPinging = true;
+    private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
+        while(!getStopPinging()) {
+            client.ping();
+            Thread.sleep(PING_PERIOD);
+        }
+    }));
 
     @Override
     protected void createActionHandler(Player curPlayer) throws RemoteException {
@@ -41,8 +48,49 @@ public class AdrenalineServerRMI extends AdrenalineServer {
     protected void newActions(List<RemoteAction> actions) throws IOException, ClassNotFoundException {
         client.newActions(actions);
     }
+
     public void initialize(ICallbackAdrenalineClient client)
     {
         this.client = client;
+        startPinging();
+    }
+
+    @Override
+    public void registerClient(ICallbackAdrenalineClient client) {
+        // todo next rmi changes
+    }
+
+    private synchronized boolean getStopPinging() {
+        return stopPinging;
+    }
+
+    private synchronized void setStopPinging(boolean stopPinging) {
+        this.stopPinging = stopPinging;
+    }
+
+    @Override
+    protected void startPinging()
+    {
+        if(pingingThread.getState() != Thread.State.TERMINATED)
+            return;
+        pingingThread.start();
+    }
+
+    @Override
+    protected void stopPinging()
+    {
+        if(pingingThread.getState() == Thread.State.TERMINATED)
+            return;
+        setStopPinging(true);
+        try {
+            pingingThread.join();
+        } catch (InterruptedException e) {
+            //todo
+        }
+    }
+
+    @Override
+    public void ping() {
+        // called by client to test connection
     }
 }

@@ -14,4 +14,5 @@ public interface ICallbackAdrenalineClient extends Remote {
     void modelChanged(MatchSnapshot matchSnapshot) throws RemoteException;
     void newActions(List<RemoteAction> newActions) throws IOException, ClassNotFoundException;
     void setRemoteActionHandler(IActionHandler remoteActionHandler) throws RemoteException;
+    void ping() throws RemoteException;
 }

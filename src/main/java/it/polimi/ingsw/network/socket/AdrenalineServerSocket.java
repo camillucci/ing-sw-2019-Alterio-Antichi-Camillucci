@@ -22,6 +22,7 @@ public class AdrenalineServerSocket extends AdrenalineServer
     {
         super(controller);
         this.client = client;
+        startPinging();
     }
 
     public void start() {
@@ -54,6 +55,16 @@ public class AdrenalineServerSocket extends AdrenalineServer
     }
 
     @Override
+    protected void startPinging() {
+        client.startPinging(PING_PERIOD, this::onExceptionGenerated);
+    }
+
+    @Override
+    protected void stopPinging() {
+        client.stopPinging();
+    }
+
+    @Override
     protected void createActionHandler(Player curPlayer) {
         this.remoteActionsHandler = new RemoteActionsHandlerSocket(curPlayer, client);
     }
@@ -72,7 +83,4 @@ public class AdrenalineServerSocket extends AdrenalineServer
     protected void newActions(List<RemoteAction> actions) throws IOException {
         client.out().sendObject(new ArrayList<>(actions));
     }
-
-
-    public static final String MATCH_STARTED_MESSAGE = "Match started\n";
 }
