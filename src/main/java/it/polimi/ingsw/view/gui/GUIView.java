@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.actionHandler.ActionHandlerGUI;
 import it.polimi.ingsw.view.gui.login.NewLoginGUI;
 import it.polimi.ingsw.view.gui.login.NicknameController;
 import javafx.application.Platform;

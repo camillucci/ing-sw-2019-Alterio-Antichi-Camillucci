@@ -10,7 +10,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.geometry.Insets?>
-<VBox alignment="CENTER" styleClass="background" fx:id="vBox" spacing="10" xmlns="http://javafx.com/javafx"
+<VBox minHeight="120" minWidth="${vBox.height*4}" alignment="CENTER" styleClass="background" fx:id="vBox" spacing="10" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.polimi.ingsw.view.gui.actionHandler.PlayerSetController">
     <StackPane fx:id="pane">

@@ -6,10 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER"  fx:id="gameBoard" styleClass="background" xmlns="http://javafx.com/javafx"
+<GridPane alignment="CENTER"  fx:id="gameBoard" styleClass="background" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.gui.actionHandler.backgroundController"
+            fx:controller="it.polimi.ingsw.view.gui.actionHandler.ActionHandlerGUI"
             prefHeight="400.0" prefWidth="600.0">
+    <VBox spacing="20" minHeight="300" fx:id="playerSetsVBox" GridPane.columnIndex="1" GridPane.rowIndex="0">
+
+    </VBox>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10" percentWidth="70"/>
+        <ColumnConstraints hgrow="SOMETIMES" percentWidth="30"/>
+    </columnConstraints>
+    <!--
     <VBox fx:id="leftSide">
         <HBox fx:id="map">
             <HBox fx:id="skullsAndBlueShop">
@@ -124,4 +132,5 @@
         <HBox fx:id="publicPlayerBoard4"></HBox>
         <HBox fx:id="publicPlayerCards4"></HBox>
     </VBox>
-</HBox>
+-->
+</GridPane>
