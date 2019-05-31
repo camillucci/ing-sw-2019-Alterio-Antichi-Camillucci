@@ -3,13 +3,11 @@ package it.polimi.ingsw.view.gui.login;
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
-import it.polimi.ingsw.view.gui.actionHandler.PlayerSetController;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -22,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
@@ -46,24 +43,24 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private MapChoiceController mapChoiceController;
     private RoomJoinController roomJoinController;
     private ImageView map;
-    int colorChoiceErrorsCOunter = 0;
+    private int colorChoiceErrorsCounter = 0;
     private static Scene loginScene;
 
-    public void initialize(){
+    public void initialize(){}
 
-    }
-
-    private void robotSpeak(String text, int millisecPerCar, Runnable onEnd){
+    private void robotSpeak(String text, int millisecondsPerChar, Runnable onEnd) {
         if(timeline != null)
             timeline.stop();
-        timeline = Animations.autoWriteLabel(robotLabel, text, millisecPerCar, onEnd);
+        timeline = Animations.autoWriteLabel(robotLabel, text, millisecondsPerChar, onEnd);
     }
     private void robotSpeak(String text, Runnable onEnd){
         robotSpeak(text, 60, onEnd);
     }
+
     private void robotSpeak(String text){
         robotSpeak(text,  () ->{});
     }
+
     private void animation(int i){
         if(i < robotSpeech.length)
             robotSpeak(robotSpeech[i], () -> animation(i+1));
@@ -73,7 +70,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
 
     private void setupNickname() {
         enable();
-        animation(0);
+         animation(0);
         nicknameController = NicknameController.getController();
         nicknameController.getNextButton().setOnAction(e -> disableAnd(() -> ((Event<Login, String>)nameEvent).invoke(this, nicknameController.getLoginText().getText())));
         setBottomVBox(nicknameController.getRoot());
@@ -93,10 +90,8 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         (new Thread(function)).start();
     }
 
-    private void setUpperVBox(VBox root){
+    private void setUpperVBox(Parent root){
         upperVBox.getChildren().clear();
-        root.prefWidthProperty().bind(loginScene.widthProperty());
-        root.prefHeightProperty().bind(loginScene.heightProperty());
         upperVBox.getChildren().add(root);
     }
 
@@ -129,10 +124,10 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     public void notifyAvailableColor(List<String> availableColors) throws IOException
     {
         Platform.runLater(() -> {
-            if(colorChoiceErrorsCOunter++ > 0)
+            if(colorChoiceErrorsCounter++ > 0)
                 robotSpeak("Something has gone wrong", () -> robotSpeak("Please, try again!"));
             else
-                robotSpeak("Great! what's your favourite color?");
+                robotSpeak("Great! Now choose a character!");
             enable();
             colorChoiceController = ColorChoiceController.getController();
             setBottomVBox(colorChoiceController.getRoot());
@@ -169,6 +164,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private void chooseGameSize()
     {
         enable();
+        robotSpeak("Where would you like to play?");
         mapChoiceController = MapChoiceController.getController();
         ImageView[] maps = mapChoiceController.getMaps();
         for(int i=0; i < maps.length; i++){
@@ -217,7 +213,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
             robotSpeak(message);
     }
 
-    String getName(String playerMessageInfo){
+    private String getName(String playerMessageInfo){
         int nameLen;
         for(nameLen = 0; playerMessageInfo.charAt(nameLen) != ' '; nameLen++)
             ;
@@ -238,7 +234,11 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
         Platform.runLater(() ->{
-            setUpperVBox(PlayerSetController.getController(PlayerColor.BLUE).getRoot());
+            upperVBox.getChildren().clear();
+            ImageView imageView = new ImageView(new Image("map" + matchSnapshot.gameBoardSnapshot.mapType+".png"));
+            imageView.setFitWidth(loginScene.widthProperty().get());
+            imageView.setFitHeight(loginScene.heightProperty().get());
+            upperVBox.getChildren().add(imageView);
         });
     }
 
@@ -256,7 +256,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         int risX = 3024;
         double scale = 3.0/10;
         NewLoginGUI ret = NewLoginGUI.getController();
-        loginScene = new Scene(ret.getRoot(), 1124, 337);
+        loginScene = new Scene(ret.getRoot(), risY*scale, risX*scale);
         loginScene.getStylesheets().add("/view/login/LoginGUI.css");
         loginScene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
