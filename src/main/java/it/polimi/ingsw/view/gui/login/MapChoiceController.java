@@ -8,47 +8,75 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
 
 public class MapChoiceController implements Ifxml<HBox>
 {
     public static final int TOT_MAPS = 4;
     @FXML private HBox hBox;
-    @FXML private HBox imageBox;
+    @FXML private VBox leftImageBox;
+    @FXML private VBox imageBox;
+    @FXML private VBox rightImageBox;
+    private IntegerProperty mapIndex = new SimpleIntegerProperty(0);
     private ImageView[] maps = new ImageView[TOT_MAPS];
-    private Polygon nextButton;
+    private Polygon rightNextButton;
+    private Polygon leftNextButton;
 
     public void initialize()
     {
         for(int i=0; i < maps.length; i++)
             maps[i] = newMap(i);
+        leftImageBox.getChildren().add(leftNextMapButton());
         imageBox.getChildren().add(maps[0]);
-        hBox.getChildren().add(nextMapButton());
+        rightImageBox.getChildren().add(rightNextMapButton());
     }
 
-    private Polygon nextMapButton(){
+    private Polygon leftNextMapButton(){
+        final double scale = 0.5;
+        Polygon triangle = new Polygon(0, scale*40, scale*80, scale*80, scale*80, 0);
+        triangle.getStyleClass().add("button");
+        triangle.getStyleClass().add("arrowButton");
+        //IntegerProperty mapIndex = new SimpleIntegerProperty(0);
+        triangle.setOnMouseClicked(e -> {
+            mapIndex.set(mapIndex.get() == 0 ? TOT_MAPS - 1 : mapIndex.get() - 1);
+            imageBox.getChildren().clear();
+            imageBox.getChildren().add(maps[mapIndex.get()]);
+        });
+        leftNextButton = triangle;
+        return triangle;
+    }
+
+    private Polygon rightNextMapButton(){
         final double scale = 0.5;
         Polygon triangle = new Polygon(scale*80, scale*40, 0, scale*80, 0, 0);
         triangle.getStyleClass().add("button");
         triangle.getStyleClass().add("arrowButton");
-        IntegerProperty i = new SimpleIntegerProperty(0);
+        //IntegerProperty mapIndex = new SimpleIntegerProperty(0);
         triangle.setOnMouseClicked(e -> {
-            i.set(i.get() == TOT_MAPS - 1 ? 0 : i.get() + 1);
+            mapIndex.set(mapIndex.get() == TOT_MAPS - 1 ? 0 : mapIndex.get() + 1);
             imageBox.getChildren().clear();
-            imageBox.getChildren().add(maps[i.get()]);
+            imageBox.getChildren().add(maps[mapIndex.get()]);
         });
-        return nextButton = triangle;
+        rightNextButton = triangle;
+        return triangle;
     }
 
-    public ImageView[] getMaps() {return maps; }
+    public ImageView[] getMaps() {
+        return maps;
+    }
 
     @Override
     public HBox getRoot() {
         return hBox;
     }
 
-    public Polygon getNextButton(){
-        return nextButton;
+    public Polygon getLeftNextButton(){
+        return leftNextButton;
+    }
+
+    public Polygon getRightNextButton(){
+        return rightNextButton;
     }
 
     private ImageView newMap(int i)

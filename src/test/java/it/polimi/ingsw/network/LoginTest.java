@@ -16,7 +16,7 @@ import java.rmi.RemoteException;
 class LoginTest {
     private final boolean SOCKET_TESTING = false;
     private final boolean REMOTE_TESTING = false;
-    private final boolean GUI_TEST = true;
+    private final boolean GUI_TEST = false;
     static int j = 0;
     Bottleneck bottleneck = new Bottleneck();
     @Test
