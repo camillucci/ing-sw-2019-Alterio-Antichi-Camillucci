@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import java.lang.Double?>
+
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
+<VBox alignment="CENTER" styleClass="background" fx:id="vBox" spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.polimi.ingsw.view.gui.actionHandler.PlayerSetController">
+    <StackPane fx:id="pane">
+        <GridPane fx:id="rec" minHeight="${vBox.height * 104/277}" maxHeight="${vBox.height * 104/277}">
+            <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Pane fx:id="tear0" GridPane.columnIndex="0" GridPane.rowIndex="0" minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear1" GridPane.columnIndex="1" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear2" GridPane.columnIndex="2" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear3"  GridPane.columnIndex="3" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear4"  GridPane.columnIndex="4" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear5"  GridPane.columnIndex="5" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear6" GridPane.columnIndex="6" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear7"  GridPane.columnIndex="7" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear8" GridPane.columnIndex="8" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear9" GridPane.columnIndex="9" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear10" GridPane.columnIndex="10" GridPane.rowIndex="0" minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <Pane fx:id="tear11"  GridPane.columnIndex="11" GridPane.rowIndex="0" minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="8.3"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                </rowConstraints>
+            </GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="9"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="68"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+        </GridPane>
+    </StackPane>
+</VBox>

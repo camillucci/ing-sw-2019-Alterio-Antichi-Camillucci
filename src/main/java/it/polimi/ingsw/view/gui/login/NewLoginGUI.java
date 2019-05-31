@@ -3,11 +3,13 @@ package it.polimi.ingsw.view.gui.login;
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
+import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
+import it.polimi.ingsw.view.gui.actionHandler.PlayerSetController;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -46,7 +48,10 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private ImageView map;
     int colorChoiceErrorsCOunter = 0;
     private static Scene loginScene;
-    public void initialize(){}
+
+    public void initialize(){
+
+    }
 
     private void robotSpeak(String text, int millisecPerCar, Runnable onEnd){
         if(timeline != null)
@@ -68,7 +73,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
 
     private void setupNickname() {
         enable();
-         animation(0);
+        animation(0);
         nicknameController = NicknameController.getController();
         nicknameController.getNextButton().setOnAction(e -> disableAnd(() -> ((Event<Login, String>)nameEvent).invoke(this, nicknameController.getLoginText().getText())));
         setBottomVBox(nicknameController.getRoot());
@@ -88,8 +93,10 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         (new Thread(function)).start();
     }
 
-    private void setUpperVBox(Parent root){
+    private void setUpperVBox(VBox root){
         upperVBox.getChildren().clear();
+        root.prefWidthProperty().bind(loginScene.widthProperty());
+        root.prefHeightProperty().bind(loginScene.heightProperty());
         upperVBox.getChildren().add(root);
     }
 
@@ -231,11 +238,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
         Platform.runLater(() ->{
-            upperVBox.getChildren().clear();
-            ImageView imageView = new ImageView(new Image("map" + matchSnapshot.gameBoardSnapshot.mapType+".png"));
-            imageView.setFitWidth(loginScene.widthProperty().get());
-            imageView.setFitHeight(loginScene.heightProperty().get());
-            upperVBox.getChildren().add(imageView);
+            setUpperVBox(PlayerSetController.getController(PlayerColor.BLUE).getRoot());
         });
     }
 
@@ -253,7 +256,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         int risX = 3024;
         double scale = 3.0/10;
         NewLoginGUI ret = NewLoginGUI.getController();
-        loginScene = new Scene(ret.getRoot(), risY*scale, risX*scale);
+        loginScene = new Scene(ret.getRoot(), 1124, 337);
         loginScene.getStylesheets().add("/view/login/LoginGUI.css");
         loginScene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
