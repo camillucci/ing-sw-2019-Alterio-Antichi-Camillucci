@@ -12,32 +12,85 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * This class represent a single playing Player, it contains all infos available to the player
+ */
 public class Player implements Cloneable {
 
+    /**
+     * The event that is invoked when a Player is damaged, it notifies the Match
+     */
     public final IEvent<Player, Integer> damagedEvent = new Event<>();
-    public final IEvent<Player, Integer> markedEvent = new Event<>();
+    /**
+     * The event that is invoked when a Player becomes dead, it notifies the Match
+     */
     public final IEvent<Player, Player> deathEvent = new Event<>();
+    /**
+     * The GameBoard the Player is currently playing in
+     */
     public final GameBoard gameBoard;
+    /**
+     * The color of the Player (one among Blue, Green, Grey, Violet, Yellow)
+     */
     public final PlayerColor color;
+    /**
+     * The name of the Player, it's unique in the Match the Player is currently playing in
+     */
     public final String name;
+    /**
+     * The score a Player currently got
+     */
     private int points = 0;
+    /**
+     * The number of skulls the Player currently have, it identify how many time it has died and how many points it gives
+     */
     private int skull = 0;
+    /**
+     * The set of ammo the Player have, for each color (Blue, Red, Yellow) a number from 0 to 3
+     */
     private Ammo ammo = new Ammo(1, 1, 1);
+    /**
+     * The Square the Player is currently in
+     */
     private Square currentSquare;
+    /**
+     * It states if the Player has died after the final frenzy has been activated
+     */
     private boolean finalFrenzy;
+    /**
+     * The list of damages, in the form of PlayerColor, the Player has, the length is between 0 and 12
+     */
     private List<PlayerColor> damage = new ArrayList<>();
+    /**
+     * The list of marks, in the form of PlayerColor, the Player has, the length is between 0 and 12
+     */
     private List<PlayerColor> mark = new ArrayList<>();
+    /**
+     * The list of loaded weapons the Player has, which are the weapons ready to shoot, the length is between 0 and 3
+     */
     private List<WeaponCard> loadedWeapons = new ArrayList<>();
+    /**
+     * The list of unloaded weapons the Player has, which are the weapons that cannot shoot until reloaded, the length is between 0 and 3
+     */
     private List<WeaponCard> unloadedWeapons = new ArrayList<>();
+    /**
+     * The set of powerUps the Player has, it contains a total of 3 PowerUpCard among EndStart, InTurn and CounterAttack
+     */
     private PowerUpSet powerupSet = new PowerUpSet();
     private static final int MAX_AMMO = 3;
     private static final int MAX_POWER_UPS = 3;
     private static final int MAX_POWER_UPS_RESPAWN = 4;
     private static final int MAX_MARKS = 3;
     private static final int MAX_DAMAGES = 12;
-    private static Logger logger = Logger.getLogger("client");
+    private static Logger logger = Logger.getLogger("Player");
 
-
+    /**
+     * The constructor create a new Player given the name, the color and the GameBoard,
+     * it also sets at a default value the various attributes
+     * @param name The name of the Player
+     * @param color The color of the Player
+     * @param gameBoard The GameBoard the Player is playing in
+     */
     public Player (String name, PlayerColor color, GameBoard gameBoard) {
 
         this.name = name;
@@ -46,6 +99,10 @@ public class Player implements Cloneable {
         this.finalFrenzy = false;
     }
 
+    /**
+     * This method adds or subtract blue ammo from the Player, blue ammo must always be a number between 0 and 3
+     * @param val The number of blu ammo to add to the Player, a negative value will subtract them
+     */
     public void addBlue(int val){
         if(ammo.blue + val > MAX_AMMO)
             ammo = new Ammo(MAX_AMMO, ammo.red, ammo.yellow);
@@ -53,6 +110,10 @@ public class Player implements Cloneable {
             ammo = new Ammo(ammo.blue + val, ammo.red, ammo.yellow);
     }
 
+    /**
+     * This method adds or subtract red ammo from the Player, red ammo must always be a number between 0 and 3
+     * @param val The number of red ammo to add to the Player, a negative value will subtract them
+     */
     public void addRed(int val){
         if(ammo.red + val > MAX_AMMO)
             ammo = new Ammo(ammo.blue, MAX_AMMO, ammo.yellow);
@@ -60,6 +121,10 @@ public class Player implements Cloneable {
             ammo = new Ammo(ammo.blue, ammo.red + val, ammo.yellow);
     }
 
+    /**
+     * This method adds or subtract yellow ammo from the Player, yellow ammo must always be a number between 0 and 3
+     * @param val The number of yellow ammo to add to the Player, a negative value will subtract them
+     */
     public void addYellow(int val){
         if(ammo.yellow + val > MAX_AMMO)
             ammo = new Ammo(ammo.blue, ammo.red, MAX_AMMO);
@@ -67,27 +132,48 @@ public class Player implements Cloneable {
             ammo = new Ammo(ammo.blue, ammo.red, ammo.yellow + val);
     }
 
+    /**
+     * This method draws a PowerUpCard from the PowerUpDeck and assign it to the Player,
+     * with this method a Player cannot have more than 3 PowerUpCards at the same time
+     */
     public void addPowerUpCard() {
         if(powerupSet.getAll().size() < MAX_POWER_UPS){
             powerupSet.add(gameBoard.powerupDeck.draw());
         }
     }
 
+    /**
+     * This method draws a PowerUpCard from the PowerUpDeck and assign it to the Player,
+     * with this method a Player can have a fourth PowerUpCard, but it will be discarded at the respawn
+     */
     public void addPowerUpCardRespawn() {
         if(powerupSet.getAll().size() < MAX_POWER_UPS_RESPAWN){
             powerupSet.add(gameBoard.powerupDeck.draw());
         }
     }
 
+    /**
+     * This method adds a specific PowerUpCard to the Player
+     * @param powerUpCard The card to add to the Player
+     */
     public void addPowerUpCard(PowerUpCard powerUpCard) { // Only for tests
         powerupSet.add(powerUpCard);
     }
 
+    /**
+     * This method remove a specific PowerUpCard from the Player
+     * @param powerUpCard The card to remove from the Player
+     */
     public void removePowerUpCard(PowerUpCard powerUpCard)
     {
         powerupSet.remove(powerUpCard);
     }
 
+    /**
+     * This method adds damages to the Player and converts marks of the same color into damages
+     * @param shooter The Player who is causing the damages
+     * @param val The quantity of damages received by the Player
+     */
     public void addDamage(Player shooter, int val) {
         for (int i = 0; i < val && damage.size() < MAX_DAMAGES; i++)
             damage.add(shooter.color);
@@ -100,15 +186,25 @@ public class Player implements Cloneable {
             }
 
         for(int i = temp.size() - 1; i >= 0; i--)
-            mark.remove(i);
+            mark.remove(mark.get(i));
         ((Event<Player, Integer>)this.damagedEvent).invoke(this, val);
     }
 
+    /**
+     * This method adds damages to the Player but does not converts marks of the same color into damages
+     * @param shooter The Player who is causing the damages
+     * @param val The quantity of damages received by the Player
+     */
     public void addDamageNoMarks(Player shooter, int val) {
         for (int i = 0; i < val && damage.size() < MAX_DAMAGES; i++)
             damage.add(shooter.color);
     }
 
+    /**
+     * This method adds marks to the Player, the number of marks can be maximum 3 for each color
+     * @param shooter The Player who is causing the marks
+     * @param val The quantity of marks received by the Player
+     */
     public void addMark(Player shooter, int val) {
         int temp = 0;
         for (PlayerColor p : mark)
@@ -117,13 +213,20 @@ public class Player implements Cloneable {
 
         for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++)
             mark.add(shooter.color);
-        ((Event<Player, Integer>)this.markedEvent).invoke(this, val);
     }
 
+    /**
+     * This method adds a specific weapon to the Player
+     * @param weaponCard The weapon to be added
+     */
     public void addWeapon(WeaponCard weaponCard) {
         loadedWeapons.add(weaponCard);
     }
 
+    /**
+     * This method removes a specifis weapon from the Player
+     * @param weaponCard The weapon to be removed
+     */
     public void removeWeapon(WeaponCard weaponCard) {
         if(loadedWeapons.contains(weaponCard))
             loadedWeapons.remove(weaponCard);
@@ -131,18 +234,34 @@ public class Player implements Cloneable {
             unloadedWeapons.remove(weaponCard);
     }
 
+    /**
+     * This method moves a weapon from the loaded list to the unloaded list
+     * @param weaponCard The weapon to be moved
+     */
     public void reloadWeapon(WeaponCard weaponCard) {
         loadedWeapons.add(unloadedWeapons.remove(unloadedWeapons.indexOf(weaponCard)));
     }
 
+    /**
+     * This method moves a weapon from the unloaded list to the loaded list
+     * @param weaponCard The weapon to be moved
+     */
     public void unloadWeapon(WeaponCard weaponCard) {
         unloadedWeapons.add(loadedWeapons.remove(loadedWeapons.indexOf(weaponCard)));
     }
 
+    /**
+     * This method adds the points the Player has gained through a kill
+     * @param newPoints The quantity of points to be added
+     */
     public void addPoints(int newPoints) {
         points = points + newPoints;
     }
 
+    /**
+     * This method returns a cloned copy of the Player
+     * @return A copy of this
+     */
     public Player getClone() { //throws CloneNotSupportedException
         try {
             Player p = (Player)this.clone();
@@ -171,6 +290,10 @@ public class Player implements Cloneable {
         return ammo;
     }
 
+    /**
+     * This method returns the total number of ammo contained in the ammo set
+     * @return The total number of ammo contained in the ammo set
+     */
     public int getTotalAmmo() {
         return ammo.blue + ammo.red + ammo.yellow;
     }
@@ -191,6 +314,10 @@ public class Player implements Cloneable {
         return unloadedWeapons;
     }
 
+    /**
+     * This method returns all the weapons the Player has, both loaded and unloaded
+     * @return A list that contains all the weapons the Player has, both loaded and unloaded
+     */
     public List<WeaponCard> getWeapons()
     {
         return Stream.concat(loadedWeapons.stream(), unloadedWeapons.stream()).collect(Collectors.toList());
@@ -204,7 +331,9 @@ public class Player implements Cloneable {
         return damage;
     }
 
-    public PowerUpSet getPowerupSet() {return powerupSet;}
+    public PowerUpSet getPowerupSet() {
+        return powerupSet;
+    }
 
     public List<PlayerColor> getMark() {
         return mark;
@@ -214,10 +343,21 @@ public class Player implements Cloneable {
         this.currentSquare = currentSquare;
     }
 
-    public void setFinalFrenzy(boolean finalFrenzy) {
-        this.finalFrenzy = finalFrenzy;
+    public void setSkull(int skull) {
+        this.skull = skull;
     }
 
+    /**
+     * This method sets the finalFrenzy value to true when a player dies during the final frenzy
+     */
+    public void setFinalFrenzy() {
+        this.finalFrenzy = true;
+    }
+
+    /**
+     * This method returns a list of Ammo that can be discarded with the Targeting Scope PowerUpCard
+     * @return A list of Ammo that can be discarded with the Targeting Scope PowerUpCard
+     */
     public List<Ammo> getDiscardableAmmo() {
         List<Ammo> temp = new ArrayList<>();
         if(ammo.blue >= 1)

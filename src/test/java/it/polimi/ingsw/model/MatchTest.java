@@ -40,7 +40,7 @@ class MatchTest {
             deadPlayer.addDamage(match.getPlayers().get(1), 2);
         }
         match.addDeadPlayers(deadPlayer);
-        match.assignPoints();
+        match.assignPoints(deadPlayer);
         assertEquals(7, match.getPlayers().get(0).getPoints());
         assertEquals(8, match.getPlayers().get(1).getPoints());
     }
@@ -48,14 +48,14 @@ class MatchTest {
     @Test
     void assignPoints2() {
         Player deadPlayer = match.getPlayers().get(2);
-        deadPlayer.setFinalFrenzy(true);
+        deadPlayer.setFinalFrenzy();
         for(int i = 0; i < n; i++) {
             deadPlayer.addDamage(match.getPlayers().get(0), 1);
             deadPlayer.addDamage(match.getPlayers().get(1), 2);
             match.gameBoard.addKillShotTrack(Collections.emptyList());
         }
         match.addDeadPlayers(deadPlayer);
-        match.assignPoints();
+        match.assignPoints(deadPlayer);
         assertEquals(1, match.getPlayers().get(0).getPoints());
         assertEquals(2, match.getPlayers().get(1).getPoints());
         assertEquals(1, match.getFrenzyStarter());
