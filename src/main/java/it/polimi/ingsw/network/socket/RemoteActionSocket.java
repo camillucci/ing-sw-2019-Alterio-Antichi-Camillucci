@@ -12,8 +12,8 @@ public class RemoteActionSocket extends RemoteAction implements Serializable
     private int socketIndex;
     private transient TCPClient server;
 
-    public RemoteActionSocket(int socketIndex){
-        super(socketIndex);
+    public RemoteActionSocket(int socketIndex, String text){
+        super(socketIndex, text);
         this.socketIndex = socketIndex;
     }
 

@@ -37,7 +37,6 @@ public class AdrenalineLauncherServer
         try {
             listenerRMI = new RMIListener(rmiPort, () -> new AdrenalineServerRMI(controller));
             listenerRMI.start();
-
             listenerTCP = new TCPListener(socketPort);
             listenerTCP.newClientEvent.addEventHandler((a, client) -> {
                 Thread thread = new Thread((new AdrenalineServerSocket(client, controller))::start);
@@ -51,7 +50,7 @@ public class AdrenalineLauncherServer
             while(parser.parseChoice() != 1);
 
             listenerTCP.stop();
-            listenerRMI.stop();
+            //listenerRMI.stop();
         }
         catch (IOException e) {
             logger.log(Level.WARNING, "Could not start server");

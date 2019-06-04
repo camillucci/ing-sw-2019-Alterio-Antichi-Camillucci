@@ -12,8 +12,8 @@ public class RemoteActionRMI extends RemoteAction
 {
     private transient IActionHandler remoteActionsHandler;
 
-    public RemoteActionRMI(int index){
-        super(index);
+    public RemoteActionRMI(int index, String text){
+        super(index, text);
     }
 
     public void initialize(IActionHandler remoteActionsHandler) throws RemoteException

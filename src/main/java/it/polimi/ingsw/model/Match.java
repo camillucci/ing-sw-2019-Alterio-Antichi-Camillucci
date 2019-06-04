@@ -281,4 +281,12 @@ public class Match extends ActionsProvider {
     public List<Action> getActions() {
         return new ArrayList<>(this.curActions);
     }
+
+    @Override
+    public List<String> getActionTexts() {
+        List<String> temp = new ArrayList<>();
+        for(int i = 0; i < curActions.size(); i++)
+            temp.add("Press" + i + curActions.get(i).text);
+        return temp;
+    }
 }
