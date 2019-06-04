@@ -307,22 +307,6 @@ public class GameBoard {
     }
 
     /**
-     * This method returns all squares a given player can see which are at least at a given distance
-     * @param player The Player from which we need to fine the squares it can see
-     * @param minDistance The minimum distance the given Player can see
-     * @return The squares that the given Player can see which are at least at the given distance
-     */
-    public List<Square> getAwaySquares(Player player, int minDistance) {
-        List<Square> tempSquare = getInRangeSquares(player);
-        List<Square> tempNearSquare = getSquares(player, minDistance - 1);
-        List<Square> tempFarSquares = new ArrayList<>();
-        for(Square s : tempSquare)
-            if(!tempNearSquare.contains(s))
-                tempFarSquares.add(s);
-        return tempFarSquares;
-    }
-
-    /**
      * This method returns all squares a given player can see which are at most at a given distance
      * @param player The Player from which we need to fine the squares it can see
      * @param maxDistance The maximum distance the given Player can see

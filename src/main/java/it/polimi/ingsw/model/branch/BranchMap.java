@@ -26,7 +26,9 @@ public class BranchMap
         endOfBranchMapReachedEvent.addEventHandler((a,b)->this.invalidState=true);
     }
 
-    public BranchMap(Branch ... branches) {this(Arrays.asList(branches));}
+    public BranchMap(Branch ... branches) {
+        this(Arrays.asList(branches));
+    }
 
     public List<Action> getPossibleActions()
     {
@@ -42,13 +44,13 @@ public class BranchMap
         return ret;
     }
 
-    private void onBranchActionCompleted(Branch senderBranch, Action completedAction)
+    private void onBranchActionCompleted(Action completedAction)
     {
        this.branches.removeIf(b -> !b.goNext(completedAction));
         ((Event)this.newActionsEvent).invoke(this, this.getPossibleActions());
     }
 
-    private void onBranchExtActionCompleted(Branch senderBranch, ExtendableAction extendableAction)
+    private void onBranchExtActionCompleted(ExtendableAction extendableAction)
     {
         this.branches.removeIf(b -> !b.goNext(extendableAction));
         this.branches.addAll(extendableAction.getBranches());
@@ -62,8 +64,8 @@ public class BranchMap
 
         for(Branch b : this.branches) // Setup events
         {
-            b.actionCompletedEvent.addEventHandler(this::onBranchActionCompleted);
-            b.extActionCompletedEvent.addEventHandler(this::onBranchExtActionCompleted);
+            b.actionCompletedEvent.addEventHandler((senderBranch, completedAction) -> onBranchActionCompleted(completedAction));
+            b.extActionCompletedEvent.addEventHandler((senderBranch, extendableAction) -> onBranchExtActionCompleted(extendableAction));
             b.endBranchEvent.addEventHandler((s,eba)->((Event<BranchMap, EndBranchAction>)this.endOfBranchMapReachedEvent).invoke(this, eba));
         }
     }

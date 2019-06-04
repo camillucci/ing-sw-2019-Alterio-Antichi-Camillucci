@@ -22,7 +22,7 @@ public class Match extends ActionsProvider {
     /**
      * The event that notify the Controller when the Match is over
      */
-    public final IEvent<Match, List<Player>> endMatchEvent = new Event<>(); //TODO
+    public final IEvent<Match, List<Player>> endMatchEvent = new Event<>(); //TODO Let the Controller listen to this event
     /**
      * The current turn progressive number, it stars at -1 which means that all Players must spawn for the first time
      */
@@ -101,10 +101,11 @@ public class Match extends ActionsProvider {
     {
         List<Action> backupActions = this.curActions;
         BranchMap branchMap = BranchMapFactory.counterAttackBranchMap();
+        this.curPlayer = damaged;
         branchMap.newActionsEvent.addEventHandler((a,actions) -> setNewActions(actions));
         branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> setNewActions(backupActions));
         setNewActions(branchMap.getPossibleActions());
-        //todo Rollback
+        //TODO Rollback
     }
 
     /**

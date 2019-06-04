@@ -201,7 +201,6 @@ public class CardsFactory {
     private static PlayersFilter nonVisiblePlayers(int maxTargets) { return (player, players, squares) -> TargetsFilters.nonVisiblePlayers(player, players, maxTargets); }
 
     private static SquaresFilter visibleSquares(int maxTargets) { return (player, players, squares) -> TargetsFilters.visibleSquares(player, squares, maxTargets); }
-    // private static SquaresFilter awaySquares(int maxTargets, int minDistance) { return (player, players, squares) -> TargetsFilters.awaySquares(player, squares, maxTargets, minDistance); }
     private static SquaresFilter nearSquares(int maxTargets, int maxDistance) { return (player, players, squares) ->  TargetsFilters.nearSquares(player, squares, maxTargets, maxDistance); }
     private static SquaresFilter betweenSquares(int maxTargets, int minDistance, int maxDistance) { return (player, players, squares) -> TargetsFilters.betweenSquares(player, squares, maxTargets, minDistance, maxDistance); }
     private static SquaresFilter roomSquares(int maxTargets) { return (player, players, squares) -> TargetsFilters.otherVisibleRoom(player, squares, maxTargets); }

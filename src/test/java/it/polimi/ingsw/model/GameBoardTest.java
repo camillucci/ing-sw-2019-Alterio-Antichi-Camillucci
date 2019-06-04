@@ -146,19 +146,6 @@ class GameBoardTest {
     }
 
     @Test
-    void getAwaySquares() {
-        player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
-        player.getCurrentSquare().addPlayer(player);
-        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.getAwaySquares(player, 1)).size());
-        p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
-        p2.getCurrentSquare().addPlayer(p2);
-        assertEquals(0, gameBoard.removeNonPlayerSquares(player, gameBoard.getAwaySquares(player, 1)).size());
-        p3.setCurrentSquare(gameBoard.getSquares(player, 3).get(4));
-        p3.getCurrentSquare().addPlayer(p3);
-        assertEquals(1, gameBoard.removeNonPlayerSquares(player, gameBoard.getAwaySquares(player, 1)).size());
-    }
-
-    @Test
     void getNearSquares() {
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.YELLOW));
         player.getCurrentSquare().addPlayer(player);

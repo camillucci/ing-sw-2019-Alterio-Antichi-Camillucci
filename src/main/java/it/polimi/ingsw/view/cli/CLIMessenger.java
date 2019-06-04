@@ -34,13 +34,11 @@ public class CLIMessenger {
     private static final int FIRST_MAP = 0;
     private static final int SECOND_MAP = 1;
     private static final int THIRD_MAP = 2;
-    private static final int FOURTH_MAP = 3;
     private static final int MAP_HEIGHT = 3;
     private static final int MAP_WIDTH = 4;
     private static final int SQUARE_LINES = 7;
 
     private static final String BLANK = " ";
-    private static final String HORIZONTAL = "═";
     private static final String VERTICAL = "║";
     private static final String TOP_LEFT = "╔";
     private static final String TOP_RIGHT = "╗";
@@ -412,6 +410,7 @@ public class CLIMessenger {
     //------------------------------------------------------------------------------------------------------------------
     //DISPLAY
 
+    @SuppressWarnings("squid:S106")
     private static void display(String string) {
         System.out.println(curColor + string);
     }
