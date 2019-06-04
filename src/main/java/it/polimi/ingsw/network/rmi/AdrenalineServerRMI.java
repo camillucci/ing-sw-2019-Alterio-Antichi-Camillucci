@@ -9,12 +9,16 @@ import it.polimi.ingsw.network.IRMIAdrenalineServer;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenalineServer {
     private ICallbackAdrenalineClient client;
+    private Registry registry;
     private boolean stopPinging = true;
     private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
         while(!getStopPinging()) {
@@ -32,6 +36,14 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
 
     public AdrenalineServerRMI(Controller controller) {
         super(controller);
+        Remote stub = null;
+        try {
+            registry = LocateRegistry.createRegistry(1099);
+            stub = UnicastRemoteObject.exportObject(this, 1099);
+            LocateRegistry.getRegistry(1099).rebind("Server", stub);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -57,7 +69,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
 
     @Override
     public void registerClient(ICallbackAdrenalineClient client) {
-        // todo next rmi changes
+        this.client = client;
     }
 
     private synchronized boolean getStopPinging() {

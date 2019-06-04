@@ -49,11 +49,11 @@ public abstract class AdrenalineClient
     protected abstract void notifyGameLength(int gameLength) throws IOException, ClassNotFoundException;
     protected abstract void notifyGameMap(int gameMap) throws IOException, ClassNotFoundException;
     protected abstract void stopPing();
-    public abstract void newActions(List<RemoteAction> newActions) throws IOException, ClassNotFoundException;
-    protected abstract void initializeAction(RemoteAction action) throws IOException;
     public void modelChanged(MatchSnapshot matchSnapshot)  {
         view.getCurViewElement().onModelChanged(matchSnapshot);
     }
+    public abstract void newActions(List<RemoteAction> newActions) throws IOException, ClassNotFoundException;
+    protected abstract void initializeAction(RemoteAction action) throws IOException;
     public void newMessage(String message) {
         view.getCurViewElement().onNewMessage(message);
         if(message.contains("Match is starting")) {

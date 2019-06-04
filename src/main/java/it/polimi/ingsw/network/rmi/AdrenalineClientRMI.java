@@ -4,6 +4,8 @@ import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,9 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
 
     @Override
     protected void connect() throws IOException, NotBoundException {
-        server = RMIClient.<IRMIAdrenalineServer, ICallbackAdrenalineClient>connect(serverName, serverPort, this).server;
+        UnicastRemoteObject.exportObject(this, 1099);
+        server = (IRMIAdrenalineServer) LocateRegistry.getRegistry(serverName, this.serverPort).lookup("Server");
+        server.registerClient(this);
     }
 
     @Override
