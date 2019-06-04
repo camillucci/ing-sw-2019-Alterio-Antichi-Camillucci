@@ -47,10 +47,10 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
 
     @Override
     protected void startPing() {
-        if(pingingThread.getState() != Thread.State.TERMINATED && pingingThread.getState() != Thread.State.NEW)
-            return;
-        setStopPinging(false);
-        pingingThread.start();
+        if(pingingThread.getState() == Thread.State.TERMINATED || pingingThread.getState() == Thread.State.NEW) {
+            setStopPinging(false);
+            pingingThread.start();
+        }
     }
 
     @Override
