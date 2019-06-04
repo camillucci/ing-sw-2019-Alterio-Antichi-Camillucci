@@ -11,4 +11,5 @@ public abstract class ActionsProvider
     public final IEvent<Player, List<Action>> newActionsEvent = new Event<>();
     public abstract Player getPlayer();
     public abstract List<Action> getActions();
+    public abstract List<String> getActionTexts();
 }

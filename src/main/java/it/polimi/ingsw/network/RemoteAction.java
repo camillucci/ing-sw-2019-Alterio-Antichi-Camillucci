@@ -10,14 +10,16 @@ import java.util.List;
 public abstract class RemoteAction implements Serializable
 {
     protected transient PrivatePlayerSnapshot ownerPlayer;
-    protected int index;
+    public final int index;
+    public final String text;
     protected ArrayList<String> possiblePlayers;
     protected ArrayList<String> possibleSquares;
     protected ArrayList<String> possiblePowerUps;
     protected ArrayList<String> discardablePowerUps;
 
-    public RemoteAction(int index){
+    public RemoteAction(int index, String text){
         this.index = index;
+        this.text = text;
     }
 
     public void initialize(PrivatePlayerSnapshot player)

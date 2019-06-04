@@ -28,6 +28,7 @@ public class Action
     protected boolean canBeDone = true;
 
     private Consumer opMethod = a -> { };
+    public final String text = "";
 
     protected Action() {}
 
@@ -133,4 +134,8 @@ public class Action
     protected void op() { this.opMethod.accept(this); }
 
     public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
+
+    public List<String> getText(int index) {
+        return new ArrayList<>(Collections.singletonList("Press" + index + text));
+    }
 }

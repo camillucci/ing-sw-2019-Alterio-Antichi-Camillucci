@@ -269,8 +269,8 @@ public class CLIMessenger {
     // DISPLAY ACTIONS AND TARGETS
 
     public static void displayActions(List<RemoteAction> options) {
-        for(int i = 0; i < options.size(); i++){
-            display(PRESS + i + " if you want to execute action" + options.get(i).toString());
+        for(RemoteAction remoteAction : options){
+            display(PRESS + remoteAction.index + " if you want to " + remoteAction.text);
         }
     }
 

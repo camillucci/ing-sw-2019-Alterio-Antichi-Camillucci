@@ -29,8 +29,8 @@ public class ActionHandlerCLI extends ActionHandler {
             targetSquares = (ArrayList<String>) action.getPossibleSquares();
             usablePowerUps = (ArrayList<String>) action.getPossiblePowerups();
             discardablePowerUps = (ArrayList<String>) action.getDiscardablePowerups();
-            CLIMessenger.displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps); //displays targets available
-            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size()); //user's target of choice
+            CLIMessenger.displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
+            index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size());
             while (index == -1) {
                 CLIMessenger.incorrectInput();
                 CLIMessenger.displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
@@ -44,11 +44,14 @@ public class ActionHandlerCLI extends ActionHandler {
                 action.usePowerUp(usablePowerUps.get(index - targetPlayers.size() - targetSquares.size()));
             else
                 action.addDiscardable(discardablePowerUps.get(index - targetPlayers.size() - targetSquares.size() - usablePowerUps.size()));
-        }
-        while(!(action.canBeDone()));
+        } while(!(action.canBeDone()));
 
         boolean doneAction = false;
         while(!doneAction) {
+            targetPlayers = (ArrayList<String>) action.getPossiblePlayers();
+            targetSquares = (ArrayList<String>) action.getPossibleSquares();
+            usablePowerUps = (ArrayList<String>) action.getPossiblePowerups();
+            discardablePowerUps = (ArrayList<String>) action.getDiscardablePowerups();
             CLIMessenger.displayTargetsAndAction(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
             index = CLIParser.parser.parseIndex(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size() + 1);
             while(index == -1) {
@@ -65,7 +68,7 @@ public class ActionHandlerCLI extends ActionHandler {
             else if(index < targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size())
                 action.addDiscardable(discardablePowerUps.get(index - targetPlayers.size() - targetSquares.size() - usablePowerUps.size()));
             else {
-                action.doAction(); //communicates choice to server
+                action.doAction();
                 doneAction = true;
             }
         }

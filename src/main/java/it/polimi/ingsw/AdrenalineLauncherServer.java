@@ -51,9 +51,9 @@ public class AdrenalineLauncherServer
         int rmiPort = args.length > 1 ? Integer.parseInt(args[1]) : Integer.parseInt(properties.getProperty("rmiPort", "1099"));
 
         try {
-            listenerRMI = new RMIListener<>(rmiPort, () -> new AdrenalineServerRMI(controller));
-            listenerRMI.newClientEvent.addEventHandler((a, rmiServer) -> rmiServer.server().initialize(rmiServer.client()));
-            listenerRMI.start();
+            //listenerRMI = new RMIListener<>(rmiPort, () -> new AdrenalineServerRMI(controller));
+            //listenerRMI.newClientEvent.addEventHandler((a, rmiServer) -> rmiServer.server().initialize(rmiServer.client()));
+            //listenerRMI.start();
 
             listenerTCP = new TCPListener(socketPort);
             listenerTCP.newClientEvent.addEventHandler((a, client) -> {
@@ -68,7 +68,7 @@ public class AdrenalineLauncherServer
             while(parser.parseChoice() != 1);
 
             listenerTCP.stop();
-            listenerRMI.stop();
+            //listenerRMI.stop();
         }
         catch (IOException e) {
             logger.log(Level.WARNING, "Could not start server");
