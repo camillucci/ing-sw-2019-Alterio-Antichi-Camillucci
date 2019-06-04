@@ -27,7 +27,7 @@ public class LoginCLI extends Login {
     public void notifyHost(boolean isHost) throws IOException  {
         if(isHost)
         {
-            CLIMessenger.askGameLenght();
+            CLIMessenger.askGameLength();
             ((Event<Login, Integer>)gameLengthEvent).invoke(this, CLIParser.parser.parseGameLength());
             CLIMessenger.askGameMap();
             ((Event<Login, Integer>)gameMapEvent).invoke(this, CLIParser.parser.parseGameMap());

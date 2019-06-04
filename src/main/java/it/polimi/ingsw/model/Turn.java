@@ -11,7 +11,6 @@ import java.util.List;
 public class Turn extends ActionsProvider {
 
     public final IEvent<Turn, Player> endTurnEvent = new Event<>();
-    public final IEvent<Turn, List<Action>> newActionsEvent = new Event<>(); //TODO Change name
     private static int frenzyCounter = 0;
     private Player currentPlayer;
     private int moveCounter = 2;
@@ -35,7 +34,7 @@ public class Turn extends ActionsProvider {
         this.branchMap.rollbackEvent.addEventHandler((s, e) -> rollback());
         this.branchMap.newActionsEvent.addEventHandler((s, actions) -> {
             actions.forEach(a -> a.initialize(currentPlayer));
-            ((Event<Turn, List<Action>>)this.newActionsEvent).invoke(this, actions);
+            ((Event<Player, List<Action>>)this.newActionsEvent).invoke(currentPlayer, actions);
         });
     }
 
@@ -49,7 +48,7 @@ public class Turn extends ActionsProvider {
         else
         {
             newMove();
-            ((Event<Turn, List<Action>>)this.newActionsEvent).invoke(this, getActions());
+            ((Event<Player, List<Action>>)this.newActionsEvent).invoke(currentPlayer, getActions());
         }
     }
 

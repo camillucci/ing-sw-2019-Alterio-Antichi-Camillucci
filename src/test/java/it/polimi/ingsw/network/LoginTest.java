@@ -21,6 +21,8 @@ class LoginTest {
     Bottleneck bottleneck = new Bottleneck();
     @Test
     void loginSocket_CLI() throws IOException, NotBoundException, InterruptedException {
+        if(!SOCKET_TESTING)
+            return;
         String userInput = "turangla_lella\n1\n5\n10\n";
         String serverInput = "1\n";
         PipedOutputStream serverStreamWrite = new PipedOutputStream();

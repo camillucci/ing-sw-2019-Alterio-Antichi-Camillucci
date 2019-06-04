@@ -110,7 +110,7 @@ public class CLIMessenger {
         return availableColors.size();
     }
 
-    public static void askGameLenght() {
+    public static void askGameLength() {
         display("Choose how many skulls your game is going to have", true);
         display("You can choose any number between 5 and 8", true);
     }

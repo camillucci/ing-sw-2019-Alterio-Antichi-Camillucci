@@ -20,6 +20,7 @@ class TCPClientTest {
     private String localHost = "127.0.0.1";
     private int maxConnected = 3;
     private TCPClient clientSocket;
+    private final boolean NETWORK_TESTING = false;
 
     @Test
     void close()
@@ -131,6 +132,8 @@ class TCPClientTest {
 
     @Test
     void ping() {
+        if(!NETWORK_TESTING)
+            return;
         final TCPListener listener = new TCPListener(9999);
         int num = 3;
         try {

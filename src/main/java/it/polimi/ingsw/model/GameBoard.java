@@ -60,61 +60,66 @@ public class GameBoard {
         for(int i = 0; i < MAX_SKULLS - skulls; i++)
             killShotTrack.add(new ArrayList<>());
 
-        if(mapType == 0) {
-            squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, ammoDeck);
-            squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck);
-            squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, weaponDeck);
-            squares[0][3] = null;
-            squares[1][0] = new SpawnAndShopSquare(RED_SPAWN_NAME, 1, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, weaponDeck);
-            squares[1][1] = new AmmoSquare("C", 1, 1, new SquareBorder[]{WALL, DOOR, ROOM, ROOM}, ammoDeck);
-            squares[1][2] = new AmmoSquare("D", 1, 2, new SquareBorder[]{DOOR, WALL, ROOM, DOOR}, ammoDeck);
-            squares[1][3] = new AmmoSquare("E", 1, 3, new SquareBorder[]{NOTHING, ROOM, DOOR, NOTHING}, ammoDeck);
-            squares[2][0] = null;
-            squares[2][1] = new AmmoSquare("F", 2, 1, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck);
-            squares[2][2] = new AmmoSquare("G", 2, 2, new SquareBorder[]{WALL, NOTHING, ROOM, DOOR}, ammoDeck);
-            squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, DOOR, NOTHING}, weaponDeck);
-        }
-        else if (mapType == 1) {
-            squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, DOOR, NOTHING, ROOM}, ammoDeck);
-            squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck);
-            squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, weaponDeck);
-            squares[0][3] = new AmmoSquare("C", 0, 3, new SquareBorder[]{NOTHING, DOOR, DOOR, NOTHING}, ammoDeck);
-            squares[1][0] = new SpawnAndShopSquare(RED_SPAWN_NAME, 1, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, weaponDeck);
-            squares[1][1] = new AmmoSquare("D", 1, 1, new SquareBorder[]{WALL, DOOR, ROOM, WALL}, ammoDeck);
-            squares[1][2] = new AmmoSquare("E", 1, 2, new SquareBorder[]{DOOR, ROOM, WALL, ROOM}, ammoDeck);
-            squares[1][3] = new AmmoSquare("F", 1, 3, new SquareBorder[]{DOOR, ROOM, ROOM, NOTHING}, ammoDeck);
-            squares[2][0] = null;
-            squares[2][1] = new AmmoSquare("G", 2, 1, new SquareBorder[]{DOOR, NOTHING, NOTHING, DOOR}, ammoDeck);
-            squares[2][2] = new AmmoSquare("H", 2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck);
-            squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, weaponDeck);
-        }
-        else if (mapType == 2) {
-            squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, DOOR}, ammoDeck);
-            squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, DOOR, DOOR, ROOM}, ammoDeck);
-            squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, weaponDeck);
-            squares[0][3] = null;
-            squares[1][0] = new SpawnAndShopSquare(RED_SPAWN_NAME, 1, 0, new SquareBorder[]{ROOM, DOOR, NOTHING, WALL}, weaponDeck);
-            squares[1][1] = new AmmoSquare("C", 1, 1, new SquareBorder[]{DOOR, DOOR, WALL, ROOM}, ammoDeck);
-            squares[1][2] = new AmmoSquare("D", 1, 2, new SquareBorder[]{DOOR, WALL, ROOM, DOOR}, ammoDeck);
-            squares[1][3] = new AmmoSquare("E", 1, 3, new SquareBorder[]{NOTHING, ROOM, DOOR, NOTHING}, ammoDeck);
-            squares[2][0] = new AmmoSquare("F", 2, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck);
-            squares[2][1] = new AmmoSquare("G", 2, 1, new SquareBorder[]{DOOR, NOTHING, ROOM, ROOM}, ammoDeck);
-            squares[2][2] = new AmmoSquare("H", 2, 2, new SquareBorder[]{WALL, NOTHING, ROOM, DOOR}, ammoDeck);
-            squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, DOOR, NOTHING}, weaponDeck);
-        }
-        else {
-            squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, DOOR}, ammoDeck);
-            squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, DOOR, DOOR, ROOM}, ammoDeck);
-            squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, weaponDeck);
-            squares[0][3] = new AmmoSquare("C", 0, 3, new SquareBorder[]{NOTHING, DOOR, DOOR, NOTHING}, ammoDeck);
-            squares[1][0] = new SpawnAndShopSquare(RED_SPAWN_NAME, 1, 0, new SquareBorder[]{ROOM, DOOR, NOTHING, WALL}, weaponDeck);
-            squares[1][1] = new AmmoSquare("D", 1, 1, new SquareBorder[]{DOOR, DOOR, WALL, WALL}, ammoDeck);
-            squares[1][2] = new AmmoSquare("E", 1, 2, new SquareBorder[]{DOOR, ROOM, WALL, ROOM}, ammoDeck);
-            squares[1][3] = new AmmoSquare("F", 1, 3, new SquareBorder[]{DOOR, ROOM, ROOM, NOTHING}, ammoDeck);
-            squares[2][0] = new AmmoSquare("G", 2, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck);
-            squares[2][1] = new AmmoSquare("H", 2, 1, new SquareBorder[]{DOOR, NOTHING, ROOM, DOOR}, ammoDeck);
-            squares[2][2] = new AmmoSquare("I", 2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck);
-            squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, weaponDeck);
+        switch(mapType) {
+            case 0:
+                squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, ammoDeck);
+                squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck);
+                squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, weaponDeck);
+                squares[0][3] = null;
+                squares[1][0] = new SpawnAndShopSquare(RED_SPAWN_NAME, 1, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, weaponDeck);
+                squares[1][1] = new AmmoSquare("C", 1, 1, new SquareBorder[]{WALL, DOOR, ROOM, ROOM}, ammoDeck);
+                squares[1][2] = new AmmoSquare("D", 1, 2, new SquareBorder[]{DOOR, WALL, ROOM, DOOR}, ammoDeck);
+                squares[1][3] = new AmmoSquare("E", 1, 3, new SquareBorder[]{NOTHING, ROOM, DOOR, NOTHING}, ammoDeck);
+                squares[2][0] = null;
+                squares[2][1] = new AmmoSquare("F", 2, 1, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck);
+                squares[2][2] = new AmmoSquare("G", 2, 2, new SquareBorder[]{WALL, NOTHING, ROOM, DOOR}, ammoDeck);
+                squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, DOOR, NOTHING}, weaponDeck);
+                break;
+
+            case 1:
+                squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, DOOR, NOTHING, ROOM}, ammoDeck);
+                squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck);
+                squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, weaponDeck);
+                squares[0][3] = new AmmoSquare("C", 0, 3, new SquareBorder[]{NOTHING, DOOR, DOOR, NOTHING}, ammoDeck);
+                squares[1][0] = new SpawnAndShopSquare(RED_SPAWN_NAME, 1, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, weaponDeck);
+                squares[1][1] = new AmmoSquare("D", 1, 1, new SquareBorder[]{WALL, DOOR, ROOM, WALL}, ammoDeck);
+                squares[1][2] = new AmmoSquare("E", 1, 2, new SquareBorder[]{DOOR, ROOM, WALL, ROOM}, ammoDeck);
+                squares[1][3] = new AmmoSquare("F", 1, 3, new SquareBorder[]{DOOR, ROOM, ROOM, NOTHING}, ammoDeck);
+                squares[2][0] = null;
+                squares[2][1] = new AmmoSquare("G", 2, 1, new SquareBorder[]{DOOR, NOTHING, NOTHING, DOOR}, ammoDeck);
+                squares[2][2] = new AmmoSquare("H", 2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck);
+                squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, weaponDeck);
+                break;
+
+            case 2:
+                squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, DOOR}, ammoDeck);
+                squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, DOOR, DOOR, ROOM}, ammoDeck);
+                squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, weaponDeck);
+                squares[0][3] = null;
+                squares[1][0] = new SpawnAndShopSquare(RED_SPAWN_NAME, 1, 0, new SquareBorder[]{ROOM, DOOR, NOTHING, WALL}, weaponDeck);
+                squares[1][1] = new AmmoSquare("C", 1, 1, new SquareBorder[]{DOOR, DOOR, WALL, ROOM}, ammoDeck);
+                squares[1][2] = new AmmoSquare("D", 1, 2, new SquareBorder[]{DOOR, WALL, ROOM, DOOR}, ammoDeck);
+                squares[1][3] = new AmmoSquare("E", 1, 3, new SquareBorder[]{NOTHING, ROOM, DOOR, NOTHING}, ammoDeck);
+                squares[2][0] = new AmmoSquare("F", 2, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck);
+                squares[2][1] = new AmmoSquare("G", 2, 1, new SquareBorder[]{DOOR, NOTHING, ROOM, ROOM}, ammoDeck);
+                squares[2][2] = new AmmoSquare("H", 2, 2, new SquareBorder[]{WALL, NOTHING, ROOM, DOOR}, ammoDeck);
+                squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, DOOR, NOTHING}, weaponDeck);
+                break;
+
+            default:
+                squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, DOOR}, ammoDeck);
+                squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, DOOR, DOOR, ROOM}, ammoDeck);
+                squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, weaponDeck);
+                squares[0][3] = new AmmoSquare("C", 0, 3, new SquareBorder[]{NOTHING, DOOR, DOOR, NOTHING}, ammoDeck);
+                squares[1][0] = new SpawnAndShopSquare(RED_SPAWN_NAME, 1, 0, new SquareBorder[]{ROOM, DOOR, NOTHING, WALL}, weaponDeck);
+                squares[1][1] = new AmmoSquare("D", 1, 1, new SquareBorder[]{DOOR, DOOR, WALL, WALL}, ammoDeck);
+                squares[1][2] = new AmmoSquare("E", 1, 2, new SquareBorder[]{DOOR, ROOM, WALL, ROOM}, ammoDeck);
+                squares[1][3] = new AmmoSquare("F", 1, 3, new SquareBorder[]{DOOR, ROOM, ROOM, NOTHING}, ammoDeck);
+                squares[2][0] = new AmmoSquare("G", 2, 0, new SquareBorder[]{DOOR, NOTHING, NOTHING, ROOM}, ammoDeck);
+                squares[2][1] = new AmmoSquare("H", 2, 1, new SquareBorder[]{DOOR, NOTHING, ROOM, DOOR}, ammoDeck);
+                squares[2][2] = new AmmoSquare("I", 2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck);
+                squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, weaponDeck);
+                break;
         }
     }
 

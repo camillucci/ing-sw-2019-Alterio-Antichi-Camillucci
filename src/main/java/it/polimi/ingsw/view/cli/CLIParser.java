@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 public class CLIParser {
     public static final CLIParser parser = new CLIParser(System.in);
     private BufferedReader reader;
+    private static final String NUMBER_FORMAT_EXCEPTION = "Please insert a number";
 
     public CLIParser(InputStream inputStream){
         reader =  new BufferedReader(new InputStreamReader(inputStream));
@@ -27,17 +28,27 @@ public class CLIParser {
     }
 
     public int parseChoice() throws IOException {
-        int choice;
+        int choice = -1;
         do {
-            choice = Integer.parseInt(reader.readLine());
+            try {
+                choice = Integer.parseInt(reader.readLine());
+            }
+            catch(NumberFormatException e) {
+                CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
+            }
         } while(choice != 0 && choice != 1);
         return choice;
     }
 
     public int parseIndex(int index) throws IOException {
-        int answer;
+        int answer = -1;
         do {
-            answer= Integer.parseInt(reader.readLine());
+            try {
+                answer = Integer.parseInt(reader.readLine());
+            }
+            catch(NumberFormatException e) {
+                CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
+            }
         } while(answer < 0 || answer >= index);
         return answer;
     }
@@ -46,18 +57,28 @@ public class CLIParser {
         //TODO
     }
 
-    public int parseGameLength() {
-        int answer;
+    public int parseGameLength() throws IOException {
+        int answer = -1;
         do {
-            answer = Integer.parseInt(System.in.toString());
-        } while(answer <5 || answer > 8);
+            try {
+                answer = Integer.parseInt(reader.readLine());
+            }
+            catch(NumberFormatException e) {
+                CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
+            }
+        } while(answer < 5 || answer > 8);
         return answer;
     }
 
-    public int parseGameMap() {
-        int answer;
+    public int parseGameMap() throws IOException {
+        int answer = -1;
         do {
-            answer = Integer.parseInt(System.in.toString());
+            try {
+                answer = Integer.parseInt(reader.readLine());
+            }
+            catch(NumberFormatException e) {
+                CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
+            }
         } while(answer < 0 || answer > 3);
         return answer;
     }
