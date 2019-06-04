@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * This class contains the colors WeaponCards, PowerUpCards and Squares can assume
+ */
 public enum AmmoColor {
     BLUE("Blue"),
     RED("Red"),

@@ -16,7 +16,7 @@ import java.rmi.RemoteException;
 class LoginTest {
     private final boolean SOCKET_TESTING = false;
     private final boolean REMOTE_TESTING = false;
-    private final boolean GUI_TEST = true;
+    private final boolean GUI_TEST = false;
     static int j = 0;
     Bottleneck bottleneck = new Bottleneck();
     @Test
@@ -100,14 +100,14 @@ class LoginTest {
         if(!GUI_TEST)
             return;
         AdrenalineLauncherClient.main(new String[]{});
-        Thread.sleep(20000);
+        Thread.sleep(200000);
     }
     @Test
     void test32() throws InterruptedException {
         if(!GUI_TEST)
             return;
         AdrenalineLauncherClient.main(new String[]{});
-        Thread.sleep(20000);
+        Thread.sleep(200000);
     }
 
     @Test
@@ -121,7 +121,7 @@ class LoginTest {
         AdrenalineLauncherClient.main(new String[]{});
 
         for(int h = 0; h < 1; h++, j=0)
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 0; i++) {
                 (new Thread(() -> Bot.login(Bot.getLoginString(++j), true, "127.0.0.1", 9999))).start();
                 Thread.sleep(1000);
             }

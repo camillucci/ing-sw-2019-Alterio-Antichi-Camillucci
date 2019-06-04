@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.actionHandler.ActionHandlerGUI;
 import it.polimi.ingsw.view.gui.login.NewLoginGUI;
 import it.polimi.ingsw.view.gui.login.NicknameController;
 import javafx.application.Platform;
@@ -37,15 +38,17 @@ public class GUIView extends View
         }
         setupStage();
         this.curViewElement = this.login = NewLoginGUI.createLoginScene(app);
-        this.actionHandler = new ActionHandlerGUI();
+        //this.actionHandler = new ActionHandlerGUI();
+        this.actionHandler = ActionHandlerGUI.getController();
+        ((ActionHandlerGUI) actionHandler).start(app);
     }
 
     private void setupStage(){
         Platform.runLater(() -> {
             primaryStage.setTitle("Welcome Adrenaline!");
-            primaryStage.setResizable(false);
+            //primaryStage.setResizable(false);
             primaryStage.setFullScreenExitHint("");
-            primaryStage.setFullScreen(true);
+            //primaryStage.setFullScreen(true);
             primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             primaryStage.setOnCloseRequest(e ->
             {

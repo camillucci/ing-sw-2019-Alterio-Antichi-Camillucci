@@ -19,40 +19,46 @@ public class CLIParser {
     }
 
     public String parseName() throws IOException {
-        String name = reader.readLine();
-        //TODO add restrictions
+        String name;
+        do {
+            name = reader.readLine();
+        } while(name.length() < 2 || name.length() > 16);
         return name;
     }
 
     public int parseChoice() throws IOException {
-        int choice = Integer.parseInt(reader.readLine());
-        if (choice == 0 || choice == 1)
-            return choice;
-        return -1;
+        int choice;
+        do {
+            choice = Integer.parseInt(reader.readLine());
+        } while(choice != 0 && choice != 1);
+        return choice;
     }
 
     public int parseIndex(int index) throws IOException {
-        int answer = Integer.parseInt(reader.readLine());
-        if(answer < index && answer >= 0)
-            return answer;
-        return -1;
+        int answer;
+        do {
+            answer= Integer.parseInt(reader.readLine());
+        } while(answer < 0 || answer >= index);
+        return answer;
     }
 
     public void parseActions() {
         //TODO
     }
 
-    public int parseGameLenght() {
-        int answer = Integer.parseInt(System.in.toString());
-        if(answer <= 8 && answer >= 5)
-            return answer;
-        return -1;
+    public int parseGameLength() {
+        int answer;
+        do {
+            answer = Integer.parseInt(System.in.toString());
+        } while(answer <5 || answer > 8);
+        return answer;
     }
 
     public int parseGameMap() {
-        int answer = Integer.parseInt(System.in.toString());
-        if(answer < 3 && answer >= 0)
-            return answer;
-        return -1;
+        int answer;
+        do {
+            answer = Integer.parseInt(System.in.toString());
+        } while(answer < 0 || answer > 3);
+        return answer;
     }
 }

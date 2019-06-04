@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * This class contains the colors Players can assume
+ */
 public enum PlayerColor {
     BLUE("Blue"),
     GREEN("Green"),

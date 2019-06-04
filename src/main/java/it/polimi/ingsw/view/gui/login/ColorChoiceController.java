@@ -24,7 +24,6 @@ public class ColorChoiceController implements Ifxml<HBox> {
         ImageView ret = new ImageView(new Image(url));
         ret.getStyleClass().add("button");
         ret.getStyleClass().add("colorButton");
-        //ret.setStyle("-fx-fill: " + color);
         hBox.getChildren().add(ret);
         return ret;
     }

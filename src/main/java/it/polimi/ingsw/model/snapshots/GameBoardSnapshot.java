@@ -22,7 +22,7 @@ public class GameBoardSnapshot implements Serializable
                     squareSnapshots[i][j] = new SquareSnapshot(gameBoard.squares[i][j]);
 
         skulls = gameBoard.getSkulls();
-        mapType = gameBoard.getGameSize();
+        mapType = gameBoard.getMapType();
 
         List<List<PlayerColor>> temp = gameBoard.getKillShotTrack();
         for(int i = 0; i < temp.size(); i++) {

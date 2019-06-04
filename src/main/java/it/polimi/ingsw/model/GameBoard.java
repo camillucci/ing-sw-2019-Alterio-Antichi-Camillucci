@@ -6,28 +6,61 @@ import java.util.List;
 
 import static it.polimi.ingsw.model.SquareBorder.*;
 
+/**
+ * This class is the board of the game, it contains all the squares, the kill shot track
+ * and all the method to calculate the required squares for actions
+ */
 public class GameBoard {
 
+    /**
+     * The list of player currently playing the match
+     */
     private List<Player> players = new ArrayList<>();
+    /**
+     * The deck with all remaining WeaponCards
+     */
     public final WeaponDeck weaponDeck = new WeaponDeck();
+    /**
+     * The deck with all remaining and discarded PowerUpCards
+     */
     public final PowerUpDeck powerupDeck = new PowerUpDeck();
+    /**
+     * The deck with all remaining and discarded AmmoCards
+     */
     public final AmmoDeck ammoDeck = new AmmoDeck();
+    /**
+     * The matrix of squares
+     */
     public final Square[][] squares = new Square[3][4];
+    /**
+     * The number of skulls remaining, from 0 to 8
+     */
     private int skulls;
-    private int gameSize;
+    /**
+     * The type of the map, from 0 to 3
+     */
+    private int mapType;
+    /**
+     * The kill shot track, it contains the piece that identify how many kills each person got
+     */
     private List<List<PlayerColor>> killShotTrack = new ArrayList<>();
     private static final int MAX_SKULLS = 8;
     private static final String BLUE_SPAWN_NAME = "Blue Spawn";
     private static final String RED_SPAWN_NAME = "Red Spawn";
     private static final String YELLOW_SPAWN_NAME = "Yellow Spawn";
 
-    public GameBoard(int gameLength, int gameSize) {
+    /**
+     * Create all the squares and the kill shot track
+     * @param gameLength The number of skulls, which define the length of the match, from 5 to 8
+     * @param mapType The type of the map, from 0 to 3
+     */
+    public GameBoard(int gameLength, int mapType) {
         this.skulls = gameLength;
-        this.gameSize = gameSize;
+        this.mapType = mapType;
         for(int i = 0; i < MAX_SKULLS - skulls; i++)
             killShotTrack.add(new ArrayList<>());
 
-        if(gameSize == 0) {
+        if(mapType == 0) {
             squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, ammoDeck);
             squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck);
             squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, weaponDeck);
@@ -41,7 +74,7 @@ public class GameBoard {
             squares[2][2] = new AmmoSquare("G", 2, 2, new SquareBorder[]{WALL, NOTHING, ROOM, DOOR}, ammoDeck);
             squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, DOOR, NOTHING}, weaponDeck);
         }
-        else if (gameSize == 1) {
+        else if (mapType == 1) {
             squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, DOOR, NOTHING, ROOM}, ammoDeck);
             squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck);
             squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, DOOR}, weaponDeck);
@@ -55,7 +88,7 @@ public class GameBoard {
             squares[2][2] = new AmmoSquare("H", 2, 2, new SquareBorder[]{ROOM, NOTHING, DOOR, ROOM}, ammoDeck);
             squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, weaponDeck);
         }
-        else if (gameSize == 2) {
+        else if (mapType == 2) {
             squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, DOOR}, ammoDeck);
             squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, DOOR, DOOR, ROOM}, ammoDeck);
             squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, weaponDeck);
@@ -85,6 +118,10 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Add a new list to the kill shot track each time a player is killed
+     * @param newKillShot The new kill shot track to add, one PlayerColor for the death and a second one for the overkill
+     */
     public void addKillShotTrack(List<PlayerColor> newKillShot) {
         if(killShotTrack.size() < MAX_SKULLS)
             killShotTrack.add(newKillShot);
@@ -92,6 +129,12 @@ public class GameBoard {
             killShotTrack.get(MAX_SKULLS - 1).addAll(newKillShot);
     }
 
+    /**
+     * This method returns all the squares a Player can move into
+     * @param player The Player from which calculate di squares
+     * @param dist The maximum distance a player can move
+     * @return The list of squares which are at maximum at distance dist from the Player
+     */
     public List<Square> getSquares(Player player, int dist) {
 
         if(dist == -1)
@@ -111,6 +154,11 @@ public class GameBoard {
         return tempSquare;
     }
 
+    /**
+     * This method adds to a list all the squares near a given square if they are reachable and if they are not already contained
+     * @param tempSquare The list to which the new squares are added
+     * @param square The square from which the near squares are gonna be evaluated
+     */
     private void addIfOk(List<Square> tempSquare, Square square) {
         if ((square.okNorth()) && !tempSquare.contains(squares[square.y - 1][square.x]))
             tempSquare.add(squares[square.y - 1][square.x]);
@@ -122,6 +170,11 @@ public class GameBoard {
             tempSquare.add(squares[square.y][square.x + 1]);
     }
 
+    /**
+     * This method returns all the near square from a given square
+     * @param square The Square from near squares are found
+     * @return The list of near squares from the given Square
+     */
     public List<Square> distanceOneSquares(Square square) {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(square);
@@ -138,6 +191,11 @@ public class GameBoard {
         return tempSquare;
     }
 
+    /**
+     * This method returns all square a given player can see
+     * @param player The Player from which we need to fine the squares it can see
+     * @return The squares a given Player can see
+     */
     public List<Square> getInRangeSquares(Player player) {
         //Add rooms near the player's current square...
         List<Square> tempSquare = distanceOneBorderType(player.getCurrentSquare(), DOOR);
@@ -156,6 +214,12 @@ public class GameBoard {
         return tempSquare;
     }
 
+    /**
+     * This method returns all near squares from a given square if the are separated by a given SquareBorder
+     * @param square The Square from which its near squares are evaluated
+     * @param type The SquareBorder that we need to check
+     * @return All squares near the given Square which confine through the given SquareBorder
+     */
     private List<Square> distanceOneBorderType(Square square, SquareBorder type) {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(square);
@@ -172,6 +236,11 @@ public class GameBoard {
         return tempSquare;
     }
 
+    /**
+     * This method returns all players a given player can see
+     * @param player The Player from which we need to fine the players it can see
+     * @return The players that the given Player can see
+     */
     public List<Player> getInRangePlayers(Player player) {
         List<Square> tempSquare = getInRangeSquares(player);
         List<Player> tempPlayers = new ArrayList<>();
@@ -181,6 +250,12 @@ public class GameBoard {
         return tempPlayers;
     }
 
+    /**
+     * This method returns all players a given player can see which are at least at a given distance
+     * @param player The Player from which we need to fine the players it can see
+     * @param minDistance The minimum distance the given Player can see
+     * @return The players that the given Player can see which are at least at the given distance
+     */
     public List<Player> getAwayPlayers(Player player, int minDistance){
         List<Square> tempSquare = getInRangeSquares(player);
         List<Square> tempCloseSquare = getSquares(player, minDistance - 1);
@@ -193,6 +268,12 @@ public class GameBoard {
         return tempPlayers;
     }
 
+    /**
+     * This method returns all players a given player can see which are at most at a given distance
+     * @param player The Player from which we need to fine the players it can see
+     * @param maxDistance The maximum distance the given Player can see
+     * @return The players that the given Player can see which are at most at the given distance
+     */
     public List<Player> getNearPlayers(Player player, int maxDistance) {
         List<Square> tempSquare = getInRangeSquares(player);
         List<Square> tempFarSquares = getSquares(player, maxDistance);
@@ -205,6 +286,13 @@ public class GameBoard {
         return tempPlayers;
     }
 
+    /**
+     * This method returns all players a given player can see which are between the two given distance
+     * @param player The Player from which we need to fine the players it can see
+     * @param minDistance The minimum distance the given Player can see
+     * @param maxDistance The maximum distance the given Player can see
+     * @return The players that the given Player can see which are between the two given distance
+     */
     public List<Player> getBetweenPlayers(Player player, int minDistance, int maxDistance) {
         List<Square> tempSquare = getInRangeSquares(player);
         List<Square> tempNearSquare = getSquares(player, minDistance - 1);
@@ -218,16 +306,12 @@ public class GameBoard {
         return tempPlayers;
     }
 
-    public List<Square> getAwaySquares(Player player, int minDistance) {
-        List<Square> tempSquare = getInRangeSquares(player);
-        List<Square> tempNearSquare = getSquares(player, minDistance - 1);
-        List<Square> tempFarSquares = new ArrayList<>();
-        for(Square s : tempSquare)
-            if(!tempNearSquare.contains(s))
-                tempFarSquares.add(s);
-        return tempFarSquares;
-    }
-
+    /**
+     * This method returns all squares a given player can see which are at most at a given distance
+     * @param player The Player from which we need to fine the squares it can see
+     * @param maxDistance The maximum distance the given Player can see
+     * @return The squares that the given Player can see which are at most at the given distance
+     */
     public List<Square> getNearSquares(Player player, int maxDistance) {
         List<Square> tempSquare = getInRangeSquares(player);
         List<Square> tempFarSquares = getSquares(player, maxDistance);
@@ -238,6 +322,13 @@ public class GameBoard {
         return tempNearSquare;
     }
 
+    /**
+     * This method returns all squares a given player can see which are between the two given distance
+     * @param player The Player from which we need to fine the squares it can see
+     * @param minDistance The minimum distance the given Player can see
+     * @param maxDistance The maximum distance the given Player can see
+     * @return The squares that the given Player can see which are between the two given distance
+     */
     public List<Square> getBetweenSquares(Player player, int minDistance, int maxDistance) {
         List<Square> tempSquare = getInRangeSquares(player);
         List<Square> tempNearSquare = getSquares(player, minDistance - 1);
@@ -249,6 +340,11 @@ public class GameBoard {
         return tempBetweenSquare;
     }
 
+    /**
+     * This method returns the first square of each room a given player can see and shoot in
+     * @param player The Player from which we need to fine the rooms it can see
+     * @return The squares of the room that the given Player can see and shoot in
+     */
     public List<Square> getOtherVisibleRoom(Player player) {
         List<Square> tempSquare = new ArrayList<>();
         List<Square> tempDoors = distanceOneBorderType(player.getCurrentSquare(), DOOR);
@@ -263,6 +359,11 @@ public class GameBoard {
         return tempSquare;
     }
 
+    /**
+     * This method returns all players a given Player cannot see
+     * @param player The Player from which we need to fine the players it cannot see
+     * @return The players that the given Player cannot see
+     */
     public List<Player> getNonVisiblePlayers(Player player) {
         List<Player> tempInRangePlayers = getInRangePlayers(player);
         List<Player> tempPlayers = new ArrayList<>();
@@ -274,6 +375,11 @@ public class GameBoard {
         return tempPlayers;
     }
 
+    /**
+     * This method returns all the squares in the same room of a given Square
+     * @param square The Square from which we need to find the room it is in
+     * @return The squares in same room of the given Square
+     */
     public List<Square> getRoom(Square square) {
         List<Square> tempSquare = new ArrayList<>();
         tempSquare.add(square);
@@ -286,6 +392,11 @@ public class GameBoard {
         return tempSquare;
     }
 
+    /**
+     * This method return all squares in the same cardinal direction from a given Player, stopping at walls
+     * @param player The Player from which we need to find all the squares in the same cardinal direction
+     * @return The square in the same cardinal direction from the given Player, stopping at walls
+     */
     public List<Square> sameDirection(Player player) {
         Square tempSquare = player.getCurrentSquare();
         Square tempToAdd;
@@ -318,6 +429,12 @@ public class GameBoard {
         return temp;
     }
 
+    /**
+     * This method returns all the squares in the same cardinal direction from the Square of a given Player is in and an other given Square, stopping at walls
+     * @param player The Player from which we need to find all the squares in the same direction
+     * @param square The Square from which we need to fine all squares in the same direction
+     * @return The squares in the same cardinal direction from the Square of the given Player is in and the given Square, stopping at walls
+     */
     public List<Square> sameDirectionSquare(Player player, Square square) {
         if(Math.abs(player.getCurrentSquare().y - square.y) == 2)
             return removeEmptySquares(Collections.singletonList(squares[(player.getCurrentSquare().y + square.y) / 2][square.x]));
@@ -334,6 +451,11 @@ public class GameBoard {
         return Collections.emptyList();
     }
 
+    /**
+     * This method return all squares in the same cardinal direction from a given Player
+     * @param player The Player from which we need to find all the squares in the same cardinal direction
+     * @return The square in the same cardinal direction from the given Player
+     */
     public List<Square> throughWalls(Player player) {
         Square tempSquare = player.getCurrentSquare();
         Square tempToAdd;
@@ -368,6 +490,12 @@ public class GameBoard {
         return removeEmptySquares(temp);
     }
 
+    /**
+     * This method returns all the squares in the same cardinal direction from the Square of a given Player is in and an other given Square
+     * @param player The Player from which we need to find all the squares in the same direction
+     * @param square The Square from which we need to fine all squares in the same direction
+     * @return The squares in the same cardinal direction from the Square of the given Player is in and the given Square
+     */
     public List<Square> throughWalls(Player player, Square square) {
         List<Square> temp = new ArrayList<>();
         temp.add(player.getCurrentSquare());
@@ -383,6 +511,9 @@ public class GameBoard {
         return throughWallsDirection(temp, 3);
     }
 
+    /**
+     * This method is an helper of the throughWalls(Player, Square) method
+     */
     private List<Square> throughWallsDirection(List<Square> temp, int val) {
         for(int i = 0; i < temp.size(); i++)
             switch(val) {
@@ -405,6 +536,11 @@ public class GameBoard {
         return temp;
     }
 
+    /**
+     * This method returns the list of square with at least one player on it from a given list of squares
+     * @param squareList The list of squares from which we need to remove the square without player on it
+     * @return The list of squares which have at least one player on it
+     */
     public List<Square> removeEmptySquares(List<Square> squareList) {
         List<Square> temp = new ArrayList<>();
         for (Square square : squareList)
@@ -413,6 +549,12 @@ public class GameBoard {
         return temp;
     }
 
+    /**
+     * This method returns the given list of squares without the square a given Player is on if it is the only Player on it
+     * @param player The Player to check the square it is on
+     * @param squareList The list of squares from which we may need to remove the Square the given Player is on
+     * @return The list of squares without the Square the given Player is on if it is the only Player on it
+     */
     public List<Square> removeNonPlayerSquares(Player player, List<Square> squareList) {
         List<Square> temp = removeEmptySquares(squareList);
         if(player.getCurrentSquare().getPlayers().size() == 1)
@@ -436,6 +578,11 @@ public class GameBoard {
         return killShotTrack;
     }
 
+    /**
+     * This method returns the Square of the shop of a given AmmoColor
+     * @param color The AmmoColor from which we need to find the shop of the same AmmoColor
+     * @return The shop of the given AmmoColor
+     */
     public Square getSpawnAndShopSquare(AmmoColor color) {
         switch (color) {
             case BLUE:
@@ -447,6 +594,9 @@ public class GameBoard {
         }
     }
 
+    /**
+     * @return The squares in the form of list
+     */
     public List<Square> getSquares() {
         List<Square> temp = new ArrayList<>();
         for (Square[] square : squares)
@@ -456,7 +606,7 @@ public class GameBoard {
         return temp;
     }
 
-    public int getGameSize() {
-        return gameSize;
+    public int getMapType() {
+        return mapType;
     }
 }

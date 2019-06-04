@@ -11,7 +11,7 @@ import java.util.List;
 public class Turn extends ActionsProvider {
 
     public final IEvent<Turn, Player> endTurnEvent = new Event<>();
-    public final IEvent<Turn, List<Action>> newActionsEvent = new Event<>();
+    public final IEvent<Turn, List<Action>> newActionsEvent = new Event<>(); //TODO Change name
     private static int frenzyCounter = 0;
     private Player currentPlayer;
     private int moveCounter = 2;

@@ -13,13 +13,7 @@ public class LoginCLI extends Login {
         CLIMessenger.askConnection();
         boolean connection;
         int choice = CLIParser.parser.parseChoice();
-        while(choice == -1) {
-            //todo
-        }
-        if(choice == 0)
-            connection = true;
-        else
-            connection = false;
+        connection = choice == 0;
         ((Event<Login, Boolean>)socketEvent).invoke(this, connection);
     }
 
@@ -34,9 +28,9 @@ public class LoginCLI extends Login {
         if(isHost)
         {
             CLIMessenger.askGameLenght();
-            ((Event<Login, Integer>)gameLengthEvent).invoke(this, CLIParser.parser.parseIndex(13));
+            ((Event<Login, Integer>)gameLengthEvent).invoke(this, CLIParser.parser.parseGameLength());
             CLIMessenger.askGameMap();
-            ((Event<Login, Integer>)gameMapEvent).invoke(this, CLIParser.parser.parseIndex(13));
+            ((Event<Login, Integer>)gameMapEvent).invoke(this, CLIParser.parser.parseGameMap());
         }
     }
 
