@@ -100,10 +100,14 @@ public class Match extends ActionsProvider {
     private void onPlayerDamaged(Player damaged)
     {
         List<Action> backupActions = this.curActions;
+        Player backupPlayer = this.curPlayer;
         BranchMap branchMap = BranchMapFactory.counterAttackBranchMap();
         this.curPlayer = damaged;
         branchMap.newActionsEvent.addEventHandler((a,actions) -> setNewActions(actions));
-        branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> setNewActions(backupActions));
+        branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> {
+            curPlayer = backupPlayer;
+            setNewActions(backupActions);
+        });
         setNewActions(branchMap.getPossibleActions());
         //TODO Rollback
     }

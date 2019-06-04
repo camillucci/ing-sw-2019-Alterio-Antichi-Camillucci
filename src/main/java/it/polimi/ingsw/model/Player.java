@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 /**
  * This class represent a single playing Player, it contains all infos available to the player
  */
-public class Player {
+public class Player implements Cloneable {
 
     /**
      * The event that is invoked when a Player is damaged, it notifies the Match
