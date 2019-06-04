@@ -7,13 +7,17 @@ import java.util.ArrayList;
 
 public class WeaponSelectionAction extends ExtendableAction
 {
+    public WeaponSelectionAction() {
+        this.text = "use a weapon";
+    }
+
     @Override
     protected void op()
     {
         ArrayList<Branch> w = new ArrayList<>();
         for(WeaponCard wc : ownerPlayer.getLoadedWeapons())
         {
-            ExtendableAction wi = new ExtendableAction(wc.getFireModalities());
+            ExtendableAction wi = new ExtendableAction(wc.getFireModalities(), "use " + wc.name);
             w.add(new Branch(wi));
         }
         this.branches = w;

@@ -10,6 +10,10 @@ import java.util.List;
 
 public class GrabAction extends ExtendableAction
 {
+    public GrabAction() {
+        this.text = "grab";
+    }
+
     @Override
     protected void op()
     {

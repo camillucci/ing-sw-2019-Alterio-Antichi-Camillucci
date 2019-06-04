@@ -36,6 +36,7 @@ public class ShootAction extends Action
         this.playersFilter = playersFilter;
         this.squaresFilter = squaresFilter;
         this.canBeDone = false;
+        this.text = "shoot";
     }
 
     public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc, boolean doesDamage)

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RMITMPTest
 {
-    boolean REMOTE_TESTING = true;
+    boolean REMOTE_TESTING = false;
     @Test
     void server() throws RemoteException, InterruptedException {
         if(!REMOTE_TESTING)
@@ -25,14 +25,4 @@ class RMITMPTest
             return;
         RMITMP.Client client = new RMITMP.Client("169.254.71.160", 1099);
     }
-    @Test
-    void test() throws RemoteException, NotBoundException {
-    }
-
-    @Test
-    void serverRMI() throws InterruptedException {
-        AdrenalineServerRMI serverRMI = new AdrenalineServerRMI(new Controller());
-        Thread.sleep(2000000);
-    }
-
 }

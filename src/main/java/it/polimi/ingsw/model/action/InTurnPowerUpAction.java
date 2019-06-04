@@ -24,6 +24,7 @@ public class InTurnPowerUpAction extends PowerUpAction
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
             }
         });
+        this.text = "use a Targeting Scope";
     }
 
     @Override

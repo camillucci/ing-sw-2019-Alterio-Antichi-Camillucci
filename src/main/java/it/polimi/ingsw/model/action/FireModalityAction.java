@@ -13,7 +13,7 @@ public class FireModalityAction extends ExtendableAction
 {
     public FireModalityAction(Ammo cost, List<Branch> branches)
     {
-        super(branches);
+        super(branches, ""); //TODO Add a proper name
         this.doActionCost = cost;
     }
 

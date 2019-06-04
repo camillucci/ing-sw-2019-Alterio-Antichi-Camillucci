@@ -114,7 +114,7 @@ public class Turn extends ActionsProvider {
     public List<String> getActionTexts() {
         List<String> temp = new ArrayList<>();
         for(int i = 0; i < branchMap.getPossibleActions().size(); i++)
-            temp.add("Press" + i + branchMap.getPossibleActions().get(i).text);
+            temp.add("Press" + i + branchMap.getPossibleActions().get(i).getText());
         return temp;
     }
 }

@@ -14,6 +14,7 @@ public class ReloadAction extends Action
     {
         this.optional = true;
         this.canBeDone = false;
+        this.text = "reload a weapon";
     }
 
     @Override

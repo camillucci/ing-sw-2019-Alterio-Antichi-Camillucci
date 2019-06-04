@@ -53,10 +53,6 @@ public class CLIParser {
         return answer;
     }
 
-    public void parseActions() {
-        //TODO
-    }
-
     public int parseGameLength() throws IOException {
         int answer = -1;
         do {
@@ -80,6 +76,19 @@ public class CLIParser {
                 //CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
             }
         } while(answer < 0 || answer > 3);
+        return answer;
+    }
+
+    public int parseActions(int index) throws IOException {
+        int answer;
+        try {
+            answer = Integer.parseInt(reader.readLine());
+        }
+        catch(NumberFormatException e) {
+            answer = -1;
+        }
+        if(answer < 0 || answer > index)
+            answer = -1;
         return answer;
     }
 }

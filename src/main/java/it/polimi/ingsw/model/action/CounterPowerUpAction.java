@@ -22,6 +22,7 @@ public class CounterPowerUpAction extends PowerUpAction
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
             }
         });
+        this.text = "use a Tagback Grenade";
     }
 
     public CounterPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter)
@@ -29,6 +30,7 @@ public class CounterPowerUpAction extends PowerUpAction
         this.playersFilter = TargetsFilters.noPlayersFilter;
         this.squaresFilter = TargetsFilters.noSquaresFilter;
         this.powerUpFilter = powerUpFilter;
+        this.text = "use a Tagback Grenade";
     }
 
     @Override

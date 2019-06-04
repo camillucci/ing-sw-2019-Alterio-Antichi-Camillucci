@@ -3,20 +3,18 @@ package it.polimi.ingsw.model.action;
 import it.polimi.ingsw.model.branch.Branch;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ExtendableAction extends Action
 {
     protected List<Branch> branches;
 
-    public ExtendableAction(List<Branch> branches)
+    public ExtendableAction() {}
+
+    public ExtendableAction(List<Branch> branches, String text)
     {
         this.branches = new ArrayList<>(branches);
-    }
-
-    public ExtendableAction(Branch ... branches) {
-        this(Arrays.asList(branches));
+        this.text = text;
     }
 
     public List<Branch> getBranches()

@@ -84,7 +84,7 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
     protected List<RemoteAction> createRemoteActions(List<Action> actions) {
         List<RemoteAction> ret = new ArrayList<>();
         for(int i=0; i < actions.size(); i++)
-            ret.add(new RemoteActionSocket(i, actions.get(i).text));
+            ret.add(new RemoteActionSocket(i, actions.get(i).getText()));
         return ret;
     }
 

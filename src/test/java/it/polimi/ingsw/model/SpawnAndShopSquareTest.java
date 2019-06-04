@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -17,9 +18,9 @@ class SpawnAndShopSquareTest {
         player.addRed(2);
         player.addYellow(2);
         assertEquals(3, gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE).grab(player, Collections.emptyList()).size());
-        player.addWeapon(null);
-        player.addWeapon(null);
-        player.addWeapon(null);
+        player.addWeapon(new WeaponCard("", null, null, null));
+        player.addWeapon(new WeaponCard("", null, null, null));
+        player.addWeapon(new WeaponCard("", null, null, null));
         assertEquals(3, gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE).grab(player, Collections.emptyList()).size());
     }
 }

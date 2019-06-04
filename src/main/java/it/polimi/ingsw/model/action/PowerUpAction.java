@@ -15,16 +15,12 @@ public class PowerUpAction extends ShootAction
             if(this.selectedPowerUp != null)
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
         });
+        this.text = "use a Newton or a Teleporter";
     }
 
     public PowerUpAction(SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
-        super(shootFunc, squaresFilter);
-        this.optional = true;
-        this.completedActionEvent.addEventHandler((a,b)->{
-            if(this.selectedPowerUp != null)
-                ownerPlayer.getPowerupSet().remove(selectedPowerUp);
-        });
+        this(TargetsFilters.noPlayersFilter, squaresFilter, shootFunc);
     }
 
     public PowerUpAction()
@@ -32,6 +28,7 @@ public class PowerUpAction extends ShootAction
         this.optional = true;
         this.playersFilter = TargetsFilters.noPlayersFilter;
         this.squaresFilter = TargetsFilters.noSquaresFilter;
+        this.text = "use a Newton or a Teleporter";
     }
 
     @Override

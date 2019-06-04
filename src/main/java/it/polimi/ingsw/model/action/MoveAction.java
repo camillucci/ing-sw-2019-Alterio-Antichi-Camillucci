@@ -16,6 +16,7 @@ public class MoveAction extends Action
         this.maxDistance = maxDistance;
         this.optional = true;
         this.canBeDone = false;
+        this.text = "move";
     }
 
     public MoveAction(int minDistance, int maxDistance)

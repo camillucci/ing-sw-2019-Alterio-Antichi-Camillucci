@@ -22,7 +22,7 @@ public class RMIRemoteActionHandler extends RemoteActionsHandler
     {
         List<RemoteAction> ret = new ArrayList<>();
         for(int i=0; i < actions.size(); i++)
-            ret.add(new RemoteActionRMI(i, actions.get(i).text));
+            ret.add(new RemoteActionRMI(i, actions.get(i).getText()));
         return ret;
     }
 

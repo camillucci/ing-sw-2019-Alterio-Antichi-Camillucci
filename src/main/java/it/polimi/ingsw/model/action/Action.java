@@ -28,25 +28,30 @@ public class Action
     protected boolean canBeDone = true;
 
     private Consumer opMethod = a -> { };
-    public final String text = "";
+    protected String text;
 
     protected Action() {}
 
-    public Action(Ammo doActionCost,  boolean isOptional,  Consumer<Action> doActionMethod)
+    protected Action(String text) {
+        this.text = text;
+    }
+
+    public Action(Ammo doActionCost,  boolean isOptional,  Consumer<Action> doActionMethod, String text)
     {
         this.opMethod = doActionMethod;
         this.doActionCost = doActionCost;
         this.optional = isOptional;
+        this.text = text;
     }
 
-    public Action(Ammo doActionCost, Consumer<Action> doActionMethod)
+    public Action(Ammo doActionCost, Consumer<Action> doActionMethod, String text)
     {
-        this(doActionCost, false, doActionMethod);
+        this(doActionCost, false, doActionMethod, text);
     }
 
-    public Action(Consumer<Action> doActionMethod)
+    public Action(Consumer<Action> doActionMethod, String text)
     {
-        this(new Ammo(0,0,0), doActionMethod);
+        this(new Ammo(0,0,0), doActionMethod, text);
     }
 
     public void doAction()
@@ -135,7 +140,7 @@ public class Action
 
     public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
 
-    public List<String> getText(int index) {
-        return new ArrayList<>(Collections.singletonList("Press" + index + text));
+    public String getText() {
+        return text;
     }
 }

@@ -37,7 +37,7 @@ public class SpawnAndShopSquare extends Square {
                 new ExtendableAction(player.getWeapons().stream().map(w->new Branch(new Action(a-> {
                     a.getOwnerPlayer().getCurrentSquare().addWeapon(w);
                     a.getOwnerPlayer().removeWeapon(w);
-                }), new EndBranchAction())).collect(Collectors.toList()));
+                }, "grab " + w.name), new EndBranchAction())).collect(Collectors.toList()), "discard a weapon");
 
         Ammo powerUpAmmo = new Ammo(0, 0, 0);
         for(PowerUpCard powerUpCard : powerUpCards)
@@ -47,7 +47,7 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new Action(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
-                }), chooseToDropBranches));
+                }, "discard " + w.name), chooseToDropBranches));
         return ret;
     }
 
@@ -62,7 +62,7 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new Action(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
-                }), new EndBranchAction()));
+                }, "grab " + w.name), new EndBranchAction()));
         return ret;
     }
 
