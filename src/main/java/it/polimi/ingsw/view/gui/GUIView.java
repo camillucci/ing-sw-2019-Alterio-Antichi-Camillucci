@@ -38,9 +38,9 @@ public class GUIView extends View
         }
         setupStage();
         this.curViewElement = this.login = NewLoginGUI.createLoginScene(app);
-        //this.actionHandler = new ActionHandlerGUI();
-        this.actionHandler = ActionHandlerGUI.getController();
-        ((ActionHandlerGUI) actionHandler).start(app);
+        this.actionHandler = new ActionHandlerGUI();
+        //this.actionHandler = ActionHandlerGUI.getController();
+        //((ActionHandlerGUI) actionHandler).start(app);
     }
 
     private void setupStage(){

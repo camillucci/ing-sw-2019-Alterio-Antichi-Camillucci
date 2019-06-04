@@ -34,7 +34,7 @@ public class CLIParser {
                 choice = Integer.parseInt(reader.readLine());
             }
             catch(NumberFormatException e) {
-                CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
+                //CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
             }
         } while(choice != 0 && choice != 1);
         return choice;
@@ -64,7 +64,7 @@ public class CLIParser {
                 answer = Integer.parseInt(reader.readLine());
             }
             catch(NumberFormatException e) {
-                CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
+                //CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
             }
         } while(answer < 5 || answer > 8);
         return answer;
@@ -77,7 +77,7 @@ public class CLIParser {
                 answer = Integer.parseInt(reader.readLine());
             }
             catch(NumberFormatException e) {
-                CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
+                //CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
             }
         } while(answer < 0 || answer > 3);
         return answer;

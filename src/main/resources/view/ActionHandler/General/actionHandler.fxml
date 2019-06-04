@@ -8,6 +8,7 @@
 
 <GridPane alignment="CENTER"  fx:id="gameBoard" styleClass="background" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
+
             fx:controller="it.polimi.ingsw.view.gui.actionHandler.ActionHandlerGUI"
             prefHeight="400.0" prefWidth="600.0">
     <VBox spacing="20" minHeight="300" fx:id="playerSetsVBox" GridPane.columnIndex="1" GridPane.rowIndex="0">

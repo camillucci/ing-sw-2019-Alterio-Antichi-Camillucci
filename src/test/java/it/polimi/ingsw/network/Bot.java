@@ -12,9 +12,9 @@ public class Bot
     static int i=0;
     public static String getLoginString(int playerNum){
         if(playerNum == 1)
-            return "turangla_lella"+ i++ +"\n0\n0\n0\n";
+            return "0\nturangla_lella"+ i++ +"\n0\n6\n0\n";
         else
-            return "turanga_lella" + i++ + "\n0\n";
+            return "0\nturanga_lella" + i++ + "\n0\n";
     }
     public static void login(String input, boolean socket, String serverName, int port) {
         try {

@@ -56,4 +56,8 @@
             </rowConstraints>
         </GridPane>
     </StackPane>
+    <HBox>
+        <ImageView fx:id="card1">
+        </ImageView>
+    </HBox>
 </VBox>

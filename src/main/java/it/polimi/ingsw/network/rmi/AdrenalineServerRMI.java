@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
@@ -17,9 +19,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenalineServer {
+
+    public final IEvent<AdrenalineServerRMI, Object> newClientConnected = new Event<>();
     private ICallbackAdrenalineClient client;
     private Registry registry;
-    private boolean stopPinging = true;
+    private boolean stopPinging = false;
     private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
         while(!getStopPinging()) {
             client.ping();
@@ -36,14 +40,6 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
 
     public AdrenalineServerRMI(Controller controller) {
         super(controller);
-        Remote stub = null;
-        try {
-            registry = LocateRegistry.createRegistry(1099);
-            stub = UnicastRemoteObject.exportObject(this, 1099);
-            LocateRegistry.getRegistry(1099).rebind("Server", stub);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -70,6 +66,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     @Override
     public void registerClient(ICallbackAdrenalineClient client) {
         this.client = client;
+        ((Event<AdrenalineServerRMI, Object>)newClientConnected).invoke(this, null);
     }
 
     private synchronized boolean getStopPinging() {
@@ -85,6 +82,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     {
         if(pingingThread.getState() != Thread.State.TERMINATED)
             return;
+        setStopPinging(false);
         pingingThread.start();
     }
 
