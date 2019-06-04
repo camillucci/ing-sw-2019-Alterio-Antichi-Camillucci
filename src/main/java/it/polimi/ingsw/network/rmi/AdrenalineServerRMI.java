@@ -67,6 +67,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     public void registerClient(ICallbackAdrenalineClient client) {
         this.client = client;
         ((Event<AdrenalineServerRMI, Object>)newClientConnected).invoke(this, null);
+        startPinging();
     }
 
     private synchronized boolean getStopPinging() {
@@ -80,7 +81,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     @Override
     protected void startPinging()
     {
-        if(pingingThread.getState() != Thread.State.TERMINATED)
+        if(pingingThread.getState() != Thread.State.TERMINATED && pingingThread.getState() != Thread.State.NEW)
             return;
         setStopPinging(false);
         pingingThread.start();
