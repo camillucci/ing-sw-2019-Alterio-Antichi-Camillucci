@@ -274,7 +274,7 @@ public class CLIMessenger {
         }
     }
 
-    public static int displayTargets(ArrayList<String> targetPlayers, ArrayList<String> targetSquares, ArrayList<String> usablePowerUps, ArrayList<String> discardablePowerUps) {
+    public static int displayTargets(List<String> targetPlayers, List<String> targetSquares, List<String> usablePowerUps, List<String> discardablePowerUps) {
         int j = 0;
         for(int i = 0; i < targetPlayers.size(); i++, j++)
             display(PRESS + j + " if you want to target player " + targetPlayers.get(i));
@@ -287,7 +287,7 @@ public class CLIMessenger {
         return j;
     }
 
-    public static void displayTargetsAndAction(ArrayList<String> targetPlayers, ArrayList<String> targetSquares, ArrayList<String> usablePowerUps, ArrayList<String> discardablePowerUps) {
+    public static void displayTargetsAndAction(List<String> targetPlayers, List<String> targetSquares, List<String> usablePowerUps, List<String> discardablePowerUps) {
         int temp = displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
         display(PRESS + temp + " if you want to execute action with previously selected targets");
     }

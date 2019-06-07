@@ -5,11 +5,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.function.Predicate;
 
 public class CLIParser {
     public static final CLIParser parser = new CLIParser(System.in);
     private BufferedReader reader;
-    private static final String NUMBER_FORMAT_EXCEPTION = "Please insert a number";
 
     public CLIParser(InputStream inputStream){
         reader =  new BufferedReader(new InputStreamReader(inputStream));
@@ -20,75 +20,45 @@ public class CLIParser {
     }
 
     public String parseName() throws IOException {
-        String name;
-        do {
-            name = reader.readLine();
-        } while(name.length() < 2 || name.length() > 16);
-        return name;
+        return getStringIf(name -> name.length() < 2 || name.length() > 16);
     }
 
     public int parseChoice() throws IOException {
-        int choice = -1;
-        do {
-            try {
-                choice = Integer.parseInt(reader.readLine());
-            }
-            catch(NumberFormatException e) {
-                //CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
-            }
-        } while(choice != 0 && choice != 1);
-        return choice;
+        return getIntIf(choice -> choice != 0 && choice != 1);
     }
 
     public int parseIndex(int index) throws IOException {
-        int answer = -1;
-        do {
-            try {
-                answer = Integer.parseInt(reader.readLine());
-            }
-            catch(NumberFormatException e) {
-                CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
-            }
-        } while(answer < 0 || answer >= index);
-        return answer;
+        return getIntIf(answer -> answer < 0 || answer >= index);
     }
 
     public int parseGameLength() throws IOException {
-        int answer = -1;
-        do {
-            try {
-                answer = Integer.parseInt(reader.readLine());
-            }
-            catch(NumberFormatException e) {
-                //CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
-            }
-        } while(answer < 5 || answer > 8);
-        return answer;
+        return getIntIf(answer -> answer < 5 || answer > 8);
     }
 
     public int parseGameMap() throws IOException {
-        int answer = -1;
-        do {
-            try {
-                answer = Integer.parseInt(reader.readLine());
-            }
-            catch(NumberFormatException e) {
-                //CLIMessenger.printMessage(NUMBER_FORMAT_EXCEPTION);
-            }
-        } while(answer < 0 || answer > 3);
-        return answer;
+        return getIntIf(answer -> answer < 0 || answer > 3);
     }
 
     public int parseActions(int index) throws IOException {
-        int answer;
-        try {
-            answer = Integer.parseInt(reader.readLine());
-        }
-        catch(NumberFormatException e) {
-            answer = -1;
-        }
-        if(answer < 0 || answer > index)
-            answer = -1;
-        return answer;
+        return getIntIf(answer -> answer < 0 || answer > index);
     }
+
+    private int getIntIf(Predicate<Integer> inputTest) throws IOException {
+        int val = Integer.parseInt(reader.readLine());
+        while (!inputTest.test(val)) {
+            CLIMessenger.incorrectInput();
+            val = Integer.parseInt(reader.readLine());
+        }
+        return val;
+    }
+
+    private String getStringIf(Predicate<String> inputTest) throws IOException {
+        String val = reader.readLine();
+        while (!inputTest.test(val)) {
+            CLIMessenger.incorrectInput();
+            val = reader.readLine();
+        }
+        return val;
+    }
+
 }

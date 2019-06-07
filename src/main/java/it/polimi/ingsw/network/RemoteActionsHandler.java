@@ -32,8 +32,6 @@ public abstract class RemoteActionsHandler implements IActionHandler {
         return Collections.emptyList();
     }
 
-    public abstract void waitForClient() throws IOException;
-
     @Override
     public void chooseAction(int index) {
         selectedAction = curActions.get(index);

@@ -82,5 +82,6 @@ public class AdrenalineServerSocket extends AdrenalineServer
     @Override
     protected void newActions(List<RemoteAction> actions) throws IOException {
         client.out().sendObject(new ArrayList<>(actions));
+        ((RemoteActionsHandlerSocket)remoteActionsHandler).waitForClient();
     }
 }

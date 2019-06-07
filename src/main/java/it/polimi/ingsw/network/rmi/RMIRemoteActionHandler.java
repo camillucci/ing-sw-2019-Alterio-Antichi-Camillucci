@@ -25,9 +25,4 @@ public class RMIRemoteActionHandler extends RemoteActionsHandler
             ret.add(new RemoteActionRMI(i, actions.get(i).getText()));
         return ret;
     }
-
-    @Override
-    public void waitForClient() {
-        // nothing
-    }
 }

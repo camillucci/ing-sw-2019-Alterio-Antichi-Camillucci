@@ -88,8 +88,8 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
         return ret;
     }
 
-    @Override
     public void waitForClient() throws IOException {
+        chooseAction(client.in().getInt());
         handleAction();
     }
 }
