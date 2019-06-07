@@ -4,19 +4,18 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
 import it.polimi.ingsw.network.IRMIAdrenalineServer;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.IOException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenalineServer {
 
@@ -24,6 +23,8 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     private ICallbackAdrenalineClient client;
     private Registry registry;
     private boolean stopPinging = false;
+    private static final Logger logger = Logger.getLogger("AdrenalineServerRMI");
+
     private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
         while(!getStopPinging()) {
             client.ping();
@@ -96,7 +97,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         try {
             pingingThread.join();
         } catch (InterruptedException e) {
-            //todo
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 

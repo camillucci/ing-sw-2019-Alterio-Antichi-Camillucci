@@ -15,7 +15,8 @@ public class ActionHandlerCLI extends ActionHandler {
         RemoteAction action;
 
         CLIMessenger.displayActions(options);
-        ((Event<ActionHandler, RemoteAction>)choiceEvent).invoke(this, action = options.get(CLIParser.parser.parseActions(options.size())));
+        action = options.get(CLIParser.parser.parseActions(options.size()));
+        ((Event<ActionHandler, RemoteAction>)choiceEvent).invoke(this, action);
         while(!askChoice(action, action.canBeDone())) // while !doAction
             ;
     }

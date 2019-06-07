@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -7,7 +7,6 @@ import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.RemoteException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;

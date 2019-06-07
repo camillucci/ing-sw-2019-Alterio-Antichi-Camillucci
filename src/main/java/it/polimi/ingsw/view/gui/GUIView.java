@@ -2,24 +2,26 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.gui.actionHandler.ActionHandlerGUI;
+import it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI;
 import it.polimi.ingsw.view.gui.login.NewLoginGUI;
 import it.polimi.ingsw.view.gui.login.NicknameController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GUIView extends View
 {
     private final Object lock = new Object();
     private App app;
     private Stage primaryStage;
+    private static final Logger logger = Logger.getLogger("GUIView");
+
     public GUIView() throws InterruptedException, IOException {
         startupGUI();
     }
@@ -39,8 +41,8 @@ public class GUIView extends View
         setupStage();
         this.curViewElement = this.login = NewLoginGUI.createLoginScene(app);
         this.actionHandler = new ActionHandlerGUI();
-        //this.actionHandler = ActionHandlerGUI.getController();
-        //((ActionHandlerGUI) actionHandler).start(app);
+        //this.actionhandler = ActionHandlerGUI.getController();
+        //((ActionHandlerGUI) actionhandler).start(app);
     }
 
     private void setupStage(){
@@ -58,7 +60,7 @@ public class GUIView extends View
         });
     }
 
-    public static <V> V getController(String url) throws IOException {
+    public static <V> V getController(String url) {
        return getController(url, null);
     }
 
@@ -71,10 +73,8 @@ public class GUIView extends View
             if(cssUrl != null)
                 root.getStylesheets().add(cssUrl);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, e.getMessage());
         }
-        return (V) fxmlLoader.getController();
+        return fxmlLoader.getController();
     }
-
 }
-

@@ -2,8 +2,6 @@ package it.polimi.ingsw.view.gui.login;
 
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;

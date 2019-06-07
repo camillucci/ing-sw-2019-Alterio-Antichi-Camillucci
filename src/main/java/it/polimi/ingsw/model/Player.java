@@ -7,36 +7,34 @@ import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * This class represent a single playing Player, it contains all infos available to the player
  */
-public class Player implements Cloneable {
+public class Player {
 
     /**
      * The event that is invoked when a Player is damaged, it notifies the Match
      */
-    public final IEvent<Player, Integer> damagedEvent = new Event<>();
+    public final IEvent<Player, Integer> damagedEvent;
     /**
      * The event that is invoked when a Player becomes dead, it notifies the Match
      */
-    public final IEvent<Player, Player> deathEvent = new Event<>();
+    public final IEvent<Player, Player> deathEvent;
     /**
      * The GameBoard the Player is currently playing in
      */
     public final GameBoard gameBoard;
     /**
-     * The color of the Player (one among Blue, Green, Grey, Violet, Yellow)
-     */
-    public final PlayerColor color;
-    /**
      * The name of the Player, it's unique in the Match the Player is currently playing in
      */
     public final String name;
+    /**
+     * The color of the Player (one among Blue, Green, Grey, Violet, Yellow)
+     */
+    public final PlayerColor color;
     /**
      * The score a Player currently got
      */
@@ -82,7 +80,6 @@ public class Player implements Cloneable {
     private static final int MAX_POWER_UPS_RESPAWN = 4;
     private static final int MAX_MARKS = 3;
     private static final int MAX_DAMAGES = 12;
-    private static Logger logger = Logger.getLogger("Player");
 
     /**
      * The constructor create a new Player given the name, the color and the GameBoard,
@@ -97,6 +94,30 @@ public class Player implements Cloneable {
         this.color = color;
         this.gameBoard = gameBoard;
         this.finalFrenzy = false;
+        this.damagedEvent = new Event<>();
+        this.deathEvent = new Event<>();
+    }
+
+    /**
+     * This constructor is a copy constructor, it create a new Player that is the copy of a given one
+     * @param player The Player that has to be copied
+     */
+    public Player(Player player) {
+        this.damagedEvent = player.damagedEvent;
+        this.deathEvent = player.deathEvent;
+        this.gameBoard = player.gameBoard;
+        this.name = player.name;
+        this.color = player.color;
+        this.points = player.points;
+        this.skull = player.skull;
+        this.ammo = player.ammo;
+        this.currentSquare = player.currentSquare;
+        this.finalFrenzy = player.finalFrenzy;
+        this.damage = new ArrayList<>(player.damage);
+        this.mark = new ArrayList<>(player.mark);
+        this.loadedWeapons = new ArrayList<>(player.loadedWeapons);
+        this.unloadedWeapons = new ArrayList<>(player.unloadedWeapons);
+        this.powerupSet = new PowerUpSet(player.powerupSet);
     }
 
     /**
@@ -256,26 +277,6 @@ public class Player implements Cloneable {
      */
     public void addPoints(int newPoints) {
         points = points + newPoints;
-    }
-
-    /**
-     * This method returns a cloned copy of the Player
-     * @return A copy of this
-     */
-    public Player getClone() { //throws CloneNotSupportedException
-        try {
-            Player p = (Player)this.clone();
-            p.damage = new ArrayList<>(this.damage);
-            p.mark = new ArrayList<>(this.mark);
-            p.loadedWeapons = new ArrayList<>(this.loadedWeapons);
-            p.unloadedWeapons = new ArrayList<>(this.unloadedWeapons);
-            p.powerupSet = new PowerUpSet(powerupSet);
-            return p;
-        }
-        catch(CloneNotSupportedException e){
-            logger.log(Level.WARNING, e.getMessage());
-        }
-        return null;
     }
 
     public int getPoints() {

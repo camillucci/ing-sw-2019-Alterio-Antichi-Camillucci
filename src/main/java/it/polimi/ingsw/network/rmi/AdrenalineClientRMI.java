@@ -8,11 +8,15 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAdrenalineClient {
     private IRMIAdrenalineServer server;
     private IActionHandler remoteActionHandler;
     private boolean stopPinging = true;
+    private final Logger logger = Logger.getLogger("AdrenalineClientRMI");
+
     private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
         while(!getStopPinging()) {
             server.ping();
@@ -96,7 +100,7 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
         try {
             pingingThread.join();
         } catch (InterruptedException e) {
-            //todo
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 

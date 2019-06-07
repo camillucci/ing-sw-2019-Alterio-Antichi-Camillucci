@@ -20,12 +20,12 @@ public class TCPClient
     private OutputStreamUtils out;
     private Logger logger = Logger.getLogger("TCPClient");
 
-    public InputStreamUtils in() throws IOException
+    public InputStreamUtils in()
     {
         return in;
     }
 
-    public OutputStreamUtils out() throws IOException
+    public OutputStreamUtils out()
     {
         return out;
     }
@@ -83,7 +83,7 @@ public class TCPClient
         try {
             pingingBot.join();
         } catch (InterruptedException e) {
-            //todo
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 

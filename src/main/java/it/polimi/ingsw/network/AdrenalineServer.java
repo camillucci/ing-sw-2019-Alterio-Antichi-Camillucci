@@ -3,7 +3,6 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Bottleneck;
-import it.polimi.ingsw.model.ActionsProvider;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
@@ -36,7 +35,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
     private BiConsumer<Room, Match> matchStartedEventHandler = (a, match) -> bottleneck.tryDo( () -> onMatchStarted(match));
     private BiConsumer<Player, List<Action>> onNewActionsEventHandler = (a,b) -> bottleneck.tryDo( () -> onModelChanged(match));
-    protected final static int PING_PERIOD = 1; // 1 millisecond to test synchronization todo change in final version
+    protected static final int PING_PERIOD = 1; // 1 millisecond to test synchronization todo change in final version
 
     public AdrenalineServer(Controller controller){
         this.controller = controller;
@@ -123,8 +122,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         setupMatchEvents();
         List<Player> players = match.getPlayers();
         for(int i=0; i < players.size(); i++)
-            if(players.get(i).name.equals(this.name))
-                this.player = players.get(playerIndex = i);
+            if(players.get(i).name.equals(this.name)) {
+                playerIndex = i;
+                this.player = players.get(playerIndex);
+            }
         createActionHandler(player);
         sendMessage(MATCH_STARTING_MESSAGE);
         onModelChanged(match);

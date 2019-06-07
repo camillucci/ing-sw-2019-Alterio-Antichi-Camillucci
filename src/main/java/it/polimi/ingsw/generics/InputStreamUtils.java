@@ -7,8 +7,8 @@ public class InputStreamUtils implements Closeable, InputInterface
 {
     public final IEvent<InputStreamUtils, InputStreamUtils> streamFailEvent = new Event<>();
     private InputStream stream;
-    public final static int DATA = 0;
-    public final static int PING = 1;
+    public static final int DATA = 0;
+    public static final int PING = 1;
     private int count = 0;
 
     public InputStreamUtils(InputStream inputStream)

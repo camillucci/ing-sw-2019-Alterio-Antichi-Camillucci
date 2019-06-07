@@ -64,8 +64,7 @@ public class OutputStreamUtils implements Closeable, OutputInterface
 
     public void sendLong(long val) throws IOException
     {
-        send( () ->{
-            stream.write(longToBytes(val));});
+        send( () -> stream.write(longToBytes(val)));
     }
 
     public void sendInt(int val) throws IOException

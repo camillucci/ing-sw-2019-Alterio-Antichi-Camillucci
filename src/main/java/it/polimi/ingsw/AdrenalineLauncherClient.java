@@ -47,13 +47,13 @@ public class AdrenalineLauncherClient
                     AdrenalineClient client = isSocket ? new AdrenalineClientSocket(serverName, socketPort, view) : new AdrenalineClientRMI(serverName, rmiPort, view);
                     client.start();
                 } catch (IOException | NotBoundException e) {
-                    e.printStackTrace();
+                    logger.log(Level.WARNING, e.getMessage());
                 }
             });
             view.getLogin().askConnection();
         }
         catch(IOException | InterruptedException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 

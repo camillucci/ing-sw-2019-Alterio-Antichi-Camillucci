@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.login;
 
-import com.sun.javafx.menu.MenuItemBase;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;

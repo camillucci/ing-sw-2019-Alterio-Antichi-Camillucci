@@ -10,6 +10,8 @@ import javafx.util.Duration;
 
 public class Animations
 {
+    private Animations() {}
+
     public static Timeline autoWriteLabel(Label label, String text, int millisecondsPerCar){
         return autoWriteLabel(label, text, millisecondsPerCar, () -> {});
     }

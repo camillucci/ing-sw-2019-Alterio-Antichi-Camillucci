@@ -3,12 +3,9 @@ package it.polimi.ingsw.view.gui.login;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-
-import java.io.IOException;
 
 public class NicknameController implements Ifxml<HBox>
 {
@@ -22,10 +19,6 @@ public class NicknameController implements Ifxml<HBox>
 
     @Override
     public HBox getRoot() {
-        return hBox;
-    }
-
-    public HBox gethBox() {
         return hBox;
     }
 

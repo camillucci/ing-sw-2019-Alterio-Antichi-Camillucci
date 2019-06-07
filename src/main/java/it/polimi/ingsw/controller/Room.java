@@ -62,6 +62,7 @@ public class Room
     }
 
     public void reconnect(String playerName){
+        //TODO
     }
 
     public synchronized void addPlayer(String color, String playerName) throws MatchStartingException, NotAvailableColorException {

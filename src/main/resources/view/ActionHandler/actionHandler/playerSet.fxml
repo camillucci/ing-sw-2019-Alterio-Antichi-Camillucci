@@ -12,7 +12,7 @@
 <?import javafx.geometry.Insets?>
 <VBox minHeight="120" minWidth="${vBox.height*4}" alignment="CENTER" styleClass="background" fx:id="vBox" spacing="10" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.polimi.ingsw.view.gui.actionHandler.PlayerSetController">
+      fx:controller="it.polimi.ingsw.view.gui.actionhandler.PlayerSetController">
     <StackPane fx:id="pane">
         <GridPane fx:id="rec" minHeight="${vBox.height * 104/277}" maxHeight="${vBox.height * 104/277}">
             <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">

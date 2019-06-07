@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.actionHandler;
+package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.view.gui.GUIView;

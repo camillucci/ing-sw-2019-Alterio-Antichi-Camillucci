@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
 import it.polimi.ingsw.network.RemoteAction;
@@ -16,7 +15,7 @@ import java.util.logging.Logger;
 public class AdrenalineServerSocket extends AdrenalineServer
 {
     private TCPClient client;
-    //private Logger logger = Logger.getLogger("adrenalineServerSocket");
+    private Logger logger = Logger.getLogger("adrenalineServerSocket");
 
     public AdrenalineServerSocket(TCPClient client, Controller controller)
     {
@@ -30,8 +29,7 @@ public class AdrenalineServerSocket extends AdrenalineServer
             login();
         }
         catch(IOException | ClassNotFoundException e){
-            e.printStackTrace();
-            //logger.log(Level.WARNING, e.getMessage());
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 

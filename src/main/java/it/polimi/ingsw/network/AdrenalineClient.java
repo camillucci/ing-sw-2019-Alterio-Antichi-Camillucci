@@ -13,7 +13,7 @@ public abstract class AdrenalineClient
     protected int serverPort;
     protected Bottleneck bottleneck = new Bottleneck();
     protected boolean matchStarted;
-    protected final static int PING_PERIOD = 1; // 1 millisecond to test ping synchronization  todo change in final version
+    protected static final int PING_PERIOD = 1; // 1 millisecond to test ping synchronization  todo change in final version
 
     public AdrenalineClient(String serverName, int serverPort, View view)
     {

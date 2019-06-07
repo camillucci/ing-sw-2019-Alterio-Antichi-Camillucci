@@ -86,7 +86,7 @@ public class Turn extends ActionsProvider {
         clonedDeadPlayers = new ArrayList<>();
         List<Player> deadPlayers = match.getDeadPlayers();
         for (Player p : match.getPlayers()) {
-            Player clone = p.getClone();
+            Player clone = new Player(p);
             clonedPlayers.add(clone);
             if (deadPlayers.contains(p))
                 clonedDeadPlayers.add(p);

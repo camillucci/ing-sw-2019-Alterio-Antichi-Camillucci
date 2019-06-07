@@ -284,7 +284,7 @@ public class CLIMessenger {
         for(int i = 0; i < discardablePowerUps.size(); i++, j++)
             display(PRESS + j + " if you want to discard " + targetSquares.get(i));
         if(canBeDone)
-            display(PRESS + j + " if you want to execute action with previously selected targets");
+            display(PRESS + j + " if you want to confirm the action");
     }
     //------------------------------------------------------------------------------------------------------------------
     // DISPLAY MAP

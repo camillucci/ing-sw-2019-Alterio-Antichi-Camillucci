@@ -37,7 +37,6 @@ public class MapChoiceController implements Ifxml<HBox>
         Polygon triangle = new Polygon(0, scale*40, scale*80, scale*80, scale*80, 0);
         triangle.getStyleClass().add("button");
         triangle.getStyleClass().add("arrowButton");
-        //IntegerProperty mapIndex = new SimpleIntegerProperty(0);
         triangle.setOnMouseClicked(e -> {
             mapIndex.set(mapIndex.get() == 0 ? TOT_MAPS - 1 : mapIndex.get() - 1);
             imageBox.getChildren().clear();
@@ -52,7 +51,6 @@ public class MapChoiceController implements Ifxml<HBox>
         Polygon triangle = new Polygon(scale*80, scale*40, 0, scale*80, 0, 0);
         triangle.getStyleClass().add("button");
         triangle.getStyleClass().add("arrowButton");
-        //IntegerProperty mapIndex = new SimpleIntegerProperty(0);
         triangle.setOnMouseClicked(e -> {
             mapIndex.set(mapIndex.get() == TOT_MAPS - 1 ? 0 : mapIndex.get() + 1);
             imageBox.getChildren().clear();

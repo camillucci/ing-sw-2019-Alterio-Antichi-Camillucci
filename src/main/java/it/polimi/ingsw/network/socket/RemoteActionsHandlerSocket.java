@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.socket;
 
-import it.polimi.ingsw.generics.Bottleneck;
-import it.polimi.ingsw.model.ActionsProvider;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.network.RemoteAction;
@@ -10,7 +8,6 @@ import it.polimi.ingsw.network.RemoteActionsHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 
 public class RemoteActionsHandlerSocket extends RemoteActionsHandler
@@ -28,7 +25,6 @@ public class RemoteActionsHandlerSocket extends RemoteActionsHandler
     public static final int DO_ACTION = 10;
 
     private TCPClient client;
-    private Logger logger = Logger.getLogger("remoteActionsHandlerSocket");
 
     public RemoteActionsHandlerSocket(Player player, TCPClient client)
     {

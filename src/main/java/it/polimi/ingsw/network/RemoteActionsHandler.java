@@ -5,7 +5,6 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,8 +26,10 @@ public abstract class RemoteActionsHandler implements IActionHandler {
 
     public List<RemoteAction> getRemoteActions(Player player, List<Action> actions)
     {
-        if(this.player == player)
-            return createRemoteActions(curActions =  new ArrayList<>(actions));
+        if(this.player == player) {
+            curActions = new ArrayList<>(actions);
+            return createRemoteActions(curActions);
+        }
         return Collections.emptyList();
     }
 

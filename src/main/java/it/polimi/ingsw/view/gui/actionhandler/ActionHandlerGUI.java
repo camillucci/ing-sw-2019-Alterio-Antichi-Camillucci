@@ -1,7 +1,6 @@
-package it.polimi.ingsw.view.gui.actionHandler;
+package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.App;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -49,16 +47,16 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<GridPane> {
 
     @Override
     public void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException {
-
+        //TODO
     }
 
     @Override
     public void onNewMessage(String message) {
-
+        //TODO
     }
 
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
-
+        //TODO
     }
 }
