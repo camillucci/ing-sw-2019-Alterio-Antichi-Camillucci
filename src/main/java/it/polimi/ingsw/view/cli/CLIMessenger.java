@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CLIMessenger {
@@ -274,7 +273,7 @@ public class CLIMessenger {
         }
     }
 
-    public static int displayTargets(List<String> targetPlayers, List<String> targetSquares, List<String> usablePowerUps, List<String> discardablePowerUps) {
+    public static void displayTargets(List<String> targetPlayers, List<String> targetSquares, List<String> usablePowerUps, List<String> discardablePowerUps, boolean canBeDone) {
         int j = 0;
         for(int i = 0; i < targetPlayers.size(); i++, j++)
             display(PRESS + j + " if you want to target player " + targetPlayers.get(i));
@@ -284,14 +283,9 @@ public class CLIMessenger {
             display(PRESS + j + " if you want to use " + targetSquares.get(i));
         for(int i = 0; i < discardablePowerUps.size(); i++, j++)
             display(PRESS + j + " if you want to discard " + targetSquares.get(i));
-        return j;
+        if(canBeDone)
+            display(PRESS + j + " if you want to execute action with previously selected targets");
     }
-
-    public static void displayTargetsAndAction(List<String> targetPlayers, List<String> targetSquares, List<String> usablePowerUps, List<String> discardablePowerUps) {
-        int temp = displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
-        display(PRESS + temp + " if you want to execute action with previously selected targets");
-    }
-
     //------------------------------------------------------------------------------------------------------------------
     // DISPLAY MAP
 

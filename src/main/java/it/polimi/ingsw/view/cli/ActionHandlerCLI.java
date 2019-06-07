@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.view.ActionHandler;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ActionHandlerCLI extends ActionHandler {
@@ -27,7 +26,7 @@ public class ActionHandlerCLI extends ActionHandler {
         List<String> usablePowerUps = action.getPossiblePowerups();
         List<String> discardablePowerUps = action.getDiscardablePowerups();
 
-        CLIMessenger.displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps);
+        CLIMessenger.displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps, canBeDone);
         int index = CLIParser.parser.parseActions(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size() + (canBeDone ? 1 : 0));
 
         if(index < targetPlayers.size())
