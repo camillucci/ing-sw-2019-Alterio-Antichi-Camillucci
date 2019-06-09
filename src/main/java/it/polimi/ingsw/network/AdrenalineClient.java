@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+
 public abstract class AdrenalineClient
 {
     protected View view;

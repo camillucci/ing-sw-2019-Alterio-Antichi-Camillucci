@@ -8,7 +8,7 @@ import static it.polimi.ingsw.model.SquareBorder.*;
 
 /**
  * This class is the board of the game, it contains all the squares, the kill shot track
- * and all the method to calculate the required squares for actions
+ * and all the methods to calculate the required squares for actions
  */
 public class GameBoard {
 
@@ -51,8 +51,8 @@ public class GameBoard {
 
     /**
      * Create all the squares and the kill shot track
-     * @param gameLength The number of skulls, which define the length of the match, from 5 to 8
-     * @param mapType The type of the map, from 0 to 3
+     * @param gameLength Number of skulls, which define the length of the match, from 5 to 8
+     * @param mapType Type of the map, from 0 to 3
      */
     public GameBoard(int gameLength, int mapType) {
         this.skulls = gameLength;
