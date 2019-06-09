@@ -4,9 +4,14 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.Writer;
 import java.util.List;
 
 public class CLIMessenger {
+    private static PrintStream printStream = new PrintStream(System.out);
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_BLACK = "\u001B[30m";
     private static final String ANSI_RED = "\u001B[31m";
@@ -59,6 +64,9 @@ public class CLIMessenger {
 
     private CLIMessenger() { }
 
+    public static void changePrintStream(OutputStream outputStream){
+        printStream = new PrintStream(outputStream);
+    }
     private static void resetColor(){
         curColor = ANSI_WHITE;
     }
@@ -406,7 +414,7 @@ public class CLIMessenger {
 
     @SuppressWarnings("squid:S106")
     private static void display(String string) {
-        System.out.println(curColor + string);
+        printStream.println(curColor + string);
     }
 
     private static void display(String string, boolean bold){

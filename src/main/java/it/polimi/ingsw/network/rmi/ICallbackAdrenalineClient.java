@@ -1,18 +1,12 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.network.IActionHandler;
-import it.polimi.ingsw.network.RemoteAction;
+import it.polimi.ingsw.network.Command;
+import it.polimi.ingsw.view.View;
 
-import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 public interface ICallbackAdrenalineClient extends Remote {
-    void newMessage(String message) throws RemoteException;
-    void modelChanged(MatchSnapshot matchSnapshot) throws RemoteException;
-    void newActions(List<RemoteAction> newActions) throws IOException, ClassNotFoundException;
-    void setRemoteActionHandler(IActionHandler remoteActionHandler) throws RemoteException;
+    void newViewCommand(Command<View> command) throws RemoteException;
     void ping() throws RemoteException;
 }

@@ -46,7 +46,7 @@ public class AdrenalineLauncherClient
                 try {
                     AdrenalineClient client = isSocket ? new AdrenalineClientSocket(serverName, socketPort, view) : new AdrenalineClientRMI(serverName, rmiPort, view);
                     client.start();
-                } catch (IOException | NotBoundException e) {
+                } catch (IOException | NotBoundException  e) {
                     logger.log(Level.WARNING, e.getMessage());
                 }
             });
@@ -57,7 +57,7 @@ public class AdrenalineLauncherClient
         }
     }
 
-    public void start() throws IOException, NotBoundException {
+    public void start() throws IOException, NotBoundException, ClassNotFoundException {
         client.start();
     }
 }

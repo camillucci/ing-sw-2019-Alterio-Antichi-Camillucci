@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * This class represent a set of ammo, it contains all three AmmoColors (Blue, Red, Yellow)
  * and all operations and evaluation that are needed to be done
  */
-public class Ammo {
+public class Ammo implements Serializable {
 
     public final int blue;
     public final int red;

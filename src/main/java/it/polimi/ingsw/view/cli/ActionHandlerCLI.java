@@ -2,49 +2,57 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.network.RemoteAction;
+import it.polimi.ingsw.network.RemoteActionsHandler;
 import it.polimi.ingsw.view.ActionHandler;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ActionHandlerCLI extends ActionHandler {
-
+    private RemoteAction action;
     @Override
-    public void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException {
-        RemoteAction action;
-
+    public void chooseAction(List<RemoteAction> options) throws IOException
+    {
         CLIMessenger.displayActions(options);
         action = options.get(CLIParser.parser.parseActions(options.size()));
-        ((Event<ActionHandler, RemoteAction>)choiceEvent).invoke(this, action);
-        while(!askChoice(action, action.canBeDone())) // while !doAction
-            ;
+        notifyChoice(action.choose());
+        notifyChoice(action.askActionData());
     }
 
-    private boolean askChoice(RemoteAction action, boolean canBeDone) throws IOException, ClassNotFoundException {
-        List<String> targetPlayers = action.getPossiblePlayers();
-        List<String> targetSquares = action.getPossibleSquares();
-        List<String> usablePowerUps = action.getPossiblePowerups();
-        List<String> discardablePowerUps = action.getDiscardablePowerups();
+    @Override
+    public void updateActionData(RemoteAction.Data data) throws IOException {
+        action.updateData(data);
+        onActionDataUpdated();
+    }
 
-        CLIMessenger.displayTargets(targetPlayers, targetSquares, usablePowerUps, discardablePowerUps, canBeDone);
-        int index = CLIParser.parser.parseActions(targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size() + (canBeDone ? 1 : 0));
+    protected void onActionDataUpdated() throws IOException
+    {
+        RemoteAction.Data data = action.getData();
+        CLIMessenger.displayTargets(data.possiblePlayers, data.possibleSquares, data.possiblePowerUps, data.discardablePowerUps, data.canBeDone);
+        int index = CLIParser.parser.parseActions(data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size() + (data.canBeDone ? 1 : 0));
 
-        if(index < targetPlayers.size())
-            action.addTargetPlayer(targetPlayers.get(index));
-        else if(index < targetPlayers.size() + targetSquares.size())
-            action.addTargetSquare(targetSquares.get(index - targetPlayers.size()));
-        else if(index < targetPlayers.size() + targetSquares.size() + usablePowerUps.size())
-            action.usePowerUp(usablePowerUps.get(index - targetPlayers.size() - targetSquares.size()));
-        else if(index < targetPlayers.size() + targetSquares.size() + usablePowerUps.size() + discardablePowerUps.size())
-            action.addDiscardable(discardablePowerUps.get(index - targetPlayers.size() - targetSquares.size() - usablePowerUps.size()));
+        if(index < data.possiblePlayers.size())
+            notifyChoice(action.addTargetPlayer(data.possiblePlayers.get(index)));
+        else if(index < data.possiblePlayers.size() + data.possibleSquares.size())
+            notifyChoice(action.addTargetSquare(data.possibleSquares.get(index - data.possiblePlayers.size())));
+        else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size())
+            notifyChoice(action.usePowerUp(data.possiblePowerUps.get(index - data.possiblePlayers.size() - data.possibleSquares.size())));
+        else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size())
+            notifyChoice(action.addDiscardable(data.discardablePowerUps.get(index - data.possiblePlayers.size() - data.possibleSquares.size() - data.possiblePowerUps.size())));
         else {
-            action.doAction();
-            return true;
+            notifyChoice(action.doAction());
+            ((Event<ActionHandler, RemoteAction>)actionDoneEvent).invoke(this, action);
+            return;
         }
-        return false;
+        notifyChoice(action.askActionData());
     }
 
+    private void notifyChoice(Command<RemoteActionsHandler> command)
+    {
+        ((Event<ActionHandler, Command<RemoteActionsHandler>>)newCommand).invoke(this, command);
+    }
     @Override
     public void onNewMessage(String message) {
         CLIMessenger.printMessage(message);

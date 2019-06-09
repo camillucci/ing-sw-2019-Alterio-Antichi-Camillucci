@@ -3,12 +3,12 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Bottleneck;
-import it.polimi.ingsw.model.Match;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.view.ActionHandler;
+import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
+import java.io.NotSerializableException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,33 +18,51 @@ import java.util.function.BiConsumer;
 public abstract class AdrenalineServer implements IAdrenalineServer
 {
     private final Controller controller;
-    protected String name;
-    protected boolean isHost;
     private Room joinedRoom;
+    protected String name;
     private List<String> availableColors;
     private List<String> otherPlayers = new ArrayList<>();
     protected Bottleneck bottleneck = new Bottleneck();
-    protected Match match;
-    private Player player;
-    private int playerIndex;
     protected RemoteActionsHandler remoteActionsHandler;
     private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> sendMessage(timerStartMessage(timeout)));
     private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(timerTickMessage(timeLeft)));
     private BiConsumer<Room, Integer> timerStopEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE));
     private BiConsumer<Room, String> newPlayerEventHandler = (a, name) -> notifyPlayer(name);
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
-    private BiConsumer<Room, Match> matchStartedEventHandler = (a, match) -> bottleneck.tryDo( () -> onMatchStarted(match));
-    private BiConsumer<Player, List<Action>> onNewActionsEventHandler = (a,b) -> bottleneck.tryDo( () -> onModelChanged(match));
+    private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
     protected static final int PING_PERIOD = 1; // 1 millisecond to test synchronization todo change in final version
+
+    @Override
+    public void newActionCommand(Command<RemoteActionsHandler> command) {
+       bottleneck.tryDo( () -> command.invoke(this.remoteActionsHandler));
+    }
 
     public AdrenalineServer(Controller controller){
         this.controller = controller;
         bottleneck.exceptionGenerated.addEventHandler((a, exception) -> onExceptionGenerated(exception));
     }
 
+    protected void onModelUpdated(Room.ModelEventArgs model) throws IOException {
+        MatchSnapshot matchSnapshot = model.matchSnapshot;
+        sendCommand(new Command<View>(view -> view.getCurViewElement().onModelChanged(matchSnapshot)));
+        if(model.playerName.equals(this.name))
+        {
+            this.remoteActionsHandler = model.actionsHandler;
+            remoteActionsHandler.actionDataRequired.addEventHandler((a, data) -> bottleneck.tryDo( () -> sendCommand(new Command<View>(view -> view.getActionHandler().updateActionData(data)))));
+            List<RemoteAction> remoteActions = remoteActionsHandler.createRemoteActions();
+            sendCommand(new Command<View>(view -> view.getActionHandler().chooseAction(remoteActions)));
+        }
+    }
+
+    @Override
+    public void newServerCommand(Command<IAdrenalineServer> command) {
+        bottleneck.tryDo(() -> command.invoke(this));
+    }
+
     protected void onExceptionGenerated(Exception e){
         removeEvents();
         controller.notifyPlayerDisconnected(name);
+        e.printStackTrace();
     }
     private synchronized void notifyPlayerDisconnected(String name){
         otherPlayers.remove(name);
@@ -55,13 +73,17 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     protected abstract void stopPinging();
 
     @Override
-    public boolean setName(String name)
-    {
+    public void setName(String name) throws IOException {
         if(controller.newPlayer(name)) {
             this.name = name;
-            return true;
+            List<String> colors = availableColors();
+            sendCommand(new Command<>(view -> {
+                view.getLogin().notifyAccepted(true);
+                view.getLogin().notifyAvailableColor(colors);
+            }));
         }
-        return false;
+        else
+            sendCommand(new Command<>( view -> view.getLogin().notifyAccepted(false)));
     }
     @Override
     public List<String> availableColors()
@@ -77,20 +99,25 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     @Override
-    public boolean setColor(int colorIndex) {
+    public void setColor(int colorIndex) throws IOException {
         try
         {
             joinedRoom.addPlayer(availableColors.get(colorIndex), name);
-            this.isHost = isHost();
-            return true;
-        } catch (Room.MatchStartingException | Room.NotAvailableColorException e) {
-            return false;
+            notifyIsHost();
+        }
+        catch (Room.MatchStartingException | Room.NotAvailableColorException e)
+        {
+            List<String> colors = availableColors();
+            sendCommand(new Command<>(view -> view.getLogin().notifyAvailableColor(colors)));
         }
     }
 
-    @Override
-    public boolean isHost() {
-        return joinedRoom.isHost(name);
+
+    private void notifyIsHost() throws IOException {
+        boolean isHost = joinedRoom.isHost(name);
+        sendCommand(new Command<>(view -> view.getLogin().notifyHost(isHost)));
+        if(!isHost)
+            ready();
     }
 
     @Override
@@ -100,6 +127,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     @Override
     public void setGameMap(int choice) {
         joinedRoom.setGameSize(choice);
+        ready();
     }
 
     private synchronized void notifyPlayer(String name){
@@ -115,34 +143,15 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         setupRoomEvents();
         for(String name : joinedRoom.getPlayerNames())
             notifyPlayer(name);
-    }
-
-    private void onMatchStarted(Match match) throws IOException, ClassNotFoundException {
-        this.match = match;
-        setupMatchEvents();
-        List<Player> players = match.getPlayers();
-        for(int i=0; i < players.size(); i++)
-            if(players.get(i).name.equals(this.name)) {
-                playerIndex = i;
-                this.player = players.get(playerIndex);
-            }
-        createActionHandler(player);
-        sendMessage(MATCH_STARTING_MESSAGE);
-        onModelChanged(match);
         stopPinging();
     }
-    private void onModelChanged(Match match) throws IOException, ClassNotFoundException {
-        notifyMatchChanged(match.createSnapshot(playerIndex));
-        newActions(remoteActionsHandler.getRemoteActions(match.getPlayer(), match.getActions()));
-    }
-    private void setupMatchEvents(){
-        match.newActionsEvent.addEventHandler(onNewActionsEventHandler);
-    }
 
-    protected abstract void createActionHandler(Player curPlayer) throws RemoteException;
-    protected abstract void notifyMatchChanged(MatchSnapshot matchSnapshot) throws IOException;
-    protected abstract void newActions(List<RemoteAction> actions) throws IOException, ClassNotFoundException;
-    protected abstract void sendMessage(String message) throws IOException;
+    protected abstract void sendCommand(Command<View> command) throws IOException;
+
+    protected void sendMessage(String message) throws IOException
+    {
+        sendCommand(new Command<>(v -> v.getCurViewElement().onNewMessage(message)));
+    }
 
     private void removeEvents() {
         if(joinedRoom != null) {
@@ -151,9 +160,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             joinedRoom.timerStopEvent.removeEventHandler(timerStopEventHandler);
             joinedRoom.newPlayerEvent.removeEventHandler(newPlayerEventHandler);
             joinedRoom.playerDisconnectedEvent.removeEventHandler(playerDisconnectedEventHandler);
-            joinedRoom.matchStartedEvent.removeEventHandler(matchStartedEventHandler);
-            if(match!= null)
-                match.newActionsEvent.removeEventHandler(onNewActionsEventHandler);
+            if(joinedRoom.isMatchStarted() )
+                joinedRoom.modelUpdatedEvent.removeEventHandler(modelUpdatedEventHandler);
         }
     }
 
@@ -164,7 +172,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.timerStopEvent.addEventHandler(timerStopEventHandler);
         joinedRoom.newPlayerEvent.addEventHandler(newPlayerEventHandler);
         joinedRoom.playerDisconnectedEvent.addEventHandler(playerDisconnectedEventHandler);
-        joinedRoom.matchStartedEvent.addEventHandler(matchStartedEventHandler);
+        joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
     }
     private static final String MATCH_STARTING_MESSAGE = "Match is starting";
     private static String newPlayerMessage(String name){ return name + " joined the room";}

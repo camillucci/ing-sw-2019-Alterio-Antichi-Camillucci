@@ -4,16 +4,16 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.AdrenalineServer;
+import it.polimi.ingsw.network.IAdrenalineServer;
 import it.polimi.ingsw.network.IRMIAdrenalineServer;
-import it.polimi.ingsw.network.RemoteAction;
+import it.polimi.ingsw.network.Command;
+import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,30 +32,8 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         }
     }));
 
-    @Override
-    protected void createActionHandler(Player curPlayer) throws RemoteException {
-        remoteActionsHandler = new RMIRemoteActionHandler(match, curPlayer);
-        UnicastRemoteObject.exportObject(remoteActionsHandler, 0);
-        client.setRemoteActionHandler(remoteActionsHandler);
-    }
-
     public AdrenalineServerRMI(Controller controller) {
         super(controller);
-    }
-
-    @Override
-    protected void sendMessage(String message) throws RemoteException {
-        client.newMessage(message);
-    }
-
-    @Override
-    protected void notifyMatchChanged(MatchSnapshot matchSnapshot) throws IOException {
-        client.modelChanged(matchSnapshot);
-    }
-
-    @Override
-    protected void newActions(List<RemoteAction> actions) throws IOException, ClassNotFoundException {
-        client.newActions(actions);
     }
 
     public void initialize(ICallbackAdrenalineClient client)
@@ -99,6 +77,11 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, e.getMessage());
         }
+    }
+
+    @Override
+    protected void sendCommand(Command<View> command) throws IOException {
+        client.newViewCommand(command);
     }
 
     @Override

@@ -82,6 +82,7 @@ class TCPClientTest {
         }
         catch(Exception ecc)
         {
+            ecc.printStackTrace();
             assert (false);
         }
         finally {

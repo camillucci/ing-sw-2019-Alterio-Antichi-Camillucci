@@ -3,18 +3,24 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
+import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.network.RemoteAction;
+import it.polimi.ingsw.network.RemoteActionsHandler;
+
 import java.util.*;
 
 public class Room
 {
-    public final IEvent<Room, Match> matchStartedEvent = new Event<>();
     public final IEvent<Room, Integer> timerStartEvent = new Event<>();
     public final IEvent<Room, Integer> timerTickEvent = new Event<>();
     public final IEvent<Room, Integer> timerStopEvent = new Event<>();
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
     public final IEvent<Room, String> playerDisconnectedEvent = new Event<>();
-    private static final int TIMEOUT = 5;
+    public final IEvent<Room, ModelEventArgs> modelUpdatedEvent = new Event<>();
+    private static final int TIMEOUT = 2;
     private static final int PERIOD = 1;
     private List<PlayerColor> playerColors = new ArrayList<>();
     private List<PlayerColor> availableColors = new ArrayList<>();
@@ -24,8 +30,7 @@ public class Room
     private List<String> readyPlayers = new ArrayList<>();
     private int gameLength;
     private int gameSize;
-    private Match match = null;
-    private MatchManager matchManager;
+    private Match match;
     private RoomTimer timer = new RoomTimer(TIMEOUT, PERIOD);
     private String hostName;
     private boolean matchStarting = false;
@@ -35,6 +40,9 @@ public class Room
         setupEvents();
     }
 
+    public boolean isMatchStarted() {
+        return matchStarting;
+    }
     private void setupEvents()
     {
         timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, TIMEOUT - timeElapsed));
@@ -56,9 +64,13 @@ public class Room
 
     private synchronized void startMatch(){
         match = new Match(playerNames, playerColors, gameLength, gameSize);
+        match.newActionsEvent.addEventHandler(this::onNewActions);
         match.start();
-        matchManager = new MatchManager(match, this);
-        ((Event<Room, Match>)matchStartedEvent).invoke(this, match);
+    }
+
+    private void onNewActions(Player player, List<Action> actions)
+    {
+        ((Event<Room, ModelEventArgs>)modelUpdatedEvent).invoke(this, new ModelEventArgs(new MatchSnapshot(match, player), player.name, new RemoteActionsHandler(player, actions)));
     }
 
     public void reconnect(String playerName){
@@ -151,4 +163,16 @@ public class Room
 
     public class MatchStartingException extends Exception {}
     public class NotAvailableColorException extends Exception {}
+    public class ModelEventArgs
+    {
+        public final MatchSnapshot matchSnapshot;
+        public final RemoteActionsHandler actionsHandler;
+        public final String playerName;
+        public ModelEventArgs(MatchSnapshot matchSnapshot, String playerName, RemoteActionsHandler actionsHandler)
+        {
+            this.matchSnapshot = matchSnapshot;
+            this.actionsHandler = actionsHandler;
+            this.playerName = playerName;
+        }
+    }
 }

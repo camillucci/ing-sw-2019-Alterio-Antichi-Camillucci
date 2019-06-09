@@ -15,32 +15,32 @@ public class CLIParser {
         reader =  new BufferedReader(new InputStreamReader(inputStream));
     }
 
-    public void setInputStream(InputStream inputStream){
+    public void changeInputStream(InputStream inputStream){
         reader = new BufferedReader(new InputStreamReader(inputStream));
     }
 
     public String parseName() throws IOException {
-        return getStringIf(name -> name.length() < 2 || name.length() > 16);
+        return getStringIf(name -> name.length() >= 2 && name.length() <= 16);
     }
 
     public int parseChoice() throws IOException {
-        return getIntIf(choice -> choice != 0 && choice != 1);
+        return getIntIf(choice -> choice == 0 || choice == 1);
     }
 
     public int parseIndex(int index) throws IOException {
-        return getIntIf(answer -> answer < 0 || answer >= index);
+        return getIntIf(answer -> answer >= 0 && answer < index);
     }
 
     public int parseGameLength() throws IOException {
-        return getIntIf(answer -> answer < 5 || answer > 8);
+        return getIntIf(answer -> answer >= 5 && answer <= 8);
     }
 
     public int parseGameMap() throws IOException {
-        return getIntIf(answer -> answer < 0 || answer > 3);
+        return getIntIf(answer -> answer >= 0 && answer <= 3);
     }
 
     public int parseActions(int index) throws IOException {
-        return getIntIf(answer -> answer < 0 || answer > index);
+        return getIntIf(answer -> answer >= 0 && answer <= index);
     }
 
     private int getIntIf(Predicate<Integer> inputTest) throws IOException {

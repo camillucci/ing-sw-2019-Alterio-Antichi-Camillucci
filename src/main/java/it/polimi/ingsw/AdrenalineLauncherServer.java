@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 public class AdrenalineLauncherServer
 {
+    private static CLIParser parser;
     public static void main(String[] args) {
         Logger logger = Logger.getLogger("AdrenalineLauncherServer");
         InputStream input = AdrenalineLauncherClient.class.getClassLoader().getResourceAsStream("serverConfig.properties");
@@ -20,7 +21,8 @@ public class AdrenalineLauncherServer
 
         TCPListener listenerTCP;
         RMIListener listenerRMI;
-        CLIParser parser = new CLIParser(System.in);
+        if(parser == null)
+            parser = new CLIParser(System.in);
         Controller controller = new Controller();
 
         if(input != null)
@@ -47,12 +49,20 @@ public class AdrenalineLauncherServer
                 logger.log(Level.INFO, "Press 1 to close");
             }
             while(parser.parseChoice() != 1);
-
             listenerTCP.stop();
-            //listenerRMI.stop();
+            for(TCPClient client : listenerTCP.getConnected())
+                client.close();
+            listenerRMI.stop();
+            logger.log(Level.INFO, "Server closed");
+
         }
         catch (IOException e) {
             logger.log(Level.WARNING, "Could not start server");
         }
+    }
+
+    public static void setParser(CLIParser parser)
+    {
+        AdrenalineLauncherServer.parser = parser;
     }
 }

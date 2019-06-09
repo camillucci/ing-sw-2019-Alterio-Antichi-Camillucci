@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network;
 import it.polimi.ingsw.generics.Bottleneck;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.util.List;
+import java.rmi.RemoteException;
 
 public abstract class AdrenalineClient
 {
@@ -25,6 +25,7 @@ public abstract class AdrenalineClient
     }
 
     protected synchronized void onExceptionGenerated(Exception exception){
+        exception.printStackTrace();
         view.getCurViewElement().onNewMessage("I'm sorry, you have been disconnected");
     }
 
@@ -33,7 +34,7 @@ public abstract class AdrenalineClient
         view.getLogin().colorEvent.addEventHandler((a, color) -> bottleneck.tryDo(() -> notifyColor(color)));
         view.getLogin().gameLengthEvent.addEventHandler((a, len) -> bottleneck.tryDo(() -> notifyGameLength(len)));
         view.getLogin().gameMapEvent.addEventHandler((a, map) -> bottleneck.tryDo(() -> notifyGameMap(map)));
-        view.getActionHandler().choiceEvent.addEventHandler((a, action) -> bottleneck.tryDo( () -> initializeAction(action)));
+        view.getActionHandler().newCommand.addEventHandler((a, command) -> bottleneck.tryDo( () -> notifyActionCommand(command)));
     }
 
     public void start() throws IOException, NotBoundException {
@@ -44,22 +45,27 @@ public abstract class AdrenalineClient
 
     protected abstract void startPing();
     protected abstract void connect() throws IOException, NotBoundException;
-    protected abstract void notifyName(String name) throws IOException, ClassNotFoundException;
-    protected abstract void notifyColor(int colorIndex) throws IOException, ClassNotFoundException;
-    protected abstract void notifyGameLength(int gameLength) throws IOException, ClassNotFoundException;
-    protected abstract void notifyGameMap(int gameMap) throws IOException, ClassNotFoundException;
+    protected void notifyName(String name) throws IOException, ClassNotFoundException {
+        sendServerCommand(new Command<>(server -> server.setName(name)));
+    }
+    private void notifyColor(int colorIndex) throws IOException {
+        sendServerCommand(new Command<>(server -> server.setColor(colorIndex)));
+    }
+    private void notifyGameLength(int gameLength) throws IOException
+    {
+        sendServerCommand(new Command<>(server -> server.setGameLength(gameLength)));
+    }
+    private void notifyGameMap(int gameMap) throws IOException
+    {
+        sendServerCommand(new Command<>(server -> server.setGameMap(gameMap)));
+    }
+    private void notifyActionCommand (Command<RemoteActionsHandler> command) throws IOException
+    {
+        sendServerCommand(new Command<>(server -> server.newActionCommand(command)));
+    }
+    public void newViewCommand(Command<View> command){
+        bottleneck.tryDo(() -> command.invoke(view));
+    }
+    protected abstract void sendServerCommand(Command<IAdrenalineServer> command) throws IOException;
     protected abstract void stopPing();
-    public void modelChanged(MatchSnapshot matchSnapshot)  {
-        view.getCurViewElement().onModelChanged(matchSnapshot);
-    }
-    public abstract void newActions(List<RemoteAction> newActions) throws IOException, ClassNotFoundException;
-    protected abstract void initializeAction(RemoteAction action) throws IOException;
-    public void newMessage(String message) {
-        view.getCurViewElement().onNewMessage(message);
-        if(message.contains("Match is starting")) {
-            view.loginCompleted();
-            stopPing();
-            matchStarted = true;
-        }
-    }
 }

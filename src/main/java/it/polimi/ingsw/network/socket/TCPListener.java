@@ -42,7 +42,7 @@ public class TCPListener {
 
     public synchronized void stop() {
 
-        if (listenThread == null || listenThread.getState() == Thread.State.TERMINATED)
+        if ( listener == null || listenThread == null || listenThread.getState() == Thread.State.TERMINATED)
             return;
         try {
             listener.close();

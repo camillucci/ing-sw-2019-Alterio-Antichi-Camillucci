@@ -58,7 +58,7 @@ public class BranchMap
         ((Event<BranchMap, List<Action>>)this.newActionsEvent).invoke(this, this.getPossibleActions());
     }
 
-    protected void setupBranches(List<Branch> branches)
+    private void setupBranches(List<Branch> branches)
     {
         this.branches = new ArrayList<>(branches);
 
