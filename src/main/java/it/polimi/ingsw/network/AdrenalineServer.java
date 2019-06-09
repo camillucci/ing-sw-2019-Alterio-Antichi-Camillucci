@@ -48,13 +48,12 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         if(model.playerName.equals(this.name))
         {
             this.remoteActionsHandler = model.actionsHandler;
-            remoteActionsHandler.actionDataRequired.addEventHandler((a, data) -> bottleneck.tryDo( () -> sendCommand(new Command<View>(view -> view.getActionHandler().updateActionData(data)))));
+            remoteActionsHandler.actionDataRequired.addEventHandler((a, data) -> bottleneck.tryDo( () -> sendCommand(new Command<>(view -> view.getActionHandler().updateActionData(data)))));
             List<RemoteAction> remoteActions = remoteActionsHandler.createRemoteActions();
-            sendCommand(new Command<View>(view -> view.getActionHandler().chooseAction(remoteActions)));
+            sendCommand(new Command<>(view -> view.getActionHandler().chooseAction(remoteActions)));
         }
     }
 
-    @Override
     public void newServerCommand(Command<IAdrenalineServer> command) {
         bottleneck.tryDo(() -> command.invoke(this));
     }

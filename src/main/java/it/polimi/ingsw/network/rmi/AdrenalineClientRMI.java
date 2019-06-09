@@ -12,6 +12,8 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
 {
     private IRMIAdrenalineServer server;
     private boolean stopPinging = true;
+    private String serverName;
+    private int serverPort;
     private final Logger logger = Logger.getLogger("AdrenalineClientRMI");
 
     private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
@@ -22,7 +24,9 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
     }));
 
     public AdrenalineClientRMI(String serverName, int serverPort, View view) {
-        super(serverName, serverPort, view);
+        super(view);
+        this.serverName = serverName;
+        this.serverPort = serverPort;
     }
 
     @Override

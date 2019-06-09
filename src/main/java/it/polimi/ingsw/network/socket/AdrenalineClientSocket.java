@@ -1,19 +1,18 @@
 package it.polimi.ingsw.network.socket;
-
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.*;
 import it.polimi.ingsw.view.View;
-
 import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.util.List;
 
 public class AdrenalineClientSocket extends AdrenalineClient {
     private TCPClient server;
+    private String serverName;
+    private int serverPort;
 
     public AdrenalineClientSocket(String serverName, int serverPort, View view)
     {
-        super(serverName, serverPort, view);
+        super(view);
+        this.serverName = serverName;
+        this.serverPort = serverPort;
     }
 
     @Override

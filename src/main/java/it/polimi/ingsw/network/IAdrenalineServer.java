@@ -16,5 +16,4 @@ public interface IAdrenalineServer extends Remote
     void setGameMap(int choice);
     void ready();
     void newActionCommand(Command<RemoteActionsHandler> command);
-    void newServerCommand(Command<IAdrenalineServer> command);
 }
