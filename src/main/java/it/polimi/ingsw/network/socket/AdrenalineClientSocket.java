@@ -8,14 +8,31 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.util.List;
 
+/**
+ * This class implements a Socket based connection with the server and is used only if the user chooses so.
+ * It implements through socket logic all the abstract methods in AdrenalineClient.
+ */
 public class AdrenalineClientSocket extends AdrenalineClient {
+    /**
+     * Reference to the instance of server this class is communicating with.
+     */
     private TCPClient server;
 
+    /**
+     * Sets global parameters and signs up to bottleNeck event, which notifies when a disconnection occurs.
+     * @param serverName
+     * @param serverPort Port of the server this class communicates with
+     * @param view Reference to the interface which communicates with the user
+     */
     public AdrenalineClientSocket(String serverName, int serverPort, View view)
     {
         super(serverName, serverPort, view);
     }
 
+    /**
+     * Signs up to name, color game length, map type and new command events. Once an event triggers, this class
+     * communicates user's choice to server. Also signs up to actionDone event.
+     */
     @Override
     protected void setupView()
     {
@@ -29,6 +46,10 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         waitForCommand();
     }
 
+    /**
+     * connects to server through Socket logic.
+     * @throws IOException
+     */
     @Override
     protected void connect() throws IOException {
         this.server = TCPClient.connect(serverName, serverPort);
