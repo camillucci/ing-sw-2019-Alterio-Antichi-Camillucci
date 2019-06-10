@@ -31,15 +31,11 @@ public abstract class AdrenalineClient
 
     /**
      * Sets all parameters to input values. Also signs up to bottleneck event, which triggers when connection is lost.
-     * @param serverName
-     * @param serverPort Port of the server this class communicates with
      * @param view Reference to the interface which communicates with the user
      */
-    public AdrenalineClient(String serverName, int serverPort, View view)
+    public AdrenalineClient(View view)
     {
         this.view = view;
-        this.serverName = serverName;
-        this.serverPort = serverPort;
         bottleneck.exceptionGenerated.addEventHandler((a, exception) -> onExceptionGenerated(exception));
         setupView();
     }
