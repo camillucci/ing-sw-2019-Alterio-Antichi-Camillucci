@@ -68,6 +68,6 @@ class LoginTest {
                 (new Thread(() -> Bot.login(true, "127.0.0.1", 9999, ++j))).start();
                 Thread.sleep(1000);
             }
-        //stop();
+        stop();
     }
 }

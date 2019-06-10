@@ -43,7 +43,7 @@ public class TCPClient
             throw new NotYetConnectedException();
         }
         this.connectedSocket = connectedSocket;
-        connectedSocket.setSoTimeout(2000);
+        //connectedSocket.setSoTimeout(2000);
         out = new OutputStreamUtils(connectedSocket.getOutputStream());
         out.streamFailedEvent.addEventHandler((a,b)->this.close());
         in = new InputStreamUtils(connectedSocket.getInputStream());
