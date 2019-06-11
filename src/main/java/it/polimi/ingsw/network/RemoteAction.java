@@ -1,12 +1,9 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.snapshots.*;
-import it.polimi.ingsw.view.ActionHandler;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RemoteAction implements Serializable
@@ -43,26 +40,24 @@ public class RemoteAction implements Serializable
     }
     public Command<RemoteActionsHandler> usePowerUp(String powerUp)
     {
-        return new Command<>(actionHandler -> actionHandler.addPowerup(data.possiblePowerUps.indexOf(powerUp)));
+        return new Command<>(actionHandler -> actionHandler.addPowerUp(data.possiblePowerUps.indexOf(powerUp)));
     }
     public Command<RemoteActionsHandler> addDiscardable(String powerUp)
     {
-        return new Command<>(actionHandler -> actionHandler.addDiscardablePowerup(data. discardablePowerUps.indexOf(powerUp)));
+        return new Command<>(actionHandler -> actionHandler.addDiscardedPowerUp(data.discardablePowerUps.indexOf(powerUp)));
     }
     public Command<RemoteActionsHandler> askActionData()
     {
         return new Command<>(RemoteActionsHandler::askActionData);
     }
     public Command<RemoteActionsHandler> addWeapon(String weapon) {
-        //todo
-        return null;
+        return new Command<>(actionHandler -> actionHandler.addWeapon(data.possibleWeapons.indexOf(weapon)));
     }
     public Command<RemoteActionsHandler> addDiscardableAmmo(String ammo) throws IOException
     {
-        //todo
-        return null;
+        return new Command<>(actionHandler -> actionHandler.addDiscardedAmmo(data.discardableAmmos.indexOf(ammo)));
     }
-    public Command<RemoteActionsHandler> doAction() throws IOException
+    public Command<RemoteActionsHandler> doAction()
     {
         return new Command<>(RemoteActionsHandler::doAction);
     }
@@ -77,11 +72,11 @@ public class RemoteAction implements Serializable
         public final List<String> possibleSquares;
         public final List<String> possiblePowerUps;
         public final List<String> discardablePowerUps;
-        public final List<Ammo> discardableAmmos;
+        public final List<String> discardableAmmos;
         public final List<String> possibleWeapons;
         public final boolean canBeDone;
 
-        public Data(List<String> possiblePlayers, List<String> possibleSquares, List<String> possiblePowerUps, List<String> discardablePowerUps, List<Ammo> discardableAmmos, List<String> possibleWeapons,  boolean canBeDone)
+        public Data(List<String> possiblePlayers, List<String> possibleSquares, List<String> possiblePowerUps, List<String> discardablePowerUps, List<String> discardableAmmos, List<String> possibleWeapons,  boolean canBeDone)
         {
             this.possiblePlayers = possiblePlayers;
             this.possibleSquares = possibleSquares;

@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,16 +40,20 @@ public class RemoteActionsHandler
         selectedAction.doAction();
     }
 
-    public void addPowerup(int index){
+    public void addPowerUp(int index){
         this.selectedAction.usePowerUp(selectedAction.getPossiblePowerUps().get(index));
     }
 
-    public void addDiscardablePowerup(int index) {
+    public void addDiscardedPowerUp(int index) {
         selectedAction.addDiscarded(selectedAction.getDiscardablePowerUps().get(index));
     }
 
     public void addWeapon(int index) {
         selectedAction.addWeapon(player.getUnloadedWeapons().get(index));
+    }
+
+    public void addDiscardedAmmo(int index) {
+        selectedAction.addDiscardedAmmo(selectedAction.getDiscardableAmmos().get(index));
     }
 
     public void addTargetPlayer(int index)
@@ -86,8 +89,8 @@ public class RemoteActionsHandler
         return selectedAction.getPossibleWeapons().stream().map(w -> w.name).collect(Collectors.toList());
     }
 
-    public List<Ammo> getPossibleAmmos(){
-        return selectedAction.getDiscardableAmmos();
+    public List<String> getDiscardableAmmos(){
+        return selectedAction.getDiscardableAmmos().stream().map(Ammo::getName).collect(Collectors.toList());
     }
 
     public boolean canBeDone() {
@@ -99,6 +102,6 @@ public class RemoteActionsHandler
     }
 
     private RemoteAction.Data getActionData(){
-        return new RemoteAction.Data(getPossiblePlayers(), getPossibleSquares(), getPossiblePowerups(), getDiscardablePowerUps(), getPossibleAmmos(), getPossibleWeapons(), canBeDone());
+        return new RemoteAction.Data(getPossiblePlayers(), getPossibleSquares(), getPossiblePowerups(), getDiscardablePowerUps(), getDiscardableAmmos(), getPossibleWeapons(), canBeDone());
     }
 }

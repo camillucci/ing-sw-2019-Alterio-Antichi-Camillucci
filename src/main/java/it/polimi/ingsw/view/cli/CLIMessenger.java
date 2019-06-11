@@ -4,10 +4,8 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 
-import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.Writer;
 import java.util.List;
 
 public class CLIMessenger {
@@ -67,6 +65,7 @@ public class CLIMessenger {
     public static void changePrintStream(OutputStream outputStream){
         printStream = new PrintStream(outputStream);
     }
+
     private static void resetColor(){
         curColor = ANSI_WHITE;
     }
@@ -162,27 +161,6 @@ public class CLIMessenger {
         display("Your room has reached 3 players", true);
         display("Countdown has started", true);
     }
-
-    /*
-    public static void displayTargetsPlayers(List<String> targets) {
-        for(int i = 0; i < targets.size(); i++)
-            display(PRESS + i + " if you want to target player" + targets.get(i));
-    }
-
-    public static void displayTargetsSquares(List<String> targets) {
-        for(int i = 0; i < targets.size(); i++)
-            display(PRESS + i + " if you want to target square" + targets.get(i));
-    }
-
-    public static void displayTargetsBoth(List<String> targetPlayers, List<String> targetSquares) {
-        for(int i = 0; i < targetPlayers.size(); i++)
-            display(PRESS + i + " if you want to target player" + targetPlayers.get(i));
-        for(int i = 0; i + targetPlayers.size() < targetSquares.size(); i++)
-            display(PRESS + i + targetPlayers.size() + " if you want to target square" + targetSquares.get(i));
-    }
-
-    Possibly cancel this and use a more generic method for all actions
-    */
 
     public static void printMessage(String message)
     {
@@ -281,19 +259,25 @@ public class CLIMessenger {
         }
     }
 
-    public static void displayTargets(List<String> targetPlayers, List<String> targetSquares, List<String> usablePowerUps, List<String> discardablePowerUps, boolean canBeDone) {
+    public static void displayTargets(List<String> targetPlayers, List<String> targetSquares, List<String> usablePowerUps, List<String> discardablePowerUps, List<String> discardableAmmos, List<String> possibleWeapons, boolean canBeDone) {
         int j = 0;
-        for(int i = 0; i < targetPlayers.size(); i++, j++)
+        int i;
+        for(i = 0; i < targetPlayers.size(); i++, j++)
             display(PRESS + j + " if you want to target player " + targetPlayers.get(i));
-        for(int i = 0; i < targetSquares.size(); i++, j++)
+        for(i = 0; i < targetSquares.size(); i++, j++)
             display(PRESS + j + " if you want to target square " + targetSquares.get(i));
-        for(int i = 0; i < usablePowerUps.size(); i++, j++)
+        for(i = 0; i < usablePowerUps.size(); i++, j++)
             display(PRESS + j + " if you want to use " + targetSquares.get(i));
-        for(int i = 0; i < discardablePowerUps.size(); i++, j++)
+        for(i = 0; i < discardablePowerUps.size(); i++, j++)
             display(PRESS + j + " if you want to discard " + targetSquares.get(i));
+        for(i = 0; i < discardableAmmos.size(); i++, j++)
+            display(PRESS + j + " if you want to discard a " + discardableAmmos.get(i) + " ammo");
+        for(i = 0; i < possibleWeapons.size(); i++)
+            display(PRESS + j + " if you want to reload the weapon" + possibleWeapons.get(i));
         if(canBeDone)
             display(PRESS + j + " if you want to confirm the action");
     }
+
     //------------------------------------------------------------------------------------------------------------------
     // DISPLAY MAP
 

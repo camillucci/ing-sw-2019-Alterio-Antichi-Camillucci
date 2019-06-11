@@ -34,6 +34,8 @@ public class AdrenalineLauncherServer
 
         int socketPort = args.length > 0 ? Integer.parseInt(args[0]) : Integer.parseInt(properties.getProperty("socketPort", "9999"));
         int rmiPort = args.length > 1 ? Integer.parseInt(args[1]) : Integer.parseInt(properties.getProperty("rmiPort", "1099"));
+        properties.setProperty("socketPort", Integer.toString(socketPort));
+        properties.setProperty("rmiPort", Integer.toString(rmiPort));
 
         try {
             listenerRMI = new RMIListener(rmiPort, () -> new AdrenalineServerRMI(controller));

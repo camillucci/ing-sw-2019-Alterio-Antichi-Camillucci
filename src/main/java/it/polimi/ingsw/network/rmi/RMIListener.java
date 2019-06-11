@@ -10,6 +10,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RMIListener
 {
@@ -17,6 +19,7 @@ public class RMIListener
     private Registry registry;
     private int port;
     private List<IRMIAdrenalineServer> connectedList = new ArrayList<>();
+    private static final Logger logger = Logger.getLogger("RMIListener");
 
     public RMIListener(int port, Supplier<AdrenalineServerRMI> supplier) throws RemoteException {
         this.supplier = supplier;
@@ -36,7 +39,7 @@ public class RMIListener
             Remote stub = UnicastRemoteObject.exportObject(serverRMI,port );
             LocateRegistry.getRegistry(1099).rebind("Server", stub);
         } catch (RemoteException e) {
-            //todo
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 

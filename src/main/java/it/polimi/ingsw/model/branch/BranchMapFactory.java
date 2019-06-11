@@ -60,7 +60,8 @@ public class BranchMapFactory
             {
                 Player p = a.getOwnerPlayer();
                 p.removePowerUpCard(pu);
-                p.gameBoard.getSpawnAndShopSquare(pu.color).addPlayer(p);
+                p.setCurrentSquare(p.gameBoard.getSpawnAndShopSquare(pu.color));
+                p.getCurrentSquare().addPlayer(p);
             }, "discard " + pu.getName()), new EndBranchAction()));
         return new BranchMap(new Branch(new ExtendableAction(branches, "spawn")));
     }

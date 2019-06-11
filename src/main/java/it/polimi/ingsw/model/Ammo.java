@@ -86,4 +86,16 @@ public class Ammo implements Serializable {
     public boolean isEqual(Ammo ammo) {
         return this.blue == ammo.blue && this.red == ammo.red && this.yellow == ammo.yellow;
     }
+
+    /**
+     * This method returns the name of a single ammo, it is used for discarding ammo through the InTurnPowerUpCards
+     * @return The name of a single ammo, one among Blue, Red, Yellow
+     */
+    public String getName() {
+        if(blue == 1)
+            return "Blue";
+        if(red == 1)
+            return "Red";
+        return "Yellow";
+    }
 }

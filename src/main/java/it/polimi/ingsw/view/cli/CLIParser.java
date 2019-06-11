@@ -94,20 +94,10 @@ public class CLIParser {
 
     private int getIntIf(Predicate<Integer> inputTest) throws IOException {
         int val;
-        try {
             val = Integer.parseInt(reader.readLine());
-        }
-        catch(NumberFormatException e) {
-            val = -1;
-        }
         while (!inputTest.test(val)) {
             CLIMessenger.incorrectInput();
-            try {
-                val = Integer.parseInt(reader.readLine());
-            }
-            catch(NumberFormatException e) {
-                val = -1;
-            }
+            val = Integer.parseInt(reader.readLine());
         }
         return val;
     }

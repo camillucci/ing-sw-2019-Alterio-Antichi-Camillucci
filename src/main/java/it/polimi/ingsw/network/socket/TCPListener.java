@@ -17,7 +17,7 @@ public class TCPListener {
     private int port;
     private int maxConnected;
     private Thread listenThread;
-    private Logger logger;
+    private static final Logger logger = Logger.getLogger("TCPListener");
 
     public TCPListener(int port)
     {
@@ -48,13 +48,13 @@ public class TCPListener {
             listener.close();
         }
         catch (IOException e) {
-            logger.log(Level.WARNING, "IOException, Class TCPListener, Line 51", e);
+            logger.log(Level.WARNING, e.getMessage());
         }
         try {
             listenThread.join();
         }
         catch(InterruptedException e) {
-            logger.log(Level.WARNING, "InterruptedException, Class TCPListener, Line 55", e);
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class TCPListener {
             } while(connectedHosts.size() < maxConnected);
         }
         catch (IOException e) {
-            //logger.log(Level.WARNING, "IOException, Class TCPListener, Line 77", e);
+            logger.log(Level.WARNING, e.getMessage());
         }
         finally { closeListener(); }
     }

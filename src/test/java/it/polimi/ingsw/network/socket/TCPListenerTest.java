@@ -11,7 +11,6 @@ class TCPListenerTest {
     private static final int port = 9999;
     private static final int maxConnected = 2;
     private String localHost = "127.0.0.1";
-    private boolean connected = false;
     private final boolean NETWORK_TESTING = false;
 
     @Test
@@ -77,8 +76,9 @@ class TCPListenerTest {
     }
 
     @Test
-    void threadSpam()
-    {
+    void threadSpam() {
+        if(!NETWORK_TESTING)
+            return;
         TCPListener listener = new TCPListener(port, maxConnected);
         try
         {
@@ -107,11 +107,5 @@ class TCPListenerTest {
         }
         catch (Exception ecc){assert (false);}
         finally { listener.stop(); }
-    }
-
-    @Test
-    void getConnected()
-    {
-        //TODO
     }
 }

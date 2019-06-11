@@ -30,8 +30,9 @@ public class ActionHandlerCLI extends ActionHandler {
     protected void onActionDataUpdated() throws IOException
     {
         RemoteAction.Data data = action.getData();
-        CLIMessenger.displayTargets(data.possiblePlayers, data.possibleSquares, data.possiblePowerUps, data.discardablePowerUps, data.canBeDone);
-        int index = CLIParser.parser.parseActions(data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size() + (data.canBeDone ? 1 : 0));
+        CLIMessenger.displayTargets(data.possiblePlayers, data.possibleSquares, data.possiblePowerUps, data.discardablePowerUps, data.discardableAmmos, data.possibleWeapons, data.canBeDone);
+        int index = CLIParser.parser.parseActions(data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size()
+                + data.discardablePowerUps.size() + data.discardableAmmos.size() + data.possibleWeapons.size() + (data.canBeDone ? 1 : 0));
 
         if(index < data.possiblePlayers.size())
             notifyChoice(action.addTargetPlayer(data.possiblePlayers.get(index)));
@@ -41,6 +42,10 @@ public class ActionHandlerCLI extends ActionHandler {
             notifyChoice(action.usePowerUp(data.possiblePowerUps.get(index - data.possiblePlayers.size() - data.possibleSquares.size())));
         else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size())
             notifyChoice(action.addDiscardable(data.discardablePowerUps.get(index - data.possiblePlayers.size() - data.possibleSquares.size() - data.possiblePowerUps.size())));
+        else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size() + data.discardableAmmos.size())
+            notifyChoice(action.addDiscardableAmmo(data.discardableAmmos.get(index - data.possiblePlayers.size() - data.possibleSquares.size() - data.possiblePowerUps.size() - data.discardablePowerUps.size())));
+        else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size() + data.discardableAmmos.size() + data.possibleWeapons.size())
+            notifyChoice(action.addDiscardableAmmo(data.discardableAmmos.get(index - data.possiblePlayers.size() - data.possibleSquares.size() - data.possiblePowerUps.size() - data.discardablePowerUps.size() - data.discardableAmmos.size())));
         else {
             notifyChoice(action.doAction());
             ((Event<ActionHandler, RemoteAction>)actionDoneEvent).invoke(this, action);
@@ -53,6 +58,7 @@ public class ActionHandlerCLI extends ActionHandler {
     {
         ((Event<ActionHandler, Command<RemoteActionsHandler>>)newCommand).invoke(this, command);
     }
+
     @Override
     public void onNewMessage(String message) {
         CLIMessenger.printMessage(message);
