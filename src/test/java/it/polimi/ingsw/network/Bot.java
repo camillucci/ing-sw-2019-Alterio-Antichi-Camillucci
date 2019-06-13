@@ -13,7 +13,7 @@ public class Bot
     static int i=0;
     private static String getLoginString(int playerNum){
         StringBuilder actionInputString = new StringBuilder();
-        int N = 10;
+        int N = 20;
         for(int i=0; i < N; i++)
             actionInputString.append("0\n");
 

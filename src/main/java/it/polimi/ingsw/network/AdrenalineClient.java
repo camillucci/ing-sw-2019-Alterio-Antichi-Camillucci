@@ -14,19 +14,17 @@ import java.rmi.RemoteException;
 public abstract class AdrenalineClient
 {
     /**
-     * Reference to the interface which communicates with the user
+     * Reference to the class which communicates with the user
      */
     protected View view;
-    protected String serverName;
     /**
-     * Port of the server this class communicates with
+     * Reference to an "Exception's bottleneck". All methods which communicates with the server have to pass through the tryDO function of this class.
+     * If an exception is thrown then an event is invoked: onExceptionGenerated is the event-handler and the Exception is the event-arg
      */
-    protected int serverPort;
     protected Bottleneck bottleneck = new Bottleneck();
     /**
-     * Simple boolean class used to keep track of match state
+     * Time interval in milliseconds that elapse between two attempts of pinging the server
      */
-    protected boolean matchStarted;
     protected static final int PING_PERIOD = 1; // 1 millisecond to test ping synchronization  todo change in final version
 
     /**
@@ -39,6 +37,11 @@ public abstract class AdrenalineClient
         bottleneck.exceptionGenerated.addEventHandler((a, exception) -> onExceptionGenerated(exception));
         setupView();
     }
+
+    /**
+     * Handle all the exceptions of the class. if this method is invoked, then the server is unreachable.
+     * @param exception the specific current exception.
+     */
 
     protected synchronized void onExceptionGenerated(Exception exception){
         exception.printStackTrace();
@@ -59,8 +62,6 @@ public abstract class AdrenalineClient
 
     /**
      * Connects to server using the global parameters. Also starts login method, which displays the intro to the user
-     * @throws IOException
-     * @throws NotBoundException
      */
     public void start() throws IOException, NotBoundException {
         connect();
@@ -68,20 +69,19 @@ public abstract class AdrenalineClient
         view.getLogin().login();
     }
 
+    /**
+     * Starts the pinging routine
+     */
     protected abstract void startPing();
 
     /**
      * Starts a communication with the server using the global parameters, namely port and server string.
-     * @throws IOException
-     * @throws NotBoundException
      */
     protected abstract void connect() throws IOException, NotBoundException;
 
     /**
      * Communicates to server user's name of choice, once the event has been triggered
      * @param name
-     * @throws IOException
-     * @throws ClassNotFoundException
      */
     protected void notifyName(String name) throws IOException, ClassNotFoundException {
         sendServerCommand(new Command<>(server -> server.setName(name)));
@@ -91,7 +91,6 @@ public abstract class AdrenalineClient
      * Communicates to server user's color of choice, once the event has been triggered. Color is communicated through
      * a number.
      * @param colorIndex number that represents color chosen by the user.
-     * @throws IOException
      */
     private void notifyColor(int colorIndex) throws IOException {
         sendServerCommand(new Command<>(server -> server.setColor(colorIndex)));
@@ -100,7 +99,6 @@ public abstract class AdrenalineClient
     /**
      * Communicates to server user's game length of choice, once the event has been triggered.
      * @param gameLength Number that represents how many skulls the user wants to have in the game.
-     * @throws IOException
      */
     private void notifyGameLength(int gameLength) throws IOException
     {
@@ -110,19 +108,38 @@ public abstract class AdrenalineClient
     /**
      * Communicates to server user's map type of choice, once the event has been triggered.
      * @param gameMap Number that represents which map the user has chosen among the 4 possible ones.
-     * @throws IOException
      */
     private void notifyGameMap(int gameMap) throws IOException
     {
         sendServerCommand(new Command<>(server -> server.setGameMap(gameMap)));
     }
+
+    /**
+     * Notifies the server about a new command. This kind of command is used in the action phase of the game
+     * and it's used to modify the model.
+     * @param command Command to be sent.
+     */
     private void notifyActionCommand (Command<RemoteActionsHandler> command) throws IOException
     {
         sendServerCommand(new Command<>(server -> server.newActionCommand(command)));
     }
+    /**
+     * Sends to server a new command. This is  the only way client communicates with server
+     * @param command Command to be sent.
+     */
+    protected abstract void sendServerCommand(Command<IAdrenalineServer> command) throws IOException;
+
+    /**
+     * Invoked when a new View-command is received by the Server.
+     * That kind of command is used by server to invoke methods of the Client's view
+     * @param command Command received.
+     */
     public void newViewCommand(Command<View> command){
         bottleneck.tryDo(() -> command.invoke(view));
     }
-    protected abstract void sendServerCommand(Command<IAdrenalineServer> command) throws IOException;
+
+    /**
+     * Stops the pinging routine
+     */
     protected abstract void stopPing();
 }

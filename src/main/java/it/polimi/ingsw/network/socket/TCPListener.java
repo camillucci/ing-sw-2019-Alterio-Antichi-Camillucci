@@ -74,9 +74,7 @@ public class TCPListener {
                 addConnected(tmp);
             } while(connectedHosts.size() < maxConnected);
         }
-        catch (IOException e) {
-            logger.log(Level.WARNING, e.getMessage());
-        }
+        catch (IOException ignored) { }
         finally { closeListener(); }
     }
 

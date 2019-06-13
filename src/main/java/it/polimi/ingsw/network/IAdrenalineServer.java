@@ -7,7 +7,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface IAdrenalineServer extends Remote
+public interface IAdrenalineServer
 {
     List<String> availableColors();
     void setColor(int colorIndex) throws IOException;
