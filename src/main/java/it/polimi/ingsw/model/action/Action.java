@@ -13,21 +13,67 @@ import java.util.function.Consumer;
 
 public class Action
 {
+    /**
+     * Events invoked when doAction() method returns. It notifies subscribers that the action is completed
+     */
     public final IEvent<Action, Action> completedActionEvent = new Event<>();
 
+    /**
+     * Action that can be done only after that this is completed
+     */
     protected Action next;
+
+    /**
+     * Cost in ammo payed by ownerPlayer after that the action is done
+     */
     protected Ammo doActionCost = new Ammo(0,0,0);
+
+    /**
+     * Reference to the player this action belongs to
+     */
+
     protected Player ownerPlayer;
+    /**
+     * List of Squares added as targets by the player
+     */
     protected List<Square> targetSquares = new ArrayList<>();
+    /**
+     * List of Players added as targets by the player
+     */
     protected List<Player> targetPlayers = new ArrayList<>();
+    /**
+     * List of weapons the player wants to use
+     */
     protected List<WeaponCard> selectedWeapons = new ArrayList<>();
+    /**
+     * Power up card selected by player
+     */
     protected PowerUpCard selectedPowerUp;
+    /**
+     * List of power up card the player wants to discard
+     */
     protected List<PowerUpCard> discardedPowerUps = new ArrayList<>();
+    /**
+     * Ammo the player wants to discard
+     */
     protected Ammo discardedAmmo;
+    /**
+     * True iff the Action is ignorable in the actions sequence of a BranchMap
+     */
     protected boolean optional = false;
+    /**
+     * True iff the method doAction can be invoked, according to Adrenaline rules.
+     */
     protected boolean canBeDone = true;
 
+    /**
+     * Consumer that represents the effectively way the action handle targets.
+     * If opMethod != a -> {} then is invoked in doAction() method.
+     */
     private Consumer opMethod = a -> { };
+    /**
+     * Textual description of the action
+     */
     protected String text;
 
     protected Action() {}
@@ -36,6 +82,12 @@ public class Action
         this.text = text;
     }
 
+    /**
+     * @param doActionCost Cost of the action
+     * @param isOptional true iff isOptional == true
+     * @param doActionMethod invoked when doAction() is invoked
+     * @param text textual description of the action
+     */
     public Action(Ammo doActionCost,  boolean isOptional,  Consumer<Action> doActionMethod, String text)
     {
         this.opMethod = doActionMethod;
@@ -62,6 +114,10 @@ public class Action
         }
     }
 
+    /**
+     * Sets the player which this actions belongs to
+     * @param ownerPlayer
+     */
     public void initialize(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;

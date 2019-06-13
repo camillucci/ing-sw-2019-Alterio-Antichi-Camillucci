@@ -4,12 +4,8 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Bottleneck;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.view.ActionHandler;
 import it.polimi.ingsw.view.View;
-
 import java.io.IOException;
-import java.io.NotSerializableException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;

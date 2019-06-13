@@ -17,7 +17,7 @@ public class AdrenalineClientSocket extends AdrenalineClient {
 
     /**
      * Sets global parameters and signs up to bottleNeck event, which notifies when a disconnection occurs.
-     * @param serverName
+     * @param serverName hostname of the server
      * @param serverPort Port of the server this class communicates with
      * @param view Reference to the interface which communicates with the user
      */
@@ -40,14 +40,13 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     }
 
     @Override
-    protected void notifyName(String name) throws IOException, ClassNotFoundException {
+    protected void notifyName(String name) {
         super.notifyName(name);
         waitForCommand();
     }
 
     /**
      * connects to server through Socket logic.
-     * @throws IOException
      */
     @Override
     protected void connect() throws IOException {
@@ -55,7 +54,7 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     }
 
     @Override
-    protected void sendServerCommand(Command<IAdrenalineServer> command) throws IOException {
+    protected void sendServerCommand (Command<IAdrenalineServer> command) throws IOException {
         server.out().sendObject(command);
     }
 
@@ -64,9 +63,13 @@ public class AdrenalineClientSocket extends AdrenalineClient {
        server.startPinging(PING_PERIOD, this::onExceptionGenerated);
     }
 
-    private void waitForCommand() throws IOException, ClassNotFoundException {
-        while(true)
-            newViewCommand(server.in().getObject());
+    private void waitForCommand()
+    {
+        bottleneck.tryDo( () ->
+        {
+            while (true)
+                newViewCommand(server.in().getObject());
+        });
     }
 
     @Override

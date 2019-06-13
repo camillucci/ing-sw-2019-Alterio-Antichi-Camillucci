@@ -10,12 +10,27 @@ import java.util.logging.Logger;
 
 public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAdrenalineClient
 {
+    /**
+     * RMI of the server
+     */
     private IRMIAdrenalineServer server;
+    /**
+     * True iff client does not ping the client
+     */
     private boolean stopPinging = true;
+    /**
+     * Hostname of the server
+     */
     private String serverName;
+    /**
+     * Server port
+     */
     private int serverPort;
     private final Logger logger = Logger.getLogger("AdrenalineClientRMI");
 
+    /**
+     * Thread that pings the server with period of PING_PERIOD
+     */
     private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
         while(!getStopPinging()) {
             server.ping();
@@ -29,11 +44,17 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
         this.serverPort = serverPort;
     }
 
+    /**
+     * Methods that belongs to RMI of the client. It's called by server to test connection.
+     */
     @Override
     public void ping() {
         // called by server periodically to test connection
     }
 
+    /**
+     * Gets RMI of the server, exports and register to server this class (as ICallBackAdrenalineClient) so that can be invoked remotely
+     */
     @Override
     protected void connect() throws IOException, NotBoundException {
         UnicastRemoteObject.exportObject(this, 2000);
