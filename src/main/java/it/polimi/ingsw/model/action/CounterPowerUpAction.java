@@ -37,4 +37,19 @@ public class CounterPowerUpAction extends PowerUpAction
     public List<PowerUpCard> getPossiblePowerUps() {
         return powerUpFilter.apply(ownerPlayer);
     }
+
+    @Override
+    public boolean isCompatible(Action action) {
+        return action.testCompatibilityWith(this);
+    }
+
+    @Override
+    public boolean testCompatibilityWith(PowerUpAction action) {
+        return false;
+    }
+
+    @Override
+    public boolean testCompatibilityWith(CounterPowerUpAction action) {
+        return true;
+    }
 }

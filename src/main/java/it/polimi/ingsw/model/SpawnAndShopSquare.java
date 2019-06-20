@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.action.EndBranchAction;
 import it.polimi.ingsw.model.action.ExtendableAction;
+import it.polimi.ingsw.model.action.FunctionalAction;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.WeaponCard;
@@ -67,7 +68,7 @@ public class SpawnAndShopSquare extends Square {
     {
         List<Branch> ret = new ArrayList<>();
         ExtendableAction chooseToDropBranches =
-                new ExtendableAction(player.getWeapons().stream().map(w->new Branch(new Action(a-> {
+                new ExtendableAction(player.getWeapons().stream().map(w->new Branch(new FunctionalAction(a-> {
                     a.getOwnerPlayer().getCurrentSquare().addWeapon(w);
                     a.getOwnerPlayer().removeWeapon(w);
                 }, "grab " + w.name), new EndBranchAction())).collect(Collectors.toList()), "discard a weapon");
@@ -77,7 +78,7 @@ public class SpawnAndShopSquare extends Square {
             powerUpAmmo = powerUpAmmo.add(powerUpCard.colorToAmmo());
         for (WeaponCard w : weapons)
             if(powerUpAmmo.isLessOrEqualThan(w.buyCost) && player.getAmmo().isGreaterOrEqual(w.buyCost.sub(powerUpAmmo)))
-                ret.add(new Branch(new Action(w.buyCost, a -> {
+                ret.add(new Branch(new FunctionalAction(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
                 }, "discard " + w.name), chooseToDropBranches));
@@ -98,7 +99,7 @@ public class SpawnAndShopSquare extends Square {
             powerUpAmmo = powerUpAmmo.add(powerUpCard.colorToAmmo());
         for(WeaponCard w : weapons)
             if(powerUpAmmo.isLessOrEqualThan(w.buyCost) && player.getAmmo().isGreaterOrEqual(w.buyCost.sub(powerUpAmmo)))
-                ret.add(new Branch(new Action(w.buyCost, a -> {
+                ret.add(new Branch(new FunctionalAction(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
                 }, "grab " + w.name), new EndBranchAction()));

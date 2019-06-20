@@ -25,7 +25,9 @@ public class BranchTestUtilities
 
     public static boolean isEqual(Action a, Action b)
     {
-        return (a.isCompatible(b) && b.isCompatible(a) || (a instanceof ExtendableAction && b instanceof  ExtendableAction));
+        if(a instanceof MoveAction && b instanceof MoveAction)
+            return a.isCompatible(b) && b.isCompatible(a);
+        return a.getClass().equals(b.getClass());
     }
     public static Action search(List<Action> actions, Action key)
     {

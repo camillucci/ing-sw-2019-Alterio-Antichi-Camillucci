@@ -50,7 +50,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     }
 
     @Override
-    public void addTarget(Player target)
+    public void add(Player target)
     {
         if(this.getPossiblePlayers().contains(target)) {
             targetPlayers.add(target);
@@ -60,7 +60,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     }
 
     @Override
-    public void addDiscardedAmmo(Ammo ammo) {
+    public void discard(Ammo ammo) {
         for(Ammo discardableAmmos : ownerPlayer.getDiscardableAmmo())
             if(discardableAmmos.isEqual(ammo)) {
                 this.discardedAmmo = ammo;
@@ -76,4 +76,20 @@ public class InTurnPowerUpAction extends PowerUpAction
             return Collections.emptyList();
         return ownerPlayer.getDiscardableAmmo();
     }
+
+    @Override
+    public boolean isCompatible(Action action) {
+        return action.testCompatibilityWith(this);
+    }
+
+    @Override
+    protected boolean testCompatibilityWith(InTurnPowerUpAction action) {
+        return true;
+    }
+
+    @Override
+    public boolean testCompatibilityWith(PowerUpAction action) {
+        return false;
+    }
+
 }

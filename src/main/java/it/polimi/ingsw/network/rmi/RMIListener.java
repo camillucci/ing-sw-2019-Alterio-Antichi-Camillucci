@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.network.IRMIAdrenalineServer;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -42,6 +40,7 @@ public class RMIListener
             logger.log(Level.WARNING, e.getMessage());
         }
     }
+
 
     private void onNewClientConnected(AdrenalineServerRMI serverRMI){
         connectedList.add(serverRMI);

@@ -57,7 +57,7 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
      */
     @Override
     protected void connect() throws IOException, NotBoundException {
-        UnicastRemoteObject.exportObject(this, 2000);
+        UnicastRemoteObject.exportObject(this, 0);
         server = (IRMIAdrenalineServer) LocateRegistry.getRegistry(serverName, this.serverPort).lookup("Server");
         server.registerClient(this);
     }

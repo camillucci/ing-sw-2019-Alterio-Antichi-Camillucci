@@ -39,7 +39,7 @@ public class MoveAction extends Action
     }
 
     @Override
-    public void addTarget(Square target)
+    public void add(Square target)
     {
         if(this.getPossibleSquares().contains(target)) {
             this.targetSquares.add(target);
@@ -57,13 +57,15 @@ public class MoveAction extends Action
     }
 
     @Override
-    public boolean isCompatible(Action action)
+    public boolean isCompatible(Action action) {
+        return action.testCompatibilityWith(this);
+    }
+
+    @Override
+    public boolean testCompatibilityWith(MoveAction action)
     {
-        if( !(action instanceof  MoveAction) )
-            return false;
-        MoveAction ma = (MoveAction)action;
-        if(ma.minDistance == -1 || this.minDistance == -1)
-            return ma.maxDistance <= this.maxDistance;
-        return ma.minDistance >= this.minDistance && ma.maxDistance <= this.maxDistance;
+        if(action.minDistance == -1 || this.minDistance == -1)
+            return this.maxDistance <= action.maxDistance;
+        return this.minDistance >= action.minDistance &&  this.maxDistance <= action.maxDistance;
     }
 }

@@ -3,17 +3,12 @@ package it.polimi.ingsw.network.rmi;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.AdrenalineServer;
-import it.polimi.ingsw.network.IAdrenalineServer;
-import it.polimi.ingsw.network.IRMIAdrenalineServer;
 import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

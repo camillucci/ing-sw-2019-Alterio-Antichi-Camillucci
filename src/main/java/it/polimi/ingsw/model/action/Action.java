@@ -2,16 +2,17 @@ package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Ammo;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 
-public class Action
+public abstract class Action
 {
     /**
      * Events invoked when doAction() method returns. It notifies subscribers that the action is completed
@@ -31,8 +32,8 @@ public class Action
     /**
      * Reference to the player this action belongs to
      */
-
     protected Player ownerPlayer;
+
     /**
      * List of Squares added as targets by the player
      */
@@ -67,44 +68,9 @@ public class Action
     protected boolean canBeDone = true;
 
     /**
-     * Consumer that represents the effectively way the action handle targets.
-     * If opMethod != a -> {} then is invoked in doAction() method.
-     */
-    private Consumer opMethod = a -> { };
-    /**
      * Textual description of the action
      */
     protected String text;
-
-    protected Action() {}
-
-    protected Action(String text) {
-        this.text = text;
-    }
-
-    /**
-     * @param doActionCost Cost of the action
-     * @param isOptional true iff isOptional == true
-     * @param doActionMethod invoked when doAction() is invoked
-     * @param text textual description of the action
-     */
-    public Action(Ammo doActionCost,  boolean isOptional,  Consumer<Action> doActionMethod, String text)
-    {
-        this.opMethod = doActionMethod;
-        this.doActionCost = doActionCost;
-        this.optional = isOptional;
-        this.text = text;
-    }
-
-    public Action(Ammo doActionCost, Consumer<Action> doActionMethod, String text)
-    {
-        this(doActionCost, false, doActionMethod, text);
-    }
-
-    public Action(Consumer<Action> doActionMethod, String text)
-    {
-        this(new Ammo(0,0,0), doActionMethod, text);
-    }
 
     public void doAction()
     {
@@ -114,42 +80,33 @@ public class Action
         }
     }
 
-    /**
-     * Sets the player which this actions belongs to
-     * @param ownerPlayer
-     */
     public void initialize(Player ownerPlayer)
     {
         this.ownerPlayer = ownerPlayer;
     }
 
-    public void addWeapon(WeaponCard weapon) {
-        //Only for Override
+    public void add(WeaponCard weapon) {
+        /* Only for Override */
     }
-
-    public void addTarget(Square target) {
-        //Only for Override
+    public void add(Square target) {
+        /* Only for Override */
     }
-
-    public void addTarget(Player target) {
-        //Only for Override
+    public void add(Player target) {
+        /* Only for Override */
     }
-
-    public void usePowerUp(PowerUpCard powerUp)
-    {
-        if(getPossiblePowerUps().contains(powerUp))
-            this.selectedPowerUp = powerUp;
-    }
-
-    public void addDiscarded(PowerUpCard powerUpCard)
+    public void add(PowerUpCard powerUpCard)
     {
         if(getDiscardablePowerUps().contains(powerUpCard))
             this.discardedPowerUps.add(powerUpCard);
     }
 
-    public void addDiscardedAmmo(Ammo ammo) {
-        //Only for Override
+    public void use(PowerUpCard powerUp)
+    {
+        if(getPossiblePowerUps().contains(powerUp))
+            this.selectedPowerUp = powerUp;
     }
+
+    public void discard(Ammo ammo) { /* Only for Override */}
 
     public List<Player> getPossiblePlayers() { return Collections.emptyList(); }
     public List<Square> getPossibleSquares() { return Collections.emptyList(); }
@@ -157,12 +114,18 @@ public class Action
     public List<PowerUpCard> getDiscardablePowerUps() { return Collections.emptyList(); }
     public List<Ammo> getDiscardableAmmos() { return Collections.emptyList(); }
     public List<WeaponCard> getPossibleWeapons() { return Collections.emptyList(); }
-
     public Player getOwnerPlayer() { return this.ownerPlayer; }
 
-    public boolean isCompatible(Action action)
-    {
-        return action.getClass().isInstance(this);
+    public boolean isOptional() { return optional; }
+
+    public Action next() { return next; }
+
+    protected void op() {}
+
+    public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
+
+    public String getText() {
+        return text;
     }
 
     public boolean canBeDone() { return canBeDone; }
@@ -188,15 +151,32 @@ public class Action
         return false;
     }
 
-    public boolean isOptional() { return optional; }
-
-    public Action next() { return next; }
-
-    protected void op() { this.opMethod.accept(this); }
-
-    public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
-
-    public String getText() {
-        return text;
+    public boolean isCompatible(Action action)
+    {
+        return this == action;
+    }
+    protected boolean testCompatibilityWith(MoveAction action)
+    {
+        return false;
+    }
+    protected boolean testCompatibilityWith(CounterPowerUpAction action)
+    {
+        return false;
+    }
+    protected boolean testCompatibilityWith(InTurnPowerUpAction action)
+    {
+        return false;
+    }
+    protected boolean testCompatibilityWith(PowerUpAction action)
+    {
+        return false;
+    }
+    protected boolean testCompatibilityWith(ReloadAction action)
+    {
+        return false;
+    }
+    protected boolean testCompatibilityWith(WeaponSelectionAction action)
+    {
+        return false;
     }
 }

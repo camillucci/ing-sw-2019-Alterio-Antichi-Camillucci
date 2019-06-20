@@ -22,4 +22,14 @@ public class WeaponSelectionAction extends ExtendableAction
         }
         this.branches = w;
     }
+
+    @Override
+    public boolean isCompatible(Action action) {
+        return action.testCompatibilityWith(this);
+    }
+
+    @Override
+    protected boolean testCompatibilityWith(WeaponSelectionAction action) {
+        return true;
+    }
 }

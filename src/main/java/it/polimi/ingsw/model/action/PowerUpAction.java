@@ -47,8 +47,18 @@ public class PowerUpAction extends ShootAction
     }
 
     @Override
+    public boolean isCompatible(Action action) {
+        return action.testCompatibilityWith(this);
+    }
+
+    @Override
     public List<PowerUpCard> getPossiblePowerUps()
     {
         return new ArrayList<>(ownerPlayer.getPowerupSet().getEndStartPUs());
+    }
+
+    @Override
+    public boolean testCompatibilityWith(PowerUpAction action) {
+        return true;
     }
 }

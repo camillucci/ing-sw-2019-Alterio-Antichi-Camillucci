@@ -52,9 +52,9 @@ class BranchMapTest {
         curBranchMap.newActionsEvent.addEventHandler((a,b)->this.eventTriggered=true);
         MoveAction M3 = new MoveAction(3);
         M3.initialize(p);
-        M3.addTarget(p.getCurrentSquare());
+        M3.add(p.getCurrentSquare());
         curBranchMap.getPossibleActions().stream().filter(a->a.isCompatible(M3) && a instanceof MoveAction).forEach(
-                a->{a.initialize(p); a.addTarget(p.getCurrentSquare()); a.doAction();});
+                a->{a.initialize(p); a.add(p.getCurrentSquare()); a.doAction();});
         assertTrue(eventTriggered);
     }
 

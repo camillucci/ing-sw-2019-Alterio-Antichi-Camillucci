@@ -54,7 +54,7 @@ class MoveActionTest {
         action.completedActionEvent.addEventHandler((a,b)->this.eventTriggered = true);
         action.initialize(p);
         assertEquals(9, action.getPossibleSquares().size());
-        action.addTarget(gameBoard.getSquares().get(2));
+        action.add(gameBoard.getSquares().get(2));
         action.doAction();
         assertTrue(eventTriggered);
         assertEquals(gameBoard.getSquares().get(2), p.getCurrentSquare());
@@ -78,7 +78,7 @@ class MoveActionTest {
         action.completedActionEvent.addEventHandler((a,b)->this.eventTriggered = true);
         action.initialize(p);
         assertEquals(8, action.getPossibleSquares().size());
-        action.addTarget(gameBoard.getSquares().get(1));
+        action.add(gameBoard.getSquares().get(1));
         action.doAction();
         assertTrue(eventTriggered);
         assertEquals(gameBoard.getSquares().get(1), p.getCurrentSquare());

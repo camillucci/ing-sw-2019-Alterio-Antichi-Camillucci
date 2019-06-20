@@ -25,7 +25,7 @@ public class ReloadAction extends Action
     }
 
     @Override
-    public void addWeapon(WeaponCard weapon)
+    public void add(WeaponCard weapon)
     {
         if(getPossibleWeapons().contains(weapon)) {
             this.doActionCost = this.doActionCost.add(weapon.reloadCost);
@@ -57,5 +57,15 @@ public class ReloadAction extends Action
                 if(!discardedPowerUps.contains(pu) && alreadyAdded.add(pu.colorToAmmo()).isLessOrEqualThan(wc.reloadCost))
                     temp.add(pu);
         return new ArrayList<>(temp);
+    }
+
+    @Override
+    public boolean isCompatible(Action action) {
+        return action.testCompatibilityWith(this);
+    }
+
+    @Override
+    protected boolean testCompatibilityWith(ReloadAction action) {
+        return true;
     }
 }

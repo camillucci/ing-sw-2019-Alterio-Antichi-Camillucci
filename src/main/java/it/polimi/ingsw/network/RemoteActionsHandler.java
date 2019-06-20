@@ -41,29 +41,29 @@ public class RemoteActionsHandler
     }
 
     public void addPowerUp(int index){
-        this.selectedAction.usePowerUp(selectedAction.getPossiblePowerUps().get(index));
+        this.selectedAction.use(selectedAction.getPossiblePowerUps().get(index));
     }
 
     public void addDiscardedPowerUp(int index) {
-        selectedAction.addDiscarded(selectedAction.getDiscardablePowerUps().get(index));
+        selectedAction.add(selectedAction.getDiscardablePowerUps().get(index));
     }
 
     public void addWeapon(int index) {
-        selectedAction.addWeapon(player.getUnloadedWeapons().get(index));
+        selectedAction.add(player.getUnloadedWeapons().get(index));
     }
 
     public void addDiscardedAmmo(int index) {
-        selectedAction.addDiscardedAmmo(selectedAction.getDiscardableAmmos().get(index));
+        selectedAction.discard(selectedAction.getDiscardableAmmos().get(index));
     }
 
     public void addTargetPlayer(int index)
     {
-        selectedAction.addTarget(selectedAction.getPossiblePlayers().get(index));
+        selectedAction.add(selectedAction.getPossiblePlayers().get(index));
     }
 
     public void addTargetSquare(int index)
     {
-        selectedAction.addTarget(selectedAction.getPossibleSquares().get(index));
+        selectedAction.add(selectedAction.getPossibleSquares().get(index));
     }
 
     public List<String> getPossiblePlayers()
