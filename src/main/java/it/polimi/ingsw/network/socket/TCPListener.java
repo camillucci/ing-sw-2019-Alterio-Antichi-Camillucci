@@ -44,16 +44,12 @@ public class TCPListener {
 
         if ( listener == null || listenThread == null || listenThread.getState() == Thread.State.TERMINATED)
             return;
-        try {
+        try
+        {
             listener.close();
-        }
-        catch (IOException e) {
-            logger.log(Level.WARNING, e.getMessage());
-        }
-        try {
             listenThread.join();
         }
-        catch(InterruptedException e) {
+        catch(InterruptedException | IOException e) {
             logger.log(Level.WARNING, e.getMessage());
         }
     }
@@ -86,7 +82,7 @@ public class TCPListener {
         }
         catch(IOException e)
         {
-            logger.log(Level.WARNING, "IOException, Class TCPListener, Line 90", e);
+            logger.log(Level.WARNING, "IOException, Class TCPListener", e);
         }
     }
     private synchronized void onDisconnection (TCPClient client)
@@ -98,7 +94,7 @@ public class TCPListener {
     {
         connectedHosts.add(connectedHost);
 
-        // if newClientEvents is invoked  in this thread and calls this.stop() the thread joins itself -> deadlock
+        // if newClientEvent is invoked in this thread and calls this.stop() the thread joins itself -> deadlock
         // for this reason a tmp thread invokes the event
         (new Thread(()-> ((Event<TCPListener,TCPClient>)this.newClientEvent).invoke(this, connectedHost))).start();
     }

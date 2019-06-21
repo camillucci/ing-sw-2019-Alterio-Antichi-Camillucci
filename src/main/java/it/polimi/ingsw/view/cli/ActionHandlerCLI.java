@@ -16,7 +16,7 @@ public class ActionHandlerCLI extends ActionHandler {
     public void chooseAction(List<RemoteAction> options) throws IOException
     {
         CLIMessenger.displayActions(options);
-        action = options.get(CLIParser.parser.parseActions(options.size()));
+        action = options.get(CLIParser.parser.parseIndex(options.size()));
         notifyChoice(action.choose());
         notifyChoice(action.askActionData());
     }
@@ -30,22 +30,23 @@ public class ActionHandlerCLI extends ActionHandler {
     protected void onActionDataUpdated() throws IOException
     {
         RemoteAction.Data data = action.getData();
-        CLIMessenger.displayTargets(data.possiblePlayers, data.possibleSquares, data.possiblePowerUps, data.discardablePowerUps, data.discardableAmmos, data.possibleWeapons, data.canBeDone);
-        int index = CLIParser.parser.parseActions(data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size()
-                + data.discardablePowerUps.size() + data.discardableAmmos.size() + data.possibleWeapons.size() + (data.canBeDone ? 1 : 0));
+        List<String> players = data.getPossiblePlayers(), squares = data.getPossibleSquares(), possiblePU = data.getPossiblePowerUps(),
+                     discardablePUs = data.getDiscardablePowerUps(), discardableAmmos = data.getDiscardableAmmos(), weapons = data.getPossibleWeapons();
 
-        if(index < data.possiblePlayers.size())
-            notifyChoice(action.addTargetPlayer(data.possiblePlayers.get(index)));
-        else if(index < data.possiblePlayers.size() + data.possibleSquares.size())
-            notifyChoice(action.addTargetSquare(data.possibleSquares.get(index - data.possiblePlayers.size())));
-        else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size())
-            notifyChoice(action.usePowerUp(data.possiblePowerUps.get(index - data.possiblePlayers.size() - data.possibleSquares.size())));
-        else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size())
-            notifyChoice(action.addDiscardable(data.discardablePowerUps.get(index - data.possiblePlayers.size() - data.possibleSquares.size() - data.possiblePowerUps.size())));
-        else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size() + data.discardableAmmos.size())
-            notifyChoice(action.addDiscardableAmmo(data.discardableAmmos.get(index - data.possiblePlayers.size() - data.possibleSquares.size() - data.possiblePowerUps.size() - data.discardablePowerUps.size())));
-        else if(index < data.possiblePlayers.size() + data.possibleSquares.size() + data.possiblePowerUps.size() + data.discardablePowerUps.size() + data.discardableAmmos.size() + data.possibleWeapons.size())
-            notifyChoice(action.addDiscardableAmmo(data.discardableAmmos.get(index - data.possiblePlayers.size() - data.possibleSquares.size() - data.possiblePowerUps.size() - data.discardablePowerUps.size() - data.discardableAmmos.size())));
+        CLIMessenger.displayTargets(data);
+        int index = CLIParser.parser.parseActionUserChoice(data);
+        if(index < players.size())
+            notifyChoice(action.addTargetPlayer(players.get(index)));
+        else if( (index -= players.size()) < squares.size())
+            notifyChoice(action.addTargetSquare(squares.get(index)));
+        else if( (index -= squares.size()) < possiblePU.size())
+            notifyChoice(action.usePowerUp(possiblePU.get(index)));
+        else if( (index -= possiblePU.size()) <  discardablePUs.size())
+            notifyChoice(action.addDiscardable(discardablePUs.get(index)));
+        else if( (index -= discardablePUs.size()) < discardableAmmos.size())
+            notifyChoice(action.addDiscardableAmmo(discardableAmmos.get(index)));
+        else if( (index -= discardableAmmos.size()) < weapons.size())
+            notifyChoice(action.addDiscardableAmmo(weapons.get(index)));
         else {
             notifyChoice(action.doAction());
             ((Event<ActionHandler, RemoteAction>)actionDoneEvent).invoke(this, action);

@@ -40,7 +40,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
 
     protected void onModelUpdated(Room.ModelEventArgs model) throws IOException {
         MatchSnapshot matchSnapshot = model.matchSnapshot;
-        sendCommand(new Command<View>(view -> view.getCurViewElement().onModelChanged(matchSnapshot)));
+        sendCommand(new Command<>(view -> view.getCurViewElement().onModelChanged(matchSnapshot)));
         if(model.playerName.equals(this.name))
         {
             this.remoteActionsHandler = model.actionsHandler;

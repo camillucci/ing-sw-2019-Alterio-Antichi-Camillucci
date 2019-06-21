@@ -35,7 +35,7 @@ public class Ammo implements Serializable {
 
     /**
      * This method returns a new ammo which is the sum from this and a given ammo
-     * @param ammo The ammo we need to add
+     * @param ammo The ammo we need to addTarget
      * @return A new ammo which is the sum from this and the given ammo
      */
     public Ammo add(Ammo ammo) {

@@ -39,7 +39,7 @@ public class MoveAction extends Action
     }
 
     @Override
-    public void add(Square target)
+    public void addTarget(Square target)
     {
         if(this.getPossibleSquares().contains(target)) {
             this.targetSquares.add(target);

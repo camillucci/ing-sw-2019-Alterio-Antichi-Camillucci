@@ -122,7 +122,7 @@ public class Player {
 
     /**
      * This method adds or subtract blue ammo from the Player, blue ammo must always be a number between 0 and 3
-     * @param val The number of blu ammo to add to the Player, a negative value will subtract them
+     * @param val The number of blu ammo to addTarget to the Player, a negative value will subtract them
      */
     public void addBlue(int val){
         if(ammo.blue + val > MAX_AMMO)
@@ -133,7 +133,7 @@ public class Player {
 
     /**
      * This method adds or subtract red ammo from the Player, red ammo must always be a number between 0 and 3
-     * @param val The number of red ammo to add to the Player, a negative value will subtract them
+     * @param val The number of red ammo to addTarget to the Player, a negative value will subtract them
      */
     public void addRed(int val){
         if(ammo.red + val > MAX_AMMO)
@@ -144,7 +144,7 @@ public class Player {
 
     /**
      * This method adds or subtract yellow ammo from the Player, yellow ammo must always be a number between 0 and 3
-     * @param val The number of yellow ammo to add to the Player, a negative value will subtract them
+     * @param val The number of yellow ammo to addTarget to the Player, a negative value will subtract them
      */
     public void addYellow(int val){
         if(ammo.yellow + val > MAX_AMMO)
@@ -175,7 +175,7 @@ public class Player {
 
     /**
      * This method adds a specific PowerUpCard to the Player
-     * @param powerUpCard The card to add to the Player
+     * @param powerUpCard The card to addTarget to the Player
      */
     public void addPowerUpCard(PowerUpCard powerUpCard) { // Only for tests
         powerupSet.add(powerUpCard);

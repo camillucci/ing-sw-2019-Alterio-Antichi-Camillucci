@@ -125,7 +125,7 @@ public class GameBoard {
 
     /**
      * Add a new list to the kill shot track each time a player is killed
-     * @param newKillShot The new kill shot track to add, one PlayerColor for the death and a second one for the overkill
+     * @param newKillShot The new kill shot track to addTarget, one PlayerColor for the death and a second one for the overkill
      */
     public void addKillShotTrack(List<PlayerColor> newKillShot) {
         if(killShotTrack.size() < MAX_SKULLS)
@@ -151,7 +151,7 @@ public class GameBoard {
         //Add all valid squares of distance 1
         List<Square> tempSquare = distanceOneSquares(player.getCurrentSquare());
 
-        // For each number beyond 1 add all valid squares of distance 1 not already added
+        // For each number beyond 1 addTarget all valid squares of distance 1 not already added
         int j = 1;
         for(int i = 1, temp = tempSquare.size(); i < dist; i++, temp = tempSquare.size())
             for(; j < temp; j++)
@@ -205,7 +205,7 @@ public class GameBoard {
         //Add rooms near the player's current square...
         List<Square> tempSquare = distanceOneBorderType(player.getCurrentSquare(), DOOR);
 
-        //...and add the other squares of those room
+        //...and addTarget the other squares of those room
         for(int i = 0; i < tempSquare.size(); i++) {
             if(tempSquare.get(i).north == ROOM && !tempSquare.contains(squares[tempSquare.get(i).y - 1][tempSquare.get(i).x]))
                 tempSquare.add(squares[tempSquare.get(i).y - 1][tempSquare.get(i).x]);

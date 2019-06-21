@@ -89,7 +89,7 @@ public class ShootAction extends Action
     }
 
     @Override
-    public void add(Player target)
+    public void addTarget(Player target)
     {
         if(this.getPossiblePlayers().contains(target)) {
             targetPlayers.add(target);
@@ -101,7 +101,7 @@ public class ShootAction extends Action
     }
 
     @Override
-    public void add(Square target) {
+    public void addTarget(Square target) {
         if(this.getPossibleSquares().contains(target)) {
             this.targetSquares.add(target);
             if(playersFilter == TargetsFilters.noPlayersFilter || !this.targetPlayers.isEmpty())

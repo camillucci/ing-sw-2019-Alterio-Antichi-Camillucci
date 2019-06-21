@@ -49,7 +49,7 @@ public class SpawnAndShopSquare extends Square {
      * This method give to a given Player the choices for grabbing a WeaponCard contained in the shop
      * it is used through a GrabAction,
      * it divide itself in grabAndDrop or grabAndNoDrop based on the WeaponCards the given Player already has
-     * @param player The Player in which add the WeaponCard
+     * @param player The Player in which addTarget the WeaponCard
      * @param powerUpCards The list of discarded PowerUpCard for reducing the WeaponCards cost
      * @return A single Branch from which the Player can choose which WeaponCard to grab
      */
@@ -60,7 +60,7 @@ public class SpawnAndShopSquare extends Square {
 
     /**
      * This method return both the choice for grabbing and for discarding a WeaponCard
-     * @param player The Player in which add the WeaponCard
+     * @param player The Player in which addTarget the WeaponCard
      * @param powerUpCards The list of discarded PowerUpCard for reducing the WeaponCards cost
      * @return A single Branch from which the Player can choose which WeaponCard to grab and drop
      */
@@ -87,7 +87,7 @@ public class SpawnAndShopSquare extends Square {
 
     /**
      * This method return both the choice for grabbing a WeaponCard
-     * @param player The Player in which add the WeaponCard
+     * @param player The Player in which addTarget the WeaponCard
      * @param powerUpCards The list of discarded PowerUpCard for reducing the WeaponCards cost
      * @return A single Branch from which the Player can choose which WeaponCard to grab
      */
@@ -117,7 +117,7 @@ public class SpawnAndShopSquare extends Square {
 
     /**
      * This method adds a given WeaponCard when it is dropped
-     * @param weaponCard The WeaponCard to add
+     * @param weaponCard The WeaponCard to addTarget
      */
     @Override
     public void addWeapon(WeaponCard weaponCard) {

@@ -3,13 +3,13 @@ package it.polimi.ingsw.generics;
 import java.io.*;
 import java.nio.ByteBuffer;
 
-public class OutputStreamUtils implements Closeable, OutputInterface
+public class SocketOutputStream implements Closeable
 {
-    public final IEvent<OutputStreamUtils, OutputStreamUtils> streamFailedEvent = new Event<>();
+    public final IEvent<SocketOutputStream, SocketOutputStream> streamFailedEvent = new Event<>();
     private OutputStream stream;
     private int count = 0;
 
-    public OutputStreamUtils(OutputStream inputStream)
+    public SocketOutputStream(OutputStream inputStream)
     {
         this.stream = inputStream;
     }
@@ -42,7 +42,7 @@ public class OutputStreamUtils implements Closeable, OutputInterface
     {
         send( () -> {
             try (FileInputStream fileStream = new FileInputStream(filename)) {
-                InputStreamUtils.pipe(fileStream, stream, Long.MAX_VALUE);
+                SocketInputStream.pipe(fileStream, stream, Long.MAX_VALUE);
             }});
     }
 
@@ -97,14 +97,14 @@ public class OutputStreamUtils implements Closeable, OutputInterface
         try
         {
             if(count == 0)
-                stream.write((byte) InputStreamUtils.DATA);
+                stream.write((byte) SocketInputStream.DATA);
             count++;
             sendFunc.invoke();
             count--;
         }
         catch(IOException ecc)
         {
-            ((Event<OutputStreamUtils, OutputStreamUtils>)streamFailedEvent).invoke(this, this);
+            ((Event<SocketOutputStream, SocketOutputStream>)streamFailedEvent).invoke(this, this);
             throw ecc;
         }
     }
@@ -118,11 +118,11 @@ public class OutputStreamUtils implements Closeable, OutputInterface
     public synchronized void ping() throws IOException {
         try
         {
-            stream.write((byte)InputStreamUtils.PING);
+            stream.write((byte) SocketInputStream.PING);
         }
         catch(IOException ecc)
         {
-            ((Event<OutputStreamUtils, OutputStreamUtils>)streamFailedEvent).invoke(this, this);
+            ((Event<SocketOutputStream, SocketOutputStream>)streamFailedEvent).invoke(this, this);
             throw ecc;
         }
     }

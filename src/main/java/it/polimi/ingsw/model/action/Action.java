@@ -85,16 +85,16 @@ public abstract class Action
         this.ownerPlayer = ownerPlayer;
     }
 
-    public void add(WeaponCard weapon) {
+    public void addWeapon(WeaponCard weapon) {
         /* Only for Override */
     }
-    public void add(Square target) {
+    public void addTarget(Square target) {
         /* Only for Override */
     }
-    public void add(Player target) {
+    public void addTarget(Player target) {
         /* Only for Override */
     }
-    public void add(PowerUpCard powerUpCard)
+    public void addPowerUp(PowerUpCard powerUpCard)
     {
         if(getDiscardablePowerUps().contains(powerUpCard))
             this.discardedPowerUps.add(powerUpCard);

@@ -16,7 +16,7 @@ public class AmmoSquare extends Square {
 
     /**
      * The deck with all remaining and discarded AmmoCards
-     * It is used to refill the square at the end of the turn and to add discarded AmmoCards
+     * It is used to refill the square at the end of the turn and to addTarget discarded AmmoCards
      */
     private AmmoDeck ammoDeck;
     /**
@@ -30,7 +30,7 @@ public class AmmoSquare extends Square {
      * @param y The first coordinate
      * @param x The second coordinate
      * @param borders The 4 SquareBorder, one for each cardinal direction
-     * @param ammoDeck The AmmoDeck for refill and to add discarded AmmoCards
+     * @param ammoDeck The AmmoDeck for refill and to addTarget discarded AmmoCards
      */
     public AmmoSquare(String name, int y, int x, SquareBorder[] borders, AmmoDeck ammoDeck) {
         super(name, y, x, borders);
@@ -42,7 +42,7 @@ public class AmmoSquare extends Square {
     /**
      * This method give to a given Player the resources written on the AmmoCard if available,
      * it is used through a GrabAction
-     * @param player The Player in which add the resources (Ammo and PowerUpCard)
+     * @param player The Player in which addTarget the resources (Ammo and PowerUpCard)
      * @param powerUpCards It's always an empty list and not used hero, only for SpawnAndShopSquare
      * @return A single Branch from which the GrabAction can be confirmed by the Player
      */
@@ -67,7 +67,7 @@ public class AmmoSquare extends Square {
     }
 
     /**
-     * This method add a new AmmoCard to the AmmoSquare at the end of the Turn if it was grabbed this turn
+     * This method addTarget a new AmmoCard to the AmmoSquare at the end of the Turn if it was grabbed this turn
      */
     @Override
     public void refill() {

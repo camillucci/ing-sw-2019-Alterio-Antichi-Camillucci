@@ -76,15 +76,15 @@ public class Branch
 
     public List<Action> getCompatibleActions()
     {
-        if(invalidState){
+        if(invalidState)
             return Collections.emptyList();
-        }
 
         ArrayList<Action> ret = new ArrayList<>();
         if(actions.isEmpty()) {
             ret.add(finalAction);
             return ret;
         }
+
 
         ret.add(actions.get(0));
         for (int i = 0; i < actions.size()-1; i++)
@@ -104,27 +104,27 @@ public class Branch
             return false;
         }
 
-        boolean found = false;
-        while(!actions.isEmpty() && !found)
+        boolean nextFound = false;
+        while(!actions.isEmpty() && !nextFound)
             if(actions.get(0).isCompatible(justDoneAction))
                 if(actions.get(0).next() != null)
                 {
                     actions.set(0, actions.get(0).next());
-                    found = true;
+                    nextFound = true;
                 }
                 else
                 {
                     actions.remove(0);
-                    found = true;
+                    nextFound = true;
                 }
             else if(actions.get(0).isOptional())
                 actions.remove(0);
             else
             {
                 setInvalidState();
-                found = true;
+                nextFound = true;
             }
-        return found;
+        return nextFound;
     }
 
     public boolean isInvalidBranch() {

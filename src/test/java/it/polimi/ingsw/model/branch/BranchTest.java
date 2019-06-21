@@ -181,7 +181,7 @@ class BranchTest {
         getM3GM2GW();
         curBranch.actionCompletedEvent.addEventHandler((a,b)->this.eventTriggered=true);
         curBranch.getCompatibleActions().get(0).initialize(p);
-        curBranch.getCompatibleActions().get(0).add(p.getCurrentSquare());
+        curBranch.getCompatibleActions().get(0).addTarget(p.getCurrentSquare());
         curBranch.getCompatibleActions().get(0).doAction();
         assertTrue(eventTriggered);
 

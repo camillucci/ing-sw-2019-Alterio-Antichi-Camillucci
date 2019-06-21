@@ -50,7 +50,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     }
 
     @Override
-    public void add(Player target)
+    public void addTarget(Player target)
     {
         if(this.getPossiblePlayers().contains(target)) {
             targetPlayers.add(target);

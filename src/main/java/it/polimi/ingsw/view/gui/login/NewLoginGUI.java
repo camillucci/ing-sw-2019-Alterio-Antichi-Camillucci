@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.login;
 
-import it.polimi.ingsw.App;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
@@ -18,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
@@ -95,9 +93,10 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         upperVBox.getChildren().add(root);
     }
 
-    private void setBottomVBox(Parent root){
-        bottomVBox.getChildren().clear();
-        bottomVBox.getChildren().add(root);
+    private void setBottomVBox(Parent root) {
+        Platform.runLater(() -> {
+            bottomVBox.getChildren().clear();
+            bottomVBox.getChildren().add(root);});
     }
 
     @Override
@@ -247,25 +246,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         return upperVBox;
     }
 
-    private static NewLoginGUI getController () throws IOException {
-        return GUIView.getController("/view/login/LoginGUI.fxml");
-    }
-
-    public static NewLoginGUI createLoginScene(App app) throws IOException {
-        int risY = 4323;
-        int risX = 3024;
-        double scale = 3.0/10;
-        NewLoginGUI ret = NewLoginGUI.getController();
-        loginScene = new Scene(ret.getRoot(), risY*scale, risX*scale);
-        loginScene.getStylesheets().add("/view/login/LoginGUI.css");
-        loginScene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ESCAPE) {
-                Platform.exit();
-                System.exit(0);
-            }});
-        ret.loginStarted.addEventHandler((a,b) -> app.show());
-        app.setScene(loginScene);
-        app.show();
-        return ret;
+    public static NewLoginGUI getController () throws IOException {
+        return GUIView.getController("/view/root.fxml");
     }
 }

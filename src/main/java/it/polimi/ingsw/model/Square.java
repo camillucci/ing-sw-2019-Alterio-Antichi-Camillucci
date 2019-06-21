@@ -66,7 +66,7 @@ public abstract class Square {
 
     /**
      *
-     * @param player The Player in which add the resources
+     * @param player The Player in which addTarget the resources
      * @param powerUpCards The list of discarded PowerUpCard for reducing the WeaponCards cost
      * @return A single Branch from which the Player can choose what to grab
      */
@@ -142,7 +142,7 @@ public abstract class Square {
 
     /**
      * This method adds a given Player to this Square when the Player move or is moved on it
-     * @param player The Player to add
+     * @param player The Player to addTarget
      */
     public void addPlayer(Player player) {
         players.add(player);
@@ -170,7 +170,7 @@ public abstract class Square {
 
     /**
      * This method adds a given WeaponCard when it is dropped, only for SpawnAndShopSquare
-     * @param weaponCard The WeaponCard to add
+     * @param weaponCard The WeaponCard to addTarget
      */
     public void addWeapon(WeaponCard weaponCard) { }
 

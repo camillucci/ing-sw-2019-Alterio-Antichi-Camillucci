@@ -49,7 +49,7 @@ class TurnTest
         for(int i = 0, N = 200; i < N; i++)
         {
             turn.getActions().stream().filter(a->BranchTestUtilities.isEqual(a, new MoveAction(2))).forEach(
-                    a->{a.initialize(turn.getPlayer()); a.add(turn.getPlayer().getCurrentSquare()); a.doAction();});
+                    a->{a.initialize(turn.getPlayer()); a.addTarget(turn.getPlayer().getCurrentSquare()); a.doAction();});
             BranchTestUtilities.searchAndDo(turn.getActions(), new RollBackAction());
             assertFalse(triggered);
         }

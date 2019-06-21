@@ -34,8 +34,8 @@ public class RMIListener
         try {
             AdrenalineServerRMI serverRMI = supplier.get();
             serverRMI.newClientConnected.addEventHandler((a,b) -> onNewClientConnected(serverRMI));
-            Remote stub = UnicastRemoteObject.exportObject(serverRMI,port );
-            LocateRegistry.getRegistry(1099).rebind("Server", stub);
+            Remote stub = UnicastRemoteObject.exportObject(serverRMI, port );
+            LocateRegistry.getRegistry(port).rebind("Server", stub);
         } catch (RemoteException e) {
             logger.log(Level.WARNING, e.getMessage());
         }

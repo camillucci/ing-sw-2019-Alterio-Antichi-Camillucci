@@ -33,10 +33,10 @@ class ShootActionTest {
         Action shootAction = machineGun.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shootAction.initialize(p1);
         assertFalse(shootAction.canBeDone());
-        shootAction.add(p2);
+        shootAction.addTarget(p2);
         assertTrue(shootAction.canBeDone());
         assertEquals(0, shootAction.getDiscardablePowerUps().size());
-        shootAction.add(gameBoard.powerupDeck.draw());
+        shootAction.addPowerUp(gameBoard.powerupDeck.draw());
         shootAction.doAction();
         assertEquals(1, p2.getDamage().size());
         assertEquals(0, shootAction.getDiscardablePowerUps().size());
@@ -53,7 +53,7 @@ class ShootActionTest {
         p2.getCurrentSquare().addPlayer(p2);
         Action shootAction = electroschyte.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shootAction.initialize(p1);
-        shootAction.add(p2.getCurrentSquare());
+        shootAction.addTarget(p2.getCurrentSquare());
         shootAction.doAction();
         assertEquals(1, p2.getDamage().size());
     }
@@ -72,11 +72,11 @@ class ShootActionTest {
         shootAction.doAction();
         assertEquals(0, p2.getDamage().size());
         assertEquals(p1.gameBoard.getSquares().get(4), p2.getCurrentSquare());
-        shootAction.add(p2);
+        shootAction.addTarget(p2);
         shootAction.doAction();
         assertEquals(0, p2.getDamage().size());
         assertEquals(p1.gameBoard.getSquares().get(4), p2.getCurrentSquare());
-        shootAction.add(p1.gameBoard.getSquares().get(5));
+        shootAction.addTarget(p1.gameBoard.getSquares().get(5));
         shootAction.doAction();
         assertEquals(1, p2.getDamage().size());
         assertEquals(p1.gameBoard.getSquares().get(5), p2.getCurrentSquare());

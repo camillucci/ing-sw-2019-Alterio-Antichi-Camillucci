@@ -23,7 +23,7 @@ public class FireModalityAction extends ExtendableAction
     }
 
     @Override
-    public void add(PowerUpCard powerUpCard)
+    public void addPowerUp(PowerUpCard powerUpCard)
     {
         if(getDiscardablePowerUps().contains(powerUpCard)) {
             this.discardedPowerUps.add(powerUpCard);

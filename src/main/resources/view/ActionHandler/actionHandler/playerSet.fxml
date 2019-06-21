@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import java.lang.Double?>
-
 <?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.geometry.Insets?>
-<VBox minHeight="120" minWidth="${vBox.height*4}" alignment="CENTER" styleClass="background" fx:id="vBox" spacing="10" xmlns="http://javafx.com/javafx"
+<VBox fx:id="vBox" minHeight="227" maxHeight="227" minWidth="${vBox.minHeight/277*1124}" maxWidth="${vBox.maxHeight/277*1124}" alignment="CENTER" styleClass="background" spacing="10" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.polimi.ingsw.view.gui.actionhandler.PlayerSetController">
     <StackPane fx:id="pane">
@@ -56,8 +48,4 @@
             </rowConstraints>
         </GridPane>
     </StackPane>
-    <HBox>
-        <ImageView fx:id="card1">
-        </ImageView>
-    </HBox>
 </VBox>

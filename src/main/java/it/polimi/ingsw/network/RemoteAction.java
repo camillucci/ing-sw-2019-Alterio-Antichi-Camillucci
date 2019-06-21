@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.snapshots.*;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RemoteAction implements Serializable
@@ -68,22 +69,46 @@ public class RemoteAction implements Serializable
 
     public static class Data implements Serializable
     {
-        public final List<String> possiblePlayers;
-        public final List<String> possibleSquares;
-        public final List<String> possiblePowerUps;
-        public final List<String> discardablePowerUps;
-        public final List<String> discardableAmmos;
-        public final List<String> possibleWeapons;
+        private final List<String> possiblePlayers;
+        private final List<String> possibleSquares;
+        private final List<String> possiblePowerUps;
+        private final List<String> discardablePowerUps;
+        private final List<String> discardableAmmos;
+        private final List<String> possibleWeapons;
         public final boolean canBeDone;
+
+        public List<String> getPossibleSquares() {
+            return possibleSquares;
+        }
+
+        public List<String> getPossiblePowerUps() {
+            return possiblePowerUps;
+        }
+
+        public List<String> getDiscardablePowerUps() {
+            return discardablePowerUps;
+        }
+
+        public List<String> getDiscardableAmmos() {
+            return discardableAmmos;
+        }
+
+        public List<String> getPossibleWeapons() {
+            return possibleWeapons;
+        }
+
+        public List<String> getPossiblePlayers() {
+            return possiblePlayers;
+        }
 
         public Data(List<String> possiblePlayers, List<String> possibleSquares, List<String> possiblePowerUps, List<String> discardablePowerUps, List<String> discardableAmmos, List<String> possibleWeapons,  boolean canBeDone)
         {
-            this.possiblePlayers = possiblePlayers;
-            this.possibleSquares = possibleSquares;
-            this.possiblePowerUps = possiblePowerUps;
-            this.discardablePowerUps = discardablePowerUps;
-            this.discardableAmmos = discardableAmmos;
-            this.possibleWeapons = possibleWeapons;
+            this.possiblePlayers = new ArrayList<>(possiblePlayers);
+            this.possibleSquares = new ArrayList<>(possibleSquares);
+            this.possiblePowerUps = new ArrayList<>(possiblePowerUps);
+            this.discardablePowerUps = new ArrayList<>(discardablePowerUps);
+            this.discardableAmmos = new ArrayList<>(discardableAmmos);
+            this.possibleWeapons = new ArrayList<>(possibleWeapons);
             this.canBeDone = canBeDone;
         }
     }

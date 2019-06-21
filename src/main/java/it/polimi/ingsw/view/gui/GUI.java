@@ -38,7 +38,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/login/LoginGUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/root.fxml"));
         Scene scene = new Scene(root, 300, 275);
 
         primaryStage.setTitle("FXML Welcome");

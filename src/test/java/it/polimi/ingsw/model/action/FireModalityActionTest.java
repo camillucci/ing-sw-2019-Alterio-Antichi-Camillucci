@@ -29,7 +29,7 @@ class FireModalityActionTest {
         Action action = player.getWeapons().get(0).fireBuilder.get().get(1);
         action.initialize(player);
         assertEquals(1, action.getDiscardablePowerUps().size());
-        action.add(player.getPowerUps().get(0));
+        action.addPowerUp(player.getPowerUps().get(0));
         assertEquals(0, action.getDiscardablePowerUps().size());
     }
 }

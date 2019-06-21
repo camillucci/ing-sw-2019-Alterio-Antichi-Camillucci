@@ -11,11 +11,6 @@ public class IntroController implements Ifxml<HBox> {
     @FXML private Button rmiButton;
     @FXML private Button socketButton;
 
-
-    public void initialize(){
-        // eseguito quando si avvia
-    }
-
     @Override
     public HBox getRoot() {
         return hBox;

@@ -3,22 +3,22 @@ package it.polimi.ingsw.generics;
 import java.io.*;
 import java.nio.ByteBuffer;
 
-public class InputStreamUtils implements Closeable, InputInterface
+public class SocketInputStream implements Closeable
 {
-    public final IEvent<InputStreamUtils, InputStreamUtils> streamFailEvent = new Event<>();
+    public final IEvent<SocketInputStream, SocketInputStream> streamFailEvent = new Event<>();
     private InputStream stream;
     public static final int DATA = 0;
     public static final int PING = 1;
     private int count = 0;
 
-    public InputStreamUtils(InputStream inputStream)
+    public SocketInputStream(InputStream inputStream)
     {
         this.stream = inputStream;
     }
 
     public void pipeTo(OutputStream out, long max) throws IOException
     {
-        get( ()-> InputStreamUtils.pipe(stream, out, max));
+        get( ()-> SocketInputStream.pipe(stream, out, max));
     }
 
     public int getByteOnly() throws IOException
@@ -130,7 +130,7 @@ public class InputStreamUtils implements Closeable, InputInterface
         }
         catch(IOException ecc)
         {
-            ((Event<InputStreamUtils, InputStreamUtils>)streamFailEvent).invoke(this, this);
+            ((Event<SocketInputStream, SocketInputStream>)streamFailEvent).invoke(this, this);
             throw ecc;
         }
     }
@@ -148,7 +148,7 @@ public class InputStreamUtils implements Closeable, InputInterface
         }
         catch(IOException ecc)
         {
-            ((Event<InputStreamUtils, InputStreamUtils>)streamFailEvent).invoke(this, this);
+            ((Event<SocketInputStream, SocketInputStream>)streamFailEvent).invoke(this, this);
             throw ecc;
         }
     }

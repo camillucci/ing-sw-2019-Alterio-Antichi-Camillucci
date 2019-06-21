@@ -56,9 +56,9 @@ class GrabActionTest {
         assertEquals(0, action.getPossiblePowerUps().size());
         assertEquals(0, action.getDiscardableAmmos().size());
         assertEquals(0, action.getPossibleWeapons().size());
-        action.add(player);
-        action.add(player.getCurrentSquare());
-        action.add(gameBoard.weaponDeck.draw());
+        action.addTarget(player);
+        action.addTarget(player.getCurrentSquare());
+        action.addWeapon(gameBoard.weaponDeck.draw());
         action.use(gameBoard.powerupDeck.draw());
         action.discard(new Ammo(0, 0, 0));
         action.doAction();
@@ -121,7 +121,7 @@ class GrabActionTest {
         player.addPowerUpCardRespawn();
         if(action.getDiscardablePowerUps().size() >= 1) {
             assertTrue(action.getDiscardablePowerUps().size() >= 1 && action.getDiscardablePowerUps().size() <= 4);
-            action.add(action.getDiscardablePowerUps().get(0));
+            action.addPowerUp(action.getDiscardablePowerUps().get(0));
             assertTrue(action.getDiscardablePowerUps().size() < 4);
             action.doAction();
             action.getBranches().get(0).getCompatibleActions().get(0).initialize(player);

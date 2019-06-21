@@ -199,7 +199,7 @@ public class Match extends ActionsProvider {
     /**
      * This method updates the kill shot track whenever a player is killed and its points are assigned,
      * it also updates finalFrenzy and the frenzyStarter when needed
-     * @param damage The new kill shot track to add
+     * @param damage The new kill shot track to addTarget
      * @param deadPlayer The dead player that is being evaluated
      */
     private void updateKillShotTrack(List<PlayerColor> damage, Player deadPlayer) {
@@ -225,7 +225,7 @@ public class Match extends ActionsProvider {
 
     /**
      * This method adds a new dead Player to the deadPlayers list
-     * @param deadPlayer The dead Player to add
+     * @param deadPlayer The dead Player to addTarget
      */
     public void addDeadPlayers(Player deadPlayer) {
         this.deadPlayers.add(deadPlayer);

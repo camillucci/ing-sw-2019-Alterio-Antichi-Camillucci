@@ -25,7 +25,7 @@ public class ReloadAction extends Action
     }
 
     @Override
-    public void add(WeaponCard weapon)
+    public void addWeapon(WeaponCard weapon)
     {
         if(getPossibleWeapons().contains(weapon)) {
             this.doActionCost = this.doActionCost.add(weapon.reloadCost);

@@ -37,7 +37,7 @@ public class PowerUpSet
 
     /**
      * This method adds an EndStartPowerUpCard to the corresponding list
-     * @param powerUp The EndStartPowerUpCard to add
+     * @param powerUp The EndStartPowerUpCard to addTarget
      */
     public void add(EndStartPowerUpCard powerUp)
     {
@@ -46,7 +46,7 @@ public class PowerUpSet
 
     /**
      * This method adds an InTurnPowerUpCard to the corresponding list
-     * @param powerUp The InTurnPowerUpCard to add
+     * @param powerUp The InTurnPowerUpCard to addTarget
      */
     public void add(InTurnPowerUpCard powerUp)
     {
@@ -55,7 +55,7 @@ public class PowerUpSet
 
     /**
      * This method adds a CounterAttackPowerUpCard to the corresponding list
-     * @param powerUp The CounterAttackPowerUpCard to add
+     * @param powerUp The CounterAttackPowerUpCard to addTarget
      */
     public void add(CounterAttackPowerUpCard powerUp)
     {
@@ -64,7 +64,7 @@ public class PowerUpSet
 
     /**
      * This method adds a generic PowerUpCard to the proper list
-     * @param powerUp The PowerUpCard to add
+     * @param powerUp The PowerUpCard to addTarget
      */
     public void add(PowerUpCard powerUp)
     {

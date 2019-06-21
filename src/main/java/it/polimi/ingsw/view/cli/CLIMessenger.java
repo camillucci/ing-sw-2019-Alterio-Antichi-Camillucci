@@ -259,22 +259,21 @@ public class CLIMessenger {
         }
     }
 
-    public static void displayTargets(List<String> targetPlayers, List<String> targetSquares, List<String> usablePowerUps, List<String> discardablePowerUps, List<String> discardableAmmos, List<String> possibleWeapons, boolean canBeDone) {
+    public static void displayTargets(RemoteAction.Data data) {
         int j = 0;
-        int i;
-        for(i = 0; i < targetPlayers.size(); i++, j++)
-            display(PRESS + j + " if you want to target player " + targetPlayers.get(i));
-        for(i = 0; i < targetSquares.size(); i++, j++)
-            display(PRESS + j + " if you want to target square " + targetSquares.get(i));
-        for(i = 0; i < usablePowerUps.size(); i++, j++)
-            display(PRESS + j + " if you want to use " + targetSquares.get(i));
-        for(i = 0; i < discardablePowerUps.size(); i++, j++)
-            display(PRESS + j + " if you want to discard " + targetSquares.get(i));
-        for(i = 0; i < discardableAmmos.size(); i++, j++)
-            display(PRESS + j + " if you want to discard a " + discardableAmmos.get(i) + " ammo");
-        for(i = 0; i < possibleWeapons.size(); i++)
-            display(PRESS + j + " if you want to reload the weapon" + possibleWeapons.get(i));
-        if(canBeDone)
+        for(String player : data.getPossiblePlayers())
+            display(PRESS + j++ + " if you want to target player " + player);
+        for(String square : data.getPossibleSquares())
+            display(PRESS + j++ + " if you want to target square " + square);
+        for(String pu : data.getPossiblePowerUps())
+            display(PRESS + j++ + " if you want to use " + pu);
+        for(String pu : data.getDiscardablePowerUps())
+            display(PRESS + j++ + " if you want to discard " + pu);
+        for(String ammo : data.getDiscardableAmmos())
+            display(PRESS + j++ + " if you want to discard a " + ammo + " ammo");
+        for(String weapon : data.getPossibleWeapons())
+            display(PRESS + j++ + " if you want to reload the weapon" + weapon);
+        if(data.canBeDone)
             display(PRESS + j + " if you want to confirm the action");
     }
 

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.nio.channels.NotYetConnectedException;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,16 +15,16 @@ public class TCPClient
     private Socket connectedSocket;
     private Thread pingingBot;
     private boolean stopPinging = false;
-    private InputStreamUtils in;
-    private OutputStreamUtils out;
+    private SocketInputStream in;
+    private SocketOutputStream out;
     private Logger logger = Logger.getLogger("TCPClient");
 
-    public InputStreamUtils in()
+    public SocketInputStream in()
     {
         return in;
     }
 
-    public OutputStreamUtils out()
+    public SocketOutputStream out()
     {
         return out;
     }
@@ -44,9 +43,9 @@ public class TCPClient
         }
         this.connectedSocket = connectedSocket;
         //connectedSocket.setSoTimeout(2000);
-        out = new OutputStreamUtils(connectedSocket.getOutputStream());
+        out = new SocketOutputStream(connectedSocket.getOutputStream());
         out.streamFailedEvent.addEventHandler((a,b)->this.close());
-        in = new InputStreamUtils(connectedSocket.getInputStream());
+        in = new SocketInputStream(connectedSocket.getInputStream());
         in.streamFailEvent.addEventHandler((a,b)-> this.close());
     }
 

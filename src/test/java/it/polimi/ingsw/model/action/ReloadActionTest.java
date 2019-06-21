@@ -42,7 +42,7 @@ class ReloadActionTest {
         player.unloadWeapon(weaponCard1);
         assertEquals(0, player.getLoadedWeapons().size());
         assertEquals(1, player.getUnloadedWeapons().size());
-        action.add(weaponCard1);
+        action.addWeapon(weaponCard1);
         action.doAction();
         assertEquals(1, player.getLoadedWeapons().size());
         assertEquals(0, player.getUnloadedWeapons().size());
@@ -51,7 +51,7 @@ class ReloadActionTest {
         player.unloadWeapon(weaponCard2);
         assertEquals(0, player.getLoadedWeapons().size());
         assertEquals(2, player.getUnloadedWeapons().size());
-        action.add(weaponCard2);
+        action.addWeapon(weaponCard2);
         action.doAction();
         assertEquals(1, player.getLoadedWeapons().size());
         assertEquals(1, player.getUnloadedWeapons().size());
@@ -71,11 +71,11 @@ class ReloadActionTest {
         else
             player.addWeapon(CardsFactory.getWeapons().get(15));
         player.unloadWeapon(player.getWeapons().get(0));
-        action.add(player.getWeapons().get(0));
+        action.addWeapon(player.getWeapons().get(0));
         assertEquals(0, player.getLoadedWeapons().size());
         assertEquals(1, player.getUnloadedWeapons().size());
         assertEquals(1, action.getDiscardablePowerUps().size());
-        action.add(player.getPowerUps().get(0));
+        action.addPowerUp(player.getPowerUps().get(0));
         assertEquals(0, action.getDiscardablePowerUps().size());
         action.doAction();
         assertEquals(1, player.getLoadedWeapons().size());

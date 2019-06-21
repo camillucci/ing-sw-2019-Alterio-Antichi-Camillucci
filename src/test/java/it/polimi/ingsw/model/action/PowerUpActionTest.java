@@ -43,10 +43,10 @@ class PowerUpActionTest {
         powerUpAction.initialize(p1);
         assertEquals(1, powerUpAction.getPossiblePlayers().size());
         assertEquals(0, powerUpAction.getPossibleSquares().size());
-        powerUpAction.add(p2);
+        powerUpAction.addTarget(p2);
         assertEquals(0, powerUpAction.getPossiblePlayers().size());
         assertEquals(4, powerUpAction.getPossibleSquares().size());
-        powerUpAction.add(gameBoard.getSquares().get(4));
+        powerUpAction.addTarget(gameBoard.getSquares().get(4));
         assertEquals(0, powerUpAction.getPossiblePlayers().size());
         assertEquals(0, powerUpAction.getPossibleSquares().size());
         powerUpAction.use(teleporter);
@@ -68,7 +68,7 @@ class PowerUpActionTest {
         powerUpAction.initialize(p1);
         assertEquals(0, powerUpAction.getPossiblePlayers().size());
         assertEquals(9, powerUpAction.getPossibleSquares().size());
-        powerUpAction.add(gameBoard.getSquares().get(6));
+        powerUpAction.addTarget(gameBoard.getSquares().get(6));
         assertEquals(0, powerUpAction.getPossiblePlayers().size());
         assertEquals(0, powerUpAction.getPossibleSquares().size());
         powerUpAction.use(newton);
@@ -135,7 +135,7 @@ class PowerUpActionTest {
         assertEquals(1, shootAction.getPossiblePlayers().size());
         assertEquals(0, shootAction.getPossibleSquares().size());
         assertEquals(2, shootAction.getPossiblePowerUps().size());
-        shootAction.add(p2);
+        shootAction.addTarget(p2);
         assertEquals(0, shootAction.getPossiblePlayers().size());
         assertEquals(0, shootAction.getPossibleSquares().size());
         assertEquals(2, shootAction.getPossiblePowerUps().size());
@@ -152,7 +152,7 @@ class PowerUpActionTest {
         inTurnPowerUpAction.initialize(p1);
         assertEquals(1, inTurnPowerUpAction.getPossiblePlayers().size());
         assertEquals(3, inTurnPowerUpAction.getDiscardableAmmos().size());
-        inTurnPowerUpAction.add(p2);
+        inTurnPowerUpAction.addTarget(p2);
         inTurnPowerUpAction.discard(new Ammo(3, 2, 1));
         assertEquals(0, inTurnPowerUpAction.getPossiblePlayers().size());
         assertEquals(3, inTurnPowerUpAction.getDiscardableAmmos().size());
@@ -172,7 +172,7 @@ class PowerUpActionTest {
         inTurnPowerUpAction.discard(p1.getDiscardableAmmo().get(0));
         assertEquals(1, inTurnPowerUpAction.getPossiblePlayers().size());
         assertEquals(0, inTurnPowerUpAction.getDiscardableAmmos().size());
-        inTurnPowerUpAction.add(p2);
+        inTurnPowerUpAction.addTarget(p2);
         assertEquals(0, inTurnPowerUpAction.getPossiblePlayers().size());
         assertEquals(0, inTurnPowerUpAction.getDiscardableAmmos().size());
         inTurnPowerUpAction.doAction();

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.cli;
 
 
+import it.polimi.ingsw.network.RemoteAction;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,11 +86,14 @@ public class CLIParser {
     /**
      * Gets user's action of choice as input, making sure that the answer is acceptable. If it isn't, user is asked
      * again.
-     * @param index maximum number user can choose as an answer
+     * @param data object that contains the info to get the max number the user can choose
      * @return user's choice, once it's acceptable.
      * @throws IOException
      */
-    public int parseActions(int index) throws IOException {
+
+    public int parseActionUserChoice(RemoteAction.Data data) throws IOException {
+        int index = data.getPossiblePlayers().size() + data.getPossibleSquares().size() + data.getDiscardablePowerUps().size()
+                + data.getDiscardablePowerUps().size() + data.getDiscardableAmmos().size() + data.getPossibleWeapons().size() + (data.canBeDone ? 1 : 0);
         return getIntIf(answer -> answer >= 0 && answer <= index);
     }
 
