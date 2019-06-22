@@ -104,10 +104,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
     private void onAvatarMouseOver(MouseEvent e, Pane box, ImageView avatar, PlayerColor color)
     {
         box.setDisable(true);
-        box.setOnMouseEntered(e2 -> {
-            int a = 2;
-            a++;
-        });
         gameBoard.getChildren().add(box);
         double w = box.getMaxWidth();
         box.setLayoutX(e.getSceneX() - e.getX() - 1.10*w);
