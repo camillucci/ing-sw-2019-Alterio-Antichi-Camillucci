@@ -39,7 +39,7 @@ public class MapController implements Ifxml<AnchorPane>
     }
 
     public void initialize(){
-        mapImage.setImage(new Image("immagine.png"));
+        mapImage.setImage(new Image("map0Test.png"));
         initializeSquares();
     }
 

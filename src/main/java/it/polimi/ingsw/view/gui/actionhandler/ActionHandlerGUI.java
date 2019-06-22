@@ -20,35 +20,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
+    @FXML private StackPane killShotTrackPane;
+    @FXML private StackPane playerPane;
     @FXML private StackPane mapPane;
-    @FXML private Rectangle blackRectangle;
-    @FXML private ImageView map;
     @FXML private Pane gameBoard;
     @FXML private VBox avatarsVBox;
     private List<PlayerSetController> playerSets = new ArrayList<>();
     private List<ImageView> avatars = new ArrayList<>();
     private PlayerCardsController cardsController;
     private MapController mapController;
+    private KillShotTrackController killShotTrackController;
 
     public void initialize() {
+        getRoot().setDisable(true);
         for(PlayerColor color : PlayerColor.values())
         {
             PlayerSetController playerSetController = PlayerSetController.getController(color);
             ImageView avatar = newAvatar(color, playerSetController);
-            playerSetController.getRoot().minHeightProperty().bind(gameBoard.heightProperty().divide(4.2));
-            playerSetController.getRoot().maxHeightProperty().bind(gameBoard.heightProperty().divide(4.2));
+            playerSetController.getRoot().minHeightProperty().bind(gameBoard.minHeightProperty().divide(5));
+            playerSetController.getRoot().maxHeightProperty().bind(gameBoard.minHeightProperty().divide(5));
             playerSets.add(playerSetController);
             avatars.add(avatar);
             avatarsVBox.getChildren().add(avatar);
         }
-        blackRectangle.setVisible(false);
+        //blackRectangle.setVisible(false);
         cardsController = PlayerCardsController.getController();
-        cardsController.getRoot().minHeightProperty().bind(gameBoard.heightProperty().divide(4.2));
-        cardsController.getRoot().maxHeightProperty().bind(gameBoard.heightProperty().divide(4.2));
+        cardsController.getRoot().minHeightProperty().bind(gameBoard.minHeightProperty().divide(4.7));
+        cardsController.getRoot().maxHeightProperty().bind(gameBoard.minHeightProperty().divide(4.7));
         mapController = MapController.getController();
-        mapController.getRoot().minHeightProperty().bind(mapPane.heightProperty());
-        mapController.getRoot().maxHeightProperty().bind(mapPane.heightProperty());
+        mapController.getRoot().minHeightProperty().bind(mapPane.minHeightProperty());
+        mapController.getRoot().maxHeightProperty().bind(mapPane.minHeightProperty());
         mapPane.getChildren().add(mapController.getRoot());
+
+        PlayerCardsController var = PlayerCardsController.getController();
+        var.getRoot().minHeightProperty().bind(playerPane.minHeightProperty());
+        var.getRoot().maxHeightProperty().bind(playerPane.minHeightProperty());
+        playerPane.getChildren().add(var.getRoot());
+
+        killShotTrackController = KillShotTrackController.getController();
+        killShotTrackController.getRoot().minHeightProperty().bind(killShotTrackPane.minHeightProperty());
+        killShotTrackController.getRoot().maxHeightProperty().bind(killShotTrackPane.minHeightProperty());
+        killShotTrackPane.getChildren().add(killShotTrackController.getRoot());
+        getRoot().setDisable(false);
         /*
         for(PlayerSetController controller : playerSets)
             playerSetsVBox.getChildren().add(controller.getRoot());
@@ -62,6 +75,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
         avatar.getStyleClass().add("button");
         avatar.fitHeightProperty().bind(gameBoard.heightProperty().multiply(0.9).divide(7));
         avatar.setPreserveRatio(true);
+
         avatar.setOnMouseEntered(e ->
         {
             Pane box;

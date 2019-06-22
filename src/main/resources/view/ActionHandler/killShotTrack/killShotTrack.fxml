@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<StackPane alignment="TOP_CENTER" fx:id="rootPane" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.view.gui.actionhandler.KillShotTrackController"
+            minWidth="${rootPane.minHeight/80*320*wStretch}" maxWidth="${rootPane.minHeight/80*320*wStretch}">
+    <fx:define>
+        <Double fx:id="scale" fx:value="0.8"/>
+        <Double fx:id="hGrow" fx:value="1.23"/>
+        <Double fx:id="wStretch" fx:value="1.2"/>
+    </fx:define>
+    <StackPane alignment="TOP_CENTER" fx:id="trackPane" minWidth="${rootPane.width*scale}" maxWidth="${rootPane.width*scale}" minHeight="${rootPane.height*scale*hGrow}" maxHeight="${rootPane.height*scale*hGrow}">
+        <ImageView fx:id="trackImageView" fitWidth="${trackPane.width}" fitHeight="${trackPane.height/hGrow}"/>
+    </StackPane>
+</StackPane>

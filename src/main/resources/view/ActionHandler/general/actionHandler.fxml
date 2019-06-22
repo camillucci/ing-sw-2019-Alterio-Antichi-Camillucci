@@ -14,141 +14,26 @@
       fx:controller="it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI"
       prefHeight="400.0" prefWidth="600.0" >
     <fx:define>
-        <Double fx:id="vPadding" fx:value="0.1"/>
-        <Double fx:id="lPadding" fx:value="0.1"/>
-        <Double fx:id="mapScale" fx:value="0.8"/>
         <Double fx:id="spacingFactor" fx:value="0.02"/>
+        <Double fx:id="trackHeight" fx:value="0.15"/>
+        <Double fx:id="mapHeight" fx:value="0.62"/>
+        <Double fx:id="cardsHeight" fx:value="0.2"/>
+        <Double fx:id="playerCardsScale" fx:value="0.8"/>
     </fx:define>
     <StackPane minWidth="${gameBoard.width}" maxWidth="${gameBoard.width}" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}">
-        <VBox>
-            <Rectangle height="${gameBoard.minHeight*vPadding}"/>
-            <HBox>
-                <Rectangle width="${gameBoard.minWidth*lPadding}"/>
-                <HBox spacing="${gameBoard.width*spacingFactor}">
-                    <StackPane fx:id="mapPane" minHeight="${gameBoard.height*mapScale}" maxHeight="${gameBoard.height*mapScale}">
-                        <Rectangle fx:id="blackRectangle" width="${mapPane.minWidth}" height="${mapPane.minHeight}" opacity="0.06" fill="midnightblue"/>
-                    </StackPane>
-                    <VBox alignment="CENTER" fx:id="avatarsVBox" spacing="${gameBoard.height*spacingFactor}">
-                    </VBox>
-                </HBox>
-            </HBox>
-        </VBox>
+        <HBox alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
+            <VBox fx:id="leftVBox" alignment="CENTER" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}">
+                <StackPane fx:id="killShotTrackPane" minHeight="${gameBoard.height*trackHeight}" maxWidth="${gameBoard.height*trackHeight}">
 
+                </StackPane>
+                <StackPane fx:id="mapPane" minHeight="${ gameBoard.height*mapHeight }" maxHeight="${gameBoard.height*mapHeight}">
+                </StackPane>
+
+                <StackPane fx:id="lBottomPane" minHeight="${gameBoard.height*cardsHeight}" maxHeight="${gameBoard.height*cardsHeight}">
+                    <StackPane maxWidth="${mapPane.width}" fx:id="playerPane" minHeight="${lBottomPane.height*playerCardsScale}" maxHeight="${lBottomPane.height*playerCardsScale}"/>
+                </StackPane>
+            </VBox>
+          <VBox alignment="CENTER" fx:id="avatarsVBox" spacing="${gameBoard.height*spacingFactor}"/>
+        </HBox>
     </StackPane>
-    <!--
-    <VBox fx:id="leftSide">
-        <HBox fx:id="map">
-            <HBox fx:id="skullsAndBlueShop">
-                <VBox fx:id="killShotTrack">
-                    <VBox fx:id="killShotTrack1"/>
-                    <VBox fx:id="killShotTrack2"/>
-                    <VBox fx:id="killShotTrack3"/>
-                    <VBox fx:id="killShotTrack4"/>
-                    <VBox fx:id="killShotTrack5"/>
-                    <VBox fx:id="killShotTrack6"/>
-                    <VBox fx:id="killShotTrack7"/>
-                    <VBox fx:id="killShotTrack8"/>
-                </VBox>
-                <VBox fx:id="blueShop">
-                    <VBox fx:id="blueWeapon1"/>
-                    <VBox fx:id="blueWeapon2"/>
-                    <VBox fx:id="blueWeapon3"/>
-                </VBox>
-            </HBox>
-            <HBox fx:id="mapRedYellowShop">
-                <VBox fx:id="redShop">
-                    <HBox fx:id="redWeapon1"/>
-                    <HBox fx:id="redWeapon2"/>
-                    <HBox fx:id="redWeapon3"/>
-                </VBox>
-                <VBox fx:id="squares">
-                    <HBox fx:id="firstLine">
-                        <VBox fx:id="square00"/>
-                        <VBox fx:id="square01"/>
-                        <VBox fx:id="square02"/>
-                        <VBox fx:id="square03"/>
-                    </HBox>
-                    <HBox fx:id="secondLine">
-                        <VBox fx:id="square10"/>
-                        <VBox fx:id="square11"/>
-                        <VBox fx:id="square12"/>
-                        <VBox fx:id="square13"/>
-                    </HBox>
-                    <HBox fx:id="thirdLine">
-                        <VBox fx:id="square20"/>
-                        <VBox fx:id="square21"/>
-                        <VBox fx:id="square22"/>
-                        <VBox fx:id="square23"/>
-                    </HBox>
-                </VBox>
-                <VBox fx:id="yellowShop">
-                    <HBox fx:id="yellowWeapon1"/>
-                    <HBox fx:id="yellowWeapon2"/>
-                    <HBox fx:id="yellowWeapon3"/>
-                </VBox>
-            </HBox>
-        </HBox>
-        <HBox fx:id="privatePlayerAndFreeSpace">
-            <VBox fx:id="privatePlayer">
-                <HBox fx:id="privatePlayerBoard">
-                    <VBox fx:id="actionButtons">
-                        <HBox fx:id="action1"/>
-                        <HBox fx:id="action2"/>
-                        <HBox fx:id="action3"/>
-                        <HBox fx:id="action4"/>
-                        <HBox fx:id="action5"/>
-                    </VBox>
-                    <VBox fx:id="dropsAndSkulls">
-                        <HBox fx:id="adrenalineActions">
-                            <VBox fx:id="adrenalineAction1"/>
-                            <VBox fx:id="adrenalineAction2"/>
-                        </HBox>
-                        <HBox fx:id="drops">
-                            <VBox fx:id="drop1"/>
-                            <VBox fx:id="drop2"/>
-                            <VBox fx:id="drop3"/>
-                            <VBox fx:id="drop4"/>
-                            <VBox fx:id="drop5"/>
-                            <VBox fx:id="drop6"/>
-                            <VBox fx:id="drop7"/>
-                            <VBox fx:id="drop8"/>
-                            <VBox fx:id="drop9"/>
-                            <VBox fx:id="drop10"/>
-                            <VBox fx:id="drop11"/>
-                            <VBox fx:id="drop12"/>
-                        </HBox>
-                        <HBox fx:id="skulls">
-                            <VBox fx:id="skull1"/>
-                            <VBox fx:id="skull2"/>
-                            <VBox fx:id="skull3"/>
-                            <VBox fx:id="skull4"/>
-                        </HBox>
-                    </VBox>
-                </HBox>
-                <HBox fx:id="privatePlayerCards">
-                    <VBox fx:id="privatePlayerWeapon1"/>
-                    <VBox fx:id="privatePlayerWeapon2"/>
-                    <VBox fx:id="privatePlayerWeapon3"/>
-                    <VBox fx:id="privatePlayerPowerUp1"/>
-                    <VBox fx:id="privatePlayerPowerUp2"/>
-                    <VBox fx:id="privatePlayerPowerUp3"/>
-                </HBox>
-            </VBox>
-            <VBox fx:id="freeSpace">
-
-            </VBox>
-        </HBox>
-    </VBox>
-
-    <VBox fx:id="publicPlayers">
-        <HBox fx:id="publicPlayerBoard1"></HBox>
-        <HBox fx:id="publicPlayerCards1"></HBox>
-        <HBox fx:id="publicPlayerBoard2"></HBox>
-        <HBox fx:id="publicPlayerCards2"></HBox>
-        <HBox fx:id="publicPlayerBoard3"></HBox>
-        <HBox fx:id="publicPlayerCards3"></HBox>
-        <HBox fx:id="publicPlayerBoard4"></HBox>
-        <HBox fx:id="publicPlayerCards4"></HBox>
-    </VBox>
--->
 </Pane>

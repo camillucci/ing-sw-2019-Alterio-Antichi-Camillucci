@@ -6,20 +6,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.image.ImageView?>
-<HBox alignment="CENTER" spacing="40" fx:id="cardsHBox" minWidth="${cardsHBox.minHeight/406*240*6 + 15*6 + 40}" maxWidth="${cardsHBox.minHeight/406*240*6 + 15*6 + 40}"  xmlns="http://javafx.com/javafx"
+        <?import javafx.scene.image.ImageView?>
+<HBox alignment="CENTER" spacing="${cardsHBox.width*2*spacingFactor}" fx:id="cardsHBox" minWidth="${cardsHBox.minHeight/406*240*6*widthScale}" maxWidth="${cardsHBox.minHeight/406*240*6*widthScale}"  xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController"
-      prefHeight="400.0" prefWidth="600.0">
-    <HBox spacing="15" fx:id="weaponsHBox" alignment="CENTER">
-        <ImageView fx:id="weapon1" styleClass="shadow" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
-        <ImageView fx:id="weapon2" styleClass="shadow" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
-        <ImageView fx:id="weapon3" styleClass="shadow"  fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
+      fx:controller="it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController">
+
+    <fx:define>
+        <Double fx:id="spacingFactor" fx:value="0.0125"/>
+        <Double fx:id="widthScale" fx:value="1.1"/>
+    </fx:define>
+    <HBox maxHeight="${cardsHBox.minHeight}" minHeight="${cardsHBox.minHeight}" spacing="${cardsHBox.minWidth*spacingFactor}" fx:id="weaponsHBox" alignment="CENTER">
+        <ImageView fx:id="weapon1" styleClass="card" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
+        <ImageView fx:id="weapon2" styleClass="card" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
+        <ImageView fx:id="weapon3" styleClass="card"  fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
     </HBox>
 
-    <HBox spacing="15" fx:id="powrupsHBox" alignment="CENTER">
-        <ImageView fx:id="powerup1" styleClass="shadow" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
-        <ImageView fx:id="powerup2" styleClass="shadow" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
-        <ImageView fx:id="powerup3" styleClass="shadow" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
+    <HBox maxHeight="${cardsHBox.minHeight}" minHeight="${cardsHBox.minHeight}" spacing="${cardsHBox.minWidth*spacingFactor}"  fx:id="powerupsHBox" alignment="CENTER">
+        <ImageView fx:id="powerup1" styleClass="card" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
+        <ImageView fx:id="powerup2" styleClass="card" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
+        <ImageView fx:id="powerup3" styleClass="card" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>
     </HBox>
 </HBox>
