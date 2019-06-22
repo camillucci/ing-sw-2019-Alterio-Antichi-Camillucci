@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -45,10 +46,10 @@ public class GUIView extends View
         createRootScene(app);
         ActionHandlerGUI tmp = ActionHandlerGUI.getController();
         this.curViewElement = this.actionHandler = tmp;
-        tmp.getRoot().setMinWidth(rootScene.getWidth());
-        tmp.getRoot().setMaxWidth(rootScene.getWidth());
-        tmp.getRoot().setMinHeight(rootScene.getHeight());
-        tmp.getRoot().setMaxHeight(rootScene.getHeight());
+        tmp.getRoot().minWidthProperty().bind(rootScene.widthProperty());
+        tmp.getRoot().maxWidthProperty().bind(rootScene.widthProperty());
+        tmp.getRoot().minHeightProperty().bind(rootScene.heightProperty());
+        tmp.getRoot().maxHeightProperty().bind(rootScene.heightProperty());
         rootScene.setRoot(tmp.getRoot());
         //this.actionhandler = ActionHandlerGUI.getController();
         //((ActionHandlerGUI) actionhandler).start(app);
@@ -60,6 +61,7 @@ public class GUIView extends View
             //primaryStage.setResizable(false);
             primaryStage.setFullScreenExitHint("");
             //primaryStage.setFullScreen(true);
+
             primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             primaryStage.setOnCloseRequest(e ->
             {

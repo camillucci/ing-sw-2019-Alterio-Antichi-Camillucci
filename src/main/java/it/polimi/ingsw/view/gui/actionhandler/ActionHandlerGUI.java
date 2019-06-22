@@ -74,7 +74,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
         {
             gameBoard.getChildren().remove(playerSet.getRoot());
             gameBoard.getChildren().remove(cardsController.getRoot());
-            blackRectangle.setVisible(false);
         });
 
         avatar.setOnMouseClicked(e -> {
@@ -90,8 +89,11 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
 
     private void onAvatarMouseOver(MouseEvent e, Pane box, ImageView avatar, PlayerColor color)
     {
-        blackRectangle.setFill(Color.web(color.getName()));
-        blackRectangle.setVisible(true);
+        box.setDisable(true);
+        box.setOnMouseEntered(e2 -> {
+            int a = 2;
+            a++;
+        });
         gameBoard.getChildren().add(box);
         double w = box.getMaxWidth();
         box.setLayoutX(e.getSceneX() - e.getX() - 1.10*w);
