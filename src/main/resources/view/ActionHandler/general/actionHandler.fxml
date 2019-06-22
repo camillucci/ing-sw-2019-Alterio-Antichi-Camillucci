@@ -13,18 +13,27 @@
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI"
       prefHeight="400.0" prefWidth="600.0" >
+    <fx:define>
+        <Double fx:id="vPadding" fx:value="0.1"/>
+        <Double fx:id="lPadding" fx:value="0.1"/>
+        <Double fx:id="mapScale" fx:value="0.8"/>
+        <Double fx:id="spacingFactor" fx:value="0.02"/>
+    </fx:define>
     <StackPane minWidth="${gameBoard.width}" maxWidth="${gameBoard.width}" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}">
-        <HBox alignment="CENTER_LEFT" spacing="20">
-            <padding><Insets top="25" right="25" bottom="25" left="50"/></padding>
-            <GridPane fx:id="pane" alignment="CENTER" minHeight="${gameBoard.height*0.95}" maxHeight="${gameBoard.height*0.95}" minWidth="${pane.height/1928*2547}" maxWidth="${pane.height/1928*2547}">
-               <StackPane>
-                   <ImageView fx:id="map" styleClass="map" fitHeight="${pane.height}" fitWidth="${pane.width}"/>
-                   <Rectangle fx:id="blackRectangle" width="${pane.width}" height="${pane.height}" opacity="0.06" fill="midnightblue"/>
-               </StackPane>
-            </GridPane>
-            <VBox alignment="CENTER" spacing="30" fx:id="avatarsVBox">
-            </VBox>
-        </HBox>
+        <VBox>
+            <Rectangle height="${gameBoard.minHeight*vPadding}"/>
+            <HBox>
+                <Rectangle width="${gameBoard.minWidth*lPadding}"/>
+                <HBox spacing="${gameBoard.width*spacingFactor}">
+                    <StackPane fx:id="mapPane" minHeight="${gameBoard.height*mapScale}" maxHeight="${gameBoard.height*mapScale}">
+                        <Rectangle fx:id="blackRectangle" width="${mapPane.minWidth}" height="${mapPane.minHeight}" opacity="0.06" fill="midnightblue"/>
+                    </StackPane>
+                    <VBox alignment="CENTER" fx:id="avatarsVBox" spacing="${gameBoard.height*spacingFactor}">
+                    </VBox>
+                </HBox>
+            </HBox>
+        </VBox>
+
     </StackPane>
     <!--
     <VBox fx:id="leftSide">

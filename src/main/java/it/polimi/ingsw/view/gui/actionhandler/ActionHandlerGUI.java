@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
+    @FXML private StackPane mapPane;
     @FXML private Rectangle blackRectangle;
     @FXML private ImageView map;
     @FXML private Pane gameBoard;
@@ -27,9 +28,9 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
     private List<PlayerSetController> playerSets = new ArrayList<>();
     private List<ImageView> avatars = new ArrayList<>();
     private PlayerCardsController cardsController;
+    private MapController mapController;
 
     public void initialize() {
-        map.setImage(new Image("map1.png"));
         for(PlayerColor color : PlayerColor.values())
         {
             PlayerSetController playerSetController = PlayerSetController.getController(color);
@@ -44,6 +45,10 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
         cardsController = PlayerCardsController.getController();
         cardsController.getRoot().minHeightProperty().bind(gameBoard.heightProperty().divide(4.2));
         cardsController.getRoot().maxHeightProperty().bind(gameBoard.heightProperty().divide(4.2));
+        mapController = MapController.getController();
+        mapController.getRoot().minHeightProperty().bind(mapPane.heightProperty());
+        mapController.getRoot().maxHeightProperty().bind(mapPane.heightProperty());
+        mapPane.getChildren().add(mapController.getRoot());
         /*
         for(PlayerSetController controller : playerSets)
             playerSetsVBox.getChildren().add(controller.getRoot());

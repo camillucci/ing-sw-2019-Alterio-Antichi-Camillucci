@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+<AnchorPane fx:id="mapGrid" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.view.gui.actionhandler.MapController"
+            minWidth="${mapGrid.minHeight/1315*1741}" maxWidth="${mapGrid.minHeight/1315*1741}">
+    <fx:define>
+        <Double fx:id="hGap" fx:value="0.02"/>
+        <Double fx:id="vGap" fx:value="0.01"/>
+        <Double fx:id="vPadding" fx:value="0.01"/>
+        <Double fx:id="lPadding" fx:value="0.01"/>
+    </fx:define>
+    <StackPane alignment="CENTER_LEFT" minWidth="${mapGrid.width}" maxWidth="${mapGrid.width}" minHeight="${mapGrid.height}" maxHeight="${mapGrid.height}">
+        <ImageView fx:id="mapImage" fitWidth="${mapGrid.width}" fitHeight="${mapGrid.height}"/>
+        <Rectangle width="${mapGrid.width}" height="${mapGrid.height}" opacity="0.0" fill="black"/>
+        <HBox fx:id="vBox" alignment="CENTER" minWidth="${mapGrid.minWidth}" maxWidth="${mapGrid.maxWidth}" minHeight="${mapGrid.minHeight}" maxHeight="${mapGrid.maxHeight}">
+            <Rectangle width="${mapGrid.minWidth*lPadding}"/>
+            <VBox spacing="${vBox.minHeight*vGap}" >
+                    <Rectangle height="${mapGrid.minHeight*vPadding}"/>
+                    <HBox fx:id="hBox" alignment="CENTER" spacing="${mapGrid.minWidth*hGap}">
+                        <StackPane fx:id="square1" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square2" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square3" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square4" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                    </HBox>
+                    <HBox alignment="CENTER" spacing="${mapGrid.minWidth*hGap}">
+                        <StackPane fx:id="square5" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square6" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square7" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square8" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                    </HBox>
+                    <HBox alignment="CENTER" spacing="${mapGrid.minWidth*hGap}">
+                        <StackPane fx:id="square9" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square10" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square11" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                        <StackPane fx:id="square12" minWidth="${ (vBox.minWidth -4*hBox.spacing) / 4}" maxWidth="${ (vBox.minWidth - hBox.spacing) / 4}" minHeight="${ (vBox.minHeight - vBox.spacing) / 3}" maxHeight="${ (vBox.minHeight - vBox.spacing) / 3}" />
+                    </HBox>
+            </VBox>
+        </HBox>
+    </StackPane>
+</AnchorPane>

@@ -59,7 +59,7 @@ public class GUIView extends View
             primaryStage.setTitle("Welcome Adrenaline!");
             //primaryStage.setResizable(false);
             primaryStage.setFullScreenExitHint("");
-            primaryStage.setFullScreen(true);
+            //primaryStage.setFullScreen(true);
             primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             primaryStage.setOnCloseRequest(e ->
             {
