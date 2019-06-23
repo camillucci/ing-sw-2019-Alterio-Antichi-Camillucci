@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="it.polimi.ingsw.view.gui.actionhandler.ShopController">
+    <ImageView fx:id="weapon1" styleClass="button"/>
+    <ImageView fx:id="weapon2" styleClass="button"/>
+    <ImageView fx:id="weapon3" styleClass="button"/>
+</StackPane>

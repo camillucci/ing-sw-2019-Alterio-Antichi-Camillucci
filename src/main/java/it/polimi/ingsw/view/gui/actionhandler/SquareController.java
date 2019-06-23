@@ -21,9 +21,12 @@ public class SquareController implements Ifxml<StackPane> {
     @FXML private ImageView avatar5;
 
     public void initialize() {
+        /*
         for (ImageView avatar : getAvatars())
             avatar.setImage(new Image("player/violet_avatar.png"));
         ammoCard.setImage(new Image("ammo/1r_1y_pu.png"));
+
+         */
     }
 
     public List<ImageView> getAvatars(){

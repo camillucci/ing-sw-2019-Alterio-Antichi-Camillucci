@@ -12,8 +12,8 @@
       fx:controller="it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController">
 
     <fx:define>
-        <Double fx:id="spacingFactor" fx:value="0.0125"/>
-        <Double fx:id="widthScale" fx:value="1.1"/>
+        <Double fx:id="spacingFactor" fx:value="0.02"/>
+        <Double fx:id="widthScale" fx:value="1.145"/>
     </fx:define>
     <HBox maxHeight="${cardsHBox.minHeight}" minHeight="${cardsHBox.minHeight}" spacing="${cardsHBox.minWidth*spacingFactor}" fx:id="weaponsHBox" alignment="CENTER">
         <ImageView fx:id="weapon1" styleClass="card" fitHeight="${cardsHBox.minHeight}" fitWidth="${weapon1.fitHeight/406*240}"/>

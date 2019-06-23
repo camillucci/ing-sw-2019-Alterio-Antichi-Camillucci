@@ -11,17 +11,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
+    @FXML private VBox redShop;
+    @FXML private HBox playerHBox;
     @FXML private StackPane killShotTrackPane;
-    @FXML private StackPane playerPane;
     @FXML private StackPane mapPane;
     @FXML private Pane gameBoard;
     @FXML private VBox avatarsVBox;
@@ -30,51 +28,84 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
     private PlayerCardsController cardsController;
     private MapController mapController;
     private KillShotTrackController killShotTrackController;
+    private PlayerSetController curPlayerSet;
+    private PlayerCardsController curCardsController;
+    private ShopController redShopController;
+    private static final double AVATAR_SCALE = 0.1;
+    private static final double PLAYER_SET_SCALE = 1d/5.2;
 
     public void initialize() {
         getRoot().setDisable(true);
         for(PlayerColor color : PlayerColor.values())
-        {
-            PlayerSetController playerSetController = PlayerSetController.getController(color);
-            ImageView avatar = newAvatar(color, playerSetController);
-            playerSetController.getRoot().minHeightProperty().bind(gameBoard.minHeightProperty().divide(5));
-            playerSetController.getRoot().maxHeightProperty().bind(gameBoard.minHeightProperty().divide(5));
-            playerSets.add(playerSetController);
-            avatars.add(avatar);
-            avatarsVBox.getChildren().add(avatar);
-        }
+            if(color != PlayerColor.YELLOW)
+            {
+                PlayerSetController playerSetController = PlayerSetController.getController(color);
+                ImageView avatar = newAvatar(color, playerSetController);
+                bind(playerSetController.getRoot(), gameBoard, PLAYER_SET_SCALE);
+                playerSets.add(playerSetController);
+                avatars.add(avatar);
+                insert(avatar, avatarsVBox, AVATAR_SCALE);
+            }
         //blackRectangle.setVisible(false);
+        curCardsController = PlayerCardsController.getController();
+        curPlayerSet = PlayerSetController.getController(PlayerColor.YELLOW);
         cardsController = PlayerCardsController.getController();
-        cardsController.getRoot().minHeightProperty().bind(gameBoard.minHeightProperty().divide(4.7));
-        cardsController.getRoot().maxHeightProperty().bind(gameBoard.minHeightProperty().divide(4.7));
-        mapController = MapController.getController();
-        mapController.getRoot().minHeightProperty().bind(mapPane.minHeightProperty());
-        mapController.getRoot().maxHeightProperty().bind(mapPane.minHeightProperty());
-        mapPane.getChildren().add(mapController.getRoot());
+        bind(cardsController.getRoot(), gameBoard, PLAYER_SET_SCALE);
+        insert(MapController.getController().getRoot(), mapPane, 1);
+        insert(curPlayerAvatar(PlayerColor.YELLOW), playerHBox, 0.7);
+        insert(curCardsController.getRoot(), playerHBox, 1);
+        insert(KillShotTrackController.getController().getRoot(), killShotTrackPane,1);
 
-        PlayerCardsController var = PlayerCardsController.getController();
-        var.getRoot().minHeightProperty().bind(playerPane.minHeightProperty());
-        var.getRoot().maxHeightProperty().bind(playerPane.minHeightProperty());
-        playerPane.getChildren().add(var.getRoot());
+        redShopController = ShopController.getController(false);
+        insert(redShopController.getRoot(), redShop, 1);
 
-        killShotTrackController = KillShotTrackController.getController();
-        killShotTrackController.getRoot().minHeightProperty().bind(killShotTrackPane.minHeightProperty());
-        killShotTrackController.getRoot().maxHeightProperty().bind(killShotTrackPane.minHeightProperty());
-        killShotTrackPane.getChildren().add(killShotTrackController.getRoot());
         getRoot().setDisable(false);
-        /*
-        for(PlayerSetController controller : playerSets)
-            playerSetsVBox.getChildren().add(controller.getRoot());
+    }
 
-         */
+
+    private void bind(ImageView toBind, Pane region, double hScaleFactor){
+        toBind.fitHeightProperty().bind(region.minHeightProperty().multiply(hScaleFactor));
+    }
+
+    private void bind(Pane toBind, Pane region, double hScaleFactor)
+    {
+        toBind.minHeightProperty().bind(region.minHeightProperty().multiply(hScaleFactor));
+        toBind.maxHeightProperty().bind(region.minHeightProperty().multiply(hScaleFactor));
+    }
+
+    private void insert(Pane toInsert, Pane region, double hScaleFactor)
+    {
+        bind(toInsert, region, hScaleFactor);
+        region.getChildren().add(toInsert);
+    }
+
+    private void insert(ImageView toInsert, Pane region, double hScaleFactor)
+    {
+        toInsert.fitHeightProperty().bind(region.minHeightProperty().multiply(hScaleFactor));
+        toInsert.setPreserveRatio(true);
+        region.getChildren().add(toInsert);
+    }
+
+    private ImageView curPlayerAvatar(PlayerColor color)
+    {
+        ImageView avatar = new ImageView(new Image("player/" + color.getName() + "_avatar.png"));
+        avatar.getStyleClass().add("button");
+
+        avatar.setOnMouseClicked(e -> {
+            if(playerHBox.getChildren().remove(curPlayerSet.getRoot()))
+                insert(curCardsController.getRoot(), playerHBox, 1);
+            else {
+                playerHBox.getChildren().remove(curCardsController.getRoot());
+                insert(curPlayerSet.getRoot(), playerHBox, 1);
+            }
+        });
+        return avatar;
     }
 
     private ImageView newAvatar(PlayerColor color, PlayerSetController playerSet)
     {
         ImageView avatar = new ImageView(new Image("player/" + color.getName() + "_avatar.png"));
         avatar.getStyleClass().add("button");
-        avatar.fitHeightProperty().bind(gameBoard.heightProperty().multiply(0.9).divide(7));
-        avatar.setPreserveRatio(true);
 
         avatar.setOnMouseEntered(e ->
         {
@@ -107,7 +138,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
         gameBoard.getChildren().add(box);
         double w = box.getMaxWidth();
         box.setLayoutX(e.getSceneX() - e.getX() - 1.10*w);
-        box.setLayoutY(e.getSceneY() - e.getY() - avatar.getFitHeight()/2.3);
+        box.setLayoutY(e.getSceneY() - e.getY() - avatar.getFitHeight()/2);
     }
 
 

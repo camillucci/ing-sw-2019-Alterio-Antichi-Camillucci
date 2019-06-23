@@ -9,31 +9,40 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
 <Pane fx:id="gameBoard" styleClass="background" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI"
       prefHeight="400.0" prefWidth="600.0" >
     <fx:define>
-        <Double fx:id="spacingFactor" fx:value="0.02"/>
-        <Double fx:id="trackHeight" fx:value="0.15"/>
-        <Double fx:id="mapHeight" fx:value="0.62"/>
-        <Double fx:id="cardsHeight" fx:value="0.2"/>
+        <Double fx:id="spacingFactor" fx:value="0.03"/>
+        <Double fx:id="trackHeight" fx:value="0.1"/>
+        <Double fx:id="mapHeight" fx:value="0.70"/>
+        <Double fx:id="cardsHeight" fx:value="0.25"/>
         <Double fx:id="playerCardsScale" fx:value="0.8"/>
+        <Double fx:id="vShopScale" fx:value="0.75"/>
+        <Double fx:id="shopMargin" fx:value="0.9"/>
     </fx:define>
     <StackPane minWidth="${gameBoard.width}" maxWidth="${gameBoard.width}" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}">
+        <StackPane alignment="BOTTOM_LEFT" fx:id="killShotTrackPane" minHeight="${gameBoard.height*trackHeight}">
+        </StackPane>
         <HBox alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
+            <StackPane fx:id="lVbox"  minHeight="${gameBoard.minHeight*vShopScale}" maxHeight="${gameBoard.maxHeight*vShopScale}" minWidth="${lVbox.minHeight/3*240/406}" maxWidth="${lVbox.minHeight/3*240/406}">
+                <Rectangle fill="red" arcWidth="50" arcHeight="50" opacity="0.2" height="${lVbox.height}" width="${lVbox.width}"/>
+                <VBox fx:id="redShop" alignment="CENTER" minHeight="${lVbox.minHeight*shopMargin}" maxHeight="${lVbox.minHeight*shopMargin}" minWidth="${lVbox.minWidth*shopMargin}" maxWidth="${lVbox.minWidth*shopMargin}">
+                </VBox>
+            </StackPane>
             <VBox fx:id="leftVBox" alignment="CENTER" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}">
-                <StackPane fx:id="killShotTrackPane" minHeight="${gameBoard.height*trackHeight}" maxWidth="${gameBoard.height*trackHeight}">
-
-                </StackPane>
                 <StackPane fx:id="mapPane" minHeight="${ gameBoard.height*mapHeight }" maxHeight="${gameBoard.height*mapHeight}">
                 </StackPane>
 
                 <StackPane fx:id="lBottomPane" minHeight="${gameBoard.height*cardsHeight}" maxHeight="${gameBoard.height*cardsHeight}">
-                    <StackPane maxWidth="${mapPane.width}" fx:id="playerPane" minHeight="${lBottomPane.height*playerCardsScale}" maxHeight="${lBottomPane.height*playerCardsScale}"/>
+                    <StackPane fx:id="playerPane" maxWidth="${mapPane.width}" minHeight="${lBottomPane.height*playerCardsScale}" maxHeight="${lBottomPane.height*playerCardsScale}">
+                        <HBox alignment="CENTER" spacing="${playerPane.width*spacingFactor}" fx:id="playerHBox" minHeight="${playerPane.height}" maxHeight="${playerPane.height}"/>
+                    </StackPane>
                 </StackPane>
             </VBox>
-          <VBox alignment="CENTER" fx:id="avatarsVBox" spacing="${gameBoard.height*spacingFactor}"/>
+            <VBox alignment="CENTER" fx:id="avatarsVBox" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}" spacing="${gameBoard.height*spacingFactor}"/>
         </HBox>
     </StackPane>
 </Pane>
