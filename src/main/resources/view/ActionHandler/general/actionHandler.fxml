@@ -10,6 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.Image?>
 <Pane fx:id="gameBoard" styleClass="background" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI"
@@ -20,20 +21,29 @@
         <Double fx:id="mapHeight" fx:value="0.70"/>
         <Double fx:id="cardsHeight" fx:value="0.25"/>
         <Double fx:id="playerCardsScale" fx:value="0.8"/>
-        <Double fx:id="vShopScale" fx:value="0.75"/>
+        <Double fx:id="vShopScale" fx:value="0.35"/>
         <Double fx:id="shopMargin" fx:value="0.9"/>
     </fx:define>
     <StackPane minWidth="${gameBoard.width}" maxWidth="${gameBoard.width}" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}">
         <StackPane alignment="BOTTOM_LEFT" fx:id="killShotTrackPane" minHeight="${gameBoard.height*trackHeight}">
         </StackPane>
         <HBox alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
-            <StackPane fx:id="lVbox"  minHeight="${gameBoard.minHeight*vShopScale}" maxHeight="${gameBoard.maxHeight*vShopScale}" minWidth="${lVbox.minHeight/3*240/406}" maxWidth="${lVbox.minHeight/3*240/406}">
-                <Rectangle fill="red" arcWidth="50" arcHeight="50" opacity="0.2" height="${lVbox.height}" width="${lVbox.width}"/>
-                <VBox fx:id="redShop" alignment="CENTER" minHeight="${lVbox.minHeight*shopMargin}" maxHeight="${lVbox.minHeight*shopMargin}" minWidth="${lVbox.minWidth*shopMargin}" maxWidth="${lVbox.minWidth*shopMargin}">
+            <StackPane fx:id="lVbox" minHeight="${gameBoard.minHeight*vShopScale}" maxHeight="${gameBoard.maxHeight*vShopScale}" minWidth="${lVbox.minHeight/3*240/406}" maxWidth="${lVbox.minHeight/3*240/406}">
+                <VBox fx:id="shopsVBox" alignment="CENTER" spacing="${lVbox.height*spacingFactor}" minHeight="${lVbox.minHeight*shopMargin}" maxHeight="${lVbox.minHeight*shopMargin}" minWidth="${lVbox.minWidth*shopMargin}" maxWidth="${lVbox.minWidth*shopMargin}">
+                    <ImageView fx:id="redShop" styleClass="button" preserveRatio="true" fitHeight="${shopsVBox.minHeight/3}">
+                        <Image url="@../../../shop_red.png"/>
+                    </ImageView>
+                    <ImageView fx:id="blueShop" styleClass="button" preserveRatio="true" fitHeight="${shopsVBox.minHeight/3}">
+                        <Image url="@../../../shop_blue.png"/>
+                    </ImageView>
+                    <ImageView fx:id="yellowShop" styleClass="button" preserveRatio="true" fitHeight="${shopsVBox.minHeight/3}">
+                        <Image url="@../../../shop_yellow.png"/>
+                    </ImageView>
                 </VBox>
             </StackPane>
             <VBox fx:id="leftVBox" alignment="CENTER" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}">
-                <StackPane fx:id="mapPane" minHeight="${ gameBoard.height*mapHeight }" maxHeight="${gameBoard.height*mapHeight}">
+                <StackPane fx:id="mapOutPane"  minHeight="${ gameBoard.height*mapHeight }" maxHeight="${gameBoard.height*mapHeight}" maxWidth="${leftVBox.width}">
+                    <StackPane fx:id="mapPane" minHeight="${mapOutPane.height }" maxHeight="${mapOutPane.height}"/>
                 </StackPane>
 
                 <StackPane fx:id="lBottomPane" minHeight="${gameBoard.height*cardsHeight}" maxHeight="${gameBoard.height*cardsHeight}">

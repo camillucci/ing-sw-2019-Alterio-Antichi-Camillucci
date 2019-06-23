@@ -10,7 +10,21 @@
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.gui.actionhandler.ShopController">
-    <ImageView fx:id="weapon1" styleClass="button"/>
-    <ImageView fx:id="weapon2" styleClass="button"/>
-    <ImageView fx:id="weapon3" styleClass="button"/>
+    <fx:define>
+        <Double fx:id="spacingFactor" fx:value="0.02"/>
+    </fx:define>
+    <HBox alignment="CENTER" fx:id="shopHBox" spacing="${rootPane.width*spacingFactor}" minHeight="${rootPane.minHeight}" maxHeight="${rootPane.maxHeight}">
+        <VBox fx:id="slot1" alignment="CENTER" spacing="${shopHBox.height*spacingFactor}" minHeight="${shopHBox.minHeight}" maxHeight="${shopHBox.maxHeight}">
+            <ImageView fx:id="weapon1" preserveRatio="true" fitHeight="${slot1.maxHeight}"/>
+            <Button fx:id="buyButton1" styleClass="button" text="buy"/>
+        </VBox>
+        <VBox fx:id="slot2" alignment="CENTER" spacing="${shopHBox.height*spacingFactor}" minHeight="${shopHBox.minHeight}" maxHeight="${shopHBox.maxHeight}">
+            <ImageView fx:id="weapon2" preserveRatio="true" fitHeight="${slot1.maxHeight}"/>
+            <Button fx:id="buyButton2" styleClass="button" text="buy"/>
+        </VBox>
+        <VBox fx:id="slot3" alignment="CENTER" spacing="${shopHBox.height*spacingFactor}" minHeight="${shopHBox.minHeight}" maxHeight="${shopHBox.maxHeight}">
+            <ImageView fx:id="weapon3" preserveRatio="true" fitHeight="${slot1.maxHeight}"/>
+            <Button fx:id="buyButton3" styleClass="button" text="buy"/>
+        </VBox>
+    </HBox>
 </StackPane>

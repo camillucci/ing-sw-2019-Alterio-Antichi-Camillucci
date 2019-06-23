@@ -25,7 +25,7 @@
         </HBox>
         <HBox fx:id="middle1" alignment="CENTER" minHeight="${ (squareVBox.height - 20)/3}" maxHeight="${ (squareVBox.height - 20)/3}" minWidth="${squareVBox.width}" maxWidth="${squareVBox.width}">
             <HBox alignment="CENTER_LEFT" minWidth="${middle1.width*0.33}" maxWidth="${middle1.width*0.33}">
-                <ImageView styleClass="button" fx:id="ammoCard" fitHeight="${middle1.height}" preserveRatio="true"/>
+                <ImageView styleClass="button" fx:id="ammoCard_shop" fitHeight="${middle1.height}" preserveRatio="true"/>
             </HBox>
             <HBox alignment="CENTER" minWidth="${middle1.width*0.33}" maxWidth="${middle1.width*0.33}">
                 <ImageView styleClass="button" fx:id="avatar3" fitHeight="${middle1.height}" preserveRatio="true"/>

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
+import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class MapController implements Ifxml<AnchorPane>
         squareControllers = new SquareController[R][C];
         squarePanes = getSquarePanes();
         for(int i=0; i < R; i++)
-            for(int j=0; j < C; j++) {
+            for(int j=0; j < C; j++){
                 SquareController tmp = SquareController.getController();
                 tmp.getRoot().minHeightProperty().bind(square1.minHeightProperty());
                 tmp.getRoot().maxHeightProperty().bind(square1.maxHeightProperty());

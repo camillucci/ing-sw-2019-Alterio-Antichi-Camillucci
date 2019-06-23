@@ -7,6 +7,8 @@ import it.polimi.ingsw.view.ActionHandler;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -17,12 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
-    @FXML private VBox redShop;
     @FXML private HBox playerHBox;
     @FXML private StackPane killShotTrackPane;
+    @FXML private StackPane mapOutPane;
     @FXML private StackPane mapPane;
     @FXML private Pane gameBoard;
     @FXML private VBox avatarsVBox;
+    @FXML private ImageView blueShop;
+    @FXML private ImageView redShop;
+    @FXML private ImageView yellowShop;
     private List<PlayerSetController> playerSets = new ArrayList<>();
     private List<ImageView> avatars = new ArrayList<>();
     private PlayerCardsController cardsController;
@@ -31,6 +36,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
     private PlayerSetController curPlayerSet;
     private PlayerCardsController curCardsController;
     private ShopController redShopController;
+
+    ColorAdjust mapBlurEffect = new ColorAdjust(0, -0.3, -0.8, 0);
     private static final double AVATAR_SCALE = 0.1;
     private static final double PLAYER_SET_SCALE = 1d/5.2;
 
@@ -52,16 +59,51 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane> {
         cardsController = PlayerCardsController.getController();
         bind(cardsController.getRoot(), gameBoard, PLAYER_SET_SCALE);
         insert(MapController.getController().getRoot(), mapPane, 1);
-        insert(curPlayerAvatar(PlayerColor.YELLOW), playerHBox, 0.7);
+        insert(curPlayerAvatar(PlayerColor.YELLOW), playerHBox, 0.6);
         insert(curCardsController.getRoot(), playerHBox, 1);
         insert(KillShotTrackController.getController().getRoot(), killShotTrackPane,1);
 
-        redShopController = ShopController.getController(false);
-        insert(redShopController.getRoot(), redShop, 1);
-
+        redShopController = ShopController.getController();
+        insert(redShopController.getRoot(), mapOutPane, 0.5);
+        redShopController.getRoot().setVisible(false);
+        setupStores();
         getRoot().setDisable(false);
     }
 
+    private void setupStores(){
+        setupShop(redShop);
+        setupShop(blueShop);
+        setupShop(yellowShop);
+    }
+
+    private void setupShop(ImageView store){
+        store.setOnMouseClicked(e -> {
+           if(redShopController.getRoot().isVisible())
+           {
+               mapPane.setDisable(false);
+               setMapBlur(false);
+               redShopController.getRoot().setVisible(false);
+           }
+           else
+           {
+               mapPane.setDisable(true);
+               setMapBlur(true);
+               redShopController.getRoot().setVisible(true);
+           }
+        });
+
+    }
+
+    private void setMapBlur(boolean blurBool){
+        if(blurBool) {
+            GaussianBlur blur = new GaussianBlur(55); // 55 is just to show edge effect more clearly.
+            mapBlurEffect.setInput(blur);
+            mapPane.setEffect(mapBlurEffect);
+        }
+        else
+            mapPane.setEffect(null);
+
+    }
 
     private void bind(ImageView toBind, Pane region, double hScaleFactor){
         toBind.fitHeightProperty().bind(region.minHeightProperty().multiply(hScaleFactor));

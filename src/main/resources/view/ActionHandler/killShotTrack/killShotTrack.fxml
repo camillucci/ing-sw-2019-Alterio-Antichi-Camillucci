@@ -15,8 +15,9 @@
         <Double fx:id="scale" fx:value="0.8"/>
         <Double fx:id="hGrow" fx:value="1.23"/>
         <Double fx:id="wStretch" fx:value="1.2"/>
+        <Double fx:id="spacingFactor" fx:value="0.01"/>
     </fx:define>
-    <StackPane alignment="TOP_CENTER" fx:id="trackPane" minWidth="${rootPane.width*scale}" maxWidth="${rootPane.width*scale}" minHeight="${rootPane.height*scale*hGrow}" maxHeight="${rootPane.height*scale*hGrow}">
-        <ImageView fx:id="trackImageView" fitWidth="${trackPane.width}" fitHeight="${trackPane.height/hGrow}"/>
+    <StackPane alignment="BOTTOM_CENTER" fx:id="trackPane" minWidth="${rootPane.width*scale}" maxWidth="${rootPane.width*scale}" minHeight="${rootPane.height*scale*hGrow}" maxHeight="${rootPane.height*scale*hGrow}">
+        <HBox spacing="${trackPane.minWidth*spacingFactor}" alignment="BOTTOM_CENTER" fx:id="trackHBox" minHeight="${trackPane.minHeight}" maxHeight="${trackPane.maxHeight}"/>
     </StackPane>
 </StackPane>
