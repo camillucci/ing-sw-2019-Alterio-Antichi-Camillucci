@@ -15,4 +15,8 @@ public abstract class ActionHandler extends ViewElement
     public final IEvent<ActionHandler, RemoteAction> actionDoneEvent = new Event<>();
     public abstract void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException;
     public abstract void updateActionData(RemoteAction.Data data) throws IOException;
+    protected void notifyChoice(Command<RemoteActionsHandler> command)
+    {
+        ((Event<ActionHandler, Command<RemoteActionsHandler>>)newCommand).invoke(this, command);
+    }
 }

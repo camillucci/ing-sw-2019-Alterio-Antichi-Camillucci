@@ -55,11 +55,6 @@ public class ActionHandlerCLI extends ActionHandler {
         notifyChoice(action.askActionData());
     }
 
-    private void notifyChoice(Command<RemoteActionsHandler> command)
-    {
-        ((Event<ActionHandler, Command<RemoteActionsHandler>>)newCommand).invoke(this, command);
-    }
-
     @Override
     public void onNewMessage(String message) {
         CLIMessenger.printMessage(message);
