@@ -58,6 +58,9 @@ public class Match extends ActionsProvider {
     /**
      * It contains the index of the player that started the final frenzy
      */
+
+    private BranchMap counterAttackBranchMap;
+    private Player counterAttackPlayer;
     private int frenzyStarter = -1;
     private static final int MAX_DAMAGES = 12;
 
@@ -99,16 +102,11 @@ public class Match extends ActionsProvider {
      */
     private void onPlayerDamaged(Player damaged)
     {
-        List<Action> backupActions = this.curActions;
-        Player backupPlayer = this.curPlayer;
-        BranchMap branchMap = BranchMapFactory.counterAttackBranchMap();
-        this.curPlayer = damaged;
-        branchMap.newActionsEvent.addEventHandler((a,actions) -> setNewActions(actions));
-        branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> {
-            curPlayer = backupPlayer;
-            setNewActions(backupActions);
-        });
-        setNewActions(branchMap.getPossibleActions());
+        if(damaged.getPowerupSet().getCounterAttackPUs().isEmpty())
+            return;
+
+        counterAttackPlayer = damaged;
+        counterAttackBranchMap = BranchMapFactory.counterAttackBranchMap();
     }
 
     /**
@@ -169,6 +167,20 @@ public class Match extends ActionsProvider {
      */
     private void setNewActions(List<Action> actions)
     {
+        if(counterAttackBranchMap != null)
+        {
+            List<Action> backupActions = actions;
+            Player backupPlayer = curPlayer;
+            counterAttackBranchMap.newActionsEvent.addEventHandler((a,actionList) -> setNewActions(actionList));
+            counterAttackBranchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> {
+                this.curPlayer = backupPlayer;
+                setNewActions(backupActions);
+            });
+            actions = counterAttackBranchMap.getPossibleActions();
+            curPlayer = counterAttackPlayer;
+            counterAttackPlayer  = null;
+            counterAttackBranchMap = null;
+        }
         actions.forEach(a->a.initialize(curPlayer));
         this.curActions = actions;
         ((Event<Player, List<Action>>)newActionsEvent).invoke(this.curPlayer, this.curActions);
