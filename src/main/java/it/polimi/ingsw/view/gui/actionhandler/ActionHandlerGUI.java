@@ -365,7 +365,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             card.setDisable(true);
         for(String powerup : action.getData().getDiscardablePowerUps())
             for(ImageView powerupImg : powerups)
-                if(powerupImg.getImage().getUrl().toLowerCase().contains(snapshotToName(powerup))) {
+                if(powerupImg.getImage() != null && powerupImg.getImage().getUrl().toLowerCase().contains(snapshotToName(powerup))) {
                     powerupImg.setDisable(false);
                     powerupImg.setOnMouseClicked(e -> notifyAndReset(action.usePowerUp(powerup)));
                 }

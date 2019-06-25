@@ -101,8 +101,13 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new FunctionalAction(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
-                }, new Visualizable("grab " + w.name, "gran")), new EndBranchAction()));
+                }, new Visualizable(nameToUrl(w.name), "buy " + w.name, "buy")), new EndBranchAction()));
         return ret;
+    }
+
+    private String nameToUrl(String weaponName)
+    {
+        return "weapon/" + weaponName.replace(" ", "_").concat(".png").toLowerCase();
     }
 
     /**

@@ -40,17 +40,28 @@ public class SquareController implements Ifxml<StackPane> {
         avatars = getAvatars();
     }
 
+    private String nameToUrl(String text){
+        String ret = "ammo/" + text.replace(" ", "_").concat(".png").toLowerCase();
+        return ret;
+    }
+
     private void clear(){
         totPlayers = 0;
         for(ImageView avatar : avatars)
             avatar.setImage(null);
+        ammoCard_shop.setImage(null);
     }
 
     public void onModelChanged(SquareSnapshot square){
+        if(square == null)
+            return;
+
         clear();
-        if(square != null)
-            for(String color : square.getColors())
-                putPlayer(color);
+        for(String color : square.getColors())
+            putPlayer(color);
+        if(square.ammoSquare && square.getCards().size() == 1)
+            ammoCard_shop.setImage(new Image(nameToUrl(square.getCards().get(0))));
+
     }
 
     public void setClickable(EventHandler<MouseEvent> eventHandler){
