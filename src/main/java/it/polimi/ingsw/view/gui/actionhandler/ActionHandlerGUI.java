@@ -6,7 +6,11 @@ import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.network.RemoteAction;
+import it.polimi.ingsw.network.RemoteActionsHandler;
 import it.polimi.ingsw.view.ActionHandler;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
@@ -67,13 +71,11 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     public void initialize() {
 
         //blackRectangle.setVisible(false);
-        insert(MapController.getController(this).getRoot(), mapPane, 1);
-        insert(KillShotTrackController.getController().getRoot(), killShotTrackPane,1);
+        mapController = MapController.getController(this);
+        killShotTrackController = KillShotTrackController.getController();
 
-        //redSelectionBoxController = ShopController.getController();
-        //insert(redSelectionBoxController.getRoot(), mapOutPane, 0.5);
-        //redSelectionBoxController.getRoot().setVisible(false);
-        //setupStores();
+        insert(mapController.getRoot(), mapPane, 1);
+        insert(killShotTrackController.getRoot(), killShotTrackPane,1);
 
         //todo remove this line
         //newMatch();
@@ -254,6 +256,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
      */
 
+
+
     private void visualizeActions(List<RemoteAction> actions){
         actionVBox.getChildren().clear();
         List<RemoteAction> imgActions = new ArrayList<>();
@@ -308,10 +312,13 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void setupAction(RemoteAction action){
         setupCards(action);
+        setupSquares(action);
+        setupPlayers(action);
+
         if(action.getData().canBeDone)
             newButton("Confirm", e -> {
                 actionVBox.getChildren().clear();
-                notifyChoice(action.doAction());
+                doActionAndReset();
             });
     }
 
@@ -330,7 +337,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             for(ImageView weaponImg : weapons)
                 if(weaponImg.getImage().getUrl().toLowerCase().contains(snapshotToName(weapon))) {
                     weaponImg.setDisable(false);
-                    weaponImg.setOnMouseClicked(e -> notifyChoice(action.addWeapon(weapon)));
+                    weaponImg.setOnMouseClicked(e -> notifyAndReset(action.addWeapon(weapon)));
                 }
     }
 
@@ -339,12 +346,75 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         List<ImageView> powerups = playerCardsController.getPowerUps();
         for(ImageView card : powerups)
             card.setDisable(true);
-        for(String powerup : action.getData().getPossibleSquares())
-            for(ImageView weaponImg : powerups)
-                if(weaponImg.getImage().getUrl().toLowerCase().contains(snapshotToName(powerup))) {
-                    weaponImg.setDisable(false);
-                    weaponImg.setOnMouseClicked(e -> notifyChoice(action.usePowerUp(powerup)));
+        for(String powerup : action.getData().getDiscardablePowerUps())
+            for(ImageView powerupImg : powerups)
+                if(powerupImg.getImage().getUrl().toLowerCase().contains(snapshotToName(powerup))) {
+                    powerupImg.setDisable(false);
+                    powerupImg.setOnMouseClicked(e -> notifyAndReset(action.usePowerUp(powerup)));
                 }
+    }
+
+    private void setupSquares(RemoteAction action)
+    {
+        RemoteAction.Data data = action.getData();
+        SquareController[][] squares = mapController.getSquares();
+        SquareSnapshot[][] squareSnapshots = curSnapshot.gameBoardSnapshot.squareSnapshots;
+        for(String name : data.getPossibleSquares())
+            for(int i=0; i < squares.length; i++)
+                for(int j=0; j < squares[i].length; j++)
+                    if(squareSnapshots[i][j] != null && squareSnapshots[i][j].name.equals(name))
+                        squares[i][j].setClickable(e -> notifyAndReset(action.addTargetSquare(name)));
+    }
+
+    private void setupPlayers(RemoteAction action)
+    {
+        RemoteAction.Data data = action.getData();
+        SquareController[][] squares = mapController.getSquares();
+        List<Avatar> avatars = new ArrayList<>();
+        List<SquareController> squareControllers = new ArrayList<>();
+        for(int i=0; i < squares.length; i++)
+            for(int j=0; j < squares[0].length; j++)
+                for(Avatar avatar : squares[i][j].getAvatars())
+                    if(data.getPossiblePlayers().contains(colorToName(avatar.getColor())))
+                    {
+                        avatars.add(avatar);
+                        squareControllers.add(squares[i][j]);
+                    }
+        for(int i=0; i < avatars.size(); i++) {
+            int j = i;
+            squareControllers.get(i).setClickable(avatars.get(i), e -> notifyAndReset(action.addTargetPlayer(colorToName(avatars.get(j).getColor()))));
+        }
+
+    }
+
+    private void reset(){
+        mapController.reset();
+    }
+
+    private void doActionAndReset(){
+        mapController.reset();
+        notifyChoice(curAction.doAction());
+    }
+
+    private void notifyAndReset(Command<RemoteActionsHandler> command){
+        reset();
+        notifyChoice(command);
+        notifyChoice(curAction.askActionData());
+    }
+
+    // todo improve performance saving the result
+    private String colorToName(String color){
+        for(PublicPlayerSnapshot player : curSnapshot.getPublicPlayerSnapshot())
+            if(player.color.equals(color))
+                return player.name;
+        return null; // impossible to go here
+    }
+
+    private String nameToColor(String name){
+        for(PublicPlayerSnapshot player : curSnapshot.getPublicPlayerSnapshot())
+            if(player.name.equals(name))
+                return player.color;
+        return null; // impossible to go here
     }
 
     @Override

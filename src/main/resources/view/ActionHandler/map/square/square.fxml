@@ -8,33 +8,36 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.shape.Rectangle?>
+<?import it.polimi.ingsw.view.gui.actionhandler.Avatar?>
 <StackPane fx:id="squareRootPane" xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.polimi.ingsw.view.gui.actionhandler.SquareController"
-      prefHeight="400.0" prefWidth="600.0">
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="it.polimi.ingsw.view.gui.actionhandler.SquareController"
+           prefHeight="400.0" prefWidth="600.0">
 
     <fx:define>
         <Double fx:id="scale" fx:value="0.7"/>
         <Double fx:id="hGap" fx:value="0.6"/>
     </fx:define>
 
+    <Rectangle fx:id="rec" fill="black" opacity="0.6" width="${squareRootPane.minWidth*scale}" height="${squareRootPane.minHeight*scale}" visible="false"/>
     <VBox fx:id="squareVBox" minWidth="${squareRootPane.width*scale}" maxWidth="${squareRootPane.width*scale}" minHeight="${squareRootPane.height*scale}" maxHeight="${squareRootPane.height*scale}" alignment="CENTER">
         <HBox fx:id="upperRow" maxWidth="${ (squareVBox.width - 20)/2}" minWidth="${ (squareVBox.width - 20)/2}" minHeight="${ (squareVBox.height - 20)/3}" maxHeight="${ (squareVBox.height - 20)/3}" alignment="CENTER" spacing="${upperRow.minWidth*hGap}">
-            <ImageView styleClass="button" fx:id="avatar1" fitHeight="${upperRow.height}" preserveRatio="true"/>
-            <ImageView styleClass="button" fx:id="avatar2" fitHeight="${upperRow.height}" preserveRatio="true"/>
+            <Avatar fx:id="avatar1" fitHeight="${upperRow.height}" preserveRatio="true"/>
+            <Avatar fx:id="avatar2" fitHeight="${upperRow.height}" preserveRatio="true"/>
         </HBox>
         <HBox fx:id="middle1" alignment="CENTER" minHeight="${ (squareVBox.height - 20)/3}" maxHeight="${ (squareVBox.height - 20)/3}" minWidth="${squareVBox.width}" maxWidth="${squareVBox.width}">
             <HBox alignment="CENTER_LEFT" minWidth="${middle1.width*0.33}" maxWidth="${middle1.width*0.33}">
-                <ImageView styleClass="button" fx:id="ammoCard_shop" fitHeight="${middle1.height}" preserveRatio="true"/>
+                <Avatar fx:id="ammoCard_shop" fitHeight="${middle1.height}" preserveRatio="true"/>
             </HBox>
             <HBox alignment="CENTER" minWidth="${middle1.width*0.33}" maxWidth="${middle1.width*0.33}">
-                <ImageView styleClass="button" fx:id="avatar3" fitHeight="${middle1.height}" preserveRatio="true"/>
+                <Avatar fx:id="avatar3" fitHeight="${middle1.height}" preserveRatio="true"/>
             </HBox>
             <HBox minWidth="${middle1.width*0.33}" maxWidth="${middle1.width*0.33}"/>
         </HBox>
         <HBox fx:id="bottomRow" maxWidth="${ (squareVBox.width - 20)/2}" minWidth="${ (squareVBox.width - 20)/2}" minHeight="${ (squareVBox.height - 20)/3}" maxHeight="${ (squareVBox.height - 20)/3}" alignment="CENTER" spacing="${bottomRow.minWidth*hGap}">
-            <ImageView styleClass="button" fx:id="avatar4" fitHeight="${bottomRow.height}" preserveRatio="true"/>
-            <ImageView styleClass="button" fx:id="avatar5" fitHeight="${bottomRow.height}" preserveRatio="true"/>
+            <Avatar fx:id="avatar4" fitHeight="${bottomRow.height}" preserveRatio="true"/>
+            <Avatar fx:id="avatar5" fitHeight="${bottomRow.height}" preserveRatio="true"/>
         </HBox>
     </VBox>
 </StackPane>

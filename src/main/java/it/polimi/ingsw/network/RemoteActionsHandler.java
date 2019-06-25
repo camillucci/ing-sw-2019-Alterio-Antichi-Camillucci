@@ -104,4 +104,5 @@ public class RemoteActionsHandler
     private RemoteAction.Data getActionData(){
         return new RemoteAction.Data(getPossiblePlayers(), getPossibleSquares(), getPossiblePowerups(), getDiscardablePowerUps(), getDiscardableAmmos(), getPossibleWeapons(), canBeDone());
     }
+
 }
