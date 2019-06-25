@@ -32,6 +32,10 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController.snapshotToName;
 
+/**
+ * This class extends ActionHandler and is dedicated to managing actions on clients side, in case the user chose a
+ * GUI based display.
+ */
 public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, MatchSnapshotProvider, RemoteActionsProvider {
     private final Event<MatchSnapshotProvider, MatchSnapshot> modelChangedEvent = new Event<>();
     private final Event<RemoteActionsProvider, List<RemoteAction>> newActionsEvent = new Event<>();
@@ -79,6 +83,11 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         //newMatch();
     }
 
+    /**
+     * lunches a series of methods that provide the initial user interface for when the game starts
+     * @param playerColor color the user has chosen
+     * @param opponentColors color of all the other users
+     */
     private void start(String playerColor, List<String> opponentColors)
     {
         this.playerColor = playerColor;
@@ -101,12 +110,20 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         insert(playerCardsController.getRoot(), playerHBox, 1);
     }
 
+    /**
+     * calls setupShop method for every shop (3 in total)
+     */
     private void setupStores(){
         setupShop(redShop);
         setupShop(blueShop);
         setupShop(yellowShop);
     }
 
+    /**
+     * Displays an icon corresponding to the store gotten has a parameter. The icon is clickable and displays
+     * the weapons it currently contains when the user clicks on it.
+     * @param store Icon representing one of the 3 stores.
+     */
     private void setupShop(ImageView store){
         store.setOnMouseClicked(e -> {
            if(redSelectionBoxController.getRoot().isVisible())
