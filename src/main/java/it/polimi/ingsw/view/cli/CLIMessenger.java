@@ -32,7 +32,7 @@ public class CLIMessenger {
     private static final String PRESS = "Press ";
     private static final String PLAYER = "Player ";
     private static final String NONE = "None";
-    private static final int MAX_SIZE_SQUARE = 41;
+    private static final int MAX_SIZE_SQUARE = 45;
     private static final int FIRST_MAP = 0;
     private static final int SECOND_MAP = 1;
     private static final int THIRD_MAP = 2;
@@ -51,9 +51,9 @@ public class CLIMessenger {
     private static final String LEFT = "╠";
     private static final String RIGHT = "╣";
     private static final String MIDDLE = "╬";
-    private static final String HORIZONTAL_WALL = "═════════════════════════════════════════";
-    private static final String HORIZONTAL_DOOR = "════════════════╣       ╠════════════════";
-    private static final String HORIZONTAL_ROOM = "═════                               ═════";
+    private static final String HORIZONTAL_WALL = "═════════════════════════════════════════════";
+    private static final String HORIZONTAL_DOOR = "══════════════════╣       ╠══════════════════";
+    private static final String HORIZONTAL_ROOM = "═════                                   ═════";
     private static final String POINT = "█";
 
     private static final String[] WALL = {VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL};
@@ -186,12 +186,12 @@ public class CLIMessenger {
         if(matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().isEmpty())
             display(NONE);
         for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().size(); i++)
-            display(matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().get(i));
+            display(matchSnapshot.privatePlayerSnapshot.getLoadedWeapons().get(i) + matchSnapshot.privatePlayerSnapshot.getLoadedWeaponsCost().get(i));
         display("Unloaded weapons:");
         if(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().isEmpty())
             display(NONE);
         for (int i = 0; i < matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().size(); i++)
-            display(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i));
+            display(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i) + matchSnapshot.privatePlayerSnapshot.getUnloadedWeaponsCost().get(i));
         display("Powerup cards:");
         if(matchSnapshot.privatePlayerSnapshot.getPowerUps().isEmpty())
             display(NONE);
@@ -226,7 +226,7 @@ public class CLIMessenger {
             if(matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().isEmpty())
                 display(NONE);
             for (int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().size(); i++)
-                display(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i));
+                display(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i) + matchSnapshot.privatePlayerSnapshot.getUnloadedWeaponsCost().get(i));
             display("Powerup cards: " + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber);
             display("Deaths: " + matchSnapshot.getPublicPlayerSnapshot().get(j).skull);
             display("Blue ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).blueAmmo + ", Red ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).redAmmo + ", Yellow ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).yellowAmmo);
@@ -372,14 +372,15 @@ public class CLIMessenger {
             return BLANK + blanks(MAX_SIZE_SQUARE - square.name.length() - 4) + "[" + square.name + "]" + BLANK;
         if(square != null) {
             if (square.getColors().size() > line && square.getCards().size() > line)
-                return BLANK + coloredString("[" + square.getNames().get(line) + "]", square.getColors().get(line)) +
-                        blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getCards().get(line).length() - 6) +
-                        "[" + square.getCards().get(line) + "]" + BLANK;
+                return BLANK + coloredString("[" + square.getNames().get(line) + "]", square.getColors().get(line))
+                        + blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - square.getCards().get(line).length() - costLength(square.getCardsCost().get(line)) - 6)
+                        + "[" + square.getCards().get(line) + square.getCardsCost().get(line) + "]" + BLANK;
             if (square.getColors().size() > line && square.getCards().size() <= line)
-                return BLANK + coloredString("[" + square.getNames().get(line) + "]", square.getColors().get(line)) +
-                        blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - 5);
+                return BLANK + coloredString("[" + square.getNames().get(line) + "]", square.getColors().get(line))
+                        + blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - 5);
             if (square.getColors().size() <= line && square.getCards().size() > line)
-                return blanks(MAX_SIZE_SQUARE - square.getCards().get(line).length() - 3) + "[" + square.getCards().get(line) + "]" + BLANK;
+                return blanks(MAX_SIZE_SQUARE - square.getCards().get(line).length() - costLength(square.getCardsCost().get(line)) - 3)
+                        + "[" + square.getCards().get(line) + square.getCardsCost().get(line) + "]" + BLANK;
         }
         return blanks(MAX_SIZE_SQUARE);
     }
@@ -390,6 +391,16 @@ public class CLIMessenger {
             temp = temp.concat(" ");
         }
         return temp;
+    }
+
+    private static int costLength(String cost) {
+        if(cost.length() == 0)
+            return 0;
+        if(cost.length() == 12)
+            return 2;
+        if(cost.length() == 19)
+            return 4;
+        return 6;
     }
 
     //------------------------------------------------------------------------------------------------------------------

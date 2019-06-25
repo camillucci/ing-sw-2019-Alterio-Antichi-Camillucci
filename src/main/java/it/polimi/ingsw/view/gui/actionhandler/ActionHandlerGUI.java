@@ -292,6 +292,10 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             newButton("Confirm", e -> notifyChoice(action.doAction()));
     }
 
+    /**
+     * Gets a list of possible actions and displays them to the user.
+     * @param options Is the list of actions available the user can choose from
+     */
     @Override
     public void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException {
        Platform.runLater(() -> visualizeActions(options));

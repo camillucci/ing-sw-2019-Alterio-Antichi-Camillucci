@@ -20,6 +20,7 @@ public class PublicPlayerSnapshot implements Serializable {
     private final List<String> damage = new ArrayList<>();
     private final List<String> mark = new ArrayList<>();
     private final List<String> unloadedWeapons = new ArrayList<>();
+    private final List<String> unloadedWeaponsCost = new ArrayList<>();
     public final int loadedWeaponsNumber;
     public final int powerUpsNumber;
 
@@ -36,8 +37,10 @@ public class PublicPlayerSnapshot implements Serializable {
         for(PlayerColor markColor : player.getMark())
             this.mark.add(markColor.getName());
         this.loadedWeaponsNumber = player.getLoadedWeapons().size();
-        for(WeaponCard weaponCard : player.getUnloadedWeapons())
+        for(WeaponCard weaponCard : player.getUnloadedWeapons()) {
             unloadedWeapons.add(weaponCard.name);
+            unloadedWeaponsCost.add(weaponCard.buyCostToString(false));
+        }
         this.powerUpsNumber = player.getPowerUps().size();
     }
 
@@ -51,5 +54,9 @@ public class PublicPlayerSnapshot implements Serializable {
 
     public List<String> getUnloadedWeapons() {
         return unloadedWeapons;
+    }
+
+    public List<String> getUnloadedWeaponsCost() {
+        return unloadedWeaponsCost;
     }
 }

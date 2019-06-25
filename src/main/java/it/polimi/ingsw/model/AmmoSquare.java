@@ -83,4 +83,13 @@ public class AmmoSquare extends Square {
     public List<String> getCardsName() {
         return ammoCard != null ? Collections.singletonList(ammoCard.getName()) : Collections.emptyList();
     }
+
+    /**
+     * This method return an empty String if the AmmoCard is present, an empty list otherwise
+     * @return An empty String if the AmmoCard is present, an empty list otherwise
+     */
+    @Override
+    public List<String> getCardsCost() {
+        return ammoCard != null ? Collections.singletonList("") : Collections.emptyList();
+    }
 }
