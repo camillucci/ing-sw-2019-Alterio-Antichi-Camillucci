@@ -21,7 +21,7 @@ public class SquareSnapshot implements Serializable
 
     public SquareSnapshot(Square square)
     {
-        this.ammoSquare = square instanceof AmmoSquare;
+        this.ammoSquare = square.name.length() == 1;
         this.name = square.name;
 
         this.north = square.north.getName();

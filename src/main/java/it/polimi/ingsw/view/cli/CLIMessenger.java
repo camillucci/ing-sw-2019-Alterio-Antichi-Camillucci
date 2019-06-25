@@ -640,7 +640,7 @@ public class CLIMessenger {
                         + "[" + square.getCards().get(line) + square.getCardsCost().get(line) + "]" + BLANK;
             if (square.getColors().size() > line && square.getCards().size() <= line)
                 return BLANK + coloredString("[" + square.getNames().get(line) + "]", square.getColors().get(line))
-                        + blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - 5);
+                        + blanks(MAX_SIZE_SQUARE - square.getNames().get(line).length() - 3);
             if (square.getColors().size() <= line && square.getCards().size() > line)
                 return blanks(MAX_SIZE_SQUARE - square.getCards().get(line).length() - costLength(square.getCardsCost().get(line)) - 3)
                         + "[" + square.getCards().get(line) + square.getCardsCost().get(line) + "]" + BLANK;
@@ -657,13 +657,11 @@ public class CLIMessenger {
     }
 
     private static int costLength(String cost) {
-        if(cost.length() == 0)
-            return 0;
         if(cost.length() == 12)
             return 2;
         if(cost.length() == 19)
             return 4;
-        return 6;
+        return 0;
     }
 
     //------------------------------------------------------------------------------------------------------------------

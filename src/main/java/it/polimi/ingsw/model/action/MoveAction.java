@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.Visualizable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MoveAction extends Action
@@ -50,6 +51,8 @@ public class MoveAction extends Action
 
     @Override
     public List<Square> getPossibleSquares() {
+        if(!targetSquares.isEmpty())
+            return Collections.emptyList();
         if(minDistance == -1)
             return ownerPlayer.gameBoard.getSquares(ownerPlayer, this.maxDistance);
         List<Square> temp = new ArrayList<>(ownerPlayer.gameBoard.getSquares(ownerPlayer, this.maxDistance));

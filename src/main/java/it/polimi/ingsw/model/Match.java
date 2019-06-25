@@ -109,7 +109,6 @@ public class Match extends ActionsProvider {
             setNewActions(backupActions);
         });
         setNewActions(branchMap.getPossibleActions());
-        //TODO Rollback
     }
 
     /**

@@ -19,7 +19,7 @@ public class WeaponCard {
     private static final String ANSI_BLUE = " \u001B[34m";
     private static final String ANSI_WHITE = "\u001B[37m";
 
-    public WeaponCard(String name, Ammo reloadCost, Ammo buyCost, Supplier<List<FireModalityAction>> fireBuilder)
+    public WeaponCard(String name, Ammo buyCost, Ammo reloadCost, Supplier<List<FireModalityAction>> fireBuilder)
     {
         this.name = name;
         this.fireBuilder = fireBuilder;

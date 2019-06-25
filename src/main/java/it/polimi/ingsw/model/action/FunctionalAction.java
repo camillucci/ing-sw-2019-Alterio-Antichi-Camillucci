@@ -1,14 +1,8 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.generics.Event;
-import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.cards.PowerUpCard;
-import it.polimi.ingsw.model.cards.WeaponCard;
+import it.polimi.ingsw.model.Ammo;
+import it.polimi.ingsw.model.Visualizable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class FunctionalAction extends Action
@@ -21,7 +15,7 @@ public class FunctionalAction extends Action
      * @param doActionMethod invoked when doAction() is invoked
      * @param visualizable description of the action
      */
-    public FunctionalAction(Ammo doActionCost,  boolean isOptional,  Consumer<Action> doActionMethod, Visualizable visualizable)
+    public FunctionalAction(Ammo doActionCost, boolean isOptional, Consumer<Action> doActionMethod, Visualizable visualizable)
     {
         this.opMethod = doActionMethod;
         this.doActionCost = doActionCost;
@@ -49,5 +43,4 @@ public class FunctionalAction extends Action
     {
         return action == this;
     }
-
 }
