@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
+import java.util.ArrayList;
+
 public class MapController implements Ifxml<AnchorPane>
 {
     private static final int R = 3;
@@ -34,7 +36,11 @@ public class MapController implements Ifxml<AnchorPane>
     private StackPane[][] squarePanes;
     private SquareController[][] squareControllers;
 
-    private StackPane[][] getSquarePanes(){
+    public StackPane[][] getSquarePanes()
+    {
+        if(squarePanes != null)
+            return squarePanes;
+
         StackPane[][] ret = new StackPane[R][C];
         ret[0] = new StackPane[] {square1, square2, square3, square4};
         ret[1] = new StackPane[] {square5, square6, square7, square8};
@@ -42,10 +48,15 @@ public class MapController implements Ifxml<AnchorPane>
         return ret;
     }
 
+    public SquareController[][] getSquares(){
+        return squareControllers;
+    }
+
     public void initialize(){
         mapImage.setImage(new Image("map0Test.png"));
         initializeSquares();
     }
+
      private void buildController(MatchSnapshotProvider provider){
         this.provider = provider;
         provider.modelChangedEvent().addEventHandler((a, snapshot) -> onModelChanged(snapshot));
@@ -70,6 +81,12 @@ public class MapController implements Ifxml<AnchorPane>
                 squareControllers[i][j] = tmp;
                 squarePanes[i][j].getChildren().add(squareControllers[i][j].getRoot());
             }
+    }
+
+    public void reset(){
+        for(int i=0; i < squareControllers.length; i++)
+            for(int j=0; j < squareControllers[i].length; j++)
+                squareControllers[i][j].reset();
     }
 
     @Override
