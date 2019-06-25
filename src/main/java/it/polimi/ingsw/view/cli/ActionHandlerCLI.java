@@ -10,8 +10,19 @@ import it.polimi.ingsw.view.ActionHandler;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class extends ActionHandler and is dedicated to managing actions on clients side, in case the user chose a
+ * CLI based display.
+ */
+
 public class ActionHandlerCLI extends ActionHandler {
     private RemoteAction action;
+
+    /**
+     * Gets a list of possible actions and displays them to the user. Calls the other methods to make sure a
+     * notification is provided to the server once a choice has been taken by the user.
+     * @param options Is the list of actions available the user can choose from
+     */
     @Override
     public void chooseAction(List<RemoteAction> options) throws IOException
     {

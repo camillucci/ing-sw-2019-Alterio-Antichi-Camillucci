@@ -8,68 +8,255 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
 
+/**
+ * This class is used to display messages which need to be communicated to the user. It is used only if the user has
+ * chosen a CLI based display.
+ */
 public class CLIMessenger {
+    /**
+     * parameter used to produce output lines the user is going to read
+     */
     private static PrintStream printStream = new PrintStream(System.out);
+
+    /**
+     * String that represents default color
+     */
     private static final String ANSI_RESET = "\u001B[0m";
+
+    /**
+     * String that represents color "black"
+     */
     private static final String ANSI_BLACK = "\u001B[30m";
+
+    /**
+     * String that represents color "red"
+     */
     private static final String ANSI_RED = "\u001B[31m";
+
+    /**
+     * String that represents color "green"
+     */
     private static final String ANSI_GREEN = "\u001B[32m";
+
+    /**
+     * String that represents color "yellow"
+     */
     private static final String ANSI_YELLOW = "\u001B[33m";
+
+    /**
+     * String that represents color "blue"
+     */
     private static final String ANSI_BLUE = "\u001B[34m";
+
+    /**
+     * String that represents color "purple"
+     */
     private static final String ANSI_PURPLE = "\u001B[35m";
+
+    /**
+     * String that represents color "cyan"
+     */
     private static final String ANSI_CYAN = "\u001B[36m";
+
+    /**
+     * String that represents color "white"
+     */
     private static final String ANSI_WHITE = "\u001B[37m";
+
+    /**
+     * String that represents "black" background color
+     */
     private static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+
+    /**
+     * String that represents "red" background color
+     */
     private static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+
+    /**
+     * String that represents "green" background color
+     */
     private static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+
+    /**
+     * String that represents "yellow" background color
+     */
     private static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+
+    /**
+     * String that represents "blue" background color
+     */
     private static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+
+    /**
+     * String that represents "purple" background color
+     */
     private static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+
+    /**
+     * String that represents "cyan" background color
+     */
     private static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+
+    /**
+     * String that represents "white" background color
+     */
     private static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+    /**
+     * String used to keep track of the current color used to display characters
+     */
     private static String curColor = "";
+
+    /**
+     * "Press" String
+     */
     private static final String PRESS = "Press ";
+
+    /**
+     * "Player" String
+     */
     private static final String PLAYER = "Player ";
+
+    /**
+     * "None" String
+     */
     private static final String NONE = "None";
     private static final int MAX_SIZE_SQUARE = 45;
+
+    /**
+     * int representing the first map type (users can choose different maps for every game)
+     */
     private static final int FIRST_MAP = 0;
+
+    /**
+     * int representing the second map type (users can choose different maps for every game)
+     */
     private static final int SECOND_MAP = 1;
+
+    /**
+     * int representing the third map type (users can choose different maps for every game)
+     */
     private static final int THIRD_MAP = 2;
+
+    /**
+     * int representing the height of the map
+     */
     private static final int MAP_HEIGHT = 3;
+
+    /**
+     * int representing the width of the map
+     */
     private static final int MAP_WIDTH = 4;
     private static final int SQUARE_LINES = 7;
 
+    /**
+     * Visual representation of a blank space
+     */
     private static final String BLANK = " ";
+
+    /**
+     * Visual representation of a vertical line
+     */
     private static final String VERTICAL = "║";
+
+    /**
+     * Visual representation of a top left corner
+     */
     private static final String TOP_LEFT = "╔";
+
+    /**
+     * Visual representation of a bottom left corner
+     */
     private static final String TOP_RIGHT = "╗";
+
+    /**
+     * Visual representation of a bottom left corner
+     */
     private static final String BOTTOM_LEFT = "╚";
+
+    /**
+     * Visual representation of a bottom right corner
+     */
     private static final String BOTTOM_RIGHT = "╝";
+
+    /**
+     * Visual representation of a top "T" shaped cross
+     */
     private static final String TOP = "╦";
+
+    /**
+     * Visual representation of a bottom "T" shaped cross
+     */
     private static final String BOTTOM = "╩";
+
+    /**
+     * Visual representation of a left "T" shaped cross
+     */
     private static final String LEFT = "╠";
+
+    /**
+     * Visual representation of a right "T" shaped cross
+     */
     private static final String RIGHT = "╣";
+
+    /**
+     * Visual representation of a "+" shaped cross
+     */
     private static final String MIDDLE = "╬";
+
+    /**
+     * Visual representation of an horizontal wall
+     */
     private static final String HORIZONTAL_WALL = "═════════════════════════════════════════════";
+
+    /**
+     * Visual representation of an horizontal door
+     */
     private static final String HORIZONTAL_DOOR = "══════════════════╣       ╠══════════════════";
+
+    /**
+     * Visual representation of the horizontal entrance of a room
+     */
     private static final String HORIZONTAL_ROOM = "═════                                   ═════";
     private static final String POINT = "█";
 
+    /**
+     * Contains the list of strings used to visually represent a wall
+     */
     private static final String[] WALL = {VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL, VERTICAL};
+
+    /**
+     * Contains the list of strings used to visually represent the entrance of a room
+     */
     private static final String[] ROOM = {VERTICAL, BLANK, BLANK, BLANK, BLANK, BLANK, VERTICAL};
+
+    /**
+     * Contains the list of strings used to visually represent a door
+     */
     private static final String[] DOOR = {VERTICAL, VERTICAL, BOTTOM, BLANK, TOP, VERTICAL, VERTICAL};
 
     private CLIMessenger() { }
 
+    /**
+     * Changes the current OutputStream with the one gotten has a parameter
+     * @param outputStream parameter used to substitute the current OutputStream
+     */
     public static void changePrintStream(OutputStream outputStream){
         printStream = new PrintStream(outputStream);
     }
 
+
+    /**
+     * Assigns the color "white" to the curColor parameter
+     */
     private static void resetColor(){
         curColor = ANSI_WHITE;
     }
 
+    /**
+     * Default intro script (displayed when the client starts)
+     */
     public static void intro() {
         curColor = ANSI_RED;
         display("   _____  ________ _____________________ _______      _____  .____    .___ _______  ___________");
@@ -82,32 +269,52 @@ public class CLIMessenger {
         resetColor();
     }
 
+    /**
+     * Displays the welcome script to the user and resets the curColor parameter.
+     */
     public static void login(){
         curColor = ANSI_BLUE;
         display("Welcome to Adrenaline!" + ANSI_RESET +"\n\n", true);
         resetColor();
     }
 
+    /**
+     * Output line displayed to the user when they send an incorrect input line
+     */
     public static void incorrectInput() {
         display("Your answer is not valid, please try again.", true);
     }
 
+    /**
+     * Output line displayed to the user used to ask them to choose a username
+     */
     public static void insertName() {
         display("Insert username here (max 16 character long):", true);
     }
 
+    /**
+     * Output line displayed to the user used to ask them to choose between Socket and RMI type of connection
+     */
     public static void askConnection() {
         display("Choose connection type:", true);
         display(PRESS + "0 for Socket", true);
         display(PRESS + "1 for RMI", true);
     }
 
+    /**
+     * Output line displayed to the user used to ask them to choose between CLI and GUI type of interface
+     */
     public static void askInterface() {
         display("Choose interface type", true);
         display(PRESS + "0 for CLI", true);
         display(PRESS + "1 for GUI", true);
     }
 
+    /**
+     * Output line displayed to the user used to ask them to choose a color for their character among the ones
+     * still availabe
+     * @param availableColors List of colors the user can choose from
+     */
     public static int askColor(List<String> availableColors) {
         display("Choose one of the following available colors:", true);
         for (int i = 0; i < availableColors.size(); i++) {
@@ -116,11 +323,20 @@ public class CLIMessenger {
         return availableColors.size();
     }
 
+    /**
+     * Output line displayed to the user used to ask them to choose how long they want the game to be, based on
+     * number of skulls. This message is displayed only if the user is the first one to connect to the room.
+     */
     public static void askGameLength() {
         display("Choose how many skulls your game is going to have", true);
         display("You can choose any number between 5 and 8", true);
     }
 
+    /**
+     * Output line displayed to the user used to ask them to choose what map they want to play the game in (4
+     * different options).
+     * This message is displayed only if the user is the first one to connect to the room.
+     */
     public static void askGameMap() {
         display("Choose one of the following maps:", true);
         display("0 ╔══════════════════╦══════════════════╦══════════════════╗                    1 ╔══════════════════╦══════════════════╦══════════════════╦══════════════════╗");
@@ -152,16 +368,28 @@ public class CLIMessenger {
         display("  ╚══════════════════╩══════════════════╩══════════════════╩══════════════════╝   ╚══════════════════╩══════════════════╩══════════════════╩══════════════════╝");
     }
 
+    /**
+     * Output line displayed to the user when the match has started (which occurs when the maximum number of player
+     * connects to the same room, or when the timer runs out)
+     */
     public static void matchStart() {
         display("Your game has started", true);
         display("Have fun!", true);
     }
 
+    /**
+     * Output line displayed to the user to communicate them that the room has reached the 3 player mark.
+     * So the countdown starts.
+     */
     public static void threePlayers() {
         display("Your room has reached 3 players", true);
         display("Countdown has started", true);
     }
 
+    /**
+     * Generic method used to print any string.
+     * @param message String that is required to be displayed to the user.
+     */
     public static void printMessage(String message)
     {
         display(message);
@@ -170,16 +398,30 @@ public class CLIMessenger {
     //------------------------------------------------------------------------------------------------------------------
     // DISPLAY VIEW
 
+    /**
+     * Calls 2 different methods which both display a part of the game state
+     * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
+     */
     public static void updateView(MatchSnapshot matchSnapshot) {
         displayMap(matchSnapshot);
         displayPlayers(matchSnapshot);
     }
 
+    /**
+     * Calls 2 different methods which display info relative to the players state.
+     * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
+     */
     private static void displayPlayers(MatchSnapshot matchSnapshot) {
         displayPrivatePlayer(matchSnapshot);
         displayPublicPlayers(matchSnapshot);
     }
 
+    /**
+     * Displays all info contained in matchSnapshot relative to the character the user is piloting (this includes
+     * loaded and unloaded weapons, as well as the other cards currently in user's possession and the current damage
+     * and mark count)
+     * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
+     */
     private static void displayPrivatePlayer(MatchSnapshot matchSnapshot) {
         display("You " + coloredString("[" + matchSnapshot.privatePlayerSnapshot.name + "-" + matchSnapshot.privatePlayerSnapshot.color + "]", matchSnapshot.privatePlayerSnapshot.color) + " have:");
         display("Loaded weapons:");
@@ -218,6 +460,12 @@ public class CLIMessenger {
         display("");
     }
 
+    /**
+     * Displays all info contained in matchSnapshot relative to all the characters piloted by other players (this
+     * includes unloaded weapons, as well as the current damage and mark count and how many powerup cards does
+     * each player have)
+     * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
+     */
     private static void displayPublicPlayers(MatchSnapshot matchSnapshot) {
         for (int j = 0; j < matchSnapshot.getPublicPlayerSnapshot().size(); j++) {
             display(PLAYER + coloredString(matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color, matchSnapshot.getPublicPlayerSnapshot().get(j).color) + " has:");
@@ -253,12 +501,22 @@ public class CLIMessenger {
     //------------------------------------------------------------------------------------------------------------------
     // DISPLAY ACTIONS AND TARGETS
 
+    /**
+     * Displays to the user every possible legal action their character could take, asking them to select one.
+     * @param options List of possible legal actions
+     */
     public static void displayActions(List<RemoteAction> options) {
         for(RemoteAction remoteAction : options){
             display(PRESS + remoteAction.index + " if you want to " + remoteAction.visualizable.description);
         }
     }
 
+    /**
+     * This method is called right after the user decides on what action the want to go for. It is used in case they
+     * chose a targeting action (like firing or moving another player). It displays all the possible targets, relative to the previously selected action,
+     * the user can choose.
+     * @param data Parameter of the chosen RemoteAction, which contains all the possible targets the user can choose.
+     */
     public static void displayTargets(RemoteAction.Data data) {
         int j = 0;
         for(String player : data.getPossiblePlayers())
@@ -280,6 +538,11 @@ public class CLIMessenger {
     //------------------------------------------------------------------------------------------------------------------
     // DISPLAY MAP
 
+    /**
+     * Displays to the user all the info relative to the current map state (this includes every player's position on
+     * the map, as well as what items and/or weapons are on each square).
+     * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
+     */
     private static void displayMap(MatchSnapshot matchSnapshot) {
         String[] mapBorder;
         if(matchSnapshot.gameBoardSnapshot.mapType == FIRST_MAP)
@@ -407,10 +670,19 @@ public class CLIMessenger {
     //DISPLAY
 
     @SuppressWarnings("squid:S106")
+    /**
+     * Displays the string gotten as a  parameter using curColor has the text color
+     * @param string Displayed String
+     */
     private static void display(String string) {
         printStream.println(curColor + string);
     }
 
+    /**
+     * Displays the string gotten as parameter. Uses bold characters when the boolean parameter is true.
+     * @param string Displayed String
+     * @param bold Parameter used to indicate whether the String is going to be displayed in bold characters
+     */
     private static void display(String string, boolean bold){
         if(bold)
             display("\u001B[1m" + string);
@@ -418,6 +690,12 @@ public class CLIMessenger {
             display(string);
     }
 
+    /**
+     * Returns the text written with the selected color
+     * @param text String which needs to be returned
+     * @param color String which represents the color used to write the "text" String
+     * @return "text" String written in the selected color
+     */
     private static String coloredString(String text, String color) {
         switch (color) {
             case "Blue":
