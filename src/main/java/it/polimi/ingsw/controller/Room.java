@@ -12,27 +12,95 @@ import it.polimi.ingsw.network.RemoteActionsHandler;
 
 import java.util.*;
 
+/**
+ * This class is used to group all players who are playing on the same match. It's the main part of the controller and
+ * the one that communicates with the server to receive all the decisions the players take.
+ */
 public class Room
 {
+    /**
+     * Event that other classes can subscribe to. The event is invoked when the before match countdown starts.
+     */
     public final IEvent<Room, Integer> timerStartEvent = new Event<>();
+
+    /**
+     * Event that other classes can subscribe to. The event is invoked when the before match countdown reaches the end.
+     */
     public final IEvent<Room, Integer> timerTickEvent = new Event<>();
+
+    /**
+     * Event that other classes can subscribe to. The event is invoked if the before match countdown is already started
+     * and the number of connected players goes under 3.
+     */
     public final IEvent<Room, Integer> timerStopEvent = new Event<>();
+
+    /**
+     * Event that other classes can subscribe to. The event is invoked when a new player enters the room.
+     */
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
+
+    /**
+     * Event that other classes can subscribe to. The event is invoked when a player who's in the room disconnects.
+     */
     public final IEvent<Room, String> playerDisconnectedEvent = new Event<>();
     public final IEvent<Room, ModelEventArgs> modelUpdatedEvent = new Event<>();
+
+    /**
+     * Integer representing the timeout value
+     */
     private static final int TIMEOUT = 2;
+
+    /**
+     * Integer representing the period value
+     */
     private static final int PERIOD = 1;
+
+    /**
+     * List of colors representing all the colors of the players who have already chosen one.
+     */
     private List<PlayerColor> playerColors = new ArrayList<>();
+
+    /**
+     * List of all the available colors
+     */
     private List<PlayerColor> availableColors = new ArrayList<>();
+
+    /**
+     * List of all names relative to the players already present in the room
+     */
     private List<String> playerNames = new ArrayList<>();
+
+    /**
+     * List of all players who joined the room and later on disconnected
+     */
     private List<String> disconnectedPlayers = new ArrayList<>();
     private List<String> pendingPlayers = new ArrayList<>();
     private List<String> readyPlayers = new ArrayList<>();
+
+    /**
+     * Number of skulls relative to the match the room is managing
+     */
     private int gameLength;
+
+    /**
+     * Integer that represents the map type relative to the match the room is managing
+     */
     private int gameSize;
+
+    /**
+     * Match relative to this room
+     */
     private Match match;
     private RoomTimer timer = new RoomTimer(TIMEOUT, PERIOD);
+
+    /**
+     * Name of the player who logged into the room first. (Some of the match specifics are asked to the host).
+     */
     private String hostName;
+
+    /**
+     * Boolean representing whether the match is started.
+     */
     private boolean matchStarting = false;
 
     public Room() {
@@ -40,9 +108,17 @@ public class Room
         setupEvents();
     }
 
+    /**
+     * Returns the match state
+     * @return Whether the match has started or not.
+     */
     public boolean isMatchStarted() {
         return matchStarting;
     }
+
+    /**
+     * Sets the events relative to timeouts and players disconnecting.
+     */
     private void setupEvents()
     {
         timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, TIMEOUT - timeElapsed));
@@ -50,6 +126,10 @@ public class Room
         playerDisconnectedEvent.addTmpEventHandler((a, name) -> disconnectedPlayers.add(name));
     }
 
+    /**
+     * When the timeout event is invoked, this method checks whether there are enough players to start the game. In
+     * case there aren't, the timer is stopped; otherwise the matchStarting paramter is set to true and the match starts.
+     */
     private synchronized void onTimeout(){
         int tot = readyPlayers.size() + pendingPlayers.size();
         if(tot < 3){
@@ -62,6 +142,10 @@ public class Room
             startMatch();
     }
 
+    /**
+     * Starts a match using the parameters chosen by the host and the parameters relative to the players already present
+     * in the room.
+     */
     private synchronized void startMatch(){
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         match.newActionsEvent.addEventHandler(this::onNewActions);
@@ -78,6 +162,12 @@ public class Room
         //TODO
     }
 
+    /**
+     * Adds the player to the pendingPlayers list and removes their color from the availableColors list, while adding
+     * it to the playersColors list. Also, if the player is the first one to join the room, they are made host.
+     * @param color Color chosen by the added player
+     * @param playerName Name chosen by the added player
+     */
     public synchronized void addPlayer(String color, String playerName) throws MatchStartingException, NotAvailableColorException {
         if(matchStarting || availableColors.isEmpty())
             throw new MatchStartingException();
@@ -95,9 +185,15 @@ public class Room
             hostName = playerName;
     }
 
+    /**
+     * Checks whether the name corresponds to the name of the room's host
+     * @param name Name that needs to be confronted with the name of the host
+     * @return True if the name is the same of the host's one, false otherwise.
+     */
     public boolean isHost(String name) {
         return name.equals(hostName);
     }
+
     private void newPlayer(String name){
         ((Event<Room, String>)newPlayerEvent).invoke(this, name);
     }

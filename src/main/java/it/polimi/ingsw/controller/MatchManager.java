@@ -8,15 +8,35 @@ import it.polimi.ingsw.model.action.Action;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to provide a connection between the controller and the match that's being played.
+ */
 public class MatchManager {
+    /**
+     * reference to the match the class is managing
+     */
     private Match match;
+
+    /**
+     * reference to the room relative to the match the class is managing
+     */
     private Room room;
 
+    /**
+     * Constructor. It initializes the two parameter using the two inputs.
+     * @param match reference to the match the class is managing
+     * @param room reference to the room relative to the match the class is managing
+     */
     public MatchManager(Match match, Room room) {
         this.match = match;
         this.room = room;
     }
 
+    /**
+     * Starts the match (this method is called when the countdown reaches the end or when the room is full).
+     * Gets all the possible actions the current player can choose to execute and gets a reference to the client
+     * relative to current's player.
+     */
     private void startMatch() {
         match.start();
         ArrayList<Action> actions = (ArrayList<Action>) match.getActions();
@@ -37,6 +57,12 @@ public class MatchManager {
 
      */
 
+    /**
+     * This method is called when the match reaches an end and associates to every player a number indicative of the
+     * score they got by playing the game. Then it creates a leader board based on the amount of points that every
+     * player has acquired.
+     * @return The leader board that represents the final ladder based on player points.
+     */
     public String[][] calculateScore() {
         String[][] scoreBoard = new String[match.getPlayers().size()][2];
         for(int i = 0; i < match.getPlayers().size(); i++) {
@@ -55,6 +81,10 @@ public class MatchManager {
         return scoreBoard;
     }
 
+    /**
+     * Calculates who's the winning player by finding the player with the maximum number of points
+     * @return Winning player's name
+     */
     public String declareWinner() {
         Player player = match.getPlayers().get(0);
         for(int i = 1; i < match.getPlayers().size(); i++)
@@ -64,6 +94,12 @@ public class MatchManager {
         return player.name;
     }
 
+    /**
+     * Calculates the killshotTrack associated with a specific player by confronting their color with color of all the
+     * drops present on the game board killshot track.
+     * @param player Player whose killshotTrack is going to be calculated.
+     * @return The killshotTrack associated with the player.
+     */
     private int countKillShotTrack(Player player) {
         int temp = 0;
         for(List<PlayerColor> list : match.gameBoard.getKillShotTrack())
