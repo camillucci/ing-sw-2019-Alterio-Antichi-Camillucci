@@ -68,7 +68,7 @@ public class PlayerSetController implements Ifxml<VBox> {
 
     private void clear(){
         for(Pane tear : tears)
-            tear.getChildren().clear();g
+            tear.getChildren().clear();
 
     }
 

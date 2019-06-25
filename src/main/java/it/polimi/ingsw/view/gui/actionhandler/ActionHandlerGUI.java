@@ -73,7 +73,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         //setupStores();
 
         //todo remove this line
-        newMatch();
+        //newMatch();
     }
 
     private void start(String playerColor, List<String> opponentColors)
@@ -237,7 +237,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private void newMatch(){
 
         List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C", "D", "E"));
-        List<PlayerColor> colors = new ArrayList<>(Arrays.asList(PlayerColor.BLUE, PlayerColor.GREEN, PlayerColor.GREY, PlayerColor.VIOLET, PlayerColor.YELLOW));
+        List<PlayerColor> colors = new ArrayList<>(Arrays.asList(PlayerColor.GREY, PlayerColor.GREEN, PlayerColor.BLUE, PlayerColor.VIOLET, PlayerColor.YELLOW));
         Match match = new Match(names, colors, 5, 0);
         match.start();
         List<Action> actions = match.getActions();

@@ -42,3 +42,4 @@ public class App extends Application
         Platform.runLater(() -> this.primaryStage.show());
     }
 }
+

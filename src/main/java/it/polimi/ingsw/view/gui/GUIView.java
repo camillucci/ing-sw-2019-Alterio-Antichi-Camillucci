@@ -35,9 +35,8 @@ public class GUIView extends View
             primaryStage.setTitle("Welcome Adrenaline!");
             primaryStage.setWidth(1600);
             primaryStage.setHeight(1000);
-            //primaryStage.setResizable(false);
             primaryStage.setFullScreenExitHint("");
-            primaryStage.setFullScreen(true);
+            //primaryStage.setFullScreen(true);
 
             primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             primaryStage.setOnCloseRequest(e ->
@@ -62,15 +61,18 @@ public class GUIView extends View
         }
         setupStage();
         createRootScene(app);
+        setupActionHandler();
+    }
+
+    private void setupActionHandler()
+    {
         ActionHandlerGUI tmp = ActionHandlerGUI.getController();
-        this.curViewElement = this.actionHandler = tmp;
+        this.actionHandler = tmp;
         tmp.getRoot().minWidthProperty().bind(rootScene.widthProperty());
         tmp.getRoot().maxWidthProperty().bind(rootScene.widthProperty());
         tmp.getRoot().minHeightProperty().bind(rootScene.heightProperty());
         tmp.getRoot().maxHeightProperty().bind(rootScene.heightProperty());
-        rootScene.setRoot(tmp.getRoot());
-        //this.actionhandler = ActionHandlerGUI.getController();
-        //((ActionHandlerGUI) actionhandler).start(app);
+        login.loginCompletedEvent.addEventHandler((a, b) -> rootScene.setRoot(tmp.getRoot()));
     }
 
     public void createRootScene(App app) throws IOException
