@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
 import it.polimi.ingsw.view.gui.RemoteActionsProvider;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
@@ -292,13 +293,14 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException {
-        visualizeActions(options);
+       Platform.runLater(() -> visualizeActions(options));
     }
 
     @Override
     public void updateActionData(RemoteAction.Data data) throws IOException {
+        Platform.runLater(() -> {
         curAction.updateData(data);
-        setupAction(curAction);
+        setupAction(curAction);});
     }
 
     private void setupCards(RemoteAction action)

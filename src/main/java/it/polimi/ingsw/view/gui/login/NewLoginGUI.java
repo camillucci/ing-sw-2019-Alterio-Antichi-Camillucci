@@ -229,18 +229,6 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         roomJoinController.playerLeft(getName(message));
     }
 
-
-    @Override
-    public void onModelChanged(MatchSnapshot matchSnapshot) {
-        Platform.runLater(() ->{
-            upperVBox.getChildren().clear();
-            ImageView imageView = new ImageView(new Image("map" + matchSnapshot.gameBoardSnapshot.mapType+".png"));
-            imageView.setFitWidth(loginScene.widthProperty().get());
-            imageView.setFitHeight(loginScene.heightProperty().get());
-            upperVBox.getChildren().add(imageView);
-        });
-    }
-
     @Override
     public VBox getRoot() {
         return upperVBox;
