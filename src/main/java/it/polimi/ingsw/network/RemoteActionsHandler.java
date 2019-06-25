@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class RemoteActionsHandler
 {
     public final IEvent<RemoteActionsHandler, RemoteAction.Data> actionDataRequired = new Event<>();
-    private final Player player;
+    public final Player player;
     private final List<Action> actions;
     private Action selectedAction;
 

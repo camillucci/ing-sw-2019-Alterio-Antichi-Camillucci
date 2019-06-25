@@ -237,6 +237,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     //todo
     //todo
     //todo
+    /*
     private void newMatch(){
 
         List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C", "D", "E"));
@@ -250,6 +251,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         visualizeActions(remoteActions);
         onModelChanged(new MatchSnapshot(match, match.getPlayer()));
     }
+
+     */
 
     private void visualizeActions(List<RemoteAction> actions){
         actionVBox.getChildren().clear();
@@ -286,12 +289,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     }
 
 
-    private void setupAction(RemoteAction action){
-        setupCards(action);
-        if(action.getData().canBeDone)
-            newButton("Confirm", e -> notifyChoice(action.doAction()));
-    }
-
     /**
      * Gets a list of possible actions and displays them to the user.
      * @param options Is the list of actions available the user can choose from
@@ -304,8 +301,18 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     @Override
     public void updateActionData(RemoteAction.Data data) throws IOException {
         Platform.runLater(() -> {
-        curAction.updateData(data);
-        setupAction(curAction);});
+            curAction.updateData(data);
+            setupAction(curAction);
+        });
+    }
+
+    private void setupAction(RemoteAction action){
+        setupCards(action);
+        if(action.getData().canBeDone)
+            newButton("Confirm", e -> {
+                actionVBox.getChildren().clear();
+                notifyChoice(action.doAction());
+            });
     }
 
     private void setupCards(RemoteAction action)

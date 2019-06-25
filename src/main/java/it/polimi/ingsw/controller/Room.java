@@ -70,7 +70,8 @@ public class Room
 
     private void onNewActions(Player player, List<Action> actions)
     {
-        ((Event<Room, ModelEventArgs>)modelUpdatedEvent).invoke(this, new ModelEventArgs(new MatchSnapshot(match, player), player.name, new RemoteActionsHandler(player, actions)));
+        for(Player p : match.getPlayers())
+            ((Event<Room, ModelEventArgs>)modelUpdatedEvent).invoke(this, new ModelEventArgs(new MatchSnapshot(match, p), p.name, new RemoteActionsHandler(player, actions)));
     }
 
     public void reconnect(String playerName){
