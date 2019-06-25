@@ -10,6 +10,10 @@ public abstract class View
     protected View (Login login, ActionHandler actionHandler){
         curViewElement = this.login = login;
         this.actionHandler = actionHandler;
+        login.loginCompletedEvent.addEventHandler((a, snapshot) -> {
+            this.curViewElement = actionHandler;
+            actionHandler.onModelChanged(snapshot);
+        });
     }
     public Login getLogin() {
         return login;

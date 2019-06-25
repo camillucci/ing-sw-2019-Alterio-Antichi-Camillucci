@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.ShootFunc;
 import it.polimi.ingsw.model.cards.TargetsFilters;
@@ -24,7 +25,7 @@ public class InTurnPowerUpAction extends PowerUpAction
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
             }
         });
-        this.text = "use a Targeting Scope";
+        this.visualizable = new Visualizable("use a Targeting Scope", "powerup");
     }
 
     @Override

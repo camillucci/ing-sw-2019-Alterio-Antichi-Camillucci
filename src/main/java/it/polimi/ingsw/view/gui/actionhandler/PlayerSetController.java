@@ -32,7 +32,7 @@ public class PlayerSetController implements Ifxml<VBox> {
     @FXML private Pane tear10;
     @FXML private Pane tear11;
     private List<Pane> tears;
-    private PlayerColor color;
+    private String color;
     private int totDamage = 0;
     private MatchSnapshotProvider matchSnapshotProvider;
 
@@ -50,21 +50,14 @@ public class PlayerSetController implements Ifxml<VBox> {
         return Arrays.asList(tear0, tear1, tear2, tear3, tear4, tear5, tear6, tear7, tear8, tear9, tear10, tear11);
     }
 
-    private void build(PlayerColor color, MatchSnapshotProvider provider){
-        this.color = color;
-        this.matchSnapshotProvider = provider;
-        matchSnapshotProvider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
-        vBox.setStyle("-fx-background-image: url(\"player/" + color.getName() + "1.png\")");
-    }
-
     private void onModelChanged(MatchSnapshot matchSnapshot){
         clear();
         PublicPlayerSnapshot player = null;
-        if(matchSnapshot.privatePlayerSnapshot.color.equals(this.color.getName()))
+        if(matchSnapshot.privatePlayerSnapshot.color.equals(this.color))
             player = matchSnapshot.privatePlayerSnapshot;
         else
             for(PublicPlayerSnapshot p : matchSnapshot.getPublicPlayerSnapshot())
-                if(p.color.equals(this.color.getName()))
+                if(p.color.equals(this.color))
                 {
                     player = p;
                     break;
@@ -75,7 +68,7 @@ public class PlayerSetController implements Ifxml<VBox> {
 
     private void clear(){
         for(Pane tear : tears)
-            tear.getChildren().clear();
+            tear.getChildren().clear();g
 
     }
 
@@ -87,7 +80,14 @@ public class PlayerSetController implements Ifxml<VBox> {
         tears.get(totDamage++).getChildren().add(imageView);
     }
 
-    public static PlayerSetController getController(PlayerColor color, MatchSnapshotProvider matchSnapshotProvider){
+    private void build(String color, MatchSnapshotProvider provider){
+        this.color = color;
+        this.matchSnapshotProvider = provider;
+        matchSnapshotProvider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
+        vBox.setStyle("-fx-background-image: url(\"player/" + color + "1.png\")");
+    }
+
+    public static PlayerSetController getController(String color, MatchSnapshotProvider matchSnapshotProvider){
         PlayerSetController ret = GUIView.getController("/view/ActionHandler/actionHandler/playerSet.fxml", "/view/ActionHandler/actionHandler/playerSet.css");
         ret.build(color, matchSnapshotProvider);
         return ret;

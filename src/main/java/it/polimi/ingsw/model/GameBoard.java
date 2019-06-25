@@ -584,9 +584,9 @@ public class GameBoard {
     }
 
     /**
-     * This method returns the Square of the shop of a given AmmoColor
-     * @param color The AmmoColor from which we need to find the shop of the same AmmoColor
-     * @return The shop of the given AmmoColor
+     * This method returns the Square of the selectionBox of a given AmmoColor
+     * @param color The AmmoColor from which we need to find the selectionBox of the same AmmoColor
+     * @return The selectionBox of the given AmmoColor
      */
     public Square getSpawnAndShopSquare(AmmoColor color) {
         switch (color) {

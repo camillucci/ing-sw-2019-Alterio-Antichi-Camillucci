@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.model.Visualizable;
+
 public class RollBackAction extends Action
 {
     public RollBackAction() {
-        this.text = "restart the last move";
+        this.visualizable = new Visualizable("restart the last move", "restart");
     }
 
     @Override

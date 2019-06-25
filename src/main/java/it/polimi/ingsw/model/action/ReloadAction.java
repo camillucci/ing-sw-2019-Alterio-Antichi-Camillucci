@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Ammo;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.WeaponCard;
 
@@ -14,7 +15,7 @@ public class ReloadAction extends Action
     {
         this.optional = true;
         this.canBeDone = false;
-        this.text = "reload a weapon";
+        this.visualizable = new Visualizable("reload a weapon", "reload");
     }
 
     @Override

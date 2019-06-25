@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Ammo;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.WeaponCard;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class GrabAction extends ExtendableAction
 {
     public GrabAction() {
-        this.text = "grab";
+        this.visualizable = new Visualizable("grab", "grab");
     }
 
     @Override

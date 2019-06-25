@@ -1,8 +1,10 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
+import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,6 +29,7 @@ public class MapController implements Ifxml<AnchorPane>
     @FXML private StackPane square12;
     @FXML private ImageView mapImage;
     @FXML private AnchorPane mapGrid;
+    private MatchSnapshotProvider provider;
     private SquareController squareController;
     private StackPane[][] squarePanes;
     private SquareController[][] squareControllers;
@@ -42,6 +45,16 @@ public class MapController implements Ifxml<AnchorPane>
     public void initialize(){
         mapImage.setImage(new Image("map0Test.png"));
         initializeSquares();
+    }
+     private void buildController(MatchSnapshotProvider provider){
+        this.provider = provider;
+        provider.modelChangedEvent().addEventHandler((a, snapshot) -> onModelChanged(snapshot));
+     }
+
+    private void onModelChanged(MatchSnapshot snapshot) {
+        for(int i = 0; i < R; i++)
+            for(int j=0; j < C; j++)
+                squareControllers[i][j].onModelChanged(snapshot.gameBoardSnapshot.squareSnapshots[i][j]);
     }
 
     private void initializeSquares(){
@@ -64,7 +77,9 @@ public class MapController implements Ifxml<AnchorPane>
         return mapGrid;
     }
 
-    public static MapController getController(){
-        return GUIView.getController("/view/ActionHandler/map/map.fxml", "/view/ActionHandler/map/map.css");
+    public static MapController getController(MatchSnapshotProvider provider){
+        MapController ret = GUIView.getController("/view/ActionHandler/map/map.fxml", "/view/ActionHandler/map/map.css");
+        ret.buildController(provider);
+        return ret;
     }
 }

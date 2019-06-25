@@ -255,7 +255,7 @@ public class CLIMessenger {
 
     public static void displayActions(List<RemoteAction> options) {
         for(RemoteAction remoteAction : options){
-            display(PRESS + remoteAction.index + " if you want to " + remoteAction.text);
+            display(PRESS + remoteAction.index + " if you want to " + remoteAction.visualizable.description);
         }
     }
 

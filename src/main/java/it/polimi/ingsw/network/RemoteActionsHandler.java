@@ -27,7 +27,7 @@ public class RemoteActionsHandler
     {
         List<RemoteAction> remoteActions = new ArrayList<>();
         for(int i=0; i < actions.size(); i++)
-            remoteActions.add(new RemoteAction(i, actions.get(i).getText()));
+            remoteActions.add(new RemoteAction(i, actions.get(i).getVisualizable()));
         return remoteActions;
     }
 

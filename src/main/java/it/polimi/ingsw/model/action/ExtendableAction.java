@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.branch.Branch;
 
 import java.util.ArrayList;
@@ -11,10 +12,10 @@ public class ExtendableAction extends Action
 
     public ExtendableAction() {}
 
-    public ExtendableAction(List<Branch> branches, String text)
+    public ExtendableAction(List<Branch> branches, Visualizable visualizable)
     {
         this.branches = new ArrayList<>(branches);
-        this.text = text;
+        this.visualizable = visualizable;
     }
 
     public List<Branch> getBranches()

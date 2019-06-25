@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.branch;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.action.*;
 
@@ -62,8 +63,8 @@ public class BranchMapFactory
                 p.removePowerUpCard(pu);
                 p.setCurrentSquare(p.gameBoard.getSpawnAndShopSquare(pu.color));
                 p.getCurrentSquare().addPlayer(p);
-            }, "discard " + pu.getName()), new EndBranchAction()));
-        return new BranchMap(new Branch(new ExtendableAction(branches, "spawn")));
+            }, new Visualizable("powerup/" + pu.getName().replace(" ", "_") + ".png","discard " + pu.getName(), "discard")), new EndBranchAction()));
+        return new BranchMap(new Branch(new ExtendableAction(branches, new Visualizable("spawn", "spawn"))));
     }
 
     public static BranchMap reloadEndTurn()

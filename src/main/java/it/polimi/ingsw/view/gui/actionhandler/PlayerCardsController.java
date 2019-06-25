@@ -5,9 +5,11 @@ import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PrivatePlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
+import it.polimi.ingsw.view.gui.RemoteActionsProvider;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,14 +31,14 @@ public class PlayerCardsController implements Ifxml<HBox> {
     @FXML private ImageView extraPowerup;
     @FXML private HBox cardsHBox;
     private MatchSnapshotProvider provider;
-    private PlayerColor color;
+    private RemoteActionsProvider actionsProvider;
+    private String color;
+    private List<ImageView> cards;
+    private List<ImageView> weapons;
+    private List<ImageView> powerups;
     private static final int MAX_WEAPONS = 3;
     private static final int MAX_POWERUPS = 3;
     private int totWeapons = 0, totPowerups = 0;
-
-    public void initialize()
-    {
-    }
 
     public List<ImageView> getWeapons() {
         return Arrays.asList(weapon1, weapon2, weapon3, extraWeapon);
@@ -44,6 +46,12 @@ public class PlayerCardsController implements Ifxml<HBox> {
 
     public List<ImageView> getPowerUps(){
         return Arrays.asList(powerup1, powerup2, powerup3, extraPowerup);
+    }
+
+    public void initialize(){
+        cards = getCards();
+        powerups = getPowerUps();
+        weapons = getWeapons();
     }
 
     public void addLoadedWeapon(String name)
@@ -62,7 +70,6 @@ public class PlayerCardsController implements Ifxml<HBox> {
     public void addUnloadedWeapon(String name){
         addLoadedWeapon(name); //todo mark card as unloaded
     }
-
 
     public void addPowerup(String name)
     {
@@ -109,8 +116,9 @@ public class PlayerCardsController implements Ifxml<HBox> {
     }
 
 
-    private void buildController(MatchSnapshotProvider provider, PlayerColor color){
+    private void buildController(MatchSnapshotProvider provider, String color){
         this.provider = provider;
+        this.actionsProvider = actionsProvider;
         this.color = color;
         provider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
     }
@@ -119,14 +127,14 @@ public class PlayerCardsController implements Ifxml<HBox> {
 
         clear();
         for(PublicPlayerSnapshot player : matchSnapshot.getPublicPlayerSnapshot())
-            if(player.color.equals(this.color.getName())) {
+            if(player.color.equals(this.color)) {
                 onPublicPlayer(player);
                 return;
             }
         onPrivatePlayer(matchSnapshot.privatePlayerSnapshot);
     }
 
-    private String snapshotToName(String snapshotName){
+    public static String snapshotToName(String snapshotName){
         return snapshotName.replace(" ", "_").toLowerCase();
     }
 
@@ -141,6 +149,7 @@ public class PlayerCardsController implements Ifxml<HBox> {
     }
 
     private void clear(){
+        totWeapons = totPowerups = 0;
         for(ImageView img : getCards())
             img.setImage(null);
     }
@@ -157,7 +166,7 @@ public class PlayerCardsController implements Ifxml<HBox> {
         return cardsHBox;
     }
 
-    public static PlayerCardsController getController(MatchSnapshotProvider provider, PlayerColor color){
+    public static PlayerCardsController getController(MatchSnapshotProvider provider, String color){
         PlayerCardsController ret =  GUIView.getController("/view/ActionHandler/playerCards/playerCards.fxml", "/view/ActionHandler/playerCards/playerCards.css");
         ret.buildController(provider, color);
         return ret;

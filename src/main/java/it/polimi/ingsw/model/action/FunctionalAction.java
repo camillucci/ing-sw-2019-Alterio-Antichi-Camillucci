@@ -19,24 +19,24 @@ public class FunctionalAction extends Action
      * @param doActionCost Cost of the action
      * @param isOptional true iff isOptional == true
      * @param doActionMethod invoked when doAction() is invoked
-     * @param text textual description of the action
+     * @param visualizable description of the action
      */
-    public FunctionalAction(Ammo doActionCost,  boolean isOptional,  Consumer<Action> doActionMethod, String text)
+    public FunctionalAction(Ammo doActionCost,  boolean isOptional,  Consumer<Action> doActionMethod, Visualizable visualizable)
     {
         this.opMethod = doActionMethod;
         this.doActionCost = doActionCost;
         this.optional = isOptional;
-        this.text = text;
+        this.visualizable = visualizable;
     }
 
-    public FunctionalAction(Ammo doActionCost, Consumer<Action> doActionMethod, String text)
+    public FunctionalAction(Ammo doActionCost, Consumer<Action> doActionMethod, Visualizable visualizable)
     {
-        this(doActionCost, false, doActionMethod, text);
+        this(doActionCost, false, doActionMethod, visualizable);
     }
 
-    public FunctionalAction(Consumer<Action> doActionMethod, String text)
+    public FunctionalAction(Consumer<Action> doActionMethod, Visualizable visualizable)
     {
-        this(new Ammo(0,0,0), doActionMethod, text);
+        this(new Ammo(0,0,0), doActionMethod, visualizable);
     }
 
     @Override

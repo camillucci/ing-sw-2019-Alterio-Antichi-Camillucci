@@ -57,8 +57,4 @@ public class LoginCLI extends Login {
         CLIMessenger.printMessage(message);
     }
 
-    @Override
-    public void onModelChanged(MatchSnapshot matchSnapshot) {
-        // no way to go here
-    }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Square;
+import it.polimi.ingsw.model.Visualizable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class MoveAction extends Action
         this.maxDistance = maxDistance;
         this.optional = true;
         this.canBeDone = false;
-        this.text = "move";
+        this.visualizable = new Visualizable("move", "move");
     }
 
     public MoveAction(int minDistance, int maxDistance)

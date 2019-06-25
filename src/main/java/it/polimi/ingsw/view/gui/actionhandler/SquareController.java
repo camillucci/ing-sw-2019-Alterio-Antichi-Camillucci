@@ -1,8 +1,12 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.PlayerColor;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
+import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,24 +23,31 @@ public class SquareController implements Ifxml<StackPane> {
     @FXML private ImageView avatar3;
     @FXML private ImageView avatar4;
     @FXML private ImageView avatar5;
+    private List<ImageView> avatars;
+    private int totPlayers = 0;
 
-
-    private void createAvatars()
+    private void putPlayer(String color)
     {
-        for (ImageView avatar : getAvatars())
-            avatar.setImage(new Image("player/violet_avatar.png"));
+        avatars.get(totPlayers++).setImage(new Image("player/" + color.toLowerCase() + "_avatar.png"));
     }
 
-    private void buildSquare()
-    {
-        createAvatars();
-        ammoCard_shop.setImage(new Image("ammo/1r_1y_pu.png"));
+    public void initialize(){
+        avatars = getAvatars();
     }
 
-    private void buildSquare(AmmoColor shopColor){
-        createAvatars();
-        ammoCard_shop.setImage(new Image("shop_" + shopColor.getName() + ".png"));
+    private void clear(){
+        totPlayers = 0;
+        for(ImageView avatar : avatars)
+            avatar.setImage(null);
     }
+
+    public void onModelChanged(SquareSnapshot square){
+        clear();
+        if(square != null)
+            for(String color : square.getColors())
+                putPlayer(color);
+    }
+
 
     public List<ImageView> getAvatars(){
         return Arrays.asList(avatar1, avatar2, avatar3, avatar4, avatar5);
@@ -47,20 +58,9 @@ public class SquareController implements Ifxml<StackPane> {
         return squareRootPane;
     }
 
-    private static SquareController createController(){
+    public static SquareController getController()
+    {
         return GUIView.getController("/view/ActionHandler/map/square/square.fxml", "/view/ActionHandler/map/square/square.css");
-    }
-
-    public static SquareController getController(AmmoColor shopColor){
-        SquareController ret = createController();
-        ret.buildSquare(shopColor);
-        return ret;
-    }
-
-    public static SquareController getController(){
-        SquareController ret = createController();
-        ret.buildSquare();
-        return ret;
     }
 
 }

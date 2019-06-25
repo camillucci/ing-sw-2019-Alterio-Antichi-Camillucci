@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.snapshots.*;
 
 import java.io.IOException;
@@ -11,12 +12,12 @@ public class RemoteAction implements Serializable
 {
     protected transient PrivatePlayerSnapshot ownerPlayer;
     public final int index;
-    public final String text;
+    public final Visualizable visualizable;
     private Data data;
 
-    public RemoteAction(int index, String text){
+    public RemoteAction(int index, Visualizable visualizable){
         this.index = index;
-        this.text = text;
+        this.visualizable = visualizable;
     }
     public void initialize(PrivatePlayerSnapshot player)
     {
@@ -63,9 +64,6 @@ public class RemoteAction implements Serializable
         return new Command<>(RemoteActionsHandler::doAction);
     }
 
-    public String toString() {
-        return text;
-    }
 
     public static class Data implements Serializable
     {

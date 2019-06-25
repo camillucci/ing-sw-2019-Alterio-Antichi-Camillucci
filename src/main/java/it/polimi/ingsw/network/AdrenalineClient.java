@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 import it.polimi.ingsw.generics.Bottleneck;
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -55,7 +56,6 @@ public abstract class AdrenalineClient
         view.getLogin().colorEvent.addEventHandler((a, color) -> notifyColor(color));
         view.getLogin().gameLengthEvent.addEventHandler((a, len) -> notifyGameLength(len));
         view.getLogin().gameMapEvent.addEventHandler((a, map) ->notifyGameMap(map));
-        view.getActionHandler().newCommand.addEventHandler((a, command) -> notifyActionCommand(command));
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class PowerUpAction extends ShootAction
             if(this.selectedPowerUp != null)
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
         });
-        this.text = "use a Newton or a Teleporter";
+        this.visualizable = new Visualizable("use a Newton or a Teleporter", "powerup");
     }
 
     public PowerUpAction(SquaresFilter squaresFilter, ShootFunc shootFunc)
@@ -28,7 +29,7 @@ public class PowerUpAction extends ShootAction
         this.optional = true;
         this.playersFilter = TargetsFilters.noPlayersFilter;
         this.squaresFilter = TargetsFilters.noSquaresFilter;
-        this.text = "use a Newton or a Teleporter";
+        this.visualizable =  new Visualizable("use a Newton or a Teleporter", "powerup");
     }
 
     @Override

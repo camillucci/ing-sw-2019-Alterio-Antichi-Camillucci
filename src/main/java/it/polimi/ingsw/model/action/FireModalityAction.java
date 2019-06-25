@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Ammo;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.branch.Branch;
 
@@ -13,7 +14,7 @@ public class FireModalityAction extends ExtendableAction
 {
     public FireModalityAction(Ammo cost, List<Branch> branches)
     {
-        super(branches, ""); //TODO Add a proper name
+        super(branches, new Visualizable("","")); //TODO Add a proper name
         this.doActionCost = cost;
     }
 

@@ -5,6 +5,7 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.WeaponCard;
 
@@ -68,9 +69,13 @@ public abstract class Action
     protected boolean canBeDone = true;
 
     /**
-     * Textual description of the action
+     * Description of the action
      */
-    protected String text;
+    protected Visualizable visualizable;
+
+    public Visualizable getVisualizable(){
+        return visualizable;
+    }
 
     public void doAction()
     {
@@ -123,10 +128,6 @@ public abstract class Action
     protected void op() {}
 
     public void setCanBeDone(boolean val) { this.canBeDone = val; } //Only for Tests
-
-    public String getText() {
-        return text;
-    }
 
     public boolean canBeDone() { return canBeDone; }
 

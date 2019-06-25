@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 /**
  * This class represent one of the Squares where a player can spawn and buy WeaponCards,
- * it contains the WeaponCards the shop of the corresponding color contains
+ * it contains the WeaponCards the selectionBox of the corresponding color contains
  */
 public class SpawnAndShopSquare extends Square {
 
@@ -35,7 +35,7 @@ public class SpawnAndShopSquare extends Square {
      * @param y The first coordinate
      * @param x The second coordinate
      * @param borders The 4 SquareBorder, one for each cardinal direction
-     * @param weaponDeck The WeaponDeck for refill the shop
+     * @param weaponDeck The WeaponDeck for refill the selectionBox
      */
     public SpawnAndShopSquare(String name, int y, int x, SquareBorder[] borders, WeaponDeck weaponDeck) {
         super(name, y, x, borders);
@@ -46,7 +46,7 @@ public class SpawnAndShopSquare extends Square {
     }
 
     /**
-     * This method give to a given Player the choices for grabbing a WeaponCard contained in the shop
+     * This method give to a given Player the choices for grabbing a WeaponCard contained in the selectionBox
      * it is used through a GrabAction,
      * it divide itself in grabAndDrop or grabAndNoDrop based on the WeaponCards the given Player already has
      * @param player The Player in which addTarget the WeaponCard
@@ -71,7 +71,7 @@ public class SpawnAndShopSquare extends Square {
                 new ExtendableAction(player.getWeapons().stream().map(w->new Branch(new FunctionalAction(a-> {
                     a.getOwnerPlayer().getCurrentSquare().addWeapon(w);
                     a.getOwnerPlayer().removeWeapon(w);
-                }, "grab " + w.name), new EndBranchAction())).collect(Collectors.toList()), "discard a weapon");
+                }, new Visualizable("grab " + w.name, w.name)), new EndBranchAction())).collect(Collectors.toList()), new Visualizable("discard a weapon", "discard"));
 
         Ammo powerUpAmmo = new Ammo(0, 0, 0);
         for(PowerUpCard powerUpCard : powerUpCards)
@@ -81,7 +81,7 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new FunctionalAction(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
-                }, "discard " + w.name), chooseToDropBranches));
+                }, new Visualizable("discard " + w.name, "discard")), chooseToDropBranches));
         return ret;
     }
 
@@ -102,7 +102,7 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new FunctionalAction(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
-                }, "grab " + w.name), new EndBranchAction()));
+                }, new Visualizable("grab " + w.name, "gran")), new EndBranchAction()));
         return ret;
     }
 

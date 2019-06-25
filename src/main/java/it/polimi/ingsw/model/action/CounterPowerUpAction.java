@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.ShootFunc;
 import it.polimi.ingsw.model.cards.TargetsFilters;
@@ -22,7 +23,7 @@ public class CounterPowerUpAction extends PowerUpAction
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
             }
         });
-        this.text = "use a Tagback Grenade";
+        this.visualizable = new Visualizable("use a Tagback Grenade", "powerup");
     }
 
     public CounterPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter)
@@ -30,7 +31,7 @@ public class CounterPowerUpAction extends PowerUpAction
         this.playersFilter = TargetsFilters.noPlayersFilter;
         this.squaresFilter = TargetsFilters.noSquaresFilter;
         this.powerUpFilter = powerUpFilter;
-        this.text = "use a Tagback Grenade";
+        this.visualizable = new Visualizable("use a Tagback Grenade", "powerup");
     }
 
     @Override

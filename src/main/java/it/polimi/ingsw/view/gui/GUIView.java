@@ -30,6 +30,24 @@ public class GUIView extends View
         startupGUI();
     }
 
+    private void setupStage(){
+        Platform.runLater(() -> {
+            primaryStage.setTitle("Welcome Adrenaline!");
+            primaryStage.setWidth(1600);
+            primaryStage.setHeight(1000);
+            //primaryStage.setResizable(false);
+            primaryStage.setFullScreenExitHint("");
+            primaryStage.setFullScreen(true);
+
+            primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+            primaryStage.setOnCloseRequest(e ->
+            {
+                Platform.exit();
+                System.exit(0);
+            });
+        });
+    }
+
     private void startupGUI() throws InterruptedException, IOException {
         App.applicationStartedEvent.addEventHandler((app, stage) -> {
             synchronized (lock){
@@ -53,24 +71,6 @@ public class GUIView extends View
         rootScene.setRoot(tmp.getRoot());
         //this.actionhandler = ActionHandlerGUI.getController();
         //((ActionHandlerGUI) actionhandler).start(app);
-    }
-
-    private void setupStage(){
-        Platform.runLater(() -> {
-            primaryStage.setTitle("Welcome Adrenaline!");
-            primaryStage.setWidth(1600);
-            primaryStage.setHeight(1000);
-            //primaryStage.setResizable(false);
-            primaryStage.setFullScreenExitHint("");
-            //primaryStage.setFullScreen(true);
-
-            primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-            primaryStage.setOnCloseRequest(e ->
-            {
-                Platform.exit();
-                System.exit(0);
-            });
-        });
     }
 
     public void createRootScene(App app) throws IOException

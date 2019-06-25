@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.cards.*;
@@ -36,7 +37,7 @@ public class ShootAction extends Action
         this.playersFilter = playersFilter;
         this.squaresFilter = squaresFilter;
         this.canBeDone = false;
-        this.text = "shoot";
+        this.visualizable = new Visualizable("shoot", "shoot");
     }
 
     public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc, boolean doesDamage)
