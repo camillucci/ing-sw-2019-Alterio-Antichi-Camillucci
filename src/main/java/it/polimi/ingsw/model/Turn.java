@@ -128,6 +128,7 @@ public class Turn extends ActionsProvider {
     private void rollback() {
         match.rollback(clonedPlayers, clonedDeadPlayers);
         createBranchMap();
+        ((Event<Player, List<Action>>)this.newActionsEvent).invoke(currentPlayer, getActions());
     }
 
     /**
