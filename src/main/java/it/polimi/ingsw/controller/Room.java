@@ -194,14 +194,28 @@ public class Room
         return name.equals(hostName);
     }
 
+    /**
+     * Invokes the newPlayerEvent using that player's name as a parameter
+     * @param name Name of the new player who joined the room
+     */
     private void newPlayer(String name){
         ((Event<Room, String>)newPlayerEvent).invoke(this, name);
     }
 
+    /**
+     * Returns list with all names of the players in the room
+     * @return List with all names of the players in the room
+     */
     public synchronized List<String> getPlayerNames(){
         return new ArrayList<>(playerNames);
     }
 
+    /**
+     * The player with the same name as the one in the parameters is removed from the pendingPlayers and
+     * playerNames lists. Plus their color is added to the list of available colors and removed from the
+     * playerColors list.
+     * @param name Name of the removed player
+     */
     private synchronized void removePlayer(String name){
         int index = playerNames.indexOf(name);
         pendingPlayers.remove(name);
@@ -210,6 +224,14 @@ public class Room
         playerColors.remove(index);
     }
 
+    /**
+     * A new player is created using the name gotten as parameter and that player is removed from the pendingPlayers
+     * list, while added to the redyPlayers one. The readyCounter is incremented. If all the pending players have
+     * been removed from the list and the match is ready to start, then a new match is created. Otherwise,
+     * depending on the number of ready players either the timer is started (3 players) or the match is started
+     * (5 players)
+     * @param playerName
+     */
     public synchronized void notifyPlayerReady(String playerName)
     {
         newPlayer(playerName);
@@ -227,6 +249,11 @@ public class Room
         }
     }
 
+    /**
+     * If the match is not started yet, the player is removed from then room. Then the playerDisconnectedEvent is
+     * invoke, regardless of match starting or not.
+     * @param name Name of the disconnected player
+     */
     public void notifyPlayerDisconnected(String name){
         if(!matchStarting) {
             removePlayer(name);
@@ -235,6 +262,11 @@ public class Room
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
     }
 
+    /**
+     * Returns a list of available colors from which the player can choose. This method is synchronized in order
+     * to avoid the bad case scenario where to players on the same room are choosing a color.
+     * @return A list of available colors
+     */
     public synchronized List<String> getAvailableColors() throws MatchStartingException
     {
         if(availableColors.isEmpty())
@@ -250,10 +282,18 @@ public class Room
         return !availableColors.isEmpty() && !matchStarting;
     }
 
+    /**
+     * The number of skulls is set based on host's decision
+     * @param gameLength Number of skulls the match is going to be made of
+     */
     public synchronized void setGameLength(int gameLength) {
         this.gameLength = gameLength;
     }
 
+    /**
+     * The map type is set based on host's decision
+     * @param gameSize Map type the match is going to be played on.
+     */
     public synchronized void setGameSize(int gameSize) {
         this.gameSize = gameSize;
     }
