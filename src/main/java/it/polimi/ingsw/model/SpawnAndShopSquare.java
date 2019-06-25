@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.action.EndBranchAction;
 import it.polimi.ingsw.model.action.ExtendableAction;
 import it.polimi.ingsw.model.action.FunctionalAction;
@@ -142,6 +141,14 @@ public class SpawnAndShopSquare extends Square {
         List<String> temp = new ArrayList<>();
         for(WeaponCard weaponCard : weapons)
             temp.add(weaponCard.name);
+        return temp;
+    }
+
+    @Override
+    public List<String> getCardsCost() {
+        List<String> temp = new ArrayList<>();
+        for(WeaponCard weaponCard : weapons)
+            temp.add(weaponCard.buyCostToString(true));
         return temp;
     }
 

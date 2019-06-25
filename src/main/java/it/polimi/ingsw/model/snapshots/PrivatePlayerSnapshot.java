@@ -10,12 +10,15 @@ import java.util.List;
 public class PrivatePlayerSnapshot extends PublicPlayerSnapshot {
 
     private final List<String> loadedWeapons = new ArrayList<>();
+    private final List<String> loadedWeaponsCost = new ArrayList<>();
     private final List<String> powerUps = new ArrayList<>();
 
     protected PrivatePlayerSnapshot(Player player) {
         super(player);
-        for(WeaponCard weaponCard : player.getLoadedWeapons())
+        for(WeaponCard weaponCard : player.getLoadedWeapons()) {
             loadedWeapons.add(weaponCard.name);
+            loadedWeaponsCost.add(weaponCard.buyCostToString(false));
+        }
         for(PowerUpCard powerUpCard : player.getPowerUps())
             powerUps.add(powerUpCard.getName());
     }
@@ -26,5 +29,9 @@ public class PrivatePlayerSnapshot extends PublicPlayerSnapshot {
 
     public List<String> getPowerUps() {
         return powerUps;
+    }
+
+    public List<String> getLoadedWeaponsCost() {
+        return loadedWeaponsCost;
     }
 }

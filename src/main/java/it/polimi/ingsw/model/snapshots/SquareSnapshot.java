@@ -17,6 +17,7 @@ public class SquareSnapshot implements Serializable
     private final List<String> players = new ArrayList<>();
     private final List<String> colors = new ArrayList<>();
     private final List<String> cards;
+    private final List<String> cardsCost;
 
     public SquareSnapshot(Square square)
     {
@@ -34,6 +35,7 @@ public class SquareSnapshot implements Serializable
         }
 
         cards = square.getCardsName();
+        cardsCost = square.getCardsCost();
     }
 
     public List<String> getNames() {
@@ -46,5 +48,9 @@ public class SquareSnapshot implements Serializable
 
     public List<String> getCards() {
         return cards;
+    }
+
+    public List<String> getCardsCost() {
+        return cardsCost;
     }
 }

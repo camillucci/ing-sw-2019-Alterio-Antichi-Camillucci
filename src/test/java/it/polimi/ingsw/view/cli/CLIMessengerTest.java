@@ -22,6 +22,8 @@ class CLIMessengerTest {
         match.gameBoard.getPlayers().get(0).setCurrentSquare(match.gameBoard.getSquares().get(0));
         match.gameBoard.getPlayers().get(0).getCurrentSquare().addPlayer(match.gameBoard.getPlayers().get(0));
         match.gameBoard.getPlayers().get(0).addDamage(match.gameBoard.getPlayers().get(1), 3);
+        match.gameBoard.getPlayers().get(0).addWeapon(match.gameBoard.weaponDeck.draw());
+        match.gameBoard.getPlayers().get(0).addWeapon(match.gameBoard.weaponDeck.draw());
         match.gameBoard.getPlayers().get(0).addMark(match.gameBoard.getPlayers().get(2), 2);
         match.gameBoard.getPlayers().get(1).setCurrentSquare(match.gameBoard.getSquares().get(1));
         match.gameBoard.getPlayers().get(1).getCurrentSquare().addPlayer(match.gameBoard.getPlayers().get(1));

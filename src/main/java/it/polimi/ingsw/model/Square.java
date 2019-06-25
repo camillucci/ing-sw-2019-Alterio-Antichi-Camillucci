@@ -163,6 +163,12 @@ public abstract class Square {
     public abstract List<String> getCardsName();
 
     /**
+     * This method returns the list of cost of cards on this Square
+     * @return The list of cost of cards on this Square
+     */
+    public abstract List<String> getCardsCost();
+
+    /**
      * This method removes a given WeaponCard when it is grabbed, only for SpawnAndShopSquare
      * @param weaponCard The WeaponCard to remove
      */
