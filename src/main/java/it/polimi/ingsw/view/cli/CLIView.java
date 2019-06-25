@@ -5,6 +5,6 @@ import it.polimi.ingsw.view.View;
 public class CLIView extends View
 {
     public CLIView() {
-        super(new LoginCLI(), new ActionHandlerCLI());
+        buildView(new LoginCLI(), new ActionHandlerCLI());
     }
 }

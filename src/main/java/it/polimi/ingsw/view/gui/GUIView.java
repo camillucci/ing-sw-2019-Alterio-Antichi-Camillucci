@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.App;
+import it.polimi.ingsw.view.ActionHandler;
+import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI;
 import it.polimi.ingsw.view.gui.login.NewLoginGUI;
@@ -12,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -60,25 +61,25 @@ public class GUIView extends View
             lock.wait();
         }
         setupStage();
-        createRootScene(app);
-        setupActionHandler();
+        NewLoginGUI loginGUI = createLogin(app);
+        ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
+        buildView(loginGUI, actionHandlerGUI);
     }
 
-    private void setupActionHandler()
+    private ActionHandlerGUI createActionHandler(Login login)
     {
         ActionHandlerGUI tmp = ActionHandlerGUI.getController();
-        this.actionHandler = tmp;
         tmp.getRoot().minWidthProperty().bind(rootScene.widthProperty());
         tmp.getRoot().maxWidthProperty().bind(rootScene.widthProperty());
         tmp.getRoot().minHeightProperty().bind(rootScene.heightProperty());
         tmp.getRoot().maxHeightProperty().bind(rootScene.heightProperty());
         login.loginCompletedEvent.addEventHandler((a, b) -> rootScene.setRoot(tmp.getRoot()));
+        return tmp;
     }
 
-    public void createRootScene(App app) throws IOException
+    public NewLoginGUI createLogin(App app) throws IOException
     {
         NewLoginGUI tmp = NewLoginGUI.getController();
-        this.curViewElement = this.login = tmp;
         this.rootScene = new Scene(tmp.getRoot());
         rootScene.getStylesheets().add("/view/root.css");
         rootScene.setOnKeyPressed(e -> {
@@ -89,6 +90,7 @@ public class GUIView extends View
         tmp.loginStarted.addEventHandler((a,b) -> app.show());
         app.setScene(rootScene);
         app.show();
+        return tmp;
     }
 
     public static <V> V getController(String url) {

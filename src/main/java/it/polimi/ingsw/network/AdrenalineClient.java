@@ -56,6 +56,7 @@ public abstract class AdrenalineClient
         view.getLogin().colorEvent.addEventHandler((a, color) -> notifyColor(color));
         view.getLogin().gameLengthEvent.addEventHandler((a, len) -> notifyGameLength(len));
         view.getLogin().gameMapEvent.addEventHandler((a, map) ->notifyGameMap(map));
+        view.getActionHandler().newCommand.addEventHandler((a, command) -> notifyActionCommand(command));
     }
 
     /**

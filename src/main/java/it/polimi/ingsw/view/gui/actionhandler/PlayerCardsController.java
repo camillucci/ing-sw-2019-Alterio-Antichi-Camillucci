@@ -118,7 +118,6 @@ public class PlayerCardsController implements Ifxml<HBox> {
 
     private void buildController(MatchSnapshotProvider provider, String color){
         this.provider = provider;
-        this.actionsProvider = actionsProvider;
         this.color = color;
         provider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
     }

@@ -13,6 +13,8 @@ import it.polimi.ingsw.view.gui.Ifxml;
 import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
 import it.polimi.ingsw.view.gui.RemoteActionsProvider;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
@@ -256,11 +258,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             if(action.visualizable.imgPath != null){
                 imgActions.add(action);
             }
-            else{
-                Button actionBtn = new Button(action.visualizable.name);
-                actionBtn.setOnAction(e -> onActionChosen(action));
-                actionVBox.getChildren().add(actionBtn);
-            }
+            else
+                newButton(action.visualizable.name, e -> onActionChosen(action));
         if(imgActions.isEmpty())
             return;
         SelectionBoxController selectionBoxController = SelectionBoxController.getController(imgActions);
@@ -289,6 +288,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void setupAction(RemoteAction action){
         setupCards(action);
+        if(action.getData().canBeDone)
+            newButton("Confirm", e -> notifyChoice(action.doAction()));
     }
 
     @Override
@@ -340,11 +341,18 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         //TODO
     }
 
+    private void newButton(String text, EventHandler<ActionEvent> handler){
+        Button actionBtn = new Button(text);
+        actionBtn.setOnAction(handler);
+        actionVBox.getChildren().add(actionBtn);
+    }
+
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
+        Platform.runLater(() -> {
         if(playerColor == null)
             start(matchSnapshot.privatePlayerSnapshot.color, matchSnapshot.getPublicPlayerSnapshot().stream().map(p -> p.color).collect(Collectors.toList()));
-        modelChangedEvent.invoke(this, curSnapshot = matchSnapshot);
+        modelChangedEvent.invoke(this, curSnapshot = matchSnapshot);});
     }
 
     @Override

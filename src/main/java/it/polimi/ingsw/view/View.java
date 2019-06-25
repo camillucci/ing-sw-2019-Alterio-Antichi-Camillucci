@@ -6,8 +6,7 @@ public abstract class View
     protected Login login;
     protected ActionHandler actionHandler;
 
-    protected View(){}
-    protected View (Login login, ActionHandler actionHandler){
+    protected void buildView(Login login, ActionHandler actionHandler){
         curViewElement = this.login = login;
         this.actionHandler = actionHandler;
         login.loginCompletedEvent.addEventHandler((a, snapshot) -> {
@@ -15,6 +14,7 @@ public abstract class View
             actionHandler.onModelChanged(snapshot);
         });
     }
+
     public Login getLogin() {
         return login;
     }
@@ -23,8 +23,5 @@ public abstract class View
 
     public ActionHandler getActionHandler() {
         return actionHandler;
-    }
-    public void loginCompleted() {
-        this.curViewElement = actionHandler;
     }
 }
