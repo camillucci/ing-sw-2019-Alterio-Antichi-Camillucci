@@ -8,8 +8,9 @@ import java.util.List;
 
 public class SquareSnapshot implements Serializable
 {
-    public final boolean ammoSquare;
     public final String name;
+    public final int y;
+    public final int x;
     public final String north;
     public final String south;
     public final String west;
@@ -21,9 +22,9 @@ public class SquareSnapshot implements Serializable
 
     public SquareSnapshot(Square square)
     {
-        this.ammoSquare = square instanceof AmmoSquare;
         this.name = square.name;
-
+        this.y = square.y;
+        this.x = square.x;
         this.north = square.north.getName();
         this.south = square.south.getName();
         this.west = square.west.getName();
