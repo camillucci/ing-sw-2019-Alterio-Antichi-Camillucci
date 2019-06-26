@@ -7,18 +7,15 @@ import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.ShootFunc;
 import it.polimi.ingsw.model.cards.TargetsFilters;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
 public class InTurnPowerUpAction extends PowerUpAction
 {
-    private Function<Player, List<PowerUpCard>> powerUpFilter;
-
-    public InTurnPowerUpAction(Function<Player, List<PowerUpCard>> powerUpFilter, ShootFunc shootFunc)
+    public InTurnPowerUpAction()
     {
-        super(TargetsFilters.noPlayersFilter, TargetsFilters.noSquaresFilter, shootFunc);
-        this.powerUpFilter = powerUpFilter;
         this.completedActionEvent.addEventHandler((a,b)->{
             if(this.selectedPowerUp != null) {
                 ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
@@ -30,14 +27,14 @@ public class InTurnPowerUpAction extends PowerUpAction
 
     @Override
     protected void preparePowerUp() {
-        InTurnPowerUpAction tmp = (InTurnPowerUpAction)selectedPowerUp.getEffect();
+        InTurnPowerUpAction tmp = new InTurnPowerUpAction();
         tmp.setTargets(damagedPlayers);
-        tmp.damagedPlayers = damagedPlayers;
         this.next = tmp;
     }
 
     public void setTargets(List<Player> targets)
     {
+        damagedPlayers = targets;
         this.playersFilter = (shooter, players, squares) -> {
             if(targetPlayers.isEmpty())
                 return targets;
@@ -47,17 +44,22 @@ public class InTurnPowerUpAction extends PowerUpAction
 
     @Override
     public List<PowerUpCard> getPossiblePowerUps() {
-        return powerUpFilter.apply(ownerPlayer);
+        return selectedPowerUp == null ? new ArrayList<>(ownerPlayer.getPowerupSet().getInTurnPUs()) : Collections.emptyList();
+    }
+
+    @Override
+    public void use(PowerUpCard powerUpCard)
+    {
+        this.shootFunc = powerUpCard.shootFunc;
+        this.selectedPowerUp = powerUpCard;
     }
 
     @Override
     public void addTarget(Player target)
     {
-        if(this.getPossiblePlayers().contains(target)) {
-            targetPlayers.add(target);
-            if(discardedAmmo != null)
-                this.canBeDone = true;
-        }
+        targetPlayers.add(target);
+        if(discardedAmmo != null)
+            this.canBeDone = true;
     }
 
     @Override

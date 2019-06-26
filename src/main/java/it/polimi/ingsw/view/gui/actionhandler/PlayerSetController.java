@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
-import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.view.gui.GUIView;
@@ -51,7 +50,7 @@ public class PlayerSetController implements Ifxml<VBox> {
     }
 
     private void onModelChanged(MatchSnapshot matchSnapshot){
-        clear();
+        reset();
         PublicPlayerSnapshot player = null;
         if(matchSnapshot.privatePlayerSnapshot.color.equals(this.color))
             player = matchSnapshot.privatePlayerSnapshot;
@@ -66,10 +65,10 @@ public class PlayerSetController implements Ifxml<VBox> {
             addDamage(damage);
     }
 
-    private void clear(){
+    private void reset(){
         for(Pane tear : tears)
             tear.getChildren().clear();
-
+        totDamage = 0;
     }
 
     void addDamage(String color){

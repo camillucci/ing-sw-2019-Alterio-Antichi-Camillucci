@@ -62,16 +62,13 @@ public class ShootAction extends Action
         this.shoot();
         for(Player p: damagedPlayers)
             p.damagedEvent.removeEventHandler((damaged, val) -> damagedEventHandler(damaged));
-        if(selectedPowerUp != null) {
+        if(!damagedPlayers.isEmpty())
             preparePowerUp();
-            targetPlayers.clear();
-        }
     }
 
     protected void preparePowerUp() {
-        InTurnPowerUpAction tmp = (InTurnPowerUpAction)selectedPowerUp.getEffect();
+        InTurnPowerUpAction tmp = new InTurnPowerUpAction();
         tmp.setTargets(damagedPlayers);
-        tmp.damagedPlayers = damagedPlayers;
         this.next = tmp;
     }
 
@@ -90,14 +87,6 @@ public class ShootAction extends Action
     public List<Square> getPossibleSquares()
     {
         return this.squaresFilter.apply(ownerPlayer, targetPlayers, targetSquares);
-    }
-
-    @Override
-    public List<PowerUpCard> getPossiblePowerUps(){
-        if(selectedPowerUp != null || !doesDamage)
-            return Collections.emptyList();
-
-        return new ArrayList<>(ownerPlayer.getPowerupSet().getInTurnPUs());
     }
 
     /**

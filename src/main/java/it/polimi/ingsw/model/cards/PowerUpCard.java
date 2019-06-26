@@ -11,17 +11,17 @@ public abstract class PowerUpCard {
 
     public final String name;
     public final AmmoColor color;
-    private Supplier<PowerUpAction> effectBuilder;
+    public final PlayersFilter playersFilter;
+    public final SquaresFilter squaresFilter;
+    public final ShootFunc shootFunc;
 
-    public PowerUpCard(String name, AmmoColor color, Supplier<PowerUpAction> effect)
+    public PowerUpCard(String name, AmmoColor color, PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
         this.name = name;
         this.color = color;
-        this.effectBuilder = effect;
-    }
-
-    public PowerUpAction getEffect() {
-        return effectBuilder.get();
+        this.playersFilter = playersFilter;
+        this.squaresFilter = squaresFilter;
+        this.shootFunc = shootFunc;
     }
 
     public abstract void addTo(PowerUpSet powerupSet);

@@ -410,7 +410,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         List<ImageView> powerups = playerCardsController.getPowerUps();
         for(ImageView card : powerups)
             card.setDisable(true);
-        for(String powerup : action.getData().getDiscardablePowerUps())
+        for(String powerup : action.getData().getPossiblePowerUps())
             for(ImageView powerupImg : powerups)
                 if(powerupImg.getImage() != null && powerupImg.getImage().getUrl().toLowerCase().contains(snapshotToName(powerup))) {
                     powerupImg.setDisable(false);

@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PowerUpAction extends ShootAction
@@ -30,6 +33,7 @@ public class PowerUpAction extends ShootAction
         this.playersFilter = TargetsFilters.noPlayersFilter;
         this.squaresFilter = TargetsFilters.noSquaresFilter;
         this.visualizable =  new Visualizable("use a Newton or a Teleporter", "powerup");
+        this.canBeDone = false;
     }
 
     @Override
@@ -38,13 +42,22 @@ public class PowerUpAction extends ShootAction
         this.shoot();
         if(selectedPowerUp != null) {
             preparePowerUp();
-            targetPlayers.clear();
+            ownerPlayer.getPowerupSet().remove(selectedPowerUp);
+            ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
         }
     }
 
     @Override
     protected void preparePowerUp() {
-        this.next = selectedPowerUp.getEffect();
+        this.next = new PowerUpAction();
+    }
+
+    @Override
+    public void use(PowerUpCard powerUpCard) {
+        this.playersFilter = powerUpCard.playersFilter;
+        this.squaresFilter = powerUpCard.squaresFilter;
+        this.shootFunc = powerUpCard.shootFunc;
+        this.selectedPowerUp = powerUpCard;
     }
 
     @Override
@@ -55,7 +68,7 @@ public class PowerUpAction extends ShootAction
     @Override
     public List<PowerUpCard> getPossiblePowerUps()
     {
-        return new ArrayList<>(ownerPlayer.getPowerupSet().getEndStartPUs());
+        return selectedPowerUp == null ? new ArrayList<>(ownerPlayer.getPowerupSet().getEndStartPUs()) : Collections.emptyList();
     }
 
     @Override

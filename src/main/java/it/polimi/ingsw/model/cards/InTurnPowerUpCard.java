@@ -10,7 +10,7 @@ public class InTurnPowerUpCard extends PowerUpCard {
 
     public InTurnPowerUpCard(String name, AmmoColor color, ShootFunc shootFunc)
     {
-        super(name, color, () -> new InTurnPowerUpAction(p -> new ArrayList<>(p.getPowerupSet().getInTurnPUs()), shootFunc));
+        super(name, color, TargetsFilters.noPlayersFilter, TargetsFilters.noSquaresFilter, shootFunc);
     }
 
     @Override

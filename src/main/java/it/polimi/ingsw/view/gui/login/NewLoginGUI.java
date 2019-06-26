@@ -70,7 +70,11 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         enable();
         animation(0);
         nicknameController = NicknameController.getController();
-        nicknameController.getNextButton().setOnAction(e -> disableAnd(() -> ((Event<Login, String>)nameEvent).invoke(this, nicknameController.getLoginText().getText())));
+        nicknameController.getNextButton().setOnAction(e -> disableAnd(() -> {
+            String name = nicknameController.getLoginText().getText();
+            ((Event<Login, String>)nameEvent).invoke(this, name);
+            int a = 2;
+        }));
         setBottomVBox(nicknameController.getRoot());
     }
 

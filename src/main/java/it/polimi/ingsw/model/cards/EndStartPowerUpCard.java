@@ -8,9 +8,9 @@ import java.util.function.Supplier;
 
 public class EndStartPowerUpCard extends PowerUpCard
 {
-    public EndStartPowerUpCard(String name, AmmoColor color, Supplier<PowerUpAction> effect)
+    public EndStartPowerUpCard(String name, AmmoColor color, PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
-        super(name, color, effect);
+        super(name, color, playersFilter, squaresFilter, shootFunc);
     }
     @Override
     public void addTo(PowerUpSet powerupSet)

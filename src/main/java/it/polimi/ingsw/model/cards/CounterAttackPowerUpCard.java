@@ -10,7 +10,7 @@ public class CounterAttackPowerUpCard extends PowerUpCard {
 
     public CounterAttackPowerUpCard(String name, AmmoColor color, ShootFunc shootFunc)
     {
-        super(name, color, () -> new CounterPowerUpAction(p -> new ArrayList<>(p.getPowerupSet().getCounterAttackPUs()), shootFunc));
+        super(name, color, TargetsFilters.noPlayersFilter, TargetsFilters.noSquaresFilter, shootFunc);
     }
 
     @Override
