@@ -83,6 +83,13 @@ public class MapController implements Ifxml<AnchorPane>
             }
     }
 
+    public void startWaitingAnimation(String color)
+    {
+        for(int i=0; i < R; i++)
+            for(int j=0; j < C; j++)
+                squareControllers[i][j].startWaitingAnimation(color);
+    }
+
     public void reset(){
         for(int i=0; i < squareControllers.length; i++)
             for(int j=0; j < squareControllers[i].length; j++)

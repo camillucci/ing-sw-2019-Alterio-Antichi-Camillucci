@@ -69,7 +69,15 @@ public class SquareController implements Ifxml<StackPane> {
 
     }
 
-    private void startWaitingAnimation(Avatar avatar)
+
+    public void startWaitingAnimation(String color)
+    {
+        for(Avatar a: avatars)
+            if(a.getColor() != null && a.getColor().equals(color))
+                startWaitingAnimation(a);
+    }
+
+    public void startWaitingAnimation(Avatar avatar)
     {
         waitingTransition = new ScaleTransition();
         waitingTransition.setDuration(Duration.millis(200));

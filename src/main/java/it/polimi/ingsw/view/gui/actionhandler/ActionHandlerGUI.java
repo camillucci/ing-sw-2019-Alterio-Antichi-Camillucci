@@ -337,7 +337,9 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     }
 
     @Override
-    public void onTurnStart() {
+    public void onTurnStart()
+    {
+        mapController.startWaitingAnimation(playerColor);
     }
 
     private void onActionChosen(RemoteAction action)
