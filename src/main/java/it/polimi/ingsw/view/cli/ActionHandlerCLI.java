@@ -2,9 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.network.RemoteAction;
-import it.polimi.ingsw.network.RemoteActionsHandler;
 import it.polimi.ingsw.view.ActionHandler;
 
 import java.io.IOException;
@@ -41,8 +39,16 @@ public class ActionHandlerCLI extends ActionHandler {
     protected void onActionDataUpdated() throws IOException
     {
         RemoteAction.Data data = action.getData();
+
         List<String> players = data.getPossiblePlayers(), squares = data.getPossibleSquares(), possiblePU = data.getPossiblePowerUps(),
                      discardablePUs = data.getDiscardablePowerUps(), discardableAmmos = data.getDiscardableAmmos(), weapons = data.getPossibleWeapons();
+
+        if(data.canBeDone && players.isEmpty() && squares.isEmpty() && possiblePU.isEmpty()
+                && discardablePUs.isEmpty() && discardableAmmos.isEmpty() && weapons.isEmpty()) {
+            notifyChoice(action.doAction());
+            ((Event<ActionHandler, RemoteAction>)actionDoneEvent).invoke(this, action);
+            return;
+        }
 
         CLIMessenger.displayTargets(data);
         int index = CLIParser.parser.parseActionUserChoice(data);

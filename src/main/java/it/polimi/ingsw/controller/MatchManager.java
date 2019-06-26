@@ -29,6 +29,8 @@ public class MatchManager {
      */
     public MatchManager(Match match, Room room) {
         this.match = match;
+        match.endMatchEvent.addEventHandler((currentMatch, currentPlayers) -> { calculateScore(); declareWinner(); });
+        // TODO Send Score and Winner to all Clients
         this.room = room;
     }
 

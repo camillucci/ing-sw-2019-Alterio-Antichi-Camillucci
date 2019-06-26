@@ -73,7 +73,7 @@ public abstract class Action
      */
     protected Visualizable visualizable;
 
-    public Visualizable getVisualizable(){
+    public Visualizable getVisualizable() {
         return visualizable;
     }
 
@@ -91,27 +91,29 @@ public abstract class Action
     }
 
     public void addWeapon(WeaponCard weapon) {
-        /* Only for Override */
+        if(getPossibleWeapons().contains(weapon))
+            this.selectedWeapons.add(weapon);
     }
     public void addTarget(Square target) {
-        /* Only for Override */
+        if(getPossibleSquares().contains(target))
+            this.targetSquares.add(target);
     }
     public void addTarget(Player target) {
-        /* Only for Override */
+        if(getPossiblePlayers().contains(target))
+            this.targetPlayers.add(target);
     }
-    public void addPowerUp(PowerUpCard powerUpCard)
-    {
+    public void addPowerUp(PowerUpCard powerUpCard) {
         if(getDiscardablePowerUps().contains(powerUpCard))
             this.discardedPowerUps.add(powerUpCard);
     }
-
-    public void use(PowerUpCard powerUp)
-    {
+    public void use(PowerUpCard powerUp) {
         if(getPossiblePowerUps().contains(powerUp))
             this.selectedPowerUp = powerUp;
     }
-
-    public void discard(Ammo ammo) { /* Only for Override */}
+    public void discard(Ammo ammo) {
+        if(getDiscardableAmmos().contains(ammo))
+            this.discardedAmmo = ammo;
+    }
 
     public List<Player> getPossiblePlayers() { return Collections.emptyList(); }
     public List<Square> getPossibleSquares() { return Collections.emptyList(); }
@@ -119,6 +121,7 @@ public abstract class Action
     public List<PowerUpCard> getDiscardablePowerUps() { return Collections.emptyList(); }
     public List<Ammo> getDiscardableAmmos() { return Collections.emptyList(); }
     public List<WeaponCard> getPossibleWeapons() { return Collections.emptyList(); }
+
     public Player getOwnerPlayer() { return this.ownerPlayer; }
 
     public boolean isOptional() { return optional; }

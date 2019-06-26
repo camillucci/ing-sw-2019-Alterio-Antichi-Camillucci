@@ -141,6 +141,11 @@ public class Match extends ActionsProvider {
      */
     private void onTurnCompleted()
     {
+        if(finalFrenzy && frenzyStarter == players.indexOf(curPlayer)) {
+            for(Player player : deadPlayers)
+                assignPoints(player);
+            ((Event<Match, List<Player>>)endMatchEvent).invoke(this, players);
+        }
         if(deadPlayers.isEmpty())
             newTurn();
         else
