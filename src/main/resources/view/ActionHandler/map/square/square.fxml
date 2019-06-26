@@ -10,17 +10,22 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.shape.Rectangle?>
 <?import it.polimi.ingsw.view.gui.actionhandler.Avatar?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.effect.GaussianBlur?>
 <StackPane fx:id="squareRootPane" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="it.polimi.ingsw.view.gui.actionhandler.SquareController"
-           prefHeight="400.0" prefWidth="600.0">
+           fx:controller="it.polimi.ingsw.view.gui.actionhandler.SquareController">
 
     <fx:define>
         <Double fx:id="scale" fx:value="0.7"/>
         <Double fx:id="hGap" fx:value="0.6"/>
     </fx:define>
 
-    <Rectangle fx:id="rec" fill="black" opacity="0.6" width="${squareRootPane.minWidth*scale}" height="${squareRootPane.minHeight*scale}" visible="false"/>
+    <Circle fx:id="circle" fill="black" opacity="0.6" radius="${squareRootPane.minWidth/2*scale}" visible="false">
+        <effect>
+            <GaussianBlur/>
+        </effect>
+    </Circle>
     <VBox fx:id="squareVBox" minWidth="${squareRootPane.width*scale}" maxWidth="${squareRootPane.width*scale}" minHeight="${squareRootPane.height*scale}" maxHeight="${squareRootPane.height*scale}" alignment="CENTER">
         <HBox fx:id="upperRow" maxWidth="${ (squareVBox.width - 20)/2}" minWidth="${ (squareVBox.width - 20)/2}" minHeight="${ (squareVBox.height - 20)/3}" maxHeight="${ (squareVBox.height - 20)/3}" alignment="CENTER" spacing="${upperRow.minWidth*hGap}">
             <Avatar fx:id="avatar1" fitHeight="${upperRow.height}" preserveRatio="true"/>

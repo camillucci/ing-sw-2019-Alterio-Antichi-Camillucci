@@ -84,7 +84,7 @@ public class CardsFactory {
                 new FireModalityAction(new Ammo(1, 0, 0), new Branch(new ShootAction(visiblePlayers(3), damage(2,1,1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 1), new Branch(new ShootAction(visiblePlayers(3), damage(2,2,1)), new EndBranchAction())))));
 
-        weapons.add(new WeaponCard("T.H.O.R", new Ammo(0,1,0), new Ammo(1,1,0), () -> Arrays.asList (
+        weapons.add(new WeaponCard("THOR", new Ammo(0,1,0), new Ammo(1,1,0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(1, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2,1)), new EndBranchAction())),
                 new FireModalityAction(new Ammo(2, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2,1,2)), new EndBranchAction())))));

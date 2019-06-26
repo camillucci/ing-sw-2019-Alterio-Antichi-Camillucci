@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Avatar extends ImageView
 {
-    private String color;
+    private String color = null;
     private String name;
     public Avatar(){}
     public Avatar(String color){

@@ -17,15 +17,15 @@
         <Double fx:id="MAX_CARDS" fx:value="7"/>
     </fx:define>
     <HBox maxHeight="${cardsHBox.minHeight}" minWidth="${cardsHBox.minWidth/MAX_CARDS*3}" maxWidth="${weaponsHBox.minWidth}" minHeight="${cardsHBox.minHeight}" spacing="${cardsHBox.minWidth*spacingFactor}" fx:id="weaponsHBox" alignment="CENTER">
-        <ImageView fx:id="weapon1" styleClass="card" fitWidth="${ (weaponsHBox.minWidth - 2*weaponsHBox.spacing)/3}" preserveRatio="true"/>
-        <ImageView fx:id="weapon2" styleClass="card" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
-        <ImageView fx:id="weapon3" styleClass="card" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
+        <ImageView fx:id="weapon1" fitWidth="${ (weaponsHBox.minWidth - 2*weaponsHBox.spacing)/3}" preserveRatio="true"/>
+        <ImageView fx:id="weapon2" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
+        <ImageView fx:id="weapon3" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
     </HBox>
 
     <HBox maxHeight="${cardsHBox.minHeight}" minWidth="${cardsHBox.minWidth/MAX_CARDS*3}" minHeight="${cardsHBox.minHeight}" spacing="${cardsHBox.minWidth*spacingFactor}"  fx:id="powerupsHBox" alignment="CENTER">
-        <ImageView fx:id="powerup1" styleClass="card" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
-        <ImageView fx:id="powerup2" styleClass="card" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
-        <ImageView fx:id="powerup3" styleClass="card" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
+        <ImageView fx:id="powerup1" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
+        <ImageView fx:id="powerup2" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
+        <ImageView fx:id="powerup3" fitWidth="${weapon1.fitWidth}" preserveRatio="true"/>
     </HBox>
 
     <StackPane fx:id="extraCardsPane">

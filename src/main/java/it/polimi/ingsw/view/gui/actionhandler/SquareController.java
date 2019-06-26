@@ -1,26 +1,25 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
-import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.model.PlayerColor;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
-import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
-import javafx.event.ActionEvent;
+import javafx.animation.ScaleTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SquareController implements Ifxml<StackPane> {
-    @FXML private Rectangle rec;
+    @FXML private Circle circle;
     @FXML private ImageView ammoCard_shop;
     @FXML private StackPane squareRootPane;
     @FXML private Avatar avatar1;
@@ -30,6 +29,7 @@ public class SquareController implements Ifxml<StackPane> {
     @FXML private Avatar avatar5;
     private List<Avatar> avatars;
     private int totPlayers = 0;
+    private ScaleTransition waitingTransition = null;
 
     private void putPlayer(String color)
     {
@@ -56,17 +56,35 @@ public class SquareController implements Ifxml<StackPane> {
         if(square == null)
             return;
 
+        List<String> backup = avatars.stream().map(Avatar::getColor).collect(Collectors.toList());
         clear();
         for(String color : square.getColors())
             putPlayer(color);
+        List<Avatar> players = avatars.stream().filter(a -> a.getColor() != null).collect(Collectors.toList());
+        for(int i=0; i < players.size(); i++)
+            if(backup.size() <= i || !avatars.get(i).getColor().equals(backup.get(i)))
+                startWaitingAnimation(avatars.get(i));
         if(square.ammoSquare && square.getCards().size() == 1)
             ammoCard_shop.setImage(new Image(nameToUrl(square.getCards().get(0))));
 
     }
 
+    private void startWaitingAnimation(Avatar avatar)
+    {
+        waitingTransition = new ScaleTransition();
+        waitingTransition.setDuration(Duration.millis(200));
+        waitingTransition.setNode(avatar);
+        waitingTransition.setByY(1.5);
+        waitingTransition.setByX(1.5);
+        waitingTransition.setCycleCount(2);
+        waitingTransition.setAutoReverse(true);
+        waitingTransition.play();
+    }
+
     public void setClickable(EventHandler<MouseEvent> eventHandler){
-        squareRootPane.setOnMouseEntered(e -> rec.setVisible(true));
-        squareRootPane.setOnMouseExited(e -> rec.setVisible(false));
+        squareRootPane.getStyleClass().add("rootPane");
+        squareRootPane.setOnMouseEntered(e -> circle.setVisible(true));
+        squareRootPane.setOnMouseExited(e -> circle.setVisible(false));
         this.squareRootPane.setOnMouseClicked(eventHandler);
     }
 
@@ -76,7 +94,8 @@ public class SquareController implements Ifxml<StackPane> {
     }
 
     public void reset(){
-        this.rec.setVisible(false);
+        squareRootPane.getStyleClass().remove("rootPane");
+        this.circle.setVisible(false);
         squareRootPane.setOnMouseEntered(null);
         squareRootPane.setOnMouseExited(null);
         this.squareRootPane.setOnMouseClicked(null);

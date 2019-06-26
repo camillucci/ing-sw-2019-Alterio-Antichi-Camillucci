@@ -36,8 +36,12 @@ public abstract class ActionHandler extends ViewElement
      */
     public abstract void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException;
     public abstract void updateActionData(RemoteAction.Data data) throws IOException;
+    public void onTurnStart(){
+        // nothing
+    }
     protected void notifyChoice(Command<RemoteActionsHandler> command)
     {
         ((Event<ActionHandler, Command<RemoteActionsHandler>>)newCommand).invoke(this, command);
     }
+
 }

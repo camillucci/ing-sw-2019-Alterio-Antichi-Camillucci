@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SelectionBoxController implements Ifxml<StackPane>
 {
@@ -29,18 +30,26 @@ public class SelectionBoxController implements Ifxml<StackPane>
 
     protected void buildController(List<RemoteAction> actions)
     {
+        buildController(
+                actions.stream().map(a -> a.visualizable.imgPath).collect(Collectors.toList()),
+                actions.stream().map(a -> a.visualizable.description).collect(Collectors.toList()));
+    }
+
+    protected void buildController(List<String> paths, List<String> descriptions)
+    {
         selectionHBox.spacingProperty().bind(rootPane.minWidthProperty().multiply(SPACING_FACTOR));
-        for(RemoteAction action : actions){
+        for(int i=0; i < paths.size(); i++){
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
-            ImageView img = new ImageView(action.visualizable.imgPath.toLowerCase());
-            img.fitWidthProperty().bind(selectionHBox.minWidthProperty().divide(actions.size()));
+            ImageView img = new ImageView(paths.get(i));
+
+            img.fitWidthProperty().bind(selectionHBox.minWidthProperty().divide(Math.max(paths.size(), 3)));
             img.setPreserveRatio(true);
             img.getStyleClass().add("button");
             options.add(img);
             vBox.spacingProperty().bind(selectionHBox.spacingProperty());
             vBox.getChildren().add(img);
-            vBox.getChildren().add(createText(action.visualizable.description));
+            vBox.getChildren().add(createText(descriptions.get(i)));
             selectionHBox.getChildren().add(vBox);
         }
     }
@@ -55,14 +64,25 @@ public class SelectionBoxController implements Ifxml<StackPane>
         return new ArrayList<>(options);
     }
 
+    private static SelectionBoxController getController()
+    {
+        return GUIView.getController("/view/ActionHandler/selectionBox/selectionBox.fxml", "/view/ActionHandler/selectionBox/selectionBox.css");
+    }
+
     @Override
     public StackPane getRoot() {
         return rootPane;
     }
 
     public static SelectionBoxController getController(List<RemoteAction> actions){
-        SelectionBoxController ret = GUIView.getController("/view/ActionHandler/selectionBox/selectionBox.fxml", "/view/ActionHandler/selectionBox/selectionBox.css");
+        SelectionBoxController ret = getController();
         ret.buildController(actions);
+        return ret;
+    }
+
+    public static SelectionBoxController getController(List<String> paths, List<String> descriptions){
+        SelectionBoxController ret = getController();
+        ret.buildController(paths, descriptions);
         return ret;
     }
 }

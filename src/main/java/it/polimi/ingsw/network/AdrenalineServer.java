@@ -26,6 +26,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, String> newPlayerEventHandler = (a, name) -> notifyPlayer(name);
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
     private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
+    private boolean newTurn = true;
     protected static final int PING_PERIOD = 1; // 1 millisecond to test synchronization todo change in final version
 
     @Override
@@ -46,8 +47,16 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             this.remoteActionsHandler = model.actionsHandler;
             remoteActionsHandler.actionDataRequired.addEventHandler((a, data) -> bottleneck.tryDo( () -> sendCommand(new Command<>(view -> view.getActionHandler().updateActionData(data)))));
             List<RemoteAction> remoteActions = remoteActionsHandler.createRemoteActions();
-            if(model.actionsHandler.player.name.equals(this.name))
+            if(!remoteActions.isEmpty() && model.actionsHandler.player.name.equals(this.name))
+            {
+                if(newTurn) {
+                    sendCommand(new Command<>(view -> view.getActionHandler().onTurnStart()));
+                    newTurn = false;
+                }
                 sendCommand(new Command<>(view -> view.getActionHandler().chooseAction(remoteActions)));
+            }
+            else
+                newTurn = true;
         }
     }
 

@@ -2,9 +2,6 @@ package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.Match;
-import it.polimi.ingsw.model.PlayerColor;
-import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
@@ -20,6 +17,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
@@ -30,7 +28,6 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,32 +49,45 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     @FXML private ImageView blueShop;
     @FXML private ImageView redShop;
     @FXML private ImageView yellowShop;
+    private ShopController redShopController;
+    private ShopController blueShopController;
+    private ShopController yellowShopController;
     @FXML private HBox playerAvatarHBox;
     @FXML private VBox actionVBox;
     private String playerColor;
     private List<PlayerSetController> playerSets = new ArrayList<>();
-    private List<PlayerCardsController> curCardsController;
+    private List<PlayerCardsController> curCardsController = new ArrayList<>();
+    private List<AmmoBoxController> ammoBoxControllers = new ArrayList<>();
     private PlayerSetController curPlayerSet;
     private PlayerCardsController playerCardsController;
-    private List<ImageView> avatars = new ArrayList<>();
+    private AmmoBoxController playerAmmoBoxController;
+    private List<HBox> avatarBoxes = new ArrayList<>();
     private MapController mapController;
     private KillShotTrackController killShotTrackController;
-    private SelectionBoxController redSelectionBoxController;
     private ColorAdjust mapBlurEffect = new ColorAdjust(0, -0.3, -0.8, 0);
     private List<RemoteAction> curActions;
     private RemoteAction curAction;
     private MatchSnapshot curSnapshot;
     private List<String> opponentsColors = new ArrayList<>();
-
-    private static final double AVATAR_SCALE = 0.33;
+    private boolean turnStarted = true;
+    private static final double AVATAR_SCALE = 0.3;
     private static final double PLAYER_SET_SCALE = 1d/5.2;
+    private static final double SELECTION_BOX_SCALE = 0.5;
 
     public void initialize() {
 
         //blackRectangle.setVisible(false);
+        (redShopController = ShopController.getController(this, "red")).getRoot().setVisible(false);
+        (blueShopController = ShopController.getController(this, "blue")).getRoot().setVisible(false);
+        (yellowShopController = ShopController.getController(this, "yellow")).getRoot().setVisible(false);
+
+        setupStores();
         mapController = MapController.getController(this);
         killShotTrackController = KillShotTrackController.getController();
 
+        insertH(redShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
+        insertH(blueShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
+        insertH(yellowShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
         insert(mapController.getRoot(), mapPane, 1);
         insert(killShotTrackController.getRoot(), killShotTrackPane,1);
 
@@ -94,17 +104,25 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     {
         this.playerColor = playerColor;
         this.opponentsColors = opponentColors;
-        insert(curPlayerAvatar(playerColor), playerAvatarHBox, 0.6);
+        playerAmmoBoxController = AmmoBoxController.getController(playerColor, this);
+
+        insert(curPlayerAvatar(playerColor, playerAmmoBoxController), playerAvatarHBox, 0.6);
         for(String color : opponentColors)
         {
             PlayerSetController playerSetController = PlayerSetController.getController(color, this);
             PlayerCardsController cardsController = PlayerCardsController.getController(this, color);
-            bind(cardsController.getRoot(), mapPane, 0.3);
-            ImageView avatar = newAvatar(color, playerSetController, cardsController);
-            bind(playerSetController.getRoot(), gameBoard, PLAYER_SET_SCALE);
+            AmmoBoxController ammoBoxController = AmmoBoxController.getController(color, this);
+
             playerSets.add(playerSetController);
-            avatars.add(avatar);
-            insert(avatar, avatarsVBox, AVATAR_SCALE);
+            curCardsController.add(cardsController);
+            ammoBoxControllers.add(ammoBoxController);
+
+            bind(cardsController.getRoot(), mapPane, 0.3);
+            HBox avatarHBox = newAvatarHBox(color, playerSetController, cardsController, ammoBoxController);
+            bind(playerSetController.getRoot(), gameBoard, PLAYER_SET_SCALE);
+            avatarBoxes.add(avatarHBox);
+
+            insert(avatarHBox, avatarsVBox, AVATAR_SCALE);
         }
         playerCardsController = PlayerCardsController.getController(this, playerColor);
         curPlayerSet = PlayerSetController.getController(playerColor, this);
@@ -116,9 +134,9 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
      * calls setupShop method for every shop (3 in total)
      */
     private void setupStores(){
-        setupShop(redShop);
-        setupShop(blueShop);
-        setupShop(yellowShop);
+        setupShop(redShop, redShopController);
+        setupShop(blueShop, blueShopController);
+        setupShop(yellowShop, yellowShopController);
     }
 
     /**
@@ -126,19 +144,21 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
      * the weapons it currently contains when the user clicks on it.
      * @param store Icon representing one of the 3 stores.
      */
-    private void setupShop(ImageView store){
+    private void setupShop(ImageView store, ShopController shopController){
         store.setOnMouseClicked(e -> {
-           if(redSelectionBoxController.getRoot().isVisible())
+           if(blueShopController.getRoot().isVisible() || redShopController.getRoot().isVisible() || yellowShopController.getRoot().isVisible())
            {
                mapPane.setDisable(false);
                setMapBlur(false);
-               redSelectionBoxController.getRoot().setVisible(false);
+               redShopController.getRoot().setVisible(false);
+               blueShopController.getRoot().setVisible(false);
+               yellowShopController.getRoot().setVisible(false);
            }
            else
            {
                mapPane.setDisable(true);
                setMapBlur(true);
-               redSelectionBoxController.getRoot().setVisible(true);
+               shopController.getRoot().setVisible(true);
            }
         });
 
@@ -187,8 +207,13 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         region.getChildren().add(toInsert);
     }
 
-    private ImageView curPlayerAvatar(String color)
+    private HBox curPlayerAvatar(String color, AmmoBoxController ammoBoxController)
     {
+        final double SPACING_FACTOR = 0.1;
+        HBox ret = new HBox();
+        ret.setAlignment(Pos.CENTER);
+        ret.spacingProperty().bind(ret.minHeightProperty().multiply(SPACING_FACTOR));
+
         ImageView avatar = new ImageView(new Image("player/" + color + "_avatar.png"));
         avatar.getStyleClass().add("button");
 
@@ -200,12 +225,19 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 insert(curPlayerSet.getRoot(), playerHBox, 1);
             }
         });
-        return avatar;
+        insert(ammoBoxController.getRoot(), ret, 1);
+        insert(avatar, ret, 1);
+        return ret;
     }
 
-    private ImageView newAvatar(String color, PlayerSetController playerSet, PlayerCardsController cardsController)
+    private HBox newAvatarHBox(String color, PlayerSetController playerSet, PlayerCardsController cardsController, AmmoBoxController ammoBoxController)
     {
+        final double SPACING_FACTOR = 0.1;
+        HBox ret = new HBox();
+        ret.setAlignment(Pos.CENTER);
+        ret.spacingProperty().bind(ret.minHeightProperty().multiply(SPACING_FACTOR));
         ImageView avatar = new ImageView(new Image("player/" + color + "_avatar.png"));
+        avatar.setPreserveRatio(true);
         avatar.getStyleClass().add("button");
         avatar.setOnMouseEntered(e ->
         {
@@ -229,7 +261,10 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 onAvatarMouseOver(e, playerSet.getRoot(), avatar);
             }
         });
-        return avatar;
+
+        insert(avatar, ret, 1);
+        insert(ammoBoxController.getRoot(), ret, 1);
+        return ret;
     }
 
     private void onAvatarMouseOver(MouseEvent e, Pane box, ImageView avatar)
@@ -273,9 +308,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
      */
 
-
-
-    private void visualizeActions(List<RemoteAction> actions){
+    private void visualizeActions(List<RemoteAction> actions)
+    {
         actionVBox.getChildren().clear();
         List<RemoteAction> imgActions = new ArrayList<>();
         for(RemoteAction action : actions)
@@ -286,9 +320,10 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 newButton(action.visualizable.name, e -> onActionChosen(action));
         if(imgActions.isEmpty())
             return;
+
         SelectionBoxController selectionBoxController = SelectionBoxController.getController(imgActions);
 
-        insertH(selectionBoxController.getRoot(), mapOutPane, 0.4);
+        insertH(selectionBoxController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
         setMapBlur(true);
         List<ImageView> options = selectionBoxController.getOptions();
         for(int i=0; i < options.size(); i++)
@@ -299,6 +334,10 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 onActionChosen(imgActions.get(i2));
             });
         }
+    }
+
+    @Override
+    public void onTurnStart() {
     }
 
     private void onActionChosen(RemoteAction action)
@@ -333,10 +372,18 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         setupPlayers(action);
 
         if(action.getData().canBeDone)
-            newButton("Confirm", e -> {
-                actionVBox.getChildren().clear();
+            if(checkForAutoDoAction(action))
                 doActionAndReset();
-            });
+            else
+                newButton("Confirm", e -> doActionAndReset());
+    }
+
+    private boolean checkForAutoDoAction(RemoteAction action)
+    {
+        RemoteAction.Data data = action.getData();
+        return data.canBeDone &&
+                data.getDiscardablePowerUps().isEmpty() && data.getPossiblePlayers().isEmpty() && data.getPossibleSquares().isEmpty()
+                && data.getPossibleWeapons().isEmpty() && data.getDiscardableAmmos().isEmpty() &&data.getPossiblePowerUps().isEmpty();
     }
 
     private void setupCards(RemoteAction action)
@@ -409,6 +456,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     }
 
     private void doActionAndReset(){
+        turnStarted = false;
+        actionVBox.getChildren().clear();
         mapController.reset();
         notifyChoice(curAction.doAction());
     }

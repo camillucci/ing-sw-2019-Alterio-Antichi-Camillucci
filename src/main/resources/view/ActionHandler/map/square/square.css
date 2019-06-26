@@ -1,0 +1,11 @@
+.rootPane:hover
+{
+    -fx-scale-x: 1.20;
+    -fx-scale-y: 1.20;
+}
+
+.rootPane:pressed
+{
+    -fx-scale-x: 1.10;
+    -fx-scale-y: 1.10;
+}
