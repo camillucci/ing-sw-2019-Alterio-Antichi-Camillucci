@@ -41,7 +41,7 @@ public class CLIParser {
      * @throws IOException
      */
     public String parseName() throws IOException {
-        return getStringIf(name -> name.length() >= 2 && name.length() <= 16);
+        return getStringIf(name -> name.length() >= 2 && name.length() <= 16 && !name.contains(" "));
     }
 
     /**

@@ -13,15 +13,41 @@ import java.util.List;
 import static it.polimi.ingsw.model.AmmoColor.*;
 import static it.polimi.ingsw.model.AmmoColor.YELLOW;
 
+/**
+ * This cards generates the default set of cards that the game is played with. It features methods that generate the
+ * 3 different type cards when called (ammo, power up, weapon).
+ */
 public class CardsFactory {
 
     private CardsFactory(){}
 
+    /**
+     * List of weapon cards that this class generates when the get method is called for the first time (the cards
+     * generated are always the same)
+     */
     private static List<WeaponCard> weapons = new ArrayList<>();
+
+    /**
+     * List of power up cards that this class generates when the get method is called for the first time (the cards
+     * generated are always the same)
+     */
     private static List<PowerUpCard> powerUpCards = new ArrayList<>();
+
+    /**
+     * List of ammo cards that this class generates when the get method is called for the first time (the cards
+     * generated are always the same)
+     */
     private static List<AmmoCard> ammo = new ArrayList<>();
+
+    /**
+     * Default integer that represents how many copy of each different ammo card the game contains
+     */
     private static final int COPY_OF_AMMO = 3;
 
+    /**
+     * Calls the buildWeapons method to generate the weapons in case it is the first time the get method has been called
+     * @return The list of weapon cards the game contains
+     */
     public static List<WeaponCard> getWeapons()
     {
         if(weapons.isEmpty())
@@ -29,6 +55,11 @@ public class CardsFactory {
         return new ArrayList<>(weapons);
     }
 
+    /**
+     * Calls the buildPowerUps method to generate the weapons in case it is the first time the get method has
+     * been called
+     * @return The list of power up cards the game contains
+     */
     public static List<PowerUpCard> getPowerUps()
     {
         if(powerUpCards.isEmpty())
@@ -36,6 +67,10 @@ public class CardsFactory {
         return new ArrayList<>(powerUpCards);
     }
 
+    /**
+     * Calls the buildAmmo method to generate the weapons in case it is the first time the get method has been called
+     * @return The list of ammo cards the game contains
+     */
     public static List<AmmoCard> getAmmo()
     {
         if(ammo.isEmpty())
@@ -43,6 +78,10 @@ public class CardsFactory {
         return new ArrayList<>(ammo);
     }
 
+    /**
+     * Generates the default list of power up cards based on the original rules of the game. 2 copies of each power up
+     * card are generated for each ammo color.
+     */
     private static void buildPowerUps()
     {
         List <AmmoColor> allColors = new ArrayList<>(Arrays.asList(BLUE, RED, YELLOW, BLUE, RED, YELLOW));
@@ -54,6 +93,10 @@ public class CardsFactory {
         }
     }
 
+    /**
+     * Generates the default list of ammo cards based on the original rules of the game. 3 copies of each ammo card
+     * are generated.
+     */
     private static void buildAmmo()
     {
         for (int i = 0; i < COPY_OF_AMMO; i++) {
@@ -72,6 +115,10 @@ public class CardsFactory {
         }
     }
 
+    /**
+     * Generates the default list of weapon cards based on the original rules of the game. Every weapon has a unique
+     * function (or more than one) associated to it.
+     */
     private static void buildWeapons()
     {
         weapons.add(new WeaponCard("Lock Rifle", new Ammo(1,0,0), new Ammo(2,0,0), () -> Arrays.asList(
