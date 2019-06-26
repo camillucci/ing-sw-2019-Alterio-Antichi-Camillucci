@@ -7,7 +7,8 @@ import it.polimi.ingsw.model.action.CounterPowerUpAction;
 import java.util.ArrayList;
 
 /**
- * This class represents a specific type of power up card.
+ * This class represents a specific type of power up card. The effects relative to this power up cards are that it
+ * allows the player to deal 1 drop of damage to another player that damaged them first.
  */
 public class CounterAttackPowerUpCard extends PowerUpCard {
 
