@@ -1,10 +1,9 @@
 package it.polimi.ingsw.view.gui;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
@@ -32,5 +31,56 @@ public class Animations
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
         return timeline;
+    }
+
+    public static void zoomAnimation(Node node, double xScale, double yScale)
+    {
+        zoomAnimation(node, xScale, yScale, true);
+    }
+
+    public static void zoomAnimation(Node node, double xScale, double yScale, boolean reverse)
+    {
+        ScaleTransition zoomTransition = new ScaleTransition();
+        zoomTransition.setDuration(Duration.millis(300));
+        zoomTransition.setNode(node);
+        zoomTransition.setByY(yScale);
+        zoomTransition.setByX(xScale);
+        zoomTransition.setCycleCount(2);
+        zoomTransition.setAutoReverse(reverse);
+        zoomTransition.play();
+    }
+
+    public static void disappearAnimation(Node node, Runnable onFinish)
+    {
+        RotateTransition rt = new RotateTransition(Duration.millis(300), node);
+        rt.setByAngle(360);
+        rt.setCycleCount(2);
+        rt.setAutoReverse(false);
+
+
+        ScaleTransition st = new ScaleTransition(Duration.millis(300), node);
+        st.setFromX(1);
+        st.setFromY(1);
+        st.setToX(0);
+        st.setToY(0);
+        st.play();
+
+        rt.play();
+        st.play();
+        st.setOnFinished(e -> onFinish.run());
+
+    }
+
+    public static void appearAnimation(Node node)
+    {
+        ScaleTransition st = new ScaleTransition(Duration.millis(300), node);
+        st.setFromX(0);
+        st.setFromY(0);
+        st.setToX(1);
+        st.setToY(1);
+        st.play();
+
+        //rt.play();
+        st.play();
     }
 }

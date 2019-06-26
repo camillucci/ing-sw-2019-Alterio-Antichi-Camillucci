@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.animation.ScaleTransition;
@@ -79,14 +80,7 @@ public class SquareController implements Ifxml<StackPane> {
 
     public void startWaitingAnimation(Avatar avatar)
     {
-        waitingTransition = new ScaleTransition();
-        waitingTransition.setDuration(Duration.millis(200));
-        waitingTransition.setNode(avatar);
-        waitingTransition.setByY(1.5);
-        waitingTransition.setByX(1.5);
-        waitingTransition.setCycleCount(2);
-        waitingTransition.setAutoReverse(true);
-        waitingTransition.play();
+        Animations.zoomAnimation(avatar, 1.5, 1.5);
     }
 
     public void setClickable(EventHandler<MouseEvent> eventHandler){

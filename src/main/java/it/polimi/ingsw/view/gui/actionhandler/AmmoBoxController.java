@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
@@ -55,7 +56,25 @@ public class AmmoBoxController implements Ifxml<VBox>
 
         assert player != null;
 
-        redText.setText(Integer.toString(player.redAmmo));
+        int red = Integer.parseInt(redText.getText()), newRed = player.redAmmo;
+        int blue = Integer.parseInt(blueText.getText()), newBlue = player.blueAmmo;
+        int yellow = Integer.parseInt(yellowText.getText()), newYellow = player.yellowAmmo;
+
+        if(newRed != red)
+        {
+            redText.setText(Integer.toString(newRed));
+            Animations.appearAnimation(redText);
+        }
+        if(newBlue != blue)
+        {
+            blueText.setText(Integer.toString(newBlue));
+            Animations.appearAnimation(blueText);
+        }
+        if(newYellow != yellow)
+        {
+            yellowText.setText(Integer.toString(newYellow));
+            Animations.appearAnimation(yellowText);
+        }
         blueText.setText(Integer.toString(player.blueAmmo));
         yellowText.setText(Integer.toString(player.yellowAmmo));
     }

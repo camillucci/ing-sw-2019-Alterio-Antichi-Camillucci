@@ -9,10 +9,7 @@ import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
 import it.polimi.ingsw.view.ActionHandler;
-import it.polimi.ingsw.view.gui.GUIView;
-import it.polimi.ingsw.view.gui.Ifxml;
-import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
-import it.polimi.ingsw.view.gui.RemoteActionsProvider;
+import it.polimi.ingsw.view.gui.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -260,6 +257,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 gameBoard.getChildren().remove(cardsController.getRoot());
                 onAvatarMouseOver(e, playerSet.getRoot(), avatar);
             }
+            //todo
         });
 
         insert(avatar, ret, 1);
