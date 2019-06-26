@@ -25,7 +25,7 @@ public class Ammo implements Serializable {
     }
 
     /**
-     * This method returns a new ammo which is the difference from this and a given ammo
+     * This method returns a new ammo which is the difference from this and another given ammo
      * @param ammo The ammo we need to subtract
      * @return A new ammo which is the difference from this and a given ammo
      */
@@ -34,7 +34,7 @@ public class Ammo implements Serializable {
     }
 
     /**
-     * This method returns a new ammo which is the sum from this and a given ammo
+     * This method returns a new ammo which is the sum from this and another given ammo
      * @param ammo The ammo we need to addTarget
      * @return A new ammo which is the sum from this and the given ammo
      */
