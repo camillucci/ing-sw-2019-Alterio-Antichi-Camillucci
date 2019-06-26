@@ -21,7 +21,7 @@ public abstract class Action
     public final IEvent<Action, Action> completedActionEvent = new Event<>();
 
     /**
-     * Action that can be done only after that this is completed
+     * Action that can be done only after this is completed
      */
     protected Action next;
 

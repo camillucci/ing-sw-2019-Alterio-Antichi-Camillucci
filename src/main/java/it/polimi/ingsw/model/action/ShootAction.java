@@ -10,13 +10,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class is used to represent a particular case of actions, therefore it extends Action and provides all
+ * the info necessary to define the targets and effects of a player shooting.
+ */
 public class ShootAction extends Action
 {
+    /**
+     *
+     */
     protected List<Player> damagedPlayers = new ArrayList<>();
 
     protected ShootFunc shootFunc;
     protected PlayersFilter playersFilter;
     protected SquaresFilter squaresFilter;
+
+    /**
+     * Boolean that represents whether the action damages other players.
+     */
     private boolean doesDamage = true;
 
     protected ShootAction(){}
@@ -89,6 +100,10 @@ public class ShootAction extends Action
         return new ArrayList<>(ownerPlayer.getPowerupSet().getInTurnPUs());
     }
 
+    /**
+     * Adds the selected (from the user) player to the targets the weapon is going to shoot to. To do so, it first
+     * checks whether the player is a legal target.
+     */
     @Override
     public void addTarget(Player target)
     {
@@ -101,6 +116,10 @@ public class ShootAction extends Action
         }
     }
 
+    /**
+     * Adds the selected (from the user) square to the targets the weapon is going to shoot to. To do so, it first
+     * checks whether the square is a legal target.
+     */
     @Override
     public void addTarget(Square target) {
         if(this.getPossibleSquares().contains(target)) {
