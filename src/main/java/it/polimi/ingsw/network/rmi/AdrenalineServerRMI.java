@@ -12,14 +12,30 @@ import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class provides the server info and methods that are specific to the RMI type connection. It also inherits the
+ * more generic methods by extending AdrenalineServer
+ */
 public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenalineServer {
 
+    /**
+     * Event other classes can subscribe to. When invoked, all subscribers are notified. It is invoked when a new
+     * client connects to this server.
+     */
     public final IEvent<AdrenalineServerRMI, Object> newClientConnected = new Event<>();
     private ICallbackAdrenalineClient client;
     private Registry registry;
+
+    /**
+     * Boolean that indicates whether the pinging thread needs to keep running or not
+     */
     private boolean stopPinging = false;
     private static final Logger logger = Logger.getLogger("AdrenalineServerRMI");
 
+    /**
+     * As long as the stopPinging variable is equal to false, this thread sends periodic pings to the client in order
+     * to check if it is still connected.
+     */
     private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
         while(!getStopPinging()) {
             client.ping();
@@ -27,10 +43,18 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         }
     }));
 
+    /**
+     * Constructor that assigns the input parameter to their global correspondences
+     * @param controller The controller this class is associated with
+     */
     public AdrenalineServerRMI(Controller controller) {
         super(controller);
     }
 
+    /**
+     * Method used to start a connection with the client (input parameter). It also starts the pinging thread.
+     * @param client Client that's going to connect with this server
+     */
     public void initialize(ICallbackAdrenalineClient client)
     {
         this.client = client;
@@ -52,6 +76,10 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         this.stopPinging = stopPinging;
     }
 
+    /**
+     * If the pinging thread is not running already, this method sets the stopPinging variable to false and starts a
+     * new pinging thread.
+     */
     @Override
     protected void startPinging()
     {
@@ -61,6 +89,9 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         }
     }
 
+    /**
+     * If the pinging thread is running, this method sets the stopPinging variable to true.
+     */
     @Override
     protected void stopPinging()
     {
@@ -79,6 +110,9 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         client.newViewCommand(command);
     }
 
+    /**
+     * Public method called by the client in order to check if the connection is functioning
+     */
     @Override
     public void ping() {
         // called by client to test connection
