@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 
+/**
+ * This class is a specific case of an extendable action class. It contains all the methods relative to an action
+ * that can be used to let the player select a weapon they want to use.
+ */
 public class WeaponSelectionAction extends ExtendableAction
 {
     public WeaponSelectionAction() {

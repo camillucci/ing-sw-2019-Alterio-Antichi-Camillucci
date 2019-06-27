@@ -9,8 +9,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class is a specific case of a shoot action class. It contains all the generic methods relative to an action
+ * that can be used to apply the effect of a power up card.
+ */
 public class PowerUpAction extends ShootAction
 {
+    /**
+     * Constructor that assigns the input parameters to their global correspondents.
+     * @param playersFilter //todo
+     * @param squaresFilter //todo
+     * @param shootFunc Effect of the power up card granted by this action
+     */
     public PowerUpAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
     {
         super(playersFilter, squaresFilter, shootFunc);
@@ -27,6 +37,9 @@ public class PowerUpAction extends ShootAction
         this(TargetsFilters.noPlayersFilter, squaresFilter, shootFunc);
     }
 
+    /**
+     * Constructor that sets some of the parameters with default values.
+     */
     public PowerUpAction()
     {
         this.optional = true;
@@ -71,6 +84,11 @@ public class PowerUpAction extends ShootAction
         return selectedPowerUp == null ? new ArrayList<>(ownerPlayer.getPowerupSet().getEndStartPUs()) : Collections.emptyList();
     }
 
+    /**
+     * Returns a boolean that represents whether the input is compatible with this class
+     * @param action Input action that's going to be compared with this class
+     * @return Always true, given that the input parameter is always required to be a PowerUpAction
+     */
     @Override
     public boolean testCompatibilityWith(PowerUpAction action) {
         return true;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * This class contains the border type that links Squares between them
+ * This class contains the border types that can be found between squares
  */
 public enum SquareBorder {
     DOOR("Door"),

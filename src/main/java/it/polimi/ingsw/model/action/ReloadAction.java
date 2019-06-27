@@ -9,8 +9,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+/**
+ * This class is a specific case of an action class. It contains all the generic methods relative to an action
+ * that can be executed by the current turn's player.
+ */
 public class ReloadAction extends Action
 {
+    /**
+     * Constructor that sets the 3 key parameters of the class with default values
+     */
     public ReloadAction()
     {
         this.optional = true;
@@ -62,11 +69,21 @@ public class ReloadAction extends Action
         return new ArrayList<>(temp);
     }
 
+    /**
+     * Calls the method used to compare the compatibility between this action and the input action
+     * @param action Action this class is going to be compared to
+     * @return True if the input action is compatible with this class, false otherwise
+     */
     @Override
     public boolean isCompatible(Action action) {
         return action.testCompatibilityWith(this);
     }
 
+    /**
+     * Returns a boolean that represents whether the input is compatible with this class
+     * @param action Input action that's going to be compared with this class
+     * @return Always true, given that the input parameter is always required to be a ReloadAction
+     */
     @Override
     protected boolean testCompatibilityWith(ReloadAction action) {
         return true;

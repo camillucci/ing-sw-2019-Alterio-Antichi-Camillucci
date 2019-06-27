@@ -72,11 +72,20 @@ public class ActionHandlerCLI extends ActionHandler {
         notifyChoice(action.askActionData());
     }
 
+    /**
+     * Method used to communicate a generic message that the CLIMessenger class is going to display to the user
+     * @param message String that represents the message that's going to eventually be displayed to the user.
+     */
     @Override
     public void onNewMessage(String message) {
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Method called when a new match snapshot reaches the client, causing the view to be updated accordingly.
+     * @param matchSnapshot New match snapshot containing all the info relative to what is going to be displayed to
+     *                      the user.
+     */
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
         CLIMessenger.updateView(matchSnapshot);
