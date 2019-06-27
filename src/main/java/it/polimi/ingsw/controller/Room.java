@@ -24,7 +24,7 @@ public class Room
     public final IEvent<Room, Integer> timerStartEvent = new Event<>();
 
     /**
-     * Event that other classes can subscribe to. The event is invoked when the before match countdown reaches the end.
+     * Event that other classes can subscribe to. The event is invoked every PERIOD interval of time, after that the timer is started.
      */
     public final IEvent<Room, Integer> timerTickEvent = new Event<>();
 

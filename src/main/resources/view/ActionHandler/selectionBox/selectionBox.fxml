@@ -11,7 +11,8 @@
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.gui.actionhandler.SelectionBoxController">
-    <VBox alignment="CENTER">
+    <VBox alignment="CENTER" spacing="${rootPane.height*0.05}">
+        <Text fx:id="title" styleClass="titleText"/>
         <HBox alignment="CENTER" fx:id="selectionHBox" minWidth="${rootPane.minWidth}" maxWidth="${rootPane.maxWidth}" />
     </VBox>
 

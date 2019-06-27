@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Visualizable;
 public class RollBackAction extends Action
 {
     public RollBackAction() {
-        this.visualizable = new Visualizable("restart the last move", "restart");
+        this.visualizable = new Visualizable(null, "rollback.png","restart the last move", "restart");
     }
 
     @Override

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
+import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
@@ -191,6 +192,11 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         region.getChildren().add(toInsert);
     }
 
+    private void insertH(ImageView toInsert, Pane region, double wScaleFactor){
+        toInsert.fitWidthProperty().bind(region.widthProperty().multiply(wScaleFactor));
+        region.getChildren().add(toInsert);
+    }
+
     private void insert(Pane toInsert, Pane region, double hScaleFactor)
     {
         bind(toInsert, region, hScaleFactor);
@@ -315,7 +321,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 imgActions.add(action);
             }
             else
-                newButton(action.visualizable.name, e -> onActionChosen(action));
+                newButton(action.visualizable, () -> onActionChosen(action));
         if(imgActions.isEmpty())
             return;
 
@@ -366,7 +372,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         });
     }
 
-    private void setupAction(RemoteAction action){
+    private void setupAction(RemoteAction action)
+    {
         setupCards(action);
         setupSquares(action);
         setupPlayers(action);
@@ -375,7 +382,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             if(checkForAutoDoAction(action))
                 doActionAndReset();
             else
-                newButton("Confirm", e -> doActionAndReset());
+                newButton(new Visualizable("Confirm"), () -> doActionAndReset());
     }
 
     private boolean checkForAutoDoAction(RemoteAction action)
@@ -488,10 +495,22 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         //TODO
     }
 
-    private void newButton(String text, EventHandler<ActionEvent> handler){
-        Button actionBtn = new Button(text);
-        actionBtn.setOnAction(handler);
-        actionVBox.getChildren().add(actionBtn);
+    private void newButton(Visualizable visualizable, Runnable action)
+    {
+        if(visualizable.icon != null)
+        {
+            ImageView button = new ImageView(new Image(visualizable.icon));
+            button.setPreserveRatio(true);
+            button.getStyleClass().add("button");
+            button.setOnMouseClicked(e -> action.run());
+            insert(button, actionVBox, 0.07);
+        }
+        else
+        {
+            Button button = new Button(visualizable.name);
+            button.setOnAction(e -> action.run());
+            actionVBox.getChildren().add(button);
+        }
     }
 
     @Override

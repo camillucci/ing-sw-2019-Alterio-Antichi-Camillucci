@@ -46,7 +46,7 @@ public class ShopController
                 }
 
         root.getChildren().clear();
-        SelectionBoxController controller = SelectionBoxController.getController(paths, descriptions);
+        SelectionBoxController controller = SelectionBoxController.getController(paths, descriptions, "welcome to the " + color + " shop");
         controller.getRoot().minHeightProperty().bind(root.minHeightProperty());
         controller.getRoot().maxHeightProperty().bind(root.maxHeightProperty());
         controller.getRoot().minWidthProperty().bind(root.minWidthProperty());

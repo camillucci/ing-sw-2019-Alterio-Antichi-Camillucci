@@ -98,8 +98,8 @@ public class BranchMapFactory
                 p.removePowerUpCard(pu);
                 p.setCurrentSquare(p.gameBoard.getSpawnAndShopSquare(pu.color));
                 p.getCurrentSquare().addPlayer(p);
-            }, new Visualizable("powerup/" + pu.getName().replace(" ", "_") + ".png","discard " + pu.getName(), "discard")), new EndBranchAction()));
-        return new BranchMap(new Branch(new ExtendableAction(branches, new Visualizable("spawn", "spawn"))));
+            }, new Visualizable("powerup/" + pu.getName().replace(" ", "_") + ".png","discard " + pu.getName(), "Spawn")), new EndBranchAction()));
+        return new BranchMap(branches);
     }
 
     /**

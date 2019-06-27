@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class WeaponSelectionAction extends ExtendableAction
 {
     public WeaponSelectionAction() {
-        this.visualizable = new Visualizable("use a weapon", "weapon");
+        this.visualizable = new Visualizable(null,"gun.png", "use a weapon", "weapon");
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.List;
 public class GrabAction extends ExtendableAction
 {
     public GrabAction() {
-        this.visualizable = new Visualizable("grab", "grab");
+        this.visualizable = new Visualizable(null, "grab.png", "grab", "grab");
     }
 
     @Override

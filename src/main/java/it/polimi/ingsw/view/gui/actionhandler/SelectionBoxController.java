@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 public class SelectionBoxController implements Ifxml<StackPane>
 {
+    @FXML Text title;
     @FXML private Text descriptionText;
     @FXML private HBox selectionHBox;
     @FXML private StackPane rootPane;
@@ -32,10 +33,11 @@ public class SelectionBoxController implements Ifxml<StackPane>
     {
         buildController(
                 actions.stream().map(a -> a.visualizable.imgPath).collect(Collectors.toList()),
-                actions.stream().map(a -> a.visualizable.description).collect(Collectors.toList()));
+                actions.stream().map(a -> a.visualizable.description).collect(Collectors.toList()),
+                actions.get(0).visualizable.name);
     }
 
-    protected void buildController(List<String> paths, List<String> descriptions)
+    protected void buildController(List<String> paths, List<String> descriptions, String title)
     {
         selectionHBox.spacingProperty().bind(rootPane.minWidthProperty().multiply(SPACING_FACTOR));
         for(int i=0; i < paths.size(); i++){
@@ -52,6 +54,7 @@ public class SelectionBoxController implements Ifxml<StackPane>
             vBox.getChildren().add(createText(descriptions.get(i)));
             selectionHBox.getChildren().add(vBox);
         }
+        this.title.setText(title);
     }
 
     private Text createText(String text){
@@ -80,9 +83,9 @@ public class SelectionBoxController implements Ifxml<StackPane>
         return ret;
     }
 
-    public static SelectionBoxController getController(List<String> paths, List<String> descriptions){
+    public static SelectionBoxController getController(List<String> paths, List<String> descriptions, String title){
         SelectionBoxController ret = getController();
-        ret.buildController(paths, descriptions);
+        ret.buildController(paths, descriptions, title);
         return ret;
     }
 }

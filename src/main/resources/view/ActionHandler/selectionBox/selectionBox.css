@@ -1,3 +1,9 @@
 .description {
     -fx-fill: white;
 }
+
+.titleText
+{
+    -fx-fill: white;
+    -fx-font-size: 23;
+}

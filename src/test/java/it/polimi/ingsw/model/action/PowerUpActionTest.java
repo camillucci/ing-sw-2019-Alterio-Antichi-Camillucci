@@ -89,6 +89,7 @@ class PowerUpActionTest {
 
 
 
+    /*
     @Test
     void shoot3()
     {
@@ -129,6 +130,7 @@ class PowerUpActionTest {
         bot.playNoAdrenaline(match);
         bot.playThreeDamage(match);
     }
+
 
     @Test
     void shootTargetingScope() {
@@ -194,4 +196,6 @@ class PowerUpActionTest {
         branch.goNext(shootAction);
         assertTrue(branch.getCompatibleActions().get(0) instanceof EndBranchAction);
     }
+
+     */
 }

@@ -58,7 +58,7 @@
                     </StackPane>
                 </StackPane>
             </VBox>
-            <VBox fx:id="actionVBox" alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
+            <VBox fx:id="actionVBox" minHeight="${gameBoard.minHeight}" maxHeight="${gameBoard.minHeight}" alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
 
             </VBox>
         </HBox>

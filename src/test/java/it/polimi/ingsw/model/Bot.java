@@ -75,8 +75,7 @@ public class Bot
 
     public void playSpawnBranchMap(ActionsProvider provider)
     {
-        assertEquals(2, provider.getActions().size());
-        provider.getActions().get(0).doAction();
+        assertEquals(3, provider.getActions().size());
         provider.getActions().get(0).doAction();
         provider.getActions().get(0).doAction();
     }
