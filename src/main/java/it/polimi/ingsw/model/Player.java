@@ -50,7 +50,7 @@ public class Player {
     /**
      * The Square the Player is currently in
      */
-    private Square currentSquare;
+    private Square currentSquare = null;
     /**
      * It states if the Player has died after the final frenzy has been activated
      */
@@ -101,17 +101,20 @@ public class Player {
     /**
      * This constructor is a copy constructor, it create a new Player that is the copy of a given one
      * @param player The Player that has to be copied
+     * @param clonedGameBoard The already cloned GameBoard
+     * @param clonedSquare The already cloned Square
      */
-    public Player(Player player) {
+    public Player(Player player, GameBoard clonedGameBoard, Square clonedSquare) {
+        this.gameBoard = clonedGameBoard;
+        this.currentSquare = clonedSquare;
+
         this.damagedEvent = player.damagedEvent;
         this.deathEvent = player.deathEvent;
-        this.gameBoard = player.gameBoard;
         this.name = player.name;
         this.color = player.color;
         this.points = player.points;
         this.skull = player.skull;
-        this.ammo = player.ammo;
-        this.currentSquare = player.currentSquare;
+        this.ammo = new Ammo(player.ammo);
         this.finalFrenzy = player.finalFrenzy;
         this.damage = new ArrayList<>(player.damage);
         this.mark = new ArrayList<>(player.mark);
@@ -159,7 +162,7 @@ public class Player {
      */
     public void addPowerUpCard() {
         if(powerupSet.getAll().size() < MAX_POWER_UPS){
-            powerupSet.add(gameBoard.powerupDeck.draw());
+            powerupSet.add(gameBoard.getPowerupDeck().draw());
         }
     }
 
@@ -169,7 +172,7 @@ public class Player {
      */
     public void addPowerUpCardRespawn() {
         if(powerupSet.getAll().size() < MAX_POWER_UPS_RESPAWN){
-            powerupSet.add(gameBoard.powerupDeck.draw());
+            powerupSet.add(gameBoard.getPowerupDeck().draw());
         }
     }
 
@@ -209,6 +212,8 @@ public class Player {
         for(int i = temp.size() - 1; i >= 0; i--)
             mark.remove(mark.get(i));
         ((Event<Player, Integer>)this.damagedEvent).invoke(this, val);
+        if(damage.size() >= 11)
+            ((Event<Player, Player>)this.deathEvent).invoke(this, shooter);
     }
 
     /**

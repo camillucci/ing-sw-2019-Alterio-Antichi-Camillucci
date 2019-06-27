@@ -40,6 +40,18 @@ public class AmmoSquare extends Square {
     }
 
     /**
+     * This constructor is a copy constructor, it create a new Square that is the copy of a given one
+     * @param ammoSquare The Square that has to be copied
+     * @param clonedGameBoard The already cloned GameBoard
+     * @param clonedAmmoDeck The already cloned AmmoDeck
+     */
+    public AmmoSquare(Square ammoSquare, GameBoard clonedGameBoard, AmmoDeck clonedAmmoDeck) {
+        super(ammoSquare, clonedGameBoard);
+        this.ammoDeck = clonedAmmoDeck;
+        this.ammoCard = ((AmmoSquare)ammoSquare).ammoCard;
+    }
+
+    /**
      * This method gives to a Player the resources written on the AmmoCard, if available.
      * It is used through a GrabAction
      * @param player The Player in which addTarget the resources (Ammo and PowerUpCard)

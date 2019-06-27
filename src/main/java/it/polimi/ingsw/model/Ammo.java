@@ -25,6 +25,16 @@ public class Ammo implements Serializable {
     }
 
     /**
+     * This constructor is a copy constructor, it create a new Ammo that is the copy of a given one
+     * @param ammo The Ammo that has to be copied
+     */
+    public Ammo(Ammo ammo) {
+        this.blue = ammo.blue;
+        this.red = ammo.red;
+        this.yellow = ammo.yellow;
+    }
+
+    /**
      * This method returns a new ammo which is the difference from this and another given ammo
      * @param ammo The ammo we need to subtract
      * @return A new ammo which is the difference from this and a given ammo

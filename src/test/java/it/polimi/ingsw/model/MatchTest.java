@@ -52,7 +52,7 @@ class MatchTest {
         for(int i = 0; i < n; i++) {
             deadPlayer.addDamage(match.getPlayers().get(0), 1);
             deadPlayer.addDamage(match.getPlayers().get(1), 2);
-            match.gameBoard.addKillShotTrack(Collections.emptyList());
+            match.getGameBoard().addKillShotTrack(Collections.emptyList());
         }
         match.addDeadPlayers(deadPlayer);
         match.assignPoints(deadPlayer);

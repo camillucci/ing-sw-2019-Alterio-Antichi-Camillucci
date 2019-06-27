@@ -1,7 +1,10 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
+import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +20,8 @@ public class KillShotTrackController implements Ifxml<StackPane>
     @FXML private HBox trackHBox;
     @FXML private StackPane rootPane;
     @FXML private ImageView firedSkull;
+    private MatchSnapshotProvider provider;
+    private MatchSnapshot old;
     private static final int TOT_OTHER_SKULLS = 7;
     @FXML private List<ImageView> otherSkulls = new ArrayList<>();
 
@@ -27,6 +32,34 @@ public class KillShotTrackController implements Ifxml<StackPane>
         for(ImageView skull : otherSkulls)
             trackHBox.getChildren().add(skull);
         trackHBox.getChildren().add(firedSkull);
+        for(ImageView img : otherSkulls)
+            img.setVisible(false);
+        firedSkull.setVisible(false);
+    }
+
+    private void buildController(MatchSnapshotProvider provider)
+    {
+        this.provider = provider;
+        provider.modelChangedEvent().addEventHandler((a,snapshot) -> onModelChanged(snapshot));
+    }
+
+    private void onModelChanged(MatchSnapshot snapshot)
+    {
+        int totOld = old == null ? 0 : old.gameBoardSnapshot.skulls;
+        int totNew = provider.getMatchSnapshot().gameBoardSnapshot.skulls;
+        old = provider.getMatchSnapshot();
+
+        int i;
+        for(i = totOld - 1; i < totNew; i++)
+        {
+            otherSkulls.get(i).setVisible(true);
+            Animations.appearAnimation(otherSkulls.get(i));
+        }
+        if(i == TOT_OTHER_SKULLS)
+        {
+            firedSkull.setVisible(true);
+            Animations.appearAnimation(firedSkull);
+        }
     }
 
     @Override
@@ -34,7 +67,7 @@ public class KillShotTrackController implements Ifxml<StackPane>
         return rootPane;
     }
 
-    public static KillShotTrackController getController(){
+    public static KillShotTrackController getController(MatchSnapshotProvider provider){
         return GUIView.getController("/view/ActionHandler/killShotTrack/killShotTrack.fxml", "/view/ActionHandler/killShotTrack/killShotTrack.css");
     }
 

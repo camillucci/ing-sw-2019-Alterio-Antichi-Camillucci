@@ -36,7 +36,7 @@ class ShootActionTest {
         shootAction.addTarget(p2);
         assertTrue(shootAction.canBeDone());
         assertEquals(0, shootAction.getDiscardablePowerUps().size());
-        shootAction.addPowerUp(gameBoard.powerupDeck.draw());
+        shootAction.addPowerUp(gameBoard.getPowerupDeck().draw());
         shootAction.doAction();
         assertEquals(1, p2.getDamage().size());
         assertEquals(0, shootAction.getDiscardablePowerUps().size());

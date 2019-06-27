@@ -289,14 +289,14 @@ class TCPClientTest {
     {
         final int TOT = 21;
         Match match = new Match(Arrays.asList("A", "B", "C"), Arrays.asList(PlayerColor.BLUE, PlayerColor.GREY, PlayerColor.VIOLET), 5, 11);
-        match.gameBoard.addKillShotTrack(Collections.singletonList(PlayerColor.GREY));
-        match.gameBoard.getSquares().get(0).addPlayer(match.gameBoard.getPlayers().get(0));
-        match.gameBoard.getPlayers().get(0).addWeapon(match.gameBoard.weaponDeck.draw());
-        match.gameBoard.getPlayers().get(0).addWeapon(match.gameBoard.weaponDeck.draw());
-        match.gameBoard.getPlayers().get(0).unloadWeapon(match.gameBoard.getPlayers().get(0).getLoadedWeapons().get(0));
-        match.gameBoard.getPlayers().get(0).addPowerUpCard();
-        match.gameBoard.getPlayers().get(1).addDamage(match.gameBoard.getPlayers().get(2), 1);
-        match.gameBoard.getPlayers().get(2).addMark(match.gameBoard.getPlayers().get(1), 2);
+        match.getGameBoard().addKillShotTrack(Collections.singletonList(PlayerColor.GREY));
+        match.getGameBoard().getSquares().get(0).addPlayer(match.getGameBoard().getPlayers().get(0));
+        match.getGameBoard().getPlayers().get(0).addWeapon(match.getGameBoard().getWeaponDeck().draw());
+        match.getGameBoard().getPlayers().get(0).addWeapon(match.getGameBoard().getWeaponDeck().draw());
+        match.getGameBoard().getPlayers().get(0).unloadWeapon(match.getGameBoard().getPlayers().get(0).getLoadedWeapons().get(0));
+        match.getGameBoard().getPlayers().get(0).addPowerUpCard();
+        match.getGameBoard().getPlayers().get(1).addDamage(match.getGameBoard().getPlayers().get(2), 1);
+        match.getGameBoard().getPlayers().get(2).addMark(match.getGameBoard().getPlayers().get(1), 2);
         TCPListener listener = new TCPListener(listeningPort, maxConnected);
         try
         {

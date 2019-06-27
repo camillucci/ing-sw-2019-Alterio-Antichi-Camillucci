@@ -81,7 +81,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
         setupStores();
         mapController = MapController.getController(this);
-        killShotTrackController = KillShotTrackController.getController();
+        killShotTrackController = KillShotTrackController.getController(this);
 
         insertH(redShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
         insertH(blueShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);

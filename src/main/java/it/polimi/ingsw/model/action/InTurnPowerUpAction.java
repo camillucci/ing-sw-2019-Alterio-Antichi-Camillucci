@@ -22,7 +22,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     {
         this.completedActionEvent.addEventHandler((a,b)->{
             if(this.selectedPowerUp != null) {
-                ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
+                ownerPlayer.gameBoard.getPowerupDeck().addDiscarded(selectedPowerUp);
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
             }
         });
