@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+/**
+ * This class represents a specific case of extendable action. It contains the methods relative to an action that can be
+ * used to grab an item from the square the player is standing in.
+ */
 public class GrabAction extends ExtendableAction
 {
     public GrabAction() {
@@ -21,11 +25,18 @@ public class GrabAction extends ExtendableAction
         this.grab();
     }
 
+    /**
+     * Executes the grab action.
+     */
     private void grab()
     {
         this.branches = this.ownerPlayer.getCurrentSquare().grab(this.ownerPlayer, this.discardedPowerUps);
     }
 
+    /**
+     * Calculates the list of power up cards that can be discarded from the players hand.
+     * @return the list of power up cards that can be discarded from the players hand.
+     */
     @Override
     public List<PowerUpCard> getDiscardablePowerUps() {
         LinkedHashSet<PowerUpCard> temp = new LinkedHashSet<>();

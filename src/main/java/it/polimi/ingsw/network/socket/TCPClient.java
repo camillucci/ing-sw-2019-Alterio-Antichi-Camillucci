@@ -9,13 +9,39 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class is used to send data via socket by communicating with another instance of the same class. It contains all
+ * the info and methods relative to socket connection.
+ */
 public class TCPClient
 {
+    /**
+     * event other classes can subscribe to. When the event is invoked every subscriber is notified. This event is
+     * invoked when the connection with the other TCPClient instance is interrupted.
+     */
     public final IEvent<TCPClient, Object> disconnectedEvent = new Event<>();
     private Socket connectedSocket;
+
+    /**
+     * This thread is used to periodically send pings to the other TCPClient instance this class is connected to, in
+     * order to constantly check that the connection is functioning properly.
+     */
     private Thread pingingBot;
+
+    /**
+     * Boolean that indicates whether the pingingBot thread needs to stop running. If it assumes the true value the
+     * thread stop, otherwise it keeps running.
+     */
     private boolean stopPinging = false;
+
+    /**
+     * Stream with methods used to receive data from the TCPClient this class is connected to.
+     */
     private SocketInputStream in;
+
+    /**
+     * Stream with methods used to send data to the TCPClient this class is connected to.
+     */
     private SocketOutputStream out;
     private Logger logger = Logger.getLogger("TCPClient");
 
@@ -37,6 +63,14 @@ public class TCPClient
         return stopPinging;
     }
 
+    /**
+     * Constructor that assigns the input parameter to its global correspondence, after having check that the
+     * connection is actually established. This method also creates the two streams used to send to and receive data
+     * from the TCPClient instance this class is connected with. This method also subscribes to the two streamFail
+     * events.
+     * @param connectedSocket Reference to the class used for the communication with the other instance of TCPClient
+     *                        this class is connected with.
+     */
     public TCPClient(Socket connectedSocket) throws IOException {
         if(!connectedSocket.isConnected()) {
             throw new NotYetConnectedException();
@@ -49,11 +83,24 @@ public class TCPClient
         in.streamFailEvent.addEventHandler((a,b)-> this.close());
     }
 
+    /**
+     * Establishes a connection with the TCPClient class associated with the hostname and port gotten as input
+     * parameters.
+     * @param hostname Hostname of the client this class is connecting with
+     * @param port port of the client this class is connecting with
+     * @return The newly create instance of TCPClient
+     */
     public static TCPClient connect(String hostname, int port) throws IOException
     {
         return new TCPClient(new Socket(hostname, port));
     }
 
+    /**
+     * This method checks whether there is already a pinging bot running. In case there isn't, this method creates a
+     * new pingingBot thread using the period gotten as input and then starts said thread.
+     * @param period
+     * @param onPingFail
+     */
     public void startPinging(int period, Consumer<Exception> onPingFail) {
         if(pingingBot != null && pingingBot.getState() != Thread.State.TERMINATED)
             return;
@@ -73,6 +120,10 @@ public class TCPClient
         pingingBot.start();
     }
 
+    /**
+     * First, it's checked whether there is a pingingBot running already. If that's the case, said thread is stopped
+     * by putting stopPinging value equal to true.
+     */
     public void stopPinging()
     {
         if(pingingBot == null || pingingBot.getState() == Thread.State.TERMINATED)
@@ -86,6 +137,10 @@ public class TCPClient
         }
     }
 
+    /**
+     * This method tries to close the socket connection already established and subsequently calls the disconnected
+     * event. In case it fail, an exception is thrown.
+     */
     public void close()
     {
         try

@@ -10,10 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-
+/**
+ * This class contains all the info and methods that concern the server side, but are generic enough to be independent
+ * from the type of connection that the user has chosen
+ */
 public abstract class AdrenalineServer implements IAdrenalineServer
 {
+    /**
+     * reference to the controller the class is going to communicate with. This parameter is final given that there is
+     * only one controller.
+     */
     private final Controller controller;
+
+    /**
+     * Reference to the room this class is associated with and communicates to.
+     */
     private Room joinedRoom;
     protected String name;
     private List<String> availableColors;
@@ -34,6 +45,11 @@ public abstract class AdrenalineServer implements IAdrenalineServer
        bottleneck.tryDo( () -> command.invoke(this.remoteActionsHandler));
     }
 
+    /**
+     * Constructor. It assigns the input reference to the controller global parameter and subscribes to the
+     * bottleneck.exceptionGenerated event.
+     * @param controller
+     */
     public AdrenalineServer(Controller controller){
         this.controller = controller;
         bottleneck.exceptionGenerated.addEventHandler((a, exception) -> onExceptionGenerated(exception));
@@ -77,6 +93,12 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     protected abstract void startPinging();
     protected abstract void stopPinging();
 
+    /**
+     * Checks whether the name chosen by the user is available by communicating with the controller. If it is, it
+     * proceeds to ask what the available colors are and send them to the client. If it isn't, the client is notified
+     * that the chosen name is not available.
+     * @param name Name chosen by the user
+     */
     @Override
     public void setName(String name) throws IOException {
         if(controller.newPlayer(name)) {
@@ -90,6 +112,11 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         else
             sendCommand(new Command<>( view -> view.getLogin().notifyAccepted(false)));
     }
+
+    /**
+     * Asks the controller for an available room and gets the colors available in said room.
+     * @return The available colors in the joined room.
+     */
     @Override
     public List<String> availableColors()
     {
@@ -103,6 +130,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         return availableColors;
     }
 
+    /**
+     * Adds the player to the room by communicating their username and the chosen color to the controller.
+     * @param colorIndex Index of the color that has been chosen by the user
+     */
     @Override
     public void setColor(int colorIndex) throws IOException {
         try
@@ -117,7 +148,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         }
     }
 
-
+    /**
+     * Checks whether the user associated to this class is the host of the room by communicating their name to the
+     * controller. If they are, the client is notified. Otherwise the user is put on ready status.
+     */
     private void notifyIsHost() throws IOException {
         boolean isHost = joinedRoom.isHost(name);
         sendCommand(new Command<>(view -> view.getLogin().notifyHost(isHost)));
@@ -125,10 +159,19 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             ready();
     }
 
+    /**
+     * Communicates host's decision about the number of skulls to the controller
+     * @param gameLength Number of skulls that have been selected by the host
+     */
     @Override
     public void setGameLength(int gameLength) {
         joinedRoom.setGameLength(gameLength);
     }
+
+    /**
+     * Communicates host's decision about the type of map to the controller
+     * @param choice Type of the map that has been selected by the host
+     */
     @Override
     public void setGameMap(int choice) {
         joinedRoom.setGameSize(choice);
@@ -141,6 +184,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         otherPlayers.add(name);
         bottleneck.tryDo(() -> sendMessage(newPlayerMessage(name)));
     }
+
 
     @Override
     public void ready() {
@@ -158,6 +202,11 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         sendCommand(new Command<>(v -> v.getCurViewElement().onNewMessage(message)));
     }
 
+    /**
+     * Checks whether a room has been joined already. If it is, the method unsubscribes from every event that this
+     * class was subscribed to with the setupRoomEvents method. Also, if the match has already started, this method
+     * unsubscribes the class from the modelUpdate event.
+     */
     private void removeEvents() {
         if(joinedRoom != null) {
             joinedRoom.timerStartEvent.removeEventHandler(timerStartEventHandler);
@@ -170,6 +219,9 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         }
     }
 
+    /**
+     * Subscribes to all the events the user is interested in
+     */
     private void setupRoomEvents()
     {
         joinedRoom.timerStartEvent.addEventHandler(timerStartEventHandler);
@@ -179,14 +231,49 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.playerDisconnectedEvent.addEventHandler(playerDisconnectedEventHandler);
         joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
     }
+
+    /**
+     * Default string that represents th starting match message
+     */
     private static final String MATCH_STARTING_MESSAGE = "Match is starting";
+
+    /**
+     * Creates a string that represents the message of a new player entering the room
+     * @param name The string that represents the name of the newly entered player
+     * @return The message relative to a new player entering the room
+     */
     private static String newPlayerMessage(String name){ return name + " joined the room";}
+
+    /**
+     * Creates a string that represents the message of a player being disconnected
+     * @param name The string that represents the name of the disconnected player
+     * @return The message relative to a player disconnecting
+     */
     private static String playerDisconnectedMessage(String name){ return name + " left the room";}
+
+    /**
+     * Creates a string that represents the message sent to the user about a new countdown being started.
+     * Also the length of said countdown is displayed to the user.
+     * @param timeout Integer that represents the amount of time spent on the countdown
+     * @return The message that displays how much time is left before the game starts
+     */
     private static String timerStartMessage(int timeout){
         return "Countdown is started: " + timeout + " seconds left\n";
     }
+
+    /**
+     * Creates a string that represents the message sent to the user about ho much time is left before the game
+     * starts.
+     * @param timeLeft Integer that represents how much time is left before the game starts
+     * @return The string that's going to be displayed to the user
+     */
     private static String timerTickMessage(int timeLeft){
         return timeLeft + " seconds left\n";
     }
+
+    /**
+     * String that represents the default message sent to the user when the countdown is interrupted before the match
+     * starts.
+     */
     private static final String TIMER_STOPPED_MESSAGE = "Countdown stopped\n";
 }

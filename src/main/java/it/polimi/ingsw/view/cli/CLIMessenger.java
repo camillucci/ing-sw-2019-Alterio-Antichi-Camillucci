@@ -474,7 +474,7 @@ public class CLIMessenger {
             if(matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().isEmpty())
                 display(NONE);
             for (int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().size(); i++)
-                display(matchSnapshot.privatePlayerSnapshot.getUnloadedWeapons().get(i) + matchSnapshot.privatePlayerSnapshot.getUnloadedWeaponsCost().get(i));
+                display(matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().get(i) + matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeaponsCost().get(i));
             display("Powerup cards: " + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber);
             display("Deaths: " + matchSnapshot.getPublicPlayerSnapshot().get(j).skull);
             display("Blue ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).blueAmmo + ", Red ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).redAmmo + ", Yellow ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).yellowAmmo);
