@@ -19,19 +19,19 @@ public class GameBoard {
     /**
      * The deck with all remaining WeaponCards
      */
-    public final WeaponDeck weaponDeck = new WeaponDeck();
+    private WeaponDeck weaponDeck = new WeaponDeck();
     /**
      * The deck with all remaining and discarded PowerUpCards
      */
-    public final PowerUpDeck powerupDeck = new PowerUpDeck();
+    private PowerUpDeck powerupDeck = new PowerUpDeck();
     /**
      * The deck with all remaining and discarded AmmoCards
      */
-    public final AmmoDeck ammoDeck = new AmmoDeck();
+    private AmmoDeck ammoDeck = new AmmoDeck();
     /**
      * The matrix of squares
      */
-    public final Square[][] squares = new Square[3][4];
+    private Square[][] squares = new Square[3][4];
     /**
      * The number of skulls remaining, from 0 to 8
      */
@@ -121,6 +121,41 @@ public class GameBoard {
                 squares[2][3] = new SpawnAndShopSquare(YELLOW_SPAWN_NAME, 2, 3, new SquareBorder[]{ROOM, NOTHING, ROOM, NOTHING}, weaponDeck);
                 break;
         }
+    }
+
+    /**
+     * This constructor is a copy constructor, it create a new GameBoard that is the copy of a given one
+     * @param gameBoard The GameBoard that has to be copied
+     */
+    public GameBoard(GameBoard gameBoard) {
+        this.skulls = gameBoard.skulls;
+        this.mapType = gameBoard.mapType;
+
+        this.killShotTrack = new ArrayList<>();
+        for(List<PlayerColor> list : gameBoard.killShotTrack)
+            this.killShotTrack.add(new ArrayList<>(list));
+
+        this.weaponDeck = new WeaponDeck(gameBoard.weaponDeck);
+        this.powerupDeck = new PowerUpDeck(gameBoard.powerupDeck);
+        this.ammoDeck = new AmmoDeck(gameBoard.ammoDeck);
+
+        this.squares = new Square[3][4];
+        this.squares[0][0] = gameBoard.squares[0][0] == null ? null : new AmmoSquare(gameBoard.squares[0][0], this, this.ammoDeck);
+        this.squares[0][1] = gameBoard.squares[0][1] == null ? null : new AmmoSquare(gameBoard.squares[0][1], this, this.ammoDeck);
+        this.squares[0][2] = gameBoard.squares[0][2] == null ? null : new SpawnAndShopSquare(gameBoard.squares[0][2], this, this.weaponDeck);
+        this.squares[0][3] = gameBoard.squares[0][3] == null ? null : new AmmoSquare(gameBoard.squares[0][3], this, this.ammoDeck);
+        this.squares[1][0] = gameBoard.squares[1][0] == null ? null : new SpawnAndShopSquare(gameBoard.squares[1][0], this, this.weaponDeck);
+        this.squares[1][1] = gameBoard.squares[1][1] == null ? null : new AmmoSquare(gameBoard.squares[1][1], this, this.ammoDeck);
+        this.squares[1][2] = gameBoard.squares[1][2] == null ? null : new AmmoSquare(gameBoard.squares[1][2], this, this.ammoDeck);
+        this.squares[1][3] = gameBoard.squares[1][3] == null ? null : new AmmoSquare(gameBoard.squares[1][3], this, this.ammoDeck);
+        this.squares[2][0] = gameBoard.squares[2][0] == null ? null : new AmmoSquare(gameBoard.squares[2][0], this, this.ammoDeck);
+        this.squares[2][1] = gameBoard.squares[2][1] == null ? null : new AmmoSquare(gameBoard.squares[2][1], this, this.ammoDeck);
+        this.squares[2][2] = gameBoard.squares[2][2] == null ? null : new AmmoSquare(gameBoard.squares[2][2], this, this.ammoDeck);
+        this.squares[2][3] = gameBoard.squares[2][3] == null ? null : new SpawnAndShopSquare(gameBoard.squares[2][3], this, this.weaponDeck);
+
+        this.players = new ArrayList<>();
+        for(Square square : this.getSquares())
+            this.players.addAll(square.getPlayers());
     }
 
     /**
@@ -611,7 +646,23 @@ public class GameBoard {
         return temp;
     }
 
+    public Square getSquare(int y, int x) {
+        return squares[y][x];
+    }
+
     public int getMapType() {
         return mapType;
+    }
+
+    public WeaponDeck getWeaponDeck() {
+        return weaponDeck;
+    }
+
+    public PowerUpDeck getPowerupDeck() {
+        return powerupDeck;
+    }
+
+    public AmmoDeck getAmmoDeck() {
+        return ammoDeck;
     }
 }

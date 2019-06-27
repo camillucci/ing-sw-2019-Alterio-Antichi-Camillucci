@@ -37,8 +37,8 @@ public class GameBoardSnapshot implements Serializable
     {
         for(int i = 0; i < 3; i++)
             for(int j = 0; j < 4; j++)
-                if(gameBoard.squares[i][j] != null)
-                    squareSnapshots[i][j] = new SquareSnapshot(gameBoard.squares[i][j]);
+                if(gameBoard.getSquare(i, j) != null)
+                    squareSnapshots[i][j] = new SquareSnapshot(gameBoard.getSquare(i, j));
 
         skulls = gameBoard.getSkulls();
         mapType = gameBoard.getMapType();

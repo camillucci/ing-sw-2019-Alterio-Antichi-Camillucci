@@ -30,6 +30,15 @@ public class AmmoDeck {
     }
 
     /**
+     * This constructor is a copy constructor, it create a new AmmoDeck that is the copy of a given one
+     * @param ammoDeck The AmmoDeck that has to be copied
+     */
+    public AmmoDeck(AmmoDeck ammoDeck) {
+        this.deck = new ArrayList<>(ammoDeck.deck);
+        this.discarded = new ArrayList<>(ammoDeck.discarded);
+    }
+
+    /**
      * This method returns an AmmoCard which is removed from the deck
      * @return An AmmoCard which is removed from the deck
      */

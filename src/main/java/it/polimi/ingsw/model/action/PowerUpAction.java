@@ -43,7 +43,7 @@ public class PowerUpAction extends ShootAction
         if(selectedPowerUp != null) {
             preparePowerUp();
             ownerPlayer.getPowerupSet().remove(selectedPowerUp);
-            ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
+            ownerPlayer.gameBoard.getPowerupDeck().addDiscarded(selectedPowerUp);
         }
     }
 

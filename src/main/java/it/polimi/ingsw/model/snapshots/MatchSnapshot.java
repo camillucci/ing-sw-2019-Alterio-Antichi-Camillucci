@@ -34,7 +34,7 @@ public class MatchSnapshot implements Serializable {
      * @param currentPlayer Player corresponding to the player whose snapshot is going to be private.
      */
     public MatchSnapshot(Match match, Player currentPlayer) {
-        gameBoardSnapshot = new GameBoardSnapshot(match.gameBoard);
+        gameBoardSnapshot = new GameBoardSnapshot(match.getGameBoard());
         for(Player player : match.getPlayers())
             if(player != currentPlayer)
                 publicPlayerSnapshot.add(new PublicPlayerSnapshot(player));

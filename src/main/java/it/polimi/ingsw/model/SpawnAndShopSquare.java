@@ -45,6 +45,18 @@ public class SpawnAndShopSquare extends Square {
     }
 
     /**
+     * This constructor is a copy constructor, it create a new Square that is the copy of a given one
+     * @param spawnAndShopSquare The Square that has to be copied
+     * @param clonedGameBoard The already cloned GameBoard
+     * @param clonedWeaponDeck The already cloned WeaponDeck
+     */
+    public SpawnAndShopSquare(Square spawnAndShopSquare, GameBoard clonedGameBoard, WeaponDeck clonedWeaponDeck) {
+        super(spawnAndShopSquare, clonedGameBoard);
+        this.weaponDeck = clonedWeaponDeck;
+        this.weapons = new ArrayList<>(((SpawnAndShopSquare)spawnAndShopSquare).weapons);
+    }
+
+    /**
      * This method give to a given Player the choices for grabbing a WeaponCard contained in the selectionBox
      * it is used through a GrabAction,
      * it divide itself in grabAndDrop or grabAndNoDrop based on the WeaponCards the given Player already has

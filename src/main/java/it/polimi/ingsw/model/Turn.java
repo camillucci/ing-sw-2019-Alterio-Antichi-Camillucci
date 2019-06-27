@@ -46,6 +46,10 @@ public class Turn extends ActionsProvider {
      * The list of dead Player cloned at the beginning of each move, it's used for the rollback
      */
     private List<Player> clonedDeadPlayers;
+    /**
+     * The GameBoard cloned at the beginning of each move, it's used for the rollback
+     */
+    private GameBoard clonedGameBoard;
 
     /**
      * This constructor initialized the Turn with the Player and the Action it can do
@@ -83,7 +87,7 @@ public class Turn extends ActionsProvider {
     private void onMoveTerminated() {
         moveCounter--;
         if (moveCounter == -1) {
-            for(Square square : match.gameBoard.getSquares())
+            for(Square square : match.getGameBoard().getSquares())
                 square.refill();
             ((Event<Turn, Player>)endTurnEvent).invoke(this, currentPlayer);
         }
@@ -98,7 +102,7 @@ public class Turn extends ActionsProvider {
      * This method creates the BranchMap for Turn based on the frenzyFrenzy and on currentPlayer's damages
      */
     private void createBranchMap() {
-        clonePlayers();
+        clonePlayersAndGameBoard();
 
         if(moveCounter == 0)
             this.branchMap = BranchMapFactory.reloadEndTurn();
@@ -126,23 +130,36 @@ public class Turn extends ActionsProvider {
      * it's necessary in case the Player reach an impossible state
      */
     private void rollback() {
-        match.rollback(clonedPlayers, clonedDeadPlayers);
+        match.rollback(clonedPlayers, clonedDeadPlayers, clonedGameBoard);
+        currentPlayer = match.getPlayer();
         createBranchMap();
         ((Event<Player, List<Action>>)this.newActionsEvent).invoke(currentPlayer, getActions());
     }
 
     /**
-     * This method clones all the Players of the Match
+     * This method clones all the Players of the Match and the GameBoard
      */
-    private void clonePlayers() {
-        clonedPlayers = new ArrayList<>();
+    private void clonePlayersAndGameBoard() {
+        boolean alreadyAdded = false;
+        clonedGameBoard = new GameBoard(match.getGameBoard());
+        clonedPlayers = clonedGameBoard.getPlayers();
+        for(Player player : match.getDeadPlayers()) {
+            for(Player p : clonedPlayers)
+                if(player.color.equals(p.color))
+                    alreadyAdded = true;
+            if(!alreadyAdded)
+                clonedPlayers.add(new Player(player, clonedGameBoard, null));
+            else
+                alreadyAdded = false;
+        }
+
         clonedDeadPlayers = new ArrayList<>();
-        List<Player> deadPlayers = match.getDeadPlayers();
-        for (Player p : match.getPlayers()) {
-            Player clone = new Player(p);
-            clonedPlayers.add(clone);
-            if (deadPlayers.contains(p))
-                clonedDeadPlayers.add(p);
+        for(Player p : match.getDeadPlayers()) {
+            for(Player player : clonedPlayers)
+                if(player.color.equals(p.color)) {
+                    clonedDeadPlayers.add(player);
+                    break;
+                }
         }
     }
 

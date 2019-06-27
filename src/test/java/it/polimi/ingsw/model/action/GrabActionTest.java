@@ -19,7 +19,7 @@ class GrabActionTest {
     void setUp() {
         action = new GrabAction();
         gameBoard = new GameBoard(8, 3);
-        ammoSquare = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, gameBoard.ammoDeck);
+        ammoSquare = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, gameBoard.getAmmoDeck());
         player = new Player("A", PlayerColor.GREY, gameBoard);
         player.addBlue(2);
         player.addRed(2);
@@ -58,8 +58,8 @@ class GrabActionTest {
         assertEquals(0, action.getPossibleWeapons().size());
         action.addTarget(player);
         action.addTarget(player.getCurrentSquare());
-        action.addWeapon(gameBoard.weaponDeck.draw());
-        action.use(gameBoard.powerupDeck.draw());
+        action.addWeapon(gameBoard.getWeaponDeck().draw());
+        action.use(gameBoard.getPowerupDeck().draw());
         action.discard(new Ammo(0, 0, 0));
         action.doAction();
         assertEquals(1, action.getBranches().size());
@@ -71,17 +71,17 @@ class GrabActionTest {
         assertEquals(0, action.getPossiblePowerUps().size());
         assertEquals(0, action.getDiscardableAmmos().size());
         assertEquals(0, action.getPossibleWeapons().size());
-        player.getCurrentSquare().addWeapon(gameBoard.weaponDeck.draw());
-        player.getCurrentSquare().removeWeapon(gameBoard.weaponDeck.draw());
+        player.getCurrentSquare().addWeapon(gameBoard.getWeaponDeck().draw());
+        player.getCurrentSquare().removeWeapon(gameBoard.getWeaponDeck().draw());
         assertEquals(0, player.getCurrentSquare().getWeapons().size());
     }
 
     @Test
     void grabAndDrop() {
         Action action;
-        player.addWeapon(gameBoard.weaponDeck.draw());
-        player.addWeapon(gameBoard.weaponDeck.draw());
-        player.addWeapon(gameBoard.weaponDeck.draw());
+        player.addWeapon(gameBoard.getWeaponDeck().draw());
+        player.addWeapon(gameBoard.getWeaponDeck().draw());
+        player.addWeapon(gameBoard.getWeaponDeck().draw());
         player.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.BLUE));
         player.getCurrentSquare().addPlayer(player);
         Branch branch = new Branch(new GrabAction(), new EndBranchAction());

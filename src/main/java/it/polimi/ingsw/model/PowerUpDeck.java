@@ -30,6 +30,15 @@ public class PowerUpDeck {
     }
 
     /**
+     * This constructor is a copy constructor, it create a new PowerUpDeck that is the copy of a given one
+     * @param powerUpDeck The PowerUpDeck that has to be copied
+     */
+    public PowerUpDeck(PowerUpDeck powerUpDeck) {
+        this.deck = new ArrayList<>(powerUpDeck.deck);
+        this.discarded = new ArrayList<>(powerUpDeck.discarded);
+    }
+
+    /**
      * This method returns a PowerUpCard which is removed from the deck
      * @return A PowerUpCard which is removed from the deck
      */

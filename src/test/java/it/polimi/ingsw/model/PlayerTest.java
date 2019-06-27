@@ -148,7 +148,7 @@ class PlayerTest {
 
     @Test
     void getClone() {
-        Player cloned = new Player(player);
+        Player cloned = new Player(player, gameBoard, player.getCurrentSquare());
         Player player2 = new Player("B", PlayerColor.VIOLET, gameBoard);
         WeaponCard weaponCard =  new WeaponCard("B", null, null, () -> Collections.singletonList(new FireModalityAction(null, new ArrayList<>())));
 

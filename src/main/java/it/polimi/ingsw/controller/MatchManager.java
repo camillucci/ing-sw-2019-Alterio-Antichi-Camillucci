@@ -104,7 +104,7 @@ public class MatchManager {
      */
     private int countKillShotTrack(Player player) {
         int temp = 0;
-        for(List<PlayerColor> list : match.gameBoard.getKillShotTrack())
+        for(List<PlayerColor> list : match.getGameBoard().getKillShotTrack())
             for(PlayerColor playerColor : list)
                 if(playerColor == player.color)
                     temp++;

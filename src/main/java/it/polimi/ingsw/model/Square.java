@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.WeaponCard;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,6 +63,25 @@ public abstract class Square {
         this.south = borders[1];
         this.west = borders[2];
         this.east = borders[3];
+    }
+
+    /**
+     * This constructor is a copy constructor, it create a new Square that is the copy of a given one
+     * @param square The Square that has to be copied
+     * @param clonedGameBoard The already cloned GameBoard
+     */
+    protected Square(Square square, GameBoard clonedGameBoard) {
+        this.name = square.name;
+        this.y = square.y;
+        this.x = square.x;
+        this.north = square.north;
+        this.south = square.south;
+        this.west = square.west;
+        this.east = square.east;
+
+        this.players = new ArrayList<>();
+        for(Player player : square.players)
+            this.players.add(new Player(player, clonedGameBoard, this));
     }
 
     /**

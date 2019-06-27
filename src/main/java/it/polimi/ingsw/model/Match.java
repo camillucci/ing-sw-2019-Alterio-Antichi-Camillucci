@@ -38,7 +38,7 @@ public class Match extends ActionsProvider {
     /**
      * The GameBoard through which the Squares are updated
      */
-    public final GameBoard gameBoard;
+    private GameBoard gameBoard;
     /**
      * The list of the Players playing the match, the order is never changed
      */
@@ -50,7 +50,7 @@ public class Match extends ActionsProvider {
     /**
      * The list of color associated with the Players, the order is never changed
      */
-    private List<PlayerColor> playerColors;
+    private final List<PlayerColor> playerColors;
     /**
      * It state if the final frenzy modality has started
      */
@@ -130,9 +130,23 @@ public class Match extends ActionsProvider {
         BranchMap branchMap = BranchMapFactory.spawnBranchMap(p);
         branchMap.newActionsEvent.addEventHandler((bMap, actions) -> setNewActions(actions));
         if(!respawn)
-            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> { this.deadPlayers.remove(p); newTurn(); });
+            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> {
+                for(Player player : deadPlayers)
+                    if(player.color.equals(p.color)) {
+                        this.deadPlayers.remove(player);
+                        break;
+                    }
+                newTurn();
+            });
         else
-            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> { this.deadPlayers.remove(p); onTurnCompleted(); });
+            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> {
+                for(Player player : deadPlayers)
+                    if(player.color.equals(p.color)) {
+                        this.deadPlayers.remove(player);
+                        break;
+                    }
+                onTurnCompleted();
+            });
         setNewActions(branchMap.getPossibleActions());
     }
 
@@ -252,9 +266,19 @@ public class Match extends ActionsProvider {
      * @param clonedPlayers The list of cloned Players of the last precedent legal game state
      * @param clonedDeadPlayers The list of cloned dead Players of the last precedent legal game state
      */
-    public void rollback(List<Player> clonedPlayers, List<Player> clonedDeadPlayers) {
-        players = clonedPlayers;
-        deadPlayers = clonedDeadPlayers;
+    public void rollback(List<Player> clonedPlayers, List<Player> clonedDeadPlayers, GameBoard clonedGameBoard) {
+        int index = players.indexOf(curPlayer);
+        this.players = new ArrayList<>();
+        for(PlayerColor playerColor : playerColors)
+            for(Player player : clonedPlayers)
+                if(player.color.equals(playerColor)) {
+                    players.add(player);
+                    break;
+                }
+        this.deadPlayers = clonedDeadPlayers;
+        this.gameBoard = clonedGameBoard;
+        gameBoard.setPlayers(players);
+        curPlayer = players.get(index);
     }
 
     public List<Player> getPlayers() {
@@ -286,6 +310,10 @@ public class Match extends ActionsProvider {
      */
     public void start() {
         spawn(false);
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 
     @Override
