@@ -24,12 +24,12 @@ public class RemoteAction implements Serializable
     public final Visualizable visualizable;
 
     /**
-     * Class which contains all the targets available in the current board state relative to this action.
+     * Class that contains all the targets available in the current board state relative to this action.
      */
     private Data data;
 
     /**
-     * Constructor. Assigns an index relative to the action and sets the visualizable parameter
+     * Constructor that assigns an index relative to the action and sets the visualizable parameter
      * @param index Is used to distinguish this actions from the others in the list the user is going to choose from
      * @param visualizable //todo
      */

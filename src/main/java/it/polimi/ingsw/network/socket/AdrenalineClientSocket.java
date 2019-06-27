@@ -46,7 +46,7 @@ public class AdrenalineClientSocket extends AdrenalineClient {
     }
 
     /**
-     * connects to server through Socket logic.
+     * Connects to server through Socket logic.
      */
     @Override
     protected void connect() throws IOException {

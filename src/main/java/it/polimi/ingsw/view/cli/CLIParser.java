@@ -38,7 +38,6 @@ public class CLIParser {
     /**
      * Gets user's name of choice, making sure it's length is within 2 and 16 characters
      * @return user's name
-     * @throws IOException
      */
     public String parseName() throws IOException {
         return getStringIf(name -> name.length() >= 2 && name.length() <= 16 && !name.contains(" "));
@@ -58,7 +57,6 @@ public class CLIParser {
      * between 0 and index - 1. In case the answer isn't acceptable, asks again.
      * @param index maximum number accepted as answer from the user
      * @return user's answer once it's correct
-     * @throws IOException
      */
     public int parseIndex(int index) throws IOException {
         return getIntIf(answer -> answer >= 0 && answer < index);
@@ -77,7 +75,6 @@ public class CLIParser {
      * Gets user's map type of choice, which is indicated with a number between 0 and 3. If user's choice was
      * unacceptable, the map type is asked again.
      * @return User's map type of choice, once it's acceptable.
-     * @throws IOException
      */
     public int parseGameMap() throws IOException {
         return getIntIf(answer -> answer >= 0 && answer <= 3);
@@ -88,9 +85,7 @@ public class CLIParser {
      * again.
      * @param data object that contains the info to get the max number the user can choose
      * @return user's choice, once it's acceptable.
-     * @throws IOException
      */
-
     public int parseActionUserChoice(RemoteAction.Data data) throws IOException {
         int index = data.getPossiblePlayers().size() + data.getPossibleSquares().size() + data.getDiscardablePowerUps().size()
                 + data.getDiscardablePowerUps().size() + data.getDiscardableAmmos().size() + data.getPossibleWeapons().size() + (data.canBeDone ? 1 : 0);
