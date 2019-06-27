@@ -58,6 +58,10 @@ public class AdrenalineClientSocket extends AdrenalineClient {
         server.out().sendObject(command);
     }
 
+    /**
+     * Calls the method on the server that starts a thread dedicated to the periodical pinging of the client. Its role
+     * is to make sure that the connection between server and client is always functioning.
+     */
     @Override
     protected void startPing() {
        server.startPinging(PING_PERIOD, this::onExceptionGenerated);

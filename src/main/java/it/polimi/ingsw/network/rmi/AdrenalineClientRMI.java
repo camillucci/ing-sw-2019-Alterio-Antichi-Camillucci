@@ -62,6 +62,10 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
         server.registerClient(this);
     }
 
+    /**
+     * If the pingingThread isn't already running, this method sets the stopPinging variable to false and starts
+     * the pinging thread.
+     */
     @Override
     protected void startPing() {
         if(pingingThread.getState() == Thread.State.TERMINATED || pingingThread.getState() == Thread.State.NEW) {
@@ -76,6 +80,10 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
         server.newServerCommand(command);
     }
 
+    /**
+     * After having checked that the pinging thread is running, this method sets the stopPinging variable to true,
+     * causing the thread to stop.
+     */
     @Override
     protected void stopPing()
     {

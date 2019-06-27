@@ -10,11 +10,37 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class is used as a managing class for all the TCPClients instances that are located server side. Each of those
+ * TCPClient instances corresponds to an actual client they're connected to.
+ */
 public class TCPListener {
+
+    /**
+     * Event other classes can subscribe to. When this event is invoked, every subscriber is notified. This event is
+     * invoked when a new client connects to this server.
+     */
     public final IEvent<TCPListener, TCPClient> newClientEvent = new Event<>();
+
+    /**
+     * Event other classes can subscribe to. When this event is invoked, every subscriber is notified. This event is
+     * invoked when a client disconnects from this server.
+     */
     public final IEvent<TCPListener, TCPClient> clientDisconnectedEvent = new Event<>();
+
+    /**
+     * Server this class is associated with
+     */
     private ServerSocket listener;
+
+    /**
+     * Port that characterizes the server
+     */
     private int port;
+
+    /**
+     * Integer that represents the maximum amount of connected clients the server can support all at once
+     */
     private int maxConnected;
     private Thread listenThread;
     private static final Logger logger = Logger.getLogger("TCPListener");
@@ -85,6 +111,11 @@ public class TCPListener {
             logger.log(Level.WARNING, "IOException, Class TCPListener", e);
         }
     }
+
+    /**
+     * Method called when the connection with a client is interrupted.
+     * @param client Reference to the disconnected client
+     */
     private synchronized void onDisconnection (TCPClient client)
     {
         connectedHosts.remove(client);

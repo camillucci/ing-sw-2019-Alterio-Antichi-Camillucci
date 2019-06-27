@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This class represent one of the squares that contains AmmoCard which can be grabbed
+ * This class represents a square that contains an AmmoCard that can be grabbed
  */
 public class AmmoSquare extends Square {
 
@@ -40,8 +40,8 @@ public class AmmoSquare extends Square {
     }
 
     /**
-     * This method give to a given Player the resources written on the AmmoCard if available,
-     * it is used through a GrabAction
+     * This method gives to a Player the resources written on the AmmoCard, if available.
+     * It is used through a GrabAction
      * @param player The Player in which addTarget the resources (Ammo and PowerUpCard)
      * @param powerUpCards It's always an empty list and not used hero, only for SpawnAndShopSquare
      * @return A single Branch from which the GrabAction can be confirmed by the Player

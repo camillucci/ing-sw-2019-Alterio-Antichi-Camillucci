@@ -80,6 +80,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         bottleneck.tryDo(() -> command.invoke(this));
     }
 
+    /**
+     * Method called when a connection exception comes up. The class unsubscribes to the events and notifies the
+     * controller about the newly occurred player's disconnection.
+     */
     protected void onExceptionGenerated(Exception e){
         removeEvents();
         controller.notifyPlayerDisconnected(name);
