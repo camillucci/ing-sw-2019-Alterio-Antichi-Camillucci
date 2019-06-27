@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlayerCardsController implements Ifxml<HBox> {
 
@@ -26,7 +27,8 @@ public class PlayerCardsController implements Ifxml<HBox> {
     @FXML private ImageView extraPowerup;
     @FXML private HBox cardsHBox;
     private MatchSnapshotProvider provider;
-    private RemoteActionsProvider actionsProvider;
+    private MatchSnapshot old = null;
+    private MatchSnapshot matchSnapshot;
     private String color;
     private List<ImageView> cards;
     private List<ImageView> weapons;
@@ -49,55 +51,36 @@ public class PlayerCardsController implements Ifxml<HBox> {
         weapons = getWeapons();
     }
 
-    private void addWeapon(Image weapon)
+    private ImageView addWeapon(String name)
     {
-        add(weapon, weapons);
-    }
-
-    private void add(Image image, List<ImageView> imageViews)
-    {
-        if(image == null)
-            return;
-
-        for(ImageView img : imageViews)
-            if(img.getImage() != null && img.getImage().getUrl().equals(image.getUrl()))
-                return;
-        for(ImageView img : imageViews)
-            if(img.getImage() == null)
+        for(ImageView weapon : getWeapons())
+            if(weapon.getImage() == null)
             {
-                img.setImage(image);
-                Animations.appearAnimation(img);
-                return;
+                weapon.setImage(new Image("weapon/" + snapshotToName(name)));
+                Animations.appearAnimation(weapon);
+                return weapon;
             }
+        return null;
     }
 
-    private void addPowerup(Image powerup)
+    private void addBackWeapon(){
+        addWeapon("weapon_back");
+    }
+
+    private void addBackPowerup(){
+        addPowerup("power_up_back");
+    }
+
+    private ImageView addPowerup(String name)
     {
-        add(powerup, powerups);
-    }
-
-    private Image getLoadedWeapon(String name)
-    {
-        String path = "weapon/" + name.replace(" ", "_").concat(".png").toLowerCase();
-        return new Image(path);
-    }
-
-    private Image getBackWeapon(){
-        return getLoadedWeapon("weapon_back");
-    }
-
-    private Image getUnloadedWeapon(String name){
-        return getLoadedWeapon(name); //todo mark card as unloaded
-    }
-
-    private Image getPowerup(String name)
-    {
-        String path = "powerup/" + name.replace(" ", "_").concat(".png").toLowerCase();
-        return new Image(path);
-    }
-
-    public Image getBackPowerup(){
-        return getPowerup("power_up_back");
+        for(ImageView powerup : getPowerUps())
+            if(powerup.getImage() == null)
+            {
+                powerup.setImage(new Image("powerup/" + snapshotToName(name)));
+                Animations.appearAnimation(powerup);
+                return powerup;
+            }
+        return null;
     }
 
     public List<ImageView> getCards(){
@@ -105,6 +88,14 @@ public class PlayerCardsController implements Ifxml<HBox> {
         ret.addAll(getWeapons());
         ret.addAll(getPowerUps());
         return ret;
+    }
+
+    private void removeAll(List<String> names)
+    {
+        for(String x : names)
+            for(ImageView img : getCards())
+                if(img.getImage() != null && img.getImage().getUrl().contains(x.replace(" ", "_").toLowerCase()))
+                    img.setImage(null);
     }
 
     private void buildController(MatchSnapshotProvider provider, String color){
@@ -115,110 +106,88 @@ public class PlayerCardsController implements Ifxml<HBox> {
 
     private void onModelChanged(MatchSnapshot matchSnapshot)
     {
-        List<Image> newImages = getNew(matchSnapshot);
-        List<ImageView> toDelete = new ArrayList<>();
-        for(ImageView cur : cards)
-            if(cur.getImage() != null && newImages.stream().noneMatch(i -> i != null && i.getUrl().equals(cur.getImage().getUrl())))
-                toDelete.add(cur);
-
-        if(!toDelete.isEmpty())
-        {
-            ImageView first = toDelete.get(0);
-            Animations.disappearAnimation(first, () -> Platform.runLater(() -> {
-                toDelete.forEach(i -> i.setImage(null));
-                addCards(newImages);
-            }));
-            for(int i=1; i < toDelete.size(); i++)
-                Animations.disappearAnimation(toDelete.get(i), () -> {});
-        }
+        this.matchSnapshot = matchSnapshot;
+        if(matchSnapshot.privatePlayerSnapshot.color.equals(this.color))
+            onPrivatePlayer(matchSnapshot.privatePlayerSnapshot);
         else
-            addCards(newImages);
-    }
-
-    private void addCards(List<Image> cards)
-    {
-        for(int i=0; i < MAX_WEAPONS; i++)
-            addWeapon(cards.get(i));
-        for(int i=0; i < MAX_POWERUPS ; i++)
-            addPowerup(cards.get(i + MAX_WEAPONS));
-        addWeapon(cards.get(MAX_WEAPONS + MAX_POWERUPS - 2));
-        addPowerup(cards.get(MAX_WEAPONS + MAX_POWERUPS - 1));
-    }
-
-    private List<Image> getNew(MatchSnapshot matchSnapshot)
-    {
-        for(PublicPlayerSnapshot player : matchSnapshot.getPublicPlayerSnapshot())
-            if(player.color.equals(this.color))
-                return onPublicPlayer(player);
-
-        return onPrivatePlayer(matchSnapshot.privatePlayerSnapshot);
-    }
-
-    private List<String> getBackup()
-    {
-        List<String> ret = new ArrayList<>();
-        for(ImageView card : cards)
-            if(card.getImage() != null)
-                ret.add(card.getImage().getUrl());
-            else
-                ret.add(null);
-        return ret;
+            for(PublicPlayerSnapshot p : matchSnapshot.getPublicPlayerSnapshot())
+                if(p.color.equals(this.color))
+                    onPublicPlayer(p);
     }
 
     public static String snapshotToName(String snapshotName){
-        return snapshotName.replace(" ", "_").toLowerCase();
+        return snapshotName.replace(" ", "_").concat(".png").toLowerCase();
     }
 
-    private List<Image> onPrivatePlayer(PrivatePlayerSnapshot player)
+    private boolean startDeletingAnimation(PrivatePlayerSnapshot player, List<String> oldList, List<String> newList, boolean found)
     {
-        Image[] ret = new Image[MAX_POWERUPS + MAX_WEAPONS + 2];
-        List<String> loadedWeapons = player.getLoadedWeapons();
-        List<String> unloaded = player.getUnloadedWeapons();
-        List<String> powerups = player.getPowerUps();
-        int tot = MAX_POWERUPS + MAX_WEAPONS;
+        for(String loaded : oldList)
+            if(!newList.contains(loaded))
+                if(!found)
+                {
+                    found = true;
+                    Animations.disappearAnimation(getCard(loaded), () -> {
+                        removeCardsPrivatePlayer(player);
+                        addCardPrivatePlayer(player);
+                    });
+                }
+                else Animations.disappearAnimation(getCard(loaded), () -> {});
+        return found;
+    }
 
-        for(int i=0; i < MAX_WEAPONS + MAX_POWERUPS + 2; i++)
-            ret[i] = null;
+    private void onPrivatePlayer(PrivatePlayerSnapshot player)
+    {
+        boolean found = false;
+        if(old != null)
+        {
+            PrivatePlayerSnapshot oldP = old.privatePlayerSnapshot;
+            found = startDeletingAnimation(player, oldP.getLoadedWeapons(), player.getLoadedWeapons(), found);
+            found = startDeletingAnimation(player, oldP.getUnloadedWeapons(), player.getUnloadedWeapons(), found);
+            found = startDeletingAnimation(player, oldP.getPowerUps(), player.getPowerUps(), found);
+        }
+        if(!found)
+        {
+            removeCardsPrivatePlayer(player);
+            addCardPrivatePlayer(player);
+        }
+    }
 
-        int j=0;
-        for(String weapon : loadedWeapons)
-            ret[j == MAX_WEAPONS ? tot-2 : j++] = getLoadedWeapon(weapon);
-        for(String weapon: unloaded)
-            ret[j == MAX_WEAPONS ? tot-2 : j++] = getUnloadedWeapon(weapon);
+    private void removeCardsPrivatePlayer(PrivatePlayerSnapshot player)
+    {
+        if(old != null) {
+            removeAll(old.privatePlayerSnapshot.getLoadedWeapons().stream().filter(c -> !player.getLoadedWeapons().contains(c)).collect(Collectors.toList()));
+            removeAll(old.privatePlayerSnapshot.getUnloadedWeapons().stream().filter(c -> !player.getUnloadedWeapons().contains(c)).collect(Collectors.toList()));
+            removeAll(old.privatePlayerSnapshot.getPowerUps().stream().filter(c -> !player.getPowerUps().contains(c)).collect(Collectors.toList()));
+        }
+    }
 
-        j=MAX_WEAPONS;
-        for(String powerup : player.getPowerUps())
-            ret[j == tot-2 ? tot-1 : j++] = getPowerup(powerup);
-        return Arrays.asList(ret);
+    private void addCardPrivatePlayer(PrivatePlayerSnapshot player)
+    {
+        player.getLoadedWeapons().stream().filter(c -> old == null || !old.privatePlayerSnapshot.getLoadedWeapons().contains(c)).forEach(this::addWeapon);
+        player.getUnloadedWeapons().stream().filter(c -> old == null || !old.privatePlayerSnapshot.getUnloadedWeapons().contains(c)).forEach(this::addWeapon);
+        player.getPowerUps().stream().filter(c -> old == null ||  !old.privatePlayerSnapshot.getPowerUps().contains(c)).forEach(this::addPowerup);
+        old = matchSnapshot;
+    }
+
+    private ImageView getCard(String name)
+    {
+        for(ImageView card : getCards())
+            if(card.getImage() != null && card.getImage().getUrl().contains(name.replace(" ", "_").toLowerCase()))
+                return card;
+        return null;
+    }
+
+    private void onPublicPlayer(PublicPlayerSnapshot player){
+        clear();
+        player.getUnloadedWeapons().forEach(card -> addWeapon(card));
+        for(int i=0; i < player.loadedWeaponsNumber; i++)
+            addBackWeapon();
+        for(int i = 0; i < player.powerUpsNumber; i++)
+            addBackPowerup();
     }
 
     private void clear(){
-        totWeapons = totPowerups = 0;
-        for(ImageView img : getCards())
-            img.setImage(null);
-    }
-
-    private List<Image> onPublicPlayer(PublicPlayerSnapshot player){
-        Image[] ret = new Image[8];
-        List<String> loadedWeapons = player.getUnloadedWeapons();
-        int unloaded = player.loadedWeaponsNumber;
-        int powerups = player.powerUpsNumber;
-
-        int tot = MAX_POWERUPS + MAX_WEAPONS;
-
-        for(int i=0; i < MAX_WEAPONS + MAX_POWERUPS + 2; i++)
-            ret[i] = null;
-
-        int j=0;
-        for(String weapon : loadedWeapons)
-            ret[j == MAX_WEAPONS ? tot-2 : j++] = getLoadedWeapon(weapon);
-        for(int i=0; i < unloaded; i++)
-            ret[j == MAX_WEAPONS ? tot-2 : j++] = getBackWeapon();
-
-        j=MAX_WEAPONS;
-        for(int i=0; i < powerups; i++)
-            ret[j == tot-2 ? tot-1 : j++] = getBackPowerup();
-        return Arrays.asList(ret);
+        getCards().forEach(i -> i.setImage(null));
     }
 
     @Override
