@@ -155,6 +155,11 @@ public abstract class Action
         return false;
     }
 
+    /**
+     * Getter that returns a boolean parameter that represents whether the input action is compatible with this action.
+     * @param action Action this class is going to be compared to
+     * @return A parameter that represents whether the input is equal to this action.
+     */
     public boolean isCompatible(Action action)
     {
         return this == action;

@@ -12,6 +12,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * This class is a specific case of a power up action class. It contains all the generic methods relative to an action
+ * that can be executed by the current turn's player.
+ */
 public class InTurnPowerUpAction extends PowerUpAction
 {
     public InTurnPowerUpAction()
@@ -32,6 +36,10 @@ public class InTurnPowerUpAction extends PowerUpAction
         this.next = tmp;
     }
 
+    /**
+     * Setse the targets this action is going to effect based on the input parameter.
+     * @param targets List of players the card is going to be targeting.
+     */
     public void setTargets(List<Player> targets)
     {
         damagedPlayers = targets;
@@ -62,6 +70,11 @@ public class InTurnPowerUpAction extends PowerUpAction
             this.canBeDone = true;
     }
 
+    /**
+     * This method executes the discarding of a power up card by adding ammo the player's pool. It can only be completed
+     * if the targets list is empty.
+     * @param ammo Ammo card discarded by the player if they actually have it among they cards they control
+     */
     @Override
     public void discard(Ammo ammo) {
         for(Ammo discardableAmmos : ownerPlayer.getDiscardableAmmo())
