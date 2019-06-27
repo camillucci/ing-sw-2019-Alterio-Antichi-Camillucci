@@ -15,7 +15,7 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
      */
     private IRMIAdrenalineServer server;
     /**
-     * True iff client does not ping the client
+     * True if client does not ping the client
      */
     private boolean stopPinging = true;
     /**
