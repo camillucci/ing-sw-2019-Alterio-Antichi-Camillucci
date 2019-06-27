@@ -58,10 +58,27 @@ public class Match extends ActionsProvider {
     /**
      * It contains the index of the player that started the final frenzy
      */
-
-    private BranchMap counterAttackBranchMap;
-    private Player counterAttackPlayer;
     private int frenzyStarter = -1;
+    /**
+     * The BranchMap used for the CounterAttackPowerUpCard
+     */
+    private BranchMap counterAttackBranchMap;
+    /**
+     * The Player that is using the counterAttackBranchMap
+     */
+    private Player counterAttackPlayer;
+    /**
+     * The list of Players cloned at the beginning of each move, it's used for the rollback
+     */
+    private List<Player> clonedPlayers;
+    /**
+     * The list of dead Player cloned at the beginning of each move, it's used for the rollback
+     */
+    private List<Player> clonedDeadPlayers;
+    /**
+     * The GameBoard cloned at the beginning of each move, it's used for the rollback
+     */
+    private GameBoard clonedGameBoard;
     private static final int MAX_DAMAGES = 12;
 
     /**
@@ -116,6 +133,7 @@ public class Match extends ActionsProvider {
      */
     private void spawn(boolean respawn)
     {
+        clonePlayersAndGameBoard();
         Player p = deadPlayers.get(0);
         if(respawn) {
             assignPoints(p);
@@ -129,6 +147,7 @@ public class Match extends ActionsProvider {
             p.addPowerUpCard();
         BranchMap branchMap = BranchMapFactory.spawnBranchMap(p);
         branchMap.newActionsEvent.addEventHandler((bMap, actions) -> setNewActions(actions));
+        branchMap.rollbackEvent.addEventHandler((bMap, rollbackAction) -> rollback(respawn));
         if(!respawn)
             branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> {
                 for(Player player : deadPlayers)
@@ -262,11 +281,36 @@ public class Match extends ActionsProvider {
     }
 
     /**
-     * This method restore the last precedent legal game state
-     * @param clonedPlayers The list of cloned Players of the last precedent legal game state
-     * @param clonedDeadPlayers The list of cloned dead Players of the last precedent legal game state
+     * This method clones all the Players of the Match and the GameBoard
      */
-    public void rollback(List<Player> clonedPlayers, List<Player> clonedDeadPlayers, GameBoard clonedGameBoard) {
+    public void clonePlayersAndGameBoard() {
+        boolean alreadyAdded = false;
+        clonedGameBoard = new GameBoard(gameBoard);
+        clonedPlayers = clonedGameBoard.getPlayers();
+        for(Player player : deadPlayers) {
+            for(Player p : clonedPlayers)
+                if(player.color.equals(p.color))
+                    alreadyAdded = true;
+            if(!alreadyAdded)
+                clonedPlayers.add(new Player(player, clonedGameBoard, null));
+            else
+                alreadyAdded = false;
+        }
+
+        clonedDeadPlayers = new ArrayList<>();
+        for(Player p : deadPlayers) {
+            for(Player player : clonedPlayers)
+                if(player.color.equals(p.color)) {
+                    clonedDeadPlayers.add(player);
+                    break;
+                }
+        }
+    }
+
+    /**
+     * This method restore the last precedent legal game state
+     */
+    public void rollback() {
         int index = players.indexOf(curPlayer);
         this.players = new ArrayList<>();
         for(PlayerColor playerColor : playerColors)
@@ -281,12 +325,13 @@ public class Match extends ActionsProvider {
         curPlayer = players.get(index);
     }
 
-    public List<Player> getPlayers() {
-        return new ArrayList<>(players);
+    private void rollback(Boolean respawn) {
+        rollback();
+        spawn(respawn);
     }
 
-    public List<Player> getDeadPlayers() {
-        return new ArrayList<>(deadPlayers);
+    public List<Player> getPlayers() {
+        return new ArrayList<>(players);
     }
 
     public boolean getFinalFrenzy() {
