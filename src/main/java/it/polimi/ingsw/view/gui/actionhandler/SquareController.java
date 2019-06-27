@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
+import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.GUIView;
@@ -31,6 +32,7 @@ public class SquareController implements Ifxml<StackPane> {
     private List<Avatar> avatars;
     private int totPlayers = 0;
     private ScaleTransition waitingTransition = null;
+    private SquareSnapshot old;
 
     private void putPlayer(String color)
     {
@@ -46,28 +48,34 @@ public class SquareController implements Ifxml<StackPane> {
         return ret;
     }
 
-    private void clear(){
+    private void clearAvatars(){
         totPlayers = 0;
         for(ImageView avatar : avatars)
             avatar.setImage(null);
-        ammoCard_shop.setImage(null);
     }
 
     public void onModelChanged(SquareSnapshot square){
         if(square == null)
             return;
 
-        List<String> backup = avatars.stream().map(Avatar::getColor).collect(Collectors.toList());
-        clear();
-        for(String color : square.getColors())
-            putPlayer(color);
-        List<Avatar> players = avatars.stream().filter(a -> a.getColor() != null).collect(Collectors.toList());
-        for(int i=0; i < players.size(); i++)
-            if(backup.size() <= i || !avatars.get(i).getColor().equals(backup.get(i)))
-                startWaitingAnimation(avatars.get(i));
-        if(square.ammoSquare && square.getCards().size() == 1)
-            ammoCard_shop.setImage(new Image(nameToUrl(square.getCards().get(0))));
+        clearAvatars();
 
+        for(String color : square.getColors())
+        {
+            putPlayer(color);
+            if(old == null || !old.getColors().contains(color))
+                Animations.appearAnimation(getAvatars().get(totPlayers-1));
+        }
+
+        if(square.ammoSquare && square.getCards().size() == 1)
+        {
+            ammoCard_shop.setImage(new Image(nameToUrl(square.getCards().get(0))));
+            if(old == null || !old.ammoSquare || old.getCards().size() != 1)
+                Animations.appearAnimation(ammoCard_shop);
+        }
+        else if(old != null && old.ammoSquare && old.getCards().size() == 1)
+            Animations.disappearAnimation(ammoCard_shop, () -> ammoCard_shop.setImage(null));
+        old = square;
     }
 
 
