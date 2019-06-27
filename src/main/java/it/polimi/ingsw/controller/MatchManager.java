@@ -97,7 +97,7 @@ public class MatchManager {
     }
 
     /**
-     * Calculates the killshotTrack associated with a specific player by confronting their color with color of all the
+     * Calculates the kill shot Track associated with a specific player by confronting their color with color of all the
      * drops present on the game board killshot track.
      * @param player Player whose killshotTrack is going to be calculated.
      * @return The killshotTrack associated with the player.

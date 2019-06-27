@@ -150,6 +150,7 @@ public class Room
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         match.newActionsEvent.addEventHandler(this::onNewActions);
         match.start();
+        match.endMatchEvent.addEventHandler((match, players) -> onMatchEnd());
     }
 
     private void onNewActions(Player player, List<Action> actions)
@@ -296,6 +297,64 @@ public class Room
      */
     public synchronized void setGameSize(int gameSize) {
         this.gameSize = gameSize;
+    }
+
+    /**
+     * This method is called when the match reaches an end and associates to every player a number indicative of the
+     * score they got by playing the game. Then it creates a leader board based on the amount of points that every
+     * player has acquired.
+     * @return The leader board that represents the final ladder based on player points.
+     */
+    private String[][] calculateScore() {
+        String[][] scoreBoard = new String[match.getPlayers().size()][2];
+        for(int i = 0; i < match.getPlayers().size(); i++) {
+            scoreBoard[i][0] = match.getPlayers().get(i).name;
+            scoreBoard[i][1] = Integer.toString(match.getPlayers().get(i).getPoints());
+        }
+        for(int i = 0; i < match.getPlayers().size(); i++)
+            for(int j = i; j < match.getPlayers().size(); j++)
+                if(Integer.parseInt(scoreBoard[j][1]) > Integer.parseInt(scoreBoard[i][1])) {
+                    String[] temp = new String[]{scoreBoard[i][0], scoreBoard[i][1]};
+                    scoreBoard[i][0] = scoreBoard[j][0];
+                    scoreBoard[i][1] = scoreBoard[j][1];
+                    scoreBoard[j][0] = temp[0];
+                    scoreBoard[j][1] = temp[1];
+                }
+        return scoreBoard;
+    }
+
+    /**
+     * Calculates who's the winning player by finding the player with the maximum number of points
+     * @return Winning player's name
+     */
+    private String declareWinner() {
+        Player player = match.getPlayers().get(0);
+        for(int i = 1; i < match.getPlayers().size(); i++)
+            if(match.getPlayers().get(i).getPoints() > player.getPoints() || (match.getPlayers().get(i).getPoints() == player.getPoints() &&
+                    countKillShotTrack(match.getPlayers().get(i)) > countKillShotTrack(player)))
+                player = match.getPlayers().get(i);
+        return player.name;
+    }
+
+    /**
+     * Calculates the kill shot Track associated with a specific player by confronting their color with color of all the
+     * drops present on the game board killshot track.
+     * @param player Player whose killshotTrack is going to be calculated.
+     * @return The killshotTrack associated with the player.
+     */
+    private int countKillShotTrack(Player player) {
+        int temp = 0;
+        for(List<PlayerColor> list : match.getGameBoard().getKillShotTrack())
+            for(PlayerColor playerColor : list)
+                if(playerColor == player.color)
+                    temp++;
+        return temp;
+    }
+
+    private void onMatchEnd() {
+        String[][] scoreBoard = calculateScore();
+        String winnerName = declareWinner();
+
     }
 
     public class MatchStartingException extends Exception {}
