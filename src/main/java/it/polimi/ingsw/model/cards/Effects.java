@@ -26,7 +26,7 @@ public class Effects
     public static void damage(Player shooter, List<Player> targets, List<Integer> damage)
     {
         for(int i = 0; i < targets.size(); i++)
-            if(damage.get(i) > 0)
+            if(damage.size() > i && damage.get(i) > 0)
                 targets.get(i).addDamage(shooter, damage.get(i));
     }
 
@@ -41,7 +41,7 @@ public class Effects
     public static void mark(Player shooter, List<Player> targets, List<Integer> marks)
     {
         for(int i = 0; i < targets.size(); i++)
-            if(marks.get(i) > 0)
+            if(marks.size() > i && marks.get(i) > 0)
                 targets.get(i).addMark(shooter, marks.get(i));
     }
 
@@ -56,7 +56,7 @@ public class Effects
     public static void damageAll(Player shooter, List<Square> targets, List<Integer> damage)
     {
         for(int i = 0; i < targets.size(); i++)
-            if(damage.get(i) > 0) {
+            if(damage.size() > i && damage.get(i) > 0) {
                 List<Player> temp = targets.get(i).getPlayers();
                 for(Player p : temp)
                     p.addDamage(shooter, damage.get(i));
@@ -74,7 +74,7 @@ public class Effects
     public static void markAll(Player shooter, List<Square> targets, List<Integer> marks)
     {
         for(int i = 0; i < targets.size(); i++)
-            if(marks.get(i) > 0) {
+            if(marks.size() > i && marks.get(i) > 0) {
                 List<Player> temp = targets.get(i).getPlayers();
                 for(Player p : temp)
                     p.addMark(shooter, marks.get(i));
@@ -142,7 +142,7 @@ public class Effects
      *                targets.
      * @param targets A list of players that represents the players that are being damaged.
      */
-    public static void powerGlove(Player shooter, List<Player> targets) {
+    public static void powerGloveEffect(Player shooter, List<Player> targets) {
         damage(shooter, targets, Arrays.asList(2, 2));
         if(targets.size() == 1)
             move(Collections.singletonList(shooter), Collections.singletonList(targets.get(0).getCurrentSquare()));
@@ -157,7 +157,7 @@ public class Effects
     public static void damageNoMark(Player shooter, List<Player> targets, List<Integer> damage)
     {
         for(int i = 0; i < targets.size(); i++)
-            if(damage.get(i) > 0)
+            if(damage.size() > i && damage.get(i) > 0)
                 targets.get(i).addDamageNoMarks(shooter, damage.get(i));
     }
 }

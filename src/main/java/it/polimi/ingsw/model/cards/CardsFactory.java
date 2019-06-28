@@ -122,106 +122,144 @@ public class CardsFactory {
     private static void buildWeapons()
     {
         weapons.add(new WeaponCard(LOCK_RIFLE, new Ammo(1,0,0), new Ammo(2,0,0), () -> Arrays.asList(
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers(1), damage(2).andThen(mark(1))), new EndBranchAction(LOCK_RIFLE))),
-                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(visiblePlayers(2), damage(2).andThen(mark(1,1))), new EndBranchAction(LOCK_RIFLE))))));
+                new FireModalityAction(new Ammo(0, 0, 0), LOCK_RIFLE, BASIC_MODE,
+                        new Branch(new ShootAction(visiblePlayers(1), damage(2).andThen(mark(1))), new EndBranchAction(LOCK_RIFLE))),
+                new FireModalityAction(new Ammo(0, 1, 0), LOCK_RIFLE, "Second Lock",
+                        new Branch(new ShootAction(visiblePlayers(2), damage(2).andThen(mark(1,1))), new EndBranchAction(LOCK_RIFLE))))));
 
         weapons.add(new WeaponCard(MACHINE_GUN, new Ammo(0,1,0), new Ammo(1,1,0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers(2), damage(1)), new EndBranchAction(MACHINE_GUN))),
-                new FireModalityAction(new Ammo(0, 0, 1), new Branch(new ShootAction(visiblePlayers(2), damage(2,1)), new EndBranchAction(MACHINE_GUN))),
-                new FireModalityAction(new Ammo(1, 0, 0), new Branch(new ShootAction(visiblePlayers(3), damage(2,1,1)), new EndBranchAction(MACHINE_GUN))),
-                new FireModalityAction(new Ammo(1, 0, 1), new Branch(new ShootAction(visiblePlayers(3), damage(2,2,1)), new EndBranchAction(MACHINE_GUN))))));
+                new FireModalityAction(new Ammo(0, 0, 0), MACHINE_GUN, BASIC_MODE,
+                        new Branch(new ShootAction(visiblePlayers(2), damage(1)), new EndBranchAction(MACHINE_GUN))),
+                new FireModalityAction(new Ammo(0, 0, 1), MACHINE_GUN, "Focus Shot",
+                        new Branch(new ShootAction(visiblePlayers(2), damage(2,1)), new EndBranchAction(MACHINE_GUN))),
+                new FireModalityAction(new Ammo(1, 0, 0), MACHINE_GUN, "Turret Tripod",
+                        new Branch(new ShootAction(visiblePlayers(3), damage(2,1,1)), new EndBranchAction(MACHINE_GUN))),
+                new FireModalityAction(new Ammo(1, 0, 1), MACHINE_GUN, "Focus Shot and Turret Tripod",
+                        new Branch(new ShootAction(visiblePlayers(3), damage(2,2,1)), new EndBranchAction(MACHINE_GUN))))));
 
         weapons.add(new WeaponCard(THOR, new Ammo(0,1,0), new Ammo(1,1,0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2)), new EndBranchAction(THOR))),
-                new FireModalityAction(new Ammo(1, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2,1)), new EndBranchAction(THOR))),
-                new FireModalityAction(new Ammo(2, 0, 0), new Branch(new ShootAction(thorVisiblePlayers, damage(2,1,2)), new EndBranchAction(THOR))))));
+                new FireModalityAction(new Ammo(0, 0, 0), THOR, BASIC_MODE,
+                        new Branch(new ShootAction(thorVisiblePlayers, damage(2)), new EndBranchAction(THOR))),
+                new FireModalityAction(new Ammo(1, 0, 0), THOR, "Chain Reaction",
+                        new Branch(new ShootAction(thorVisiblePlayers, damage(2,1)), new EndBranchAction(THOR))),
+                new FireModalityAction(new Ammo(2, 0, 0), THOR, "High Voltage",
+                        new Branch(new ShootAction(thorVisiblePlayers, damage(2,1,2)), new EndBranchAction(THOR))))));
 
         weapons.add(new WeaponCard(PLASMA_GUN, new Ammo(0,0,1), new Ammo(1,0,1), () -> Arrays.asList(
-                new FireModalityAction(new Ammo(0, 0, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), PLASMA_GUN, "Phase Glide",
                         new Branch(new MoveAction(2), new ShootAction(visiblePlayers(1), damage(2)), new EndBranchAction(PLASMA_GUN)),
                         new Branch(new ShootAction(visiblePlayers(1), damage(2)), new MoveAction(2), new EndBranchAction(PLASMA_GUN))),
-                new FireModalityAction(new Ammo(1, 0, 0),
+                new FireModalityAction(new Ammo(1, 0, 0), PLASMA_GUN, "Charged Shot",
                         new Branch(new MoveAction(2), new ShootAction(visiblePlayers(1), damage(3)), new EndBranchAction(PLASMA_GUN)),
                         new Branch(new ShootAction(visiblePlayers(1), damage(3)), new MoveAction(2), new EndBranchAction(PLASMA_GUN))))));
 
         weapons.add(new WeaponCard(WHISPER, new Ammo(1,0,1), new Ammo(2,0,1), () -> Collections.singletonList(
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(awayPlayers(1, 2), damage(3).andThen(mark(1))), new EndBranchAction(WHISPER))))));
+                new FireModalityAction(new Ammo(0, 0, 0), WHISPER, BASIC_MODE,
+                        new Branch(new ShootAction(awayPlayers(1, 2), damage(3).andThen(mark(1))), new EndBranchAction(WHISPER))))));
 
         weapons.add(new WeaponCard(ELECTROSCYTHE, new Ammo(0, 0, 0), new Ammo(1, 0, 0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1), nearSquares(1, 0)), new EndBranchAction(ELECTROSCYTHE))),
-                new FireModalityAction(new Ammo(1, 1, 0), new Branch(new ShootAction(damageAll(2), nearSquares(1, 0)), new EndBranchAction(ELECTROSCYTHE))))));
+                new FireModalityAction(new Ammo(0, 0, 0), ELECTROSCYTHE, BASIC_MODE,
+                        new Branch(new ShootAction(damageAll(1), nearSquares(1, 0)), new EndBranchAction(ELECTROSCYTHE))),
+                new FireModalityAction(new Ammo(1, 1, 0), ELECTROSCYTHE, "Reaper Mode",
+                        new Branch(new ShootAction(damageAll(2), nearSquares(1, 0)), new EndBranchAction(ELECTROSCYTHE))))));
 
         weapons.add(new WeaponCard(TRACTOR_BEAM, new Ammo(0, 0, 0), new Ammo(1, 0, 0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(tractorBeamPlayers1, tractorBeamSquares1, move.andThen(damage(1))), new EndBranchAction(TRACTOR_BEAM))),
-                new FireModalityAction(new Ammo(0, 1, 1), new Branch(new ShootAction(tractorBeamPlayers2, tractorBeamSquares2, move.andThen(damage(3))), new EndBranchAction(TRACTOR_BEAM))))));
+                new FireModalityAction(new Ammo(0, 0, 0), TRACTOR_BEAM, BASIC_MODE,
+                        new Branch(new ShootAction(tractorBeamPlayers1, tractorBeamSquares1, move.andThen(damage(1))), new EndBranchAction(TRACTOR_BEAM))),
+                new FireModalityAction(new Ammo(0, 1, 1), TRACTOR_BEAM, "Punisher Mode",
+                        new Branch(new ShootAction(tractorBeamPlayers2, tractorBeamSquares2, move.andThen(damage(3))), new EndBranchAction(TRACTOR_BEAM))))));
 
         weapons.add(new WeaponCard(VORTEX_CANNON, new Ammo(1, 0, 0), new Ammo(1, 1, 0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(vortexCannonPlayers1, vortexCannonSquares, move.andThen(damage(2))), new EndBranchAction(VORTEX_CANNON))),
-                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(vortexCannonPlayers2, vortexCannonSquares, move.andThen(damage(2, 1, 1))), new EndBranchAction(VORTEX_CANNON))))));
+                new FireModalityAction(new Ammo(0, 0, 0), VORTEX_CANNON, BASIC_MODE,
+                        new Branch(new ShootAction(vortexCannonPlayers1, vortexCannonSquares, move.andThen(damage(2))), new EndBranchAction(VORTEX_CANNON))),
+                new FireModalityAction(new Ammo(0, 1, 0), VORTEX_CANNON, "Black Hole",
+                        new Branch(new ShootAction(vortexCannonPlayers2, vortexCannonSquares, move.andThen(damage(2, 1, 1))), new EndBranchAction(VORTEX_CANNON))))));
 
         weapons.add(new WeaponCard(FURNACE, new Ammo(1, 0, 0), new Ammo(1, 1, 0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageRoom(1), roomSquares(1)), new EndBranchAction(FURNACE))),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(damageAll(1).andThen(markAll(1)), betweenSquares(1, 1,1)), new EndBranchAction(FURNACE))))));
+                new FireModalityAction(new Ammo(0, 0, 0), FURNACE, BASIC_MODE,
+                        new Branch(new ShootAction(damageRoom(1), roomSquares(1)), new EndBranchAction(FURNACE))),
+                new FireModalityAction(new Ammo(0, 0, 0), FURNACE, "Cozy Fire Mode",
+                        new Branch(new ShootAction(damageAll(1).andThen(markAll(1)), betweenSquares(1, 1,1)), new EndBranchAction(FURNACE))))));
 
         weapons.add(new WeaponCard(HEATSEEKER, new Ammo(0, 1, 1), new Ammo(0, 2, 1), () -> Collections.singletonList(
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(nonVisiblePlayers(1), damage(3)), new EndBranchAction(HEATSEEKER))))));
+                new FireModalityAction(new Ammo(0, 0, 0), HEATSEEKER, BASIC_MODE,
+                        new Branch(new ShootAction(nonVisiblePlayers(1), damage(3)), new EndBranchAction(HEATSEEKER))))));
 
         weapons.add(new WeaponCard(HELLION, new Ammo(0, 0, 1), new Ammo(0, 1, 1), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(awayPlayers(1, 1), damageMultiple(1, 0, 0, 1)), new EndBranchAction(HELLION))),
-                new FireModalityAction(new Ammo(0 ,1 ,0), new Branch(new ShootAction(awayPlayers(1, 1), damageMultiple(1, 0, 0, 2)), new EndBranchAction(HELLION))))));
+                new FireModalityAction(new Ammo(0, 0, 0), HELLION, BASIC_MODE,
+                        new Branch(new ShootAction(awayPlayers(1, 1), damageMultiple(1, 0, 0, 1)), new EndBranchAction(HELLION))),
+                new FireModalityAction(new Ammo(0 ,1 ,0),HELLION, "Nano-Tracer Mode",
+                        new Branch(new ShootAction(awayPlayers(1, 1), damageMultiple(1, 0, 0, 2)), new EndBranchAction(HELLION))))));
 
         weapons.add(new WeaponCard(FLAMETHROWER, new Ammo(0, 0, 0), new Ammo(0, 1, 0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(flamethrowerPlayers, damage(1,1)), new EndBranchAction(FLAMETHROWER))),
-                new FireModalityAction(new Ammo(0, 0, 2), new Branch(new ShootAction(damageAll(2, 1), flamethrowerSquares), new EndBranchAction(FLAMETHROWER))))));
+                new FireModalityAction(new Ammo(0, 0, 0), FLAMETHROWER, BASIC_MODE,
+                        new Branch(new ShootAction(flamethrowerPlayers, damage(1,1)), new EndBranchAction(FLAMETHROWER))),
+                new FireModalityAction(new Ammo(0, 0, 2), FLAMETHROWER, "Barbecue Mode",
+                        new Branch(new ShootAction(damageAll(2, 1), flamethrowerSquares), new EndBranchAction(FLAMETHROWER))))));
 
         weapons.add(new WeaponCard(GRENADE_LAUNCHER, new Ammo(0, 0, 0), new Ammo(0, 1, 0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers(1), movable1Square, move.andThen(damage(1))), new EndBranchAction(GRENADE_LAUNCHER))),
-                new FireModalityAction(new Ammo(0, 1, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), GRENADE_LAUNCHER, BASIC_MODE,
+                        new Branch(new ShootAction(visiblePlayers(1), movable1Square, move.andThen(damage(1))), new EndBranchAction(GRENADE_LAUNCHER))),
+                new FireModalityAction(new Ammo(0, 1, 0), GRENADE_LAUNCHER, "Extra Grenade",
                         new Branch(new ShootAction(visiblePlayers(1), movable1Square, move.andThen(damage(1))), new ShootAction(damageAll(1), visibleSquares(1)), new EndBranchAction(GRENADE_LAUNCHER)),
                         new Branch(new ShootAction(damageAll(1), visibleSquares(1)), new ShootAction(visiblePlayers(1), movable1Square, move.andThen(damage(1))), new EndBranchAction(GRENADE_LAUNCHER))))));
 
         weapons.add(new WeaponCard(ROCKET_LAUNCHER, new Ammo(0, 1, 0), new Ammo(0, 2, 0), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(awayPlayers(1, 1), movable1Square, move.andThen(damage(2))), new EndBranchAction(ROCKET_LAUNCHER))),
-                new FireModalityAction(new Ammo(1, 0, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), ROCKET_LAUNCHER, BASIC_MODE,
+                        new Branch(new ShootAction(awayPlayers(1, 1), movable1Square, move.andThen(damage(2))), new EndBranchAction(ROCKET_LAUNCHER))),
+                new FireModalityAction(new Ammo(1, 0, 0), ROCKET_LAUNCHER, "Rocket Jump",
                         new Branch(new ShootAction(awayPlayers(1, 1), movable1Square, move.andThen(damage(2))), new MoveAction(2), new EndBranchAction(ROCKET_LAUNCHER)),
                         new Branch(new MoveAction(2), new ShootAction(awayPlayers(1, 1), movable1Square, move.andThen(damage(2))), new EndBranchAction(ROCKET_LAUNCHER))),
-                new FireModalityAction(new Ammo(0, 0, 1), new Branch(new ShootAction(awayPlayers(1, 1), movable1Square, damageMultiple(2, 1, 0, 0).andThen(move)), new EndBranchAction(ROCKET_LAUNCHER))),
-                new FireModalityAction(new Ammo(1, 0, 1),
+                new FireModalityAction(new Ammo(0, 0, 1), ROCKET_LAUNCHER, "Fragmenting Warhead",
+                        new Branch(new ShootAction(awayPlayers(1, 1), movable1Square, damageMultiple(2, 1, 0, 0).andThen(move)), new EndBranchAction(ROCKET_LAUNCHER))),
+                new FireModalityAction(new Ammo(1, 0, 1), ROCKET_LAUNCHER, "Rocket Jump and Fragmenting Warhead",
                         new Branch(new ShootAction(awayPlayers(1, 1), movable1Square, damageMultiple(2, 1, 0, 0).andThen(move)), new MoveAction(2), new EndBranchAction(ROCKET_LAUNCHER)),
                         new Branch(new MoveAction(2), new ShootAction(awayPlayers(1, 1), movable1Square, damageMultiple(2, 1, 0, 0).andThen(move)), new EndBranchAction(ROCKET_LAUNCHER))))));
 
         weapons.add(new WeaponCard(RAILGUN, new Ammo(1, 0, 1), new Ammo(1, 0, 2), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunPlayers1, damage(3)), new EndBranchAction(RAILGUN))),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(railGunPlayers2, damage(2, 2)), new EndBranchAction(RAILGUN))))));
+                new FireModalityAction(new Ammo(0, 0, 0), RAILGUN, BASIC_MODE,
+                        new Branch(new ShootAction(railGunPlayers1, damage(3)), new EndBranchAction(RAILGUN))),
+                new FireModalityAction(new Ammo(0, 0, 0), RAILGUN, "Piercing Mode",
+                        new Branch(new ShootAction(railGunPlayers2, damage(2, 2)), new EndBranchAction(RAILGUN))))));
 
         weapons.add(new WeaponCard(CYBERBLADE, new Ammo(0, 1, 0), new Ammo(0, 1, 1), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0),
+                new FireModalityAction(new Ammo(0, 0, 0), CYBERBLADE, "Shadowstep",
                         new Branch(new ShootAction(nearPlayers(1, 0), damage(2)), new MoveAction(1), new EndBranchAction(CYBERBLADE)),
                         new Branch(new MoveAction(1), new ShootAction(nearPlayers(1, 0), damage(2)), new EndBranchAction(CYBERBLADE))),
-                new FireModalityAction(new Ammo(0, 0, 1),
+                new FireModalityAction(new Ammo(0, 0, 1), CYBERBLADE, "Slice and Dice",
                         new Branch(new ShootAction(nearPlayers(2, 0), damage(2, 2)), new MoveAction(1), new EndBranchAction(CYBERBLADE)),
                         new Branch(new MoveAction(1), new ShootAction(nearPlayers(2, 0), damage(2, 2)), new EndBranchAction(CYBERBLADE)),
                         new Branch(new ShootAction(nearPlayers(1, 0), damage(2)), new MoveAction(1, 1), new ShootAction(nearPlayers(1, 0),damage(2)), new EndBranchAction(CYBERBLADE))))));
 
         weapons.add(new WeaponCard(ZX_2, new Ammo(0, 1, 0), new Ammo(0, 1, 1), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers(1), damage(1).andThen(mark(2))), new EndBranchAction(ZX_2))),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(visiblePlayers(3), mark(1, 1, 1), false), new EndBranchAction(ZX_2))))));
+                new FireModalityAction(new Ammo(0, 0, 0), ZX_2, BASIC_MODE,
+                        new Branch(new ShootAction(visiblePlayers(1), damage(1).andThen(mark(2))), new EndBranchAction(ZX_2))),
+                new FireModalityAction(new Ammo(0, 0, 0), ZX_2, "Scanner Mode",
+                        new Branch(new ShootAction(visiblePlayers(3), mark(1, 1, 1), false), new EndBranchAction(ZX_2))))));
 
         weapons.add(new WeaponCard(SHOTGUN, new Ammo(0, 0, 1), new Ammo(0, 0, 2), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(nearPlayers(1, 0), movable1Square, move.andThen(damage(3))), new EndBranchAction(SHOTGUN))),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(betweenPlayers(1, 1, 1), damage(2)), new EndBranchAction(SHOTGUN))))));
+                new FireModalityAction(new Ammo(0, 0, 0), SHOTGUN, BASIC_MODE,
+                        new Branch(new ShootAction(nearPlayers(1, 0), movable1Square, move.andThen(damage(3))), new EndBranchAction(SHOTGUN))),
+                new FireModalityAction(new Ammo(0, 0, 0), SHOTGUN, "Long Barrel Mode",
+                        new Branch(new ShootAction(betweenPlayers(1, 1, 1), damage(2)), new EndBranchAction(SHOTGUN))))));
 
         weapons.add(new WeaponCard(POWER_GLOVE, new Ammo(1, 0, 0), new Ammo(1, 0, 1), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new MoveAction(1, 1), new ShootAction(nearPlayers(1, 0), damage(1).andThen(mark(2))), new EndBranchAction(POWER_GLOVE))),
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(flamethrowerPlayers, powerGloveEffect), new EndBranchAction(POWER_GLOVE))))));
+                new FireModalityAction(new Ammo(0, 0, 0), POWER_GLOVE, BASIC_MODE,
+                        new Branch(new MoveAction(1, 1), new ShootAction(nearPlayers(1, 0), damage(1).andThen(mark(2))), new EndBranchAction(POWER_GLOVE))),
+                new FireModalityAction(new Ammo(0, 0, 0), POWER_GLOVE, "Rocket Fist Mode",
+                        new Branch(new ShootAction(flamethrowerPlayers, powerGloveEffect), new EndBranchAction(POWER_GLOVE))))));
 
         weapons.add(new WeaponCard(SHOCKWAVE, new Ammo(0, 0, 0), new Ammo(0, 0, 1), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(betweenPlayers(3, 1,1), damage(1, 1, 1)), new EndBranchAction(SHOCKWAVE))),
-                new FireModalityAction(new Ammo(0, 0, 1), new Branch(new ShootAction(damageAll(1, 1, 1, 1), betweenSquares(4, 1,1)), new EndBranchAction(SHOCKWAVE))))));
+                new FireModalityAction(new Ammo(0, 0, 0), SHOCKWAVE, BASIC_MODE,
+                        new Branch(new ShootAction(betweenPlayers(3, 1,1), damage(1, 1, 1)), new EndBranchAction(SHOCKWAVE))),
+                new FireModalityAction(new Ammo(0, 0, 1), SHOCKWAVE, "Tsunami Mode",
+                        new Branch(new ShootAction(damageAll(1, 1, 1, 1), betweenSquares(4, 1,1)), new EndBranchAction(SHOCKWAVE))))));
 
         weapons.add(new WeaponCard(SLEDGEHAMMER, new Ammo(0, 0, 0), new Ammo(0, 0, 1), () -> Arrays.asList (
-                new FireModalityAction(new Ammo(0, 0, 0), new Branch(new ShootAction(nearPlayers(1, 0), damage(2)), new EndBranchAction(SLEDGEHAMMER))),
-                new FireModalityAction(new Ammo(0, 1, 0), new Branch(new ShootAction(nearPlayers(1, 0), sledgehammerSquares, move.andThen(damage(3))), new EndBranchAction(SLEDGEHAMMER))))));
+                new FireModalityAction(new Ammo(0, 0, 0), SLEDGEHAMMER, BASIC_MODE,
+                        new Branch(new ShootAction(nearPlayers(1, 0), damage(2)), new EndBranchAction(SLEDGEHAMMER))),
+                new FireModalityAction(new Ammo(0, 1, 0), SLEDGEHAMMER, "Pulverize Mode",
+                        new Branch(new ShootAction(nearPlayers(1, 0), sledgehammerSquares, move.andThen(damage(3))), new EndBranchAction(SLEDGEHAMMER))))));
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -248,6 +286,8 @@ public class CardsFactory {
     private static final String SHOCKWAVE = "Shockwave";
     private static final String SLEDGEHAMMER = "Sledgehammer";
 
+    private static final String BASIC_MODE = "Basic Mode";
+
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF EFFECTS
 
@@ -258,7 +298,7 @@ public class CardsFactory {
     private static ShootFunc damageRoom (Integer ... damage) { return (player, players, squares) -> Effects.damageRoom(player, squares, Arrays.asList(damage)); }
     private static ShootFunc damageMultiple(Integer ... damage) { return (player, players, squares) -> Effects.damageMultiple(player, players, Arrays.asList(damage)); }
     private static ShootFunc move = (player, players, squares) -> Effects.move(players, squares);
-    private static ShootFunc powerGloveEffect = (player, players, squares) -> Effects.powerGlove(player, players);
+    private static ShootFunc powerGloveEffect = (player, players, squares) -> Effects.powerGloveEffect(player, players);
     private static ShootFunc moveSelf = (player, players, squares) -> Effects.move(Collections.singletonList(player), squares);
     private static ShootFunc damageNoMark(Integer ... damage) {return (player, players, squares) -> Effects.damageNoMark(player, players, Arrays.asList(damage)); }
 

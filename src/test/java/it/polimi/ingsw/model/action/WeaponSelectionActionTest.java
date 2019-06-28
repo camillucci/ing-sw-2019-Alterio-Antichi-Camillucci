@@ -32,6 +32,6 @@ class WeaponSelectionActionTest {
     WeaponCard newWeaponCard(ShootFunc s)
     {
         return new WeaponCard("B", ammo, ammo, () -> Collections.singletonList(
-                new FireModalityAction(ammo, new Branch(new ShootAction((shooter, players, squares) -> Collections.emptyList(), (shooter, players, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
+                new FireModalityAction(ammo, "", "", new Branch(new ShootAction((shooter, players, squares) -> Collections.emptyList(), (shooter, players, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
     }
 }
