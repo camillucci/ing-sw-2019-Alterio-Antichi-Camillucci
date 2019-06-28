@@ -20,9 +20,9 @@ import java.util.List;
 public class Match extends ActionsProvider {
 
     /**
-     * The event that notify the Controller when the Match is over
+     * The event that notifies the Controller when the Match is over
      */
-    public final IEvent<Match, List<Player>> endMatchEvent = new Event<>(); //TODO Let the Controller listen to this event
+    public final IEvent<Match, List<Player>> endMatchEvent = new Event<>();
     /**
      * The current turn progressive number, it stars at -1 which means that all Players must spawn for the first time
      */
