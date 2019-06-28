@@ -104,7 +104,7 @@ class PlayerTest {
 
     @Test
     void addUnloadReloadRemoveGetWeapon() {
-        final Supplier<List<FireModalityAction>> listSupplier = () -> Collections.singletonList(new FireModalityAction(null, new ArrayList<>()));
+        final Supplier<List<FireModalityAction>> listSupplier = () -> Collections.singletonList(new FireModalityAction(null, "", "", new ArrayList<>()));
         WeaponCard weaponCard1 = new WeaponCard("B", null, null, listSupplier);
         WeaponCard weaponCard2 =  new WeaponCard("B", null, null, listSupplier);
         assertEquals(0, player.getLoadedWeapons().size());
@@ -150,7 +150,7 @@ class PlayerTest {
     void getClone() {
         Player cloned = new Player(player, gameBoard, player.getCurrentSquare());
         Player player2 = new Player("B", PlayerColor.VIOLET, gameBoard);
-        WeaponCard weaponCard =  new WeaponCard("B", null, null, () -> Collections.singletonList(new FireModalityAction(null, new ArrayList<>())));
+        WeaponCard weaponCard =  new WeaponCard("B", null, null, () -> Collections.singletonList(new FireModalityAction(null, "", "", new ArrayList<>())));
 
         assertNotEquals(player, cloned);
 

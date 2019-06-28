@@ -12,15 +12,16 @@ import java.util.List;
 
 public class FireModalityAction extends ExtendableAction
 {
-    public FireModalityAction(Ammo cost, List<Branch> branches)
+    public FireModalityAction(Ammo cost, String name, String description, List<Branch> branches)
     {
-        super(branches, new Visualizable("","")); //TODO Add a proper name
         this.doActionCost = cost;
+        this.branches = new ArrayList<>(branches);
+        this.visualizable = new Visualizable(nameToUrl(name,description), "use the " + description, name);
     }
 
-    public FireModalityAction(Ammo cost, Branch ... branches)
+    public FireModalityAction(Ammo cost, String name, String description, Branch ... branches)
     {
-        this(cost, Arrays.asList(branches));
+        this(cost, name, description, Arrays.asList(branches));
     }
 
     @Override
@@ -50,5 +51,9 @@ public class FireModalityAction extends ExtendableAction
             if(!discardedPowerUps.contains(pu) && alreadyAdded.add(pu.colorToAmmo()).isLessOrEqualThan(this.doActionCost))
                 temp.add(pu);
         return new ArrayList<>(temp);
+    }
+
+    private String nameToUrl(String name, String description){
+        return "firemodality/" + name.concat("_").concat(description).replace(" ", "_").concat(".png").toLowerCase();
     }
 }

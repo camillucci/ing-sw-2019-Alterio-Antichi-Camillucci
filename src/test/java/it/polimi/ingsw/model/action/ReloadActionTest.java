@@ -31,8 +31,8 @@ class ReloadActionTest {
         gameBoard.setPlayers(Collections.singletonList(player));
         ammo1 = new Ammo(0, 0, 0);
         ammo2 = new Ammo(4, 4, 4);
-        weaponCard1 = new WeaponCard("B", ammo1, ammo1, () -> Collections.singletonList(new FireModalityAction(ammo1, new ArrayList<>())));
-        weaponCard2 = new WeaponCard("C", ammo2, ammo2,() -> Arrays.asList(new FireModalityAction(ammo2, new ArrayList<>()), new FireModalityAction(ammo2, new ArrayList<>())));
+        weaponCard1 = new WeaponCard("B", ammo1, ammo1, () -> Collections.singletonList(new FireModalityAction(ammo1, "", "", new ArrayList<>())));
+        weaponCard2 = new WeaponCard("C", ammo2, ammo2,() -> Arrays.asList(new FireModalityAction(ammo2, "", "", new ArrayList<>()), new FireModalityAction(ammo2, "", "", new ArrayList<>())));
     }
 
     @Test
