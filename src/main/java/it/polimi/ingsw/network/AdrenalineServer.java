@@ -31,6 +31,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private List<String> otherPlayers = new ArrayList<>();
     protected Bottleneck bottleneck = new Bottleneck();
     protected RemoteActionsHandler remoteActionsHandler;
+    private BiConsumer<Room, String> onEndMatchEventHandler = (a, winner) -> bottleneck.tryDo( () -> sendMessage(endMatchMessage(winner)));
     private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> sendMessage(timerStartMessage(timeout)));
     private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(timerTickMessage(timeLeft)));
     private BiConsumer<Room, Integer> timerStopEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE));
@@ -213,6 +214,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private void removeEvents() {
         if(joinedRoom != null) {
+            joinedRoom.onEndMatchEvent.removeEventHandler(onEndMatchEventHandler);
             joinedRoom.timerStartEvent.removeEventHandler(timerStartEventHandler);
             joinedRoom.timerTickEvent.removeEventHandler(timerTickEventHandler);
             joinedRoom.timerStopEvent.removeEventHandler(timerStopEventHandler);
@@ -228,6 +230,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private void setupRoomEvents()
     {
+        joinedRoom.onEndMatchEvent.addEventHandler(onEndMatchEventHandler);
         joinedRoom.timerStartEvent.addEventHandler(timerStartEventHandler);
         joinedRoom.timerTickEvent.addEventHandler(timerTickEventHandler);
         joinedRoom.timerStopEvent.addEventHandler(timerStopEventHandler);
@@ -273,6 +276,15 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private static String timerTickMessage(int timeLeft){
         return timeLeft + " seconds left\n";
+    }
+
+    /**
+     * //todo add documentation
+     * @param winner
+     * @return
+     */
+    private static String endMatchMessage (String winner) {
+        return "Congratulations, Mr." + winner + ", you won!\n";
     }
 
     /**

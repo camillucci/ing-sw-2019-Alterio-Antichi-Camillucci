@@ -13,11 +13,11 @@ import java.rmi.NotBoundException;
 public abstract class AdrenalineClient
 {
     /**
-     * Reference to the class which communicates with the user
+     * Reference to the class that communicates with the user
      */
     protected View view;
     /**
-     * Reference to an "Exception's bottleneck". All methods which can throw fatal exception have to pass through the tryDO function of this class.
+     * Reference to an "Exception's bottleneck". All methods that can throw a fatal exception have to pass through the tryDO function of this class.
      * If an exception is thrown then an event is invoked: onExceptionGenerated is the event-handler and the Exception is the event-arg
      */
     protected Bottleneck bottleneck = new Bottleneck();

@@ -46,6 +46,11 @@ public class Room
     public final IEvent<Room, ModelEventArgs> modelUpdatedEvent = new Event<>();
 
     /**
+     * todo
+     */
+    public final IEvent<Room, String> onEndMatchEvent = new Event<>();
+
+    /**
      * Integer representing the timeout value
      */
     private static final int TIMEOUT = 2;
@@ -338,9 +343,9 @@ public class Room
 
     /**
      * Calculates the kill shot Track associated with a specific player by confronting their color with color of all the
-     * drops present on the game board killshot track.
-     * @param player Player whose killshotTrack is going to be calculated.
-     * @return The killshotTrack associated with the player.
+     * drops present on the game board kill shot track.
+     * @param player Player whose kill shot Track is going to be calculated.
+     * @return The kill shot Track associated with the player.
      */
     private int countKillShotTrack(Player player) {
         int temp = 0;
@@ -354,6 +359,8 @@ public class Room
     private void onMatchEnd() {
         String[][] scoreBoard = calculateScore();
         String winnerName = declareWinner();
+        ((Event<Room, String>)onEndMatchEvent).invoke(this, winnerName);
+        // todo invoke scoreboard event
 
     }
 
