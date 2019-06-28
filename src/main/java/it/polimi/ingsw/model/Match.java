@@ -185,6 +185,19 @@ public class Match extends ActionsProvider {
             spawn(turnPos >= players.size());
     }
 
+    private void onTimedOutTurn() {
+        if(finalFrenzy && frenzyStarter == players.indexOf(curPlayer)) {
+            for(Player player : deadPlayers)
+                assignPoints(player);
+            ((Event<Match, List<Player>>)endMatchEvent).invoke(this, players);
+        }
+
+        if(deadPlayers.isEmpty())
+            turnAfterTimeout();
+        else
+            spawn(turnPos >= players.size());
+    }
+
     /**
      * This method initialize and start a new Turn
      */
@@ -195,6 +208,16 @@ public class Match extends ActionsProvider {
         Turn currentTurn = new Turn(curPlayer, this);
         currentTurn.newActionsEvent.addEventHandler((player, actions) -> this.setNewActions(actions));
         currentTurn.endTurnEvent.addEventHandler((turn, turnPlayer) -> onTurnCompleted());
+        //room.turnTimeoutEvent.addEventHandler((a, b) -> onTimedOutTurn());
+        setNewActions(currentTurn.getActions());
+    }
+
+    private void turnAfterTimeout() {
+        turnPos = (turnPos + 1) % players.size();
+        curPlayer = players.get(turnPos);
+        Turn currentTurn = new Turn(curPlayer, this);
+        currentTurn.newActionsEvent.addEventHandler((player, actions) -> this.setNewActions(actions));
+        //room.turnTimeoutEvent.addEventHandler((a, b) -> onTimedOutTurn());
         setNewActions(currentTurn.getActions());
     }
 

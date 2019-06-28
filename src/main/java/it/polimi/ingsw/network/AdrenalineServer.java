@@ -23,7 +23,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private final Controller controller;
 
     /**
-     * Reference to the room this class is associated with and communicates to.
+     * Reference to the room this class is associated and communicates with.
      */
     private Room joinedRoom;
     protected String name;

@@ -51,6 +51,8 @@ public class Room
      */
     public final IEvent<Room, String> onEndMatchEvent = new Event<>();
 
+    public final IEvent<Room, Integer> turnTimeoutEvent = new Event<>();
+
     /**
      * Integer representing the timeout value
      */
@@ -85,7 +87,7 @@ public class Room
     private List<String> readyPlayers = new ArrayList<>();
 
     /**
-     * Number of skulls relative to the match the room is managing
+     * Number of skulls relative to the match this room is managing
      */
     private int gameLength;
 
@@ -95,7 +97,7 @@ public class Room
     private int gameSize;
 
     /**
-     * Match relative to this room
+     * Match associated with this room
      */
     private Match match;
     private RoomTimer timer = new RoomTimer(LOGIN_TIMEOUT, PERIOD);
@@ -135,7 +137,7 @@ public class Room
 
     /**
      * When the timeout event is invoked, this method checks whether there are enough players to start the game. In
-     * case there aren't, the timer is stopped; otherwise the matchStarting paramter is set to true and the match starts.
+     * case there aren't, the timer is stopped; otherwise the matchStarting parameter is set to true and the match starts.
      */
     private synchronized void onTimeout(){
         int tot = readyPlayers.size() + pendingPlayers.size();
@@ -170,7 +172,7 @@ public class Room
 
     private void createTurnTimer(){
         this.timer = new RoomTimer(TURN_TIMEOUT, PERIOD);
-        timer.timeoutEvent.addEventHandler((a,b) -> match;
+        timer.timeoutEvent.addEventHandler((a,b) -> ((Event<Room, Integer>) turnTimeoutEvent).invoke(this, 0));
     }
 
     public synchronized void reconnect(String playerName){
