@@ -25,7 +25,7 @@ public class RoomTimer
         this.period = period;
     }
 
-    private void onTimerTick(){
+    private synchronized void onTimerTick(){
         elapsed += period;
         if(elapsed >= timeout) {
             elapsed = 0;
@@ -36,19 +36,27 @@ public class RoomTimer
             ((Event<RoomTimer, Integer>)timerTickEvent).invoke(this, elapsed);
     }
 
-    public void start(){
+    public synchronized void reset()
+    {
+        elapsed = 0;
+    }
+
+    public synchronized void start(){
+        if(timer != null)
+            return;
+
         timer = new ScheduledThreadPoolExecutor(1);
         timer.scheduleWithFixedDelay(this::onTimerTick, period, period, TimeUnit.SECONDS);
     }
 
-    public void stop(){
+    public synchronized void stop(){
         if(timer == null)
             return;
 
         timer.shutdown();
         while (true) {
             try {
-                if (timer.awaitTermination(200, TimeUnit.MILLISECONDS)) {
+                if (timer.awaitTermination(20000, TimeUnit.MILLISECONDS)) {
                     timer = null;
                     break;
                 }

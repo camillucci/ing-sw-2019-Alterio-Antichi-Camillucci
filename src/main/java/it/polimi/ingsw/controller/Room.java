@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
 
 import java.util.*;
@@ -39,6 +38,8 @@ public class Room
      */
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
 
+    public final IEvent<Room, Integer> turnTimeoutTimerEvent = new Event<>();
+
     /**
      * Event that other classes can subscribe to. The event is invoked when a player who's in the room disconnects.
      */
@@ -48,7 +49,8 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    private static final int TIMEOUT = 2;
+    private static final int LOGIN_TIMEOUT = 2;
+    private static final int TURN_TIMEOUT = 30;
 
     /**
      * Integer representing the period value
@@ -91,7 +93,7 @@ public class Room
      * Match relative to this room
      */
     private Match match;
-    private RoomTimer timer = new RoomTimer(TIMEOUT, PERIOD);
+    private RoomTimer timer = new RoomTimer(LOGIN_TIMEOUT, PERIOD);
 
     /**
      * Name of the player who logged into the room first. (Some of the match specifics are asked to the host).
@@ -121,7 +123,7 @@ public class Room
      */
     private void setupEvents()
     {
-        timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, TIMEOUT - timeElapsed));
+        timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, LOGIN_TIMEOUT - timeElapsed));
         timer.timeoutEvent.addEventHandler((a, b) -> onTimeout());
         playerDisconnectedEvent.addTmpEventHandler((a, name) -> disconnectedPlayers.add(name));
     }
@@ -133,7 +135,7 @@ public class Room
     private synchronized void onTimeout(){
         int tot = readyPlayers.size() + pendingPlayers.size();
         if(tot < 3){
-            ((Event<Room, Integer>)timerStopEvent).invoke(this, TIMEOUT);
+            ((Event<Room, Integer>)timerStopEvent).invoke(this, LOGIN_TIMEOUT);
             return;
         }
 
@@ -150,6 +152,7 @@ public class Room
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         match.newActionsEvent.addEventHandler(this::onNewActions);
         match.start();
+        timer = null;
     }
 
     private void onNewActions(Player player, List<Action> actions)
@@ -158,7 +161,13 @@ public class Room
             ((Event<Room, ModelEventArgs>)modelUpdatedEvent).invoke(this, new ModelEventArgs(new MatchSnapshot(match, p), p.name, new RemoteActionsHandler(player, actions)));
     }
 
-    public void reconnect(String playerName){
+
+    private void createTurnTimer(){
+        this.timer = new RoomTimer(TURN_TIMEOUT, PERIOD);
+        timer.timeoutEvent.addEventHandler((a,b) -> match;
+    }
+
+    public synchronized void reconnect(String playerName){
         //TODO
     }
 
@@ -218,10 +227,13 @@ public class Room
      */
     private synchronized void removePlayer(String name){
         int index = playerNames.indexOf(name);
+        readyPlayers.remove(name);
         pendingPlayers.remove(name);
         playerNames.remove(index);
         availableColors.add(playerColors.get(index));
         playerColors.remove(index);
+        if(pendingPlayers.size() + readyPlayers.size() < 3)
+            matchStarting = false;
     }
 
     /**
@@ -242,7 +254,7 @@ public class Room
             startMatch();
         else if (readyCounter == 3) {
             timer.start();
-            ((Event<Room, Integer>) timerStartEvent).invoke(this, TIMEOUT);
+            ((Event<Room, Integer>) timerStartEvent).invoke(this, LOGIN_TIMEOUT);
         } else if (readyCounter == 5) {
             timer.stop();
             startMatch();
@@ -255,10 +267,8 @@ public class Room
      * @param name Name of the disconnected player
      */
     public void notifyPlayerDisconnected(String name){
-        if(!matchStarting) {
+        if(!matchStarting)
             removePlayer(name);
-            readyPlayers.remove(name);
-        }
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
     }
 
