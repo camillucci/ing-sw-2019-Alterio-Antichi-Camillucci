@@ -321,6 +321,11 @@ public class Room
         return temp;
     }
 
+    //todo add possible exceptions
+    public PlayerColor getPlayerColor(String name) {
+        return playerColors.get(playerNames.indexOf(name));
+    }
+
     public synchronized boolean isJoinable(){
         return !availableColors.isEmpty() && !matchStarting;
     }

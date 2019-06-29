@@ -3,6 +3,7 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Bottleneck;
+import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
@@ -31,6 +32,11 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      * String that represents the name of the player that this class is associated with.
      */
     protected String name;
+
+    /**
+     * Color chosen by the player associated with this class
+     */
+    protected PlayerColor color;
     private List<String> availableColors;
     private List<String> otherPlayers = new ArrayList<>();
     protected Bottleneck bottleneck = new Bottleneck();
@@ -119,7 +125,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         if(controller.checkReconnected(name)) {
             this.name = name;
             otherPlayers = joinedRoom.getOtherPlayers(name);
+            color = joinedRoom.getPlayerColor(name);
+            sendMessage(reconnectedMessage());
             //todo tell client it doesn't need to wait for colors.
+            //it's possible that color is a non needed variable
             return;
         }
 
@@ -294,6 +303,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private static String timerTickMessage(int timeLeft){
         return timeLeft + " seconds left\n";
+    }
+
+    private static String reconnectedMessage() {
+        return "You're back in the game!";
     }
 
     /**
