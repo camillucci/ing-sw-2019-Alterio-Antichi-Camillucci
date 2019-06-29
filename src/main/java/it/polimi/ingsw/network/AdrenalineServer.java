@@ -38,14 +38,30 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, String> newPlayerEventHandler = (a, name) -> notifyPlayer(name);
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
     private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
+    private BiConsumer<Room, String> turnTimeutEventHandler = (a, name) -> bottleneck.tryDo( () -> onTurnTimeout(name));
+
+    private void onTurnTimeout(String name) throws IOException
+    {
+        if(!name.equals(this.name))
+            return;
+        remoteActionsHandler = null;
+
+        List<RemoteAction> emptyList = new ArrayList<>();
+        sendCommand(new Command<>(view -> view.getActionHandler().chooseAction(emptyList)));
+    }
+
     private boolean newTurn = true;
     protected static final int PING_PERIOD = 1; // 1 millisecond to test synchronization todo change in final version
 
     @Override
-    public void newActionCommand(Command<RemoteActionsHandler> command) {
-       bottleneck.tryDo( () -> command.invoke(this.remoteActionsHandler));
+    public void newActionCommand(Command<RemoteActionsHandler> command)
+    {
+        try {
+            joinedRoom.setClientIdle(name, true);
+            if(remoteActionsHandler != null)
+                bottleneck.tryDo( () -> command.invoke(this.remoteActionsHandler));
+        } catch (Room.TurnTimeoutException e) { }
     }
-
     /**
      * Constructor. It assigns the input reference to the controller global parameter and subscribes to the
      * bottleneck.exceptionGenerated event.
@@ -220,8 +236,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             joinedRoom.timerStopEvent.removeEventHandler(timerStopEventHandler);
             joinedRoom.newPlayerEvent.removeEventHandler(newPlayerEventHandler);
             joinedRoom.playerDisconnectedEvent.removeEventHandler(playerDisconnectedEventHandler);
-            if(joinedRoom.isMatchStarted() )
-                joinedRoom.modelUpdatedEvent.removeEventHandler(modelUpdatedEventHandler);
+            joinedRoom.turnTimeoutEvent.removeEventHandler(turnTimeutEventHandler);
+            joinedRoom.modelUpdatedEvent.removeEventHandler(modelUpdatedEventHandler);
         }
     }
 
@@ -237,6 +253,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.newPlayerEvent.addEventHandler(newPlayerEventHandler);
         joinedRoom.playerDisconnectedEvent.addEventHandler(playerDisconnectedEventHandler);
         joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
+        joinedRoom.turnTimeoutEvent.addEventHandler(turnTimeutEventHandler);
     }
 
     /**

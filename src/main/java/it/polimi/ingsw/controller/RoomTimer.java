@@ -28,7 +28,6 @@ public class RoomTimer
     private synchronized void onTimerTick(){
         elapsed += period;
         if(elapsed >= timeout) {
-            elapsed = 0;
             ((Event<RoomTimer, Integer>)timeoutEvent).invoke(this, timeout);
             this.stop();
         }
@@ -64,5 +63,9 @@ public class RoomTimer
                 logger.log(Level.WARNING, e.getMessage());
             }
         }
+    }
+
+    public int getElapsed(){
+        return elapsed;
     }
 }

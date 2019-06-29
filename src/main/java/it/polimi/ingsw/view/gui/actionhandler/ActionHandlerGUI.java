@@ -71,6 +71,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private static final double AVATAR_SCALE = 0.3;
     private static final double PLAYER_SET_SCALE = 1d/5.2;
     private static final double SELECTION_BOX_SCALE = 0.5;
+    private SelectionBoxController selectionBoxController;
 
     public void initialize() {
 
@@ -314,6 +315,14 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void visualizeActions(List<RemoteAction> actions)
     {
+        if(actions.isEmpty())
+        {
+            mapOutPane.getChildren().remove(selectionBoxController.getRoot());
+            actionVBox.getChildren().clear();
+            setMapBlur(false);
+            return;
+        }
+
         actionVBox.getChildren().clear();
         List<RemoteAction> imgActions = new ArrayList<>();
         for(RemoteAction action : actions)
@@ -325,7 +334,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         if(imgActions.isEmpty())
             return;
 
-        SelectionBoxController selectionBoxController = SelectionBoxController.getController(imgActions);
+        selectionBoxController = SelectionBoxController.getController(imgActions);
 
         insertH(selectionBoxController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
         setMapBlur(true);

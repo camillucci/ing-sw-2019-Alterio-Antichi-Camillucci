@@ -38,8 +38,6 @@ public class Room
      */
     public final IEvent<Room, String> newPlayerEvent = new Event<>();
 
-    public final IEvent<Room, Integer> turnTimeoutTimerEvent = new Event<>();
-
     /**
      * Event that other classes can subscribe to. The event is invoked when a player who's in the room disconnects.
      */
@@ -51,7 +49,7 @@ public class Room
      */
     public final IEvent<Room, String> onEndMatchEvent = new Event<>();
 
-    public final IEvent<Room, Integer> turnTimeoutEvent = new Event<>();
+    public final IEvent<Room, String> turnTimeoutEvent = new Event<>();
 
     /**
      * Integer representing the timeout value
@@ -112,6 +110,7 @@ public class Room
      */
     private boolean matchStarting = false;
 
+
     public Room() {
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
         setupEvents();
@@ -151,6 +150,39 @@ public class Room
             startMatch();
     }
 
+    private synchronized void onTurnTimeout(){
+        if(timer.getElapsed() >= TURN_TIMEOUT-1) {
+            ((Event<Room, String>) turnTimeoutEvent).invoke(this, match.getPlayer().name);
+            resetTurnTimer();
+            match.skipTurn();
+            createTurnTimer();
+        }
+    }
+
+    private void onTurnTimeout_Sync(){
+        ((Event<Room, String>) turnTimeoutEvent).invoke(this, match.getPlayer().name);
+        resetTurnTimer();
+        match.skipTurn();
+        createTurnTimer();
+    }
+
+    public synchronized void setClientIdle(String name, boolean isAlive) throws TurnTimeoutException {
+        if(!match.getPlayer().name.equals(name))
+            return;
+
+        if(isAlive)
+            if(getTurnTimeout())
+                throw new TurnTimeoutException();
+            else
+                resetTurnTimer();
+        else
+            onTurnTimeout_Sync();
+    }
+
+    public boolean getTurnTimeout(){
+        return timer != null && timer.getElapsed() >= TURN_TIMEOUT-1;
+    }
+
     /**
      * Starts a match using the parameters chosen by the host and the parameters relative to the players already present
      * in the room.
@@ -159,25 +191,35 @@ public class Room
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         match.newActionsEvent.addEventHandler(this::onNewActions);
         match.start();
-        timer = null;
         match.endMatchEvent.addEventHandler((match, players) -> onMatchEnd());
+        createTurnTimer();
     }
 
     private void onNewActions(Player player, List<Action> actions)
     {
+        resetTurnTimer();
         for(Player p : match.getPlayers())
             ((Event<Room, ModelEventArgs>)modelUpdatedEvent).invoke(this, new ModelEventArgs(new MatchSnapshot(match, p), p.name, new RemoteActionsHandler(player, actions)));
     }
 
+    private synchronized void resetTurnTimer(){
+        timer.reset();
+    }
 
     private void createTurnTimer(){
         this.timer = new RoomTimer(TURN_TIMEOUT, PERIOD);
-        timer.timeoutEvent.addEventHandler((a,b) -> ((Event<Room, Integer>) turnTimeoutEvent).invoke(this, 0));
+        timer.timeoutEvent.addEventHandler((a,b) -> onTurnTimeout());
+        timer.start();
     }
 
     public synchronized void reconnect(String playerName){
         //TODO
     }
+
+    public synchronized void onPlayerTimeout(){
+
+    }
+
 
     /**
      * Adds the player to the pendingPlayers list and removes their color from the availableColors list, while adding
@@ -376,6 +418,7 @@ public class Room
 
     }
 
+    public class TurnTimeoutException extends Exception{}
     public class MatchStartingException extends Exception {}
     public class NotAvailableColorException extends Exception {}
     public class ModelEventArgs

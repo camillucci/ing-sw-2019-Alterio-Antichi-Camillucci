@@ -25,7 +25,7 @@ public class BranchMap
      * Event other classes can subscribe to (when it is invoked it notifies the subscribers). It is invoked when the
      * whole branch map has been completed.
      */
-    public final IEvent<BranchMap, EndBranchAction> endOfBranchMapReachedEvent = new Event<>();
+    public final IEvent<BranchMap, Boolean> endOfBranchMapReachedEvent = new Event<>();
 
     /**
      * Event other classes can subscribe to (when it is invoked it notifies the subscribers). It is invoked when a
@@ -83,6 +83,14 @@ public class BranchMap
         return ret;
     }
 
+    public void endNow(){
+        if(this.invalidState)
+            return;
+
+        this.invalidState = true;
+        ((Event<BranchMap, Boolean>)this.endOfBranchMapReachedEvent).invoke(this, true);
+    }
+
     /**
      * This method is called when an action is completed. It removes the completed action from the branches that
      * had it and generates a newActionsEvent invocation.
@@ -120,7 +128,7 @@ public class BranchMap
         {
             b.actionCompletedEvent.addEventHandler((senderBranch, completedAction) -> onBranchActionCompleted(completedAction));
             b.extActionCompletedEvent.addEventHandler((senderBranch, extendableAction) -> onBranchExtActionCompleted(extendableAction));
-            b.endBranchEvent.addEventHandler((s,eba)->((Event<BranchMap, EndBranchAction>)this.endOfBranchMapReachedEvent).invoke(this, eba));
+            b.endBranchEvent.addEventHandler((s,eba)->((Event<BranchMap, Boolean>)this.endOfBranchMapReachedEvent).invoke(this, false));
         }
     }
 }
