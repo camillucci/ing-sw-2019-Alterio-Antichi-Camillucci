@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class SelectionBoxController implements Ifxml<StackPane>
 {
     @FXML Text title;
-    @FXML private Text descriptionText;
+    @FXML private TextArea descriptionText;
     @FXML private HBox selectionHBox;
     @FXML private StackPane rootPane;
     private List<ImageView> options = new ArrayList<>();
@@ -51,15 +52,20 @@ public class SelectionBoxController implements Ifxml<StackPane>
             options.add(img);
             vBox.spacingProperty().bind(selectionHBox.spacingProperty());
             vBox.getChildren().add(img);
-            vBox.getChildren().add(createText(descriptions.get(i)));
+            TextArea text = createText(descriptions.get(i));
+            text.minWidthProperty().bind(img.fitWidthProperty().multiply(1.5));
+            text.maxWidthProperty().bind(img.fitWidthProperty().multiply(1.5));
+            vBox.getChildren().add(text);
             selectionHBox.getChildren().add(vBox);
         }
         this.title.setText(title);
     }
 
-    private Text createText(String text){
-        Text ret = new Text(text);
-        ret.getStyleClass().add("description");
+    private TextArea createText(String text){
+        TextArea ret = new TextArea(text);
+        ret.setWrapText(true);
+        ret.setFocusTraversable(false);
+        ret.getStyleClass().add("text-area");
         return ret;
     }
 
