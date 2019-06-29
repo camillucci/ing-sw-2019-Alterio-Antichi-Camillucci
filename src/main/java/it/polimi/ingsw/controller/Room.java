@@ -296,6 +296,11 @@ public class Room
         return colors;
     }
 
+    //todo add possible exceptions
+    public List<String> getDisconnectedPlayers() {
+        return disconnectedPlayers;
+    }
+
     public synchronized boolean isJoinable(){
         return !availableColors.isEmpty() && !matchStarting;
     }

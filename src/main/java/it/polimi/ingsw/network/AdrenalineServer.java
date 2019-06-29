@@ -26,6 +26,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      * Reference to the room this class is associated and communicates with.
      */
     private Room joinedRoom;
+
+    /**
+     * String that represents the name of the player that this class is associated with.
+     */
     protected String name;
     private List<String> availableColors;
     private List<String> otherPlayers = new ArrayList<>();
@@ -90,6 +94,12 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         controller.notifyPlayerDisconnected(name);
         e.printStackTrace();
     }
+
+    /**
+     * This method notifies the client about the disconnection of the player with the same name as the one represented
+     * by the input String
+     * @param name String that represents the name of the disconnected player
+     */
     private synchronized void notifyPlayerDisconnected(String name){
         otherPlayers.remove(name);
         bottleneck.tryDo(() -> sendMessage(playerDisconnectedMessage(name)));
@@ -106,6 +116,9 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     @Override
     public void setName(String name) throws IOException {
+        if(controller.checkReconnected(name))
+            //todo
+            return;
         if(controller.newPlayer(name)) {
             this.name = name;
             List<String> colors = availableColors();
@@ -209,7 +222,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
 
     /**
      * Checks whether a room has been joined already. If it is, the method unsubscribes from every event that this
-     * class was subscribed to with the setupRoomEvents method. Also, if the match has already started, this method
+     * class was subscribed to via the setupRoomEvents method. Also, if the match has already started, this method
      * unsubscribes the class from the modelUpdate event.
      */
     private void removeEvents() {
