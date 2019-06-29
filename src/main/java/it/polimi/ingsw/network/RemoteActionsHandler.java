@@ -173,4 +173,7 @@ public class RemoteActionsHandler
         return new RemoteAction.Data(getPossiblePlayers(), getPossibleSquares(), getPossiblePowerups(), getDiscardablePowerUps(), getDiscardableAmmos(), getPossibleWeapons(), canBeDone());
     }
 
+    public void rollback() {
+        selectedAction = actions.get(actions.size() - 1);
+    }
 }

@@ -148,24 +148,17 @@ public class Match extends ActionsProvider {
         BranchMap branchMap = BranchMapFactory.spawnBranchMap(p);
         branchMap.newActionsEvent.addEventHandler((bMap, actions) -> setNewActions(actions));
         branchMap.rollbackEvent.addEventHandler((bMap, rollbackAction) -> rollback(respawn));
-        if(!respawn)
-            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> {
-                for(Player player : deadPlayers)
-                    if(player.color.equals(p.color)) {
-                        this.deadPlayers.remove(player);
-                        break;
-                    }
+        branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> {
+            for(Player player : deadPlayers)
+                if(player.color.equals(p.color)) {
+                    this.deadPlayers.remove(player);
+                    break;
+                }
+            if(!respawn)
                 newTurn();
-            });
-        else
-            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> {
-                for(Player player : deadPlayers)
-                    if(player.color.equals(p.color)) {
-                        this.deadPlayers.remove(player);
-                        break;
-                    }
+            else
                 onTurnCompleted();
-            });
+        });
         setNewActions(branchMap.getPossibleActions());
     }
 

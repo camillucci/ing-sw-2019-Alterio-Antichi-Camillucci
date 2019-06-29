@@ -368,6 +368,9 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     public void updateActionData(RemoteAction.Data data) throws IOException {
         Platform.runLater(() -> {
             curAction.updateData(data);
+            if(curAction.getData().isInvalid()) {
+                AlertBox.display("Warning!", "You entered an illegal state,\nplease press OK to return to the last valid state", () -> notifyChoice(curAction.rollback()));
+            }
             setupAction(curAction);
         });
     }

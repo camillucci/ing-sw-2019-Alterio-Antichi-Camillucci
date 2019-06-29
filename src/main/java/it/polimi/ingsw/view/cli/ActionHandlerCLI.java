@@ -33,6 +33,10 @@ public class ActionHandlerCLI extends ActionHandler {
     @Override
     public void updateActionData(RemoteAction.Data data) throws IOException {
         action.updateData(data);
+        if(action.getData().isInvalid()) {
+            CLIMessenger.printMessage("You entered an illegal state, please press 0 to return to the last valid state");
+            notifyChoice(action.rollback());
+        }
         onActionDataUpdated();
     }
 

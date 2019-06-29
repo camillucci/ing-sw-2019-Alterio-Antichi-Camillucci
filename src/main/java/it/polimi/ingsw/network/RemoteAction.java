@@ -66,6 +66,16 @@ public class RemoteAction implements Serializable
         return new Command<>(actionHandler -> actionHandler.chooseAction(index));
     }
 
+    public Command<RemoteActionsHandler> askActionData()
+    {
+        return new Command<>(RemoteActionsHandler::askActionData);
+    }
+
+    public Command<RemoteActionsHandler> rollback()
+    {
+        return new Command<>(RemoteActionsHandler::rollback);
+    }
+
     public Command<RemoteActionsHandler> addTargetPlayer(String target)
     {
         return new Command<>(actionHandler -> actionHandler.addTargetPlayer(data.possiblePlayers.indexOf(target)));
@@ -82,14 +92,11 @@ public class RemoteAction implements Serializable
     {
         return new Command<>(actionHandler -> actionHandler.addDiscardedPowerUp(data.discardablePowerUps.indexOf(powerUp)));
     }
-    public Command<RemoteActionsHandler> askActionData()
+    public Command<RemoteActionsHandler> addWeapon(String weapon)
     {
-        return new Command<>(RemoteActionsHandler::askActionData);
-    }
-    public Command<RemoteActionsHandler> addWeapon(String weapon) {
         return new Command<>(actionHandler -> actionHandler.addWeapon(data.possibleWeapons.indexOf(weapon)));
     }
-    public Command<RemoteActionsHandler> addDiscardableAmmo(String ammo) throws IOException
+    public Command<RemoteActionsHandler> addDiscardableAmmo(String ammo)
     {
         return new Command<>(actionHandler -> actionHandler.addDiscardedAmmo(data.discardableAmmos.indexOf(ammo)));
     }
@@ -97,7 +104,6 @@ public class RemoteAction implements Serializable
     {
         return new Command<>(RemoteActionsHandler::doAction);
     }
-
 
     /**
      * This class contains all the possible targets available to the user when they choose to use this action
@@ -162,6 +168,11 @@ public class RemoteAction implements Serializable
 
         public List<String> getPossiblePlayers() {
             return possiblePlayers;
+        }
+
+        public boolean isInvalid() {
+            return !canBeDone && getPossiblePlayers().isEmpty() && getPossibleSquares().isEmpty() && getPossiblePowerUps().isEmpty()
+                    && getDiscardablePowerUps().isEmpty() && getDiscardableAmmos().isEmpty() && getPossibleWeapons().isEmpty();
         }
 
         /**
