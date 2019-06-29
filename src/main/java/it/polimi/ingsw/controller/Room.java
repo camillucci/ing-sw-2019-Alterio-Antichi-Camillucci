@@ -75,7 +75,7 @@ public class Room
     private List<PlayerColor> availableColors = new ArrayList<>();
 
     /**
-     * List of all names relative to the players already present in the room
+     * List of all names relative to the players present in the room and playing in game.
      */
     private List<String> playerNames = new ArrayList<>();
 
@@ -202,6 +202,10 @@ public class Room
             hostName = playerName;
     }
 
+    public synchronized void reconnectedPlayer(String name) {
+        disconnectedPlayers.remove(name);
+    }
+
     /**
      * Checks whether the name corresponds to the name of the room's host
      * @param name Name that needs to be confronted with the name of the host
@@ -271,13 +275,16 @@ public class Room
 
     /**
      * If the match is not started yet, the player is removed from then room. Then the playerDisconnectedEvent is
-     * invoke, regardless of match starting or not.
+     * invoked, regardless of match starting or not.
      * @param name Name of the disconnected player
      */
     public void notifyPlayerDisconnected(String name){
         if(!matchStarting)
             removePlayer(name);
+        else
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
+
+        //todo check if the else is appropriate
     }
 
     /**
@@ -299,6 +306,19 @@ public class Room
     //todo add possible exceptions
     public List<String> getDisconnectedPlayers() {
         return disconnectedPlayers;
+    }
+
+    /**
+     * Given a player name, this method returns the list of all the players currently playing except the one gotten as
+     * input.
+     * @param player Name of the player to be excluded from the returned list
+     * @return List of strings representing the names of all players except the one in the input parameters
+     */
+    //todo add possible exceptions
+    public List<String> getOtherPlayers(String player) {
+        List<String> temp = playerNames;
+        temp.remove(player);
+        return temp;
     }
 
     public synchronized boolean isJoinable(){

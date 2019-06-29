@@ -78,7 +78,7 @@ public class Controller {
     public synchronized boolean checkReconnected(String name) {
         for (Room room : lobby) {
             if (room.getDisconnectedPlayers().contains(name))
-                //todo
+                room.reconnectedPlayer(name);
                 return true;
         }
         return false;

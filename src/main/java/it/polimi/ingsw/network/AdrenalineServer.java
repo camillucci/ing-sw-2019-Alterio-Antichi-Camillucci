@@ -116,9 +116,13 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     @Override
     public void setName(String name) throws IOException {
-        if(controller.checkReconnected(name))
-            //todo
+        if(controller.checkReconnected(name)) {
+            this.name = name;
+            otherPlayers = joinedRoom.getOtherPlayers(name);
+            //todo tell client it doesn't need to wait for colors.
             return;
+        }
+
         if(controller.newPlayer(name)) {
             this.name = name;
             List<String> colors = availableColors();
@@ -248,6 +252,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.timerTickEvent.addEventHandler(timerTickEventHandler);
         joinedRoom.timerStopEvent.addEventHandler(timerStopEventHandler);
         joinedRoom.newPlayerEvent.addEventHandler(newPlayerEventHandler);
+        //todo removeEvents() if playerDisconnectedEvent is invoked and (this.name == name)
         joinedRoom.playerDisconnectedEvent.addEventHandler(playerDisconnectedEventHandler);
         joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
     }
