@@ -80,6 +80,9 @@ public class Match extends ActionsProvider {
      */
     private GameBoard clonedGameBoard;
     private static final int MAX_DAMAGES = 12;
+    private boolean spawning = false;
+    private boolean stopSendingActions = false;
+    private Player toSkipPlayer;
 
     /**
      * Given the names and the colors of the Players, chosen through the Client, it creates the GameBoard and all Players
@@ -133,6 +136,7 @@ public class Match extends ActionsProvider {
      */
     private void spawn(boolean respawn)
     {
+        spawning = true;
         clonePlayersAndGameBoard();
         Player p = deadPlayers.get(0);
         if(respawn) {
@@ -154,11 +158,12 @@ public class Match extends ActionsProvider {
                     this.deadPlayers.remove(player);
                     break;
                 }
-            if(!respawn)
-                newTurn();
-            else
-                onTurnCompleted();
+            spawning = false;
         });
+        if(!respawn)
+            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> newTurn());
+        else
+            branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> onTurnCompleted());
         setNewActions(branchMap.getPossibleActions());
     }
 
@@ -196,7 +201,6 @@ public class Match extends ActionsProvider {
         Turn currentTurn = new Turn(curPlayer, this);
         currentTurn.newActionsEvent.addEventHandler((player, actions) -> this.setNewActions(actions));
         currentTurn.endTurnEvent.addEventHandler((turn, turnPlayer) -> onTurnCompleted());
-        //room.turnTimeoutEvent.addEventHandler((a, b) -> onTimedOutTurn());
         setNewActions(currentTurn.getActions());
     }
 
@@ -223,7 +227,8 @@ public class Match extends ActionsProvider {
         }
         actions.forEach(a->a.initialize(curPlayer));
         this.curActions = actions;
-        ((Event<Player, List<Action>>)newActionsEvent).invoke(this.curPlayer, this.curActions);
+        if(!stopSendingActions)
+            ((Event<Player, List<Action>>)newActionsEvent).invoke(this.curPlayer, this.curActions);
     }
 
     /**
@@ -379,5 +384,23 @@ public class Match extends ActionsProvider {
         for(int i = 0; i < curActions.size(); i++)
             temp.add("Press" + i + curActions.get(i).getVisualizable().description);
         return temp;
+    }
+
+    public void skipTurn() {
+        stopSendingActions = true;
+        toSkipPlayer = getPlayer();
+        if(spawning)
+        {
+            do
+                getActions().get(0).doAction();
+            while(spawning);
+            stopSendingActions = false;
+            onTurnCompleted();
+        }
+        else
+        {
+            stopSendingActions = false;
+            onTurnCompleted();
+        }
     }
 }

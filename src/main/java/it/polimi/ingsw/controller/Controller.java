@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Controller {
     /**
-     * List of rooms in which are contained all the players. Every room has the set of players who are in the same game
+     * List of rooms in which all the players are contained. Every room has the set of players who are in the same game
      * (from 3 to 5).
      */
     private List<Room> lobby = new ArrayList<>();
@@ -58,14 +58,32 @@ public class Controller {
      * @return False in case the name is already been taken. True otherwise.
      */
     public synchronized boolean newPlayer(String name) {
-        for (Room room : lobby)
+        for (Room room : lobby) {
             if (room.getPlayerNames().contains(name))
                 return false;
+        }
         if(joiningPlayers.contains(name))
             return false;
         joiningPlayers.add(name);
         return true;
     }
+
+    /**
+     * Checks whether the name gotten as input is associated with a player preciously in game and disconnected. If that's
+     * the case, the room is notified and the player is put back into the list of players currently playing the game
+     * @param name String that represents the name associated with the newly connected player
+     * @return True if the name was associated with a player that reconnected. False if it's the first time a player
+     *         with that name joins the game.
+     */
+    public synchronized boolean checkReconnected(String name) {
+        for (Room room : lobby) {
+            if (room.getDisconnectedPlayers().contains(name))
+                room.reconnectedPlayer(name);
+                return true;
+        }
+        return false;
+    }
+
 
     /**
      * Checks if the disconnected player was already in a room. If that's the case, said room is notified of the

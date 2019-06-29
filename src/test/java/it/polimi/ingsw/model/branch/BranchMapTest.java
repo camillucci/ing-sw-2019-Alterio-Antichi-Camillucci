@@ -68,7 +68,7 @@ class BranchMapTest {
     void invalidState() {
         curBranchMap = BranchMapFactory.noAdrenaline();
         assertEquals(7, curBranchMap.getPossibleActions().size());
-        ((Event<BranchMap, EndBranchAction>)curBranchMap.endOfBranchMapReachedEvent).invoke(null, null);
+        ((Event<BranchMap, Boolean>)curBranchMap.endOfBranchMapReachedEvent).invoke(null, false);
         assertEquals(0, curBranchMap.getPossibleActions().size());
     }
 }
