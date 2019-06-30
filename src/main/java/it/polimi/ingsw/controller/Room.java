@@ -100,7 +100,7 @@ public class Room
      * Match associated with this room
      */
     private Match match;
-    private RoomTimer timer = new RoomTimer(LOGIN_TIMEOUT, PERIOD);
+    private RoomTimer timer;
 
     /**
      * Name of the player who logged into the room first. (Some of the match specifics are asked to the host).
@@ -111,11 +111,12 @@ public class Room
      * Boolean representing whether the match is started.
      */
     private boolean matchStarting = false;
-    private static int MIN_PLAYERS = 1;
+    private final static int MIN_PLAYERS = 2;
 
 
     public Room() {
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
+        newLoginTimer();
         setupEvents();
     }
 
@@ -132,9 +133,13 @@ public class Room
      */
     private void setupEvents()
     {
+        playerDisconnectedEvent.addTmpEventHandler((a, name) -> disconnectedPlayers.add(name));
+    }
+
+    private void newLoginTimer(){
+        timer = new RoomTimer(LOGIN_TIMEOUT, PERIOD);
         timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, LOGIN_TIMEOUT - timeElapsed));
         timer.timeoutEvent.addEventHandler((a, b) -> onTimeout());
-        playerDisconnectedEvent.addTmpEventHandler((a, name) -> disconnectedPlayers.add(name));
     }
 
     /**
@@ -145,6 +150,7 @@ public class Room
         int tot = readyPlayers.size() + pendingPlayers.size();
         if(tot < MIN_PLAYERS){
             ((Event<Room, Integer>)timerStopEvent).invoke(this, LOGIN_TIMEOUT);
+            newLoginTimer();
             return;
         }
 
@@ -295,6 +301,7 @@ public class Room
         playerColors.remove(index);
         if(pendingPlayers.size() + readyPlayers.size() < MIN_PLAYERS)
             matchStarting = false;
+        ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
     }
 
     /**
