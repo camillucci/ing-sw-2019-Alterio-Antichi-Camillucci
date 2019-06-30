@@ -59,6 +59,11 @@ public class CLIMessenger {
     private static final String ANSI_CYAN = "\u001B[36m";
 
     /**
+     * String that represents color "grey"
+     */
+    private static final String ANSI_GREY = "\u001B[37m";
+
+    /**
      * String that represents color "white"
      */
     private static final String ANSI_WHITE = "\u001B[37m";
@@ -148,7 +153,16 @@ public class CLIMessenger {
      * int representing the width of the map
      */
     private static final int MAP_WIDTH = 4;
+
+    /**
+     * int representing the height of the map
+     */
     private static final int SQUARE_LINES = 7;
+
+    /**
+     * int representing the maximum number of skulls
+     */
+    private static final int MAX_SKULLS = 8;
 
     /**
      * Visual representation of a blank space
@@ -219,6 +233,15 @@ public class CLIMessenger {
      * Visual representation of the horizontal entrance of a room
      */
     private static final String HORIZONTAL_ROOM = "═════                                   ═════";
+
+    /**
+     * Visual representation of the KillShotTrack
+     */
+    private static final String KILLSHOTTRACK_WALL = "═════════";
+
+    /**
+     * Visual representation of a point, used for damages, marks and costs
+     */
     private static final String POINT = "█";
 
     /**
@@ -387,6 +410,13 @@ public class CLIMessenger {
     }
 
     /**
+     * Output line displayed to the user to communicate that they entered an illegal game state.
+     */
+    public static void rollbackError() {
+        display("You entered an illegal state, please press 0 to return to the last valid state", true);
+    }
+
+    /**
      * Generic method used to print any string.
      * @param message String that is required to be displayed to the user.
      */
@@ -403,6 +433,7 @@ public class CLIMessenger {
      * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
      */
     public static void updateView(MatchSnapshot matchSnapshot) {
+        displayKillShotTrack(matchSnapshot.gameBoardSnapshot.getKillShotTrack());
         displayMap(matchSnapshot);
         displayPlayers(matchSnapshot);
     }
@@ -544,6 +575,7 @@ public class CLIMessenger {
      * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
      */
     private static void displayMap(MatchSnapshot matchSnapshot) {
+        display("Map:", true);
         String[] mapBorder;
         if(matchSnapshot.gameBoardSnapshot.mapType == FIRST_MAP)
             mapBorder = firstMap;
@@ -664,6 +696,53 @@ public class CLIMessenger {
         return 0;
     }
 
+    private static void displayKillShotTrack(List<List<String>> killShotTrack) {
+        display("KillShot Track:", true);
+        String line = TOP_LEFT + KILLSHOTTRACK_WALL;
+        for(int i = 0; i < MAX_SKULLS - 1; i++)
+            line = line.concat(TOP + KILLSHOTTRACK_WALL);
+        line = line.concat(TOP_RIGHT);
+        display(line);
+        line = VERTICAL;
+        for(int i = 0; i < MAX_SKULLS; i++)
+            line = line.concat(blanks(9) + VERTICAL);
+        display(line);
+        String temp = VERTICAL;
+        for (List<String> colors : killShotTrack)
+            switch (colors.size()) {
+                case 0:
+                    temp = temp.concat(blanks(4) + "X" + blanks(4) + VERTICAL);
+                    break;
+                case 1:
+                    temp = temp.concat(blanks(4) + coloredString(String.valueOf(colors.get(0).charAt(0)), colors.get(0)) + blanks(4) + VERTICAL);
+                    break;
+                case 2:
+                    temp = temp.concat(blanks(3) + coloredString(String.valueOf(colors.get(0).charAt(0)), colors.get(0))
+                            + BLANK + coloredString(String.valueOf(colors.get(1).charAt(0)), colors.get(1)) + blanks(3) + VERTICAL);
+                    break;
+                case 3:
+                    temp = temp.concat(blanks(2) + coloredString(String.valueOf(colors.get(0).charAt(0)), colors.get(0))
+                            + BLANK + coloredString(String.valueOf(colors.get(1).charAt(0)), colors.get(1))
+                            + BLANK + coloredString(String.valueOf(colors.get(2).charAt(0)), colors.get(2)) + blanks(2) + VERTICAL);
+                    break;
+                default:
+                    temp = temp.concat(BLANK);
+                    int j;
+                    for (j = 0; j < colors.size(); j++)
+                        temp = temp.concat(coloredString(String.valueOf(colors.get(j).charAt(0)), colors.get(j)));
+                    temp = temp.concat(blanks(MAX_SKULLS - j) + VERTICAL);
+            }
+        for(int i = killShotTrack.size(); i < MAX_SKULLS; i++)
+            temp = temp.concat(blanks(9) + VERTICAL);
+        display(temp);
+        display(line);
+        line = BOTTOM_LEFT + KILLSHOTTRACK_WALL;
+        for(int i = 0; i < MAX_SKULLS - 1; i++)
+            line = line.concat(BOTTOM + KILLSHOTTRACK_WALL);
+        line = line.concat(BOTTOM_RIGHT);
+        display(line);
+    }
+
     //------------------------------------------------------------------------------------------------------------------
     //DISPLAY
 
@@ -701,11 +780,15 @@ public class CLIMessenger {
             case "Green":
                 return  ANSI_GREEN + text + ANSI_WHITE;
             case "Grey":
-                return  ANSI_WHITE + text + ANSI_WHITE; // Change to GREY
+                return  ANSI_GREY + text + ANSI_GREY; // Change to GREY
+            case "Red":
+                return ANSI_RED + text + ANSI_RED;
             case "Violet":
                 return  ANSI_PURPLE + text + ANSI_WHITE;
-            default:
+            case "Yellow":
                 return  ANSI_YELLOW + text + ANSI_WHITE;
+            default:
+                return ANSI_WHITE + text + ANSI_WHITE;
         }
     }
 }
