@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface RemoteActionsProvider
 {
-    List<RemoteAction> getActions();
-    IEvent<RemoteActionsProvider, List<RemoteAction>> newActionsEvent();
+    RemoteAction getAction();
+    IEvent<RemoteActionsProvider, RemoteAction> newActionsEvent();
 }

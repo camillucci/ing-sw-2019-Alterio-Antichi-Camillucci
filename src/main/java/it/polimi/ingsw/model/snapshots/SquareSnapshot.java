@@ -33,7 +33,7 @@ public class SquareSnapshot implements Serializable
      */
     public final String south;
 
-    /**
+    /**m
      * String that represents what type of border the square's left border is
      */
     public final String west;
