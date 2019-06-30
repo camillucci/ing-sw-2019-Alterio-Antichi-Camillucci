@@ -77,7 +77,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         (yellowShopController = ShopController.getController(this, "yellow")).getRoot().setVisible(false);
         shops = setupStores();
 
-        mapController = MapController.getController(this);
+        mapController = MapController.getController(this, this);
         killShotTrackController = KillShotTrackController.getController(this);
 
         insertH(redShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
@@ -96,7 +96,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     {
         this.playerColor = playerColor;
         this.opponentsColors = opponentColors;
-        playerAmmoBoxController = AmmoBoxController.getController(playerColor, this);
+        playerAmmoBoxController = AmmoBoxController.getController(playerColor, this, this);
 
         insert(curPlayerAvatar(playerColor, playerAmmoBoxController), playerAvatarHBox, 0.6);
         for(String color : opponentColors)
@@ -127,6 +127,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         playerCardsController.addWeaponEvent.addEventHandler((a,weapon) -> notifyAndReset(getAction().addWeapon(weapon)));
         playerCardsController.usePowerupEvent.addEventHandler((a,pu) -> notifyAndReset(getAction().usePowerUp(pu)));
         playerCardsController.addPowerupEvent.addEventHandler((a,pu) -> notifyAndReset(getAction().addDiscardable(pu)));
+        mapController.addTargetSquareEvent.addEventHandler((a,square) -> notifyAndReset(getAction().addTargetSquare(square)));
+        mapController.addPTargetPlayerEvent.addEventHandler((a, player) -> notifyAndReset(getAction().addTargetPlayer(player)));
     }
 
     /**
@@ -375,8 +377,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private void setupAction(RemoteAction action)
     {
         newActionsEvent.invoke(this, action);
-        setupSquares(action);
-        setupPlayers(action);
 
         if(action.getData().canBeDone)
             if(checkForAutoDoAction(action))
@@ -393,40 +393,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 && data.getPossibleWeapons().isEmpty() && data.getDiscardableAmmos().isEmpty() &&data.getPossiblePowerUps().isEmpty();
     }
 
-
-    private void setupSquares(RemoteAction action)
-    {
-        RemoteAction.Data data = action.getData();
-        SquareController[][] squares = mapController.getSquares();
-        SquareSnapshot[][] squareSnapshots = curSnapshot.gameBoardSnapshot.squareSnapshots;
-        for(String name : data.getPossibleSquares())
-            for(int i=0; i < squares.length; i++)
-                for(int j=0; j < squares[i].length; j++)
-                    if(squareSnapshots[i][j] != null && squareSnapshots[i][j].name.equals(name))
-                        squares[i][j].setClickable(e -> notifyAndReset(action.addTargetSquare(name)));
-    }
-
-    private void setupPlayers(RemoteAction action)
-    {
-        RemoteAction.Data data = action.getData();
-        SquareController[][] squares = mapController.getSquares();
-        List<Avatar> avatars = new ArrayList<>();
-        List<SquareController> squareControllers = new ArrayList<>();
-        for(int i=0; i < squares.length; i++)
-            for(int j=0; j < squares[0].length; j++)
-                for(Avatar avatar : squares[i][j].getAvatars())
-                    if(data.getPossiblePlayers().contains(colorToName(avatar.getColor())))
-                    {
-                        avatars.add(avatar);
-                        squareControllers.add(squares[i][j]);
-                    }
-        for(int i=0; i < avatars.size(); i++) {
-            int j = i;
-            squareControllers.get(i).setClickable(avatars.get(i), e -> notifyAndReset(action.addTargetPlayer(colorToName(avatars.get(j).getColor()))));
-        }
-
-    }
-
     private void doActionAndReset(){
         clearAnd(() -> notifyChoice(curAction.doAction()));
     }
@@ -439,12 +405,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     }
 
     // todo improve performance saving the result
-    private String colorToName(String color){
-        for(PublicPlayerSnapshot player : curSnapshot.getPublicPlayerSnapshot())
-            if(player.color.equals(color))
-                return player.name;
-        return null; // impossible to go here
-    }
+
 
     private String nameToColor(String name){
         for(PublicPlayerSnapshot player : curSnapshot.getPublicPlayerSnapshot())

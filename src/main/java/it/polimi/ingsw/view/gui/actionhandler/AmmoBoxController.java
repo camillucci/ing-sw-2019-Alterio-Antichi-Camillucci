@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
+import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.view.gui.Animations;
-import it.polimi.ingsw.view.gui.GUIView;
-import it.polimi.ingsw.view.gui.Ifxml;
-import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
+import it.polimi.ingsw.network.RemoteAction;
+import it.polimi.ingsw.view.gui.*;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 
 public class AmmoBoxController implements Ifxml<VBox>
 {
+    public final IEvent<AmmoBoxController, String> addDiscardedAmmoEvent = new Event<>();
     @FXML private ImageView yellowAmmo;
     @FXML private ImageView redAmmo;
     @FXML private ImageView blueAmmo;
@@ -22,7 +23,7 @@ public class AmmoBoxController implements Ifxml<VBox>
     @FXML private VBox rootPane;
     private String color;
     private MatchSnapshotProvider provider;
-
+    private RemoteActionsProvider actionProvider;
 
     public void initialize(){
         redText.setText("0");
@@ -35,11 +36,18 @@ public class AmmoBoxController implements Ifxml<VBox>
         return rootPane;
     }
 
-    private void buildController(String color, MatchSnapshotProvider provider)
+    private void buildController(String color, MatchSnapshotProvider provider, RemoteActionsProvider actionsProvider)
     {
         this.color = color;
         this.provider = provider;
+        this.actionProvider = actionsProvider;
         provider.modelChangedEvent().addEventHandler((a, snapshot) -> onModelChanged(snapshot));
+        if(actionsProvider != null)
+            actionsProvider.newActionsEvent().addEventHandler((a, action) -> onNewAction(action));
+    }
+
+    private void onNewAction(RemoteAction action) {
+
     }
 
     private void onModelChanged(MatchSnapshot snapshot) {
@@ -79,9 +87,14 @@ public class AmmoBoxController implements Ifxml<VBox>
         yellowText.setText(Integer.toString(player.yellowAmmo));
     }
 
-    public static AmmoBoxController getController(String color, MatchSnapshotProvider provider){
+    public static AmmoBoxController getController(String color, MatchSnapshotProvider provider)
+    {
+        return getController(color,provider, null);
+    }
+
+    public static AmmoBoxController getController(String color, MatchSnapshotProvider provider, RemoteActionsProvider actionsProvider){
         AmmoBoxController ret = GUIView.getController("/view/ActionHandler/ammoBox/ammoBox.fxml", "/view/ActionHandler/ammoBox/ammoBox.css");
-        ret.buildController(color, provider);
+        ret.buildController(color, provider, actionsProvider);
         return ret;
     }
 

@@ -164,7 +164,6 @@ public class PlayerCardsController implements Ifxml<HBox>
                         invokeEvent(addPowerupEvent, powerup);
                     draggingPowerup = null;
                 });
-
             }
     }
 
