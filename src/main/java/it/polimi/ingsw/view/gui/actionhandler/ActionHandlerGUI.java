@@ -73,6 +73,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private static final double SELECTION_BOX_SCALE = 0.5;
     private SelectionBoxController selectionBoxController;
     private List<ShopController> shops;
+    private ImageView rollBack;
 
     public void initialize() {
 
@@ -284,7 +285,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void showMap()
     {
-        mapOutPane.getChildren().remove(selectionBoxController.getRoot());
+        if(selectionBoxController!= null)
+            mapOutPane.getChildren().remove(selectionBoxController.getRoot());
         mapPane.setEffect(null);
         shops.forEach(shop -> shop.getRoot().setVisible(false));
         mapPane.setDisable(false);
@@ -299,36 +301,36 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void visualizeActions(List<RemoteAction> actions)
     {
+        clear();
         if(actions.isEmpty())
-            clear();
-
-        actionVBox.getChildren().clear();
+            return;
         List<RemoteAction> imgActions = new ArrayList<>();
         for(RemoteAction action : actions)
             if(action.visualizable.imgPath != null)
                 imgActions.add(action);
             else
-                newButton(action.visualizable, () -> onActionChosen(action));
+               rollBack = newButton(action.visualizable, () -> onActionChosen(action));
 
         if(!imgActions.isEmpty())
-            setupImgAction(actions);
-
+            setupImgAction(imgActions);
     }
 
     private void setupImgAction(List<RemoteAction> imgActions)
     {
         selectionBoxController = SelectionBoxController.getController(imgActions);
         insertH(selectionBoxController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
-
         List<ImageView> options = selectionBoxController.getOptions();
         for(int i=0; i < options.size(); i++)
         {
             int i2 = i;
-            options.get(i).setOnMouseClicked(e -> {
-                showMap();
-                onActionChosen(imgActions.get(i2));
-            });
+            options.get(i).setOnMouseClicked(e -> onActionChosen(imgActions.get(i2)));
         }
+        showSelectionBox();
+    }
+
+    private void showSelectionBox() {
+        hideMap();
+        selectionBoxController.getRoot().setVisible(true);
     }
 
     @Override
@@ -340,10 +342,12 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private void onActionChosen(RemoteAction action)
     {
         curAction = action;
+        showMap();
         clearAnd(() -> {
-                    notifyChoice(action.choose());
-                    notifyChoice(action.askActionData());
-                });
+            Platform.runLater(() -> actionVBox.getChildren().add(rollBack));
+            notifyChoice(action.choose());
+            notifyChoice(action.askActionData());
+        });
     }
 
 
@@ -484,7 +488,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         //TODO
     }
 
-    private void newButton(Visualizable visualizable, Runnable action)
+    private ImageView newButton(Visualizable visualizable, Runnable action)
     {
         if(visualizable.icon != null)
         {
@@ -493,6 +497,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             button.getStyleClass().add("button");
             button.setOnMouseClicked(e -> action.run());
             insert(button, actionVBox, 0.07);
+            return button;
         }
         else
         {
@@ -500,6 +505,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             button.setOnAction(e -> action.run());
             actionVBox.getChildren().add(button);
         }
+        return null;
     }
 
     @Override

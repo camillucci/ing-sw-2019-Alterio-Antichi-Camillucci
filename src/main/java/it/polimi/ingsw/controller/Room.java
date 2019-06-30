@@ -109,6 +109,7 @@ public class Room
      * Boolean representing whether the match is started.
      */
     private boolean matchStarting = false;
+    private static int MIN_PLAYERS = 1;
 
 
     public Room() {
@@ -140,7 +141,7 @@ public class Room
      */
     private synchronized void onTimeout(){
         int tot = readyPlayers.size() + pendingPlayers.size();
-        if(tot < 3){
+        if(tot < MIN_PLAYERS){
             ((Event<Room, Integer>)timerStopEvent).invoke(this, LOGIN_TIMEOUT);
             return;
         }
@@ -286,7 +287,7 @@ public class Room
         playerNames.remove(index);
         availableColors.add(playerColors.get(index));
         playerColors.remove(index);
-        if(pendingPlayers.size() + readyPlayers.size() < 3)
+        if(pendingPlayers.size() + readyPlayers.size() < MIN_PLAYERS)
             matchStarting = false;
     }
 
@@ -306,7 +307,7 @@ public class Room
         int readyCounter = readyPlayers.size();
         if(pendingPlayers.isEmpty() && matchStarting)
             startMatch();
-        else if (readyCounter == 3) {
+        else if (readyCounter == MIN_PLAYERS) {
             timer.start();
             ((Event<Room, Integer>) timerStartEvent).invoke(this, LOGIN_TIMEOUT);
         } else if (readyCounter == 5) {
