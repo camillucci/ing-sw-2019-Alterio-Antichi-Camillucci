@@ -296,6 +296,10 @@ public class Player {
         return ammo;
     }
 
+    public String getName() {
+        return name;
+    }
+
     /**
      * This method returns the total number of ammo contained in the ammo set
      * @return The total number of ammo contained in the ammo set

@@ -198,6 +198,10 @@ public class Room
 
     private void onNewActions(Player player, List<Action> actions)
     {
+        if(disconnectedPlayers.contains(match.getCurPlayer())) {
+            match.onTurnCompleted();
+            return;
+        }
         resetTurnTimer();
         for(Player p : match.getPlayers())
             ((Event<Room, ModelEventArgs>)modelUpdatedEvent).invoke(this, new ModelEventArgs(new MatchSnapshot(match, p), p.name, new RemoteActionsHandler(player, actions)));
