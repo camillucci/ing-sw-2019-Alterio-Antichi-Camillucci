@@ -77,13 +77,13 @@ public class Controller {
      */
     public synchronized boolean checkReconnected(String name) {
         for (Room room : lobby) {
-            if (room.getDisconnectedPlayers().contains(name))
+            if (room.getDisconnectedPlayers().contains(name)) {
                 room.reconnectedPlayer(name);
                 return true;
+            }
         }
         return false;
     }
-
 
     /**
      * Checks if the disconnected player was already in a room. If that's the case, said room is notified of the
