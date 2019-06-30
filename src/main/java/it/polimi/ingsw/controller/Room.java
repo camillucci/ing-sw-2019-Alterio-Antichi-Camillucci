@@ -338,7 +338,6 @@ public class Room
     public void notifyPlayerDisconnected(String name){
         if(!matchStarting)
             removePlayer(name);
-        else
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
 
         //todo check if the else is appropriate
