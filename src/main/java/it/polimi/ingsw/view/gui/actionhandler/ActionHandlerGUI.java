@@ -12,8 +12,6 @@ import it.polimi.ingsw.network.RemoteActionsHandler;
 import it.polimi.ingsw.view.ActionHandler;
 import it.polimi.ingsw.view.gui.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -24,13 +22,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController.snapshotToName;
 
 /**
  * This class extends ActionHandler and is dedicated to managing actions on clients side, in case the user chose a
@@ -38,7 +33,7 @@ import static it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController.snaps
  */
 public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, MatchSnapshotProvider, RemoteActionsProvider {
     private final Event<MatchSnapshotProvider, MatchSnapshot> modelChangedEvent = new Event<>();
-    private final Event<RemoteActionsProvider, List<RemoteAction>> newActionsEvent = new Event<>();
+    private final Event<RemoteActionsProvider, RemoteAction> newActionsEvent = new Event<>();
     @FXML private HBox playerHBox;
     @FXML private StackPane killShotTrackPane;
     @FXML private StackPane mapOutPane;
@@ -121,10 +116,17 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
             insert(avatarHBox, avatarsVBox, AVATAR_SCALE);
         }
-        playerCardsController = PlayerCardsController.getController(this, playerColor);
+        playerCardsController = PlayerCardsController.getController(this, this, playerColor);
         curPlayerSet = PlayerSetController.getController(playerColor, this);
         bind(playerCardsController.getRoot(), gameBoard, PLAYER_SET_SCALE);
         insert(playerCardsController.getRoot(), playerHBox, 1);
+        setupEvents();
+    }
+
+    private void setupEvents() {
+        playerCardsController.addWeaponEvent.addEventHandler((a,weapon) -> notifyAndReset(getAction().addWeapon(weapon)));
+        playerCardsController.usePowerupEvent.addEventHandler((a,pu) -> notifyAndReset(getAction().usePowerUp(pu)));
+        playerCardsController.addPowerupEvent.addEventHandler((a,pu) -> notifyAndReset(getAction().addDiscardable(pu)));
     }
 
     /**
@@ -350,18 +352,17 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         });
     }
 
-
     /**
      * Gets a list of possible actions and displays them to the user.
      * @param options Is the list of actions available the user can choose from
      */
     @Override
-    public void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException {
+    public void chooseAction(List<RemoteAction> options){
        Platform.runLater(() -> visualizeActions(options));
     }
 
     @Override
-    public void updateActionData(RemoteAction.Data data) throws IOException {
+    public void updateActionData(RemoteAction.Data data) {
         Platform.runLater(() -> {
             curAction.updateData(data);
             if(curAction.getData().isInvalid()) {
@@ -373,7 +374,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void setupAction(RemoteAction action)
     {
-        setupCards(action);
+        newActionsEvent.invoke(this, action);
         setupSquares(action);
         setupPlayers(action);
 
@@ -392,37 +393,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 && data.getPossibleWeapons().isEmpty() && data.getDiscardableAmmos().isEmpty() &&data.getPossiblePowerUps().isEmpty();
     }
 
-    private void setupCards(RemoteAction action)
-    {
-        setupWeapons(action);
-        setupPowerups(action);
-    }
-
-    private void setupWeapons(RemoteAction action)
-    {
-        List<ImageView> weapons = playerCardsController.getWeapons();
-        for(ImageView card : weapons)
-            card.setDisable(true);
-        for(String weapon : action.getData().getPossibleWeapons())
-            for(ImageView weaponImg : weapons)
-                if(weaponImg.getImage().getUrl().toLowerCase().contains(snapshotToName(weapon))) {
-                    weaponImg.setDisable(false);
-                    weaponImg.setOnMouseClicked(e -> notifyAndReset(action.addWeapon(weapon)));
-                }
-    }
-
-    private void setupPowerups(RemoteAction action)
-    {
-        List<ImageView> powerups = playerCardsController.getPowerUps();
-        for(ImageView card : powerups)
-            card.setDisable(true);
-        for(String powerup : action.getData().getPossiblePowerUps())
-            for(ImageView powerupImg : powerups)
-                if(powerupImg.getImage() != null && powerupImg.getImage().getUrl().toLowerCase().contains(snapshotToName(powerup))) {
-                    powerupImg.setDisable(false);
-                    powerupImg.setOnMouseClicked(e -> notifyAndReset(action.usePowerUp(powerup)));
-                }
-    }
 
     private void setupSquares(RemoteAction action)
     {
@@ -526,13 +496,14 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         return modelChangedEvent;
     }
 
+
     @Override
-    public List<RemoteAction> getActions() {
-        return curActions;
+    public RemoteAction getAction() {
+        return curAction;
     }
 
     @Override
-    public IEvent<RemoteActionsProvider, List<RemoteAction>> newActionsEvent() {
+    public IEvent<RemoteActionsProvider, RemoteAction> newActionsEvent() {
         return newActionsEvent;
     }
 }
