@@ -72,8 +72,10 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         nicknameController = NicknameController.getController();
         nicknameController.getNextButton().setOnAction(e -> disableAnd(() -> {
             String name = nicknameController.getLoginText().getText();
-            ((Event<Login, String>)nameEvent).invoke(this, name);
-            int a = 2;
+            if(name.length() >= 2 && name.length() <= 16 && !name.contains(" "))
+                ((Event<Login, String>)nameEvent).invoke(this, name);
+            else
+                notifyAccepted(false);
         }));
         setBottomVBox(nicknameController.getRoot());
     }
@@ -113,7 +115,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     }
 
     @Override
-    public void notifyAccepted(boolean accepted) throws IOException {
+    public void notifyAccepted(boolean accepted) {
         Platform.runLater(() -> {
             if (!accepted) {
                 enable();
