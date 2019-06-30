@@ -125,7 +125,7 @@ public class Room
      * @return Whether the match has started or not.
      */
     public boolean isMatchStarted() {
-        return matchStarting;
+        return pendingPlayers.isEmpty() && readyPlayers.size() >= MIN_PLAYERS;
     }
 
     /**
@@ -258,7 +258,8 @@ public class Room
     }
 
     public synchronized void reconnectedPlayer(String name) {
-        disconnectedPlayers.remove(name);
+        if(isMatchStarted())
+            disconnectedPlayers.remove(name);
     }
 
     /**
@@ -301,7 +302,6 @@ public class Room
         playerColors.remove(index);
         if(pendingPlayers.size() + readyPlayers.size() < MIN_PLAYERS)
             matchStarting = false;
-        ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
     }
 
     /**
