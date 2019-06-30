@@ -129,6 +129,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      * @param name String that represents the name of the disconnected player
      */
     private synchronized void notifyPlayerDisconnected(String name){
+        if(name.equals(this.name))
+            return;
         otherPlayers.remove(name);
         bottleneck.tryDo(() -> sendMessage(playerDisconnectedMessage(name)));
     }

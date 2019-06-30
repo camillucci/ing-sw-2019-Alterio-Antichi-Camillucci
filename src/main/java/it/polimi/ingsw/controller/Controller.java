@@ -93,16 +93,17 @@ public class Controller {
     public synchronized void notifyPlayerDisconnected(String name){
         if(name == null) // name not registered
             return;
+
         if(joiningPlayers.contains(name)) {
             joiningPlayers.remove(name);
             return;
         }
-        else
-            for(Room room : lobby)
-                if(room.getPlayerNames().contains(name)) {
-                    room.notifyPlayerDisconnected(name);
-                    return;
-                }
+
+        for(Room room : lobby)
+            if(room.getPlayerNames().contains(name)) {
+                room.notifyPlayerDisconnected(name);
+                return;
+            }
         throw new RuntimeException("disconnected player doesn't exist");
     }
 }

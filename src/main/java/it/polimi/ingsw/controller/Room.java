@@ -117,7 +117,6 @@ public class Room
     public Room() {
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
         newLoginTimer();
-        setupEvents();
     }
 
     /**
@@ -131,10 +130,6 @@ public class Room
     /**
      * Sets the events relative to timeouts and players disconnecting.
      */
-    private void setupEvents()
-    {
-        playerDisconnectedEvent.addTmpEventHandler((a, name) -> disconnectedPlayers.add(name));
-    }
 
     private void newLoginTimer(){
         timer = new RoomTimer(LOGIN_TIMEOUT, PERIOD);
@@ -149,7 +144,7 @@ public class Room
     private synchronized void onTimeout(){
         int tot = readyPlayers.size() + pendingPlayers.size();
         if(tot < MIN_PLAYERS){
-            ((Event<Room, Integer>)timerStopEvent).invoke(this, LOGIN_TIMEOUT);
+            stopTimer();
             newLoginTimer();
             return;
         }
@@ -157,6 +152,13 @@ public class Room
         matchStarting = true;
         if(pendingPlayers.isEmpty())
             startMatch();
+    }
+
+
+    private void stopTimer(){
+        matchStarting = false;
+        timer.stop();
+        ((Event<Room, Integer>)timerStopEvent).invoke(this, LOGIN_TIMEOUT);
     }
 
     private synchronized void onTurnTimeout(){
@@ -222,7 +224,6 @@ public class Room
     private void createTurnTimer(){
         this.timer = new RoomTimer(TURN_TIMEOUT, PERIOD);
         timer.timeoutEvent.addEventHandler((a,b) -> onTurnTimeout());
-        timer.start();
     }
 
     public synchronized void reconnect(String playerName){
@@ -255,6 +256,7 @@ public class Room
         playerNames.add(playerName);
         if(playerNames.size() == 1)
             hostName = playerName;
+        newPlayer(playerName);
     }
 
     public synchronized void reconnectedPlayer(String name) {
@@ -300,8 +302,10 @@ public class Room
         playerNames.remove(index);
         availableColors.add(playerColors.get(index));
         playerColors.remove(index);
-        if(pendingPlayers.size() + readyPlayers.size() < MIN_PLAYERS)
-            matchStarting = false;
+        if(pendingPlayers.size() + readyPlayers.size() < MIN_PLAYERS) {
+            stopTimer();
+            newLoginTimer();
+        }
     }
 
     /**
@@ -314,7 +318,6 @@ public class Room
      */
     public synchronized void notifyPlayerReady(String playerName)
     {
-        newPlayer(playerName);
         pendingPlayers.remove(playerName);
         readyPlayers.add(playerName);
         int readyCounter = readyPlayers.size();
