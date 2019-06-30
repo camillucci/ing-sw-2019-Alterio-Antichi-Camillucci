@@ -230,7 +230,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private synchronized void notifyPlayer(String name){
         if(otherPlayers.contains(name))
             return;
-        otherPlayers.add(name);
+        if(this.name != name)
+            otherPlayers.add(name);
         bottleneck.tryDo(() -> sendMessage(newPlayerMessage(name)));
     }
 
@@ -241,7 +242,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         setupRoomEvents();
         for(String name : joinedRoom.getPlayerNames())
             notifyPlayer(name);
-        stopPinging();
     }
 
     protected abstract void sendCommand(Command<View> command) throws IOException;

@@ -56,8 +56,8 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    private static final int LOGIN_TIMEOUT = 2;
-    private static final int TURN_TIMEOUT = 30;
+    private static final int LOGIN_TIMEOUT = 100;
+    private static final int TURN_TIMEOUT = 1000000000;
 
     /**
      * Integer representing the period value
@@ -324,6 +324,7 @@ public class Room
             timer.start();
             ((Event<Room, Integer>) timerStartEvent).invoke(this, LOGIN_TIMEOUT);
         } else if (readyCounter == 5) {
+            matchStarting = true;
             timer.stop();
             startMatch();
         }
@@ -461,8 +462,6 @@ public class Room
         String winnerName = declareWinner();
         ((Event<Room, String>)onEndMatchEvent).invoke(this, winnerName);
         ((Event<Room, String[][]>)onEndMatchScoreEvent).invoke(this, scoreBoard);
-        // todo invoke scoreboard event
-
     }
 
     public class TurnTimeoutException extends Exception{}
