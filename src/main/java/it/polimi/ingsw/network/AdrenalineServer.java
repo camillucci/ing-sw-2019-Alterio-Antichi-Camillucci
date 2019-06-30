@@ -41,6 +41,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private List<String> otherPlayers = new ArrayList<>();
     protected Bottleneck bottleneck = new Bottleneck();
     protected RemoteActionsHandler remoteActionsHandler;
+    private BiConsumer<Room, String[][]> onEndMatchScoreEventHandler = (a, scoreBoard) -> bottleneck.tryDo( () -> sendMessage(scoreBoardMessage(scoreBoard)));
     private BiConsumer<Room, String> onEndMatchEventHandler = (a, winner) -> bottleneck.tryDo( () -> sendMessage(endMatchMessage(winner)));
     private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> sendMessage(timerStartMessage(timeout)));
     private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(timerTickMessage(timeLeft)));
@@ -48,7 +49,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, String> newPlayerEventHandler = (a, name) -> notifyPlayer(name);
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
     private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
-    private BiConsumer<Room, String> turnTimeutEventHandler = (a, name) -> bottleneck.tryDo( () -> onTurnTimeout(name));
+    private BiConsumer<Room, String> turnTimeoutEventHandler = (a, name) -> bottleneck.tryDo( () -> onTurnTimeout(name));
 
     private void onTurnTimeout(String name) throws IOException
     {
@@ -143,6 +144,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             otherPlayers = joinedRoom.getOtherPlayers(name);
             color = joinedRoom.getPlayerColor(name);
             sendMessage(reconnectedMessage());
+            //todo send updated model to client
             //todo tell client it doesn't need to wait for colors.
             //it's possible that color is a non needed variable
             return;
@@ -257,12 +259,13 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private void removeEvents() {
         if(joinedRoom != null) {
             joinedRoom.onEndMatchEvent.removeEventHandler(onEndMatchEventHandler);
+            joinedRoom.onEndMatchScoreEvent.removeEventHandler(onEndMatchScoreEventHandler);
             joinedRoom.timerStartEvent.removeEventHandler(timerStartEventHandler);
             joinedRoom.timerTickEvent.removeEventHandler(timerTickEventHandler);
             joinedRoom.timerStopEvent.removeEventHandler(timerStopEventHandler);
             joinedRoom.newPlayerEvent.removeEventHandler(newPlayerEventHandler);
             joinedRoom.playerDisconnectedEvent.removeEventHandler(playerDisconnectedEventHandler);
-            joinedRoom.turnTimeoutEvent.removeEventHandler(turnTimeutEventHandler);
+            joinedRoom.turnTimeoutEvent.removeEventHandler(turnTimeoutEventHandler);
             joinedRoom.modelUpdatedEvent.removeEventHandler(modelUpdatedEventHandler);
         }
     }
@@ -273,6 +276,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private void setupRoomEvents()
     {
         joinedRoom.onEndMatchEvent.addEventHandler(onEndMatchEventHandler);
+        joinedRoom.onEndMatchScoreEvent.addEventHandler(onEndMatchScoreEventHandler);
         joinedRoom.timerStartEvent.addEventHandler(timerStartEventHandler);
         joinedRoom.timerTickEvent.addEventHandler(timerTickEventHandler);
         joinedRoom.timerStopEvent.addEventHandler(timerStopEventHandler);
@@ -280,7 +284,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         //todo removeEvents() if playerDisconnectedEvent is invoked and (this.name == name)
         joinedRoom.playerDisconnectedEvent.addEventHandler(playerDisconnectedEventHandler);
         joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
-        joinedRoom.turnTimeoutEvent.addEventHandler(turnTimeutEventHandler);
+        joinedRoom.turnTimeoutEvent.addEventHandler(turnTimeoutEventHandler);
     }
 
     /**
@@ -333,6 +337,17 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private static String endMatchMessage (String winner) {
         return "Congratulations, Mr." + winner + ", you won!\n";
+    }
+
+    private static String scoreBoardMessage (String[][] scoreBoard) {
+        String temp = "";
+        int j;
+        for(int i = 0; i < scoreBoard.length; i++) {
+            j = i + 1;
+            temp.concat(scoreBoard[i][0] + " finished " + j + " with a total score of " + scoreBoard[i][1] + "\n");
+        }
+
+        return temp;
     }
 
     /**
