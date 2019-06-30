@@ -49,6 +49,8 @@ public class Room
      */
     public final IEvent<Room, String> onEndMatchEvent = new Event<>();
 
+    public final IEvent<Room, String[][]> onEndMatchScoreEvent = new Event<>();
+
     public final IEvent<Room, String> turnTimeoutEvent = new Event<>();
 
     /**
@@ -198,6 +200,10 @@ public class Room
 
     private void onNewActions(Player player, List<Action> actions)
     {
+        if(disconnectedPlayers.contains(match.getCurPlayer())) {
+            match.onTurnCompleted();
+            return;
+        }
         resetTurnTimer();
         for(Player p : match.getPlayers())
             ((Event<Room, ModelEventArgs>)modelUpdatedEvent).invoke(this, new ModelEventArgs(new MatchSnapshot(match, p), p.name, new RemoteActionsHandler(player, actions)));
@@ -361,6 +367,8 @@ public class Room
     public List<String> getOtherPlayers(String player) {
         List<String> temp = playerNames;
         temp.remove(player);
+        for(String p : disconnectedPlayers)
+            temp.remove(p);
         return temp;
     }
 
@@ -445,6 +453,7 @@ public class Room
         String[][] scoreBoard = calculateScore();
         String winnerName = declareWinner();
         ((Event<Room, String>)onEndMatchEvent).invoke(this, winnerName);
+        ((Event<Room, String[][]>)onEndMatchScoreEvent).invoke(this, scoreBoard);
         // todo invoke scoreboard event
 
     }

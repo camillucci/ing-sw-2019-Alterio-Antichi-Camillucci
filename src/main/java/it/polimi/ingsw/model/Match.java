@@ -170,7 +170,7 @@ public class Match extends ActionsProvider {
     /**
      * This method is called when a Turn is over, it spawns all the dead Players and starts the next Turn
      */
-    private void onTurnCompleted()
+    public void onTurnCompleted()
     {
         if(finalFrenzy && frenzyStarter == players.indexOf(curPlayer)) {
             for(Player player : deadPlayers)
@@ -347,6 +347,10 @@ public class Match extends ActionsProvider {
 
     public int getFrenzyStarter() {
         return frenzyStarter;
+    }
+
+    public String getCurPlayer() {
+        return curPlayer.getName();
     }
 
     /**
