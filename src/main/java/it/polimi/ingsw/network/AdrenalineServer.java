@@ -50,6 +50,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
     private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
     private BiConsumer<Room, String> turnTimeoutEventHandler = (a, name) -> bottleneck.tryDo( () -> onTurnTimeout(name));
+    private volatile boolean isDisconnected = false;
+
 
     private void onTurnTimeout(String name) throws IOException
     {
@@ -113,6 +115,9 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      * controller about the newly occurred player's disconnection.
      */
     protected void onExceptionGenerated(Exception e){
+        if(isDisconnected)
+            return;
+        isDisconnected = true;
         removeEvents();
         controller.notifyPlayerDisconnected(name);
         e.printStackTrace();
