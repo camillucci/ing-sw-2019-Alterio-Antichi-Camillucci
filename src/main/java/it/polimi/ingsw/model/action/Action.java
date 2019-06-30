@@ -188,4 +188,9 @@ public abstract class Action
     {
         return false;
     }
+
+    public boolean isInvalid() {
+        return !canBeDone && getPossiblePlayers().isEmpty() && getPossibleSquares().isEmpty() && getPossiblePowerUps().isEmpty()
+                && getDiscardablePowerUps().isEmpty() && getDiscardableAmmos().isEmpty() && getPossibleWeapons().isEmpty();
+    }
 }

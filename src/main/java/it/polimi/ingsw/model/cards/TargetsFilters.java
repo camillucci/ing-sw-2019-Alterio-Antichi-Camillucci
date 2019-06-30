@@ -268,7 +268,9 @@ public class TargetsFilters {
     public static List<Player> newtonPlayers(Player player, List<Player> players) {
         if(!players.isEmpty())
             return Collections.emptyList();
-        List<Player> temp = new ArrayList<>(player.gameBoard.getPlayers());
+        List<Player> temp = new ArrayList<>();
+        for(Square square : player.gameBoard.getSquares())
+            temp.addAll(square.getPlayers());
         temp.remove(player);
         return temp;
     }

@@ -152,7 +152,7 @@ public class Match extends ActionsProvider {
         BranchMap branchMap = BranchMapFactory.spawnBranchMap(p);
         branchMap.newActionsEvent.addEventHandler((bMap, actions) -> setNewActions(actions));
         branchMap.rollbackEvent.addEventHandler((bMap, rollbackAction) -> rollback(respawn));
-        branchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> {
+        branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> {
             for(Player player : deadPlayers)
                 if(player.color.equals(p.color)) {
                     this.deadPlayers.remove(player);

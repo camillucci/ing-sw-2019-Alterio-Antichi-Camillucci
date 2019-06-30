@@ -55,7 +55,7 @@ class LoginTest {
 
     @Test
     void mainStart() throws InterruptedException {
-        if(GUI_TEST)
+        if(!GUI_TEST)
             return;
 
         (new Thread(() -> AdrenalineLauncherServer.main(new String[]{}))).start();
