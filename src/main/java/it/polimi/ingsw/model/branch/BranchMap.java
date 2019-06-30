@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * This class is used to manage all the current branches of actions the player has access to. It selects the branches
- * that are still legally possible after every action chosen by the player.
+ * that are still legally possible after every actiaon chosen by the player.
  */
 public class BranchMap
 {

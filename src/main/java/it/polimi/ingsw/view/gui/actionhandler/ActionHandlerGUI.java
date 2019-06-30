@@ -26,6 +26,7 @@ import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,11 +48,11 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     @FXML private ImageView blueShop;
     @FXML private ImageView redShop;
     @FXML private ImageView yellowShop;
+    @FXML private HBox playerAvatarHBox;
+    @FXML private VBox actionVBox;
     private ShopController redShopController;
     private ShopController blueShopController;
     private ShopController yellowShopController;
-    @FXML private HBox playerAvatarHBox;
-    @FXML private VBox actionVBox;
     private String playerColor;
     private List<PlayerSetController> playerSets = new ArrayList<>();
     private List<PlayerCardsController> curCardsController = new ArrayList<>();
@@ -67,20 +68,19 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private RemoteAction curAction;
     private MatchSnapshot curSnapshot;
     private List<String> opponentsColors = new ArrayList<>();
-    private boolean turnStarted = true;
     private static final double AVATAR_SCALE = 0.3;
     private static final double PLAYER_SET_SCALE = 1d/5.2;
     private static final double SELECTION_BOX_SCALE = 0.5;
     private SelectionBoxController selectionBoxController;
+    private List<ShopController> shops;
 
     public void initialize() {
 
-        //blackRectangle.setVisible(false);
         (redShopController = ShopController.getController(this, "red")).getRoot().setVisible(false);
         (blueShopController = ShopController.getController(this, "blue")).getRoot().setVisible(false);
         (yellowShopController = ShopController.getController(this, "yellow")).getRoot().setVisible(false);
+        shops = setupStores();
 
-        setupStores();
         mapController = MapController.getController(this);
         killShotTrackController = KillShotTrackController.getController(this);
 
@@ -89,9 +89,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         insertH(yellowShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
         insert(mapController.getRoot(), mapPane, 1);
         insert(killShotTrackController.getRoot(), killShotTrackPane,1);
-
-        //todo remove this line
-        //newMatch();
     }
 
     /**
@@ -132,10 +129,11 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     /**
      * calls setupShop method for every shop (3 in total)
      */
-    private void setupStores(){
+    private List<ShopController> setupStores(){
         setupShop(redShop, redShopController);
         setupShop(blueShop, blueShopController);
         setupShop(yellowShop, yellowShopController);
+        return Arrays.asList(redShopController, blueShopController, yellowShopController);
     }
 
     /**
@@ -145,33 +143,17 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
      */
     private void setupShop(ImageView store, ShopController shopController){
         store.setOnMouseClicked(e -> {
-           if(blueShopController.getRoot().isVisible() || redShopController.getRoot().isVisible() || yellowShopController.getRoot().isVisible())
+           if(shops.stream().anyMatch(shop -> shop.getRoot().isVisible()))
            {
-               mapPane.setDisable(false);
-               setMapBlur(false);
-               redShopController.getRoot().setVisible(false);
-               blueShopController.getRoot().setVisible(false);
-               yellowShopController.getRoot().setVisible(false);
+               showMap();
+               shops.forEach(shop -> shop.getRoot().setVisible(false));
            }
            else
            {
-               mapPane.setDisable(true);
-               setMapBlur(true);
+               hideMap();
                shopController.getRoot().setVisible(true);
            }
         });
-
-    }
-
-    private void setMapBlur(boolean blurBool){
-        if(blurBool) {
-            GaussianBlur blur = new GaussianBlur(55);
-            mapBlurEffect.setInput(blur);
-            mapPane.setEffect(mapBlurEffect);
-        }
-        else
-            mapPane.setEffect(null);
-
     }
 
     private void bind(ImageView toBind, Pane region, double hScaleFactor){
@@ -218,7 +200,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         ret.setAlignment(Pos.CENTER);
         ret.spacingProperty().bind(ret.minHeightProperty().multiply(SPACING_FACTOR));
 
-        ImageView avatar = new ImageView(new Image("player/" + color + "_avatar.png"));
+        ImageView avatar = new Avatar(color);
         avatar.getStyleClass().add("button");
 
         avatar.setOnMouseClicked(e -> {
@@ -240,8 +222,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         HBox ret = new HBox();
         ret.setAlignment(Pos.CENTER);
         ret.spacingProperty().bind(ret.minHeightProperty().multiply(SPACING_FACTOR));
-        ImageView avatar = new ImageView(new Image("player/" + color + "_avatar.png"));
-        avatar.setPreserveRatio(true);
+        Avatar avatar = new Avatar(color);
         avatar.getStyleClass().add("button");
         avatar.setOnMouseEntered(e ->
         {
@@ -281,7 +262,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         box.setLayoutY(e.getSceneY() - e.getY() - avatar.getFitHeight()/2);
     }
 
-
     @Override
     public Pane getRoot() {
         return gameBoard;
@@ -291,59 +271,61 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         return GUIView.getController("/view/ActionHandler/general/actionHandler.fxml", "/view/ActionHandler/general/actionHandler.css");
     }
 
-    //todo remove this method! (only for testing)
-    //todo
-    //todo
-    //todo
-    //todo
-    /*
-    private void newMatch(){
-
-        List<String> names = new ArrayList<>(Arrays.asList("A", "B", "C", "D", "E"));
-        List<PlayerColor> colors = new ArrayList<>(Arrays.asList(PlayerColor.GREY, PlayerColor.GREEN, PlayerColor.BLUE, PlayerColor.VIOLET, PlayerColor.YELLOW));
-        Match match = new Match(names, colors, 5, 0);
-        match.start();
-        List<Action> actions = match.getActions();
-        List<RemoteAction> remoteActions = new ArrayList<>();
-        for(int i=0; i < actions.size(); i++)
-            remoteActions.add(new RemoteAction(i, actions.get(i).getVisualizable()));
-        visualizeActions(remoteActions);
-        onModelChanged(new MatchSnapshot(match, match.getPlayer()));
+    private void clearAnd(Runnable func){
+        clear();
+        (new Thread(func)).start();
     }
 
-     */
+    private void clear(){
+        showMap();
+        mapController.reset();
+        actionVBox.getChildren().clear();
+    }
+
+    private void showMap()
+    {
+        mapOutPane.getChildren().remove(selectionBoxController.getRoot());
+        mapPane.setEffect(null);
+        shops.forEach(shop -> shop.getRoot().setVisible(false));
+        mapPane.setDisable(false);
+    }
+
+    private void hideMap(){
+        mapPane.setDisable(true);
+        GaussianBlur blur = new GaussianBlur(55);
+        mapBlurEffect.setInput(blur);
+        mapPane.setEffect(mapBlurEffect);
+    }
 
     private void visualizeActions(List<RemoteAction> actions)
     {
         if(actions.isEmpty())
-        {
-            mapOutPane.getChildren().remove(selectionBoxController.getRoot());
-            actionVBox.getChildren().clear();
-            setMapBlur(false);
-            return;
-        }
+            clear();
 
         actionVBox.getChildren().clear();
         List<RemoteAction> imgActions = new ArrayList<>();
         for(RemoteAction action : actions)
-            if(action.visualizable.imgPath != null){
+            if(action.visualizable.imgPath != null)
                 imgActions.add(action);
-            }
             else
                 newButton(action.visualizable, () -> onActionChosen(action));
-        if(imgActions.isEmpty())
-            return;
 
+        if(!imgActions.isEmpty())
+            setupImgAction(actions);
+
+    }
+
+    private void setupImgAction(List<RemoteAction> imgActions)
+    {
         selectionBoxController = SelectionBoxController.getController(imgActions);
-
         insertH(selectionBoxController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
-        setMapBlur(true);
+
         List<ImageView> options = selectionBoxController.getOptions();
         for(int i=0; i < options.size(); i++)
         {
             int i2 = i;
             options.get(i).setOnMouseClicked(e -> {
-                mapOutPane.getChildren().remove(selectionBoxController.getRoot());
+                showMap();
                 onActionChosen(imgActions.get(i2));
             });
         }
@@ -358,9 +340,10 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private void onActionChosen(RemoteAction action)
     {
         curAction = action;
-        notifyChoice(action.choose());
-        notifyChoice(action.askActionData());
-        setMapBlur(false);
+        clearAnd(() -> {
+                    notifyChoice(action.choose());
+                    notifyChoice(action.askActionData());
+                });
     }
 
 
@@ -467,21 +450,15 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     }
 
-    private void reset(){
-        mapController.reset();
-    }
-
     private void doActionAndReset(){
-        turnStarted = false;
-        actionVBox.getChildren().clear();
-        mapController.reset();
-        notifyChoice(curAction.doAction());
+        clearAnd(() -> notifyChoice(curAction.doAction()));
     }
 
     private void notifyAndReset(Command<RemoteActionsHandler> command){
-        reset();
-        notifyChoice(command);
-        notifyChoice(curAction.askActionData());
+        clearAnd(() -> {
+            notifyChoice(command);
+            notifyChoice(curAction.askActionData());
+        });
     }
 
     // todo improve performance saving the result
