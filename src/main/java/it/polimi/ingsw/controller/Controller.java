@@ -35,7 +35,7 @@ public class Controller {
     private Room newRoom() {
         Room room = new Room();
         room.newPlayerEvent.addEventHandler((a, name) -> joiningPlayers.remove(name));
-        room.onEndMatchScoreEvent.addEventHandler((r, b) -> lobby.remove(r));
+        room.scoreEvent.addEventHandler((r, b) -> lobby.remove(r));
         lobby.add(room);
         return room;
     }
