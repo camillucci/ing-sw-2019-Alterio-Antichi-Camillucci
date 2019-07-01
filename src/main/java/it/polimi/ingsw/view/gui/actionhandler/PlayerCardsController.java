@@ -190,10 +190,11 @@ public class PlayerCardsController implements Ifxml<HBox>
 
     private boolean startDeletingAnimation(PrivatePlayerSnapshot player, List<String> oldList, List<String> newList, boolean found)
     {
-        for(String loaded : oldList)
+        List<String> tmp = oldList.stream().distinct().collect(Collectors.toList());
+        for(String card : tmp)
         {
-            List<ImageView> occurencies = getCards(loaded);
-            for (int i = 0; i < (Collections.frequency(oldList, loaded) - Collections.frequency(newList, loaded)); i++)
+            List<ImageView> occurencies = getCards(card);
+            for (int i = 0; i < (Collections.frequency(oldList, card) - Collections.frequency(newList, card)); i++)
                 if (!found) {
                     found = true;
                     Animations.disappearAnimation(occurencies.get(i), () -> {
@@ -223,20 +224,47 @@ public class PlayerCardsController implements Ifxml<HBox>
         }
     }
 
+    private void delete(List<String> oldList, List<String> newList)
+    {
+        List<String> tmp = oldList.stream().distinct().collect(Collectors.toList());
+        for(String s: tmp)
+        {
+            List<ImageView> occ = getCards(s);
+            for (int i = 0; i < (Collections.frequency(oldList, s) - Collections.frequency(newList, s)); i++)
+                occ.get(i).setImage(null);
+        }
+    }
+
     private void removeCardsPrivatePlayer(PrivatePlayerSnapshot player)
     {
-        if(old != null) {
-            removeAll(old.privatePlayerSnapshot.getLoadedWeapons().stream().filter(c -> !player.getLoadedWeapons().contains(c)).collect(Collectors.toList()));
-            removeAll(old.privatePlayerSnapshot.getUnloadedWeapons().stream().filter(c -> !player.getUnloadedWeapons().contains(c)).collect(Collectors.toList()));
-            removeAll(old.privatePlayerSnapshot.getPowerUps().stream().filter(c -> !player.getPowerUps().contains(c)).collect(Collectors.toList()));
+        if(old != null)
+        {
+            delete(old.privatePlayerSnapshot.getLoadedWeapons(), player.getLoadedWeapons());
+            delete(old.privatePlayerSnapshot.getUnloadedWeapons(), player.getUnloadedWeapons());
+            delete(old.privatePlayerSnapshot.getPowerUps(), player.getPowerUps());
         }
     }
 
     private void addCardPrivatePlayer(PrivatePlayerSnapshot player)
     {
-        player.getLoadedWeapons().stream().filter(c -> old == null || !old.privatePlayerSnapshot.getLoadedWeapons().contains(c)).forEach(this::addWeapon);
-        player.getUnloadedWeapons().stream().filter(c -> old == null || !old.privatePlayerSnapshot.getUnloadedWeapons().contains(c)).forEach(this::addWeapon);
-        player.getPowerUps().stream().filter(c -> old == null ||  !old.privatePlayerSnapshot.getPowerUps().contains(c)).forEach(this::addPowerup);
+        for(String w : player.getLoadedWeapons())
+            if(old == null)
+                addWeapon(w);
+            else
+                for(int i=0; i < Collections.frequency(player.getLoadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getLoadedWeapons(), w); i++)
+                    addWeapon(w);
+        for(String w : player.getUnloadedWeapons())
+            if(old == null)
+                addWeapon(w);
+            else
+                for(int i=0; i < Collections.frequency(player.getUnloadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getUnloadedWeapons(), w); i++)
+                    addWeapon(w);
+        for(String pu : player.getPowerUps())
+            if(old == null)
+                addPowerup(pu);
+            else
+                for(int i=0; i < Collections.frequency(player.getPowerUps(), pu) - Collections.frequency(old.privatePlayerSnapshot.getPowerUps(), pu); i++)
+                    addPowerup(pu);
         old = matchSnapshot;
     }
 
