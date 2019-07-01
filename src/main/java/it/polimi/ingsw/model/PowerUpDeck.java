@@ -26,7 +26,7 @@ public class PowerUpDeck {
      */
     public PowerUpDeck() {
         deck = CardsFactory.getPowerUps();
-       // Collections.shuffle(deck);
+        Collections.shuffle(deck);
     }
 
     /**
