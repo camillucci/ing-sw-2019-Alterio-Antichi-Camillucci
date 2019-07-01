@@ -70,8 +70,6 @@ public class PlayerSetController implements Ifxml<StackPane> {
         for(Pane tear : tears)
             tear.getChildren().clear();
         totDamage = 0;
-        for(int i=0; i < 10; i++)
-            addDamage("Blue");
     }
 
     void addDamage(String color){
