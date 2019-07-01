@@ -10,4 +10,5 @@ public interface RemoteActionsProvider
 {
     RemoteAction getAction();
     IEvent<RemoteActionsProvider, RemoteAction> newActionsEvent();
+    IEvent<RemoteActionsProvider, Object> notifyingToServeEvent();
 }

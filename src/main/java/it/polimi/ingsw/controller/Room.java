@@ -112,7 +112,7 @@ public class Room
      */
     private boolean matchStarting = false;
     private boolean matchStarted = false;
-    private final static int MIN_PLAYERS = 1;
+    private final static int MIN_PLAYERS = 2;
     private ModelEventArgs curModel;
 
 

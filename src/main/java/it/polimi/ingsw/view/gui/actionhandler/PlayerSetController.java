@@ -10,14 +10,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class PlayerSetController implements Ifxml<VBox> {
-    @FXML private GridPane rec;
-    @FXML private VBox vBox;
+public class PlayerSetController implements Ifxml<StackPane> {
+    @FXML private ImageView background;
+    @FXML private StackPane pane;
     @FXML private Pane tear0;
     @FXML private Pane tear1;
     @FXML private Pane tear2;
@@ -41,8 +42,8 @@ public class PlayerSetController implements Ifxml<VBox> {
     }
 
     @Override
-    public VBox getRoot() {
-        return vBox;
+    public StackPane getRoot() {
+        return pane;
     }
 
     private List<Pane> getTears(){
@@ -69,6 +70,8 @@ public class PlayerSetController implements Ifxml<VBox> {
         for(Pane tear : tears)
             tear.getChildren().clear();
         totDamage = 0;
+        for(int i=0; i < 10; i++)
+            addDamage("Blue");
     }
 
     void addDamage(String color){
@@ -83,7 +86,7 @@ public class PlayerSetController implements Ifxml<VBox> {
         this.color = color;
         this.matchSnapshotProvider = provider;
         matchSnapshotProvider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
-        vBox.setStyle("-fx-background-image: url(\"player/" + color + "1.png\")");
+        background.setImage(new Image("player/" + color + "1.png"));
     }
 
     public static PlayerSetController getController(String color, MatchSnapshotProvider matchSnapshotProvider){

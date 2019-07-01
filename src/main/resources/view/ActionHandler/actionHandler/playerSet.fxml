@@ -2,11 +2,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
-<VBox fx:id="vBox" minHeight="227" maxHeight="227" minWidth="${vBox.minHeight/277*1124}" maxWidth="${vBox.maxHeight/277*1124}" alignment="CENTER" styleClass="background" spacing="10" xmlns="http://javafx.com/javafx"
+<StackPane fx:id="pane" minWidth="${pane.minHeight/277*1124}" maxWidth="${pane.maxHeight/277*1124}" alignment="CENTER"  xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.polimi.ingsw.view.gui.actionhandler.PlayerSetController">
-    <StackPane fx:id="pane">
-        <GridPane fx:id="rec" minHeight="${vBox.height * 104/277}" maxHeight="${vBox.height * 104/277}">
+    <ImageView fx:id="background" fitWidth="${pane.minWidth}" preserveRatio="true"/>
+        <GridPane fx:id="rec" minHeight="${pane.height * 104/277}" maxHeight="${pane.height * 104/277}">
             <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
                 <Pane fx:id="tear0" GridPane.columnIndex="0" GridPane.rowIndex="0" minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
                 <Pane fx:id="tear1" GridPane.columnIndex="1" GridPane.rowIndex="0"  minHeight="${rec.height * 51/88}" maxHeight="${rec.height * 51/88}"/>
@@ -47,5 +47,4 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
-    </StackPane>
-</VBox>
+</StackPane>

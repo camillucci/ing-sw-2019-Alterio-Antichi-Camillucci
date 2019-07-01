@@ -132,24 +132,18 @@ public class PlayerCardsController implements Ifxml<HBox>
     private void setupAddWeapon(RemoteAction.Data data)
     {
         for(String weapon : data.getPossibleWeapons())
-            getAll(weapon).forEach(w -> enableEnd( () -> w.setOnMouseClicked(e -> disableAnd( () -> invokeEvent(addWeaponEvent, weapon)))));
+            getAll(weapon).forEach(w -> enableEnd( () -> w.setOnMouseClicked(e -> invokeEvent(addWeaponEvent, weapon))));
     }
 
     private void setupUsePowerup(RemoteAction.Data data)
     {
         for(String powerup : data.getPossiblePowerUps())
-            getAll(powerup).forEach(p -> enableEnd( () -> p.setOnMouseClicked(e -> disableAnd( () -> invokeEvent(usePowerupEvent, powerup)))));
+            getAll(powerup).forEach(p -> enableEnd( () -> p.setOnMouseClicked(e -> invokeEvent(usePowerupEvent, powerup))));
     }
 
     private void enableEnd(Runnable func)
     {
         cards.forEach(c -> c.setDisable(false));
-        func.run();
-    }
-
-    private void disableAnd(Runnable func)
-    {
-        cards.forEach(c -> c.setDisable(true));
         func.run();
     }
 
@@ -299,8 +293,13 @@ public class PlayerCardsController implements Ifxml<HBox>
         provider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
         if(actionsProvider != null) {
             actionsProvider.newActionsEvent().addEventHandler((a, actions) -> onNewAction(actions));
+            actionsProvider.notifyingToServeEvent().addEventHandler((a,b) -> disable());
             setupEvents();
         }
+    }
+
+    private void disable() {
+        cards.forEach(card -> card.setDisable(true));
     }
 
     public static PlayerCardsController getController(MatchSnapshotProvider provider, String color)

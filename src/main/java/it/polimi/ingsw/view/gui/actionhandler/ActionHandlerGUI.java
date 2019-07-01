@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, MatchSnapshotProvider, RemoteActionsProvider {
     private final Event<MatchSnapshotProvider, MatchSnapshot> modelChangedEvent = new Event<>();
     private final Event<RemoteActionsProvider, RemoteAction> newActionsEvent = new Event<>();
+    private final Event<RemoteActionsProvider, Object> notifyingToServerEvent = new Event<>();
     @FXML private HBox playerHBox;
     @FXML private StackPane killShotTrackPane;
     @FXML private StackPane mapOutPane;
@@ -393,11 +394,14 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 && data.getPossibleWeapons().isEmpty() && data.getDiscardableAmmos().isEmpty() &&data.getPossiblePowerUps().isEmpty();
     }
 
-    private void doActionAndReset(){
+    private void doActionAndReset()
+    {
+        notifyingToServerEvent.invoke(this, null);
         clearAnd(() -> notifyChoice(curAction.doAction()));
     }
 
     private void notifyAndReset(Command<RemoteActionsHandler> command){
+        notifyingToServerEvent.invoke(this, null);
         clearAnd(() -> {
             notifyChoice(command);
             notifyChoice(curAction.askActionData());
@@ -457,5 +461,10 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     @Override
     public IEvent<RemoteActionsProvider, RemoteAction> newActionsEvent() {
         return newActionsEvent;
+    }
+
+    @Override
+    public IEvent<RemoteActionsProvider, Object> notifyingToServeEvent() {
+        return notifyingToServerEvent;
     }
 }
