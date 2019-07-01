@@ -3,7 +3,6 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Bottleneck;
-import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
@@ -40,8 +39,9 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private List<String> otherPlayers = new ArrayList<>();
     protected Bottleneck bottleneck = new Bottleneck();
     protected RemoteActionsHandler remoteActionsHandler;
-    private BiConsumer<Room, String[][]> onEndMatchScoreEventHandler = (a, scoreBoard) -> bottleneck.tryDo( () -> sendMessage(scoreBoardMessage(scoreBoard)));
-    private BiConsumer<Room, String> onEndMatchEventHandler = (a, winner) -> bottleneck.tryDo( () -> sendMessage(endMatchMessage(winner)));
+    private BiConsumer<Room, Integer> onEndMatchEvent = (a, b) -> removeEvents();
+    private BiConsumer<Room, String[][]> scoreEventHandler = (a, scoreBoard) -> bottleneck.tryDo( () -> sendMessage(scoreBoardMessage(scoreBoard)));
+    private BiConsumer<Room, String> winnerEventHandler = (a, winner) -> bottleneck.tryDo( () -> sendMessage(winnerMessage(winner)));
     private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> sendMessage(timerStartMessage(timeout)));
     private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(timerTickMessage(timeLeft)));
     private BiConsumer<Room, Integer> timerStopEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE));
@@ -265,8 +265,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private void removeEvents() {
         if(joinedRoom != null) {
-            joinedRoom.onEndMatchEvent.removeEventHandler(onEndMatchEventHandler);
-            joinedRoom.onEndMatchScoreEvent.removeEventHandler(onEndMatchScoreEventHandler);
+            joinedRoom.winnerEvent.removeEventHandler(winnerEventHandler);
+            joinedRoom.scoreEvent.removeEventHandler(scoreEventHandler);
             joinedRoom.timerStartEvent.removeEventHandler(timerStartEventHandler);
             joinedRoom.timerTickEvent.removeEventHandler(timerTickEventHandler);
             joinedRoom.timerStopEvent.removeEventHandler(timerStopEventHandler);
@@ -282,8 +282,9 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private void setupRoomEvents()
     {
-        joinedRoom.onEndMatchEvent.addEventHandler(onEndMatchEventHandler);
-        joinedRoom.onEndMatchScoreEvent.addEventHandler(onEndMatchScoreEventHandler);
+        joinedRoom.endMatchEvent.addEventHandler(onEndMatchEvent);
+        joinedRoom.winnerEvent.addEventHandler(winnerEventHandler);
+        joinedRoom.scoreEvent.addEventHandler(scoreEventHandler);
         joinedRoom.timerStartEvent.addEventHandler(timerStartEventHandler);
         joinedRoom.timerTickEvent.addEventHandler(timerTickEventHandler);
         joinedRoom.timerStopEvent.addEventHandler(timerStopEventHandler);
@@ -341,8 +342,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      * @param winner
      * @return
      */
-    private static String endMatchMessage (String winner) {
-        return "Congratulations, Mr." + winner + ", you won!\n";
+    private static String winnerMessage(String winner) {
+        return "Congratulations to Mr." + winner + "for the victory!\n";
     }
 
     private static String scoreBoardMessage (String[][] scoreBoard) {

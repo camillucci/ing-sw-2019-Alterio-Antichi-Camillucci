@@ -47,9 +47,11 @@ public class Room
     /**
      * todo
      */
-    public final IEvent<Room, String> onEndMatchEvent = new Event<>();
+    public final IEvent<Room, String> winnerEvent = new Event<>();
 
-    public final IEvent<Room, String[][]> onEndMatchScoreEvent = new Event<>();
+    public final IEvent<Room, String[][]> scoreEvent = new Event<>();
+
+    public final IEvent<Room, Integer> endMatchEvent = new Event<>();
 
     public final IEvent<Room, String> turnTimeoutEvent = new Event<>();
 
@@ -472,8 +474,9 @@ public class Room
     private void onMatchEnd() {
         String[][] scoreBoard = calculateScore();
         String winnerName = declareWinner();
-        ((Event<Room, String>)onEndMatchEvent).invoke(this, winnerName);
-        ((Event<Room, String[][]>)onEndMatchScoreEvent).invoke(this, scoreBoard);
+        ((Event<Room, String>) winnerEvent).invoke(this, winnerName);
+        ((Event<Room, String[][]>) scoreEvent).invoke(this, scoreBoard);
+        ((Event<Room, Integer>) endMatchEvent).invoke(this, 0);
     }
 
     public ModelEventArgs getCurModel(String name) {
