@@ -19,19 +19,19 @@ public class GameBoard {
     /**
      * The deck with all remaining WeaponCards
      */
-    private WeaponDeck weaponDeck = new WeaponDeck();
+    public final WeaponDeck weaponDeck;
     /**
      * The deck with all remaining and discarded PowerUpCards
      */
-    private PowerUpDeck powerupDeck = new PowerUpDeck();
+    public final PowerUpDeck powerupDeck;
     /**
      * The deck with all remaining and discarded AmmoCards
      */
-    private AmmoDeck ammoDeck = new AmmoDeck();
+    public final AmmoDeck ammoDeck;
     /**
      * The matrix of squares
      */
-    private Square[][] squares = new Square[3][4];
+    public final Square[][] squares = new Square[3][4];
     /**
      * The number of skulls remaining, from 0 to 8
      */
@@ -39,7 +39,7 @@ public class GameBoard {
     /**
      * The type of the map, from 0 to 3
      */
-    private int mapType;
+    public final int mapType;
     /**
      * The kill shot track, it contains the piece that identify how many kills each person got
      */
@@ -55,6 +55,9 @@ public class GameBoard {
      * @param mapType Type of the map, from 0 to 3
      */
     public GameBoard(int gameLength, int mapType) {
+        this.weaponDeck = new WeaponDeck();
+        this.powerupDeck = new PowerUpDeck();
+        this.ammoDeck = new AmmoDeck();
         this.skulls = gameLength;
         this.mapType = mapType;
         for(int i = 0; i < MAX_SKULLS - skulls; i++)
@@ -139,7 +142,6 @@ public class GameBoard {
         this.powerupDeck = new PowerUpDeck(gameBoard.powerupDeck);
         this.ammoDeck = new AmmoDeck(gameBoard.ammoDeck);
 
-        this.squares = new Square[3][4];
         this.squares[0][0] = gameBoard.squares[0][0] == null ? null : new AmmoSquare(gameBoard.squares[0][0], this, this.ammoDeck);
         this.squares[0][1] = gameBoard.squares[0][1] == null ? null : new AmmoSquare(gameBoard.squares[0][1], this, this.ammoDeck);
         this.squares[0][2] = gameBoard.squares[0][2] == null ? null : new SpawnAndShopSquare(gameBoard.squares[0][2], this, this.weaponDeck);
@@ -644,25 +646,5 @@ public class GameBoard {
                 if(s != null)
                     temp.add(s);
         return temp;
-    }
-
-    public Square getSquare(int y, int x) {
-        return squares[y][x];
-    }
-
-    public int getMapType() {
-        return mapType;
-    }
-
-    public WeaponDeck getWeaponDeck() {
-        return weaponDeck;
-    }
-
-    public PowerUpDeck getPowerupDeck() {
-        return powerupDeck;
-    }
-
-    public AmmoDeck getAmmoDeck() {
-        return ammoDeck;
     }
 }

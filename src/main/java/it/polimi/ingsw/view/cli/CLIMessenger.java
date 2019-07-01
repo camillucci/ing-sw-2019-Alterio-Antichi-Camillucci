@@ -561,7 +561,7 @@ public class CLIMessenger {
         for(String ammo : data.getDiscardableAmmos())
             display(PRESS + j++ + " if you want to discard a " + ammo + " ammo");
         for(String weapon : data.getPossibleWeapons())
-            display(PRESS + j++ + " if you want to reload the weapon" + weapon);
+            display(PRESS + j++ + " if you want to reload the weapon " + weapon);
         if(data.canBeDone)
             display(PRESS + j + " if you want to confirm the action");
     }

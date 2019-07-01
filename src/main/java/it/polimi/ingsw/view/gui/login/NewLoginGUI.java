@@ -191,7 +191,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     }
 
     private ImageView loadingGif(){
-        ImageView imageView = new ImageView(new Image("loading.gif"));
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/loading.gif")));
         imageView.setFitHeight(100);
         imageView.setFitWidth(100);
         return imageView;

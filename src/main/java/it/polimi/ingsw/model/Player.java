@@ -162,7 +162,7 @@ public class Player {
      */
     public void addPowerUpCard() {
         if(powerupSet.getAll().size() < MAX_POWER_UPS){
-            powerupSet.add(gameBoard.getPowerupDeck().draw());
+            powerupSet.add(gameBoard.powerupDeck.draw());
         }
     }
 
@@ -172,7 +172,7 @@ public class Player {
      */
     public void addPowerUpCardRespawn() {
         if(powerupSet.getAll().size() < MAX_POWER_UPS_RESPAWN){
-            powerupSet.add(gameBoard.getPowerupDeck().draw());
+            powerupSet.add(gameBoard.powerupDeck.draw());
         }
     }
 

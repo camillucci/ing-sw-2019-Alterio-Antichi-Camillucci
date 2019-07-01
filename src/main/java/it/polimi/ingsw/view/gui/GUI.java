@@ -27,8 +27,8 @@ public class GUI extends Application {
     private StackPane layout2 = new StackPane();
     private Button loginButton = new Button("Login");
     private Button changeSceneButton = new Button("Go to map");
-    private Image adrenalineImage = new Image("adrenaline.jpg");
-    private Image map = new Image("map0.png");
+    private Image adrenalineImage = new Image(getClass().getResourceAsStream("/adrenaline.jpg"));
+    private Image map = new Image(getClass().getResourceAsStream("/map0.png"));
     private BackgroundImage backgroundImage;
     private BackgroundImage backgroundImage2;
 

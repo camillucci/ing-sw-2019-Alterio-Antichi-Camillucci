@@ -37,11 +37,11 @@ public class GameBoardSnapshot implements Serializable
     {
         for(int i = 0; i < 3; i++)
             for(int j = 0; j < 4; j++)
-                if(gameBoard.getSquare(i, j) != null)
-                    squareSnapshots[i][j] = new SquareSnapshot(gameBoard.getSquare(i, j));
+                if(gameBoard.squares[i][j] != null)
+                    squareSnapshots[i][j] = new SquareSnapshot(gameBoard.squares[i][j]);
 
         skulls = gameBoard.getSkulls();
-        mapType = gameBoard.getMapType();
+        mapType = gameBoard.mapType;
 
         List<List<PlayerColor>> temp = gameBoard.getKillShotTrack();
         for(int i = 0; i < temp.size(); i++) {

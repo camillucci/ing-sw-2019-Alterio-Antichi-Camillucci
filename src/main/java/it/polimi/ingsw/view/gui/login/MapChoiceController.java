@@ -79,9 +79,9 @@ public class MapChoiceController implements Ifxml<HBox>
 
     private ImageView newMap(int i)
     {
-        final String partialUrl = "map";
+        final String partialUrl = "/map";
         String url = partialUrl + i +".png";
-        ImageView ret = new ImageView(new Image(url));
+        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream(url)));
         ret.getStyleClass().add("mapButton");
         ret.setFitWidth(700);
         ret.setFitHeight(536);

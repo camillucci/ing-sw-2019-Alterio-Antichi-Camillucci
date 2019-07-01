@@ -147,7 +147,7 @@ public abstract class Action
             this.ownerPlayer.addRed(-(doActionCost.sub(ammo).red));
             this.ownerPlayer.addYellow(-(doActionCost.sub(ammo).yellow));
             for(PowerUpCard pu : discardedPowerUps) {
-                ownerPlayer.gameBoard.getPowerupDeck().addDiscarded(pu);
+                ownerPlayer.gameBoard.powerupDeck.addDiscarded(pu);
                 ownerPlayer.removePowerUpCard(pu);
             }
             return true;

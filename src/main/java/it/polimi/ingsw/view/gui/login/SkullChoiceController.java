@@ -23,7 +23,7 @@ public class SkullChoiceController implements Ifxml<HBox>
     public void initialize(){
         Rectangle[] skulls = getButtons();
         for(Rectangle rectangle : skulls)
-            rectangle.setFill(new ImagePattern(new Image("skull.png")));
+            rectangle.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/skull.png"))));
         for(int i = 4; i < skulls.length; i++){
             final int i2 = i;
             skulls[i].setOnMouseEntered(e -> {

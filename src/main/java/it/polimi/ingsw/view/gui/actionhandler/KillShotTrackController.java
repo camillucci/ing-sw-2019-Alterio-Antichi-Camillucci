@@ -72,14 +72,14 @@ public class KillShotTrackController implements Ifxml<StackPane>
     }
 
     private ImageView createFiredSKull(){
-        ImageView ret = new ImageView(new Image("skull_fired.png"));
+        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream("/skull_fired.png")));
         ret.fitHeightProperty().bind(rootPane.maxHeightProperty());
         ret.setPreserveRatio(true);
         return ret;
     }
 
     private ImageView newSkull(){
-        ImageView ret = new ImageView(new Image("skull.png"));
+        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream("/skull.png")));
         ret.fitWidthProperty().bind(firedSkull.fitHeightProperty().divide(2.5));
         ret.setPreserveRatio(true);
         return ret;

@@ -12,8 +12,8 @@
 | Socket | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | RMI | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | GUI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
-| CLI | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
-| Multiple games | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
+| CLI | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
+| Multiple games | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | Persistence | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#) |
 | Domination or Towers modes | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
 | Terminator | [![RED](https://placehold.it/15/f03c15/f03c15)](#) |
@@ -23,3 +23,19 @@
 [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)
 [![GREEN](https://placehold.it/15/44bb44/44bb44)](#)
 -->
+
+## How to Start the Server:
+- ### Parameters (in this order):
+    - socketPort (Integer, default value: 9999)
+    - rmiPort (Integer, default value: 1099)
+- ### Example:
+        java -jar .\AdrenalineLauncherServer.jar 9999 1099
+    
+## How to Start the Client:
+- ### Parameters (in this order):
+    - viewType (String "cli" or "gui", default value: gui)
+    - ipAddress (String, default value: 127.0.0.1)
+    - socketPort (Integer, default value: 9999)
+    - rmiPort (Integer, default value: 1099)
+- ### Example:
+        java -jar .\AdrenalineLauncherClient.jar gui 127.0.0.1 9999 1099

@@ -61,7 +61,7 @@ public class ShopController
 
     private String nameToPath(String name)
     {
-        return "weapon/" + name.replace(" ", "_").concat(".png").toLowerCase();
+        return "/weapon/" + name.replace(" ", "_").concat(".png").toLowerCase();
     }
 
     public static ShopController getController(MatchSnapshotProvider provider, String color)

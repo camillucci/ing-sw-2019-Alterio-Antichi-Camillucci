@@ -4,13 +4,10 @@ import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
-import it.polimi.ingsw.model.cards.ShootFunc;
-import it.polimi.ingsw.model.cards.TargetsFilters;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * This class is a specific case of a power up action class. It contains all the generic methods relative to an action
@@ -22,7 +19,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     {
         this.completedActionEvent.addEventHandler((a,b)->{
             if(this.selectedPowerUp != null) {
-                ownerPlayer.gameBoard.getPowerupDeck().addDiscarded(selectedPowerUp);
+                ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
             }
         });

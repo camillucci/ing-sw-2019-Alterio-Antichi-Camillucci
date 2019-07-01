@@ -86,10 +86,10 @@ public class CardsFactory {
     {
         List <AmmoColor> allColors = new ArrayList<>(Arrays.asList(BLUE, RED, YELLOW, BLUE, RED, YELLOW));
         for(AmmoColor ammoColor : allColors) {
-            powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, TargetsFilters.noPlayersFilter, allSquares, moveSelf));
             powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, damageNoMark(1)));
             powerUpCards.add(new EndStartPowerUpCard("Newton", ammoColor, otherPlayers, near2Squares, move));
             powerUpCards.add(new CounterAttackPowerUpCard("Tagback Grenade", ammoColor, mark(1)));
+            powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, TargetsFilters.noPlayersFilter, allSquares, moveSelf));
         }
     }
 

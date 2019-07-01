@@ -3,13 +3,10 @@ package it.polimi.ingsw.model.action;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
-import it.polimi.ingsw.model.cards.ShootFunc;
-import it.polimi.ingsw.model.cards.TargetsFilters;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * This class represents a specific case of action. It contains the methods and info relative to an action used to
@@ -24,7 +21,7 @@ public class CounterPowerUpAction extends PowerUpAction
     {
         this.completedActionEvent.addEventHandler((a,b)->{
             if(this.selectedPowerUp != null) {
-                ownerPlayer.gameBoard.getPowerupDeck().addDiscarded(selectedPowerUp);
+                ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
                 ownerPlayer.getPowerupSet().remove(selectedPowerUp);
             }
         });

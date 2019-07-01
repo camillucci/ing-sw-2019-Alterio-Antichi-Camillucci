@@ -44,8 +44,7 @@ public class SquareController implements Ifxml<StackPane> {
     }
 
     private String nameToUrl(String text){
-        String ret = "ammo/" + text.replace(" ", "_").concat(".png").toLowerCase();
-        return ret;
+        return "/ammo/" + text.replace(" ", "_").concat(".png").toLowerCase();
     }
 
     private void clearAvatars(){
@@ -69,7 +68,7 @@ public class SquareController implements Ifxml<StackPane> {
 
         if(square.ammoSquare && square.getCards().size() == 1)
         {
-            ammoCard_shop.setImage(new Image(nameToUrl(square.getCards().get(0))));
+            ammoCard_shop.setImage(new Image(getClass().getResourceAsStream(nameToUrl(square.getCards().get(0).toLowerCase()))));
             if(old == null || !old.ammoSquare || old.getCards().size() != 1)
                 Animations.appearAnimation(ammoCard_shop);
         }

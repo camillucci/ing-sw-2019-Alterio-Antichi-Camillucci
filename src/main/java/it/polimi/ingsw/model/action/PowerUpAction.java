@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,7 +54,7 @@ public class PowerUpAction extends ShootAction
         if(selectedPowerUp != null) {
             preparePowerUp();
             ownerPlayer.getPowerupSet().remove(selectedPowerUp);
-            ownerPlayer.gameBoard.getPowerupDeck().addDiscarded(selectedPowerUp);
+            ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
         }
     }
 

@@ -20,8 +20,8 @@ public class ColorChoiceController implements Ifxml<HBox> {
     public ImageView newColorButton(String color){
         //Circle ret = new Circle(30);
         final String partialUrl = "_avatar";
-        String url = "/player/" + color + partialUrl +".png";
-        ImageView ret = new ImageView(new Image(url));
+        String url = "/player/" + color.toLowerCase() + partialUrl + ".png";
+        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream(url)));
         ret.getStyleClass().add("button");
         ret.getStyleClass().add("colorButton");
         hBox.getChildren().add(ret);

@@ -44,7 +44,7 @@ public class SelectionBoxController implements Ifxml<StackPane>
         for(int i=0; i < paths.size(); i++){
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
-            ImageView img = new ImageView(paths.get(i));
+            ImageView img = new ImageView(new Image(getClass().getResourceAsStream(paths.get(i).toLowerCase())));
 
             img.fitWidthProperty().bind(selectionHBox.minWidthProperty().divide(Math.max(paths.size(), 3)));
             img.setPreserveRatio(true);

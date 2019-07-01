@@ -76,7 +76,8 @@ public class PlayerSetController implements Ifxml<StackPane> {
         ImageView imageView = new ImageView();
         imageView.fitWidthProperty().bind(tears.get(totDamage).widthProperty().multiply(0.7));
         imageView.fitHeightProperty().bind(tears.get(totDamage).heightProperty());
-        imageView.setImage(new Image("player/" + color + "_drop.png"));
+        String url = "/player/" + color.toLowerCase() + "_drop.png";
+        imageView.setImage(new Image(getClass().getResourceAsStream(url)));
         tears.get(totDamage++).getChildren().add(imageView);
     }
 
@@ -84,7 +85,8 @@ public class PlayerSetController implements Ifxml<StackPane> {
         this.color = color;
         this.matchSnapshotProvider = provider;
         matchSnapshotProvider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
-        background.setImage(new Image("player/" + color + "1.png"));
+        String url = "/player/" + color.toLowerCase() + "1.png";
+        background.setImage(new Image(getClass().getResourceAsStream(url)));
     }
 
     public static PlayerSetController getController(String color, MatchSnapshotProvider matchSnapshotProvider){

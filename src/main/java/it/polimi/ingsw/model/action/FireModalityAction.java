@@ -54,6 +54,6 @@ public class FireModalityAction extends ExtendableAction
     }
 
     private String nameToUrl(String name, String description){
-        return "firemodality/" + name.concat("_").concat(description).replace(" ", "_").concat(".png").toLowerCase();
+        return "/firemodality/" + name.concat("_").concat(description).replace(" ", "_").concat(".png").toLowerCase();
     }
 }

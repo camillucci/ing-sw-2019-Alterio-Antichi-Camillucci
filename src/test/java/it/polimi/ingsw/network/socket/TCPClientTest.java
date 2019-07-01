@@ -291,8 +291,8 @@ class TCPClientTest {
         Match match = new Match(Arrays.asList("A", "B", "C"), Arrays.asList(PlayerColor.BLUE, PlayerColor.GREY, PlayerColor.VIOLET), 5, 11);
         match.getGameBoard().addKillShotTrack(Collections.singletonList(PlayerColor.GREY));
         match.getGameBoard().getSquares().get(0).addPlayer(match.getGameBoard().getPlayers().get(0));
-        match.getGameBoard().getPlayers().get(0).addWeapon(match.getGameBoard().getWeaponDeck().draw());
-        match.getGameBoard().getPlayers().get(0).addWeapon(match.getGameBoard().getWeaponDeck().draw());
+        match.getGameBoard().getPlayers().get(0).addWeapon(match.getGameBoard().weaponDeck.draw());
+        match.getGameBoard().getPlayers().get(0).addWeapon(match.getGameBoard().weaponDeck.draw());
         match.getGameBoard().getPlayers().get(0).unloadWeapon(match.getGameBoard().getPlayers().get(0).getLoadedWeapons().get(0));
         match.getGameBoard().getPlayers().get(0).addPowerUpCard();
         match.getGameBoard().getPlayers().get(1).addDamage(match.getGameBoard().getPlayers().get(2), 1);

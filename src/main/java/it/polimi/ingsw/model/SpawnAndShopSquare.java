@@ -119,7 +119,7 @@ public class SpawnAndShopSquare extends Square {
 
     private String nameToUrl(String weaponName)
     {
-        return "weapon/" + weaponName.replace(" ", "_").concat(".png").toLowerCase();
+        return "/weapon/" + weaponName.replace(" ", "_").concat(".png").toLowerCase();
     }
 
     /**

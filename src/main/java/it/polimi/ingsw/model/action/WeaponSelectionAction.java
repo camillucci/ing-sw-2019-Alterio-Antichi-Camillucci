@@ -29,7 +29,7 @@ public class WeaponSelectionAction extends ExtendableAction
     }
 
     private String nameToUrl(String name){
-        return "weapon/" + name.replace(" ", "_").concat(".png").toLowerCase();
+        return "/weapon/" + name.replace(" ", "_").concat(".png").toLowerCase();
     }
 
     @Override
