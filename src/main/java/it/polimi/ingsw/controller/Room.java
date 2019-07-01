@@ -113,6 +113,7 @@ public class Room
     private boolean matchStarting = false;
     private boolean matchStarted = false;
     private final static int MIN_PLAYERS = 2;
+    private ModelEventArgs curModel;
 
 
     public Room() {
@@ -167,12 +168,8 @@ public class Room
     }
 
     private synchronized void onTurnTimeout(){
-        if(timer.getElapsed() >= TURN_TIMEOUT-1) {
-            ((Event<Room, String>) turnTimeoutEvent).invoke(this, match.getPlayer().name);
-            resetTurnTimer();
-            match.skipTurn();
-            createTurnTimer();
-        }
+        if(timer.getElapsed() >= TURN_TIMEOUT-1)
+            onTurnTimeout_Sync();
     }
 
     private void onTurnTimeout_Sync(){
@@ -214,8 +211,8 @@ public class Room
 
     private void onNewActions(Player player, List<Action> actions)
     {
-        if(disconnectedPlayers.contains(match.getCurPlayer())) {
-            match.onTurnCompleted();
+        if(disconnectedPlayers.contains(match.getPlayer().name)) {
+            onTurnTimeout_Sync();
             return;
         }
         resetTurnTimer();
@@ -233,7 +230,7 @@ public class Room
     }
 
     public synchronized void reconnect(String playerName){
-        //TODO
+        disconnectedPlayers.remove(playerName);
     }
 
     public synchronized void onPlayerTimeout(){
@@ -347,8 +344,11 @@ public class Room
     public void notifyPlayerDisconnected(String name){
         if(!matchStarting)
             removePlayer(name);
-        else
+        else {
             disconnectedPlayers.add(name);
+            if(match.getPlayer().name.equals(name))
+                onTurnTimeout_Sync();
+        }
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
 
         //todo check if the else is appropriate
@@ -383,7 +383,7 @@ public class Room
      */
     //todo add possible exceptions
     public List<String> getOtherPlayers(String player) {
-        List<String> temp = playerNames;
+        List<String> temp = new ArrayList<>(playerNames);
         temp.remove(player);
         for(String p : disconnectedPlayers)
             temp.remove(p);
@@ -472,6 +472,14 @@ public class Room
         String winnerName = declareWinner();
         ((Event<Room, String>)onEndMatchEvent).invoke(this, winnerName);
         ((Event<Room, String[][]>)onEndMatchScoreEvent).invoke(this, scoreBoard);
+    }
+
+    public ModelEventArgs getCurModel(String name) {
+        Player player;
+        for(Player p : match.getPlayers())
+            if(p.name.equals(name))
+                return new ModelEventArgs(new MatchSnapshot(match, p), p.name, new RemoteActionsHandler(match.getPlayer(), match.getActions()));
+        throw new RuntimeException("Player does not exist in this match");
     }
 
     public class TurnTimeoutException extends Exception{}

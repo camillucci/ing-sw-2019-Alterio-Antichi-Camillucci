@@ -36,7 +36,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     /**
      * Color chosen by the player associated with this class
      */
-    protected PlayerColor color;
     private List<String> availableColors;
     private List<String> otherPlayers = new ArrayList<>();
     protected Bottleneck bottleneck = new Bottleneck();
@@ -146,14 +145,15 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     @Override
     public void setName(String name) throws IOException {
-        if(controller.checkReconnected(name)) {
+        Room tmp = controller.checkReconnected(name);
+        if(tmp != null) {
+            joinedRoom = tmp;
+            joinedRoom.reconnect(name);
+            setupRoomEvents();
             this.name = name;
             otherPlayers = joinedRoom.getOtherPlayers(name);
-            color = joinedRoom.getPlayerColor(name);
             sendMessage(reconnectedMessage());
-            //todo send updated model to client
-            //todo tell client it doesn't need to wait for colors.
-            //it's possible that color is a non needed variable
+            onModelUpdated(joinedRoom.getCurModel(name));
             return;
         }
 

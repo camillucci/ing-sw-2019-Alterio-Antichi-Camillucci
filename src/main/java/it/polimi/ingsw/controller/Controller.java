@@ -75,14 +75,14 @@ public class Controller {
      * @return True if the name was associated with a player that reconnected. False if it's the first time a player
      *         with that name joins the game.
      */
-    public synchronized boolean checkReconnected(String name) {
+    public synchronized Room checkReconnected(String name) {
         for (Room room : lobby) {
             if (room.getDisconnectedPlayers().contains(name)) {
                 room.reconnectedPlayer(name);
-                return true;
+                return room;
             }
         }
-        return false;
+        return null;
     }
 
     /**
