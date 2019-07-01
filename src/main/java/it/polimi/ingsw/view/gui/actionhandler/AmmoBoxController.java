@@ -7,20 +7,25 @@ import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.view.gui.*;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AmmoBoxController implements Ifxml<VBox>
 {
     public final IEvent<AmmoBoxController, String> addDiscardedAmmoEvent = new Event<>();
-    @FXML private ImageView yellowAmmo;
-    @FXML private ImageView redAmmo;
-    @FXML private ImageView blueAmmo;
+    @FXML private AmmoImageView yellowAmmo;
+    @FXML private AmmoImageView redAmmo;
+    @FXML private AmmoImageView blueAmmo;
     @FXML private Text redText;
     @FXML private Text blueText;
     @FXML private Text yellowText;
     @FXML private VBox rootPane;
+    private List<AmmoImageView> ammos;
     private String color;
     private MatchSnapshotProvider provider;
     private RemoteActionsProvider actionProvider;
@@ -29,6 +34,11 @@ public class AmmoBoxController implements Ifxml<VBox>
         redText.setText("0");
         blueText.setText("0");
         yellowText.setText("0");
+        ammos = getAmmos();
+    }
+
+    private List<AmmoImageView> getAmmos(){
+        return Arrays.asList(yellowAmmo, redAmmo, blueAmmo);
     }
 
     @Override
@@ -46,8 +56,32 @@ public class AmmoBoxController implements Ifxml<VBox>
             actionsProvider.newActionsEvent().addEventHandler((a, action) -> onNewAction(action));
     }
 
-    private void onNewAction(RemoteAction action) {
+    private void onNewAction(RemoteAction action)
+    {
+        RemoteAction.Data data = action.getData();
+        if(data.getDiscardableAmmos().isEmpty())
+            return;
+        for(String color : data.getDiscardableAmmos())
+            for(AmmoImageView ammo : ammos)
+                if(ammo.getColor().equals(color))
+                {
+                    ammo.getStyleClass().add("button");
+                    ammo.setOnMouseClicked(e -> disableAnd(() -> invoke(addDiscardedAmmoEvent, color)));
+                }
+    }
 
+    private void disableAnd(Runnable func)
+    {
+        for(AmmoImageView ammo : ammos)
+        {
+            ammo.setOnMouseClicked(null);
+            ammo.getStyleClass().remove("button");
+        }
+    }
+
+    private <T> void invoke(IEvent<AmmoBoxController, T> event, T arg)
+    {
+        ((Event<AmmoBoxController, T>)event).invoke(this, arg);
     }
 
     private void onModelChanged(MatchSnapshot snapshot) {
@@ -97,5 +131,5 @@ public class AmmoBoxController implements Ifxml<VBox>
         ret.buildController(color, provider, actionsProvider);
         return ret;
     }
-
 }
+

@@ -9,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.text.Text?>
+<?import it.polimi.ingsw.view.gui.actionhandler.AmmoImageView?>
 <VBox alignment="CENTER" fx:id="rootPane" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="it.polimi.ingsw.view.gui.actionhandler.AmmoBoxController">
@@ -17,21 +18,15 @@
         <Double fx:id="spacingFactor" fx:value="0.1"/>
     </fx:define>
     <HBox alignment="CENTER" fx:id="redHBox" minHeight="${rootPane.minHeight/3}" spacing="${rootPane.minHeight*spacingFactor}" maxHeight="${rootPane.maxHeight/3}">
-        <ImageView fx:id="redAmmo" fitHeight="${redHBox.minHeight*scaleFactor}" preserveRatio="true">
-            <Image url="@../../../red_ammo.png"/>
-        </ImageView>
+        <AmmoImageView fx:id="redAmmo" fitHeight="${redHBox.minHeight*scaleFactor}" color="Red" preserveRatio="true"/>
         <Text fx:id="redText" styleClass="ammoText"/>
     </HBox>
     <HBox alignment="CENTER" fx:id="yellowHBox" minHeight="${rootPane.minHeight/3}" spacing="${rootPane.minHeight*spacingFactor}" maxHeight="${rootPane.maxHeight/3}">
-        <ImageView fx:id="yellowAmmo" fitHeight="${yellowHBox.minHeight*scaleFactor}" preserveRatio="true">
-            <Image url="@../../../yellow_ammo.png"/>
-        </ImageView>
+        <AmmoImageView fx:id="yellowAmmo" fitHeight="${redHBox.minHeight*scaleFactor}" color="Yellow" preserveRatio="true"/>
         <Text fx:id="yellowText" styleClass="ammoText"/>
     </HBox>
     <HBox alignment="CENTER" fx:id="blueHBox" minHeight="${rootPane.minHeight/3}" spacing="${rootPane.minHeight*spacingFactor}" maxHeight="${rootPane.maxHeight/3}">
-        <ImageView fx:id="blueAmmo" fitHeight="${blueHBox.minHeight*scaleFactor}" preserveRatio="true">
-            <Image url="@../../../blue_ammo.png"/>
-        </ImageView>
+        <AmmoImageView fx:id="blueAmmo" fitHeight="${redHBox.minHeight*scaleFactor}" color="Blue" preserveRatio="true"/>
         <Text fx:id="blueText" styleClass="ammoText"/>
     </HBox>
 </VBox>

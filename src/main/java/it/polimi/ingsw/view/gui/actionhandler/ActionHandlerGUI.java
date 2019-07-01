@@ -404,15 +404,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         });
     }
 
-    // todo improve performance saving the result
-
-
-    private String nameToColor(String name){
-        for(PublicPlayerSnapshot player : curSnapshot.getPublicPlayerSnapshot())
-            if(player.name.equals(name))
-                return player.color;
-        return null; // impossible to go here
-    }
 
     @Override
     public void onNewMessage(String message) {

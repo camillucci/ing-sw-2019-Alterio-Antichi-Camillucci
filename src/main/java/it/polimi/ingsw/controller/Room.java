@@ -56,7 +56,7 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    private static final int LOGIN_TIMEOUT = 100;
+    private static final int LOGIN_TIMEOUT = 1;
     private static final int TURN_TIMEOUT = 1000000000;
 
     /**
@@ -111,7 +111,7 @@ public class Room
      * Boolean representing whether the match is started.
      */
     private boolean matchStarting = false;
-    private final static int MIN_PLAYERS = 2;
+    private final static int MIN_PLAYERS = 1;
 
 
     public Room() {

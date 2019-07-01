@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -190,16 +191,18 @@ public class PlayerCardsController implements Ifxml<HBox>
     private boolean startDeletingAnimation(PrivatePlayerSnapshot player, List<String> oldList, List<String> newList, boolean found)
     {
         for(String loaded : oldList)
-            if(!newList.contains(loaded))
-                if(!found)
-                {
+        {
+            List<ImageView> occurencies = getCards(loaded);
+            for (int i = 0; i < (Collections.frequency(oldList, loaded) - Collections.frequency(newList, loaded)); i++)
+                if (!found) {
                     found = true;
-                    Animations.disappearAnimation(getCard(loaded), () -> {
+                    Animations.disappearAnimation(occurencies.get(i), () -> {
                         removeCardsPrivatePlayer(player);
                         addCardPrivatePlayer(player);
                     });
-                }
-                else Animations.disappearAnimation(getCard(loaded), () -> {});
+                } else Animations.disappearAnimation(occurencies.get(i), () -> {
+                });
+        }
         return found;
     }
 
@@ -237,12 +240,9 @@ public class PlayerCardsController implements Ifxml<HBox>
         old = matchSnapshot;
     }
 
-    private ImageView getCard(String name)
+    private List<ImageView> getCards(String name)
     {
-        for(ImageView card : getCards())
-            if(card.getImage() != null && card.getImage().getUrl().contains(name.replace(" ", "_").toLowerCase()))
-                return card;
-        return null;
+        return cards.stream().filter(card ->  card.getImage() != null && card.getImage().getUrl().contains(name.replace(" ", "_").toLowerCase())).collect(Collectors.toList());
     }
 
     private void onPublicPlayer(PublicPlayerSnapshot player){
