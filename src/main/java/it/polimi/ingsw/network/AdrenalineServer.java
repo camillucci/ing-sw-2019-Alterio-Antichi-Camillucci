@@ -288,7 +288,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.timerTickEvent.addEventHandler(timerTickEventHandler);
         joinedRoom.timerStopEvent.addEventHandler(timerStopEventHandler);
         joinedRoom.newPlayerEvent.addEventHandler(newPlayerEventHandler);
-        //todo removeEvents() if playerDisconnectedEvent is invoked and (this.name == name)
         joinedRoom.playerDisconnectedEvent.addEventHandler(playerDisconnectedEventHandler);
         joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
         joinedRoom.turnTimeoutEvent.addEventHandler(turnTimeoutEventHandler);

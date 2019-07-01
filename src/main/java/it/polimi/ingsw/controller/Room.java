@@ -56,7 +56,7 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    private static final int LOGIN_TIMEOUT = 100;
+    private static final int LOGIN_TIMEOUT = 1;
     private static final int TURN_TIMEOUT = 1000000000;
 
     /**
@@ -111,6 +111,7 @@ public class Room
      * Boolean representing whether the match is started.
      */
     private boolean matchStarting = false;
+    private boolean matchStarted = false;
     private final static int MIN_PLAYERS = 2;
 
 
@@ -125,6 +126,10 @@ public class Room
      */
     public boolean isMatchStarted() {
         return pendingPlayers.isEmpty() && readyPlayers.size() >= MIN_PLAYERS;
+    }
+
+    public boolean isTheMatchStarted() {
+        return matchStarted;
     }
 
     /**
@@ -199,6 +204,7 @@ public class Room
      * in the room.
      */
     private synchronized void startMatch(){
+        matchStarted = true;
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         match.newActionsEvent.addEventHandler(this::onNewActions);
         match.start();
@@ -260,7 +266,7 @@ public class Room
     }
 
     public synchronized void reconnectedPlayer(String name) {
-        if(isMatchStarted())
+        if(isTheMatchStarted())
             disconnectedPlayers.remove(name);
     }
 
@@ -341,6 +347,8 @@ public class Room
     public void notifyPlayerDisconnected(String name){
         if(!matchStarting)
             removePlayer(name);
+        else
+            disconnectedPlayers.add(name);
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
 
         //todo check if the else is appropriate
