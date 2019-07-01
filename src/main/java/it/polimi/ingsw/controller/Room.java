@@ -346,7 +346,9 @@ public class Room
             removePlayer(name);
         else {
             disconnectedPlayers.add(name);
-            if(match.getPlayer().name.equals(name))
+            if(playerNames.size() - disconnectedPlayers.size() < MIN_PLAYERS)
+                onMatchEnd();
+            else if(match.getPlayer().name.equals(name))
                 onTurnTimeout_Sync();
         }
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);

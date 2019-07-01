@@ -29,7 +29,7 @@ public class MatchManager {
      */
     public MatchManager(Match match, Room room) {
         this.match = match;
-        match.endMatchEvent.addEventHandler((currentMatch, currentPlayers) -> { calculateScore(); declareWinner(); });
+        //match.endMatchEvent.addEventHandler((currentMatch, currentPlayers) -> { calculateScore(); declareWinner(); });
         // TODO Send Score and Winner to all Clients
         this.room = room;
     }
@@ -65,6 +65,8 @@ public class MatchManager {
      * player has acquired.
      * @return The leader board that represents the final ladder based on player points.
      */
+
+   /*
     public String[][] calculateScore() {
         String[][] scoreBoard = new String[match.getPlayers().size()][2];
         for(int i = 0; i < match.getPlayers().size(); i++) {
@@ -83,10 +85,7 @@ public class MatchManager {
         return scoreBoard;
     }
 
-    /**
-     * Calculates who's the winning player by finding the player with the maximum number of points
-     * @return Winning player's name
-     */
+
     public String declareWinner() {
         Player player = match.getPlayers().get(0);
         for(int i = 1; i < match.getPlayers().size(); i++)
@@ -95,6 +94,9 @@ public class MatchManager {
                     player = match.getPlayers().get(i);
         return player.name;
     }
+
+    */
+
 
     /**
      * Calculates the kill shot Track associated with a specific player by confronting their color with color of all the

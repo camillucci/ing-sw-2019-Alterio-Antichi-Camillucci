@@ -35,6 +35,7 @@ public class Controller {
     private Room newRoom() {
         Room room = new Room();
         room.newPlayerEvent.addEventHandler((a, name) -> joiningPlayers.remove(name));
+        room.onEndMatchScoreEvent.addEventHandler((r, b) -> lobby.remove(r));
         lobby.add(room);
         return room;
     }
@@ -44,6 +45,8 @@ public class Controller {
      * @return The available room in which new joining players are gonna be put.
      */
     public synchronized Room getAvailableRoom() {
+        if(lobby.size() == 0)
+            return newRoom();
         Room ret = lobby.get(lobby.size()-1);
         if(ret.isJoinable())
             return ret;
