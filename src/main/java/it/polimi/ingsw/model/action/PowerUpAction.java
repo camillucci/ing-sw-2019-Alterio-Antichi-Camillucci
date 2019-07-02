@@ -15,8 +15,8 @@ public class PowerUpAction extends ShootAction
 {
     /**
      * Constructor that assigns the input parameters to their global correspondents.
-     * @param playersFilter //todo
-     * @param squaresFilter //todo
+     * @param playersFilter The filter that describes which Players can be targeted
+     * @param squaresFilter The filter that describes which Squares can be targeted
      * @param shootFunc Effect of the power up card granted by this action
      */
     public PowerUpAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)

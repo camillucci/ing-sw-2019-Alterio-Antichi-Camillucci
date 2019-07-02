@@ -411,7 +411,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void onNewMessage(String message) {
-        //TODO
+        //TODO Maybe nothing
     }
 
     private ImageView newButton(Visualizable visualizable, Runnable action)
