@@ -69,7 +69,7 @@ public class SquareController implements Ifxml<StackPane> {
 
         if(square.ammoSquare && square.getCards().size() == 1)
         {
-            ammoCard_shop.setImage(Cache.getImage(getClass().getResourceAsStream(nameToUrl(square.getCards().get(0).toLowerCase()))));
+            ammoCard_shop.setImage(Cache.getImage(nameToUrl(square.getCards().get(0).toLowerCase())));
             if(old == null || !old.ammoSquare || old.getCards().size() != 1)
                 Animations.appearAnimation(ammoCard_shop);
         }

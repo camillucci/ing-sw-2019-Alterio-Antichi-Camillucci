@@ -16,7 +16,7 @@ public class Avatar extends ImageView
 
     private void setImage(){
         String url = "/player/" + color.toLowerCase() + "_avatar.png";
-        setImage(Cache.getImage(getClass().getResourceAsStream(url)));
+        setImage(Cache.getImage(url));
     }
 
     public String getColor(){

@@ -14,6 +14,6 @@ public class AmmoImageView extends ImageView
     public void setColor(String color){
         this.color = color.toLowerCase();
         String url = "/" + this.color.toLowerCase() + "_ammo.png";
-        setImage(Cache.getImage(getClass().getResourceAsStream(url)));
+        setImage(Cache.getImage(url));
     }
 }

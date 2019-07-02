@@ -114,7 +114,7 @@ public class MapController implements Ifxml<AnchorPane>
 
     private void onModelChanged(MatchSnapshot snapshot) {
         if(mapImage.getImage() == null)
-            mapImage.setImage(Cache.getImage(getClass().getResourceAsStream("/map" + snapshot.gameBoardSnapshot.mapType + ".png")));
+            mapImage.setImage(Cache.getImage("/map" + snapshot.gameBoardSnapshot.mapType + ".png"));
         for(int i = 0; i < R; i++)
             for(int j=0; j < C; j++)
                 squareControllers[i][j].onModelChanged(snapshot.gameBoardSnapshot.squareSnapshots[i][j]);
