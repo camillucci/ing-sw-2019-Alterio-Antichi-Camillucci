@@ -48,7 +48,7 @@ public class PublicPlayerSnapshot implements Serializable {
     /**
      * Boolean that represents whether the player has access to the bonuses granted by the final frenzy condition
      */
-    public final boolean finalFrenzy;
+    public final int finalFrenzy;
 
     /**
      * List of strings that represents the amount of damage the player currently has. Every string is a color, which
@@ -84,16 +84,22 @@ public class PublicPlayerSnapshot implements Serializable {
 
     /**
      * Constructor. It collects all the info relative to the player that is visible by the other players.
-     * @param player Players from which the infos are going to be selected
+     * @param player Players from which the infos are going to be selected.
+     * @param finalFrenzy It say if the match has reached the Final Frenzy mode.
      */
-    public PublicPlayerSnapshot(Player player) {
+    public PublicPlayerSnapshot(Player player, boolean finalFrenzy) {
         this.color = player.color.getName();
         this.name = player.name;
         this.skull = player.getSkull();
         this.blueAmmo = player.getAmmo().blue;
         this.redAmmo = player.getAmmo().red;
         this.yellowAmmo = player.getAmmo().yellow;
-        this.finalFrenzy = player.isFinalFrenzy();
+        if(!finalFrenzy)
+            this.finalFrenzy = 1;
+        else if(!player.isFinalFrenzy())
+            this.finalFrenzy = 2;
+        else
+            this.finalFrenzy = 3;
         for(PlayerColor damageColor : player.getDamage())
             this.damage.add(damageColor.getName());
         for(PlayerColor markColor : player.getMark())

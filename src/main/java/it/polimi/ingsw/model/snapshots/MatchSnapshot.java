@@ -37,8 +37,8 @@ public class MatchSnapshot implements Serializable {
         gameBoardSnapshot = new GameBoardSnapshot(match.getGameBoard());
         for(Player player : match.getPlayers())
             if(player != currentPlayer)
-                publicPlayerSnapshot.add(new PublicPlayerSnapshot(player));
-        privatePlayerSnapshot = new PrivatePlayerSnapshot(currentPlayer);
+                publicPlayerSnapshot.add(new PublicPlayerSnapshot(player, match.getFinalFrenzy()));
+        privatePlayerSnapshot = new PrivatePlayerSnapshot(currentPlayer, match.getFinalFrenzy());
     }
 
     public List<PublicPlayerSnapshot> getPublicPlayerSnapshot()

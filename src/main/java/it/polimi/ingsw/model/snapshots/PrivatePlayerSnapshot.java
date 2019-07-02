@@ -30,10 +30,11 @@ public class PrivatePlayerSnapshot extends PublicPlayerSnapshot {
 
     /**
      * Constructor. It collects all the info relative to current player that clients are going to need.
-     * @param player
+     * @param player Players from which the infos are going to be selected.
+     * @param finalFrenzy It say if the match has reached the Final Frenzy mode.
      */
-    protected PrivatePlayerSnapshot(Player player) {
-        super(player);
+    protected PrivatePlayerSnapshot(Player player, boolean finalFrenzy) {
+        super(player, finalFrenzy);
         for(WeaponCard weaponCard : player.getLoadedWeapons()) {
             loadedWeapons.add(weaponCard.name);
             loadedWeaponsCost.add(weaponCard.buyCostToString(false));
