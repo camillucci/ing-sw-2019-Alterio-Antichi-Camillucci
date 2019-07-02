@@ -62,8 +62,15 @@ public class PlayerSetController implements Ifxml<StackPane> {
                     player = p;
                     break;
                 }
+            setBackground(player);
         for(String damage : player.getDamage())
             addDamage(damage);
+
+    }
+
+    private void setBackground(PublicPlayerSnapshot player){
+        String url = "/player/" + color.toLowerCase() + (player.finalFrenzy ? 2 : 1) + ".png";
+        background.setImage(new Image(getClass().getResourceAsStream(url)));
     }
 
     private void reset(){
@@ -85,8 +92,6 @@ public class PlayerSetController implements Ifxml<StackPane> {
         this.color = color;
         this.matchSnapshotProvider = provider;
         matchSnapshotProvider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
-        String url = "/player/" + color.toLowerCase() + "1.png";
-        background.setImage(new Image(getClass().getResourceAsStream(url)));
     }
 
     public static PlayerSetController getController(String color, MatchSnapshotProvider matchSnapshotProvider){
