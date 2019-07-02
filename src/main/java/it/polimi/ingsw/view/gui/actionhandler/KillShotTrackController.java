@@ -46,11 +46,11 @@ public class KillShotTrackController implements Ifxml<StackPane>
     private void onModelChanged(MatchSnapshot snapshot)
     {
         int totOld = old == null ? 0 : old.gameBoardSnapshot.skulls;
-        int totNew = provider.getMatchSnapshot().gameBoardSnapshot.skulls;
+        int totNew = snapshot.gameBoardSnapshot.skulls;
         old = provider.getMatchSnapshot();
 
         int i;
-        for(i = totOld - 1; i < totNew; i++)
+        for(i = totOld; i < Math.min(totNew, TOT_OTHER_SKULLS); i++)
         {
             otherSkulls.get(i).setVisible(true);
             Animations.appearAnimation(otherSkulls.get(i));
@@ -68,7 +68,9 @@ public class KillShotTrackController implements Ifxml<StackPane>
     }
 
     public static KillShotTrackController getController(MatchSnapshotProvider provider){
-        return GUIView.getController("/view/ActionHandler/killShotTrack/killShotTrack.fxml", "/view/ActionHandler/killShotTrack/killShotTrack.css");
+        KillShotTrackController ret = GUIView.getController("/view/ActionHandler/killShotTrack/killShotTrack.fxml", "/view/ActionHandler/killShotTrack/killShotTrack.css");
+        ret.buildController(provider);
+        return ret;
     }
 
     private ImageView createFiredSKull(){
