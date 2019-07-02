@@ -95,7 +95,7 @@ public class PlayerCardsController implements Ifxml<HBox>
         for(ImageView powerup : getPowerUps())
             if(powerup.getImage() == null)
             {
-                powerup.setImage(Cache.getImage("powerup/" + snapshotToFileName(name)));
+                powerup.setImage(Cache.getImage("/powerup/" + snapshotToFileName(name)));
                 Animations.appearAnimation(powerup);
                 return powerup;
             }
@@ -249,21 +249,25 @@ public class PlayerCardsController implements Ifxml<HBox>
         }
     }
 
+    private <T> List<T> getDistinct(List<T> list){
+        return list.stream().distinct().collect(Collectors.toList());
+    }
     private void addCardPrivatePlayer(PrivatePlayerSnapshot player)
     {
-        for(String w : player.getLoadedWeapons())
+
+        for(String w : getDistinct(player.getLoadedWeapons()))
             if(old == null)
                 addWeapon(w);
             else
                 for(int i=0; i < Collections.frequency(player.getLoadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getLoadedWeapons(), w); i++)
                     addWeapon(w);
-        for(String w : player.getUnloadedWeapons())
+        for(String w : getDistinct(player.getUnloadedWeapons()))
             if(old == null)
                 addUnloadedWeapon(w);
             else
                 for(int i=0; i < Collections.frequency(player.getUnloadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getUnloadedWeapons(), w); i++)
                     addUnloadedWeapon(w);
-        for(String pu : player.getPowerUps())
+        for(String pu : getDistinct(player.getPowerUps()))
             if(old == null)
                 addPowerup(pu);
             else
@@ -274,7 +278,9 @@ public class PlayerCardsController implements Ifxml<HBox>
 
     private List<ImageView> getCards(String name)
     {
-        return cards.stream().filter(card ->  card.getImage() != null && card.getImage().getUrl().contains(name.replace(" ", "_").toLowerCase())).collect(Collectors.toList());
+        return cards.stream().filter(card ->
+                card.getImage() != null &&
+                       Cache.imageToUrl(card.getImage()).contains(name.replace(" ", "_").toLowerCase())).collect(Collectors.toList());
     }
 
     private void onPublicPlayer(PublicPlayerSnapshot player){
