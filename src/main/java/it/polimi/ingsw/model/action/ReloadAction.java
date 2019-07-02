@@ -30,15 +30,29 @@ public class ReloadAction extends Action
     {
         for(WeaponCard wc : this.selectedWeapons)
             this.ownerPlayer.reloadWeapon(wc);
+        for(PowerUpCard pu : this.discardedPowerUps)
+            this.ownerPlayer.removePowerUpCard(pu);
     }
 
     @Override
     public void addWeapon(WeaponCard weapon)
     {
         if(getPossibleWeapons().contains(weapon)) {
-            this.doActionCost = this.doActionCost.add(weapon.reloadCost);
             this.selectedWeapons.add(weapon);
-            this.canBeDone = true;
+            this.doActionCost = this.doActionCost.add(weapon.reloadCost);
+            if(ownerPlayer.getAmmo().isGreaterOrEqual(doActionCost))
+                this.canBeDone = true;
+        }
+    }
+
+    @Override
+    public void addPowerUp(PowerUpCard powerUpCard)
+    {
+        if(getDiscardablePowerUps().contains(powerUpCard)) {
+            this.discardedPowerUps.add(powerUpCard);
+            this.doActionCost = this.doActionCost.sub(powerUpCard.colorToAmmo());
+            if(ownerPlayer.getAmmo().isGreaterOrEqual(doActionCost))
+                this.canBeDone = true;
         }
     }
 
@@ -47,26 +61,22 @@ public class ReloadAction extends Action
         Ammo powerUpAmmo = new Ammo(0, 0, 0);
         for(PowerUpCard pu : ownerPlayer.getPowerUps())
             powerUpAmmo = powerUpAmmo.add(pu.colorToAmmo());
-        for(WeaponCard wc : selectedWeapons)
-            powerUpAmmo = powerUpAmmo.sub(wc.reloadCost);
+        for(PowerUpCard pu : discardedPowerUps)
+            powerUpAmmo = powerUpAmmo.sub(pu.colorToAmmo());
         List<WeaponCard> temp = new ArrayList<>();
         for(WeaponCard weapon : ownerPlayer.getUnloadedWeapons())
-            if(ownerPlayer.getAmmo().sub(doActionCost).add(powerUpAmmo).isGreaterOrEqual(weapon.reloadCost) && !selectedWeapons.contains(weapon))
+            if(!selectedWeapons.contains(weapon) && ownerPlayer.getAmmo().add(powerUpAmmo).isGreaterOrEqual(doActionCost.add(weapon.reloadCost)))
                 temp.add(weapon);
         return temp;
     }
 
     @Override
     public List<PowerUpCard> getDiscardablePowerUps() {
-        LinkedHashSet<PowerUpCard> temp = new LinkedHashSet<>();
-        Ammo alreadyAdded = new Ammo(0, 0, 0);
-        for(PowerUpCard pu : discardedPowerUps)
-            alreadyAdded = alreadyAdded.add(pu.colorToAmmo());
-        for(WeaponCard wc : this.selectedWeapons)
-            for(PowerUpCard pu : ownerPlayer.getPowerUps())
-                if(!discardedPowerUps.contains(pu) && alreadyAdded.add(pu.colorToAmmo()).isLessOrEqualThan(wc.reloadCost))
-                    temp.add(pu);
-        return new ArrayList<>(temp);
+        List<PowerUpCard> temp = new ArrayList<>();
+        for(PowerUpCard pu : ownerPlayer.getPowerUps())
+            if(!discardedPowerUps.contains(pu) && pu.colorToAmmo().isLessOrEqualThan(doActionCost))
+                temp.add(pu);
+        return temp;
     }
 
     /**

@@ -67,7 +67,7 @@ public class ActionHandlerCLI extends ActionHandler {
         else if( (index -= discardablePUs.size()) < discardableAmmos.size())
             notifyChoice(action.addDiscardableAmmo(discardableAmmos.get(index)));
         else if( (index -= discardableAmmos.size()) < weapons.size())
-            notifyChoice(action.addDiscardableAmmo(weapons.get(index)));
+            notifyChoice(action.addWeapon(weapons.get(index)));
         else {
             notifyChoice(action.doAction());
             ((Event<ActionHandler, RemoteAction>)actionDoneEvent).invoke(this, action);

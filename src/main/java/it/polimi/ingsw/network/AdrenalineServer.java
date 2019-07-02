@@ -343,7 +343,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      * @return The String to display when the match ends
      */
     private static String winnerMessage(String winner) {
-        return "Congratulations to Mr." + winner + "for the victory!\n";
+        return "Congratulations to Mr. " + winner + " for the victory!\n";
     }
 
     /**
