@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.login;
 
+import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ public class ColorChoiceController implements Ifxml<HBox> {
         //Circle ret = new Circle(30);
         final String partialUrl = "_avatar";
         String url = "/player/" + color.toLowerCase() + partialUrl + ".png";
-        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream(url)));
+        ImageView ret = new ImageView(Cache.getImage(getClass().getResourceAsStream(url)));
         ret.getStyleClass().add("button");
         ret.getStyleClass().add("colorButton");
         hBox.getChildren().add(ret);

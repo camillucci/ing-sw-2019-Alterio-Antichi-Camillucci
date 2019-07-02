@@ -419,7 +419,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     {
         if(visualizable.icon != null)
         {
-            ImageView button = new ImageView(new Image(visualizable.icon));
+            ImageView button = new ImageView(Cache.getImage(getClass().getResourceAsStream("/" + visualizable.icon)));
             button.setPreserveRatio(true);
             button.getStyleClass().add("button");
             button.setOnMouseClicked(e -> action.run());

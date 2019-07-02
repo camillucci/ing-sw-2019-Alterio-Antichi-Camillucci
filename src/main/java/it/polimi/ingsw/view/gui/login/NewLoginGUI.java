@@ -5,6 +5,7 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.gui.Animations;
+import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.animation.Timeline;
@@ -191,7 +192,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     }
 
     private ImageView loadingGif(){
-        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/loading.gif")));
+        ImageView imageView = new ImageView(Cache.getImage(getClass().getResourceAsStream("/loading.gif")));
         imageView.setFitHeight(100);
         imageView.setFitWidth(100);
         return imageView;

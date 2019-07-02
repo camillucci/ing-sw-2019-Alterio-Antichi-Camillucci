@@ -6,10 +6,7 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
-import it.polimi.ingsw.view.gui.GUIView;
-import it.polimi.ingsw.view.gui.Ifxml;
-import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
-import it.polimi.ingsw.view.gui.RemoteActionsProvider;
+import it.polimi.ingsw.view.gui.*;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -117,7 +114,7 @@ public class MapController implements Ifxml<AnchorPane>
 
     private void onModelChanged(MatchSnapshot snapshot) {
         if(mapImage.getImage() == null)
-            mapImage.setImage(new Image("map" + snapshot.gameBoardSnapshot.mapType + ".png"));
+            mapImage.setImage(Cache.getImage(getClass().getResourceAsStream("/map" + snapshot.gameBoardSnapshot.mapType + ".png")));
         for(int i = 0; i < R; i++)
             for(int j=0; j < C; j++)
                 squareControllers[i][j].onModelChanged(snapshot.gameBoardSnapshot.squareSnapshots[i][j]);

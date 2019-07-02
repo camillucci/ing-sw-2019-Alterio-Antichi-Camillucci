@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.login;
 
+import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.beans.property.IntegerProperty;
@@ -81,7 +82,7 @@ public class MapChoiceController implements Ifxml<HBox>
     {
         final String partialUrl = "/map";
         String url = partialUrl + i +".png";
-        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream(url)));
+        ImageView ret = new ImageView(Cache.getImage(getClass().getResourceAsStream(url)));
         ret.getStyleClass().add("mapButton");
         ret.setFitWidth(700);
         ret.setFitHeight(536);

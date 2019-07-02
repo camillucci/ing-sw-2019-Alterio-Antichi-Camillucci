@@ -1,13 +1,13 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
+import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.view.gui.Animations;
-import it.polimi.ingsw.view.gui.GUIView;
-import it.polimi.ingsw.view.gui.Ifxml;
-import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
+import it.polimi.ingsw.view.gui.*;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -20,10 +20,11 @@ public class KillShotTrackController implements Ifxml<StackPane>
     @FXML private HBox trackHBox;
     @FXML private StackPane rootPane;
     @FXML private ImageView firedSkull;
+    @FXML HBox tearsHBox;
     private MatchSnapshotProvider provider;
     private MatchSnapshot old;
     private static final int TOT_OTHER_SKULLS = 7;
-    @FXML private List<ImageView> otherSkulls = new ArrayList<>();
+    private List<ImageView> otherSkulls = new ArrayList<>();
 
     public void initialize() {
         firedSkull = createFiredSKull();
@@ -37,6 +38,17 @@ public class KillShotTrackController implements Ifxml<StackPane>
         firedSkull.setVisible(false);
     }
 
+    private void resetTears(){
+        tearsHBox.getChildren().clear();
+    }
+
+    private void addTear(String color){
+        ImageView tear = new ImageView(new Image("player/" + color.toLowerCase() + "_drop.png"));
+        tear.fitHeightProperty().bind(trackHBox.heightProperty().multiply(0.4));
+        tear.setPreserveRatio(true);
+        tearsHBox.getChildren().add(tear);
+    }
+
     private void buildController(MatchSnapshotProvider provider)
     {
         this.provider = provider;
@@ -47,19 +59,34 @@ public class KillShotTrackController implements Ifxml<StackPane>
     {
         int totOld = old == null ? 0 : old.gameBoardSnapshot.skulls;
         int totNew = snapshot.gameBoardSnapshot.skulls;
-        old = provider.getMatchSnapshot();
+        setupTears(snapshot, totOld, totNew);
+        old = snapshot;
+    }
 
-        int i;
-        for(i = totOld; i < Math.min(totNew, TOT_OTHER_SKULLS); i++)
-        {
-            otherSkulls.get(i).setVisible(true);
-            Animations.appearAnimation(otherSkulls.get(i));
-        }
-        if(i == TOT_OTHER_SKULLS)
-        {
-            firedSkull.setVisible(true);
-            Animations.appearAnimation(firedSkull);
-        }
+    private void setupTears(MatchSnapshot snapshot, int totOld, int totNew) {
+        List<List<String>> killShotTrack = snapshot.gameBoardSnapshot.getKillShotTrack();
+        for (int i = totOld; i < killShotTrack.size(); i++)
+            if (killShotTrack.get(i) == null)
+                if (i < TOT_OTHER_SKULLS)
+                    addSkull(otherSkulls.get(i), null);
+                else
+                    addSkull(firedSkull, null);
+            else if (!killShotTrack.get(i).isEmpty())
+            {
+                int i2 = i;
+                EventHandler<MouseEvent> mouseEventEventHandler = e -> onMouseOver(killShotTrack.get(i2));
+                if (i < TOT_OTHER_SKULLS)
+                    addSkull(otherSkulls.get(i), mouseEventEventHandler);
+                else
+                    addSkull(firedSkull, mouseEventEventHandler);
+             }
+    }
+
+    private void onMouseOver(List<String> colors){
+        tearsHBox.getChildren().clear();
+        for(String color : colors)
+            addTear(color);
+        tearsHBox.setVisible(true);
     }
 
     @Override
@@ -73,17 +100,26 @@ public class KillShotTrackController implements Ifxml<StackPane>
         return ret;
     }
 
+    private void addSkull(ImageView skull, EventHandler<? super MouseEvent> eventHandler){
+        skull.setVisible(true);
+        skull.setOnMouseEntered(eventHandler);
+        skull.setOnMouseExited(e -> tearsHBox.setVisible(false));
+        Animations.appearAnimation(skull);
+    }
+
     private ImageView createFiredSKull(){
-        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream("/skull_fired.png")));
+        ImageView ret = new ImageView(Cache.getImage(getClass().getResourceAsStream("/skull_fired.png")));
         ret.fitHeightProperty().bind(rootPane.maxHeightProperty());
         ret.setPreserveRatio(true);
+        ret.getStyleClass().add("button");
         return ret;
     }
 
     private ImageView newSkull(){
-        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream("/skull.png")));
+        ImageView ret = new ImageView(Cache.getImage(getClass().getResourceAsStream("/skull.png")));
         ret.fitWidthProperty().bind(firedSkull.fitHeightProperty().divide(2.5));
         ret.setPreserveRatio(true);
+        ret.getStyleClass().add("button");
         return ret;
     }
 }

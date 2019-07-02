@@ -65,7 +65,7 @@ public class PlayerCardsController implements Ifxml<HBox>
         for(ImageView weapon : getWeapons())
             if(weapon.getImage() == null)
             {
-                weapon.setImage(new Image("weapon/" + snapshotToFileName(name)));
+                weapon.setImage(Cache.getImage("weapon/" + snapshotToFileName(name)));
                 weapon.setRotate(rotationAngle);
                 Animations.appearAnimation(weapon);
                 return weapon;
@@ -95,7 +95,7 @@ public class PlayerCardsController implements Ifxml<HBox>
         for(ImageView powerup : getPowerUps())
             if(powerup.getImage() == null)
             {
-                powerup.setImage(new Image("powerup/" + snapshotToFileName(name)));
+                powerup.setImage(Cache.getImage("powerup/" + snapshotToFileName(name)));
                 Animations.appearAnimation(powerup);
                 return powerup;
             }
