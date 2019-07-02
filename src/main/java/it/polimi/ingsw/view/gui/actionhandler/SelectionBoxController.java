@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.network.RemoteAction;
+import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
@@ -44,7 +45,7 @@ public class SelectionBoxController implements Ifxml<StackPane>
         for(int i=0; i < paths.size(); i++){
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
-            ImageView img = new ImageView(new Image(getClass().getResourceAsStream(paths.get(i).toLowerCase())));
+            ImageView img = new ImageView(Cache.getImage(getClass().getResourceAsStream(paths.get(i).toLowerCase())));
 
             img.fitWidthProperty().bind(selectionHBox.minWidthProperty().divide(Math.max(paths.size(), 3)));
             img.setPreserveRatio(true);

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
@@ -85,7 +86,7 @@ public class PlayerSetController implements Ifxml<StackPane> {
     }
 
     private ImageView getSkull(){
-        ImageView skull = new ImageView(new Image("skull.png"));
+        ImageView skull = new ImageView(Cache.getImage(getClass().getResourceAsStream("/skull.png")));
         skull.setPreserveRatio(true);
         skull.fitHeightProperty().bind(skullsHBox.minHeightProperty().multiply(0.7));
         return skull;
@@ -121,21 +122,21 @@ public class PlayerSetController implements Ifxml<StackPane> {
 
     private ImageView getMark(String color)
     {
-        ImageView ret = new ImageView(new Image(getDropUrl(color)));
+        ImageView ret = new ImageView(Cache.getImage(getClass().getResourceAsStream(getDropUrl(color))));
         ret.setPreserveRatio(true);
         return ret;
     }
 
     private ImageView getDoubledMark(String color)
     {
-        ImageView ret = new ImageView(new Image(getDoubledDropUrl(color)));
+        ImageView ret = new ImageView(Cache.getImage(getClass().getResourceAsStream(getDoubledDropUrl(color))));
         ret.setPreserveRatio(true);
         return ret;
     }
 
     private void setBackground(PublicPlayerSnapshot player){
         String url = PLAYER_PATH + color.toLowerCase() + player.finalFrenzy  + ".png";
-        background.setImage(new Image(getClass().getResourceAsStream(url)));
+        background.setImage(Cache.getImage(getClass().getResourceAsStream(url)));
     }
 
     private void reset(){
@@ -162,7 +163,7 @@ public class PlayerSetController implements Ifxml<StackPane> {
         imageView.fitWidthProperty().bind(tears.get(totDamage).widthProperty().multiply(0.7));
         imageView.fitHeightProperty().bind(tears.get(totDamage).heightProperty());
         String url = getDropUrl(color);
-        imageView.setImage(new Image(getClass().getResourceAsStream(url)));
+        imageView.setImage(Cache.getImage(getClass().getResourceAsStream(url)));
         tears.get(totDamage++).getChildren().add(imageView);
     }
 

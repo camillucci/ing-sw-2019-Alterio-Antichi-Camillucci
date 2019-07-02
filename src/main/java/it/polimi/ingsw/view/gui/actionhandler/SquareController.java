@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.actionhandler;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.view.gui.Animations;
+import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.animation.ScaleTransition;
@@ -68,7 +69,7 @@ public class SquareController implements Ifxml<StackPane> {
 
         if(square.ammoSquare && square.getCards().size() == 1)
         {
-            ammoCard_shop.setImage(new Image(getClass().getResourceAsStream(nameToUrl(square.getCards().get(0).toLowerCase()))));
+            ammoCard_shop.setImage(Cache.getImage(getClass().getResourceAsStream(nameToUrl(square.getCards().get(0).toLowerCase()))));
             if(old == null || !old.ammoSquare || old.getCards().size() != 1)
                 Animations.appearAnimation(ammoCard_shop);
         }

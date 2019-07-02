@@ -1,10 +1,7 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.view.gui.Animations;
-import it.polimi.ingsw.view.gui.GUIView;
-import it.polimi.ingsw.view.gui.Ifxml;
-import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
+import it.polimi.ingsw.view.gui.*;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -74,14 +71,14 @@ public class KillShotTrackController implements Ifxml<StackPane>
     }
 
     private ImageView createFiredSKull(){
-        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream("/skull_fired.png")));
+        ImageView ret = new ImageView(Cache.getImage(getClass().getResourceAsStream("/skull_fired.png")));
         ret.fitHeightProperty().bind(rootPane.maxHeightProperty());
         ret.setPreserveRatio(true);
         return ret;
     }
 
     private ImageView newSkull(){
-        ImageView ret = new ImageView(new Image(getClass().getResourceAsStream("/skull.png")));
+        ImageView ret = new ImageView(Cache.getImage(getClass().getResourceAsStream("/skull.png")));
         ret.fitWidthProperty().bind(firedSkull.fitHeightProperty().divide(2.5));
         ret.setPreserveRatio(true);
         return ret;

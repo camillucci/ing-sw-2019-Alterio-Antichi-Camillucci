@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.login;
 
+import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
@@ -23,7 +24,7 @@ public class SkullChoiceController implements Ifxml<HBox>
     public void initialize(){
         Rectangle[] skulls = getButtons();
         for(Rectangle rectangle : skulls)
-            rectangle.setFill(new ImagePattern(new Image(getClass().getResourceAsStream("/skull.png"))));
+            rectangle.setFill(new ImagePattern(Cache.getImage(getClass().getResourceAsStream("/skull.png"))));
         for(int i = 4; i < skulls.length; i++){
             final int i2 = i;
             skulls[i].setOnMouseEntered(e -> {

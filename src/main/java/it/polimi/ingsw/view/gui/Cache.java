@@ -1,27 +1,32 @@
 package it.polimi.ingsw.view.gui;
 import javafx.scene.image.Image;
 
+import java.io.InputStream;
 import java.util.HashMap;
 
 public class Cache {
-    HashMap<String, Image> images = new HashMap<>();
+    private static HashMap<InputStream, Image> streamImages = new HashMap<>();
+    private static HashMap<String, Image> stringImages = new HashMap<>();
 
-    public Cache newCache () {
-        initialize();
-        Cache cache = new Cache();
-        return cache;
-    }
-
-    public Image getImage (String path) {
-        for (String key : images.keySet())
+    public static Image getImage (InputStream path) {
+        for (InputStream key : streamImages.keySet())
             if (path == key)
-                return images.get(path);
+                return streamImages.get(path);
         Image i = new Image(path);
-        images.put(path, i);
+        streamImages.put(path, i);
         return i;
     }
 
-    private void initialize() {
+    public static Image getImage (String path) {
+        for (String key : stringImages.keySet())
+            if (path == key)
+                return stringImages.get(path);
+        Image i = new Image(path);
+        stringImages.put(path, i);
+        return i;
+    }
+
+    public static void initialize() {
         //todo add commonly used images
         return;
     }
