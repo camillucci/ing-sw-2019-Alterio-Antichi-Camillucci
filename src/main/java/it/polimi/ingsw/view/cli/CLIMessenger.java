@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.model.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import java.util.List;
  * chosen a CLI based display.
  */
 public class CLIMessenger {
+
     /**
      * parameter used to produce output lines the user is going to read
      */
@@ -127,6 +127,10 @@ public class CLIMessenger {
      * "None" String
      */
     private static final String NONE = "None";
+
+    /**
+     * The max width of a Square of the GameBoard
+     */
     private static final int MAX_SIZE_SQUARE = 45;
 
     /**
@@ -170,79 +174,84 @@ public class CLIMessenger {
     private static final String BLANK = " ";
 
     /**
+     *
+     */
+    private static final String HORIZONTAL = "\u2550"; // ═
+
+    /**
      * Visual representation of a vertical line
      */
-    private static final String VERTICAL = "║";
+    private static final String VERTICAL = "\u2551"; // ║
 
     /**
      * Visual representation of a top left corner
      */
-    private static final String TOP_LEFT = "╔";
+    private static final String TOP_LEFT = "\u2554"; // ╔
 
     /**
      * Visual representation of a bottom left corner
      */
-    private static final String TOP_RIGHT = "╗";
+    private static final String TOP_RIGHT = "\u2557"; // ╗
 
     /**
      * Visual representation of a bottom left corner
      */
-    private static final String BOTTOM_LEFT = "╚";
+    private static final String BOTTOM_LEFT = "\u255A"; // ╚
 
     /**
      * Visual representation of a bottom right corner
      */
-    private static final String BOTTOM_RIGHT = "╝";
+    private static final String BOTTOM_RIGHT = "\u255D"; // ╝
 
     /**
      * Visual representation of a top "T" shaped cross
      */
-    private static final String TOP = "╦";
+    private static final String TOP = "\u2566"; // ╦
 
     /**
      * Visual representation of a bottom "T" shaped cross
      */
-    private static final String BOTTOM = "╩";
+    private static final String BOTTOM = "\u2569"; // ╩
 
     /**
      * Visual representation of a left "T" shaped cross
      */
-    private static final String LEFT = "╠";
+    private static final String LEFT = "\u2560"; // ╠
 
     /**
      * Visual representation of a right "T" shaped cross
      */
-    private static final String RIGHT = "╣";
+    private static final String RIGHT = "\u2563"; // ╣
 
     /**
      * Visual representation of a "+" shaped cross
      */
-    private static final String MIDDLE = "╬";
-
-    /**
-     * Visual representation of an horizontal wall
-     */
-    private static final String HORIZONTAL_WALL = "═════════════════════════════════════════════";
-
-    /**
-     * Visual representation of an horizontal door
-     */
-    private static final String HORIZONTAL_DOOR = "══════════════════╣       ╠══════════════════";
-
-    /**
-     * Visual representation of the horizontal entrance of a room
-     */
-    private static final String HORIZONTAL_ROOM = "═════                                   ═════";
-
-    /**
-     * Visual representation of the KillShotTrack
-     */
-    private static final String KILLSHOTTRACK_WALL = "═════════";
+    private static final String MIDDLE = "\u256C"; // ╬
 
     /**
      * Visual representation of a point, used for damages, marks and costs
      */
-    private static final String POINT = "█";
+    private static final String POINT = "\u2588"; // █
+
+    /**
+     * Visual representation of an horizontal wall
+     */
+    private static final String HORIZONTAL_WALL = wall(MAX_SIZE_SQUARE); // ═════════════════════════════════════════════
+
+    /**
+     * Visual representation of an horizontal door
+     */
+    private static final String HORIZONTAL_DOOR = door(); // ══════════════════╣       ╠══════════════════
+
+    /**
+     * Visual representation of the horizontal entrance of a room
+     */
+    private static final String HORIZONTAL_ROOM = room(); // ═════                                   ═════
+
+    /**
+     * Visual representation of the KillShotTrack
+     */
+    private static final String KILLSHOTTRACK_WALL = wall(MAX_SKULLS + 1); // ═════════
 
     /**
      * Contains the list of strings used to visually represent a wall
@@ -260,15 +269,6 @@ public class CLIMessenger {
     private static final String[] DOOR = {VERTICAL, VERTICAL, BOTTOM, BLANK, TOP, VERTICAL, VERTICAL};
 
     private CLIMessenger() { }
-
-    /**
-     * Changes the current OutputStream with the one gotten has a parameter
-     * @param outputStream parameter used to substitute the current OutputStream
-     */
-    public static void changePrintStream(OutputStream outputStream){
-        printStream = new PrintStream(outputStream);
-    }
-
 
     /**
      * Assigns the color "white" to the curColor parameter
@@ -297,7 +297,7 @@ public class CLIMessenger {
      */
     public static void login(){
         curColor = ANSI_BLUE;
-        display("Welcome to Adrenaline!" + ANSI_RESET +"\n\n", true);
+        displayBold("Welcome to Adrenaline!" + ANSI_RESET +"\n\n");
         resetColor();
     }
 
@@ -305,32 +305,32 @@ public class CLIMessenger {
      * Output line displayed to the user when they send an incorrect input line
      */
     public static void incorrectInput() {
-        display("Your answer is not valid, please try again.", true);
+        displayBold("Your answer is not valid, please try again.");
     }
 
     /**
      * Output line displayed to the user used to ask them to choose a username
      */
     public static void insertName() {
-        display("Insert username here (max 16 character long):", true);
+        displayBold("Insert username here (max 16 character long):");
     }
 
     /**
      * Output line displayed to the user used to ask them to choose between Socket and RMI type of connection
      */
     public static void askConnection() {
-        display("Choose connection type:", true);
-        display(PRESS + "0 for Socket", true);
-        display(PRESS + "1 for RMI", true);
+        displayBold("Choose connection type:");
+        displayBold(PRESS + "0 for Socket");
+        displayBold(PRESS + "1 for RMI");
     }
 
     /**
      * Output line displayed to the user used to ask them to choose between CLI and GUI type of interface
      */
     public static void askInterface() {
-        display("Choose interface type", true);
-        display(PRESS + "0 for CLI", true);
-        display(PRESS + "1 for GUI", true);
+        displayBold("Choose interface type");
+        displayBold(PRESS + "0 for CLI");
+        displayBold(PRESS + "1 for GUI");
     }
 
     /**
@@ -339,9 +339,9 @@ public class CLIMessenger {
      * @param availableColors List of colors the user can choose from
      */
     public static int askColor(List<String> availableColors) {
-        display("Choose one of the following available colors:", true);
+        displayBold("Choose one of the following available colors:");
         for (int i = 0; i < availableColors.size(); i++) {
-            display(PRESS + i + " if you want the color " + availableColors.get(i), true);
+            displayBold(PRESS + i + " if you want the color " + availableColors.get(i));
         }
         return availableColors.size();
     }
@@ -351,8 +351,8 @@ public class CLIMessenger {
      * number of skulls. This message is displayed only if the user is the first one to connect to the room.
      */
     public static void askGameLength() {
-        display("Choose how many skulls your game is going to have", true);
-        display("You can choose any number between 5 and 8", true);
+        displayBold("Choose how many skulls your game is going to have");
+        displayBold("You can choose any number between 5 and 8");
     }
 
     /**
@@ -361,7 +361,7 @@ public class CLIMessenger {
      * This message is displayed only if the user is the first one to connect to the room.
      */
     public static void askGameMap() {
-        display("Choose one of the following maps:", true);
+        displayBold("Choose one of the following maps:");
         display("0 ╔══════════════════╦══════════════════╦══════════════════╗                    1 ╔══════════════════╦══════════════════╦══════════════════╦══════════════════╗");
         display("  ║                                                        ║                      ║                                                        ╩                  ║");
         display("  ║                                                        ║                      ║                                                                           ║");
@@ -396,8 +396,8 @@ public class CLIMessenger {
      * connects to the same room, or when the timer runs out)
      */
     public static void matchStart() {
-        display("Your game has started", true);
-        display("Have fun!", true);
+        displayBold("Your game has started");
+        displayBold("Have fun!");
     }
 
     /**
@@ -405,15 +405,15 @@ public class CLIMessenger {
      * So the countdown starts.
      */
     public static void threePlayers() {
-        display("Your room has reached 3 players", true);
-        display("Countdown has started", true);
+        displayBold("Your room has reached 3 players");
+        displayBold("Countdown has started");
     }
 
     /**
      * Output line displayed to the user to communicate that they entered an illegal game state.
      */
     public static void rollbackError() {
-        display("You entered an illegal state, please press 0 to return to the last valid state", true);
+        displayBold("You entered an illegal state, please press 0 to return to the last valid state");
     }
 
     /**
@@ -575,7 +575,7 @@ public class CLIMessenger {
      * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
      */
     private static void displayMap(MatchSnapshot matchSnapshot) {
-        display("Map:", true);
+        displayBold("Map:");
         String[] mapBorder;
         if(matchSnapshot.gameBoardSnapshot.mapType == FIRST_MAP)
             mapBorder = firstMap;
@@ -697,7 +697,7 @@ public class CLIMessenger {
     }
 
     private static void displayKillShotTrack(List<List<String>> killShotTrack) {
-        display("KillShot Track:", true);
+        displayBold("KillShot Track:");
         String line = TOP_LEFT + KILLSHOTTRACK_WALL;
         for(int i = 0; i < MAX_SKULLS - 1; i++)
             line = line.concat(TOP + KILLSHOTTRACK_WALL);
@@ -743,14 +743,28 @@ public class CLIMessenger {
         display(line);
     }
 
+    private static String wall(int size) {
+        String temp ="";
+        for(int i = 0; i < size; i++)
+            temp = temp.concat(HORIZONTAL);
+        return temp;
+    }
+
+    private static String door() { // ══════════════════╣       ╠══════════════════
+        return wall(18) + RIGHT + blanks(7) + LEFT + wall(18);
+    }
+
+    private static String room() { // ═════                                   ═════
+        return wall(5) + blanks(35) + wall(5);
+    }
     //------------------------------------------------------------------------------------------------------------------
     //DISPLAY
 
-    @SuppressWarnings("squid:S106")
     /**
      * Displays the string gotten as a  parameter using curColor has the text color
      * @param string Displayed String
      */
+    @SuppressWarnings("squid:S106")
     private static void display(String string) {
         printStream.println(curColor + string);
     }
@@ -758,13 +772,9 @@ public class CLIMessenger {
     /**
      * Displays the string gotten as parameter. Uses bold characters when the boolean parameter is true.
      * @param string Displayed String
-     * @param bold Parameter used to indicate whether the String is going to be displayed in bold characters
      */
-    private static void display(String string, boolean bold){
-        if(bold)
-            display("\u001B[1m" + string);
-        else
-            display(string);
+    private static void displayBold(String string){
+        display("\u001B[1m" + string);
     }
 
     /**
