@@ -8,15 +8,15 @@ import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class PlayerSetController implements Ifxml<StackPane> {
+    @FXML private HBox skullsHBox;
+    @FXML private HBox markHBox;
     @FXML private ImageView background;
     @FXML private StackPane pane;
     @FXML private Pane tear0;
@@ -35,6 +35,7 @@ public class PlayerSetController implements Ifxml<StackPane> {
     private String color;
     private int totDamage = 0;
     private MatchSnapshotProvider matchSnapshotProvider;
+    private MatchSnapshot old;
 
     public void initialize()
     {
@@ -62,10 +63,74 @@ public class PlayerSetController implements Ifxml<StackPane> {
                     player = p;
                     break;
                 }
-            setBackground(player);
+        setBackground(player);
+        setMarks(player);
+        setSkulls(player);
+        addDamages(player);
+        old = matchSnapshot;
+    }
+
+    private void addDamages(PublicPlayerSnapshot player){
         for(String damage : player.getDamage())
             addDamage(damage);
+    }
 
+    private void setSkulls(PublicPlayerSnapshot player) {
+        for(int i=0; i < player.skull; i++)
+            addSkull();
+    }
+
+    private void addSkull(){
+        skullsHBox.getChildren().add(getSkull());
+    }
+
+    private ImageView getSkull(){
+        ImageView skull = new ImageView(new Image("skull.png"));
+        skull.setPreserveRatio(true);
+        skull.fitHeightProperty().bind(skullsHBox.minHeightProperty().multiply(0.7));
+        return skull;
+    }
+
+    private void setMarks(PublicPlayerSnapshot player) {
+        String cur = "";
+        int tot = 0;
+        for(String color : player.getMark())
+        {
+            if (cur.equals(color))
+                tot++;
+            else if(tot == 3)
+            {
+                addMark(getDoubledMark(color));
+                addMark(getMark(color));
+            }
+            else
+            {
+                for (int i = 0; i < tot; i++)
+                    addMark(getMark(color));
+                tot = 1;
+                cur = color;
+            }
+        }
+    }
+
+    private void addMark(ImageView mark)
+    {
+        mark.fitHeightProperty().bind(markHBox.minHeightProperty().multiply(0.5));
+        markHBox.getChildren().add(mark);
+    }
+
+    private ImageView getMark(String color)
+    {
+        ImageView ret = new ImageView(new Image(getDropUrl(color)));
+        ret.setPreserveRatio(true);
+        return ret;
+    }
+
+    private ImageView getDoubledMark(String color)
+    {
+        ImageView ret = new ImageView(new Image(getDoubledDropUrl(color)));
+        ret.setPreserveRatio(true);
+        return ret;
     }
 
     private void setBackground(PublicPlayerSnapshot player){
@@ -77,13 +142,26 @@ public class PlayerSetController implements Ifxml<StackPane> {
         for(Pane tear : tears)
             tear.getChildren().clear();
         totDamage = 0;
+        markHBox.getChildren().clear();
+        skullsHBox.getChildren().clear();
     }
+
+    private String getDropUrl(String color)
+    {
+        return "/player/" + color.toLowerCase() + "_drop.png";
+    }
+
+    private String getDoubledDropUrl(String color)
+    {
+        return "/player/" + color.toLowerCase() + "_drop2.png";
+    }
+
 
     void addDamage(String color){
         ImageView imageView = new ImageView();
         imageView.fitWidthProperty().bind(tears.get(totDamage).widthProperty().multiply(0.7));
         imageView.fitHeightProperty().bind(tears.get(totDamage).heightProperty());
-        String url = "/player/" + color.toLowerCase() + "_drop.png";
+        String url = getDropUrl(color);
         imageView.setImage(new Image(getClass().getResourceAsStream(url)));
         tears.get(totDamage++).getChildren().add(imageView);
     }

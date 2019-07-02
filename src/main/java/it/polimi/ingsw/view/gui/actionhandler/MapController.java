@@ -63,7 +63,6 @@ public class MapController implements Ifxml<AnchorPane>
     }
 
     public void initialize(){
-        mapImage.setImage(new Image(getClass().getResourceAsStream("/map0Test.png")));
         initializeSquares();
     }
 
@@ -117,6 +116,8 @@ public class MapController implements Ifxml<AnchorPane>
     }
 
     private void onModelChanged(MatchSnapshot snapshot) {
+        if(mapImage.getImage() == null)
+            mapImage.setImage(new Image("map" + snapshot.gameBoardSnapshot.mapType + ".png"));
         for(int i = 0; i < R; i++)
             for(int j=0; j < C; j++)
                 squareControllers[i][j].onModelChanged(snapshot.gameBoardSnapshot.squareSnapshots[i][j]);
