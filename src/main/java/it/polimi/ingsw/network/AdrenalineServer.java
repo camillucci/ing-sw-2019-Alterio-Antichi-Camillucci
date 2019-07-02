@@ -356,7 +356,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         int j;
         for(int i = 0; i < scoreBoard.length; i++) {
             j = i + 1;
-            temp.concat(scoreBoard[i][0] + " finished " + j + " with a total score of " + scoreBoard[i][1] + "\n");
+            temp = temp.concat(scoreBoard[i][0] + " finished " + j + " with a total score of " + scoreBoard[i][1] + "\n");
         }
 
         return temp;
