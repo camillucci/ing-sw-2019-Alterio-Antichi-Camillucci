@@ -60,16 +60,26 @@ public class PlayerCardsController implements Ifxml<HBox>
         weapons = getWeapons();
     }
 
-    private ImageView addWeapon(String name)
+    private ImageView addWeapon(String name, int rotationAngle)
     {
         for(ImageView weapon : getWeapons())
             if(weapon.getImage() == null)
             {
                 weapon.setImage(new Image("weapon/" + snapshotToFileName(name)));
+                weapon.setRotate(rotationAngle);
                 Animations.appearAnimation(weapon);
                 return weapon;
             }
-        return null;
+        throw new RuntimeException("cards set is full");
+    }
+
+    private ImageView addWeapon(String name)
+    {
+       return addWeapon(name, 0);
+    }
+
+    private ImageView addUnloadedWeapon(String name){
+        return addWeapon(name, 180);
     }
 
     private void addBackWeapon(){
@@ -249,10 +259,10 @@ public class PlayerCardsController implements Ifxml<HBox>
                     addWeapon(w);
         for(String w : player.getUnloadedWeapons())
             if(old == null)
-                addWeapon(w);
+                addUnloadedWeapon(w);
             else
                 for(int i=0; i < Collections.frequency(player.getUnloadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getUnloadedWeapons(), w); i++)
-                    addWeapon(w);
+                    addUnloadedWeapon(w);
         for(String pu : player.getPowerUps())
             if(old == null)
                 addPowerup(pu);
