@@ -86,4 +86,12 @@ public class Animations
         //rt.play();
         st.play();
     }
+
+    public static void loopAnimation(Node node) {
+        RotateTransition rt = new RotateTransition(Duration.millis(3000), node);
+        rt.setByAngle(180);
+        rt.setCycleCount(4);
+        rt.setAutoReverse(true);
+        rt.play();
+    }
 }

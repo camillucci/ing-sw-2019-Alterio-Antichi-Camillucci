@@ -44,11 +44,11 @@ public abstract class AdrenalineClient
 
     protected synchronized void onExceptionGenerated(Exception exception){
         exception.printStackTrace();
-        view.getCurViewElement().onNewMessage("I'm sorry, you have been disconnected");
+        view.getCurViewElement().onNewMessage("Sorry, you have been disconnected");
     }
 
     /**
-     * Signs up to name, color game length, map type and new command events. Once an event triggers, this class
+     * Signs up to name, color, game length, map type and new command events. Once an event triggers, this class
      * communicates user's choice to server
      */
     protected void setupView(){

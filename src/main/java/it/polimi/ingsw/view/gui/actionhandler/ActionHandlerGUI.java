@@ -70,6 +70,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private SelectionBoxController selectionBoxController;
     private List<ShopController> shops;
     private ImageView rollBack;
+    private List<String> disconnectedPlayers = new ArrayList<>();
 
     public void initialize() {
 
@@ -89,7 +90,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     }
 
     /**
-     * lunches a series of methods that provide the initial user interface for when the game starts
+     * lunches a series of methods that provides the initial user interface for when the game starts
      * @param playerColor color the user has chosen
      * @param opponentColors color of all the other users
      */
