@@ -468,4 +468,39 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     public IEvent<RemoteActionsProvider, Object> notifyingToServeEvent() {
         return notifyingToServerEvent;
     }
+
+    @Override
+    public  void disconnectedPlayerMessage(String name) {
+        return;
+    }
+
+    @Override
+    public  void newPlayerMessage(String name) {
+        return;
+    }
+
+    @Override
+    public  void timerStartedMessage(int time) {
+        return;
+    }
+
+    @Override
+    public  void timerTickMessage(int time) {
+        return;
+    }
+
+    @Override
+    public  void reconnectedMessage() {
+        return;
+    }
+
+    @Override
+    public  void winnerMessage(String winner) {
+        return;
+    }
+
+    @Override
+    public  void scoreboardMessage(String[][] scoreboard) {
+        return;
+    }
 }
