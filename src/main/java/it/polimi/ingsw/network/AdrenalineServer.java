@@ -338,14 +338,19 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     /**
-     * //todo run documentation
-     * @param winner
-     * @return
+     * This method creates the message of the end of the match, it contains the winner
+     * @param winner The winner of the match
+     * @return The String to display when the match ends
      */
     private static String winnerMessage(String winner) {
         return "Congratulations to Mr." + winner + "for the victory!\n";
     }
 
+    /**
+     * This method creates the scoreboard at the end of the match, it contains the score of all Players
+     * @param scoreBoard The scoreboard of the match
+     * @return The String to display when the match ends
+     */
     private static String scoreBoardMessage (String[][] scoreBoard) {
         String temp = "";
         int j;

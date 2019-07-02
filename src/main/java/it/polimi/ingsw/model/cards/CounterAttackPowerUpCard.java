@@ -2,9 +2,6 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.PowerUpSet;
-import it.polimi.ingsw.model.action.CounterPowerUpAction;
-
-import java.util.ArrayList;
 
 /**
  * This class represents a specific type of power up card. The effects relative to this power up cards are that it
@@ -18,7 +15,7 @@ public class CounterAttackPowerUpCard extends PowerUpCard {
     }
 
     /**
-     * This method calls an run method from the power up set of cards the card needs to added to.
+     * This method calls an add method from the power up set of cards the card needs to added to.
      * @param powerupSet List of power up cards
      */
     @Override
@@ -27,7 +24,7 @@ public class CounterAttackPowerUpCard extends PowerUpCard {
     }
 
     /**
-     * This method calls an run method from the power up set of cards the card needs to removed from.
+     * This method calls an add method from the power up set of cards the card needs to removed from.
      * @param powerupSet List of power up cards
      */
     @Override

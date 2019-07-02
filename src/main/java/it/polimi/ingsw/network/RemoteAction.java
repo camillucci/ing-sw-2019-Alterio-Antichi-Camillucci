@@ -31,7 +31,7 @@ public class RemoteAction implements Serializable
     /**
      * Constructor that assigns an index relative to the action and sets the visualizable parameter
      * @param index Is used to distinguish this actions from the others in the list the user is going to choose from
-     * @param visualizable //todo
+     * @param visualizable The description of how the RemoteAction must be visualized in cli and gui
      */
     public RemoteAction(int index, Visualizable visualizable){
         this.index = index;
