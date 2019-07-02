@@ -7,10 +7,11 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.shape.Rectangle?>
 <StackPane alignment="TOP_CENTER" fx:id="rootPane" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.gui.actionhandler.KillShotTrackController"
-            minWidth="${rootPane.minHeight/80*320*wStretch}" maxWidth="${rootPane.minHeight/80*320*wStretch}">
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="it.polimi.ingsw.view.gui.actionhandler.KillShotTrackController"
+           minWidth="${rootPane.minHeight/80*320*wStretch}" maxWidth="${rootPane.minHeight/80*320*wStretch}">
     <fx:define>
         <Double fx:id="scale" fx:value="0.8"/>
         <Double fx:id="hGrow" fx:value="1.23"/>
@@ -18,6 +19,7 @@
         <Double fx:id="spacingFactor" fx:value="0.01"/>
     </fx:define>
     <StackPane alignment="BOTTOM_CENTER" fx:id="trackPane" minWidth="${rootPane.width*scale}" maxWidth="${rootPane.width*scale}" minHeight="${rootPane.height*scale*hGrow}" maxHeight="${rootPane.height*scale*hGrow}">
+        <HBox alignment="TOP_CENTER" fx:id="tearsHBox"/>
         <HBox spacing="${trackPane.minWidth*spacingFactor}" alignment="BOTTOM_CENTER" fx:id="trackHBox" minHeight="${trackPane.minHeight}" maxHeight="${trackPane.maxHeight}"/>
     </StackPane>
 </StackPane>
