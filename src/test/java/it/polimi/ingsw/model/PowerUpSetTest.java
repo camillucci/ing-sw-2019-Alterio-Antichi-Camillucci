@@ -15,8 +15,8 @@ class PowerUpSetTest
         PowerUpSet set = new PowerUpSet();
         PowerUpCard powerup1 = new EndStartPowerUpCard("lala", AmmoColor.BLUE, PowerUpAction::new);
         PowerUpCard powerup2 = new EndStartPowerUpCard("lala2", AmmoColor.BLUE, PowerUpAction::new);
-        set.add(powerup1);
-        set.add(powerup2);
+        set.run(powerup1);
+        set.run(powerup2);
         assertEquals(2, set.getEndStartPUs().size());
         set.remove(powerup1);
         set.remove(powerup2);

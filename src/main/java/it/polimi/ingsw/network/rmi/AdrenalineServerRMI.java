@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.rmi;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.generics.CommandQueue;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.network.AdrenalineServer;
@@ -25,6 +26,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     public final IEvent<AdrenalineServerRMI, Object> newClientConnected = new Event<>();
     private ICallbackAdrenalineClient client;
     private Registry registry;
+    private CommandQueue commandQueue = new CommandQueue();
 
     /**
      * Boolean that indicates whether the pinging thread needs to keep running or not
@@ -107,7 +109,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
 
     @Override
     protected void sendCommand(Command<View> command) throws IOException {
-        client.newViewCommand(command);
+        commandQueue.run(() -> bottleneck.tryDo(() -> client.newViewCommand(command)));
     }
 
     /**

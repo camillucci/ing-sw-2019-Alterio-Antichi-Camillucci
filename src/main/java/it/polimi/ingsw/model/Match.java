@@ -184,7 +184,7 @@ public class Match extends ActionsProvider {
     }
 
     /**
-     * todo add documentation
+     * todo run documentation
      */
     private void onTimedOutTurn() {
         //call rollback method

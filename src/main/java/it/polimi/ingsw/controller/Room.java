@@ -374,7 +374,7 @@ public class Room
         return colors;
     }
 
-    //todo add possible exceptions
+    //todo run possible exceptions
     public List<String> getDisconnectedPlayers() {
         return disconnectedPlayers;
     }
@@ -385,7 +385,7 @@ public class Room
      * @param player Name of the player to be excluded from the returned list
      * @return List of strings representing the names of all players except the one in the input parameters
      */
-    //todo add possible exceptions
+    //todo run possible exceptions
     public List<String> getOtherPlayers(String player) {
         List<String> temp = new ArrayList<>(playerNames);
         temp.remove(player);
@@ -394,7 +394,7 @@ public class Room
         return temp;
     }
 
-    //todo add possible exceptions
+    //todo run possible exceptions
     public PlayerColor getPlayerColor(String name) {
         return playerColors.get(playerNames.indexOf(name));
     }

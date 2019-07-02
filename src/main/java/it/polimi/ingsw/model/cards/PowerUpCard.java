@@ -41,13 +41,13 @@ public abstract class PowerUpCard {
     }
 
     /**
-     * This method calls an add method from the power up set of cards the card needs to added to.
+     * This method calls an run method from the power up set of cards the card needs to added to.
      * @param powerupSet List of power up cards
      */
     public abstract void addTo(PowerUpSet powerupSet);
 
     /**
-     * This method calls an add method from the power up set of cards the card needs to removed from.
+     * This method calls an run method from the power up set of cards the card needs to removed from.
      * @param powerupSet List of power up cards
      */
     public abstract void removeFrom(PowerUpSet powerupSet);
