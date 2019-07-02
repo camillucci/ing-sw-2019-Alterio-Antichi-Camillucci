@@ -90,54 +90,6 @@ public class ActionHandlerCLI extends ActionHandler {
      * @param matchSnapshot New match snapshot containing all the info relative to what is going to be displayed to
      *                      the user.
      */
-
-    @Override
-    public void disconnectedPlayerMessage(String name) {
-        String temp = name + " left the room";
-        CLIMessenger.printMessage(temp);
-    }
-
-    @Override
-    public void newPlayerMessage(String name) {
-        String temp = name + " joined the room";
-        CLIMessenger.printMessage(temp);;
-    }
-
-    @Override
-    public void timerStartedMessage(int time) {
-        String temp = "Countdown is started: " + time + " seconds left";
-        CLIMessenger.printMessage(temp);
-    }
-
-    @Override
-    public void timerTickMessage(int time) {
-        String temp = time + " seconds left";
-        CLIMessenger.printMessage(temp);
-    }
-
-    @Override
-    public void reconnectedMessage() {
-        String temp = "You're back!";
-        CLIMessenger.printMessage(temp);
-    }
-
-    @Override
-    public void winnerMessage(String winner) {
-        String temp = "Congratulations to " + winner + " for the win!";
-        CLIMessenger.printMessage(temp);
-    }
-
-    @Override
-    public void scoreboardMessage(String[][] scoreboard) {
-        String temp = "";
-        int j;
-        for(int i = 0; i < scoreboard.length; i++) {
-            j = i + 1;
-            temp.concat(scoreboard[i][0] + " finished " + j + " with a total score of " + scoreboard[i][1] + "\n");
-        }
-        CLIMessenger.printMessage(temp);
-    }
-
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
         CLIMessenger.updateView(matchSnapshot);

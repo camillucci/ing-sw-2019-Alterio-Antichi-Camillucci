@@ -243,39 +243,4 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     public static NewLoginGUI getController () throws IOException {
         return GUIView.getController("/view/root.fxml");
     }
-
-    @Override
-    public  void disconnectedPlayerMessage(String name) {
-        return;
-    }
-
-    @Override
-    public  void newPlayerMessage(String name) {
-        return;
-    }
-
-    @Override
-    public  void timerStartedMessage(int time) {
-        return;
-    }
-
-    @Override
-    public  void timerTickMessage(int time) {
-        return;
-    }
-
-    @Override
-    public  void reconnectedMessage() {
-        return;
-    }
-
-    @Override
-    public  void winnerMessage(String winner) {
-        return;
-    }
-
-    @Override
-    public  void scoreboardMessage(String[][] scoreboard) {
-        return;
-    }
 }

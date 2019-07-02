@@ -40,10 +40,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     protected Bottleneck bottleneck = new Bottleneck();
     protected RemoteActionsHandler remoteActionsHandler;
     private BiConsumer<Room, Integer> onEndMatchEvent = (a, b) -> removeEvents();
-    private BiConsumer<Room, String[][]> scoreEventHandler = (a, scoreBoard) -> bottleneck.tryDo( () -> scoreboardMessage(scoreBoard));
-    private BiConsumer<Room, String> winnerEventHandler = (a, winner) -> bottleneck.tryDo( () -> winnerMessage(winner));
-    private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> timerStartedMessage(timeout));
-    private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> timerTickMessage(timeLeft));
+    private BiConsumer<Room, String[][]> scoreEventHandler = (a, scoreBoard) -> bottleneck.tryDo( () -> sendMessage(scoreBoardMessage(scoreBoard)));
+    private BiConsumer<Room, String> winnerEventHandler = (a, winner) -> bottleneck.tryDo( () -> sendMessage(winnerMessage(winner)));
+    private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> sendMessage(timerStartMessage(timeout)));
+    private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(timerTickMessage(timeLeft)));
     private BiConsumer<Room, Integer> timerStopEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE));
     private BiConsumer<Room, String> newPlayerEventHandler = (a, name) -> notifyPlayer(name);
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
@@ -131,7 +131,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         if(name.equals(this.name))
             return;
         otherPlayers.remove(name);
-        bottleneck.tryDo(() -> playerDisconnectedMessage(name));
+        bottleneck.tryDo(() -> sendMessage(playerDisconnectedMessage(name)));
     }
 
     protected abstract void startPinging();
@@ -152,7 +152,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             setupRoomEvents();
             this.name = name;
             otherPlayers = joinedRoom.getOtherPlayers(name);
-            reconnectedMessage();
+            sendMessage(reconnectedMessage());
             onModelUpdated(joinedRoom.getCurModel(name));
             return;
         }
@@ -239,7 +239,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             return;
         if(this.name != name)
             otherPlayers.add(name);
-        bottleneck.tryDo(() -> newPlayerMessage(name));
+        bottleneck.tryDo(() -> sendMessage(newPlayerMessage(name)));
     }
 
 
@@ -256,34 +256,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     protected void sendMessage(String message) throws IOException
     {
         sendCommand(new Command<>(v -> v.getCurViewElement().onNewMessage(message)));
-    }
-
-    protected void scoreboardMessage(String[][] scoreboard) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().scoreboardMessage(scoreboard)));
-    }
-
-    protected void winnerMessage(String winner) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().winnerMessage(winner)));
-    }
-
-    protected void timerStartedMessage(int time) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().timerStartedMessage(time)));
-    }
-
-    protected void timerTickMessage (int time) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().timerTickMessage(time)));
-    }
-
-    protected void playerDisconnectedMessage (String name) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().disconnectedPlayerMessage(name)));
-    }
-
-    protected void newPlayerMessage (String name) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().newPlayerMessage(name)));
-    }
-
-    protected void reconnectedMessage () throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().reconnectedMessage()));
     }
 
     /**
@@ -327,6 +299,68 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private static final String MATCH_STARTING_MESSAGE = "Match is starting";
 
+    /**
+     * Creates a string that represents the message of a new player entering the room
+     * @param name The string that represents the name of the newly entered player
+     * @return The message relative to a new player entering the room
+     */
+    private static String newPlayerMessage(String name){ return name + " joined the room";}
+
+    /**
+     * Creates a string that represents the message of a player being disconnected
+     * @param name The string that represents the name of the disconnected player
+     * @return The message relative to a player disconnecting
+     */
+    private static String playerDisconnectedMessage(String name){ return name + " left the room";}
+
+    /**
+     * Creates a string that represents the message sent to the user about a new countdown being started.
+     * Also the length of said countdown is displayed to the user.
+     * @param timeout Integer that represents the amount of time spent on the countdown
+     * @return The message that displays how much time is left before the game starts
+     */
+    private static String timerStartMessage(int timeout){
+        return "Countdown is started: " + timeout + " seconds left\n";
+    }
+
+    /**
+     * Creates a string that represents the message sent to the user about ho much time is left before the game
+     * starts.
+     * @param timeLeft Integer that represents how much time is left before the game starts
+     * @return The string that's going to be displayed to the user
+     */
+    private static String timerTickMessage(int timeLeft){
+        return timeLeft + " seconds left\n";
+    }
+
+    private static String reconnectedMessage() {
+        return "You're back in the game!";
+    }
+
+    /**
+     * This method creates the message of the end of the match, it contains the winner
+     * @param winner The winner of the match
+     * @return The String to display when the match ends
+     */
+    private static String winnerMessage(String winner) {
+        return "Congratulations to Mr." + winner + "for the victory!\n";
+    }
+
+    /**
+     * This method creates the scoreboard at the end of the match, it contains the score of all Players
+     * @param scoreBoard The scoreboard of the match
+     * @return The String to display when the match ends
+     */
+    private static String scoreBoardMessage (String[][] scoreBoard) {
+        String temp = "";
+        int j;
+        for(int i = 0; i < scoreBoard.length; i++) {
+            j = i + 1;
+            temp.concat(scoreBoard[i][0] + " finished " + j + " with a total score of " + scoreBoard[i][1] + "\n");
+        }
+
+        return temp;
+    }
 
     /**
      * String that represents the default message sent to the user when the countdown is interrupted before the match
