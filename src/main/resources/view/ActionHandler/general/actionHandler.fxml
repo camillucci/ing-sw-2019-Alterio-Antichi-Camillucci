@@ -49,7 +49,7 @@
                         </StackPane>
                     <VBox alignment="CENTER" fx:id="avatarsVBox" minHeight="${lVbox.minHeight}" maxHeight="${lVbox.minHeight}" spacing="${gameBoard.height*spacingFactor}"/>
                 </HBox>
-                <StackPane fx:id="lBottomPane" minHeight="${gameBoard.height*cardsHeight}" maxHeight="${gameBoard.height*cardsHeight}">
+                <StackPane fx:id="lBottomPane" minHeight="${gameBoard.height*cardsHeight}">
                     <StackPane fx:id="playerPane" minWidth="${gameBoard.minWidth * playerPaneWidth}" maxWidth="${gameBoard.minWidth * playerPaneWidth}" minHeight="${lBottomPane.height*playerCardsScale}" maxHeight="${lBottomPane.height*playerCardsScale}">
                         <HBox alignment="CENTER_LEFT" fx:id="playerLHBox" minWidth="${playerPane.minWidth}" maxWidth="${playerPane.maxWidth}" minHeight="${playerPane.height}" maxHeight="${playerPane.height}">
                             <HBox alignment="CENTER" fx:id="playerAvatarHBox" minWidth="${playerLHBox.minWidth*0.2}"  minHeight="${playerLHBox.height}" maxHeight="${playerLHBox.height}"/>

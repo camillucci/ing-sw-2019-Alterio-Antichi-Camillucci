@@ -27,6 +27,9 @@ public class GameBoardSnapshot implements Serializable
      * Integer that represents the map selected by the host. (They range from 1 to 3)
      */
     public final int mapType;
+    /**
+     * The killShotTrack, it contains the drops that identify how many kills each person got
+     */
     private final List<List<String>> killShotTrack = new ArrayList<>();
 
     /**

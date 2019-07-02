@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,6 +35,7 @@ public class PlayerSetController implements Ifxml<StackPane> {
     private int totDamage = 0;
     private MatchSnapshotProvider matchSnapshotProvider;
     private MatchSnapshot old;
+    private static final String PLAYER_PATH = "/player/";
 
     public void initialize()
     {
@@ -134,7 +134,7 @@ public class PlayerSetController implements Ifxml<StackPane> {
     }
 
     private void setBackground(PublicPlayerSnapshot player){
-        String url = "/player/" + color.toLowerCase() + (player.finalFrenzy ? 2 : 1) + ".png";
+        String url = PLAYER_PATH + color.toLowerCase() + player.finalFrenzy  + ".png";
         background.setImage(new Image(getClass().getResourceAsStream(url)));
     }
 
@@ -148,16 +148,16 @@ public class PlayerSetController implements Ifxml<StackPane> {
 
     private String getDropUrl(String color)
     {
-        return "/player/" + color.toLowerCase() + "_drop.png";
+        return PLAYER_PATH + color.toLowerCase() + "_drop.png";
     }
 
     private String getDoubledDropUrl(String color)
     {
-        return "/player/" + color.toLowerCase() + "_drop2.png";
+        return PLAYER_PATH + color.toLowerCase() + "_drop2.png";
     }
 
 
-    void addDamage(String color){
+    private void addDamage(String color){
         ImageView imageView = new ImageView();
         imageView.fitWidthProperty().bind(tears.get(totDamage).widthProperty().multiply(0.7));
         imageView.fitHeightProperty().bind(tears.get(totDamage).heightProperty());
