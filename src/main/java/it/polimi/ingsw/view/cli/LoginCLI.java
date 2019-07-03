@@ -115,7 +115,7 @@ public class LoginCLI extends Login {
 
     @Override
     public void reconnectedMessage(String name) {
-        String message = name + " is back!";
+        String message = "You're back!";
         CLIMessenger.printMessage(message);
     }
 
