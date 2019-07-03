@@ -55,6 +55,17 @@ public class GUIView extends View
             synchronized (lock){
                 this.app = app;
                 this.primaryStage = stage;
+                setupStage();
+                NewLoginGUI loginGUI = null;
+                //todo fix that
+                try {
+                    loginGUI = createLogin(app);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
+                actionHandlerGUI.matchEndedEvent.addEventHandler((a, endGameData) -> onMatchEnded(endGameData));
+                buildView(loginGUI, actionHandlerGUI);
                 this.lock.notifyAll();
             }
         });
@@ -62,11 +73,6 @@ public class GUIView extends View
             (new Thread(App::launchApp)).start();
             lock.wait();
         }
-        setupStage();
-        NewLoginGUI loginGUI = createLogin(app);
-        ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
-        actionHandlerGUI.matchEndedEvent.addEventHandler((a, endGameData) -> onMatchEnded(endGameData));
-        buildView(loginGUI, actionHandlerGUI);
     }
 
     private void onMatchEnded(EndGameController.EndGameData endGameData) {
