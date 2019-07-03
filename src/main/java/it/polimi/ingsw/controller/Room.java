@@ -43,19 +43,40 @@ public class Room
      */
     public final IEvent<Room, String> playerDisconnectedEvent = new Event<>();
 
+    /**
+     * Event other classes can subscribe to. This event is invoked when a player who was previously in the game
+     * reconnects to the server.
+     */
     public final IEvent<Room, String> reconnectedPlayerEvent = new Event<>();
 
+    /**
+     * Event other classes can subscribe to. Thi event is invoked when changes on the model occur, causing the server
+     * to update clients.
+     */
     public final IEvent<Room, ModelEventArgs> modelUpdatedEvent = new Event<>();
 
     /**
-     * todo
+     * Event other classes can subscribe to. Thi event is invoked when the match this class is associated with reaches
+     * an end and a winner is declared.
      */
     public final IEvent<Room, String> winnerEvent = new Event<>();
 
+    /**
+     * Event other classes can subscribe to. Thi event is invoked when the match this class is associated with reaches
+     * an end and the relative scoreboard is calculated
+     */
     public final IEvent<Room, String[][]> scoreEvent = new Event<>();
 
+    /**
+     * Event other classes can subscribe to. Thi event is invoked when the match this class is associated with reaches
+     * an end.
+     */
     public final IEvent<Room, Integer> endMatchEvent = new Event<>();
 
+    /**
+     * Event other classes can subscribe to. Thi event is invoked when the timer relative to a turn reaches 0 before
+     * the player can complete the turn.
+     */
     public final IEvent<Room, String> turnTimeoutEvent = new Event<>();
 
     /**
@@ -63,6 +84,10 @@ public class Room
      */
 
     private static final int LOGIN_TIMEOUT = 2;
+
+    /**
+     * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
+     */
     private static final int TURN_TIMEOUT = 1000000000;
 
     /**
@@ -89,7 +114,16 @@ public class Room
      * List of all players who joined the room and later on disconnected
      */
     private List<String> disconnectedPlayers = new ArrayList<>();
+
+    /**
+     * List of Strings, each of which represents the name of a player who's about to join the ready players list.
+     */
     private List<String> pendingPlayers = new ArrayList<>();
+
+    /**
+     * List of Strings, each of which represents the name of a player who's joined the room and is set to start the
+     * game
+     */
     private List<String> readyPlayers = new ArrayList<>();
 
     /**
@@ -106,6 +140,10 @@ public class Room
      * Match associated with this room
      */
     private Match match;
+
+    /**
+     * Timer created by this class when the amount of ready players in the room is equal to the MIN_PLAYERS amount.
+     */
     private RoomTimer timer;
 
     /**
@@ -118,10 +156,18 @@ public class Room
      */
     private boolean matchStarting = false;
     private boolean matchStarted = false;
-    private final static int MIN_PLAYERS = 2;
+
+    /**
+     * Integer that represents the minimum number of players required for a match to start
+     */
+    private final static int MIN_PLAYERS = 1;
     private ModelEventArgs curModel;
 
 
+    /**
+     * Constructor that initializes the list referring to the available colors players can choose. It also starts the
+     * login timer.
+     */
     public Room() {
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
         newLoginTimer();
@@ -140,9 +186,8 @@ public class Room
     }
 
     /**
-     * Sets the events relative to timeouts and players disconnecting.
+     * Sets up  the events relative to timeouts and players disconnecting.
      */
-
     private void newLoginTimer(){
         timer = new RoomTimer(LOGIN_TIMEOUT, PERIOD);
         timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, LOGIN_TIMEOUT - timeElapsed));
@@ -167,17 +212,27 @@ public class Room
     }
 
 
+    /**
+     * This method is called when the match reaches a status where it is no longer ready to start. It puts the
+     * matchStarting variable equal to false and stops the timer. Also, the timerStop event is invoked.
+     */
     private void stopTimer(){
         matchStarting = false;
         timer.stop();
         ((Event<Room, Integer>)timerStopEvent).invoke(this, LOGIN_TIMEOUT);
     }
 
+    /**
+     * Method called when the turn timer reaches 0
+     */
     private synchronized void onTurnTimeout(){
         if(timer.getElapsed() >= TURN_TIMEOUT-1)
             onTurnTimeout_Sync();
     }
 
+    /**
+     * Method called when the turn timer reaches 0. It resets the timer and skips the turn.
+     */
     private void onTurnTimeout_Sync(){
         ((Event<Room, String>) turnTimeoutEvent).invoke(this, match.getPlayer().name);
         resetTurnTimer();
@@ -230,11 +285,20 @@ public class Room
         timer.reset();
     }
 
+    /**
+     * Creates a new turn timer using default values. It also signs up to the timeout event relative to the newly
+     * created timer.
+     */
     private void createTurnTimer(){
         this.timer = new RoomTimer(TURN_TIMEOUT, PERIOD);
         timer.timeoutEvent.addEventHandler((a,b) -> onTurnTimeout());
     }
 
+    /**
+     * This method is called when a player reconnects to the room. Said player is removed from the disconnected list
+     * and the reconnectedPlayer event is invoked.
+     * @param playerName String that represents the name of the reconnected player
+     */
     public synchronized void reconnect(String playerName){
         disconnectedPlayers.remove(playerName);
         ((Event<Room, String>)reconnectedPlayerEvent).invoke(this, playerName);
@@ -269,6 +333,10 @@ public class Room
         newPlayer(playerName);
     }
 
+    /**
+     * Removes the name of the reconnected player form the disconnectedPlayers list if the match is already started.
+     * @param name String that represents the name of the reconnected player.
+     */
     public synchronized void reconnectedPlayer(String name) {
         if(isTheMatchStarted())
             disconnectedPlayers.remove(name);
@@ -473,6 +541,10 @@ public class Room
         return temp;
     }
 
+    /**
+     * This method is called when the match reaches an end. It calculates both the winner and the scoreboard and then
+     * invokes the 3 events relative to the end of a match.
+     */
     private void onMatchEnd() {
         String[][] scoreBoard = calculateScore();
         String winnerName = declareWinner();
