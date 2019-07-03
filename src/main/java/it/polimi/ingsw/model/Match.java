@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.action.CounterPowerUpAction;
 import it.polimi.ingsw.model.branch.*;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 
@@ -62,11 +63,11 @@ public class Match extends ActionsProvider {
     /**
      * The BranchMap used for the CounterAttackPowerUpCard
      */
-    private BranchMap counterAttackBranchMap;
+    private List<BranchMap> counterAttackBranchMap = new ArrayList<>();
     /**
      * The Player that is using the counterAttackBranchMap
      */
-    private Player counterAttackPlayer;
+    private List<Player> counterAttackPlayer = new ArrayList<>();
     /**
      * The list of Players cloned at the beginning of each move, it's used for the rollback
      */
@@ -82,7 +83,6 @@ public class Match extends ActionsProvider {
     private static final int MAX_DAMAGES = 12;
     private boolean spawning = false;
     private boolean stopSendingActions = false;
-    private Player toSkipPlayer;
 
     /**
      * Given the names and the colors of the Players, chosen through the Client, it creates the GameBoard and all Players
@@ -108,25 +108,11 @@ public class Match extends ActionsProvider {
         for(int i = 0; i < playersName.size(); i++) {
             Player p = new Player(playersName.get(i), playerColors.get(i), gameBoard);
             p.deathEvent.addEventHandler((s,a)->this.deadPlayers.add(s));
-            p.damagedEvent.addEventHandler((damaged, val) -> onPlayerDamaged(damaged));
+            p.damagedEvent.addEventHandler(this::onPlayerDamaged);
             players.add(p);
         }
         gameBoard.setPlayers(players);
         this.deadPlayers = new ArrayList<>(players);
-    }
-
-    /**
-     * This method is called through an event when a Player is damaged,
-     * it creates a new BranchMap that makes the damaged player choose if it wants to activate a CounterAttackPowerUpCard
-     * @param damaged The damaged Player
-     */
-    private void onPlayerDamaged(Player damaged)
-    {
-        if(damaged.getPowerupSet().getCounterAttackPUs().isEmpty())
-            return;
-
-        counterAttackPlayer = damaged;
-        counterAttackBranchMap = BranchMapFactory.counterAttackBranchMap();
     }
 
     /**
@@ -142,6 +128,7 @@ public class Match extends ActionsProvider {
         if(respawn) {
             assignPoints(p);
             p.setSkull(p.getSkull() + 1);
+            p.clearDamage();
             if(finalFrenzy)
                 p.setFinalFrenzy();
         }
@@ -184,14 +171,6 @@ public class Match extends ActionsProvider {
     }
 
     /**
-     * todo run documentation
-     */
-    private void onTimedOutTurn() {
-        //call rollback method
-        onTurnCompleted();
-    }
-
-    /**
      * This method initializes and starts a new Turn
      */
     private void newTurn()
@@ -211,24 +190,40 @@ public class Match extends ActionsProvider {
      */
     private void setNewActions(List<Action> actions)
     {
-        if(counterAttackBranchMap != null)
+        if(!counterAttackBranchMap.isEmpty())
         {
             List<Action> backupActions = actions;
             Player backupPlayer = curPlayer;
-            counterAttackBranchMap.newActionsEvent.addEventHandler((a,actionList) -> setNewActions(actionList));
-            counterAttackBranchMap.endOfBranchMapReachedEvent.addEventHandler((a,b) -> {
+            counterAttackBranchMap.get(0).newActionsEvent.addEventHandler((branchMap, actionList) -> setNewActions(actionList));
+            counterAttackBranchMap.get(0).endOfBranchMapReachedEvent.addEventHandler((a, b) -> {
                 this.curPlayer = backupPlayer;
                 setNewActions(backupActions);
             });
-            actions = counterAttackBranchMap.getPossibleActions();
-            curPlayer = counterAttackPlayer;
-            counterAttackPlayer  = null;
-            counterAttackBranchMap = null;
+            actions = counterAttackBranchMap.get(0).getPossibleActions();
+            curPlayer = counterAttackPlayer.get(0);
+            counterAttackBranchMap.remove(counterAttackBranchMap.get(0));
+            counterAttackPlayer.remove(counterAttackPlayer.get(0));
         }
         actions.forEach(a->a.initialize(curPlayer));
         this.curActions = actions;
         if(!stopSendingActions)
             ((Event<Player, List<Action>>)newActionsEvent).invoke(this.curPlayer, this.curActions);
+    }
+
+    /**
+     * This method is called through an event when a Player is damaged,
+     * it creates a new BranchMap that makes the damaged player choose if it wants to activate a CounterAttackPowerUpCard
+     * @param damaged The damaged Player
+     */
+    private void onPlayerDamaged(Player damaged, Player shooter)
+    {
+        if(!damaged.getPowerupSet().getCounterAttackPUs().isEmpty()) {
+            counterAttackPlayer.add(damaged);
+            BranchMap branchMap = BranchMapFactory.counterAttackBranchMap();
+            CounterPowerUpAction counterPowerUpAction = (CounterPowerUpAction)branchMap.getPossibleActions().get(0);
+            counterPowerUpAction.setTargets(Collections.singletonList(shooter));
+            counterAttackBranchMap.add(branchMap);
+        }
     }
 
     /**
@@ -349,18 +344,6 @@ public class Match extends ActionsProvider {
         return frenzyStarter;
     }
 
-    public String getCurPlayer() {
-        return curPlayer.getName();
-    }
-
-    /**
-     * This method returns the index of the Player playing the current Turn
-     * @return
-     */
-    public int getPlayerIndex() {
-        return players.indexOf(curPlayer);
-    }
-
     /**
      * This method starts the game after it is created
      */
@@ -392,7 +375,6 @@ public class Match extends ActionsProvider {
 
     public void skipTurn() {
         stopSendingActions = true;
-        toSkipPlayer = getPlayer();
         if(spawning)
         {
             do

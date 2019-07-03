@@ -83,7 +83,7 @@ public class Room
      * Integer representing the timeout value
      */
 
-    private static final int LOGIN_TIMEOUT = 2;
+    private static final int LOGIN_TIMEOUT = 30;
 
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
@@ -160,8 +160,9 @@ public class Room
     /**
      * Integer that represents the minimum number of players required for a match to start
      */
-    private final static int MIN_PLAYERS = 1;
+
     private ModelEventArgs curModel;
+    private static final int MIN_PLAYERS = 3;
 
 
     /**
@@ -227,13 +228,13 @@ public class Room
      */
     private synchronized void onTurnTimeout(){
         if(timer.getElapsed() >= TURN_TIMEOUT-1)
-            onTurnTimeout_Sync();
+            onTurnTimeoutSync();
     }
 
     /**
      * Method called when the turn timer reaches 0. It resets the timer and skips the turn.
      */
-    private void onTurnTimeout_Sync(){
+    private void onTurnTimeoutSync(){
         ((Event<Room, String>) turnTimeoutEvent).invoke(this, match.getPlayer().name);
         resetTurnTimer();
         match.skipTurn();
@@ -250,7 +251,7 @@ public class Room
             else
                 resetTurnTimer();
         else
-            onTurnTimeout_Sync();
+            onTurnTimeoutSync();
     }
 
     public boolean getTurnTimeout(){
@@ -266,14 +267,14 @@ public class Room
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         match.newActionsEvent.addEventHandler(this::onNewActions);
         match.start();
-        match.endMatchEvent.addEventHandler((match, players) -> onMatchEnd());
+        match.endMatchEvent.addEventHandler((curMatch, players) -> onMatchEnd());
         createTurnTimer();
     }
 
     private void onNewActions(Player player, List<Action> actions)
     {
         if(disconnectedPlayers.contains(match.getPlayer().name)) {
-            onTurnTimeout_Sync();
+            onTurnTimeoutSync();
             return;
         }
         resetTurnTimer();
@@ -303,11 +304,6 @@ public class Room
         disconnectedPlayers.remove(playerName);
         ((Event<Room, String>)reconnectedPlayerEvent).invoke(this, playerName);
     }
-
-    public synchronized void onPlayerTimeout(){
-
-    }
-
 
     /**
      * Adds the player to the pendingPlayers list and removes their color from the availableColors list, while adding
@@ -424,7 +420,7 @@ public class Room
             if(playerNames.size() - disconnectedPlayers.size() < MIN_PLAYERS)
                 onMatchEnd();
             else if(match.getPlayer().name.equals(name))
-                onTurnTimeout_Sync();
+                onTurnTimeoutSync();
         }
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
 
@@ -554,7 +550,6 @@ public class Room
     }
 
     public ModelEventArgs getCurModel(String name) {
-        Player player;
         for(Player p : match.getPlayers())
             if(p.name.equals(name))
                 return new ModelEventArgs(new MatchSnapshot(match, p), p.name, new RemoteActionsHandler(match.getPlayer(), match.getActions()));
