@@ -32,6 +32,7 @@ public class Avatar extends ImageView
         {
             rotateTransition.stop();
             this.setRotate(0);
+            Animations.appearAnimation(this);
             rotateTransition = null;
         }
     }

@@ -39,7 +39,7 @@ public class GUIView extends View
             primaryStage.setWidth(1000);
             primaryStage.setHeight(700);
             primaryStage.setFullScreenExitHint("");
-            //primaryStage.setFullScreen(true);
+            primaryStage.setFullScreen(true);
 
             primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             primaryStage.setOnCloseRequest(e ->
@@ -65,12 +65,12 @@ public class GUIView extends View
         setupStage();
         NewLoginGUI loginGUI = createLogin(app);
         ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
-        actionHandlerGUI.matchEndedEvent.addEventHandler((a, scoreboard) -> onMatchEnded(scoreboard));
+        actionHandlerGUI.matchEndedEvent.addEventHandler((a, endGameData) -> onMatchEnded(endGameData));
         buildView(loginGUI, actionHandlerGUI);
     }
 
-    private void onMatchEnded(String[][] scoreboard) {
-        EndGameController endGameController = EndGameController.getController(scoreboard);
+    private void onMatchEnded(EndGameController.EndGameData endGameData) {
+        EndGameController endGameController = EndGameController.getController(endGameData);
         this.rootScene.setRoot(endGameController.getRoot());
     }
 
