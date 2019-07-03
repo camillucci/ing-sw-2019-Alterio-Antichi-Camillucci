@@ -118,6 +118,7 @@ public class TargetsFilters {
         List<Player> allPlayers = new ArrayList<>();
         for(Square square : player.gameBoard.getSquares())
             allPlayers.addAll(square.getPlayers());
+        allPlayers.remove(player);
         LinkedHashSet<Player> temp = new LinkedHashSet<>();
         for(Player p : allPlayers)
             for(Square s : p.gameBoard.getSquares(p, 2))
