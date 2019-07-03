@@ -103,7 +103,7 @@ public class LoginCLI extends Login {
 
     @Override
     public void timerStartedMessage(int time) {
-        String message = "Countdown is started:\n " + time + " seconds left";
+        String message = "Countdown is started:\n " + time + "seconds left";
         CLIMessenger.printMessage(message);
     }
 

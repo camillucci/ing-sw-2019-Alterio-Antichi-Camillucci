@@ -246,10 +246,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
 
     @Override
     public void ready() {
-        joinedRoom.notifyPlayerReady(name);
         setupRoomEvents();
         for(String name : joinedRoom.getPlayerNames())
             notifyPlayer(name);
+        joinedRoom.notifyPlayerReady(name);
     }
 
     protected abstract void sendCommand(Command<View> command) throws IOException;
@@ -288,7 +288,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     /**
-     * Checks whether a room has been joined already. If it is, the method unsubscribes from every event that this
+     * Checks whether a room has been joined already. If it is, this method unsubscribes from every event that this
      * class was subscribed to via the setupRoomEvents method. Also, if the match has already started, this method
      * unsubscribes the class from the modelUpdate event.
      */
@@ -308,12 +308,11 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     /**
-     * Subscribes to all the events the user is interested in
+     * Subscribes to all the events the server is interested in
      */
     private void setupRoomEvents()
     {
         joinedRoom.reconnectedPlayerEvent.addEventHandler(reconnectedEventHandler);
-        joinedRoom.endMatchEvent.addEventHandler(onEndMatchEvent);
         joinedRoom.winnerEvent.addEventHandler(winnerEventHandler);
         joinedRoom.scoreEvent.addEventHandler(scoreEventHandler);
         joinedRoom.timerStartEvent.addEventHandler(timerStartEventHandler);
@@ -321,8 +320,9 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.timerStopEvent.addEventHandler(timerStopEventHandler);
         joinedRoom.newPlayerEvent.addEventHandler(newPlayerEventHandler);
         joinedRoom.playerDisconnectedEvent.addEventHandler(playerDisconnectedEventHandler);
-        joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
         joinedRoom.turnTimeoutEvent.addEventHandler(turnTimeoutEventHandler);
+        joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
+        joinedRoom.endMatchEvent.addEventHandler(onEndMatchEvent);
     }
 
     /**
