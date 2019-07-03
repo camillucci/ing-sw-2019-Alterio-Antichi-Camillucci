@@ -415,6 +415,48 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         //TODO Maybe nothing
     }
 
+    @Override
+    public void disconnectedPlayerMessage(String name) {
+        //todo
+        return;
+    }
+
+    @Override
+    public void newPlayerMessage(String name) {
+        //todo
+        return;
+    }
+
+    @Override
+    public void timerStartedMessage(int time) {
+        //todo
+        return;
+    }
+
+    @Override
+    public void timerTickMessage(int time) {
+        //todo
+        return;
+    }
+
+    @Override
+    public void reconnectedMessage() {
+        //todo
+        return;
+    }
+
+    @Override
+    public void winnerMessage(String winner) {
+        //todo
+        return;
+    }
+
+    @Override
+    public void scoreboardMessage(String[][] scoreboard) {
+        //todo
+        return;
+    }
+
     private ImageView newButton(Visualizable visualizable, Runnable action)
     {
         if(visualizable.icon != null)

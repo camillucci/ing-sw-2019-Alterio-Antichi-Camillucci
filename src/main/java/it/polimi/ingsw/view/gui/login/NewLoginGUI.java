@@ -205,6 +205,46 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     }
 
     @Override
+    public void disconnectedPlayerMessage(String name) {
+        Platform.runLater(() -> roomJoinController.playerLeft(name));
+    }
+
+    @Override
+    public void newPlayerMessage(String name) {
+        Platform.runLater(() -> roomJoinController.newPlayerJoined(name));
+    }
+
+    @Override
+    public void timerStartedMessage(int time) {
+        //todo
+        return;
+    }
+
+    @Override
+    public void timerTickMessage(int time) {
+        //todo
+        return;
+    }
+
+    @Override
+    public void reconnectedMessage() {
+        //todo
+        return;
+    }
+
+    @Override
+    public void winnerMessage(String winner) {
+        //todo
+        return;
+    }
+
+    @Override
+    public void scoreboardMessage(String[][] scoreboard) {
+        //todo
+        return;
+    }
+
+    @Override
     public void onNewMessage(String message) {
         Platform.runLater(() -> parseMessage(message));
     }

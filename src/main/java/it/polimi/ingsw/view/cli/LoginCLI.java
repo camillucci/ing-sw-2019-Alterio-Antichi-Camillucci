@@ -89,4 +89,51 @@ public class LoginCLI extends Login {
         CLIMessenger.printMessage(message);
     }
 
+    @Override
+    public void disconnectedPlayerMessage(String name) {
+        String message = name + " left the room";
+        CLIMessenger.printMessage(message);
+    }
+
+    @Override
+    public void newPlayerMessage(String name) {
+        String message = name + " joined the room";
+        CLIMessenger.printMessage(message);
+    }
+
+    @Override
+    public void timerStartedMessage(int time) {
+        String message = "Countdown is started: " + time + " seconds left";
+        CLIMessenger.printMessage(message);
+    }
+
+    @Override
+    public void timerTickMessage(int time) {
+        String message = time + " seconds left";
+        CLIMessenger.printMessage(message);
+    }
+
+    @Override
+    public void reconnectedMessage() {
+        String message = "You're back!";
+        CLIMessenger.printMessage(message);
+    }
+
+    @Override
+    public void winnerMessage(String winner) {
+        String message = "Congratulations to " + winner + " for the win!";
+        CLIMessenger.printMessage(message);
+    }
+
+    @Override
+    public void scoreboardMessage(String[][] scoreboard) {
+        String message = "";
+        int j;
+        for(int i = 0; i < scoreboard.length; i++) {
+            j = i + 1;
+            message = message.concat(scoreboard[i][0] + " finished " + j + " with a total score of " + scoreboard[i][1] + "\n");
+        }
+        CLIMessenger.printMessage(message);
+    }
+
 }
