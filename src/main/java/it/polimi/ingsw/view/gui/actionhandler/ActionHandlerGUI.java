@@ -238,30 +238,33 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         Avatar avatar = new Avatar(color);
         avatars.add(avatar);
         avatar.getStyleClass().add("button");
+        gameBoard.getChildren().add(playerSet.getRoot());
+        gameBoard.getChildren().add(cardsController.getRoot());
+        playerSet.getRoot().setVisible(false);
+        cardsController.getRoot().setVisible(false);
         avatar.setOnMouseEntered(e ->
         {
-            Pane box;
-            if(!gameBoard.getChildren().contains(playerSet.getRoot())) {
-                box = playerSet.getRoot();
-                onAvatarMouseOver(e, box, avatar);
-            }
+            onAvatarMouseOver(e, playerSet.getRoot(), avatar);
         });
+
         avatar.setOnMouseExited(e ->
         {
-            gameBoard.getChildren().remove(playerSet.getRoot());
-            gameBoard.getChildren().remove(cardsController.getRoot());
+            playerSet.getRoot().setVisible(false);
+            cardsController.getRoot().setVisible(false);
         });
 
         avatar.setOnMouseClicked(e -> {
-            if(gameBoard.getChildren().remove(playerSet.getRoot()))
+            if(playerSet.getRoot().isVisible())
+            {
+                playerSet.getRoot().setVisible(false);
                 onAvatarMouseOver(e, cardsController.getRoot(), avatar);
+            }
             else {
-                gameBoard.getChildren().remove(cardsController.getRoot());
+                cardsController.getRoot().setVisible(false);
                 onAvatarMouseOver(e, playerSet.getRoot(), avatar);
             }
             //todo
         });
-
         insert(avatar, ret, 1);
         insert(ammoBoxController.getRoot(), ret, 1);
         return ret;
@@ -269,10 +272,9 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void onAvatarMouseOver(MouseEvent e, Pane box, ImageView avatar)
     {
-        box.setDisable(true);
-        gameBoard.getChildren().add(box);
+        box.setVisible(true);
         double w = box.getMinWidth();
-        box.setLayoutX(e.getSceneX() - e.getX() - 1.10*w);
+        box.setLayoutX(e.getSceneX() + e.getX() + 0.05*w);
         box.setLayoutY(e.getSceneY() - e.getY() - avatar.getFitHeight()/2);
     }
 

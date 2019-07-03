@@ -31,6 +31,12 @@
         <HBox fx:id="mainHBox" alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
             <VBox alignment="CENTER">
                 <HBox fx:id="upperHBox" alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
+                    <VBox alignment="CENTER" fx:id="avatarsVBox" minHeight="${lVbox.minHeight}" maxHeight="${lVbox.minHeight}" spacing="${gameBoard.height*spacingFactor}"/>
+
+                    <StackPane fx:id="mapOutPane"  minHeight="${ gameBoard.height*mapHeight }" maxHeight="${gameBoard.height*mapHeight}" maxWidth="${leftVBox.width}">
+                        <StackPane fx:id="mapPane" minHeight="${mapOutPane.height }" maxHeight="${mapOutPane.height}"/>
+                    </StackPane>
+
                     <StackPane fx:id="lVbox" minHeight="${gameBoard.minHeight*vShopScale}" maxHeight="${gameBoard.maxHeight*vShopScale}" minWidth="${lVbox.minHeight/3*240/406}" maxWidth="${lVbox.minHeight/3*240/406}">
                         <VBox fx:id="shopsVBox" alignment="CENTER" spacing="${lVbox.height*spacingFactor}" minHeight="${lVbox.minHeight*shopMargin}" maxHeight="${lVbox.minHeight*shopMargin}" minWidth="${lVbox.minWidth*shopMargin}" maxWidth="${lVbox.minWidth*shopMargin}">
                             <ImageView fx:id="redShop" styleClass="button" preserveRatio="true" fitHeight="${shopsVBox.minHeight/3}">
@@ -44,10 +50,6 @@
                             </ImageView>
                         </VBox>
                     </StackPane>
-                        <StackPane fx:id="mapOutPane"  minHeight="${ gameBoard.height*mapHeight }" maxHeight="${gameBoard.height*mapHeight}" maxWidth="${leftVBox.width}">
-                            <StackPane fx:id="mapPane" minHeight="${mapOutPane.height }" maxHeight="${mapOutPane.height}"/>
-                        </StackPane>
-                    <VBox alignment="CENTER" fx:id="avatarsVBox" minHeight="${lVbox.minHeight}" maxHeight="${lVbox.minHeight}" spacing="${gameBoard.height*spacingFactor}"/>
                 </HBox>
                 <StackPane fx:id="lBottomPane" minHeight="${gameBoard.height*cardsHeight}">
                     <StackPane fx:id="playerPane" minWidth="${gameBoard.minWidth * playerPaneWidth}" maxWidth="${gameBoard.minWidth * playerPaneWidth}" minHeight="${lBottomPane.height*playerCardsScale}" maxHeight="${lBottomPane.height*playerCardsScale}">

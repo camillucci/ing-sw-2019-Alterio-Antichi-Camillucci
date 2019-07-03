@@ -27,7 +27,7 @@ public class Cache {
     }
 
     private static Image loadImage(String path){
-        InputStream stream = PlayerCardsController.class.getResourceAsStream(path);
+        InputStream stream = Cache.class.getResourceAsStream(path);
         Image image = new Image(stream);
         stringImages.put(path, image);
         imagesString.put(image, path);
