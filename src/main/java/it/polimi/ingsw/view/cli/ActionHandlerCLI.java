@@ -40,6 +40,7 @@ public class ActionHandlerCLI extends ActionHandler {
         onActionDataUpdated();
     }
 
+
     protected void onActionDataUpdated() throws IOException
     {
         RemoteAction.Data data = action.getData();

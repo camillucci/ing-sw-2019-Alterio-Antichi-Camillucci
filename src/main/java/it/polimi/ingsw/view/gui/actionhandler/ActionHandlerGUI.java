@@ -74,7 +74,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private List<String> disconnectedPlayers = new ArrayList<>();
 
     public void initialize() {
-
         (redShopController = ShopController.getController(this, "red")).getRoot().setVisible(false);
         (blueShopController = ShopController.getController(this, "blue")).getRoot().setVisible(false);
         (yellowShopController = ShopController.getController(this, "yellow")).getRoot().setVisible(false);
@@ -440,8 +439,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void disconnectedPlayerMessage(String name) {
-        Avatar avatar = getAvatar(name);
-        avatar.disconnected();
+        getAvatar(name).disconnected();
     }
 
     @Override
@@ -461,8 +459,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void reconnectedMessage(String name) {
-        //todo add reconnected animation
-        return;
+        getAvatar(name).reconnected();
     }
 
     @Override
@@ -473,8 +470,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void scoreboardMessage(String[][] scoreboard) {
-        //todo add scoreboard animation
-        return;
+        ((Event<ActionHandler, String[][]>)matchEndedEvent).invoke(this, scoreboard);
     }
 
     private ImageView newButton(Visualizable visualizable, Runnable action)
