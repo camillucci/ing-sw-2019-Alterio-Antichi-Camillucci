@@ -103,7 +103,7 @@ public class LoginCLI extends Login {
 
     @Override
     public void timerStartedMessage(int time) {
-        String message = "Countdown is started: " + time + " seconds left";
+        String message = "Countdown is started:\n " + time + " seconds left";
         CLIMessenger.printMessage(message);
     }
 
@@ -114,8 +114,8 @@ public class LoginCLI extends Login {
     }
 
     @Override
-    public void reconnectedMessage() {
-        String message = "You're back!";
+    public void reconnectedMessage(String name) {
+        String message = name + " is back!";
         CLIMessenger.printMessage(message);
     }
 
