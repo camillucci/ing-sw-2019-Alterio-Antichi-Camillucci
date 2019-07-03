@@ -89,41 +89,71 @@ public class LoginCLI extends Login {
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Creates and prints the message relative to a player disconnecting
+     * @param name Name of  the disconnected player
+     */
     @Override
     public void disconnectedPlayerMessage(String name) {
         String message = name + " left the room";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Creates and prints the message relative to a new player connecting to the room
+     * @param name Name of the newly connected player
+     */
     @Override
     public void newPlayerMessage(String name) {
         String message = name + " joined the room";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Creates and prints the message relative to the login timer starting. Communicates the amount of time left to the
+     * user as well
+     * @param time Time left before the match starts
+     */
     @Override
     public void timerStartedMessage(int time) {
         String message = "Countdown is started:\n " + time + "seconds left";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Creates and prints the message relative to the amount of time left before the match starts (according to the
+     * timer)
+     * @param time Amount of time left before the match starts
+     */
     @Override
     public void timerTickMessage(int time) {
         String message = time + " seconds left";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Creates and prints the message relative to when the client reconnects to the room
+     * @param name Name of the reconnected player
+     */
     @Override
     public void reconnectedMessage(String name) {
         String message = "You're back!";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * This method is never invoked in this class
+     * @param winner
+     */
     @Override
     public void winnerMessage(String winner) {
         return;
     }
 
+    /**
+     * This method is never invoked in this class
+     * @param scoreboard
+     */
     @Override
     public void scoreboardMessage(String[][] scoreboard) {
         return;

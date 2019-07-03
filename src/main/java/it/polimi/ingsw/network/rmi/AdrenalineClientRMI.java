@@ -38,6 +38,12 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
         }
     }));
 
+    /**
+     * Constructor that assigns the two input variables to their global correspondences
+     * @param serverName String that represents the name of the server
+     * @param serverPort Integer that represents the port of the server
+     * @param view Reference to the view
+     */
     public AdrenalineClientRMI(String serverName, int serverPort, View view) {
         super(view);
         this.serverName = serverName;

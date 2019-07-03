@@ -30,6 +30,11 @@ public class ActionHandlerCLI extends ActionHandler {
         notifyChoice(action.askActionData());
     }
 
+    /**
+     * Updates the remote action with the choices of the user. If a state without legal continuation is entered, a
+     * rollback is automatically called.
+     * @param data Choices of the user regarding the action previously selected
+     */
     @Override
     public void updateActionData(RemoteAction.Data data) throws IOException {
         action.updateData(data);
@@ -87,45 +92,67 @@ public class ActionHandlerCLI extends ActionHandler {
     }
 
     /**
-     * Method called when a new match snapshot reaches the client, causing the view to be updated accordingly.
-     * @param matchSnapshot New match snapshot containing all the info relative to what is going to be displayed to
-     *                      the user.
+     * Creates and prints the message relative to a player disconnecting
+     * @param name Name of  the disconnected player
      */
-
     @Override
     public void disconnectedPlayerMessage(String name) {
         String message = name + " left the room";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * This method is never invoked in this class
+     * @param name
+     */
     @Override
     public void newPlayerMessage(String name) {
         return;
     }
 
+    /**
+     * This method is never invoked in this class
+     * @param time
+     */
     @Override
     public void timerStartedMessage(int time) {
         return;
     }
 
+    /**
+     * Creates and prints the message relative to the time left before the start of the match
+     * @param time Integer that represents the amount of time left before the start
+     */
     @Override
     public void timerTickMessage(int time) {
         String message = time + " seconds left";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Creates and prints the message relative to when a player reconnects.
+     * @param name Name of the reconnected player
+     */
     @Override
     public void reconnectedMessage(String name) {
         String message = name + " is back";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Creates and then prints the last message after the match ends. Contains the name of the winning player
+     * @param winner String that represents the name of the winner
+     */
     @Override
     public void winnerMessage(String winner) {
         String message = "Congratulations to " + winner + " for the win!";
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Creates and then prints a message representing the scoreboard
+     * @param scoreboard String matrix that represents the scoreboard
+     */
     @Override
     public void scoreboardMessage(String[][] scoreboard) {
         String message = "";
@@ -137,6 +164,11 @@ public class ActionHandlerCLI extends ActionHandler {
         CLIMessenger.printMessage(message);
     }
 
+    /**
+     * Updates the model based on the received matchsnapshot
+     * @param matchSnapshot Snapshot of the match containing all the info needed to represent the game state to the
+     *                      client
+     */
     @Override
     public void onModelChanged(MatchSnapshot matchSnapshot) {
         CLIMessenger.updateView(matchSnapshot);
