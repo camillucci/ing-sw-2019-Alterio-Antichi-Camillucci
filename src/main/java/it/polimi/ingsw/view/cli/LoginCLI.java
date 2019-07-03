@@ -121,19 +121,12 @@ public class LoginCLI extends Login {
 
     @Override
     public void winnerMessage(String winner) {
-        String message = "Congratulations to " + winner + " for the win!";
-        CLIMessenger.printMessage(message);
+        return;
     }
 
     @Override
     public void scoreboardMessage(String[][] scoreboard) {
-        String message = "";
-        int j;
-        for(int i = 0; i < scoreboard.length; i++) {
-            j = i + 1;
-            message = message.concat(scoreboard[i][0] + " finished " + j + " with a total score of " + scoreboard[i][1] + "\n");
-        }
-        CLIMessenger.printMessage(message);
+        return;
     }
 
 }

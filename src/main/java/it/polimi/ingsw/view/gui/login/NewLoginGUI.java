@@ -216,31 +216,28 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
 
     @Override
     public void timerStartedMessage(int time) {
-        //todo
-        return;
+        String message = "Countdown is started: " + time + " seconds left";
+        robotSpeak(message);
     }
 
     @Override
     public void timerTickMessage(int time) {
-        //todo
-        return;
+        String message = time + " seconds left";
+        robotSpeak(message);
     }
 
     @Override
     public void reconnectedMessage() {
-        //todo
         return;
     }
 
     @Override
     public void winnerMessage(String winner) {
-        //todo
         return;
     }
 
     @Override
     public void scoreboardMessage(String[][] scoreboard) {
-        //todo
         return;
     }
 

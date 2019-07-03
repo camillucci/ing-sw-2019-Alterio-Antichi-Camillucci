@@ -58,7 +58,7 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    private static final int LOGIN_TIMEOUT = 1;
+    private static final int LOGIN_TIMEOUT = 15;
     private static final int TURN_TIMEOUT = 1000000000;
 
     /**

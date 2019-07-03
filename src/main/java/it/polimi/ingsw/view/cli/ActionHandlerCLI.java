@@ -99,14 +99,12 @@ public class ActionHandlerCLI extends ActionHandler {
 
     @Override
     public void newPlayerMessage(String name) {
-        String message = name + " joined the room";
-        CLIMessenger.printMessage(message);
+        return;
     }
 
     @Override
     public void timerStartedMessage(int time) {
-        String message = "Countdown is started: " + time + " seconds left";
-        CLIMessenger.printMessage(message);
+        return;
     }
 
     @Override
