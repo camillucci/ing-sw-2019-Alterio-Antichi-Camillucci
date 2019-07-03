@@ -6,11 +6,39 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
 <Pane fx:id="rootPane" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.gui.endGame.EndGameController"
-            prefHeight="400.0" prefWidth="600.0">
-    <VBox minHeight="${rootPane.height}" minWidth="${rootPane.width}" alignment="CENTER" fx:id="mainVBox" spacing="${rootPane.height*0.1}">
-        <Label text="WINNER" styleClass="winnerLabel"/>
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.polimi.ingsw.view.gui.endGame.EndGameController"
+      prefHeight="400.0" prefWidth="600.0">
+    <fx:define>
+        <Double fx:id="spacing" fx:value="35"/>
+    </fx:define>
+    <VBox minHeight="${rootPane.height}" minWidth="${rootPane.width}" alignment="CENTER" fx:id="mainVBox" spacing="${rootPane.height*0.05}">
+        <HBox alignment="CENTER" spacing="${spacing}">
+            <Label fx:id="firstPos" styleClass="winnerLabel"/>
+            <Label fx:id="firstScore" styleClass="winnerLabel"/>
+            <ImageView fx:id="firstPlayer" preserveRatio="true"/>
+        </HBox>
+        <HBox alignment="CENTER" spacing="${spacing}">
+            <ImageView fx:id="secondPlayer" preserveRatio="true"/>
+            <Label fx:id="secondScore" styleClass="winnerLabel"/>
+            <Label fx:id="secondPos" styleClass="winnerLabel"/>
+        </HBox>
+        <HBox alignment="CENTER" spacing="${spacing}">
+            <ImageView fx:id="thirdPlayer" preserveRatio="true"/>
+            <Label fx:id="thirdScore" styleClass="winnerLabel"/>
+            <Label fx:id="thirdPos" styleClass="winnerLabel"/>
+        </HBox>
+        <HBox alignment="CENTER" spacing="${spacing}">
+            <ImageView  fx:id="fourthPlayer" preserveRatio="true"/>
+            <Label fx:id="fourthScore" styleClass="winnerLabel"/>
+            <Label fx:id="fourthPos" styleClass="winnerLabel"/>
+        </HBox>
+        <HBox alignment="CENTER" spacing="${spacing}">
+            <ImageView  fx:id="fifthPlayer" preserveRatio="true"/>
+            <Label fx:id="fifthScore" styleClass="winnerLabel"/>
+            <Label fx:id="fifthPos" styleClass="winnerLabel"/>
+        </HBox>
     </VBox>
 </Pane>

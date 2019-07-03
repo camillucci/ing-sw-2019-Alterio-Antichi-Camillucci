@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
 import it.polimi.ingsw.view.ActionHandler;
 import it.polimi.ingsw.view.gui.*;
+import it.polimi.ingsw.view.gui.endGame.EndGameController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -470,7 +471,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void scoreboardMessage(String[][] scoreboard) {
-        ((Event<ActionHandler, String[][]>)matchEndedEvent).invoke(this, scoreboard);
+        ((Event<ActionHandler, EndGameController.EndGameData>)matchEndedEvent).invoke(this, new EndGameController.EndGameData(scoreboard, curSnapshot));
     }
 
     private ImageView newButton(Visualizable visualizable, Runnable action)

@@ -5,6 +5,7 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
+import it.polimi.ingsw.view.gui.endGame.EndGameController;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +23,7 @@ public abstract class ActionHandler extends ViewElement
      * new command is chosen
      */
     public final IEvent<ActionHandler, Command<RemoteActionsHandler>> newCommand = new Event<>();
-    public final IEvent<ActionHandler, String[][]> matchEndedEvent = new Event<>();
+    public final IEvent<ActionHandler, EndGameController.EndGameData> matchEndedEvent = new Event<>();
 
     /**
      * Event other classes can subscribe to. It is used to notify the subscribed classes of when the chosen action is
