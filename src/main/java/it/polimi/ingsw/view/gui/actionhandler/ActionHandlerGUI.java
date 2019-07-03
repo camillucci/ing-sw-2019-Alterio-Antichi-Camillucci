@@ -53,6 +53,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private List<PlayerSetController> playerSets = new ArrayList<>();
     private List<PlayerCardsController> curCardsController = new ArrayList<>();
     private List<AmmoBoxController> ammoBoxControllers = new ArrayList<>();
+    private List<Avatar> avatars = new ArrayList<>();
     private PlayerSetController curPlayerSet;
     private PlayerCardsController playerCardsController;
     private AmmoBoxController playerAmmoBoxController;
@@ -200,14 +201,22 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         region.getChildren().add(toInsert);
     }
 
-    private HBox curPlayerAvatar(String color, AmmoBoxController ammoBoxController)
+
+    private HBox createAvatarHBox()
     {
         final double SPACING_FACTOR = 0.1;
         HBox ret = new HBox();
         ret.setAlignment(Pos.CENTER);
         ret.spacingProperty().bind(ret.minHeightProperty().multiply(SPACING_FACTOR));
+        return ret;
+    }
 
-        ImageView avatar = new Avatar(color);
+
+    private HBox curPlayerAvatar(String color, AmmoBoxController ammoBoxController)
+    {
+        HBox ret = createAvatarHBox();
+        Avatar avatar = new Avatar(color);
+        avatars.add(avatar);
         avatar.getStyleClass().add("button");
 
         avatar.setOnMouseClicked(e -> {
@@ -225,11 +234,9 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private HBox newAvatarHBox(String color, PlayerSetController playerSet, PlayerCardsController cardsController, AmmoBoxController ammoBoxController)
     {
-        final double SPACING_FACTOR = 0.1;
-        HBox ret = new HBox();
-        ret.setAlignment(Pos.CENTER);
-        ret.spacingProperty().bind(ret.minHeightProperty().multiply(SPACING_FACTOR));
+        HBox ret = createAvatarHBox();
         Avatar avatar = new Avatar(color);
+        avatars.add(avatar);
         avatar.getStyleClass().add("button");
         avatar.setOnMouseEntered(e ->
         {
@@ -409,16 +416,32 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         });
     }
 
+    private String nameToColor(MatchSnapshot snapshot, String name)
+    {
+        for(PublicPlayerSnapshot p : snapshot.getPublicPlayerSnapshot())
+            if(p.name.equals(name))
+                return p.color;
+        return snapshot.privatePlayerSnapshot.color;
+    }
+
 
     @Override
     public void onNewMessage(String message) {
         //TODO Maybe nothing
     }
 
+    private Avatar getAvatar(String name){
+        String color = nameToColor(curSnapshot, name);
+        for(Avatar avatar : avatars)
+            if(avatar.getColor().equals(color))
+                return avatar;
+        throw new RuntimeException("Avatar does not exist");
+    }
+
     @Override
     public void disconnectedPlayerMessage(String name) {
-        //todo add looping animation
-        return;
+        Avatar avatar = getAvatar(name);
+        avatar.disconnected();
     }
 
     @Override

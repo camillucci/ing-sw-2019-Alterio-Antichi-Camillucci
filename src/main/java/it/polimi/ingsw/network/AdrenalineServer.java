@@ -237,7 +237,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private synchronized void notifyPlayer(String name){
         if(otherPlayers.contains(name))
             return;
-        if(this.name != name)
+        if(!this.name.equals(name))
             otherPlayers.add(name);
         bottleneck.tryDo(() -> newPlayerMessage(name));
     }
@@ -283,7 +283,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     protected void reconnectedMessage () throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().reconnectedMessage()));
+        sendCommand(new Command<>(v -> v.getActionHandler().reconnectedMessage()));
     }
 
     /**

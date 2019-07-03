@@ -35,8 +35,8 @@ public class GUIView extends View
     private void setupStage(){
         Platform.runLater(() -> {
             primaryStage.setTitle("Welcome Adrenaline!");
-            primaryStage.setWidth(500);
-            primaryStage.setHeight(500);
+            primaryStage.setWidth(1000);
+            primaryStage.setHeight(700);
             primaryStage.setFullScreenExitHint("");
             //primaryStage.setFullScreen(true);
 

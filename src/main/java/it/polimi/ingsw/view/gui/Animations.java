@@ -50,6 +50,15 @@ public class Animations
         zoomTransition.play();
     }
 
+    public static RotateTransition rotatingAnimation(Node node)
+    {
+        RotateTransition rt = new RotateTransition(Duration.millis(1500), node);
+        rt.setByAngle(600);
+        rt.setCycleCount(Animation.INDEFINITE);
+        rt.setAutoReverse(true);
+        return rt;
+    }
+
     public static void disappearAnimation(Node node, Runnable onFinish)
     {
         /*

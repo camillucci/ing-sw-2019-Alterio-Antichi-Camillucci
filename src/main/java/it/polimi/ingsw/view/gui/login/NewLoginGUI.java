@@ -227,11 +227,6 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     }
 
     @Override
-    public void reconnectedMessage() {
-        return;
-    }
-
-    @Override
     public void winnerMessage(String winner) {
         return;
     }
