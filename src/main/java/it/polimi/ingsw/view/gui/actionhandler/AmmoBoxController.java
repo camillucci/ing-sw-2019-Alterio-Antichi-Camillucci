@@ -63,7 +63,7 @@ public class AmmoBoxController implements Ifxml<VBox>
             return;
         for(String color : data.getDiscardableAmmos())
             for(AmmoImageView ammo : ammos)
-                if(ammo.getColor().equals(color))
+                if(ammo.getColor().equalsIgnoreCase(color))
                 {
                     ammo.getStyleClass().add("button");
                     ammo.setOnMouseClicked(e -> disableAnd(() -> invoke(addDiscardedAmmoEvent, color)));
