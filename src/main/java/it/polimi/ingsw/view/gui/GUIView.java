@@ -5,6 +5,7 @@ import it.polimi.ingsw.view.ActionHandler;
 import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI;
+import it.polimi.ingsw.view.gui.endGame.EndGameController;
 import it.polimi.ingsw.view.gui.login.NewLoginGUI;
 import it.polimi.ingsw.view.gui.login.NicknameController;
 import javafx.application.Platform;
@@ -64,7 +65,13 @@ public class GUIView extends View
         setupStage();
         NewLoginGUI loginGUI = createLogin(app);
         ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
+        actionHandlerGUI.matchEndedEvent.addEventHandler((a, scoreboard) -> onMatchEnded(scoreboard));
         buildView(loginGUI, actionHandlerGUI);
+    }
+
+    private void onMatchEnded(String[][] scoreboard) {
+        EndGameController endGameController = EndGameController.getController(scoreboard);
+        this.rootScene.setRoot(endGameController.getRoot());
     }
 
     private ActionHandlerGUI createActionHandler(Login login)

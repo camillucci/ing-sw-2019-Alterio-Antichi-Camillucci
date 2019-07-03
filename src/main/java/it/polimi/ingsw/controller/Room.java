@@ -61,7 +61,7 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    private static final int LOGIN_TIMEOUT = 15;
+    private static final int LOGIN_TIMEOUT = 1;
     private static final int TURN_TIMEOUT = 1000000000;
 
     /**
@@ -117,7 +117,7 @@ public class Room
      */
     private boolean matchStarting = false;
     private boolean matchStarted = false;
-    private final static int MIN_PLAYERS = 1;
+    private final static int MIN_PLAYERS = 2;
     private ModelEventArgs curModel;
 
 

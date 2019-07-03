@@ -22,6 +22,7 @@ public abstract class ActionHandler extends ViewElement
      * new command is chosen
      */
     public final IEvent<ActionHandler, Command<RemoteActionsHandler>> newCommand = new Event<>();
+    public final IEvent<ActionHandler, String[][]> matchEndedEvent = new Event<>();
 
     /**
      * Event other classes can subscribe to. It is used to notify the subscribed classes of when the chosen action is
@@ -36,7 +37,6 @@ public abstract class ActionHandler extends ViewElement
      */
     public abstract void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException;
     public abstract void updateActionData(RemoteAction.Data data) throws IOException;
-    public abstract void reconnectedMessage();
 
     public void onTurnStart(){
         // nothing
