@@ -5,6 +5,7 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
+import it.polimi.ingsw.model.cards.PowerUpCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,11 +143,11 @@ public class RemoteActionsHandler
     }
 
     public List<String> getDiscardablePowerUps(){
-        return selectedAction.getDiscardablePowerUps().stream().map(p -> p.name).collect(Collectors.toList());
+        return selectedAction.getDiscardablePowerUps().stream().map(PowerUpCard::getName).collect(Collectors.toList());
     }
 
     public List<String> getPossiblePowerups(){
-        return selectedAction.getPossiblePowerUps().stream().map(p -> p.name).collect(Collectors.toList());
+        return selectedAction.getPossiblePowerUps().stream().map(PowerUpCard::getName).collect(Collectors.toList());
     }
 
     public List<String> getPossibleWeapons()

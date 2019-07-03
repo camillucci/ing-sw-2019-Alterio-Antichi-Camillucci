@@ -191,6 +191,7 @@ public class Player {
     public void removePowerUpCard(PowerUpCard powerUpCard)
     {
         powerupSet.remove(powerUpCard);
+        gameBoard.powerupDeck.addDiscarded(powerUpCard);
     }
 
     /**

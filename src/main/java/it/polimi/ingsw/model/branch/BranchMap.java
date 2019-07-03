@@ -99,7 +99,7 @@ public class BranchMap
     private void onBranchActionCompleted(Action completedAction)
     {
        this.branches.removeIf(b -> !b.goNext(completedAction));
-        ((Event)this.newActionsEvent).invoke(this, this.getPossibleActions());
+        ((Event<BranchMap, List<Action>>)this.newActionsEvent).invoke(this, this.getPossibleActions());
     }
 
     /**

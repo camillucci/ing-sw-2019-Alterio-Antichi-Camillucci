@@ -30,8 +30,6 @@ public class ReloadAction extends Action
     {
         for(WeaponCard wc : this.selectedWeapons)
             this.ownerPlayer.reloadWeapon(wc);
-        for(PowerUpCard pu : this.discardedPowerUps)
-            this.ownerPlayer.removePowerUpCard(pu);
     }
 
     @Override

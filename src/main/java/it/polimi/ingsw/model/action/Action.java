@@ -21,6 +21,11 @@ public abstract class Action
     public final IEvent<Action, Action> completedActionEvent = new Event<>();
 
     /**
+     * Events invoked when a new Action is created inside an Action
+     */
+    public final IEvent<Action, Action> createdActionEvent = new Event<>();
+
+    /**
      * Action that can be done only after this is completed
      */
     protected Action next;
@@ -39,30 +44,37 @@ public abstract class Action
      * List of Squares added as targets by the player
      */
     protected List<Square> targetSquares = new ArrayList<>();
+
     /**
      * List of Players added as targets by the player
      */
     protected List<Player> targetPlayers = new ArrayList<>();
+
     /**
      * List of weapons the player wants to use
      */
     protected List<WeaponCard> selectedWeapons = new ArrayList<>();
+
     /**
      * Power up card selected by player
      */
     protected PowerUpCard selectedPowerUp;
+
     /**
      * List of power up card the player wants to discard
      */
     protected List<PowerUpCard> discardedPowerUps = new ArrayList<>();
+
     /**
      * Ammo the player wants to discard
      */
-    protected Ammo discardedAmmo;
+    protected Ammo discardedAmmo = null;
+
     /**
      * True iff the Action is ignorable in the actions sequence of a BranchMap
      */
     protected boolean optional = false;
+
     /**
      * True iff the method doAction can be invoked, according to Adrenaline rules.
      */

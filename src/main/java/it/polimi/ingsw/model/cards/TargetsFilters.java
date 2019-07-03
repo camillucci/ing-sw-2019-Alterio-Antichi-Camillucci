@@ -115,8 +115,9 @@ public class TargetsFilters {
         if(!players.isEmpty())
             return Collections.emptyList();
         List<Square> shooterVisibleSquares = player.gameBoard.getInRangeSquares(player);
-        List<Player> allPlayers = player.gameBoard.getPlayers();
-        allPlayers.remove(player);
+        List<Player> allPlayers = new ArrayList<>();
+        for(Square square : player.gameBoard.getSquares())
+            allPlayers.addAll(square.getPlayers());
         LinkedHashSet<Player> temp = new LinkedHashSet<>();
         for(Player p : allPlayers)
             for(Square s : p.gameBoard.getSquares(p, 2))

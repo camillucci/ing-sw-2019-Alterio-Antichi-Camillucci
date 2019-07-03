@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.Square;
@@ -30,6 +31,15 @@ public class ShootAction extends Action
 
     protected ShootAction(){}
 
+    public ShootAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
+    {
+        this.shootFunc = shootFunc;
+        this.playersFilter = playersFilter;
+        this.squaresFilter = squaresFilter;
+        this.canBeDone = false;
+        this.visualizable = new Visualizable("shoot", "shoot");
+    }
+
     public ShootAction(ShootFunc shootFunc, SquaresFilter squaresFilter)
     {
         this(TargetsFilters.noPlayersFilter, squaresFilter, shootFunc);
@@ -38,15 +48,6 @@ public class ShootAction extends Action
     public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc)
     {
         this(playersFilter, TargetsFilters.noSquaresFilter, shootFunc);
-    }
-
-    public ShootAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
-    {
-        this.shootFunc = shootFunc;
-        this.playersFilter = playersFilter;
-        this.squaresFilter = squaresFilter;
-        this.canBeDone = false;
-        this.visualizable = new Visualizable("shoot", "shoot");
     }
 
     public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc, boolean doesDamage)
@@ -62,12 +63,6 @@ public class ShootAction extends Action
             p.damagedEvent.removeEventHandler((damaged, val) -> damagedEventHandler(damaged));
         if(!damagedPlayers.isEmpty())
             preparePowerUp();
-    }
-
-    protected void preparePowerUp() {
-        InTurnPowerUpAction tmp = new InTurnPowerUpAction();
-        tmp.setTargets(damagedPlayers);
-        this.next = tmp;
     }
 
     protected void shoot()
@@ -120,5 +115,16 @@ public class ShootAction extends Action
     {
         if(!damagedPlayers.contains(damaged))
             this.damagedPlayers.add(damaged);
+    }
+
+    protected void preparePowerUp() {
+        List<PowerUpCard> temp = new ArrayList<>(ownerPlayer.getPowerupSet().getInTurnPUs());
+        if(!temp.isEmpty()) {
+            InTurnPowerUpAction tmp = new InTurnPowerUpAction();
+            tmp.initialize(ownerPlayer);
+            tmp.setTargets(damagedPlayers);
+            ((Event<Action, Action>)createdActionEvent).invoke(this, tmp);
+            this.next = tmp;
+        }
     }
 }

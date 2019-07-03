@@ -18,6 +18,8 @@ class CLIMessengerTest {
 
     @Test
     void firstMap() {
+        CLIMessenger.intro();
+        CLIMessenger.login();
         Match match = new Match(Arrays.asList("Jerry", "Jimmy", "John", "James", "Johnny"), Arrays.asList(BLUE, GREEN, GREY, VIOLET, YELLOW), 5, 0);
         match.getGameBoard().getPlayers().get(0).setCurrentSquare(match.getGameBoard().getSquares().get(0));
         match.getGameBoard().getPlayers().get(0).getCurrentSquare().addPlayer(match.getGameBoard().getPlayers().get(0));

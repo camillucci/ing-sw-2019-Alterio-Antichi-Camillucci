@@ -49,8 +49,10 @@ public class Branch
     private Branch(Action finalAction, List<Action> actions) {
         this.actions = new ArrayList<>(actions);
         this.finalAction = finalAction;
-        for (Action ac : this.actions)
+        for (Action ac : this.actions) {
             ac.completedActionEvent.addEventHandler((s,a)-> ((Event<Branch, Action>)this.actionCompletedEvent).invoke(this, a));
+            ac.createdActionEvent.addEventHandler((lastAction, newAction) -> initializeNewAction(newAction));
+        }
     }
 
     /**
@@ -226,6 +228,11 @@ public class Branch
                 nextFound = true;
             }
         return nextFound;
+    }
+
+    private void initializeNewAction(Action action) {
+        action.completedActionEvent.addEventHandler((s,a)-> ((Event<Branch, Action>)this.actionCompletedEvent).invoke(this, a));
+        action.createdActionEvent.addEventHandler((lastAction, newAction) -> initializeNewAction(newAction));
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.action;
 
+import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.Visualizable;
 import it.polimi.ingsw.model.cards.*;
 
@@ -14,37 +15,19 @@ import java.util.List;
 public class PowerUpAction extends ShootAction
 {
     /**
-     * Constructor that assigns the input parameters to their global correspondents.
-     * @param playersFilter The filter that describes which Players can be targeted
-     * @param squaresFilter The filter that describes which Squares can be targeted
-     * @param shootFunc Effect of the power up card granted by this action
-     */
-    public PowerUpAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc)
-    {
-        super(playersFilter, squaresFilter, shootFunc);
-        this.optional = true;
-        this.completedActionEvent.addEventHandler((a,b)->{
-            if(this.selectedPowerUp != null)
-                ownerPlayer.getPowerupSet().remove(selectedPowerUp);
-        });
-        this.visualizable = new Visualizable("use a Newton or a Teleporter", "powerup");
-    }
-
-    public PowerUpAction(SquaresFilter squaresFilter, ShootFunc shootFunc)
-    {
-        this(TargetsFilters.noPlayersFilter, squaresFilter, shootFunc);
-    }
-
-    /**
-     * Constructor that sets some of the parameters with default values.
+     * Constructor that prepare the usage of a PowerUpCard.
      */
     public PowerUpAction()
     {
         this.optional = true;
+        this.canBeDone = false;
         this.playersFilter = TargetsFilters.noPlayersFilter;
         this.squaresFilter = TargetsFilters.noSquaresFilter;
+        this.completedActionEvent.addEventHandler((a,b)->{
+            if(this.selectedPowerUp != null)
+                ownerPlayer.removePowerUpCard(selectedPowerUp);
+        });
         this.visualizable =  new Visualizable("use a Newton or a Teleporter", "powerup");
-        this.canBeDone = false;
     }
 
     @Override
@@ -53,33 +36,42 @@ public class PowerUpAction extends ShootAction
         this.shoot();
         if(selectedPowerUp != null) {
             preparePowerUp();
-            ownerPlayer.getPowerupSet().remove(selectedPowerUp);
-            ownerPlayer.gameBoard.powerupDeck.addDiscarded(selectedPowerUp);
+            ownerPlayer.removePowerUpCard(selectedPowerUp);
         }
     }
 
     @Override
-    protected void preparePowerUp() {
-        this.next = new PowerUpAction();
-    }
-
-    @Override
     public void use(PowerUpCard powerUpCard) {
-        this.playersFilter = powerUpCard.playersFilter;
-        this.squaresFilter = powerUpCard.squaresFilter;
-        this.shootFunc = powerUpCard.shootFunc;
-        this.selectedPowerUp = powerUpCard;
-    }
-
-    @Override
-    public boolean isCompatible(Action action) {
-        return action.testCompatibilityWith(this);
+        if(getPossiblePowerUps().contains(powerUpCard)) {
+            this.playersFilter = powerUpCard.playersFilter;
+            this.squaresFilter = powerUpCard.squaresFilter;
+            this.shootFunc = powerUpCard.shootFunc;
+            this.selectedPowerUp = powerUpCard;
+            this.canBeDone = true;
+        }
     }
 
     @Override
     public List<PowerUpCard> getPossiblePowerUps()
     {
         return selectedPowerUp == null ? new ArrayList<>(ownerPlayer.getPowerupSet().getEndStartPUs()) : Collections.emptyList();
+    }
+
+    @Override
+    protected void preparePowerUp() {
+        List<PowerUpCard> temp = new ArrayList<>(ownerPlayer.getPowerupSet().getEndStartPUs());
+        temp.remove(selectedPowerUp);
+        if(!temp.isEmpty()) {
+            PowerUpAction tmp = new PowerUpAction();
+            tmp.initialize(ownerPlayer);
+            ((Event<Action, Action>)createdActionEvent).invoke(this, tmp);
+            this.next = tmp;
+        }
+    }
+
+    @Override
+    public boolean isCompatible(Action action) {
+        return action.testCompatibilityWith(this);
     }
 
     /**

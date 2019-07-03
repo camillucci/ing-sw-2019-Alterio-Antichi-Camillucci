@@ -58,6 +58,7 @@ public class Effects
         for(int i = 0; i < targets.size(); i++)
             if(damage.size() > i && damage.get(i) > 0) {
                 List<Player> temp = targets.get(i).getPlayers();
+                temp.remove(shooter);
                 for(Player p : temp)
                     p.addDamage(shooter, damage.get(i));
             }
@@ -76,6 +77,7 @@ public class Effects
         for(int i = 0; i < targets.size(); i++)
             if(marks.size() > i && marks.get(i) > 0) {
                 List<Player> temp = targets.get(i).getPlayers();
+                temp.remove(shooter);
                 for(Player p : temp)
                     p.addMark(shooter, marks.get(i));
             }

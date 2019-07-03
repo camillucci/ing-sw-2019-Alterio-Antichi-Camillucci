@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import static it.polimi.ingsw.model.SquareBorder.*;
@@ -388,7 +389,7 @@ public class GameBoard {
      * @return The squares of the room that the given Player can see and shoot in
      */
     public List<Square> getOtherVisibleRoom(Player player) {
-        List<Square> tempSquare = new ArrayList<>();
+        LinkedHashSet<Square> tempSquare = new LinkedHashSet<>();
         List<Square> tempDoors = distanceOneBorderType(player.getCurrentSquare(), DOOR);
         tempDoors.remove(player.getCurrentSquare());
         List<Square> tempRoom;
@@ -398,7 +399,7 @@ public class GameBoard {
                 if(!s.getPlayers().isEmpty())
                     tempSquare.add(square);
         }
-        return tempSquare;
+        return new ArrayList<>(tempSquare);
     }
 
     /**
