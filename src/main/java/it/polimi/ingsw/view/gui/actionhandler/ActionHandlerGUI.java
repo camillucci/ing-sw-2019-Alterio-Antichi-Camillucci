@@ -274,7 +274,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     {
         box.setVisible(true);
         double w = box.getMinWidth();
-        box.setLayoutX(e.getSceneX() + e.getX() + 0.05*w);
+        box.setLayoutX(e.getSceneX() -e.getX() + 0.2*w);
         box.setLayoutY(e.getSceneY() - e.getY() - avatar.getFitHeight()/2);
     }
 
