@@ -247,22 +247,24 @@ public class PlayerCardsController implements Ifxml<HBox>
     }
     private void addCardPrivatePlayer(PrivatePlayerSnapshot player)
     {
-
         for(String w : getDistinct(player.getLoadedWeapons()))
             if(old == null)
-                addWeapon(w);
+                for(int i=0; i < Collections.frequency(player.getLoadedWeapons(), w); i++)
+                    addWeapon(w);
             else
                 for(int i=0; i < Collections.frequency(player.getLoadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getLoadedWeapons(), w); i++)
                     addWeapon(w);
         for(String w : getDistinct(player.getUnloadedWeapons()))
             if(old == null)
-                addUnloadedWeapon(w);
+                for(int i=0; i < Collections.frequency(player.getUnloadedWeapons(), w); i++)
+                    addUnloadedWeapon(w);
             else
                 for(int i=0; i < Collections.frequency(player.getUnloadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getUnloadedWeapons(), w); i++)
                     addUnloadedWeapon(w);
         for(String pu : getDistinct(player.getPowerUps()))
             if(old == null)
-                addPowerup(pu);
+                for(int i=0; i < Collections.frequency(player.getPowerUps(), pu); i++)
+                    addPowerup(pu);
             else
                 for(int i=0; i < Collections.frequency(player.getPowerUps(), pu) - Collections.frequency(old.privatePlayerSnapshot.getPowerUps(), pu); i++)
                     addPowerup(pu);
@@ -308,7 +310,12 @@ public class PlayerCardsController implements Ifxml<HBox>
     }
 
     private void disable() {
-        cards.forEach(card -> card.setDisable(true));
+        for(ImageView card : cards)
+        {
+            card.setDisable(true);
+            card.setOnMouseClicked(null);
+            card.setOnMouseDragged(null);
+        }
     }
 
     public static PlayerCardsController getController(MatchSnapshotProvider provider, String color)
