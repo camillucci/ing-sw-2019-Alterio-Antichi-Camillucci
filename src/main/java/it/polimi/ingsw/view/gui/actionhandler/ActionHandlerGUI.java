@@ -126,6 +126,9 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         setupEvents();
     }
 
+    /**
+     * Subscribes to all the events invoked when a user makes a choices (selects a target, chooses to use a weapon, etc)
+     */
     private void setupEvents() {
         playerCardsController.addWeaponEvent.addEventHandler((a,weapon) -> notifyAndReset(getAction().addWeapon(weapon)));
         playerCardsController.usePowerupEvent.addEventHandler((a,pu) -> notifyAndReset(getAction().usePowerUp(pu)));
