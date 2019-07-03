@@ -4,21 +4,6 @@
     -fx-text-fill: white;
 }
 
-.text-area .scroll-pane {
-    -fx-background-color: transparent;
-    -fx-font-alignment: center;
-}
-
-.text-area .scroll-pane .viewport{
-    -fx-background-color: transparent;
-    -fx-font-alignment: center;
-}
-
-
-.text-area .scroll-pane .content{
-    -fx-background-color: transparent;
-    -fx-font-alignment: center;
-}
 .titleText
 {
     -fx-fill: white;

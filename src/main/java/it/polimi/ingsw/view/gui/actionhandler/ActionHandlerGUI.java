@@ -245,11 +245,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         gameBoard.getChildren().add(cardsController.getRoot());
         playerSet.getRoot().setVisible(false);
         cardsController.getRoot().setVisible(false);
-        avatar.setOnMouseEntered(e ->
-        {
-            onAvatarMouseOver(e, playerSet.getRoot(), avatar);
-        });
-
+        avatar.setOnMouseEntered(e -> onAvatarMouseOver(e, playerSet.getRoot(), avatar));
         avatar.setOnMouseExited(e ->
         {
             playerSet.getRoot().setVisible(false);
@@ -266,7 +262,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
                 cardsController.getRoot().setVisible(false);
                 onAvatarMouseOver(e, playerSet.getRoot(), avatar);
             }
-            //todo
         });
         insert(avatar, ret, 1);
         insert(ammoBoxController.getRoot(), ret, 1);
@@ -445,7 +440,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void disconnectedPlayerMessage(String name) {
-        getAvatar(name).disconnected();
+       Platform.runLater( () -> getAvatar(name).disconnected());
     }
 
     @Override
@@ -465,7 +460,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void reconnectedMessage(String name) {
-        getAvatar(name).reconnected();
+        Platform.runLater( () -> getAvatar(name).reconnected());
     }
 
     @Override

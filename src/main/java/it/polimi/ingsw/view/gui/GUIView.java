@@ -34,39 +34,36 @@ public class GUIView extends View
     }
 
     private void setupStage(){
-        Platform.runLater(() -> {
-            primaryStage.setTitle("Welcome Adrenaline!");
-            primaryStage.setWidth(1000);
-            primaryStage.setHeight(700);
-            primaryStage.setFullScreenExitHint("");
-            //primaryStage.setFullScreen(true);
+        primaryStage.setTitle("Welcome Adrenaline!");
+        primaryStage.setWidth(1000);
+        primaryStage.setHeight(700);
+        primaryStage.setFullScreenExitHint("");
+        //primaryStage.setFullScreen(true);
 
-            primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-            primaryStage.setOnCloseRequest(e ->
-            {
-                Platform.exit();
-                System.exit(0);
-            });
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        primaryStage.setOnCloseRequest(e ->
+        {
+            Platform.exit();
+            System.exit(0);
         });
     }
 
     private void startupGUI() throws InterruptedException, IOException {
         App.applicationStartedEvent.addEventHandler((app, stage) -> {
             synchronized (lock){
-                this.app = app;
-                this.primaryStage = stage;
-                setupStage();
-                NewLoginGUI loginGUI = null;
-                //todo fix that
                 try {
+                    this.app = app;
+                    this.primaryStage = stage;
+                    setupStage();
+                    NewLoginGUI loginGUI = null;
                     loginGUI = createLogin(app);
+                    ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
+                    actionHandlerGUI.matchEndedEvent.addEventHandler((a, endGameData) -> onMatchEnded(endGameData));
+                    buildView(loginGUI, actionHandlerGUI);
+                    this.lock.notifyAll();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //todo logger
                 }
-                ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
-                actionHandlerGUI.matchEndedEvent.addEventHandler((a, endGameData) -> onMatchEnded(endGameData));
-                buildView(loginGUI, actionHandlerGUI);
-                this.lock.notifyAll();
             }
         });
         synchronized (lock) {
@@ -76,8 +73,10 @@ public class GUIView extends View
     }
 
     private void onMatchEnded(EndGameController.EndGameData endGameData) {
-        EndGameController endGameController = EndGameController.getController(endGameData);
-        this.rootScene.setRoot(endGameController.getRoot());
+       Platform.runLater(() -> {
+           EndGameController endGameController = EndGameController.getController(endGameData);
+           this.rootScene.setRoot(endGameController.getRoot());
+       });
     }
 
     private ActionHandlerGUI createActionHandler(Login login)
@@ -97,10 +96,12 @@ public class GUIView extends View
         this.rootScene = new Scene(tmp.getRoot());
         rootScene.getStylesheets().add("/view/root.css");
         rootScene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ESCAPE) {
-                Platform.exit();
-                System.exit(0);
-            }});
+            if (e.getCode() == KeyCode.ESCAPE)
+                if(primaryStage.isFullScreen())
+                    primaryStage.setFullScreen(false);
+                else
+                    primaryStage.setFullScreen(true);
+        });
         tmp.loginStarted.addEventHandler((a,b) -> app.show());
         app.setScene(rootScene);
         app.show();

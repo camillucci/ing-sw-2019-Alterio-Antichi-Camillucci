@@ -160,7 +160,7 @@ public class Room
     /**
      * Integer that represents the minimum number of players required for a match to start
      */
-    private final static int MIN_PLAYERS = 5;
+    private final static int MIN_PLAYERS = 2;
     private ModelEventArgs curModel;
 
 
