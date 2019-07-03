@@ -45,6 +45,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> timerStartedMessage(timeout));
     private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> timerTickMessage(timeLeft));
     private BiConsumer<Room, Integer> timerStopEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE));
+    private BiConsumer<Room, String> reconnectedEventHandler = (a, name) -> bottleneck.tryDo( () -> reconnectedMessage(name));
     private BiConsumer<Room, String> newPlayerEventHandler = (a, name) -> notifyPlayer(name);
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
     private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
@@ -152,7 +153,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             setupRoomEvents();
             this.name = name;
             otherPlayers = joinedRoom.getOtherPlayers(name);
-            reconnectedMessage();
+            reconnectedMessage(name);
             onModelUpdated(joinedRoom.getCurModel(name));
             return;
         }
@@ -237,7 +238,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private synchronized void notifyPlayer(String name){
         if(otherPlayers.contains(name))
             return;
-        if(!this.name.equals(name))
+        if(this.name != name)
             otherPlayers.add(name);
         bottleneck.tryDo(() -> newPlayerMessage(name));
     }
@@ -282,8 +283,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         sendCommand(new Command<>(v -> v.getCurViewElement().newPlayerMessage(name)));
     }
 
-    protected void reconnectedMessage () throws IOException {
-        sendCommand(new Command<>(v -> v.getActionHandler().reconnectedMessage()));
+    protected void reconnectedMessage (String name) throws IOException {
+        sendCommand(new Command<>(v -> v.getCurViewElement().reconnectedMessage(name)));
     }
 
     /**
@@ -293,6 +294,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private void removeEvents() {
         if(joinedRoom != null) {
+            joinedRoom.reconnectedPlayerEvent.removeEventHandler(reconnectedEventHandler);
             joinedRoom.winnerEvent.removeEventHandler(winnerEventHandler);
             joinedRoom.scoreEvent.removeEventHandler(scoreEventHandler);
             joinedRoom.timerStartEvent.removeEventHandler(timerStartEventHandler);
@@ -310,6 +312,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     private void setupRoomEvents()
     {
+        joinedRoom.reconnectedPlayerEvent.addEventHandler(reconnectedEventHandler);
         joinedRoom.endMatchEvent.addEventHandler(onEndMatchEvent);
         joinedRoom.winnerEvent.addEventHandler(winnerEventHandler);
         joinedRoom.scoreEvent.addEventHandler(scoreEventHandler);

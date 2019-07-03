@@ -460,7 +460,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     }
 
     @Override
-    public void reconnectedMessage() {
+    public void reconnectedMessage(String name) {
         //todo add reconnected animation
         return;
     }

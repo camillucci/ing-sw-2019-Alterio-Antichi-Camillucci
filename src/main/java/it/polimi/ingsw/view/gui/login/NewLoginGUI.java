@@ -216,7 +216,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
 
     @Override
     public void timerStartedMessage(int time) {
-        String message = "Countdown is started: " + time + " seconds left";
+        String message = "Countdown is started:\n " + time + " seconds left";
         robotSpeak(message);
     }
 
@@ -224,6 +224,11 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     public void timerTickMessage(int time) {
         String message = time + " seconds left";
         robotSpeak(message);
+    }
+
+    @Override
+    public void reconnectedMessage(String name) {
+        return;
     }
 
     @Override
@@ -238,17 +243,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
 
     @Override
     public void onNewMessage(String message) {
-        Platform.runLater(() -> parseMessage(message));
-    }
-
-    private void parseMessage(String message)
-    {
-        if(message.contains("joined the room"))
-            playerJoined(message);
-        else if(message.contains("left the room"))
-            playerLeft(message);
-        else
-            robotSpeak(message);
+        Platform.runLater(() -> robotSpeak(message));
     }
 
     private String getName(String playerMessageInfo){

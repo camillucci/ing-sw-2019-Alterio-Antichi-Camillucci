@@ -42,6 +42,9 @@ public class Room
      * Event that other classes can subscribe to. The event is invoked when a player who's in the room disconnects.
      */
     public final IEvent<Room, String> playerDisconnectedEvent = new Event<>();
+
+    public final IEvent<Room, String> reconnectedPlayerEvent = new Event<>();
+
     public final IEvent<Room, ModelEventArgs> modelUpdatedEvent = new Event<>();
 
     /**
@@ -114,7 +117,7 @@ public class Room
      */
     private boolean matchStarting = false;
     private boolean matchStarted = false;
-    private final static int MIN_PLAYERS = 2;
+    private final static int MIN_PLAYERS = 1;
     private ModelEventArgs curModel;
 
 
@@ -233,6 +236,7 @@ public class Room
 
     public synchronized void reconnect(String playerName){
         disconnectedPlayers.remove(playerName);
+        ((Event<Room, String>)reconnectedPlayerEvent).invoke(this, playerName);
     }
 
     public synchronized void onPlayerTimeout(){

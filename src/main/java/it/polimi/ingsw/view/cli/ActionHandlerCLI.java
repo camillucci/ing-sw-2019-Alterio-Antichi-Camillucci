@@ -114,7 +114,7 @@ public class ActionHandlerCLI extends ActionHandler {
     }
 
     @Override
-    public void reconnectedMessage() {
+    public void reconnectedMessage(String name) {
         String message = "You're back!";
         CLIMessenger.printMessage(message);
     }
