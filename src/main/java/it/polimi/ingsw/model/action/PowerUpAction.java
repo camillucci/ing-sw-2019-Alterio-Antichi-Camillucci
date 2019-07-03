@@ -47,7 +47,6 @@ public class PowerUpAction extends ShootAction
             this.squaresFilter = powerUpCard.squaresFilter;
             this.shootFunc = powerUpCard.shootFunc;
             this.selectedPowerUp = powerUpCard;
-            this.canBeDone = true;
         }
     }
 

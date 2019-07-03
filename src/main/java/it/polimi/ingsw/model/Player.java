@@ -18,7 +18,7 @@ public class Player {
     /**
      * The event that is invoked when a Player is damaged, it notifies the Match
      */
-    public final IEvent<Player, Integer> damagedEvent;
+    public final IEvent<Player, Player> damagedEvent;
     /**
      * The event that is invoked when a Player becomes dead, it notifies the Match
      */
@@ -212,7 +212,7 @@ public class Player {
 
         for(int i = temp.size() - 1; i >= 0; i--)
             mark.remove(mark.get(i));
-        ((Event<Player, Integer>)this.damagedEvent).invoke(this, val);
+        ((Event<Player, Player>)this.damagedEvent).invoke(this, shooter);
         if(damage.size() >= 11)
             ((Event<Player, Player>)this.deathEvent).invoke(this, shooter);
     }
@@ -240,6 +240,13 @@ public class Player {
 
         for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++)
             mark.add(shooter.color);
+    }
+
+    /**
+     * Remove all the damage from the player when it spawns
+     */
+    public void clearDamage() {
+        this.damage.clear();
     }
 
     /**

@@ -36,6 +36,19 @@ public class CounterPowerUpAction extends PowerUpAction
         return Collections.emptyList();
     }
 
+    /**
+     * This method assigns the shoot function of the input power up card to this class's shoot function, then it makes
+     * the input power up card the selected one.
+     * @param powerUpCard The powerUpCard to use.
+     */
+    @Override
+    public void use(PowerUpCard powerUpCard) {
+        if(getPossiblePowerUps().contains(powerUpCard)) {
+            this.shootFunc = powerUpCard.shootFunc;
+            this.selectedPowerUp = powerUpCard;
+        }
+    }
+
     @Override
     protected void preparePowerUp() {
         List<PowerUpCard> temp = new ArrayList<>(ownerPlayer.getPowerupSet().getCounterAttackPUs());
@@ -47,17 +60,6 @@ public class CounterPowerUpAction extends PowerUpAction
             ((Event<Action, Action>)createdActionEvent).invoke(this, tmp);
             this.next = tmp;
         }
-    }
-
-    /**
-     * This method assigns the shoot function of the input power up card to this class's shoot function, then it makes
-     * the input power up card the selected one.
-     * @param powerUpCard The powerUpCard to use.
-     */
-    @Override
-    public void use(PowerUpCard powerUpCard) {
-        this.shootFunc = powerUpCard.shootFunc;
-        this.selectedPowerUp = powerUpCard;
     }
 
     public void setTargets(List<Player> targets)
