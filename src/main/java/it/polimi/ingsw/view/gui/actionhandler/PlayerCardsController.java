@@ -65,7 +65,7 @@ public class PlayerCardsController implements Ifxml<HBox>
         for(ImageView weapon : getWeapons())
             if(weapon.getImage() == null)
             {
-                weapon.setImage(Cache.getImage("weapon/" + snapshotToFileName(name)));
+                weapon.setImage(Cache.getImage("/weapon/" + snapshotToFileName(name)));
                 weapon.setRotate(rotationAngle);
                 Animations.appearAnimation(weapon);
                 return weapon;
@@ -109,13 +109,6 @@ public class PlayerCardsController implements Ifxml<HBox>
         return ret;
     }
 
-    private void removeAll(List<String> names)
-    {
-        for(String x : names)
-            for(ImageView img : getCards())
-                if(img.getImage() != null && img.getImage().getUrl().contains(x.replace(" ", "_").toLowerCase()))
-                    img.setImage(null);
-    }
 
     private void onNewAction(RemoteAction action) {
         cards.forEach(c -> c.setDisable(true));
@@ -136,24 +129,24 @@ public class PlayerCardsController implements Ifxml<HBox>
     }
 
     private List<ImageView> getAll(String name){
-        return cards.stream().filter(i -> i.getImage() != null && i.getImage().getUrl().toLowerCase().contains(snapshotToName(name))).collect(Collectors.toList());
+        return cards.stream().filter(i -> i.getImage() != null && Cache.imageToUrl(i.getImage()).toLowerCase().contains(snapshotToName(name))).collect(Collectors.toList());
     }
 
     private void setupAddWeapon(RemoteAction.Data data)
     {
         for(String weapon : data.getPossibleWeapons())
-            getAll(weapon).forEach(w -> enableEnd( () -> w.setOnMouseClicked(e -> invokeEvent(addWeaponEvent, weapon))));
+            getAll(weapon).forEach(w -> enableEnd(w, () -> w.setOnMouseClicked(e -> invokeEvent(addWeaponEvent, weapon))));
     }
 
     private void setupUsePowerup(RemoteAction.Data data)
     {
         for(String powerup : data.getPossiblePowerUps())
-            getAll(powerup).forEach(p -> enableEnd( () -> p.setOnMouseClicked(e -> invokeEvent(usePowerupEvent, powerup))));
+            getAll(powerup).forEach(p -> enableEnd(p, () -> p.setOnMouseClicked(e -> invokeEvent(usePowerupEvent, powerup))));
     }
 
-    private void enableEnd(Runnable func)
+    private void enableEnd(ImageView card, Runnable func)
     {
-        cards.forEach(c -> c.setDisable(false));
+        card.setDisable(false);
         func.run();
     }
 
