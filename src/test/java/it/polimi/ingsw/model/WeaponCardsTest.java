@@ -202,7 +202,7 @@ class WeaponCardsTest {
         shoot = vortexCannon.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(0, shoot.getPossiblePlayers().size());
-        assertEquals(4, shoot.getPossibleSquares().size());
+        assertEquals(5, shoot.getPossibleSquares().size());
         shoot.addTarget(gameBoard.getSquares().get(7));
         assertEquals(2, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -224,7 +224,7 @@ class WeaponCardsTest {
         shoot = vortexCannon.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(0, shoot.getPossiblePlayers().size());
-        assertEquals(4, shoot.getPossibleSquares().size());
+        assertEquals(5, shoot.getPossibleSquares().size());
         shoot.addTarget(gameBoard.getSquares().get(6));
         assertEquals(3, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());

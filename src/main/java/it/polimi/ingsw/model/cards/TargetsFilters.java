@@ -170,8 +170,10 @@ public class TargetsFilters {
                 temp.add(square);
             else
                 for(Square s : player.gameBoard.distanceOneSquares(square))
-                    if((s.getPlayers().size() >= 2 || (!s.getPlayers().isEmpty() && s != player.getCurrentSquare())) && !temp.contains(square))
+                    if(!s.getPlayers().isEmpty() && !temp.contains(square)) {
                         temp.add(square);
+                        break;
+                    }
         temp.remove(player.getCurrentSquare());
         return temp;
     }

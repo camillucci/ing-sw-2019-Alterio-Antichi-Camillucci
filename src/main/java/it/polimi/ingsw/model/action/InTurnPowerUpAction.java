@@ -112,7 +112,7 @@ public class InTurnPowerUpAction extends PowerUpAction
      */
     public void setTargets(List<Player> targets)
     {
-        damagedPlayers = targets;
+        damagedPlayers = new ArrayList<>(targets);
         this.playersFilter = (shooter, players, squares) -> targets;
     }
 

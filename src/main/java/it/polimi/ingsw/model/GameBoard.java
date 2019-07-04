@@ -410,9 +410,10 @@ public class GameBoard {
     public List<Player> getNonVisiblePlayers(Player player) {
         List<Player> tempInRangePlayers = getInRangePlayers(player);
         List<Player> tempPlayers = new ArrayList<>();
-        for(Player p : players) {
-            if (!tempInRangePlayers.contains(p))
-                tempPlayers.add(p);
+        for(Square square : this.getSquares())
+            for(Player p : square.getPlayers()) {
+                if (!tempInRangePlayers.contains(p))
+                    tempPlayers.add(p);
         }
         tempPlayers.remove(player);
         return tempPlayers;

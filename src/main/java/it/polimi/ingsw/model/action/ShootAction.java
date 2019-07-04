@@ -56,6 +56,24 @@ public class ShootAction extends Action
         this.doesDamage = doesDamage;
     }
 
+    public ShootAction(PlayersFilter playersFilter, SquaresFilter squaresFilter, ShootFunc shootFunc, Visualizable visualizable)
+    {
+        this(playersFilter, squaresFilter, shootFunc);
+        this.visualizable = visualizable;
+    }
+
+    public ShootAction(ShootFunc shootFunc, SquaresFilter squaresFilter, Visualizable visualizable)
+    {
+        this(TargetsFilters.noPlayersFilter, squaresFilter, shootFunc);
+        this.visualizable = visualizable;
+    }
+
+    public ShootAction(PlayersFilter playersFilter, ShootFunc shootFunc, Visualizable visualizable)
+    {
+        this(playersFilter, TargetsFilters.noSquaresFilter, shootFunc);
+        this.visualizable = visualizable;
+    }
+
     @Override
     protected void op() {
         this.shoot();
