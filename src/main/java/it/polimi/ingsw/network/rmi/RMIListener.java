@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.rmi;
 
+import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -41,13 +42,18 @@ public class RMIListener
         }
     }
 
-
     private void onNewClientConnected(AdrenalineServerRMI serverRMI){
         connectedList.add(serverRMI);
         newClient();
     }
 
-    public void stop(){
-        //todo
+    private void closeClient(IRMIAdrenalineServer serverRMI) throws NoSuchObjectException {
+        UnicastRemoteObject.unexportObject(serverRMI, true);
+    }
+
+    public void stop() throws NoSuchObjectException {
+        UnicastRemoteObject.unexportObject(registry, true);
+        for(IRMIAdrenalineServer client : connectedList)
+            closeClient(client);
     }
 }
