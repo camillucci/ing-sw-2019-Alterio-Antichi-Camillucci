@@ -422,6 +422,7 @@ public class Room
             removePlayer(name);
         else {
             disconnectedPlayers.add(name);
+            suspendedPlayers.remove(name);
             if(playerNames.size() - disconnectedPlayers.size() - suspendedPlayers.size() < MIN_PLAYERS)
                 onMatchEnd();
             else if(match.getPlayer().name.equals(name))
