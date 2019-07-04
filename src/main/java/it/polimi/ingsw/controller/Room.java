@@ -83,7 +83,7 @@ public class Room
      * Integer representing the timeout value
      */
 
-    private static final int LOGIN_TIMEOUT = 30;
+    private static final int LOGIN_TIMEOUT = 3;
 
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
@@ -162,7 +162,7 @@ public class Room
      */
 
     private ModelEventArgs curModel;
-    private static final int MIN_PLAYERS = 3;
+    private static final int MIN_PLAYERS = 2;
 
 
     /**
@@ -506,7 +506,39 @@ public class Room
                     scoreBoard[j][0] = temp[0];
                     scoreBoard[j][1] = temp[1];
                 }
+        for(int i = 0; i < match.getPlayers().size() - 1; i++)
+            if(Integer.parseInt(scoreBoard[i][1]) == Integer.parseInt(scoreBoard[i+1][1]))
+                checkAndSwap(scoreBoard, i);
         return scoreBoard;
+    }
+
+    private void checkAndSwap(String[][] scoreBoard, int i) {
+            PlayerColor firstPlayer = null;
+            PlayerColor secondPlayer = null;
+            for (Player player : match.getPlayers()) {
+                if (player.name.equals(scoreBoard[i][0]))
+                    firstPlayer = player.color;
+                if (player.name.equals(scoreBoard[i + 1][0]))
+                    secondPlayer = player.color;
+            }
+            int first = 0;
+            int second = 0;
+            List<PlayerColor> colors = new ArrayList<>();
+            for(List<PlayerColor> list : match.getGameBoard().getKillShotTrack())
+                colors.addAll(list);
+            for(PlayerColor playerColor : colors) {
+                if(playerColor.equals(firstPlayer))
+                    first++;
+                if(playerColor.equals(secondPlayer))
+                    second++;
+            }
+            if(second > first) {
+                String[] temp = new String[]{scoreBoard[i][0], scoreBoard[i][1]};
+                scoreBoard[i][0] = scoreBoard[i + 1][0];
+                scoreBoard[i][1] = scoreBoard[i + 1][1];
+                scoreBoard[i + 1][0] = temp[0];
+                scoreBoard[i + 1][1] = temp[1];
+            }
     }
 
     /**
