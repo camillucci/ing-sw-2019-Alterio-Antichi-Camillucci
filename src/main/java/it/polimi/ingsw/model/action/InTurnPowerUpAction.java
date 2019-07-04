@@ -74,6 +74,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     public void addPowerUp(PowerUpCard powerUpCard) {
         if(getDiscardablePowerUps().contains(powerUpCard)) {
             discardedPowerUps.add(powerUpCard);
+            discardedAmmo = powerUpCard.colorToAmmo();
             if(!targetPlayers.isEmpty())
                 this.canBeDone = true;
         }

@@ -160,6 +160,8 @@ public class Match extends ActionsProvider {
      */
     private void onTurnCompleted()
     {
+        for(Square square : gameBoard.getSquares())
+            square.refill();
         if(finalFrenzy && frenzyStarter == players.indexOf(curPlayer)) {
             for(Player player : deadPlayers)
                 assignPoints(player);

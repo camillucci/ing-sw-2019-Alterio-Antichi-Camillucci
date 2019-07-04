@@ -140,11 +140,11 @@ public class CardsFactory {
 
         weapons.add(new WeaponCard(THOR, new Ammo(0,1,0), new Ammo(1,1,0), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), THOR, BASIC_MODE,
-                        new Branch(new ShootAction(thorVisiblePlayers, damage(2)), new EndBranchAction(THOR))),
+                        new Branch(new ShootAction(thorVisiblePlayers(1), damage(2)), new EndBranchAction(THOR))),
                 new FireModalityAction(new Ammo(1, 0, 0), THOR, "Chain Reaction",
-                        new Branch(new ShootAction(thorVisiblePlayers, damage(2,1)), new EndBranchAction(THOR))),
+                        new Branch(new ShootAction(thorVisiblePlayers(2), damage(2,1)), new EndBranchAction(THOR))),
                 new FireModalityAction(new Ammo(2, 0, 0), THOR, "High Voltage",
-                        new Branch(new ShootAction(thorVisiblePlayers, damage(2,1,2)), new EndBranchAction(THOR))))));
+                        new Branch(new ShootAction(thorVisiblePlayers(3), damage(2,1,2)), new EndBranchAction(THOR))))));
 
         weapons.add(new WeaponCard(PLASMA_GUN, new Ammo(0,0,1), new Ammo(1,0,1), () -> Arrays.asList(
                 new FireModalityAction(new Ammo(0, 0, 0), PLASMA_GUN, "Phase Glide",
@@ -327,7 +327,7 @@ public class CardsFactory {
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF SPECIFIC TARGET FILTERS
 
-    private static PlayersFilter thorVisiblePlayers = (player, players, squares) -> TargetsFilters.thorVisiblePlayers(player, players);
+    private static PlayersFilter thorVisiblePlayers(int maxTarget) { return (player, players, squares) -> TargetsFilters.thorVisiblePlayers(player, players, maxTarget); }
 
     private static PlayersFilter tractorBeamPlayers1 = (player, players, squares) -> TargetsFilters.tractorBeamPlayers1(player, players);
     private static SquaresFilter tractorBeamSquares1 = TargetsFilters::tractorBeamSquares1;

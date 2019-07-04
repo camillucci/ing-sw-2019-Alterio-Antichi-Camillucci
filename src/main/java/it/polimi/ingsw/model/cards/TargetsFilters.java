@@ -106,8 +106,8 @@ public class TargetsFilters {
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF SPECIFIC TARGET FILTERS
 
-    public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded) {
-        if(alreadyAdded.size() >= 3)
+    public static List<Player> thorVisiblePlayers(Player player, List<Player> alreadyAdded, int maxTarget) {
+        if(alreadyAdded.size() >= maxTarget)
             return Collections.emptyList();
         if(alreadyAdded.isEmpty())
             return player.gameBoard.getInRangePlayers(player);

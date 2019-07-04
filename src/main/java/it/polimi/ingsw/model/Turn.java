@@ -75,8 +75,6 @@ public class Turn extends ActionsProvider {
     private void onMoveTerminated() {
         moveCounter--;
         if (moveCounter == -1) {
-            for(Square square : match.getGameBoard().getSquares())
-                square.refill();
             ((Event<Turn, Player>)endTurnEvent).invoke(this, currentPlayer);
         }
         else
