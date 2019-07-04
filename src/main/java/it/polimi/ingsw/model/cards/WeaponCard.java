@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.Ammo;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.FireModalityAction;
 import it.polimi.ingsw.model.branch.Branch;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 /**
  * This class contains all the info relative to a weapon card and all the methods that concern the fire modes the
@@ -49,12 +50,20 @@ public class WeaponCard {
         this.reloadCost = reloadCost;
     }
 
-    public List<Branch> getFireModalities()
+    public List<Branch> getFireModalities(Player player, List<PowerUpCard> powerUpCards)
     {
-        return fireBuilder.get().stream().map(Branch::new).collect(Collectors.toList());
+        List<Branch> branches = new ArrayList<>();
+        List<FireModalityAction> fireModalityActions = fireBuilder.get();
+        Ammo playerPU = new Ammo(0, 0, 0);
+        for(PowerUpCard powerUpCard : powerUpCards)
+            playerPU = playerPU.add(powerUpCard.colorToAmmo());
+        for(FireModalityAction fireModalityAction : fireModalityActions)
+            if(player.getAmmo().add(playerPU).isGreaterOrEqual(fireModalityAction.getCost()) && playerPU.isLessOrEqualThan(fireModalityAction.getCost()))
+                branches.add(new Branch(fireModalityAction));
+        return branches;
     }
 
-    public List<Branch> getFireModalitysBranch(int i)
+    public List<Branch> getFireModalitiesBranch(int i)
     {
         return fireBuilder.get().get(i).getBranches();
     }

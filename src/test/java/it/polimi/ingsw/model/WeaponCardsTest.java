@@ -47,7 +47,7 @@ class WeaponCardsTest {
     @Test
     void lockRifle() {
         WeaponCard lockRifle = CardsFactory.getWeapons().get(0);
-        shoot = lockRifle.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0); // Fist FireModality -> First Branch -> First Action
+        shoot = lockRifle.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0); // Fist FireModality -> First Branch -> First Action
         shoot.initialize(p2);
         assertEquals(2, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -62,7 +62,7 @@ class WeaponCardsTest {
     @Test
     void machineGun() {
         WeaponCard machineGun = CardsFactory.getWeapons().get(1);
-        shoot = machineGun.getFireModalitysBranch(3).get(0).getCompatibleActions().get(0);
+        shoot = machineGun.getFireModalitiesBranch(3).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(2, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -77,7 +77,7 @@ class WeaponCardsTest {
     @Test
     void thor() {
         WeaponCard thor = CardsFactory.getWeapons().get(2);
-        shoot = thor.getFireModalitysBranch(2).get(0).getCompatibleActions().get(0);
+        shoot = thor.getFireModalitiesBranch(2).get(0).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(1, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -99,9 +99,9 @@ class WeaponCardsTest {
     @Test
     void plasmaGun() {
         WeaponCard plasmaGun = CardsFactory.getWeapons().get(3);
-        assertTrue(plasmaGun.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0) instanceof MoveAction);
-        assertTrue(plasmaGun.getFireModalitysBranch(0).get(0).getCompatibleActions().get(1) instanceof ShootAction);
-        shoot = plasmaGun.getFireModalitysBranch(0).get(0).getCompatibleActions().get(1);
+        assertTrue(plasmaGun.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0) instanceof MoveAction);
+        assertTrue(plasmaGun.getFireModalitiesBranch(0).get(1).getCompatibleActions().get(0) instanceof ShootAction);
+        shoot = plasmaGun.getFireModalitiesBranch(0).get(1).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(1, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -116,7 +116,7 @@ class WeaponCardsTest {
     @Test
     void whisper() {
         WeaponCard whisper = CardsFactory.getWeapons().get(4);
-        shoot = whisper.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = whisper.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p5);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -140,7 +140,7 @@ class WeaponCardsTest {
     @Test
     void electroscythe() {
         WeaponCard electroscythe = CardsFactory.getWeapons().get(5);
-        shoot = electroscythe.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = electroscythe.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p3);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(1, shoot.getPossibleSquares().size());
@@ -161,7 +161,7 @@ class WeaponCardsTest {
     @Test
     void tractorBeam1() {
         WeaponCard tractorBeam = CardsFactory.getWeapons().get(6);
-        shoot = tractorBeam.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = tractorBeam.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(4, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -180,7 +180,7 @@ class WeaponCardsTest {
     @Test
     void tractorBeam2() {
         WeaponCard tractorBeam = CardsFactory.getWeapons().get(6);
-        shoot = tractorBeam.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = tractorBeam.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(3, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -199,7 +199,7 @@ class WeaponCardsTest {
     @Test
     void vortexCannon1() {
         WeaponCard vortexCannon = CardsFactory.getWeapons().get(7);
-        shoot = vortexCannon.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = vortexCannon.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(5, shoot.getPossibleSquares().size());
@@ -221,7 +221,7 @@ class WeaponCardsTest {
     @Test
     void vortexCannon2() {
         WeaponCard vortexCannon = CardsFactory.getWeapons().get(7);
-        shoot = vortexCannon.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = vortexCannon.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(5, shoot.getPossibleSquares().size());
@@ -249,7 +249,7 @@ class WeaponCardsTest {
     @Test
     void furnace1() {
         WeaponCard furnace = CardsFactory.getWeapons().get(8);
-        shoot = furnace.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = furnace.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(1, shoot.getPossibleSquares().size());
@@ -266,7 +266,7 @@ class WeaponCardsTest {
     @Test
     void furnace2() {
         WeaponCard furnace = CardsFactory.getWeapons().get(8);
-        shoot = furnace.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = furnace.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p5);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(1, shoot.getPossibleSquares().size());
@@ -283,7 +283,7 @@ class WeaponCardsTest {
     @Test
     void heatseeker() {
         WeaponCard heatseeker = CardsFactory.getWeapons().get(9);
-        shoot = heatseeker.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = heatseeker.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(3, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -298,7 +298,7 @@ class WeaponCardsTest {
     @Test
     void hellion() {
         WeaponCard hellion = CardsFactory.getWeapons().get(10);
-        shoot = hellion.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = hellion.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p3);
         assertEquals(1, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -321,7 +321,7 @@ class WeaponCardsTest {
         p1.getCurrentSquare().removePlayer(p1);
         p1.setCurrentSquare(gameBoard.getSquares().get(10));
         p1.getCurrentSquare().addPlayer(p1);
-        shoot = flamethrower.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = flamethrower.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(4, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -344,7 +344,7 @@ class WeaponCardsTest {
         p1.getCurrentSquare().removePlayer(p1);
         p1.setCurrentSquare(gameBoard.getSquares().get(10));
         p1.getCurrentSquare().addPlayer(p1);
-        shoot = flamethrower.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = flamethrower.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(2, shoot.getPossibleSquares().size());
@@ -369,7 +369,7 @@ class WeaponCardsTest {
         p1.getCurrentSquare().removePlayer(p1);
         p1.setCurrentSquare(gameBoard.getSquares().get(0));
         p1.getCurrentSquare().addPlayer(p1);
-        shoot = flamethrower.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = flamethrower.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p5);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(2, shoot.getPossibleSquares().size());
@@ -387,7 +387,7 @@ class WeaponCardsTest {
     @Test
     void grenadeLauncher1() {
         WeaponCard grenadeLauncher = CardsFactory.getWeapons().get(12);
-        shoot = grenadeLauncher.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = grenadeLauncher.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(2, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -409,7 +409,7 @@ class WeaponCardsTest {
     @Test
     void grenadeLauncher2() {
         WeaponCard grenadeLauncher = CardsFactory.getWeapons().get(12);
-        shoot = grenadeLauncher.getFireModalitysBranch(1).get(1).getCompatibleActions().get(0);
+        shoot = grenadeLauncher.getFireModalitiesBranch(1).get(1).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(1, shoot.getPossibleSquares().size());
@@ -426,7 +426,7 @@ class WeaponCardsTest {
     @Test
     void rocketLauncher() {
         WeaponCard rocketLauncher = CardsFactory.getWeapons().get(13);
-        shoot = rocketLauncher.getFireModalitysBranch(3).get(0).getCompatibleActions().get(0);
+        shoot = rocketLauncher.getFireModalitiesBranch(3).get(0).getCompatibleActions().get(0);
         shoot.initialize(p2);
         assertEquals(2, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -448,14 +448,14 @@ class WeaponCardsTest {
     @Test
     void railgun() {
         WeaponCard railgun = CardsFactory.getWeapons().get(14);
-        shoot = railgun.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = railgun.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p3);
         assertEquals(3, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
         shoot.addTarget(p1);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
-        shoot = railgun.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = railgun.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p3);
         assertEquals(3, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -475,7 +475,7 @@ class WeaponCardsTest {
     @Test
     void cyberblade() {
         WeaponCard cyberblade = CardsFactory.getWeapons().get(15);
-        shoot = cyberblade.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = cyberblade.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p4);
         assertEquals(1, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -496,7 +496,7 @@ class WeaponCardsTest {
         p2.getCurrentSquare().removePlayer(p2);
         p2.setCurrentSquare(gameBoard.getSquares().get(11));
         p2.getCurrentSquare().addPlayer(p2);
-        shoot = zx2.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = zx2.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(4, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -521,7 +521,7 @@ class WeaponCardsTest {
     @Test
     void shotgun() {
         WeaponCard shotgun = CardsFactory.getWeapons().get(17);
-        shoot = shotgun.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = shotgun.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p4);
         assertEquals(1, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -529,7 +529,7 @@ class WeaponCardsTest {
         shoot.addTarget(p5);
         assertEquals(0, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
-        shoot = shotgun.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = shotgun.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p4);
         assertEquals(1, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -552,7 +552,7 @@ class WeaponCardsTest {
         p1.getCurrentSquare().removePlayer(p1);
         p1.setCurrentSquare(gameBoard.getSquares().get(10));
         p1.getCurrentSquare().addPlayer(p1);
-        shoot = powerGlove.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = powerGlove.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(4, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -578,7 +578,7 @@ class WeaponCardsTest {
         p1.getCurrentSquare().removePlayer(p1);
         p1.setCurrentSquare(gameBoard.getSquares().get(10));
         p1.getCurrentSquare().addPlayer(p1);
-        shoot = powerGlove.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = powerGlove.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(4, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -604,7 +604,7 @@ class WeaponCardsTest {
         p1.getCurrentSquare().removePlayer(p1);
         p1.setCurrentSquare(gameBoard.getSquares().get(10));
         p1.getCurrentSquare().addPlayer(p1);
-        shoot = powerGlove.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = powerGlove.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p1);
         assertEquals(4, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -621,7 +621,7 @@ class WeaponCardsTest {
     @Test
     void shockwave() {
         WeaponCard shockwave = CardsFactory.getWeapons().get(19);
-        shoot = shockwave.getFireModalitysBranch(0).get(0).getCompatibleActions().get(0);
+        shoot = shockwave.getFireModalitiesBranch(0).get(0).getCompatibleActions().get(0);
         shoot.initialize(p4);
         assertEquals(1, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());
@@ -636,7 +636,7 @@ class WeaponCardsTest {
     @Test
     void sledgehammer() {
         WeaponCard sledgehammer = CardsFactory.getWeapons().get(20);
-        shoot = sledgehammer.getFireModalitysBranch(1).get(0).getCompatibleActions().get(0);
+        shoot = sledgehammer.getFireModalitiesBranch(1).get(0).getCompatibleActions().get(0);
         shoot.initialize(p3);
         assertEquals(1, shoot.getPossiblePlayers().size());
         assertEquals(0, shoot.getPossibleSquares().size());

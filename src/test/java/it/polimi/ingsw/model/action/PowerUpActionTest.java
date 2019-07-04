@@ -31,7 +31,6 @@ class PowerUpActionTest {
         p2 = new Player("p", PlayerColor.BLUE, gameBoard);
     }
 
-    /* todo redo test
     @Test
     void shootNewton()
     {
@@ -44,13 +43,16 @@ class PowerUpActionTest {
         p2.setCurrentSquare(gameBoard.getSquares().get(5));
         p2.getCurrentSquare().addPlayer(p2);
         gameBoard.setPlayers(Arrays.asList(p1, p2));
-        Action powerUpAction = newton.getEffect();
+        BranchMap branchMap = BranchMapFactory.noAdrenaline();
+        Action powerUpAction = branchMap.getPossibleActions().stream().filter(a -> a instanceof PowerUpAction).collect(Collectors.toList()).get(0);
         powerUpAction.initialize(p1);
+        assertEquals(2, powerUpAction.getPossiblePowerUps().size());
+        powerUpAction.use(p1.getPowerupSet().getEndStartPUs().get(0));
         assertEquals(1, powerUpAction.getPossiblePlayers().size());
         assertEquals(0, powerUpAction.getPossibleSquares().size());
         powerUpAction.addTarget(p2);
         assertEquals(0, powerUpAction.getPossiblePlayers().size());
-        assertEquals(4, powerUpAction.getPossibleSquares().size());
+        assertEquals(5, powerUpAction.getPossibleSquares().size());
         powerUpAction.addTarget(gameBoard.getSquares().get(4));
         assertEquals(0, powerUpAction.getPossiblePlayers().size());
         assertEquals(0, powerUpAction.getPossibleSquares().size());
@@ -60,8 +62,6 @@ class PowerUpActionTest {
         assertEquals(p1.gameBoard.getSquares().get(4), p2.getCurrentSquare());
     }
 
-
-     */
     @Test
     void shootTeleporter()
     {
@@ -144,7 +144,7 @@ class PowerUpActionTest {
         p1.addPowerUpCard(targetingScope2);
         p2.setCurrentSquare(gameBoard.getSpawnAndShopSquare(AmmoColor.RED));
         p2.getCurrentSquare().addPlayer(p2);
-        Branch branch = p1.getWeapons().get(0).getFireModalitysBranch(0).get(0);
+        Branch branch = p1.getWeapons().get(0).getFireModalitiesBranch(0).get(0);
         Action shootAction = branch.getCompatibleActions().get(0);
         shootAction.initialize(p1);
         assertEquals(1, shootAction.getPossiblePlayers().size());

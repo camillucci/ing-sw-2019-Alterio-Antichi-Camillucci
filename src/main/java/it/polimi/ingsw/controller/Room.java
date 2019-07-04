@@ -82,7 +82,7 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    private static final int LOGIN_TIMEOUT = 15;
+    private static final int LOGIN_TIMEOUT = 5;
 
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.

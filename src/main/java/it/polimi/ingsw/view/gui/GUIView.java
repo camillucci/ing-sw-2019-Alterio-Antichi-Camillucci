@@ -62,7 +62,7 @@ public class GUIView extends View
                     buildView(loginGUI, actionHandlerGUI);
                     this.lock.notifyAll();
                 } catch (IOException e) {
-                    //todo logger
+                    logger.log(Level.WARNING, e.getMessage());
                 }
             }
         });
