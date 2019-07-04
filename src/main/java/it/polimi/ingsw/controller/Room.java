@@ -88,7 +88,7 @@ public class Room
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
      */
-    private static final int TURN_TIMEOUT = 1000000000;
+    private static final int TURN_TIMEOUT = 7;
 
     /**
      * Integer representing the period value
@@ -162,8 +162,8 @@ public class Room
      */
 
     private ModelEventArgs curModel;
-    private static final int MIN_PLAYERS = 2;
-
+    private static final int MIN_PLAYERS = 5;
+    private List<String> suspendedPlayers = new ArrayList<>();
 
     /**
      * Constructor that initializes the list referring to the available colors players can choose. It also starts the
@@ -228,7 +228,9 @@ public class Room
      */
     private synchronized void onTurnTimeout(){
         if(timer.getElapsed() >= TURN_TIMEOUT-1)
+        {
             onTurnTimeoutSync();
+        }
     }
 
     /**
@@ -269,6 +271,7 @@ public class Room
         match.start();
         match.endMatchEvent.addEventHandler((curMatch, players) -> onMatchEnd());
         createTurnTimer();
+
     }
 
     private void onNewActions(Player player, List<Action> actions)
@@ -293,6 +296,7 @@ public class Room
     private void createTurnTimer(){
         this.timer = new RoomTimer(TURN_TIMEOUT, PERIOD);
         timer.timeoutEvent.addEventHandler((a,b) -> onTurnTimeout());
+        timer.start();
     }
 
     /**
