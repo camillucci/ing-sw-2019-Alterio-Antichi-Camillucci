@@ -46,6 +46,7 @@ public class MoveAction extends Action
     {
         this(maxDistance);
         this.minDistance = minDistance;
+        this.optional = false;
     }
 
     /**

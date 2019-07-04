@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.cards.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**

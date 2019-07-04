@@ -52,7 +52,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, String> turnTimeoutEventHandler = (a, name) -> bottleneck.tryDo( () -> onTurnTimeout(name));
     private volatile boolean isDisconnected = false;
 
-
     private void onTurnTimeout(String name) throws IOException
     {
         if(!name.equals(this.name))
@@ -155,6 +154,13 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             otherPlayers = joinedRoom.getOtherPlayers(name);
             reconnectedMessage(name);
             onModelUpdated(joinedRoom.getCurModel(name));
+
+            List<String> disconnected = joinedRoom.getDisconnectedPlayers();
+            sendCommand(new Command<>(view ->
+            {
+                for(String p : disconnected)
+                    view.getActionHandler().disconnectedPlayerMessage(p);
+            }));
             return;
         }
 
