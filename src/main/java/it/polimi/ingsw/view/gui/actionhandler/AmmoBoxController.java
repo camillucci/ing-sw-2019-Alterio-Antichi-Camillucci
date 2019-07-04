@@ -1,5 +1,4 @@
 package it.polimi.ingsw.view.gui.actionhandler;
-
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.snapshots.MatchSnapshot;
@@ -9,7 +8,6 @@ import it.polimi.ingsw.view.gui.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import java.util.Arrays;
 import java.util.List;
 
