@@ -96,6 +96,8 @@ public class BranchMapFactory
             {
                 Player p = a.getOwnerPlayer();
                 p.removePowerUpCard(pu);
+                if(p.getCurrentSquare() != null)
+                    p.getCurrentSquare().removePlayer(p);
                 p.setCurrentSquare(p.gameBoard.getSpawnAndShopSquare(pu.color));
                 p.getCurrentSquare().addPlayer(p);
             }, new Visualizable("/powerup/" + pu.getName().replace(" ", "_") + ".png","discard " + pu.getName(), "Spawn")), new EndBranchAction()));

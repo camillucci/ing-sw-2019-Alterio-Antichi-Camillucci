@@ -99,19 +99,26 @@ public class PlayerSetController implements Ifxml<StackPane> {
         {
             if (cur.equals(color))
                 tot++;
-            else if(tot == 3)
-            {
-                addMark(getDoubledMark(color));
-                addMark(getMark(color));
-            }
             else
             {
-                for (int i = 0; i < tot; i++)
-                    addMark(getMark(color));
+                addMarks(cur, tot);
                 tot = 1;
                 cur = color;
             }
         }
+        addMarks(cur, tot);
+    }
+
+    private void addMarks(String color, int tot)
+    {
+        if(tot == 3)
+        {
+            addMark(getDoubledMark(color));
+            addMark(getMark(color));
+        }
+        else if(tot > 0 && tot < 3)
+            for (int i = 0; i < tot; i++)
+                addMark(getMark(color));
     }
 
     private void addMark(ImageView mark)

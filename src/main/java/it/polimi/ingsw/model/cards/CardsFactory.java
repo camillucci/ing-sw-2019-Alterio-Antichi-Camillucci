@@ -88,7 +88,7 @@ public class CardsFactory {
         for(AmmoColor ammoColor : allColors) {
             powerUpCards.add(new InTurnPowerUpCard("Targeting Scope", ammoColor, damageNoMark(1)));
             powerUpCards.add(new EndStartPowerUpCard("Teleporter", ammoColor, TargetsFilters.noPlayersFilter, allSquares, moveSelf));
-            powerUpCards.add(new EndStartPowerUpCard("Newton", ammoColor, otherPlayers, near2Squares, move));
+            powerUpCards.add(new EndStartPowerUpCard("Newton", ammoColor, otherPlayers, twoSquaresSameDirection, move));
             powerUpCards.add(new CounterAttackPowerUpCard("Tagback Grenade", ammoColor, mark(1)));
         }
     }
@@ -259,7 +259,7 @@ public class CardsFactory {
                 new FireModalityAction(new Ammo(0, 0, 0), SLEDGEHAMMER, BASIC_MODE,
                         new Branch(new ShootAction(nearPlayers(1, 0), damage(2)), new EndBranchAction(SLEDGEHAMMER))),
                 new FireModalityAction(new Ammo(0, 1, 0), SLEDGEHAMMER, "Pulverize Mode",
-                        new Branch(new ShootAction(nearPlayers(1, 0), sledgehammerSquares, move.andThen(damage(3))), new EndBranchAction(SLEDGEHAMMER))))));
+                        new Branch(new ShootAction(nearPlayers(1, 0), twoSquaresSameDirection, move.andThen(damage(3))), new EndBranchAction(SLEDGEHAMMER))))));
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -317,6 +317,7 @@ public class CardsFactory {
     private static SquaresFilter roomSquares(int maxTargets) { return (player, players, squares) -> TargetsFilters.otherVisibleRoom(player, squares, maxTargets); }
 
     private static SquaresFilter movable1Square = (player, players, squares) -> TargetsFilters.movable1Square(players, squares);
+    private static SquaresFilter twoSquaresSameDirection = (player, players, squares) -> TargetsFilters.twoSquaresSameDirection(players, squares);
 
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF SPECIFIC TARGET FILTERS
@@ -338,13 +339,10 @@ public class CardsFactory {
     private static PlayersFilter railGunPlayers1 = (player, players, squares) -> TargetsFilters.railgunPlayers1(player, players);
     private static PlayersFilter railGunPlayers2 = (player, players, squares) -> TargetsFilters.railgunPlayers2(player, players);
 
-    private static SquaresFilter sledgehammerSquares = (player, players, squares) -> TargetsFilters.sledgehammerSquares(players, squares);
-
     //------------------------------------------------------------------------------------------------------------------
     // POWER UP'S TARGET FILTERS
 
     private static PlayersFilter otherPlayers = (player, players, squares) -> TargetsFilters.newtonPlayers(player, players);
-    private static SquaresFilter near2Squares = (player, players, squares) -> TargetsFilters.newtonSquares(players, squares);
 
     private static SquaresFilter allSquares = (player, players, squares) -> TargetsFilters.teleporterSquares(player, squares);
 
