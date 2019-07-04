@@ -83,6 +83,7 @@ public class Match extends ActionsProvider {
     private static final int MAX_DAMAGES = 12;
     private boolean spawning = false;
     private boolean stopSendingActions = false;
+    private Turn currentTurn;
 
     /**
      * Given the names and the colors of the Players, chosen through the Client, it creates the GameBoard and all Players
@@ -177,7 +178,7 @@ public class Match extends ActionsProvider {
     {
         turnPos = (turnPos + 1) % players.size();
         curPlayer = players.get(turnPos);
-        Turn currentTurn = new Turn(curPlayer, this);
+        currentTurn = new Turn(curPlayer, this);
         currentTurn.newActionsEvent.addEventHandler((player, actions) -> this.setNewActions(actions));
         currentTurn.endTurnEvent.addEventHandler((turn, turnPlayer) -> onTurnCompleted());
         setNewActions(currentTurn.getActions());
@@ -201,6 +202,7 @@ public class Match extends ActionsProvider {
             });
             actions = counterAttackBranchMap.get(0).getPossibleActions();
             curPlayer = counterAttackPlayer.get(0);
+
             counterAttackBranchMap.remove(counterAttackBranchMap.get(0));
             counterAttackPlayer.remove(counterAttackPlayer.get(0));
         }
@@ -377,11 +379,15 @@ public class Match extends ActionsProvider {
         stopSendingActions = true;
         if(spawning)
         {
-            do
+            while(spawning)
                 getActions().get(0).doAction();
-            while(spawning);
             stopSendingActions = false;
             onTurnCompleted();
+        }
+        else if(getPlayer() != currentTurn.getPlayer())
+        {
+            stopSendingActions = false;
+            getActions().get(1).doAction();
         }
         else
         {

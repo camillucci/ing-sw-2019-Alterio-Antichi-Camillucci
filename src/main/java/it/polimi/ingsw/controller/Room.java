@@ -87,7 +87,7 @@ public class Room
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
      */
-    private static final int TURN_TIMEOUT = 120;
+    private static final int TURN_TIMEOUT = 6000;
 
     /**
      * Integer representing the period value
