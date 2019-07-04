@@ -65,7 +65,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     {
         if(getPossiblePlayers().contains(target)) {
             targetPlayers.add(target);
-            if (discardedAmmo != null || !discardedPowerUps.isEmpty())
+            if(discardedAmmo != null || !discardedPowerUps.isEmpty())
                 this.canBeDone = true;
         }
     }
