@@ -82,12 +82,12 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    private static final int LOGIN_TIMEOUT = 10;
+    private static final int LOGIN_TIMEOUT = 15;
 
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
      */
-    private static final int TURN_TIMEOUT = 15;
+    private static final int TURN_TIMEOUT = 180;
 
     /**
      * Integer representing the period value
@@ -422,6 +422,7 @@ public class Room
             removePlayer(name);
         else {
             disconnectedPlayers.add(name);
+            suspendedPlayers.remove(name);
             if(playerNames.size() - disconnectedPlayers.size() - suspendedPlayers.size() < MIN_PLAYERS)
                 onMatchEnd();
             else if(match.getPlayer().name.equals(name))
