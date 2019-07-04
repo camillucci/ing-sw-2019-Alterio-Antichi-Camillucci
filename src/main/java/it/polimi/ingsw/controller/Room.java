@@ -83,12 +83,12 @@ public class Room
      * Integer representing the timeout value
      */
 
-    private static final int LOGIN_TIMEOUT = 1;
+    private static final int LOGIN_TIMEOUT = 10;
 
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
      */
-    private static final int TURN_TIMEOUT = 10;
+    private static final int TURN_TIMEOUT = 15;
 
     /**
      * Integer representing the period value
@@ -160,9 +160,7 @@ public class Room
     /**
      * Integer that represents the minimum number of players required for a match to start
      */
-
-    private ModelEventArgs curModel;
-    private static final int MIN_PLAYERS = 1;
+    private static final int MIN_PLAYERS = 2;
     private List<String> suspendedPlayers = new ArrayList<>();
 
     /**
@@ -229,6 +227,7 @@ public class Room
     private synchronized void onTurnTimeout(){
         if(timer.getElapsed() >= TURN_TIMEOUT-1)
         {
+            suspendedPlayers.add(match.getPlayer().name);
             onTurnTimeoutSync();
         }
     }
@@ -276,7 +275,7 @@ public class Room
 
     private void onNewActions(Player player, List<Action> actions)
     {
-        if(disconnectedPlayers.contains(match.getPlayer().name)) {
+        if(disconnectedPlayers.contains(match.getPlayer().name) || suspendedPlayers.contains(match.getPlayer().name)) {
             onTurnTimeoutSync();
             return;
         }
