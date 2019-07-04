@@ -82,7 +82,6 @@ public class Room
     /**
      * Integer representing the timeout value
      */
-    
     private static final int LOGIN_TIMEOUT = 10;
 
     /**
@@ -228,7 +227,10 @@ public class Room
         if(timer.getElapsed() >= TURN_TIMEOUT-1)
         {
             suspendedPlayers.add(match.getPlayer().name);
-            onTurnTimeoutSync();
+            if(playerNames.size() - disconnectedPlayers.size() - suspendedPlayers.size() < MIN_PLAYERS)
+                onMatchEnd();
+            else
+                onTurnTimeoutSync();
         }
     }
 
@@ -420,7 +422,7 @@ public class Room
             removePlayer(name);
         else {
             disconnectedPlayers.add(name);
-            if(playerNames.size() - disconnectedPlayers.size() < MIN_PLAYERS)
+            if(playerNames.size() - disconnectedPlayers.size() - suspendedPlayers.size() < MIN_PLAYERS)
                 onMatchEnd();
             else if(match.getPlayer().name.equals(name))
                 onTurnTimeoutSync();
