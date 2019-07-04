@@ -285,15 +285,18 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         return GUIView.getController("/view/ActionHandler/general/actionHandler.fxml", "/view/ActionHandler/general/actionHandler.css");
     }
 
-    private void clearAnd(Runnable func){
-        clear();
+    private void clearAnd(boolean removeRollback, Runnable func){
+        clear(removeRollback);
         (new Thread(func)).start();
     }
 
-    private void clear(){
+
+    private void clear(boolean removeRollback){
         showMap();
         mapController.reset();
         actionVBox.getChildren().clear();
+        if(!removeRollback)
+            actionVBox.getChildren().add(rollBack);
     }
 
     private void showMap()
@@ -314,7 +317,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void visualizeActions(List<RemoteAction> actions)
     {
-        clear();
+        clear(true);
         if(actions.isEmpty())
             return;
         List<RemoteAction> imgActions = new ArrayList<>();
@@ -356,8 +359,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     {
         curAction = action;
         showMap();
-        clearAnd(() -> {
-            Platform.runLater(() -> actionVBox.getChildren().add(rollBack));
+        clearAnd(false, () -> {
             notifyChoice(action.choose());
             notifyChoice(action.askActionData());
         });
@@ -405,12 +407,12 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private void doActionAndReset()
     {
         notifyingToServerEvent.invoke(this, null);
-        clearAnd(() -> notifyChoice(curAction.doAction()));
+        clearAnd(true, () -> notifyChoice(curAction.doAction()));
     }
 
     private void notifyAndReset(Command<RemoteActionsHandler> command){
         notifyingToServerEvent.invoke(this, null);
-        clearAnd(() -> {
+        clearAnd(false, () -> {
             notifyChoice(command);
             notifyChoice(curAction.askActionData());
         });
