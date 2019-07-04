@@ -133,6 +133,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         playerCardsController.addWeaponEvent.addEventHandler((a,weapon) -> notifyAndReset(getAction().addWeapon(weapon)));
         playerCardsController.usePowerupEvent.addEventHandler((a,pu) -> notifyAndReset(getAction().usePowerUp(pu)));
         playerCardsController.addPowerupEvent.addEventHandler((a,pu) -> notifyAndReset(getAction().addDiscardable(pu)));
+        playerAmmoBoxController.addDiscardedAmmoEvent.addEventHandler((a,ammo) -> notifyAndReset(getAction().addDiscardableAmmo(ammo)));
         mapController.addTargetSquareEvent.addEventHandler((a,square) -> notifyAndReset(getAction().addTargetSquare(square)));
         mapController.addPTargetPlayerEvent.addEventHandler((a, player) -> notifyAndReset(getAction().addTargetPlayer(player)));
     }

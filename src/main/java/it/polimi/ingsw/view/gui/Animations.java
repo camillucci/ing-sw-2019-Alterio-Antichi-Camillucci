@@ -49,7 +49,6 @@ public class Animations
         zoomTransition.setAutoReverse(reverse);
         zoomTransition.play();
     }
-
     public static RotateTransition rotatingAnimation(Node node)
     {
         RotateTransition rt = new RotateTransition(Duration.millis(1500), node);
