@@ -88,7 +88,7 @@ public class Room
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
      */
-    private static final int TURN_TIMEOUT = 1000000000;
+    private static final int TURN_TIMEOUT = 10;
 
     /**
      * Integer representing the period value
@@ -163,7 +163,7 @@ public class Room
 
     private ModelEventArgs curModel;
     private static final int MIN_PLAYERS = 3;
-
+    private List<String> suspendedPlayers = new ArrayList<>();
 
     /**
      * Constructor that initializes the list referring to the available colors players can choose. It also starts the
@@ -228,7 +228,10 @@ public class Room
      */
     private synchronized void onTurnTimeout(){
         if(timer.getElapsed() >= TURN_TIMEOUT-1)
+        {
             onTurnTimeoutSync();
+            suspendedPlayers.add(match.getPlayer().name);
+        }
     }
 
     /**
@@ -273,7 +276,7 @@ public class Room
 
     private void onNewActions(Player player, List<Action> actions)
     {
-        if(disconnectedPlayers.contains(match.getPlayer().name)) {
+        if(disconnectedPlayers.contains(match.getPlayer().name) || suspendedPlayers.contains(match.getPlayer().name)) {
             onTurnTimeoutSync();
             return;
         }
@@ -302,6 +305,7 @@ public class Room
      */
     public synchronized void reconnect(String playerName){
         disconnectedPlayers.remove(playerName);
+        suspendedPlayers.remove(playerName);
         ((Event<Room, String>)reconnectedPlayerEvent).invoke(this, playerName);
     }
 
