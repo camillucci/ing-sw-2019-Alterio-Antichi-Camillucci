@@ -237,9 +237,12 @@ public class Player {
         for (PlayerColor p : mark)
             if (p == shooter.color)
                 temp++;
-
+        int index = 0;
+        for(; index < mark.size(); index++)
+            if(mark.get(index).equals(shooter.color))
+                break;
         for (int i = 0; i < val && temp < MAX_MARKS; i++, temp++)
-            mark.add(shooter.color);
+            mark.add(index, shooter.color);
     }
 
     /**

@@ -97,6 +97,12 @@ public class TargetsFilters {
         return players.get(0).gameBoard.getSquares(players.get(0), 1);
     }
 
+    public static List<Square> twoSquaresSameDirection(List<Player> players, List<Square> squares) {
+        if(players.isEmpty() || !squares.isEmpty())
+            return Collections.emptyList();
+        return players.get(0).gameBoard.sameDirection(players.get(0));
+    }
+
     //------------------------------------------------------------------------------------------------------------------
     // LIST OF SPECIFIC TARGET FILTERS
 
@@ -258,12 +264,6 @@ public class TargetsFilters {
         return temp;
     }
 
-    public static List<Square> sledgehammerSquares(List<Player> players, List<Square> squares) {
-        if(players.isEmpty() || !squares.isEmpty())
-            return Collections.emptyList();
-        return players.get(0).gameBoard.sameDirection(players.get(0));
-    }
-
     //------------------------------------------------------------------------------------------------------------------
     // POWER UP'S TARGET FILTERS
 
@@ -274,14 +274,6 @@ public class TargetsFilters {
         for(Square square : player.gameBoard.getSquares())
             temp.addAll(square.getPlayers());
         temp.remove(player);
-        return temp;
-    }
-
-    public static List<Square> newtonSquares(List<Player> players, List<Square> squares) {
-        if(players.isEmpty() || !squares.isEmpty())
-            return Collections.emptyList();
-        List<Square> temp = players.get(0).gameBoard.sameDirection(players.get(0));
-        temp.remove(players.get(0).getCurrentSquare());
         return temp;
     }
 

@@ -167,7 +167,7 @@ public class Match extends ActionsProvider {
         if(deadPlayers.isEmpty())
             newTurn();
         else
-            spawn(turnPos >= players.size());
+            spawn(turnPos >= players.size() - 1);
     }
 
     /**
