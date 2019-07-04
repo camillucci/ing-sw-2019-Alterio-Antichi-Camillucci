@@ -36,9 +36,9 @@ public class AdrenalineLauncherClient
             }
 
         String viewType = args.length > 0 ? args[0] : properties.getProperty("view", "cli");
-        String serverName = args.length > 1 ? args[2] : properties.getProperty("ipAddress", "127.0.0.1");
-        int socketPort = args.length > 2 ? Integer.parseInt(args[3]) : Integer.parseInt(properties.getProperty("socketPort", "9999"));
-        int rmiPort = args.length > 3 ? Integer.parseInt(args[4]) : Integer.parseInt(properties.getProperty("rmiPort", "1099"));
+        String serverName = args.length > 1 ? args[1] : properties.getProperty("ipAddress", "127.0.0.1");
+        int socketPort = args.length > 2 ? Integer.parseInt(args[2]) : Integer.parseInt(properties.getProperty("socketPort", "9999"));
+        int rmiPort = args.length > 3 ? Integer.parseInt(args[3]) : Integer.parseInt(properties.getProperty("rmiPort", "1099"));
 
         properties.setProperty("view", viewType);
         properties.setProperty("ipAddress", serverName);
