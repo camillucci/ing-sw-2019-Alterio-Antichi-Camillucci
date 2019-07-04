@@ -88,7 +88,7 @@ public class Room
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
      */
-    private static final int TURN_TIMEOUT = 10;
+    private static final int TURN_TIMEOUT = 7;
 
     /**
      * Integer representing the period value
@@ -162,7 +162,7 @@ public class Room
      */
 
     private ModelEventArgs curModel;
-    private static final int MIN_PLAYERS = 1;
+    private static final int MIN_PLAYERS = 5;
     private List<String> suspendedPlayers = new ArrayList<>();
 
     /**
@@ -306,7 +306,6 @@ public class Room
      */
     public synchronized void reconnect(String playerName){
         disconnectedPlayers.remove(playerName);
-        suspendedPlayers.remove(playerName);
         ((Event<Room, String>)reconnectedPlayerEvent).invoke(this, playerName);
     }
 
