@@ -74,8 +74,8 @@ public class AmmoBoxController implements Ifxml<VBox>
         {
             ammo.setOnMouseClicked(null);
             ammo.getStyleClass().remove("button");
-            func.run();
         }
+        func.run();
     }
 
     private <T> void invoke(IEvent<AmmoBoxController, T> event, T arg)
