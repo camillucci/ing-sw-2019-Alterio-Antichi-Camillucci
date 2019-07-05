@@ -61,15 +61,4 @@ class MatchTest {
         assertEquals(1, match.getFrenzyStarter());
     }
 
-    @Test
-    void SpawnAndFirstTurn()
-    {
-        for(Player p: match.getPlayers())
-            assertEquals(1, p.getPowerUps().size());
-        Player p = match.getPlayer();
-        bot.playNoAdrenaline(match); // shooter damage damaged of 3 or 4
-        bot.playThreeDamage(match);
-        bot.reloadEndTurn(match);
-        //assertNotSame(match.getPlayer(), p);
-    }
 }

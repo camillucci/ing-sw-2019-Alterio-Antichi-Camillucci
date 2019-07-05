@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.generics.Visualizable;
+import it.polimi.ingsw.model.action.DropWeaponAction;
 import it.polimi.ingsw.model.action.EndBranchAction;
 import it.polimi.ingsw.model.action.ExtendableAction;
 import it.polimi.ingsw.model.action.FunctionalAction;
@@ -93,7 +94,7 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new FunctionalAction(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
-                }, new Visualizable(nameToUrl(w.name), "buy " + w.name, "buy")), chooseToDropBranches));
+                }, new Visualizable(nameToUrl(w.name), "buy " + w.name, "buy")), new DropWeaponAction(player), new EndBranchAction()));
         return ret;
     }
 

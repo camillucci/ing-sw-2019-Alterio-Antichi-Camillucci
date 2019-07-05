@@ -422,18 +422,17 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         return snapshot.privatePlayerSnapshot.color;
     }
 
-
-    @Override
-    public void onNewMessage(String message) {
-        //TODO Maybe nothing
-    }
-
     private Avatar getAvatar(String name){
         String color = nameToColor(curSnapshot, name);
         for(Avatar avatar : avatars)
             if(avatar.getColor().equals(color))
                 return avatar;
         throw new RuntimeException("Avatar does not exist");
+    }
+
+    @Override
+    public void onNewMessage(String message) {
+
     }
 
     @Override

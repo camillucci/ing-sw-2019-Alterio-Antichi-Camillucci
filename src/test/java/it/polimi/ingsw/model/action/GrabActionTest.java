@@ -76,6 +76,7 @@ class GrabActionTest {
         assertEquals(0, player.getCurrentSquare().getWeapons().size());
     }
 
+    /*
     @Test
     void grabAndDrop() {
         Action action;
@@ -110,6 +111,8 @@ class GrabActionTest {
         assertEquals(3, player.getLoadedWeapons().size());
         assertEquals(3, player.getCurrentSquare().getCardsName().size());
     }
+
+     */
 
     @Test
     void getDiscardablePowerUps() {

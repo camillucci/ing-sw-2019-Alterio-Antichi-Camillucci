@@ -268,7 +268,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
 
     protected void sendMessage(String message) throws IOException
     {
-        sendCommand(new Command<>(v -> v.getCurViewElement().onNewMessage(message)));
+        sendCommand(new Command<>(v -> v.getLogin().onNewMessage(message)));
     }
 
     protected void scoreboardMessage(String[][] scoreboard) throws IOException {

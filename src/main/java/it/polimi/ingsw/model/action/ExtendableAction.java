@@ -28,6 +28,7 @@ public class ExtendableAction extends Action
     {
         this.branches = new ArrayList<>(branches);
         this.visualizable = visualizable;
+        this.optional = false;
     }
 
     public List<Branch> getBranches()

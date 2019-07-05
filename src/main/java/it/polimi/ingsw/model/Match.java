@@ -5,6 +5,7 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.action.CounterPowerUpAction;
 import it.polimi.ingsw.model.branch.*;
+import it.polimi.ingsw.model.cards.CardsFactory;
 import it.polimi.ingsw.snapshots.MatchSnapshot;
 
 import java.util.ArrayList;
@@ -138,6 +139,12 @@ public class Match extends ActionsProvider {
         }
 
         //p.addDamageNoMarks(players.get(0), 10);
+        /*
+        p.addWeapon(CardsFactory.getWeapons().get(0));
+        p.addWeapon(CardsFactory.getWeapons().get(0));
+        p.addWeapon(CardsFactory.getWeapons().get(0));
+
+         */
         this.curPlayer = p;
         p.addPowerUpCardRespawn();
         if(!respawn)

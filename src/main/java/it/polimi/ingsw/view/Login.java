@@ -89,6 +89,13 @@ public abstract class Login implements ViewElement {
     public abstract void newPlayerMessage(String name);
 
     /**
+     * Provides a protocol to follow when a generic message is sent from the server to the client. The message is going
+     * to be printed to the user regardless if the chosen interface is GUI or CLI.
+     * @param message Message printed to the user
+     */
+    public abstract void onNewMessage(String message);
+
+    /**
      * If the user is the host, then two questions are asked about how they want to set up the game. Then the server
      * is notified of the user's answer via invoking gameLenghtevent and gameMapEvent
      * @param isHost Indicates whether the user is the host (first one to enter the room) or not

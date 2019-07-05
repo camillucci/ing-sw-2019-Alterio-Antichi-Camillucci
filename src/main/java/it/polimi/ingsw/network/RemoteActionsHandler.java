@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.cards.PowerUpCard;
+import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class RemoteActionsHandler
      * Action that as been selected from the user and is ready to be executed
      */
     private Action selectedAction;
+    private List<WeaponCard> possibleWeapons;
 
     /**
      * Constructor that assigns the input parameters to their global correspondences
@@ -98,7 +100,7 @@ public class RemoteActionsHandler
      * @param index Integer that represents the position of the selected weapon card on the list.
      */
     public void addWeapon(int index) {
-        selectedAction.addWeapon(player.getUnloadedWeapons().get(index));
+        selectedAction.addWeapon(possibleWeapons.get(index));
     }
 
     /**
@@ -152,6 +154,7 @@ public class RemoteActionsHandler
 
     public List<String> getPossibleWeapons()
     {
+        possibleWeapons = selectedAction.getPossibleWeapons();
         return selectedAction.getPossibleWeapons().stream().map(w -> w.name).collect(Collectors.toList());
     }
 

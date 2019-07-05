@@ -175,7 +175,7 @@ public class Room
     /**
      * Integer that represents the minimum number of players required for a match to start
      */
-    private static final int MIN_PLAYERS = 3;
+    private static final int MIN_PLAYERS = 1;
     private int roomID = 0;
 
 
