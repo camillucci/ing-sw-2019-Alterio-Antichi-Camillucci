@@ -25,17 +25,24 @@
 -->
 
 ## How to Start the Server:
-- ### Parameters (in this order):
+- The server's jar must be launched from the terminal;
+- All parameters are optional, but if entered they must be in order.
+- #### Parameters (in this order):
     - socketPort (Integer, default value: 9999)
     - rmiPort (Integer, default value: 1099)
-- ### Example:
-        java -jar .\AdrenalineLauncherServer.jar 9999 1099
+    - loginTimer (Integer, default value: 30)
+    - turnTimer (Integer, default value: 120)
+- #### Example:
+        java -jar .\AdrenalineLauncherServer.jar 9999 1099 30 120
     
 ## How to Start the Client:
-- ### Parameters (in this order):
+- The client's jar can be launched by double clicking it;
+- For changing some of the parameters, for using the cli and for non connecting to localhost, the jar must be launched from the terminal;
+- All parameters are optional, but if entered they must be in order.
+- #### Parameters (in this order):
     - viewType (String "cli" or "gui", default value: gui)
     - ipAddress (String, default value: 127.0.0.1)
     - socketPort (Integer, default value: 9999)
     - rmiPort (Integer, default value: 1099)
-- ### Example:
+- #### Example:
         java -jar .\AdrenalineLauncherClient.jar gui 127.0.0.1 9999 1099

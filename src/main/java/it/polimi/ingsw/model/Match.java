@@ -260,8 +260,10 @@ public class Match extends ActionsProvider {
     private void updateKillShotTrack(List<PlayerColor> damage, Player deadPlayer) {
         List<PlayerColor> tempKillShot = new ArrayList<>();
         tempKillShot.add(damage.get(MAX_DAMAGES - 2));
-        if (damage.size() == MAX_DAMAGES)
+        if (damage.size() == MAX_DAMAGES) {
             tempKillShot.add(damage.get(MAX_DAMAGES - 1));
+            players.get(playerColors.indexOf(damage.get(MAX_DAMAGES - 1))).addMark(deadPlayer, 1);
+        }
         gameBoard.addKillShotTrack(tempKillShot);
         if(gameBoard.getKillShotTrack().size() == 8 && frenzyStarter == -1) {
             finalFrenzy = true;

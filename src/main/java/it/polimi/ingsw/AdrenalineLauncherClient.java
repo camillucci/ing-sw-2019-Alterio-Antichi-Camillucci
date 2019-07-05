@@ -40,11 +40,6 @@ public class AdrenalineLauncherClient
         int socketPort = args.length > 2 ? Integer.parseInt(args[2]) : Integer.parseInt(properties.getProperty("socketPort", "9999"));
         int rmiPort = args.length > 3 ? Integer.parseInt(args[3]) : Integer.parseInt(properties.getProperty("rmiPort", "1099"));
 
-        properties.setProperty("view", viewType);
-        properties.setProperty("ipAddress", serverName);
-        properties.setProperty("socketPort", Integer.toString(socketPort));
-        properties.setProperty("rmiPort", Integer.toString(rmiPort));
-
         try {
             View view = viewType.equals("gui") ? new GUIView() : new CLIView();
             view.getLogin().socketEvent.addTmpEventHandler((a, isSocket) -> {

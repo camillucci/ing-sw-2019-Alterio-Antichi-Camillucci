@@ -80,14 +80,14 @@ public class Room
     public final IEvent<Room, String> turnTimeoutEvent = new Event<>();
 
     /**
-     * Integer representing the timeout value
+     * Integer representing the login timeout value
      */
-    private static final int LOGIN_TIMEOUT = 1;
+    private final int loginTimer;
 
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
      */
-    private static final int TURN_TIMEOUT = 6000;
+    private final int turnTimer;
 
     /**
      * Integer representing the period value
@@ -126,6 +126,11 @@ public class Room
     private List<String> readyPlayers = new ArrayList<>();
 
     /**
+     * List of Strings, each of which represents the name of a player who's run out of time during his turn.
+     */
+    private List<String> suspendedPlayers = new ArrayList<>();
+
+    /**
      * Number of skulls relative to the match this room is managing
      */
     private int gameLength;
@@ -151,22 +156,27 @@ public class Room
     private String hostName;
 
     /**
-     * Boolean representing whether the match is started.
+     * Boolean representing whether the match is starting.
      */
     private boolean matchStarting = false;
+
+    /**
+     * Boolean representing whether the match has started.
+     */
     private boolean matchStarted = false;
 
     /**
      * Integer that represents the minimum number of players required for a match to start
      */
     private static final int MIN_PLAYERS = 2;
-    private List<String> suspendedPlayers = new ArrayList<>();
 
     /**
      * Constructor that initializes the list referring to the available colors players can choose. It also starts the
      * login timer.
      */
-    public Room() {
+    public Room(int loginTimer, int turnTimer) {
+        this.loginTimer = loginTimer;
+        this.turnTimer = turnTimer;
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
         newLoginTimer();
     }
@@ -187,8 +197,8 @@ public class Room
      * Sets up  the events relative to timeouts and players disconnecting.
      */
     private void newLoginTimer(){
-        timer = new RoomTimer(LOGIN_TIMEOUT, PERIOD);
-        timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, LOGIN_TIMEOUT - timeElapsed));
+        timer = new RoomTimer(loginTimer, PERIOD);
+        timer.timerTickEvent.addEventHandler((a, timeElapsed) -> ((Event<Room, Integer>)timerTickEvent).invoke(this, loginTimer - timeElapsed));
         timer.timeoutEvent.addEventHandler((a, b) -> onTimeout());
     }
 
@@ -217,14 +227,14 @@ public class Room
     private void stopTimer(){
         matchStarting = false;
         timer.stop();
-        ((Event<Room, Integer>)timerStopEvent).invoke(this, LOGIN_TIMEOUT);
+        ((Event<Room, Integer>)timerStopEvent).invoke(this, loginTimer);
     }
 
     /**
      * Method called when the turn timer reaches 0
      */
     private synchronized void onTurnTimeout(){
-        if(timer.getElapsed() >= TURN_TIMEOUT-1)
+        if(timer.getElapsed() >= turnTimer -1)
         {
             suspendedPlayers.add(match.getPlayer().name);
             if(playerNames.size() - disconnectedPlayers.size() - suspendedPlayers.size() < MIN_PLAYERS)
@@ -258,7 +268,7 @@ public class Room
     }
 
     public boolean getTurnTimeout(){
-        return timer != null && timer.getElapsed() >= TURN_TIMEOUT-1;
+        return timer != null && timer.getElapsed() >= turnTimer -1;
     }
 
     /**
@@ -295,7 +305,7 @@ public class Room
      * created timer.
      */
     private void createTurnTimer(){
-        this.timer = new RoomTimer(TURN_TIMEOUT, PERIOD);
+        this.timer = new RoomTimer(turnTimer, PERIOD);
         timer.timeoutEvent.addEventHandler((a,b) -> onTurnTimeout());
         timer.start();
     }
@@ -404,7 +414,7 @@ public class Room
             startMatch();
         else if (readyCounter == MIN_PLAYERS) {
             timer.start();
-            ((Event<Room, Integer>) timerStartEvent).invoke(this, LOGIN_TIMEOUT);
+            ((Event<Room, Integer>) timerStartEvent).invoke(this, loginTimer);
         } else if (readyCounter == 5) {
             matchStarting = true;
             timer.stop();
