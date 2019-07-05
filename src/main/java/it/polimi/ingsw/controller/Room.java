@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.RemoteActionsHandler;
-
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -192,10 +191,6 @@ public class Room
         this.turnTimer = turnTimer;
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
         newLoginTimer();
-        setupdEvents();
-    }
-
-    private void setupdEvents() {
         setupEvents();
     }
 

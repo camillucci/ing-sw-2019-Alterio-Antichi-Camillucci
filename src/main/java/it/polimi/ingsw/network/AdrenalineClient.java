@@ -24,6 +24,11 @@ public abstract class AdrenalineClient
     protected Bottleneck bottleneck = new Bottleneck();
     private static final Logger logger = Logger.getLogger("AdrenalineClient");
     /**
+     * Time interval in milliseconds that elapse between two attempts of pinging the server
+     */
+    protected static final int PING_PERIOD = 1000; // 1 millisecond to test ping synchronization  todo change in final version
+
+    /**
      * Sets all parameters to input values. Also signs up to bottleneck event, which triggers when connection is lost.
      * @param view Reference to the interface which communicates with the user
      */
