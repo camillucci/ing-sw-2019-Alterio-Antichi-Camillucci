@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.Visualizable;
+import it.polimi.ingsw.generics.Visualizable;
 
 public class RollBackAction extends Action
 {

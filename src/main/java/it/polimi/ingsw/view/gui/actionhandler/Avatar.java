@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui.actionhandler;
 import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.Cache;
 import javafx.animation.RotateTransition;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Avatar extends ImageView

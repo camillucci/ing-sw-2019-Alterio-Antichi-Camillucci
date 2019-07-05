@@ -61,7 +61,7 @@ public class RMIListener
                     Thread.sleep(period);
                 }
             } catch (InterruptedException | RemoteException e) {
-                //todo logger
+                logger.log(Level.WARNING, e.getMessage());
                 stopPinging = true;
             }
         });
@@ -105,7 +105,7 @@ public class RMIListener
         UnicastRemoteObject.unexportObject(registry, true);
     }
 
-    public void closeAll() throws NoSuchObjectException {
+    public void closeAll() {
         for(AdrenalineServerRMI client : getConnected())
             client.close();
     }

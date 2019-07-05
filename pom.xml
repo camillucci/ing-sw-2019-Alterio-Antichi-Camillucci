@@ -13,8 +13,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>12</maven.compiler.source>
+        <maven.compiler.target>12</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -45,18 +45,18 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx</artifactId>
-            <version>11.0.1</version>
+            <version>12.0.1</version>
             <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>11.0.1</version>
+            <version>12.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>11.0.1</version>
+            <version>12.0.1</version>
         </dependency>
     </dependencies>
 
@@ -102,10 +102,6 @@
 
             <!-- Packaging types/tools: These plugins relate to packaging respective artifact types. -->
             <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.1</version>
-            </plugin>
-            <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.1</version>
                 <executions>
@@ -116,18 +112,24 @@
                         <goal>shade</goal>
                     </goals>
                         <configuration>
-                            <outputFile>shade\AdrenalineLauncherClient.jar</outputFile>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>...</exclude>
-                                </excludes>
-                            </artifactSet>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>it.polimi.ingsw.client.AdrenalineLauncherClient</mainClass>
+                                    <mainClass>it.polimi.ingsw.AdrenalineLauncherClient</mainClass>
                                 </transformer>
                             </transformers>
-                            <finalName>client</finalName>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>it/polimi/ingsw/model/**</exclude>
+                                        <exclude>it/polimi/ingsw/controller/**</exclude>
+                                        <exclude>it/polimi/ingsw/AdrenalineLauncherServer.class</exclude>
+                                        <exclude>serverConfig.properties</exclude>
+                                        <exclude>manifests/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <finalName>AdrenalineLauncherClient</finalName>
                         </configuration>
                     </execution>
                     <execution>
@@ -137,18 +139,27 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputFile>shade\AdrenalineLauncherClient.jar</outputFile>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>...</exclude>
-                                </excludes>
-                            </artifactSet>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>it.polimi.ingsw.client.AdrenalineLauncherServer</mainClass>
+                                    <mainClass>it.polimi.ingsw.AdrenalineLauncherServer</mainClass>
                                 </transformer>
                             </transformers>
-                            <finalName>server</finalName>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>**/*.png</exclude>
+                                        <exclude>**/*.jpg</exclude>
+                                        <exclude>**/*.fxml</exclude>
+                                        <exclude>**/*.css</exclude>
+                                        <exclude>it/polimi/ingsw/view/**</exclude>
+                                        <exclude>it/polimi/ingsw/AdrenalineLauncherClient.class</exclude>
+                                        <exclude>clientConfig.properties</exclude>
+                                        <exclude>manifests/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <finalName>AdrenalineLauncherServer</finalName>
                         </configuration>
                     </execution>
                 </executions>
@@ -166,57 +177,6 @@
             <plugin>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.0.0-M3</version>
-            </plugin>
-
-            <!-- Tools: These are miscellaneous tools available through Maven by default. -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.1</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>server-jar-execution</id>
-                        <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <archive>
-                                <manifest>
-                                    <mainClass>it.polimi.ingsw.AdrenalineLauncherServer</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                            <finalName>AdrenalineLauncherServer.jar</finalName>
-                        </configuration>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>client-jar-execution</id>
-                        <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <archive>
-                                <manifest>
-                                    <mainClass>it.polimi.ingsw.AdrenalineLauncherClient</mainClass>
-                                </manifest>
-                            </archive>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                            <finalName>AdrenalineLauncherClient.jar</finalName>
-                        </configuration>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <!-- JavaFX Plugin -->

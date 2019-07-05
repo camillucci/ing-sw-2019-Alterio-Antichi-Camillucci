@@ -1,9 +1,8 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.Visualizable;
-import it.polimi.ingsw.model.snapshots.*;
+import it.polimi.ingsw.generics.Visualizable;
+import it.polimi.ingsw.snapshots.PrivatePlayerSnapshot;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

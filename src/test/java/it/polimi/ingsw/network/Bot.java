@@ -29,11 +29,7 @@ public class Bot
             client.start();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (NotBoundException | InterruptedException e) {
             e.printStackTrace();
         }
     }

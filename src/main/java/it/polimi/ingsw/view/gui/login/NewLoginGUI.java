@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui.login;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.Cache;
@@ -16,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
@@ -228,17 +226,17 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
 
     @Override
     public void reconnectedMessage(String name) {
-        return;
+        //TODO
     }
 
     @Override
     public void winnerMessage(String winner) {
-        return;
+        //TODO
     }
 
     @Override
     public void scoreboardMessage(String[][] scoreboard) {
-        return;
+        //TODO
     }
 
     @Override
@@ -268,7 +266,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         return upperVBox;
     }
 
-    public static NewLoginGUI getController () throws IOException {
+    public static NewLoginGUI getController () {
         return GUIView.getController("/view/root.fxml");
     }
 }

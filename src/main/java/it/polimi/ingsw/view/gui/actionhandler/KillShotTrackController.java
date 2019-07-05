@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
-import it.polimi.ingsw.generics.Event;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.gui.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -147,7 +147,7 @@ public class LoginCLI extends Login {
      */
     @Override
     public void winnerMessage(String winner) {
-        return;
+        //TODO
     }
 
     /**
@@ -156,7 +156,6 @@ public class LoginCLI extends Login {
      */
     @Override
     public void scoreboardMessage(String[][] scoreboard) {
-        return;
+        //TODO
     }
-
 }

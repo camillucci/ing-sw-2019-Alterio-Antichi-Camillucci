@@ -2,23 +2,21 @@ package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.Visualizable;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.generics.Visualizable;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.network.RemoteActionsHandler;
 import it.polimi.ingsw.view.ActionHandler;
 import it.polimi.ingsw.view.gui.*;
-import it.polimi.ingsw.view.gui.endGame.EndGameController;
+import it.polimi.ingsw.view.gui.endgame.EndGameController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -445,17 +443,17 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void newPlayerMessage(String name) {
-        return;
+        //TODO
     }
 
     @Override
     public void timerStartedMessage(int time) {
-        return;
+        //TODO
     }
 
     @Override
     public void timerTickMessage(int time) {
-        return;
+        //TODO
     }
 
     @Override

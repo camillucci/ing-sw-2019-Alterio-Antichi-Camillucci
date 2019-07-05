@@ -1,7 +1,7 @@
-package it.polimi.ingsw.view.gui.endGame;
+package it.polimi.ingsw.view.gui.endgame;
 
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;

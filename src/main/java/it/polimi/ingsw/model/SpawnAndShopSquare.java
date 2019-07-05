@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.generics.Visualizable;
 import it.polimi.ingsw.model.action.EndBranchAction;
 import it.polimi.ingsw.model.action.ExtendableAction;
 import it.polimi.ingsw.model.action.FunctionalAction;

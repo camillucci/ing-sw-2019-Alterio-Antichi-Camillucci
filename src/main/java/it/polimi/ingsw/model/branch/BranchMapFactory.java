@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.branch;
 
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Visualizable;
+import it.polimi.ingsw.generics.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.action.*;
 

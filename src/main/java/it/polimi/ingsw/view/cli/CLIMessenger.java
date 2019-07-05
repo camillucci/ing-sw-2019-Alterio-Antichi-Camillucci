@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 
 import java.io.PrintStream;
@@ -22,11 +22,6 @@ public class CLIMessenger {
      * String that represents default color
      */
     private static final String ANSI_RESET = "\u001B[0m";
-
-    /**
-     * String that represents color "black"
-     */
-    private static final String ANSI_BLACK = "\u001B[30m";
 
     /**
      * String that represents color "red"
@@ -54,11 +49,6 @@ public class CLIMessenger {
     private static final String ANSI_PURPLE = "\u001B[35m";
 
     /**
-     * String that represents color "cyan"
-     */
-    private static final String ANSI_CYAN = "\u001B[36m";
-
-    /**
      * String that represents color "grey"
      */
     private static final String ANSI_GREY = "\u001B[37m";
@@ -67,46 +57,6 @@ public class CLIMessenger {
      * String that represents color "white"
      */
     private static final String ANSI_WHITE = "\u001B[37m";
-
-    /**
-     * String that represents "black" background color
-     */
-    private static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-
-    /**
-     * String that represents "red" background color
-     */
-    private static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-
-    /**
-     * String that represents "green" background color
-     */
-    private static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-
-    /**
-     * String that represents "yellow" background color
-     */
-    private static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-
-    /**
-     * String that represents "blue" background color
-     */
-    private static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-
-    /**
-     * String that represents "purple" background color
-     */
-    private static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-
-    /**
-     * String that represents "cyan" background color
-     */
-    private static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-
-    /**
-     * String that represents "white" background color
-     */
-    private static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     /**
      * String used to keep track of the current color used to display characters

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.action;
 
-import it.polimi.ingsw.model.Visualizable;
+import it.polimi.ingsw.generics.Visualizable;
 import it.polimi.ingsw.model.branch.Branch;
 
 import java.util.ArrayList;

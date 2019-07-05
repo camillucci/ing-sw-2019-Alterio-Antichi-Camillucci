@@ -1,13 +1,12 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
@@ -54,16 +53,13 @@ public class PlayerSetController implements Ifxml<StackPane> {
 
     private void onModelChanged(MatchSnapshot matchSnapshot){
         reset();
-        PublicPlayerSnapshot player = null;
-        if(matchSnapshot.privatePlayerSnapshot.color.equals(this.color))
-            player = matchSnapshot.privatePlayerSnapshot;
-        else
-            for(PublicPlayerSnapshot p : matchSnapshot.getPublicPlayerSnapshot())
-                if(p.color.equals(this.color))
-                {
-                    player = p;
-                    break;
-                }
+        PublicPlayerSnapshot player = matchSnapshot.privatePlayerSnapshot;
+        for(PublicPlayerSnapshot p : matchSnapshot.getPublicPlayerSnapshot())
+            if(p.color.equals(this.color))
+            {
+                player = p;
+                break;
+            }
         setBackground(player);
         setMarks(player);
         setSkulls(player);
@@ -95,15 +91,15 @@ public class PlayerSetController implements Ifxml<StackPane> {
     private void setMarks(PublicPlayerSnapshot player) {
         String cur = "";
         int tot = 0;
-        for(String color : player.getMark())
+        for(String markColor : player.getMark())
         {
-            if (cur.equals(color))
+            if (cur.equals(markColor))
                 tot++;
             else
             {
                 addMarks(cur, tot);
                 tot = 1;
-                cur = color;
+                cur = markColor;
             }
         }
         addMarks(cur, tot);

@@ -4,10 +4,8 @@ import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
 
 
 public class ColorChoiceController implements Ifxml<HBox> {
@@ -19,7 +17,6 @@ public class ColorChoiceController implements Ifxml<HBox> {
     }
 
     public ImageView newColorButton(String color){
-        //Circle ret = new Circle(30);
         final String partialUrl = "_avatar";
         String url = "/player/" + color.toLowerCase() + partialUrl + ".png";
         ImageView ret = new ImageView(Cache.getImage(url));
