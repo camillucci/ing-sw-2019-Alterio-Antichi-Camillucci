@@ -1,10 +1,8 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
-import it.polimi.ingsw.view.gui.GUIView;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.SquareSnapshot;
 import it.polimi.ingsw.view.gui.MatchSnapshotProvider;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;

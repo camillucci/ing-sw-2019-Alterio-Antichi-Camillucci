@@ -1,9 +1,10 @@
 package it.polimi.ingsw.network;
 import it.polimi.ingsw.generics.Bottleneck;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class used by client for communication with server. It's abstract because it needs to be implemented once user has
@@ -21,7 +22,7 @@ public abstract class AdrenalineClient
      * If an exception is thrown then an event is invoked: onExceptionGenerated is the event-handler and the Exception is the event-arg
      */
     protected Bottleneck bottleneck = new Bottleneck();
-
+    private static final Logger logger = Logger.getLogger("AdrenalineClient");
     /**
      * Sets all parameters to input values. Also signs up to bottleneck event, which triggers when connection is lost.
      * @param view Reference to the interface which communicates with the user
@@ -39,7 +40,7 @@ public abstract class AdrenalineClient
      */
 
     protected synchronized void onExceptionGenerated(Exception exception){
-        exception.printStackTrace();
+        logger.log(Level.WARNING, exception.getMessage());
         view.getCurViewElement().onNewMessage("Sorry, i'm unable to connect");
     }
 

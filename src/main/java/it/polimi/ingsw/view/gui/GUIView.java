@@ -1,11 +1,10 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.App;
-import it.polimi.ingsw.view.ActionHandler;
 import it.polimi.ingsw.view.Login;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI;
-import it.polimi.ingsw.view.gui.endGame.EndGameController;
+import it.polimi.ingsw.view.gui.endgame.EndGameController;
 import it.polimi.ingsw.view.gui.login.NewLoginGUI;
 import it.polimi.ingsw.view.gui.login.NicknameController;
 import javafx.application.Platform;
@@ -49,7 +48,7 @@ public class GUIView extends View
         });
     }
 
-    private void startupGUI() throws InterruptedException, IOException {
+    private void startupGUI() throws InterruptedException {
         App.applicationStartedEvent.addEventHandler((app, stage) -> {
             synchronized (lock){
                 try {
@@ -98,10 +97,7 @@ public class GUIView extends View
         rootScene.getStylesheets().add("/view/root.css");
         rootScene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE)
-                if(primaryStage.isFullScreen())
-                    primaryStage.setFullScreen(false);
-                else
-                    primaryStage.setFullScreen(true);
+                primaryStage.setFullScreen(!primaryStage.isFullScreen());
         });
         tmp.loginStarted.addEventHandler((a,b) -> app.show());
         app.setScene(rootScene);

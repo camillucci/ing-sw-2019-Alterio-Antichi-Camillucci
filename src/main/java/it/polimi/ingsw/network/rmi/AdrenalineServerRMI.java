@@ -36,18 +36,6 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
      * Boolean that indicates whether the pinging thread needs to keep running or not
      */
     private boolean stopPinging = false;
-    private static final Logger logger = Logger.getLogger("AdrenalineServerRMI");
-
-    /**
-     * As long as the stopPinging variable is equal to false, this thread sends periodic pings to the client in order
-     * to check if it is still connected.
-     */
-    private final Thread pingingThread = new Thread(() -> bottleneck.tryDo( () -> {
-        while(!getStopPinging()) {
-            client.ping();
-            Thread.sleep(PING_PERIOD);
-        }
-    }));
 
     /**
      * Constructor that assigns the input parameter to their global correspondences
@@ -76,19 +64,6 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         return stopPinging;
     }
 
-    private synchronized void setStopPinging(boolean stopPinging) {
-        this.stopPinging = stopPinging;
-    }
-
-    /**
-     * If the pinging thread is not running already, this method sets the stopPinging variable to false and starts a
-     * new pinging thread.
-     */
-
-    /**
-     * If the pinging thread is running, this method sets the stopPinging variable to true.
-     */
-
     @Override
     protected void sendCommand(Command<View> command) throws IOException {
         commandQueue.run(() -> bottleneck.tryDo(() -> client.newViewCommand(command)));
@@ -116,8 +91,9 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         try {
             UnicastRemoteObject.unexportObject(this, true);
             ((Event<AdrenalineServerRMI, Object>)clientDisconnectedEvent).invoke(this, null);
-            logger.log(Level.INFO, name + " disconnected by server");
+            logger.log(Level.INFO, () -> name + " disconnected by server");
         } catch (NoSuchObjectException e) {
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 }

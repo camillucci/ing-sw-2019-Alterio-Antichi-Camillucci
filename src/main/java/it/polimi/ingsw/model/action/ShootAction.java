@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Visualizable;
+import it.polimi.ingsw.generics.Visualizable;
 import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.cards.*;
 

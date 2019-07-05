@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

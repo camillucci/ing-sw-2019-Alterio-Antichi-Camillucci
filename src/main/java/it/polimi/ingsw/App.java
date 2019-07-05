@@ -2,21 +2,10 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.io.IOException;
 
 public class App extends Application
 {

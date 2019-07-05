@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.gui;
-import it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.InputStream;
 import java.util.HashMap;

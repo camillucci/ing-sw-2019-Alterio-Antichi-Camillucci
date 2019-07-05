@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
 
 public interface MatchSnapshotProvider
 {

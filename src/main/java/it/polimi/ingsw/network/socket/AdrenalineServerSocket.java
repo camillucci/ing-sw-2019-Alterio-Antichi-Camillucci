@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * This class provides the server info and methods that are specific to the Socket type connection. It also inherits the
@@ -42,7 +41,7 @@ public class AdrenalineServerSocket extends AdrenalineServer
     @Override
     public void close() {
         client.close();
-        logger.log(Level.INFO, name + " disconnected by server");
+        logger.log(Level.INFO, () -> name + " disconnected by server");
     }
 
     /**

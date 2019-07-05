@@ -46,7 +46,6 @@ public class CLIParser {
     /**
      * Gets user's choice, which has to be either 0 or 1. In case it isn't, asks again.
      * @return user's choice between 0 and 1.
-     * @throws IOException
      */
     public int parseChoice() throws IOException {
         return getIntIf(choice -> choice == 0 || choice == 1);
@@ -65,7 +64,6 @@ public class CLIParser {
     /**
      * Gets user's gamelencth of choice, making sure it is between 5 and 8. If it isn't, user is asked one more time.
      * @return user's game length of choice, once it's acceptable.
-     * @throws IOException
      */
     public int parseGameLength() throws IOException {
         return getIntIf(answer -> answer >= 5 && answer <= 8);
@@ -87,7 +85,7 @@ public class CLIParser {
      * @return user's choice, once it's acceptable.
      */
     public int parseActionUserChoice(RemoteAction.Data data) throws IOException {
-        int index = data.getPossiblePlayers().size() + data.getPossibleSquares().size() + data.getDiscardablePowerUps().size()
+        int index = data.getPossiblePlayers().size() + data.getPossibleSquares().size() + data.getPossiblePowerUps().size()
                 + data.getDiscardablePowerUps().size() + data.getDiscardableAmmos().size() + data.getPossibleWeapons().size() + (data.canBeDone ? 1 : 0);
         return getIntIf(answer -> answer >= 0 && answer <= index);
     }

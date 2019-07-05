@@ -2,13 +2,12 @@ package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.PublicPlayerSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.PublicPlayerSnapshot;
+import it.polimi.ingsw.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 import it.polimi.ingsw.view.gui.*;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;

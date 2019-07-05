@@ -5,7 +5,7 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.Ammo;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
-import it.polimi.ingsw.model.Visualizable;
+import it.polimi.ingsw.generics.Visualizable;
 import it.polimi.ingsw.model.cards.PowerUpCard;
 import it.polimi.ingsw.model.cards.WeaponCard;
 

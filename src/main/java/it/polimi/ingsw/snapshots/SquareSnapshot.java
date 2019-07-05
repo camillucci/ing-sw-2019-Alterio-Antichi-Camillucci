@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.snapshots;
+package it.polimi.ingsw.snapshots;
 
 import it.polimi.ingsw.model.*;
 

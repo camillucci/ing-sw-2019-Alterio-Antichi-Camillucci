@@ -59,7 +59,7 @@ public class Controller {
 
     private void onRoomClosed(Room r, int id){
         lobby.remove(r);
-        logger.log(Level.INFO, "room number " + id + " closed");
+        logger.log(Level.INFO, () -> "room number " + id + " closed");
     }
 
     /**

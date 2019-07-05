@@ -1,13 +1,10 @@
 package it.polimi.ingsw.generics;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiConsumer;
 
 public class Event<T, U> implements IEvent<T,U> {
 
-    private int eventHandlerIndex = 0;
     @Override
     public void addEventHandler(BiConsumer<T, U> eventHandler)
     {

@@ -3,12 +3,13 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Room;
 import it.polimi.ingsw.generics.Bottleneck;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.View;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -82,7 +83,9 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             joinedRoom.setClientIdle(name, true);
             if(remoteActionsHandler != null)
                 bottleneck.tryDo( () -> command.invoke(this.remoteActionsHandler));
-        } catch (Room.TurnTimeoutException e) { }
+        } catch (Room.TurnTimeoutException e) {
+            logger.log(Level.WARNING, e.getMessage());
+        }
     }
     /**
      * Constructor. It assigns the input reference to the controller global parameter and subscribes to the

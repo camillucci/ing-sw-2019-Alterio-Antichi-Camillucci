@@ -57,7 +57,7 @@ public class AdrenalineLauncherClient
         }
     }
 
-    public void start() throws IOException, NotBoundException, ClassNotFoundException {
+    public void start() throws IOException, NotBoundException {
         client.start();
     }
 }

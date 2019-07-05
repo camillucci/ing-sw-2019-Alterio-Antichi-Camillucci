@@ -5,7 +5,6 @@ import it.polimi.ingsw.generics.*;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.channels.NotYetConnectedException;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

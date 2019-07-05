@@ -5,7 +5,7 @@ import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.model.action.Action;
 import it.polimi.ingsw.model.action.CounterPowerUpAction;
 import it.polimi.ingsw.model.branch.*;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;

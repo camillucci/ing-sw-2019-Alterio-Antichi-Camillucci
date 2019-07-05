@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.view.gui.Cache;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AmmoImageView extends ImageView

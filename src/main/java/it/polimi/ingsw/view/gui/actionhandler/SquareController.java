@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
-import it.polimi.ingsw.model.snapshots.SquareSnapshot;
+import it.polimi.ingsw.snapshots.SquareSnapshot;
 import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
@@ -9,21 +8,17 @@ import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.animation.ScaleTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SquareController implements Ifxml<StackPane> {
     @FXML private Circle circle;
-    @FXML private ImageView ammoCard_shop;
+    @FXML private ImageView ammoCardShop;
     @FXML private StackPane squareRootPane;
     @FXML private Avatar avatar1;
     @FXML private Avatar avatar2;
@@ -69,12 +64,12 @@ public class SquareController implements Ifxml<StackPane> {
 
         if(square.ammoSquare && square.getCards().size() == 1)
         {
-            ammoCard_shop.setImage(Cache.getImage(nameToUrl(square.getCards().get(0).toLowerCase())));
+            ammoCardShop.setImage(Cache.getImage(nameToUrl(square.getCards().get(0).toLowerCase())));
             if(old == null || !old.ammoSquare || old.getCards().size() != 1)
-                Animations.appearAnimation(ammoCard_shop);
+                Animations.appearAnimation(ammoCardShop);
         }
         else if(old != null && old.ammoSquare && old.getCards().size() == 1)
-            Animations.disappearAnimation(ammoCard_shop, () -> ammoCard_shop.setImage(null));
+            Animations.disappearAnimation(ammoCardShop, () -> ammoCardShop.setImage(null));
         old = square;
     }
 

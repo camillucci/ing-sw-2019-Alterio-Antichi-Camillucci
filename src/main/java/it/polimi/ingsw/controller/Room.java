@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
 import it.polimi.ingsw.model.action.Action;
-import it.polimi.ingsw.model.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.RemoteActionsHandler;
 
 import java.util.*;
@@ -196,6 +196,10 @@ public class Room
     }
 
     private void setupdEvents() {
+        setupEvents();
+    }
+
+    private void setupEvents() {
         endMatchEvent.addEventHandler((a, b) -> {
             logMessage("match finished");
             closeRoom();
@@ -309,7 +313,7 @@ public class Room
     }
 
     private void logMessage(String message){
-        logger.log(Level.INFO, "room " + roomID + ": " + message);
+        logger.log(Level.INFO, () -> "room " + roomID + ": " + message);
     }
 
     private void onNewActions(Player player, List<Action> actions)
@@ -379,7 +383,7 @@ public class Room
      * @param name String that represents the name of the reconnected player.
      */
     public synchronized void reconnectedPlayer(String name) {
-        logger.log(Level.INFO, name + " reconnected to the room number " + roomID);
+        logger.log(Level.INFO, () -> name + " reconnected to the room number " + roomID);
         if(isTheMatchStarted())
             disconnectedPlayers.remove(name);
     }
