@@ -20,6 +20,10 @@ import java.util.logging.Logger;
 public class Room
 {
     private static int totRooms = 1;
+
+
+    public final IEvent<Room, Integer> roomClosedEvent = new Event<>();
+
     /**
      * Event that other classes can subscribe to. The event is invoked when the before match countdown starts.
      */
@@ -192,7 +196,10 @@ public class Room
     }
 
     private void setupEventsà() {
-        endMatchEvent.addEventHandler((a, b) -> closeRoom());
+        endMatchEvent.addEventHandler((a, b) -> {
+            logMessage("match finished");
+            closeRoom();
+        });
     }
 
     /**
@@ -437,6 +444,7 @@ public class Room
     private synchronized void closeRoom() {
         closed = true;
         timer.stop();
+        ((Event<Room, Integer>)roomClosedEvent).invoke(this, roomID);
     }
 
     /**

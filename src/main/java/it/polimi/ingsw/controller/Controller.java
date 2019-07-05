@@ -52,10 +52,7 @@ public class Controller {
         Room room = new Room(loginTimer, turnTimer);
         room.newPlayerEvent.addEventHandler((a, name) -> joiningPlayers.remove(name));
 
-        room.endMatchEvent.addEventHandler((r, b) -> {
-            logger.log(Level.INFO, "room " + r.getId() + ": match finished");
-            onRoomClosed(r, r.getId());
-        });
+        room.roomClosedEvent.addEventHandler(this::onRoomClosed);
         lobby.add(room);
         return room;
     }
