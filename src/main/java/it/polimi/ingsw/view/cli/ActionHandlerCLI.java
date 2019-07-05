@@ -103,7 +103,7 @@ public class ActionHandlerCLI extends ActionHandler {
 
     /**
      * This method is never invoked in this class
-     * @param name
+     * @param name Name of the reconnected player
      */
 
     @Override

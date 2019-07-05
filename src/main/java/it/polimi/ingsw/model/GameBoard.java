@@ -557,6 +557,9 @@ public class GameBoard {
 
     /**
      * This method is an helper of the throughWalls(Player, Square) method
+     * @param temp List of squares that extend from the player's squares to the chosen direction
+     * @param val Integer that represents the direction the weapon is going to shoot to
+     * @return List of squares in the direction chosen by the player, starting from the square they stand upon.
      */
     private List<Square> throughWallsDirection(List<Square> temp, int val) {
         for(int i = 0; i < temp.size(); i++)

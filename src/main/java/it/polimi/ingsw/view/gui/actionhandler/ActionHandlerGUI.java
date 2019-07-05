@@ -138,6 +138,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     /**
      * calls setupShop method for every shop (3 in total)
+     * @return The list of controllers relative to the three newly created shop icons
      */
     private List<ShopController> setupStores(){
         setupShop(redShop, redShopController);
@@ -150,6 +151,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
      * Displays an icon corresponding to the store gotten has a parameter. The icon is clickable and displays
      * the weapons it currently contains when the user clicks on it.
      * @param store Icon representing one of the 3 stores.
+     * @param shopController Controller relative to the shop icon the user is approaching
      */
     private void setupShop(ImageView store, ShopController shopController){
         store.setOnMouseClicked(e -> {

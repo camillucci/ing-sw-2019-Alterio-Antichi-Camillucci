@@ -70,8 +70,10 @@ public class Branch
     /**
      * Constructor. It assigns the input parameters and subscribes to the completedActionEvent of the extendableAction,
      * setting up  the extActionCompletedEvent which is invoked when the other is.
-     * @param actions
-     * @param extendableAction
+     * @param actions List of actions the branch is made up of. For the branch to be executed, it means every action is
+     *                called in the right order
+     * @param extendableAction Final action of the branch, used to create a continuation (the branch would otherwise
+     *                         expire without continuing)
      */
     public Branch(List<Action> actions, ExtendableAction extendableAction)
     {
@@ -85,8 +87,9 @@ public class Branch
 
     /**
      * More specific constructor.
-     * @param action
-     * @param endBranchAction
+     * @param action Single action that substitutes the list of action in the more generic case
+     * @param endBranchAction Final action of the branch, used to create a continuation (the branch would otherwise
+     *                        expire without continuing)
      */
     public Branch(Action action, EndBranchAction endBranchAction)
     {

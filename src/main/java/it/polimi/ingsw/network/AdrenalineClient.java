@@ -82,7 +82,7 @@ public abstract class AdrenalineClient
 
     /**
      * Communicates to server user's name of choice, once the event has been triggered
-     * @param name
+     * @param name Name chosen by the user
      */
     protected void notifyName(String name)  {
         this.notifyServerCommand(new Command<>(server -> server.setName(name)));

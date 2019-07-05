@@ -75,7 +75,7 @@ public class CounterPowerUpAction extends PowerUpAction
 
     /**
      * Gets a list of players and sets it as the target of this action. The players also enter the damaged list.
-     * @param targets
+     * @param targets List of players who are going to receive the effects ot this action
      */
     public void setTargets(List<Player> targets)
     {

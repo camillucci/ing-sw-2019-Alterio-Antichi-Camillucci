@@ -89,7 +89,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     /**
      * Constructor. It assigns the input reference to the controller global parameter and subscribes to the
      * bottleneck.exceptionGenerated event.
-     * @param controller
+     * @param controller Reference to the class that manages the multiple rooms
      */
     public AdrenalineServer(Controller controller){
         this.controller = controller;
@@ -124,6 +124,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     /**
      * Method called when a connection exception comes up. The class unsubscribes to the events and notifies the
      * controller about the newly occurred player's disconnection.
+     * @param e Specific exception that needs to be handled by the method
      */
     protected void onExceptionGenerated(Exception e){
         if(isDisconnected)

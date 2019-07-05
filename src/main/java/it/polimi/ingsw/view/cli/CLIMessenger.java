@@ -287,6 +287,7 @@ public class CLIMessenger {
      * Output line displayed to the user used to ask them to choose a color for their character among the ones
      * still availabe
      * @param availableColors List of colors the user can choose from
+     * @return Integer that represents the number of colors the player can choose
      */
     public static int askColor(List<String> availableColors) {
         displayBold("Choose one of the following available colors:");

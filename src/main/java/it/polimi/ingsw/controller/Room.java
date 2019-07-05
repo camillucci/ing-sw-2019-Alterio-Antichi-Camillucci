@@ -185,6 +185,8 @@ public class Room
     /**
      * Constructor that initializes the list referring to the available colors players can choose. It also starts the
      * login timer.
+     * @param loginTimer timer used to as a reference to start the game when it reaches zero
+     * @param turnTimer timer used to as a reference to end the turn when it reaches zero
      */
     public Room(int loginTimer, int turnTimer) {
         this.loginTimer = loginTimer;
@@ -462,7 +464,7 @@ public class Room
      * been removed from the list and the match is ready to start, then a new match is created. Otherwise,
      * depending on the number of ready players either the timer is started (3 players) or the match is started
      * (5 players)
-     * @param playerName
+     * @param playerName Name of the player who's joined the room and is set up to start the game
      */
     public synchronized void notifyPlayerReady(String playerName)
     {
