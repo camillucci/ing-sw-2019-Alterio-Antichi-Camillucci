@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 public class AdrenalineLauncherServer
 {
+    private static final int PINGING_PERIOD = 1000; //todo change
     private static CLIParser parser;
     public static void main(String[] args) {
         Logger logger = Logger.getLogger("AdrenalineLauncherServer");
@@ -39,12 +40,14 @@ public class AdrenalineLauncherServer
 
         try {
             listenerRMI = new RMIListener(rmiPort, () -> new AdrenalineServerRMI(controller));
+            listenerRMI.pingAll(PINGING_PERIOD);
             listenerRMI.start();
             listenerTCP = new TCPListener(socketPort);
             listenerTCP.newClientEvent.addEventHandler((a, client) -> {
                 Thread thread = new Thread((new AdrenalineServerSocket(client, controller))::start);
                 thread.start();
             });
+            listenerTCP.pingAll(PINGING_PERIOD);
             listenerTCP.start();
 
             do {
@@ -55,8 +58,8 @@ public class AdrenalineLauncherServer
             for(TCPClient client : listenerTCP.getConnected())
                 client.close();
             listenerRMI.stop();
+            listenerRMI.closeAll();
             logger.log(Level.INFO, "Server closed");
-
         }
         catch (IOException e) {
             logger.log(Level.WARNING, "Could not start server");

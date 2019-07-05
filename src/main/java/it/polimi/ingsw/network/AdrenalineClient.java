@@ -44,7 +44,7 @@ public abstract class AdrenalineClient
 
     protected synchronized void onExceptionGenerated(Exception exception){
         exception.printStackTrace();
-        view.getCurViewElement().onNewMessage("Sorry, you have been disconnected");
+        view.getCurViewElement().onNewMessage("Sorry, i'm unable to connect");
     }
 
     /**

@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.rmi;
 
+import it.polimi.ingsw.network.socket.TCPClient;
+
+import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -17,8 +20,10 @@ public class RMIListener
     private Supplier<AdrenalineServerRMI> supplier;
     private Registry registry;
     private int port;
-    private List<IRMIAdrenalineServer> connectedList = new ArrayList<>();
+    private List<AdrenalineServerRMI> connectedList = new ArrayList<>();
     private static final Logger logger = Logger.getLogger("RMIListener");
+    private Thread pingingThread;
+    private boolean stopPinging;
 
     public RMIListener(int port, Supplier<AdrenalineServerRMI> supplier) throws RemoteException {
         this.supplier = supplier;
@@ -42,6 +47,54 @@ public class RMIListener
         }
     }
 
+    public synchronized void pingAll(int period){
+        if(pingingThread != null && pingingThread.getState() != Thread.State.TERMINATED)
+            return;
+
+        pingingThread = new Thread(() -> {
+            try {
+                while (!getStopPinging()) {
+                    for(AdrenalineServerRMI client : getConnected())
+                        client.pingClient();
+                    Thread.sleep(period);
+                }
+            } catch (InterruptedException e) {
+                //todo logger
+                stopPinging = true;
+            }
+        });
+        pingingThread.start();
+    }
+
+    public synchronized List<AdrenalineServerRMI> getConnected() {
+        return new ArrayList<>(connectedList);
+    }
+
+    public synchronized void addConnected(AdrenalineServerRMI connected)
+    {
+        connectedList.add(connected);
+    }
+
+    public synchronized void stopPinging(){
+        if(pingingThread == null || pingingThread.getState() == Thread.State.TERMINATED)
+            return;
+
+        setStopPinging(true);
+        try {
+            pingingThread.join();
+        } catch (InterruptedException e) {
+            logger.log(Level.WARNING, e.getMessage());
+        }
+    }
+    private synchronized void setStopPinging(boolean stopPinging){
+        this.stopPinging = stopPinging;
+    }
+
+    private synchronized boolean getStopPinging(){
+        return stopPinging;
+    }
+
+
     private void onNewClientConnected(AdrenalineServerRMI serverRMI){
         connectedList.add(serverRMI);
         newClient();
@@ -53,7 +106,10 @@ public class RMIListener
 
     public void stop() throws NoSuchObjectException {
         UnicastRemoteObject.unexportObject(registry, true);
-        for(IRMIAdrenalineServer client : connectedList)
+    }
+
+    public void closeAll() throws NoSuchObjectException {
+        for(IRMIAdrenalineServer client : getConnected())
             closeClient(client);
     }
 }

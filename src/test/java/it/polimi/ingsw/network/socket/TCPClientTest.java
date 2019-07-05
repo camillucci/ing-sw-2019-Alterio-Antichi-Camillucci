@@ -146,7 +146,7 @@ class TCPClientTest {
                     e.printStackTrace();
                 }
                 listener.newClientEvent.addEventHandler((a, c) -> {
-                        c.startPinging(1, e -> { }); // a ping every millisecond
+                        c.startPinging(1); // a ping every millisecond
                         try {
                             for (int i = 0; i < TOT; i++) {
                                 c.out().sendInt(num);
@@ -305,7 +305,7 @@ class TCPClientTest {
                 // Server sends bytes to client
                 try
                 {
-                    clientSocket.startPinging(1, e -> {});
+                    clientSocket.startPinging(1);
                     for(int i=0; i < TOT; i++)
                         clientSocket.out().sendObject(matchSnapshot);
                 }
@@ -319,7 +319,7 @@ class TCPClientTest {
             // client connecting to server
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
-            clientSocket.startPinging(1 , e ->{});
+            clientSocket.startPinging(1);
             // client getting bytes from server
             for(int i=0; i < TOT; i++) {
                 MatchSnapshot received = clientSocket.in().getObject();

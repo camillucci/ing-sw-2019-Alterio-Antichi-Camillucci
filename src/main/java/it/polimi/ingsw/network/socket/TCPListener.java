@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.generics.CommandQueue;
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
 
@@ -21,7 +22,7 @@ public class TCPListener {
      * invoked when a new client connects to this server.
      */
     public final IEvent<TCPListener, TCPClient> newClientEvent = new Event<>();
-
+    private CommandQueue eventQueue = new CommandQueue();
     /**
      * Event other classes can subscribe to. When this event is invoked, every subscriber is notified. This event is
      * invoked when a client disconnects from this server.
@@ -37,13 +38,14 @@ public class TCPListener {
      * Port that characterizes the server
      */
     private int port;
-
+    private Thread pingingThread;
     /**
      * Integer that represents the maximum amount of connected clients the server can support all at once
      */
     private int maxConnected;
     private Thread listenThread;
     private static final Logger logger = Logger.getLogger("TCPListener");
+    private boolean stopPinging;
 
     public TCPListener(int port)
     {
@@ -100,6 +102,43 @@ public class TCPListener {
         finally { closeListener(); }
     }
 
+    public synchronized void pingAll(int period){
+        if(pingingThread != null && pingingThread.getState() != Thread.State.TERMINATED)
+            return;
+
+        pingingThread = new Thread(() -> {
+            try {
+                while (!getStopPinging()) {
+                    for(TCPClient client : getConnected())
+                        client.out().ping();
+                    Thread.sleep(period);
+                }
+            } catch (IOException | InterruptedException e) {
+                stopPinging = true;
+            }
+        });
+        pingingThread.start();
+    }
+
+    public synchronized void stopPinging(){
+        if(pingingThread == null || pingingThread.getState() == Thread.State.TERMINATED)
+            return;
+
+        setStopPinging(true);
+        try {
+            pingingThread.join();
+        } catch (InterruptedException e) {
+            logger.log(Level.WARNING, e.getMessage());
+        }
+    }
+    private synchronized void setStopPinging(boolean stopPinging){
+        this.stopPinging = stopPinging;
+    }
+
+    private synchronized boolean getStopPinging(){
+        return stopPinging;
+    }
+
     private void closeListener()
     {
         try
@@ -121,13 +160,13 @@ public class TCPListener {
         connectedHosts.remove(client);
         ((Event<TCPListener,TCPClient>)clientDisconnectedEvent).invoke(this, client);
     }
-    private void addConnected(TCPClient connectedHost)
+    private synchronized void addConnected(TCPClient connectedHost)
     {
         connectedHosts.add(connectedHost);
 
         // if newClientEvent is invoked in this thread and calls this.stop() the thread joins itself -> deadlock
         // for this reason a tmp thread invokes the event
-        (new Thread(()-> ((Event<TCPListener,TCPClient>)this.newClientEvent).invoke(this, connectedHost))).start();
+        eventQueue.run(()-> ((Event<TCPListener,TCPClient>)this.newClientEvent).invoke(this, connectedHost));
     }
 
     private List<TCPClient> connectedHosts = new ArrayList<>();

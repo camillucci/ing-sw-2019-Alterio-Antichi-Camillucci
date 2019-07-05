@@ -134,9 +134,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         bottleneck.tryDo(() -> playerDisconnectedMessage(name));
     }
 
-    protected abstract void startPinging();
-    protected abstract void stopPinging();
-
     /**
      * Checks whether the name chosen by the user is available by communicating with the controller. If it is, it
      * proceeds to ask what the available colors are and send them to the client. If it isn't, the client is notified

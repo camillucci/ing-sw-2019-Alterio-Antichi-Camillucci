@@ -64,7 +64,7 @@ public class AdrenalineClientSocket extends AdrenalineClient {
      */
     @Override
     protected void startPing() {
-       server.startPinging(PING_PERIOD, this::onExceptionGenerated);
+       server.startPinging(PING_PERIOD);
     }
 
     private void waitForCommand()

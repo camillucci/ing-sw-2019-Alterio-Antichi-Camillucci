@@ -60,14 +60,12 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     public void initialize(ICallbackAdrenalineClient client)
     {
         this.client = client;
-        startPinging();
     }
 
     @Override
     public void registerClient(ICallbackAdrenalineClient client) {
         this.client = client;
         ((Event<AdrenalineServerRMI, Object>)newClientConnected).invoke(this, null);
-        startPinging();
     }
 
     private synchronized boolean getStopPinging() {
@@ -82,30 +80,10 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
      * If the pinging thread is not running already, this method sets the stopPinging variable to false and starts a
      * new pinging thread.
      */
-    @Override
-    protected void startPinging()
-    {
-        if(pingingThread.getState() == Thread.State.TERMINATED || pingingThread.getState() == Thread.State.NEW) {
-            setStopPinging(false);
-            pingingThread.start();
-        }
-    }
 
     /**
      * If the pinging thread is running, this method sets the stopPinging variable to true.
      */
-    @Override
-    protected void stopPinging()
-    {
-        if(pingingThread.getState() == Thread.State.TERMINATED)
-            return;
-        setStopPinging(true);
-        try {
-            pingingThread.join();
-        } catch (InterruptedException e) {
-            logger.log(Level.WARNING, e.getMessage());
-        }
-    }
 
     @Override
     protected void sendCommand(Command<View> command) throws IOException {
@@ -118,5 +96,9 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     @Override
     public void ping() {
         // called by client to test connection
+    }
+
+    public void pingClient(){
+        bottleneck.tryDo( () -> client.ping());
     }
 }

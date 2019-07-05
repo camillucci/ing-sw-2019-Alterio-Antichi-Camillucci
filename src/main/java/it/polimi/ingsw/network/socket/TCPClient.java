@@ -26,10 +26,10 @@ public class TCPClient
      * This thread is used to periodically send pings to the other TCPClient instance this class is connected to, in
      * order to constantly check that the connection is functioning properly.
      */
-    private Thread pingingBot;
+    private Thread pingingThread;
 
     /**
-     * Boolean that indicates whether the pingingBot thread needs to stop running. If it assumes the true value the
+     * Boolean that indicates whether the pingingThread thread needs to stop running. If it assumes the true value the
      * thread stop, otherwise it keeps running.
      */
     private boolean stopPinging = false;
@@ -59,7 +59,7 @@ public class TCPClient
         this.stopPinging = stopPinging;
     }
 
-    private boolean getStopPinging(){
+    private synchronized boolean getStopPinging(){
         return stopPinging;
     }
 
@@ -72,11 +72,10 @@ public class TCPClient
      *                        this class is connected with.
      */
     public TCPClient(Socket connectedSocket) throws IOException {
-        if(!connectedSocket.isConnected()) {
+        if(!connectedSocket.isConnected())
             throw new NotYetConnectedException();
-        }
+
         this.connectedSocket = connectedSocket;
-        //connectedSocket.setSoTimeout(2000);
         out = new SocketOutputStream(connectedSocket.getOutputStream());
         out.streamFailedEvent.addEventHandler((a,b)->this.close());
         in = new SocketInputStream(connectedSocket.getInputStream());
@@ -97,15 +96,14 @@ public class TCPClient
 
     /**
      * This method checks whether there is already a pinging bot running. In case there isn't, this method creates a
-     * new pingingBot thread using the period gotten as input and then starts said thread.
-     * @param period
-     * @param onPingFail
+     * new pingingThread thread using the period gotten as input and then starts said thread.
+     * @param period pinging period
      */
-    public void startPinging(int period, Consumer<Exception> onPingFail) {
-        if(pingingBot != null && pingingBot.getState() != Thread.State.TERMINATED)
+    public void startPinging(int period) {
+        if(pingingThread != null && pingingThread.getState() != Thread.State.TERMINATED)
             return;
 
-        pingingBot = new Thread(() -> {
+        pingingThread = new Thread(() -> {
             try {
                 while (!getStopPinging()) {
                     out().ping();
@@ -113,25 +111,24 @@ public class TCPClient
                 }
             } catch (IOException | InterruptedException e) {
                 stopPinging = true;
-                pingingBot = null;
-                onPingFail.accept(e);
+                pingingThread = null;
             }
         });
-        pingingBot.start();
+        pingingThread.start();
     }
 
     /**
-     * First, it's checked whether there is a pingingBot running already. If that's the case, said thread is stopped
+     * First, it's checked whether there is a pingingThread running already. If that's the case, said thread is stopped
      * by putting stopPinging value equal to true.
      */
     public void stopPinging()
     {
-        if(pingingBot == null || pingingBot.getState() == Thread.State.TERMINATED)
+        if(pingingThread == null || pingingThread.getState() == Thread.State.TERMINATED)
             return;
 
         setStopPinging(true);
         try {
-            pingingBot.join();
+            pingingThread.join();
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, e.getMessage());
         }
@@ -149,7 +146,7 @@ public class TCPClient
             ((Event<TCPClient,Object>)disconnectedEvent).invoke(this, null);
         }
         catch(IOException e) {
-            logger.log(Level.WARNING, "IOException, Class TCPClient, Line 51", e);
+            logger.log(Level.WARNING, "IOException, Class TCPClient", e);
         }
     }
 }
