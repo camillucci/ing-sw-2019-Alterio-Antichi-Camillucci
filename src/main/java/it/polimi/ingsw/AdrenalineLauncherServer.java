@@ -3,8 +3,6 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.rmi.*;
 import it.polimi.ingsw.network.socket.*;
-import it.polimi.ingsw.view.cli.CLIMessenger;
-import it.polimi.ingsw.view.cli.CLIParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,18 +16,14 @@ import java.util.logging.Logger;
 public class AdrenalineLauncherServer
 {
     private static final int PINGING_PERIOD = 1000; //todo change
-    private static CLIParser parser;
-
 
     public static void main(String[] args) {
         Logger logger = Logger.getLogger("AdrenalineLauncherServer");
-        InputStream input = AdrenalineLauncherClient.class.getClassLoader().getResourceAsStream("serverConfig.properties");
+        InputStream input = AdrenalineLauncherServer.class.getClassLoader().getResourceAsStream("serverConfig.properties");
         Properties properties = new Properties();
 
         TCPListener listenerTCP;
         RMIListener listenerRMI;
-        if(parser == null)
-            parser = new CLIParser(System.in);
 
         if(input != null)
             try {
@@ -83,10 +77,5 @@ public class AdrenalineLauncherServer
            return Integer.parseInt(reader.readLine());
         }
         catch(NumberFormatException | IOException e) {return -1;}
-    }
-
-    public static void setParser(CLIParser parser)
-    {
-        AdrenalineLauncherServer.parser = parser;
     }
 }
