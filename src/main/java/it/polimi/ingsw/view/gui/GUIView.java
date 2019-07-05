@@ -6,7 +6,6 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI;
 import it.polimi.ingsw.view.gui.endgame.EndGameController;
 import it.polimi.ingsw.view.gui.login.NewLoginGUI;
-import it.polimi.ingsw.view.gui.login.NicknameController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -108,7 +107,7 @@ public class GUIView extends View
     }
 
     public static <V> V getController(String fxmlUrl, String cssUrl) {
-        FXMLLoader fxmlLoader = new FXMLLoader(NicknameController.class.getResource(fxmlUrl));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUIView.class.getResource(fxmlUrl));
         try
         {
             Parent root;

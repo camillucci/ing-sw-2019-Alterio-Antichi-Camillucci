@@ -14,16 +14,11 @@ import java.util.Scanner;
 
 class LoginTest {
     private PipedOutputStream outstr = new PipedOutputStream();
-    private PipedInputStream instr = new PipedInputStream(outstr);
     private final boolean SOCKET_TESTING = false;
     private final boolean REMOTE_TESTING = false;
     private final boolean GUI_TEST = false;
     static int j = 0;
     Bottleneck bottleneck = new Bottleneck();
-
-    public LoginTest() throws IOException {
-        AdrenalineLauncherServer.setParser(new CLIParser(instr));
-    }
 
     void stop()
     {

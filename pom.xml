@@ -121,8 +121,6 @@
                                 <filter>
                                     <artifact>*:*</artifact>
                                     <excludes>
-                                        <exclude>it/polimi/ingsw/model/**</exclude>
-                                        <exclude>it/polimi/ingsw/controller/**</exclude>
                                         <exclude>it/polimi/ingsw/AdrenalineLauncherServer.class</exclude>
                                         <exclude>serverConfig.properties</exclude>
                                         <exclude>manifests/**</exclude>
@@ -152,7 +150,8 @@
                                         <exclude>**/*.jpg</exclude>
                                         <exclude>**/*.fxml</exclude>
                                         <exclude>**/*.css</exclude>
-                                        <exclude>it/polimi/ingsw/view/**</exclude>
+                                        <exclude>it/polimi/ingsw/view/cli/**</exclude>
+                                        <exclude>it/polimi/ingsw/view/gui/**</exclude>
                                         <exclude>it/polimi/ingsw/AdrenalineLauncherClient.class</exclude>
                                         <exclude>clientConfig.properties</exclude>
                                         <exclude>manifests/**</exclude>
