@@ -41,13 +41,11 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private List<String> otherPlayers = new ArrayList<>();
     protected Bottleneck bottleneck = new Bottleneck();
     protected RemoteActionsHandler remoteActionsHandler;
-    private BiConsumer<Room, Integer> onEndMatchEvent = (a, b) -> {
-
+    private BiConsumer<Room, Integer> onEndMatchEvent = (a, b) ->
+    {
         this.close();
         removeEvents();
     };
-
-
     private BiConsumer<Room, String[][]> scoreEventHandler = (a, scoreBoard) -> bottleneck.tryDo( () -> scoreboardMessage(scoreBoard));
 
     private BiConsumer<Room, String> winnerEventHandler = (a, winner) -> bottleneck.tryDo( () -> winnerMessage(winner));
@@ -59,7 +57,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
     private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
     private BiConsumer<Room, String> turnTimeoutEventHandler = (a, name) -> bottleneck.tryDo( () -> onTurnTimeout(name));
-    private volatile boolean isDisconnected = false;
+    protected volatile boolean isDisconnected = false;
+
     private void onTurnTimeout(String name) throws IOException
     {
         if(!name.equals(this.name))
@@ -170,10 +169,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
                 for(String p : disconnected)
                     view.getActionHandler().disconnectedPlayerMessage(p);
             }));
-            return;
         }
-
-        if(controller.newPlayer(name)) {
+        else if(controller.newPlayer(name)) {
             this.name = name;
             List<String> colors = availableColors();
             sendCommand(new Command<>(view -> {

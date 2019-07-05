@@ -29,7 +29,6 @@ public class GUIView extends View
 
     public GUIView() throws InterruptedException, IOException {
         startupGUI();
-        System.setProperty("prism.order", "sw");
     }
 
     private void setupStage(){
