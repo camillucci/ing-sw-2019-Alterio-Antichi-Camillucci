@@ -1,0 +1,17 @@
+it.polimi.ingsw
+it.polimi.ingsw.controller
+it.polimi.ingsw.generics
+it.polimi.ingsw.model
+it.polimi.ingsw.model.action
+it.polimi.ingsw.model.branch
+it.polimi.ingsw.model.cards
+it.polimi.ingsw.network
+it.polimi.ingsw.network.rmi
+it.polimi.ingsw.network.socket
+it.polimi.ingsw.snapshots
+it.polimi.ingsw.view
+it.polimi.ingsw.view.cli
+it.polimi.ingsw.view.gui
+it.polimi.ingsw.view.gui.actionhandler
+it.polimi.ingsw.view.gui.endgame
+it.polimi.ingsw.view.gui.login
