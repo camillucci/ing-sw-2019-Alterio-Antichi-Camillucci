@@ -24,11 +24,17 @@ public class CounterPowerUpAction extends PowerUpAction
         this.visualizable = new Visualizable("use a Tagback Grenade", "powerup");
     }
 
+
     @Override
     public List<PowerUpCard> getPossiblePowerUps() {
         return selectedPowerUp == null ? new ArrayList<>(ownerPlayer.getPowerupSet().getCounterAttackPUs()) : Collections.emptyList();
     }
 
+    /**
+     * Method that calculates the players who can be targeted by the selected power up card. The list is empty in case
+     * the selected power up card is null.
+     * @return The list of players who can be chosen as targets for the power up card.
+     */
     @Override
     public List<Player> getPossiblePlayers() {
         if(selectedPowerUp != null && targetPlayers.isEmpty())
@@ -49,6 +55,11 @@ public class CounterPowerUpAction extends PowerUpAction
         }
     }
 
+    /**
+     * Creates the actual action that is going to be executed by the player once they have decided they're going to
+     * use a counter power up card. Also a counter power up card is removed from the list power up cards the player
+     * owns.
+     */
     @Override
     protected void preparePowerUp() {
         List<PowerUpCard> temp = new ArrayList<>(ownerPlayer.getPowerupSet().getCounterAttackPUs());
@@ -62,6 +73,10 @@ public class CounterPowerUpAction extends PowerUpAction
         }
     }
 
+    /**
+     * Gets a list of players and sets it as the target of this action. The players also enter the damaged list.
+     * @param targets List of players who are going to receive the effects ot this action
+     */
     public void setTargets(List<Player> targets)
     {
         damagedPlayers = new ArrayList<>(targets);

@@ -36,6 +36,8 @@ public class Controller {
 
     /**
      * Constructor. Initializes the room list by creating an empty room.
+     * @param loginTimer timer used to as a reference to start the game when it reaches zero
+     * @param turnTimer timer used to as a reference to end the turn when it reaches zero
      */
     public Controller(int loginTimer, int turnTimer){
         this.loginTimer = loginTimer;
@@ -46,6 +48,8 @@ public class Controller {
     /**
      * Creates a new room and subscribes to the newPlayerEvent. When the event is invoked, the player is removed from
      * joiningPlayers list. Also adds the new room to the previously existing list.
+     * @param loginTimer timer used to as a reference to start the game when it reaches zero
+     * @param turnTimer timer used to as a reference to end the turn when it reaches zero
      * @return Newly created room
      */
     private Room newRoom(int loginTimer, int turnTimer) {

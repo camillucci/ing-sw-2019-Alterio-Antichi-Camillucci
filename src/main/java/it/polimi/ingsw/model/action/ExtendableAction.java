@@ -21,8 +21,9 @@ public class ExtendableAction extends Action
 
     /**
      * Constructor that assigns the input parameters to their global correspondences.
-     * @param branches
-     * @param visualizable
+     * @param branches List of branches this action extends into when executed
+     * @param visualizable Generic description of the action used to convert the object from serializable to a
+     *                     displayable item.
      */
     public ExtendableAction(List<Branch> branches, Visualizable visualizable)
     {

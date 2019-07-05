@@ -37,10 +37,10 @@ public class WeaponCard {
 
     /**
      * Constructor. It assigns all the input parameters to their corresponding globals.
-     * @param name
-     * @param buyCost
-     * @param reloadCost
-     * @param fireBuilder
+     * @param name String that's used to distinguish the weapon from all the others present in the game
+     * @param buyCost Amount of ammo necessary to purchase the card
+     * @param reloadCost Amount of ammo necessary to reload the card
+     * @param fireBuilder Function used to create the fire modalities unique to the weapon
      */
     public WeaponCard(String name, Ammo buyCost, Ammo reloadCost, Supplier<List<FireModalityAction>> fireBuilder)
     {

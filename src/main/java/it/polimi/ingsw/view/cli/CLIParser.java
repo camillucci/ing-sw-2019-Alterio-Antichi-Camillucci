@@ -25,7 +25,7 @@ public class CLIParser {
 
     /**
      * creates the reader
-     * @param inputStream
+     * @param inputStream Filtering class used to receive inputs from the user
      */
     public CLIParser(InputStream inputStream){
         reader =  new BufferedReader(new InputStreamReader(inputStream));

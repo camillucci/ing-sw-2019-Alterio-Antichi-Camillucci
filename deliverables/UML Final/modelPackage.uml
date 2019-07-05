@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw.model</OriginalElement>
+  <nodes>
+    <node x="1328.5" y="0.0">it.polimi.ingsw.model.Square</node>
+    <node x="0.0" y="1306.0">it.polimi.ingsw.model.PowerUpSet</node>
+    <node x="0.0" y="0.0">it.polimi.ingsw.model.Player</node>
+    <node x="413.0" y="1306.0">it.polimi.ingsw.model.Ammo</node>
+    <node x="420.25" y="0.0">it.polimi.ingsw.model.ActionsProvider</node>
+    <node x="1299.0" y="695.0">it.polimi.ingsw.model.AmmoSquare</node>
+    <node x="897.0" y="0.0">it.polimi.ingsw.model.GameBoard</node>
+    <node x="311.0" y="452.0">it.polimi.ingsw.model.Turn</node>
+    <node x="336.0" y="1754.0">it.polimi.ingsw.model.cards</node>
+    <node x="1053.0" y="1306.0">it.polimi.ingsw.model.PowerUpDeck</node>
+    <node x="860.0" y="1306.0">it.polimi.ingsw.model.SquareBorder</node>
+    <node x="168.0" y="1754.0">it.polimi.ingsw.model.action</node>
+    <node x="679.0" y="1306.0">it.polimi.ingsw.model.PlayerColor</node>
+    <node x="1559.0" y="1306.0">it.polimi.ingsw.model.AmmoColor</node>
+    <node x="547.0" y="166.0">it.polimi.ingsw.model.Match</node>
+    <node x="0.0" y="1754.0">it.polimi.ingsw.model.branch</node>
+    <node x="1744.0" y="1306.0">it.polimi.ingsw.model.WeaponDeck</node>
+    <node x="1312.0" y="1306.0">it.polimi.ingsw.model.AmmoDeck</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.model.AmmoSquare" target="it.polimi.ingsw.model.Square">
+      <point x="0.0" y="-113.5" />
+      <point x="0.0" y="322.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Turn" target="it.polimi.ingsw.model.ActionsProvider">
+      <point x="0.0" y="-190.5" />
+      <point x="419.0" y="141.0" />
+      <point x="489.75" y="141.0" />
+      <point x="-69.5" y="58.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Match" target="it.polimi.ingsw.model.ActionsProvider">
+      <point x="0.0" y="-476.5" />
+      <point x="699.5" y="141.0" />
+      <point x="628.75" y="141.0" />
+      <point x="69.5" y="58.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.4463775780010576" x="898.5000000000003" y="4729.683805236346" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.model.Ammo</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

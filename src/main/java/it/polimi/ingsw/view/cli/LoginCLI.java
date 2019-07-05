@@ -26,8 +26,8 @@ public class LoginCLI extends Login {
 
     /**
      * Asks which color the user wants to take and sends the answer to the server via invoking the color Event.
-     *
-     * @param availableColors
+     * @param availableColors List of colors the player can choose since they've not been taken by other players
+     *                        in the room
      */
     @Override
     public void notifyAvailableColor(List<String> availableColors) throws IOException {

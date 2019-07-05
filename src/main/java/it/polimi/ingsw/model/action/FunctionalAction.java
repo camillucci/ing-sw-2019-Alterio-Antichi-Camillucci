@@ -10,8 +10,9 @@ public class FunctionalAction extends Action
     private Consumer<Action> opMethod;
 
     /**
+     * Constructor
      * @param doActionCost Cost of the action
-     * @param isOptional true iff isOptional == true
+     * @param isOptional true if isOptional == true
      * @param doActionMethod invoked when doAction() is invoked
      * @param visualizable description of the action
      */
@@ -23,11 +24,22 @@ public class FunctionalAction extends Action
         this.visualizable = visualizable;
     }
 
+    /**
+     * Alternative constructor
+     * @param doActionCost Cost of the action
+     * @param doActionMethod invoked when doAction() is invoked
+     * @param visualizable description of the action
+     */
     public FunctionalAction(Ammo doActionCost, Consumer<Action> doActionMethod, Visualizable visualizable)
     {
         this(doActionCost, false, doActionMethod, visualizable);
     }
 
+    /**
+     * Alternative constructor
+     * @param doActionMethod invoked when doAction() is invoked
+     * @param visualizable description of the action
+     */
     public FunctionalAction(Consumer<Action> doActionMethod, Visualizable visualizable)
     {
         this(new Ammo(0,0,0), doActionMethod, visualizable);

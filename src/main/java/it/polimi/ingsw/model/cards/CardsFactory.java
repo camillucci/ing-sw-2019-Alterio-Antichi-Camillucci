@@ -251,7 +251,7 @@ public class CardsFactory {
         weapons.add(new WeaponCard(POWER_GLOVE, new Ammo(1, 0, 0), new Ammo(1, 0, 1), () -> Arrays.asList (
                 new FireModalityAction(new Ammo(0, 0, 0), POWER_GLOVE, BASIC_MODE,
                         new Branch(new MoveAction(1, 1), new ShootAction(nearPlayers(1, 0), damage(1).andThen(mark(2))), new EndBranchAction(POWER_GLOVE))),
-                new FireModalityAction(new Ammo(0, 0, 0), POWER_GLOVE, "Rocket Fist Mode",
+                new FireModalityAction(new Ammo(1, 0, 0), POWER_GLOVE, "Rocket Fist Mode",
                         new Branch(new ShootAction(flamethrowerPlayers, powerGloveEffect), new EndBranchAction(POWER_GLOVE))))));
 
         weapons.add(new WeaponCard(SHOCKWAVE, new Ammo(0, 0, 0), new Ammo(0, 0, 1), () -> Arrays.asList (

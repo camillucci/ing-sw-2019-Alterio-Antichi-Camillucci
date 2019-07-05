@@ -110,7 +110,7 @@ public class BranchMap
     /**
      * Assigns the input parameter to the map's branches. Also subscribes to the 3 events those branches are connected
      * to.
-     * @param branches
+     * @param branches List of branches the branch map is going to be made up of
      */
     private void setupBranches(List<Branch> branches)
     {

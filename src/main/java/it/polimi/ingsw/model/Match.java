@@ -232,6 +232,7 @@ public class Match extends ActionsProvider {
      * This method is called through an event when a Player is damaged,
      * it creates a new BranchMap that makes the damaged player choose if it wants to activate a CounterAttackPowerUpCard
      * @param damaged The damaged Player
+     * @param shooter Current turn's player. Player who is using the shooting effect
      */
     private void onPlayerDamaged(Player damaged, Player shooter)
     {
@@ -246,6 +247,8 @@ public class Match extends ActionsProvider {
 
     /**
      * This method assign the points to Players whenever a Player is killed, before it respawn
+     * @param deadPlayer Player from whom is taken the information about the amount of points that need to be assigned
+     *                   to the other players.
      */
     public void assignPoints(Player deadPlayer){
         List<Double> tempCount = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0);

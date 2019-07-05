@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw.view</OriginalElement>
+  <nodes>
+    <node x="1797.3446969696968" y="694.0">it.polimi.ingsw.view.gui.login</node>
+    <node x="0.0" y="2221.0">it.polimi.ingsw.view.cli.CLIView</node>
+    <node x="1640.3446969696968" y="694.0">it.polimi.ingsw.view.gui.endgame</node>
+    <node x="738.0" y="1856.0">it.polimi.ingsw.view.gui.Animations</node>
+    <node x="449.0" y="1856.0">it.polimi.ingsw.view.cli.CLIParser</node>
+    <node x="1940.3446969696968" y="573.0">it.polimi.ingsw.view.cli.LoginCLI</node>
+    <node x="33.0" y="1856.0">it.polimi.ingsw.view.View</node>
+    <node x="1670.5" y="308.5">it.polimi.ingsw.view.gui.Ifxml</node>
+    <node x="1816.4696969696968" y="143.0">it.polimi.ingsw.view.Login</node>
+    <node x="809.4999999999999" y="297.5">it.polimi.ingsw.view.gui.MatchSnapshotProvider</node>
+    <node x="0.0" y="0.0">it.polimi.ingsw.view.cli.CLIMessenger</node>
+    <node x="1407.0" y="1856.0">it.polimi.ingsw.view.ViewInterface</node>
+    <node x="1133.5946969696968" y="694.0">it.polimi.ingsw.view.gui.actionhandler</node>
+    <node x="326.0" y="583.5">it.polimi.ingsw.view.cli.ActionHandlerCLI</node>
+    <node x="1133.75" y="0.0">it.polimi.ingsw.view.ViewElement</node>
+    <node x="115.0" y="2088.0">it.polimi.ingsw.view.gui.GUIView</node>
+    <node x="343.5" y="209.0">it.polimi.ingsw.view.ActionHandler</node>
+    <node x="1111.0" y="1856.0">it.polimi.ingsw.view.gui.Cache</node>
+    <node x="1253.5" y="286.5">it.polimi.ingsw.view.gui.RemoteActionsProvider</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler" target="it.polimi.ingsw.view.gui.RemoteActionsProvider">
+      <point x="22.375" y="-13.5" />
+      <point x="1245.4696969696968" y="543.0" />
+      <point x="1452.0" y="543.0" />
+      <point x="0.0" y="46.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="-30.75" y="-13.5" />
+      <point x="1828.0946969696968" y="553.0" />
+      <point x="1757.1666666666665" y="553.0" />
+      <point x="34.66666666666663" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.cli.CLIView" target="it.polimi.ingsw.view.View">
+      <point x="0.0" y="-24.5" />
+      <point x="47.5" y="2063.0" />
+      <point x="93.25" y="2063.0" />
+      <point x="-60.25" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler" target="it.polimi.ingsw.view.gui.MatchSnapshotProvider">
+      <point x="-22.375" y="-13.5" />
+      <point x="1200.7196969696968" y="543.0" />
+      <point x="1021.4999999999999" y="543.0" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.cli.LoginCLI" target="it.polimi.ingsw.view.Login">
+      <point x="0.0" y="-134.5" />
+      <point x="2068.344696969697" y="553.0" />
+      <point x="2060.219696969697" y="553.0" />
+      <point x="81.25" y="190.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.Login" target="it.polimi.ingsw.view.ViewElement">
+      <point x="0.0" y="-190.0" />
+      <point x="1978.9696969696968" y="118.0" />
+      <point x="1325.75" y="118.0" />
+      <point x="64.0" y="46.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login" target="it.polimi.ingsw.view.Login">
+      <point x="30.75" y="-13.5" />
+      <point x="1889.5946969696968" y="553.0" />
+      <point x="1897.7196969696968" y="553.0" />
+      <point x="-81.25" y="190.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.ActionHandler" target="it.polimi.ingsw.view.ViewElement">
+      <point x="0.0" y="-124.0" />
+      <point x="566.5" y="118.0" />
+      <point x="1197.75" y="118.0" />
+      <point x="-64.0" y="46.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler" target="it.polimi.ingsw.view.ActionHandler">
+      <point x="-67.125" y="-13.5" />
+      <point x="1155.9696969696968" y="553.0" />
+      <point x="678.0" y="553.0" />
+      <point x="111.5" y="124.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUIView" target="it.polimi.ingsw.view.View">
+      <point x="0.0" y="-157.5" />
+      <point x="259.5" y="2063.0" />
+      <point x="213.75" y="2063.0" />
+      <point x="60.25" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.cli.ActionHandlerCLI" target="it.polimi.ingsw.view.ActionHandler">
+      <point x="0.0" y="-124.0" />
+      <point x="-111.5" y="124.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.endgame" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-13.5" />
+      <point x="1708.8446969696968" y="553.0" />
+      <point x="1722.5" y="553.0" />
+      <point x="0.0" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="67.125" y="-13.5" />
+      <point x="1290.2196969696968" y="553.0" />
+      <point x="1687.8333333333333" y="553.0" />
+      <point x="-34.66666666666663" y="24.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="818.9999999999999" y="328.85714285714283" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.view.gui.login</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

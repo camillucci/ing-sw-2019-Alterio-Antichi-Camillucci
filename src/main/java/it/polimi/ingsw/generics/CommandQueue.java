@@ -46,7 +46,7 @@ public class CommandQueue
 
     /**
      * Function is added to the queue and will be executed when the others are finished.
-     * @param newFunc
+     * @param newFunc Function that's going to be added to the queue
      */
     public void run(Runnable newFunc){
         queue.add(newFunc);
