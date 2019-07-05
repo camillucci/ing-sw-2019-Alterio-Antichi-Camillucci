@@ -136,7 +136,8 @@ public class Match extends ActionsProvider {
             if(finalFrenzy)
                 p.setFinalFrenzy();
         }
-        p.addDamageNoMarks(players.get(0), 10);
+
+        //p.addDamageNoMarks(players.get(0), 10);
         this.curPlayer = p;
         p.addPowerUpCardRespawn();
         if(!respawn)
