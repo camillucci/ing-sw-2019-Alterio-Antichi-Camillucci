@@ -13,23 +13,6 @@ class TCPListenerTest {
     private String localHost = "127.0.0.1";
     private final boolean NETWORK_TESTING = false;
 
-    @Test
-    void start()
-    {
-        TCPListener listener = new TCPListener(port, 3);
-        try
-        {
-            listener.start();
-            Socket socket = new Socket(localHost, port);
-            assert(true);
-        }
-        catch(Exception ecc)
-        {
-            assert(false);
-        }
-        finally { listener.stop(); }
-    }
-
     boolean tryConnect()
     {
         try

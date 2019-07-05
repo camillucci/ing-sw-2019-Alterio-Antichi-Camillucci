@@ -37,7 +37,6 @@ public class GUIView extends View
         primaryStage.setWidth(1000);
         primaryStage.setHeight(700);
         primaryStage.setFullScreenExitHint("");
-        //primaryStage.setFullScreen(true);
 
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setOnCloseRequest(e ->
