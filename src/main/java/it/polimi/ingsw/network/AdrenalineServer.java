@@ -74,7 +74,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     public abstract void close();
 
     private boolean newTurn = true;
-    protected static final int PING_PERIOD = 1; // 1 millisecond to test synchronization todo change in final version
 
     @Override
     public void newActionCommand(Command<RemoteActionsHandler> command)

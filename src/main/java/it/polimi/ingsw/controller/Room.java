@@ -192,10 +192,10 @@ public class Room
         this.turnTimer = turnTimer;
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
         newLoginTimer();
-        setupEventsà();
+        setupdEvents();
     }
 
-    private void setupEventsà() {
+    private void setupdEvents() {
         endMatchEvent.addEventHandler((a, b) -> {
             logMessage("match finished");
             closeRoom();
@@ -494,8 +494,6 @@ public class Room
                 onTurnTimeoutSync();
         }
         ((Event<Room, String>)playerDisconnectedEvent).invoke(this, name);
-
-        //todo check if the else is appropriate
     }
 
     /**
