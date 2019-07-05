@@ -15,4 +15,12 @@ class ControllerTest
         assertFalse(room.isHost("player"));
         System.out.println(room.getAvailableColors());
     }
+
+    @Test
+    void controller(){
+        Controller controller = new Controller(3, 4);
+        assertNull(controller.checkReconnected("pino"));
+        controller.newPlayer("player");
+        assertNotNull(controller.getAvailableRoom());
+    }
 }

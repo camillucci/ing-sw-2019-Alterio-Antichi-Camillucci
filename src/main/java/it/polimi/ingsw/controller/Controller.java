@@ -136,6 +136,7 @@ public class Controller {
         for(Room room : lobby)
             if(room.getPlayerNames().contains(name)) {
                 room.notifyPlayerDisconnected(name);
+
                 return;
             }
         throw new RuntimeException("disconnected player doesn't exist");
