@@ -15,10 +15,16 @@ import java.util.List;
  */
 public class GrabAction extends ExtendableAction
 {
+    /**
+     * Default constructor. Uses pre known values to assign them to the parameters
+     */
     public GrabAction() {
         this.visualizable = new Visualizable(null, "grab.png", "grab", "grab");
     }
 
+    /**
+     * Execution of the action by applying the grabbing effect
+     */
     @Override
     protected void op()
     {

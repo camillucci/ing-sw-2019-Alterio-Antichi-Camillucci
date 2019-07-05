@@ -12,21 +12,32 @@ import java.util.List;
 
 /**
  * This class is a specific case of a power up action class. It contains all the generic methods relative to an action
- * that can be executed by the current turn's player.
+ * that can be executed by the current turn's player and relative to the actions created by a power up card.
  */
 public class InTurnPowerUpAction extends PowerUpAction
 {
+    /**
+     * Constructor that uses default values for description and name parameters
+     */
     public InTurnPowerUpAction()
     {
         super();
         this.visualizable = new Visualizable("use a Targeting Scope", "powerup");
     }
 
+    /**
+     * Calculates the list of InTurnPowerUp action cards available to the player
+     * @return the list of InTurnPowerUp action cards available to the player
+     */
     @Override
     public List<PowerUpCard> getPossiblePowerUps() {
         return selectedPowerUp == null ? new ArrayList<>(ownerPlayer.getPowerupSet().getInTurnPUs()) : Collections.emptyList();
     }
 
+    /**
+     * Calculates the list of players that can be selected as targets while using an InTurnPowerUp action card
+     * @return the list of players that can be selected as targets while using an InTurnPowerUp action card
+     */
     @Override
     public List<Player> getPossiblePlayers() {
         if(selectedPowerUp != null && targetPlayers.isEmpty())
@@ -34,6 +45,11 @@ public class InTurnPowerUpAction extends PowerUpAction
         return Collections.emptyList();
     }
 
+    /**
+     * Calculates the list of power up cards that can be used by the player to pay for costs by discarding them.
+     * @return The list of power up cards that can be discarded by the user. Empty list if there  aren't power up
+     * cards available
+     */
     @Override
     public List<PowerUpCard> getDiscardablePowerUps() {
         if(selectedPowerUp != null && discardedAmmo == null && discardedPowerUps.isEmpty()) {
@@ -60,6 +76,11 @@ public class InTurnPowerUpAction extends PowerUpAction
         }
     }
 
+    /**
+     * Method adds the input parameter to the list of targets effected by the power up card used by the player.
+     * The player is added only if the chosen target is legal.
+     * @param target Player added as a target for the effect of the in-turn power up card used by the current player.
+     */
     @Override
     public void addTarget(Player target)
     {
