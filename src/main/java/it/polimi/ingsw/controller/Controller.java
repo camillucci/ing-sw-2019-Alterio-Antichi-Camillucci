@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is used as a mediator between the server and the model side. It takes users decisions from the server
@@ -25,6 +27,8 @@ public class Controller {
      */
     private final int loginTimer;
 
+    private Logger logger = Logger.getLogger("Controller");
+
     /**
      * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
      */
@@ -47,9 +51,18 @@ public class Controller {
     private Room newRoom(int loginTimer, int turnTimer) {
         Room room = new Room(loginTimer, turnTimer);
         room.newPlayerEvent.addEventHandler((a, name) -> joiningPlayers.remove(name));
-        room.scoreEvent.addEventHandler((r, b) -> lobby.remove(r));
+
+        room.endMatchEvent.addEventHandler((r, b) -> {
+            logger.log(Level.INFO, "room " + r.getId() + ": match finished");
+            onRoomClosed(r, r.getId());
+        });
         lobby.add(room);
         return room;
+    }
+
+    private void onRoomClosed(Room r, int id){
+        lobby.remove(r);
+        logger.log(Level.INFO, "room number " + id + " closed");
     }
 
     /**

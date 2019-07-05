@@ -10,6 +10,8 @@ import it.polimi.ingsw.model.snapshots.MatchSnapshot;
 import it.polimi.ingsw.network.RemoteActionsHandler;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is used to group all players who are playing on the same match. It's the main part of the controller and
@@ -17,6 +19,7 @@ import java.util.*;
  */
 public class Room
 {
+    private static int totRooms = 1;
     /**
      * Event that other classes can subscribe to. The event is invoked when the before match countdown starts.
      */
@@ -59,6 +62,7 @@ public class Room
      * Event other classes can subscribe to. Thi event is invoked when the match this class is associated with reaches
      * an end and a winner is declared.
      */
+
     public final IEvent<Room, String> winnerEvent = new Event<>();
 
     /**
@@ -169,6 +173,11 @@ public class Room
      * Integer that represents the minimum number of players required for a match to start
      */
     private static final int MIN_PLAYERS = 2;
+    private int roomID = 0;
+
+
+    private Logger logger = Logger.getLogger("Room");
+    private boolean closed = false;
 
     /**
      * Constructor that initializes the list referring to the available colors players can choose. It also starts the
@@ -179,6 +188,11 @@ public class Room
         this.turnTimer = turnTimer;
         availableColors.addAll(Arrays.asList(PlayerColor.values()));
         newLoginTimer();
+        setupEventsà();
+    }
+
+    private void setupEventsà() {
+        endMatchEvent.addEventHandler((a, b) -> closeRoom());
     }
 
     /**
@@ -237,6 +251,7 @@ public class Room
         if(timer.getElapsed() >= turnTimer -1)
         {
             suspendedPlayers.add(match.getPlayer().name);
+            logMessage(match.getPlayer().name + " suspended");
             if(playerNames.size() - disconnectedPlayers.size() - suspendedPlayers.size() < MIN_PLAYERS)
                 onMatchEnd();
             else
@@ -276,13 +291,18 @@ public class Room
      * in the room.
      */
     private synchronized void startMatch(){
+
         matchStarted = true;
         match = new Match(playerNames, playerColors, gameLength, gameSize);
         match.newActionsEvent.addEventHandler(this::onNewActions);
         match.start();
         match.endMatchEvent.addEventHandler((curMatch, players) -> onMatchEnd());
         createTurnTimer();
+        logMessage("the match is started");
+    }
 
+    private void logMessage(String message){
+        logger.log(Level.INFO, "room " + roomID + ": " + message);
     }
 
     private void onNewActions(Player player, List<Action> actions)
@@ -339,8 +359,11 @@ public class Room
         playerColors.add(availableColors.get(index));
         availableColors.remove(index);
         playerNames.add(playerName);
-        if(playerNames.size() == 1)
+        if(playerNames.size() == 1){
             hostName = playerName;
+            roomID = getTotRooms();
+            incrementTotRooms();
+        }
         newPlayer(playerName);
     }
 
@@ -349,6 +372,7 @@ public class Room
      * @param name String that represents the name of the reconnected player.
      */
     public synchronized void reconnectedPlayer(String name) {
+        logger.log(Level.INFO, name + " reconnected to the room number " + roomID);
         if(isTheMatchStarted())
             disconnectedPlayers.remove(name);
     }
@@ -367,7 +391,16 @@ public class Room
      * @param name Name of the new player who joined the room
      */
     private void newPlayer(String name){
+        logMessage(name + " joined the room");
         ((Event<Room, String>)newPlayerEvent).invoke(this, name);
+    }
+
+    private synchronized int getTotRooms(){
+        return totRooms;
+    }
+
+    private synchronized void incrementTotRooms(){
+        totRooms++;
     }
 
     /**
@@ -395,6 +428,15 @@ public class Room
             stopTimer();
             newLoginTimer();
         }
+
+        logMessage(name + " disconnected");
+        if(disconnectedPlayers.size() == playerNames.size())
+            closeRoom();
+    }
+
+    private synchronized void closeRoom() {
+        closed = true;
+        timer.stop();
     }
 
     /**
@@ -422,6 +464,10 @@ public class Room
         }
     }
 
+    public int getId(){
+        return roomID;
+    }
+
     /**
      * If the match is not started yet, the player is removed from then room. Then the playerDisconnectedEvent is
      * invoked, regardless of match starting or not.
@@ -433,6 +479,7 @@ public class Room
         else {
             disconnectedPlayers.add(name);
             suspendedPlayers.remove(name);
+            logMessage(name + " disconnected");
             if(playerNames.size() - disconnectedPlayers.size() - suspendedPlayers.size() < MIN_PLAYERS)
                 onMatchEnd();
             else if(match.getPlayer().name.equals(name))

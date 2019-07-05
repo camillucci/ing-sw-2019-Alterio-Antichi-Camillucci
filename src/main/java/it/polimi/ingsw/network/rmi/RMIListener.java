@@ -1,8 +1,5 @@
 package it.polimi.ingsw.network.rmi;
 
-import it.polimi.ingsw.network.socket.TCPClient;
-
-import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -39,12 +36,17 @@ public class RMIListener
     {
         try {
             AdrenalineServerRMI serverRMI = supplier.get();
-            serverRMI.newClientConnected.addEventHandler((a,b) -> onNewClientConnected(serverRMI));
+            serverRMI.newClientConnectedEvent.addEventHandler((a, b) -> onNewClientConnected(serverRMI));
+            serverRMI.clientDisconnectedEvent.addEventHandler((client, a) -> onClientDisconnected(client));
             Remote stub = UnicastRemoteObject.exportObject(serverRMI, port );
             LocateRegistry.getRegistry(port).rebind("Server", stub);
         } catch (RemoteException e) {
             logger.log(Level.WARNING, e.getMessage());
         }
+    }
+
+    private synchronized void onClientDisconnected(AdrenalineServerRMI client) {
+        connectedList.remove(client);
     }
 
     public synchronized void pingAll(int period){
@@ -58,7 +60,7 @@ public class RMIListener
                         client.pingClient();
                     Thread.sleep(period);
                 }
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | RemoteException e) {
                 //todo logger
                 stopPinging = true;
             }
@@ -94,14 +96,9 @@ public class RMIListener
         return stopPinging;
     }
 
-
     private void onNewClientConnected(AdrenalineServerRMI serverRMI){
-        connectedList.add(serverRMI);
+        addConnected(serverRMI);
         newClient();
-    }
-
-    private void closeClient(IRMIAdrenalineServer serverRMI) throws NoSuchObjectException {
-        UnicastRemoteObject.unexportObject(serverRMI, true);
     }
 
     public void stop() throws NoSuchObjectException {
@@ -109,7 +106,7 @@ public class RMIListener
     }
 
     public void closeAll() throws NoSuchObjectException {
-        for(IRMIAdrenalineServer client : getConnected())
-            closeClient(client);
+        for(AdrenalineServerRMI client : getConnected())
+            client.close();
     }
 }

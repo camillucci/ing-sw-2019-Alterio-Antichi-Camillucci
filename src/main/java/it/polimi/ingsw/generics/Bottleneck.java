@@ -16,7 +16,6 @@ public class Bottleneck
         try{
             f.invoke();
         } catch (Exception e) {
-            logger.log(Level.WARNING, e.getMessage());
             ((Event<Bottleneck, Exception>)exceptionGenerated).invoke(this, e);
         }
     }

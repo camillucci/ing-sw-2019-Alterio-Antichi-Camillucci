@@ -9,7 +9,10 @@ import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
+import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +26,8 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
      * Event other classes can subscribe to. When invoked, all subscribers are notified. It is invoked when a new
      * client connects to this server.
      */
-    public final IEvent<AdrenalineServerRMI, Object> newClientConnected = new Event<>();
+    public final IEvent<AdrenalineServerRMI, Object> newClientConnectedEvent = new Event<>();
+    public final IEvent<AdrenalineServerRMI, Object> clientDisconnectedEvent = new Event<>();
     private ICallbackAdrenalineClient client;
     private Registry registry;
     private CommandQueue commandQueue = new CommandQueue();
@@ -65,7 +69,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     @Override
     public void registerClient(ICallbackAdrenalineClient client) {
         this.client = client;
-        ((Event<AdrenalineServerRMI, Object>)newClientConnected).invoke(this, null);
+        ((Event<AdrenalineServerRMI, Object>) newClientConnectedEvent).invoke(this, null);
     }
 
     private synchronized boolean getStopPinging() {
@@ -98,7 +102,22 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         // called by client to test connection
     }
 
-    public void pingClient(){
-        bottleneck.tryDo( () -> client.ping());
+    public void pingClient() throws RemoteException {
+        try {
+            client.ping();
+        } catch (RemoteException e) {
+            onExceptionGenerated(e);
+            throw e;
+        }
+    }
+
+    @Override
+    public void close(){
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+            ((Event<AdrenalineServerRMI, Object>)clientDisconnectedEvent).invoke(this, null);
+            logger.log(Level.INFO, name + " disconnected by server");
+        } catch (NoSuchObjectException e) {
+        }
     }
 }

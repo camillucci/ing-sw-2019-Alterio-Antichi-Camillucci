@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.logging.Logger;
 
 /**
  * This class contains all the info and methods that concern the server side, but are generic enough to be independent
@@ -39,8 +40,15 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private List<String> otherPlayers = new ArrayList<>();
     protected Bottleneck bottleneck = new Bottleneck();
     protected RemoteActionsHandler remoteActionsHandler;
-    private BiConsumer<Room, Integer> onEndMatchEvent = (a, b) -> removeEvents();
+    private BiConsumer<Room, Integer> onEndMatchEvent = (a, b) -> {
+
+        this.close();
+        removeEvents();
+    };
+
+
     private BiConsumer<Room, String[][]> scoreEventHandler = (a, scoreBoard) -> bottleneck.tryDo( () -> scoreboardMessage(scoreBoard));
+
     private BiConsumer<Room, String> winnerEventHandler = (a, winner) -> bottleneck.tryDo( () -> winnerMessage(winner));
     private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> timerStartedMessage(timeout));
     private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> timerTickMessage(timeLeft));
@@ -51,7 +59,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
     private BiConsumer<Room, String> turnTimeoutEventHandler = (a, name) -> bottleneck.tryDo( () -> onTurnTimeout(name));
     private volatile boolean isDisconnected = false;
-
     private void onTurnTimeout(String name) throws IOException
     {
         if(!name.equals(this.name))
@@ -61,6 +68,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         List<RemoteAction> emptyList = new ArrayList<>();
         sendCommand(new Command<>(view -> view.getActionHandler().chooseAction(emptyList)));
     }
+
+    protected Logger logger = Logger.getLogger("AdrenalineServer");
+
+    public abstract void close();
 
     private boolean newTurn = true;
     protected static final int PING_PERIOD = 1; // 1 millisecond to test synchronization todo change in final version
@@ -119,7 +130,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         isDisconnected = true;
         removeEvents();
         controller.notifyPlayerDisconnected(name);
-        e.printStackTrace();
     }
 
     /**
@@ -307,6 +317,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
             joinedRoom.playerDisconnectedEvent.removeEventHandler(playerDisconnectedEventHandler);
             joinedRoom.turnTimeoutEvent.removeEventHandler(turnTimeoutEventHandler);
             joinedRoom.modelUpdatedEvent.removeEventHandler(modelUpdatedEventHandler);
+            joinedRoom.endMatchEvent.removeEventHandler(onEndMatchEvent);
         }
     }
 

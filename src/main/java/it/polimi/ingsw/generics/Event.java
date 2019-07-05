@@ -33,6 +33,11 @@ public class Event<T, U> implements IEvent<T,U> {
             eventHandler.accept(sender, args);
     }
 
+    public void clear(){
+        eventHandlers.clear();
+        tmpEventHandlers.clear();
+    }
+
     private CopyOnWriteArrayList<BiConsumer<T, U>> eventHandlers = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<BiConsumer<T, U>> tmpEventHandlers = new CopyOnWriteArrayList<>();
 }
