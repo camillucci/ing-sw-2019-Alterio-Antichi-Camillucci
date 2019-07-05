@@ -26,9 +26,8 @@
         <Double fx:id="playerPaneWidth" fx:value="0.8"/>
     </fx:define>
     <StackPane minWidth="${gameBoard.width}" maxWidth="${gameBoard.width}" minHeight="${gameBoard.height}" maxHeight="${gameBoard.height}">
-        <StackPane alignment="BOTTOM_LEFT" fx:id="killShotTrackPane" minHeight="${gameBoard.height*trackHeight}">
-        </StackPane>
         <HBox fx:id="mainHBox" alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
+            <StackPane alignment="BOTTOM_RIGHT" fx:id="killShotTrackPane" minHeight="${gameBoard.height*trackHeight}" maxHeight="${gameBoard.height*trackHeight}"/>
             <VBox alignment="CENTER">
                 <HBox fx:id="upperHBox" alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
                     <VBox alignment="CENTER" fx:id="avatarsVBox" minHeight="${lVbox.minHeight}" maxHeight="${lVbox.minHeight}" spacing="${gameBoard.height*spacingFactor}"/>
@@ -63,5 +62,6 @@
             <VBox fx:id="actionVBox" minHeight="${gameBoard.minHeight}" maxHeight="${gameBoard.minHeight}" alignment="CENTER" spacing="${gameBoard.width*spacingFactor}">
             </VBox>
         </HBox>
+
     </StackPane>
 </Pane>

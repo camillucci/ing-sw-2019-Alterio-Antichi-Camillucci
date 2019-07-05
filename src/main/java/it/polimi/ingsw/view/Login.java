@@ -61,10 +61,32 @@ public abstract class Login implements ViewElement {
     public abstract void notifyAccepted(boolean accepted) throws IOException;
 
     /**
+     * Method that describes what to do when the server notifies the client about the start of the login timer. The
+     * exact protocol to follow depends on the interface chosen by the user
+     * @param time Amount of time left before the start of the match
+     */
+    public abstract void timerStartedMessage(int time);
+
+
+    /**
      * Asks which color the user wants to take and sends the answer to the server via invoking the color Event.
      * @param availableColors
      */
     public abstract void notifyAvailableColor(List<String> availableColors) throws IOException;
+
+    /**
+     * Method that describes what to do when the server notifies the client about the amount of time left in the timer.
+     * The exact protocol to follow depends on the interface chosen by the user
+     * @param time Amount of time left before the start of the match
+     */
+    public abstract void timerTickMessage(int time);
+
+    /**
+     * Method that describes what to do when the server notifies the client about a new player joining the room. The
+     * exact protocol to follow depends on the interface chosen by the user
+     * @param name Name of the newly entered player
+     */
+    public abstract void newPlayerMessage(String name);
 
     /**
      * If the user is the host, then two questions are asked about how they want to set up the game. Then the server

@@ -21,43 +21,45 @@ public class LoginCLI extends Login {
         boolean connection;
         int choice = CLIParser.parser.parseChoice();
         connection = choice == 0;
-        ((Event<Login, Boolean>)socketEvent).invoke(this, connection);
+        ((Event<Login, Boolean>) socketEvent).invoke(this, connection);
     }
 
     /**
      * Asks which color the user wants to take and sends the answer to the server via invoking the color Event.
+     *
      * @param availableColors
      */
     @Override
     public void notifyAvailableColor(List<String> availableColors) throws IOException {
         CLIMessenger.askColor(availableColors);
-        ((Event<Login, Integer>)colorEvent).invoke(this, CLIParser.parser.parseIndex(availableColors.size()));
+        ((Event<Login, Integer>) colorEvent).invoke(this, CLIParser.parser.parseIndex(availableColors.size()));
     }
 
     /**
      * If the user is the host, then two questions are asked about how they want to set up the game. Then the server
      * is notified of the user's answer via invoking gameLenghtevent and gameMapEvent
+     *
      * @param isHost Indicates whether the user is the host (first one to enter the room) or not
      */
     @Override
-    public void notifyHost(boolean isHost) throws IOException  {
-        if(isHost)
-        {
+    public void notifyHost(boolean isHost) throws IOException {
+        if (isHost) {
             CLIMessenger.askGameLength();
-            ((Event<Login, Integer>)gameLengthEvent).invoke(this, CLIParser.parser.parseGameLength());
+            ((Event<Login, Integer>) gameLengthEvent).invoke(this, CLIParser.parser.parseGameLength());
             CLIMessenger.askGameMap();
-            ((Event<Login, Integer>)gameMapEvent).invoke(this, CLIParser.parser.parseGameMap());
+            ((Event<Login, Integer>) gameMapEvent).invoke(this, CLIParser.parser.parseGameMap());
         }
     }
 
     /**
      * This method is called in case the user's username has already been taken by someone else. It calls the
      * askName method one more time if the accepted parameter is false.
+     *
      * @param accepted Indicates whether the user's name of choice has been taken or not
      */
     @Override
     public void notifyAccepted(boolean accepted) throws IOException {
-        if(!accepted)
+        if (!accepted)
             askName();
     }
 
@@ -77,11 +79,12 @@ public class LoginCLI extends Login {
      */
     private void askName() throws IOException {
         CLIMessenger.insertName();
-        ((Event<Login, String>)nameEvent).invoke(this, CLIParser.parser.parseName());
+        ((Event<Login, String>) nameEvent).invoke(this, CLIParser.parser.parseName());
     }
 
     /**
      * Prints a generic message as an output
+     *
      * @param message Displayed message
      */
     @Override
@@ -91,6 +94,7 @@ public class LoginCLI extends Login {
 
     /**
      * Creates and prints the message relative to a player disconnecting
+     *
      * @param name Name of  the disconnected player
      */
     @Override
@@ -101,6 +105,7 @@ public class LoginCLI extends Login {
 
     /**
      * Creates and prints the message relative to a new player connecting to the room
+     *
      * @param name Name of the newly connected player
      */
     @Override
@@ -112,6 +117,7 @@ public class LoginCLI extends Login {
     /**
      * Creates and prints the message relative to the login timer starting. Communicates the amount of time left to the
      * user as well
+     *
      * @param time Time left before the match starts
      */
     @Override
@@ -123,39 +129,12 @@ public class LoginCLI extends Login {
     /**
      * Creates and prints the message relative to the amount of time left before the match starts (according to the
      * timer)
+     *
      * @param time Amount of time left before the match starts
      */
     @Override
     public void timerTickMessage(int time) {
         String message = time + " seconds left";
         CLIMessenger.printMessage(message);
-    }
-
-    /**
-     * Creates and prints the message relative to when the client reconnects to the room
-     * @param name Name of the reconnected player
-     */
-    @Override
-    public void reconnectedMessage(String name) {
-        String message = "You're back!";
-        CLIMessenger.printMessage(message);
-    }
-
-    /**
-     * This method is never invoked in this class
-     * @param winner
-     */
-    @Override
-    public void winnerMessage(String winner) {
-        //TODO
-    }
-
-    /**
-     * This method is never invoked in this class
-     * @param scoreboard
-     */
-    @Override
-    public void scoreboardMessage(String[][] scoreboard) {
-        //TODO
     }
 }

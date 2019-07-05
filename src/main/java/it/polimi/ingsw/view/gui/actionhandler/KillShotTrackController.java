@@ -4,21 +4,23 @@ import it.polimi.ingsw.snapshots.MatchSnapshot;
 import it.polimi.ingsw.view.gui.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class KillShotTrackController implements Ifxml<StackPane>
 {
-    @FXML private HBox trackHBox;
+    @FXML private VBox trackHBox;
     @FXML private StackPane rootPane;
     @FXML private ImageView firedSkull;
-    @FXML HBox tearsHBox;
+    @FXML VBox tearsHBox;
     private MatchSnapshotProvider provider;
     private MatchSnapshot old;
     private static final int TOT_OTHER_SKULLS = 7;
@@ -55,10 +57,14 @@ public class KillShotTrackController implements Ifxml<StackPane>
 
     private void onModelChanged(MatchSnapshot snapshot)
     {
-        int totOld = old == null ? 0 : old.gameBoardSnapshot.skulls;
+        int totOld = old == null ? 0 : getSkullsCount();
         int totNew = snapshot.gameBoardSnapshot.skulls;
         setupTears(snapshot, totOld, totNew);
         old = snapshot;
+    }
+
+    private int getSkullsCount(){
+        return (int)otherSkulls.stream().filter(Node::isVisible).count() + (firedSkull.isVisible() ? 1 : 0);
     }
 
     private void setupTears(MatchSnapshot snapshot, int totOld, int totNew) {

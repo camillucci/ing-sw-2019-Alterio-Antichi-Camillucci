@@ -108,7 +108,10 @@ public class Match extends ActionsProvider {
     {
         for(int i = 0; i < playersName.size(); i++) {
             Player p = new Player(playersName.get(i), playerColors.get(i), gameBoard);
-            p.deathEvent.addEventHandler((s,a)->this.deadPlayers.add(s));
+            p.deathEvent.addEventHandler((s,a)->{
+                if(!deadPlayers.contains(s))
+                    this.deadPlayers.add(s);
+            });
             p.damagedEvent.addEventHandler(this::onPlayerDamaged);
             players.add(p);
         }
@@ -133,6 +136,8 @@ public class Match extends ActionsProvider {
             if(finalFrenzy)
                 p.setFinalFrenzy();
         }
+
+        //p.addDamageNoMarks(players.get(0), 10);
         this.curPlayer = p;
         p.addPowerUpCardRespawn();
         if(!respawn)
@@ -154,6 +159,8 @@ public class Match extends ActionsProvider {
             branchMap.endOfBranchMapReachedEvent.addEventHandler((a, b) -> onTurnCompleted());
         setNewActions(branchMap.getPossibleActions());
     }
+
+
 
     /**
      * This method is called when a Turn is over, it spawns all the dead Players and starts the next Turn
