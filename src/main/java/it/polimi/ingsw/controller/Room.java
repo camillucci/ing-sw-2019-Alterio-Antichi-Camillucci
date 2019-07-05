@@ -208,7 +208,7 @@ public class Room
 
     /**
      * Returns the match state
-     * @return Whether the match has started or not.
+     * @return Whether the match has started or not.l
      */
     public boolean isMatchStarted() {
         return pendingPlayers.isEmpty() && readyPlayers.size() >= MIN_PLAYERS;

@@ -19,6 +19,8 @@ public class AdrenalineLauncherServer
 {
     private static final int PINGING_PERIOD = 1000; //todo change
     private static CLIParser parser;
+
+
     public static void main(String[] args) {
         Logger logger = Logger.getLogger("AdrenalineLauncherServer");
         InputStream input = AdrenalineLauncherClient.class.getClassLoader().getResourceAsStream("serverConfig.properties");
