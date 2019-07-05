@@ -92,8 +92,9 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
             UnicastRemoteObject.unexportObject(this, true);
             ((Event<AdrenalineServerRMI, Object>)clientDisconnectedEvent).invoke(this, null);
             logger.log(Level.INFO, () -> name + " disconnected by server");
+            isDisconnected = true;
         } catch (NoSuchObjectException e) {
-            logger.log(Level.WARNING, e.getMessage());
+            // nothing
         }
     }
 }

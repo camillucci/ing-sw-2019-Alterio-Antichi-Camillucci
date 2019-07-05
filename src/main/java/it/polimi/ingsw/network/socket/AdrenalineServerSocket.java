@@ -42,6 +42,7 @@ public class AdrenalineServerSocket extends AdrenalineServer
     public void close() {
         client.close();
         logger.log(Level.INFO, () -> name + " disconnected by server");
+        isDisconnected = true;
     }
 
     /**

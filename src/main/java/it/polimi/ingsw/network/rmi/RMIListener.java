@@ -61,7 +61,6 @@ public class RMIListener
                     Thread.sleep(period);
                 }
             } catch (InterruptedException | RemoteException e) {
-                logger.log(Level.WARNING, e.getMessage());
                 stopPinging = true;
             }
         });
