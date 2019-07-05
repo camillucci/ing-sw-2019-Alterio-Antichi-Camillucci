@@ -23,7 +23,6 @@ public class AdrenalineLauncherServer
         RMIListener listenerRMI;
         if(parser == null)
             parser = new CLIParser(System.in);
-        Controller controller = new Controller();
 
         if(input != null)
             try {
@@ -34,8 +33,10 @@ public class AdrenalineLauncherServer
 
         int socketPort = args.length > 0 ? Integer.parseInt(args[0]) : Integer.parseInt(properties.getProperty("socketPort", "9999"));
         int rmiPort = args.length > 1 ? Integer.parseInt(args[1]) : Integer.parseInt(properties.getProperty("rmiPort", "1099"));
-        properties.setProperty("socketPort", Integer.toString(socketPort));
-        properties.setProperty("rmiPort", Integer.toString(rmiPort));
+        int loginTimer  = args.length > 2 ? Integer.parseInt(args[2]) : Integer.parseInt(properties.getProperty("loginTimer", "30"));
+        int turnTimer = args.length > 3 ? Integer.parseInt(args[3]) : Integer.parseInt(properties.getProperty("turnTimer", "120"));
+
+        Controller controller = new Controller(loginTimer, turnTimer);
 
         try {
             listenerRMI = new RMIListener(rmiPort, () -> new AdrenalineServerRMI(controller));

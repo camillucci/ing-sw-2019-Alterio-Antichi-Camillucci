@@ -21,10 +21,22 @@ public class Controller {
     private List<String> joiningPlayers = new ArrayList<>();
 
     /**
+     * Integer representing the login timeout value
+     */
+    private final int loginTimer;
+
+    /**
+     * Integer that represents the amount of seconds it takes for the turn timer to reach 0.
+     */
+    private final int turnTimer;
+
+    /**
      * Constructor. Initializes the room list by creating an empty room.
      */
-    public Controller(){
-        newRoom();
+    public Controller(int loginTimer, int turnTimer){
+        this.loginTimer = loginTimer;
+        this.turnTimer = turnTimer;
+        newRoom(loginTimer, turnTimer);
     }
 
     /**
@@ -32,8 +44,8 @@ public class Controller {
      * joiningPlayers list. Also adds the new room to the previously existing list.
      * @return Newly created room
      */
-    private Room newRoom() {
-        Room room = new Room();
+    private Room newRoom(int loginTimer, int turnTimer) {
+        Room room = new Room(loginTimer, turnTimer);
         room.newPlayerEvent.addEventHandler((a, name) -> joiningPlayers.remove(name));
         room.scoreEvent.addEventHandler((r, b) -> lobby.remove(r));
         lobby.add(room);
@@ -45,12 +57,12 @@ public class Controller {
      * @return The available room in which new joining players are gonna be put.
      */
     public synchronized Room getAvailableRoom() {
-        if(lobby.size() == 0)
-            return newRoom();
+        if(lobby.isEmpty())
+            return newRoom(loginTimer, turnTimer);
         Room ret = lobby.get(lobby.size()-1);
         if(ret.isJoinable())
             return ret;
-        return newRoom();
+        return newRoom(loginTimer, turnTimer);
     }
 
     /**

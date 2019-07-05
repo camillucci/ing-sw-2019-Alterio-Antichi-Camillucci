@@ -34,7 +34,8 @@ public class GUIView extends View
     }
 
     private void setupStage(){
-        primaryStage.setTitle("Welcome Adrenaline!");
+        primaryStage.setTitle("Adrenaline");
+        primaryStage.getIcons().add(Cache.getImage("/robot_icon.png"));
         primaryStage.setWidth(1000);
         primaryStage.setHeight(700);
         primaryStage.setFullScreenExitHint("");

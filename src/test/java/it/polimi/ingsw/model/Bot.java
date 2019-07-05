@@ -49,7 +49,7 @@ public class Bot
 
         // possible = {S1, R} do = S1
         tmp = provider.getActions();
-        assertTrue( BranchTestUtilities.testEquality(tmp, new ShootAction(null,null,null), new RollBackAction()));
+        assertTrue( BranchTestUtilities.testEquality(tmp, new ShootAction(null,null,null, null), new RollBackAction()));
         provider.getActions().get(0).setCanBeDone(true);
         provider.getActions().get(0).doAction();
 
