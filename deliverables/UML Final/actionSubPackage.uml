@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw.model.action</OriginalElement>
+  <nodes>
+    <node x="651.8154761904761" y="1680.0">it.polimi.ingsw.model.action.FireModalityAction</node>
+    <node x="438.0" y="1954.0">it.polimi.ingsw.model.action.CounterPowerUpAction</node>
+    <node x="959.9910714285714" y="0.0">it.polimi.ingsw.model.action.Action</node>
+    <node x="61.61011904761904" y="1096.0">it.polimi.ingsw.model.action.ShootAction</node>
+    <node x="1142.3184523809523" y="1272.0">it.polimi.ingsw.model.action.ExtendableAction</node>
+    <node x="1471.4910714285716" y="1680.0">it.polimi.ingsw.model.action.GrabAction</node>
+    <node x="1982.3184523809525" y="1239.5">it.polimi.ingsw.model.action.ReloadAction</node>
+    <node x="1124.4910714285716" y="1658.0">it.polimi.ingsw.model.action.WeaponSelectionAction</node>
+    <node x="943.3184523809524" y="1283.0">it.polimi.ingsw.model.action.EndBranchAction</node>
+    <node x="1451.3184523809523" y="1305.5">it.polimi.ingsw.model.action.RollBackAction</node>
+    <node x="493.3184523809524" y="1261.0">it.polimi.ingsw.model.action.FunctionalAction</node>
+    <node x="1679.3184523809523" y="1217.0">it.polimi.ingsw.model.action.MoveAction</node>
+    <node x="55.0" y="1899.0">it.polimi.ingsw.model.action.InTurnPowerUpAction</node>
+    <node x="212.36011904761904" y="1647.0">it.polimi.ingsw.model.action.PowerUpAction</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.model.action.ReloadAction" target="it.polimi.ingsw.model.action.ReloadAction">
+      <point x="0.0" y="102.0" />
+      <point x="2121.8184523809523" y="1463.5" />
+      <point x="1962.3184523809525" y="1463.5" />
+      <point x="1962.3184523809525" y="1341.5" />
+      <point x="-139.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.FunctionalAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="-102.5" y="-80.5" />
+      <point x="595.8184523809524" y="1056.0" />
+      <point x="1077.2410714285716" y="1056.0" />
+      <point x="-50.25" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.ReloadAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-102.0" />
+      <point x="2121.8184523809523" y="1046.0" />
+      <point x="1278.2410714285716" y="1046.0" />
+      <point x="150.75" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.InTurnPowerUpAction" target="it.polimi.ingsw.model.action.PowerUpAction">
+      <point x="0.0" y="-168.0" />
+      <point x="221.5" y="1879.0" />
+      <point x="388.61011904761904" y="1879.0" />
+      <point x="35.25" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.CounterPowerUpAction" target="it.polimi.ingsw.model.action.CounterPowerUpAction">
+      <point x="85.25" y="113.0" />
+      <point x="693.75" y="2210.0" />
+      <point x="408.0" y="2210.0" />
+      <point x="408.0" y="2010.5" />
+      <point x="-170.5" y="-56.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.PowerUpAction" target="it.polimi.ingsw.model.action.ShootAction">
+      <point x="0.0" y="-91.0" />
+      <point x="97.25" y="245.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.InTurnPowerUpAction" target="it.polimi.ingsw.model.action.InTurnPowerUpAction">
+      <point x="83.25" y="168.0" />
+      <point x="304.75" y="2265.0" />
+      <point x="25.0" y="2265.0" />
+      <point x="25.0" y="1983.0" />
+      <point x="-166.5" y="-84.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.ShootAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-245.5" />
+      <point x="256.11011904761904" y="1046.0" />
+      <point x="1043.7410714285716" y="1046.0" />
+      <point x="-83.75" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.EndBranchAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-58.5" />
+      <point x="1032.8184523809523" y="1076.0" />
+      <point x="1144.2410714285716" y="1076.0" />
+      <point x="16.75" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.CounterPowerUpAction" target="it.polimi.ingsw.model.action.PowerUpAction">
+      <point x="0.0" y="-113.0" />
+      <point x="608.5" y="1879.0" />
+      <point x="459.11011904761904" y="1879.0" />
+      <point x="105.75" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.ShootAction" target="it.polimi.ingsw.model.action.ShootAction">
+      <point x="-97.25" y="245.5" />
+      <point x="158.86011904761904" y="1607.0" />
+      <point x="41.61011904761904" y="1607.0" />
+      <point x="41.61011904761904" y="1341.5" />
+      <point x="-194.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.Action" target="it.polimi.ingsw.model.action.Action">
+      <point x="-150.75" y="498.0" />
+      <point x="976.7410714285714" y="1016.0" />
+      <point x="939.9910714285714" y="1016.0" />
+      <point x="939.9910714285714" y="747.0" />
+      <point x="-167.5" y="249.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.MoveAction" target="it.polimi.ingsw.model.action.MoveAction">
+      <point x="0.0" y="124.5" />
+      <point x="1810.8184523809523" y="1486.0" />
+      <point x="1659.3184523809523" y="1486.0" />
+      <point x="1659.3184523809523" y="1341.5" />
+      <point x="-131.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.RollBackAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-36.0" />
+      <point x="1545.3184523809523" y="1066.0" />
+      <point x="1211.2410714285716" y="1066.0" />
+      <point x="83.75" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.FunctionalAction" target="it.polimi.ingsw.model.action.FunctionalAction">
+      <point x="0.0" y="80.5" />
+      <point x="698.3184523809524" y="1442.0" />
+      <point x="473.3184523809524" y="1442.0" />
+      <point x="473.3184523809524" y="1341.5" />
+      <point x="-205.0" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.WeaponSelectionAction" target="it.polimi.ingsw.model.action.ExtendableAction">
+      <point x="0.0" y="-80.0" />
+      <point x="1287.9910714285716" y="1627.0" />
+      <point x="1286.8184523809523" y="1627.0" />
+      <point x="0.0" y="69.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.GrabAction" target="it.polimi.ingsw.model.action.ExtendableAction">
+      <point x="0.0" y="-58.0" />
+      <point x="1610.9910714285716" y="1627.0" />
+      <point x="1383.1517857142858" y="1627.0" />
+      <point x="96.33333333333326" y="69.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.EndBranchAction" target="it.polimi.ingsw.model.action.EndBranchAction">
+      <point x="0.0" y="58.5" />
+      <point x="1032.8184523809523" y="1420.0" />
+      <point x="923.3184523809524" y="1420.0" />
+      <point x="923.3184523809524" y="1341.5" />
+      <point x="-89.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.MoveAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-124.5" />
+      <point x="1810.8184523809523" y="1056.0" />
+      <point x="1244.7410714285716" y="1056.0" />
+      <point x="117.25" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.PowerUpAction" target="it.polimi.ingsw.model.action.PowerUpAction">
+      <point x="-105.75" y="91.0" />
+      <point x="247.61011904761904" y="1849.0" />
+      <point x="192.36011904761904" y="1849.0" />
+      <point x="192.36011904761904" y="1783.5" />
+      <point x="-141.0" y="45.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.FireModalityAction" target="it.polimi.ingsw.model.action.ExtendableAction">
+      <point x="0.0" y="-58.0" />
+      <point x="814.3154761904761" y="1627.0" />
+      <point x="1190.4851190476193" y="1627.0" />
+      <point x="-96.33333333333326" y="69.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.WeaponSelectionAction" target="it.polimi.ingsw.model.action.WeaponSelectionAction">
+      <point x="0.0" y="80.0" />
+      <point x="1287.9910714285716" y="1838.0" />
+      <point x="1104.4910714285716" y="1838.0" />
+      <point x="1104.4910714285716" y="1738.0" />
+      <point x="-163.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.FireModalityAction" target="it.polimi.ingsw.model.action.FireModalityAction">
+      <point x="0.0" y="58.0" />
+      <point x="814.3154761904761" y="1816.0" />
+      <point x="631.8154761904761" y="1816.0" />
+      <point x="631.8154761904761" y="1738.0" />
+      <point x="-162.5" y="-0.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.ExtendableAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-69.5" />
+      <point x="1286.8184523809523" y="1076.0" />
+      <point x="1177.7410714285716" y="1076.0" />
+      <point x="50.25" y="498.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.3506191950464398" x="914.2273730684319" y="1391.0618101545251" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
