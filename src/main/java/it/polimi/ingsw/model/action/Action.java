@@ -195,13 +195,14 @@ public abstract class Action
         Ammo ammo = new Ammo(0, 0, 0);
         for(PowerUpCard pu : discardedPowerUps)
             ammo = ammo.add(pu.colorToAmmo());
+        doActionCost = doActionCost.sub(ammo);
         if(discardedAmmo != null)
             doActionCost = discardedAmmo;
         if(ownerPlayer.getAmmo().isGreaterOrEqual(this.doActionCost))
         {
-            this.ownerPlayer.addBlue(-(doActionCost.sub(ammo).blue));
-            this.ownerPlayer.addRed(-(doActionCost.sub(ammo).red));
-            this.ownerPlayer.addYellow(-(doActionCost.sub(ammo).yellow));
+            this.ownerPlayer.addBlue(-(doActionCost.blue));
+            this.ownerPlayer.addRed(-(doActionCost.red));
+            this.ownerPlayer.addYellow(-(doActionCost.yellow));
             for(PowerUpCard pu : discardedPowerUps) {
                 ownerPlayer.gameBoard.powerupDeck.addDiscarded(pu);
                 ownerPlayer.removePowerUpCard(pu);
