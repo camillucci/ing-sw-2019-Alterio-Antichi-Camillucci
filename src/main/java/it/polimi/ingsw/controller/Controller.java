@@ -57,6 +57,11 @@ public class Controller {
         return room;
     }
 
+    /**
+     * Method called when a room is no longer needed due to the end of a match
+     * @param r Room that needs to be removed from the lobby list
+     * @param id Integer used to identify the room when notifying the server
+     */
     private void onRoomClosed(Room r, int id){
         lobby.remove(r);
         logger.log(Level.INFO, () -> "room number " + id + " closed");

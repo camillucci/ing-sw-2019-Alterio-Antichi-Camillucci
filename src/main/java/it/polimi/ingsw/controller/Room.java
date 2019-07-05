@@ -194,6 +194,9 @@ public class Room
         setupEvents();
     }
 
+    /**
+     * Subscribes to the endMatch event. When invoked, the room is closed and the server is notified.
+     */
     private void setupEvents() {
         endMatchEvent.addEventHandler((a, b) -> {
             logMessage("match finished");
@@ -307,6 +310,10 @@ public class Room
         logMessage("the match is started");
     }
 
+    /**
+     * Method used to notify the server when a generic room adds a message to the log
+     * @param message String printed to the server
+     */
     private void logMessage(String message){
         logger.log(Level.INFO, () -> "room " + roomID + ": " + message);
     }
@@ -440,6 +447,9 @@ public class Room
             closeRoom();
     }
 
+    /**
+     * Method called when the match is over. The room becomes unreachable and the roomClosed event is invoked
+     */
     private synchronized void closeRoom() {
         closed = true;
         timer.stop();
