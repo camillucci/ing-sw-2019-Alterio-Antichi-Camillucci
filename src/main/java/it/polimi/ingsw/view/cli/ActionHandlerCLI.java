@@ -105,34 +105,7 @@ public class ActionHandlerCLI extends ActionHandler {
      * This method is never invoked in this class
      * @param name
      */
-    @Override
-    public void newPlayerMessage(String name) {
-        return;
-    }
 
-    /**
-     * This method is never invoked in this class
-     * @param time
-     */
-    @Override
-    public void timerStartedMessage(int time) {
-        return;
-    }
-
-    /**
-     * Creates and prints the message relative to the time left before the start of the match
-     * @param time Integer that represents the amount of time left before the start
-     */
-    @Override
-    public void timerTickMessage(int time) {
-        String message = time + " seconds left";
-        CLIMessenger.printMessage(message);
-    }
-
-    /**
-     * Creates and prints the message relative to when a player reconnects.
-     * @param name Name of the reconnected player
-     */
     @Override
     public void reconnectedMessage(String name) {
         String message = name + " is back";

@@ -36,6 +36,30 @@ public abstract class ActionHandler implements ViewElement {
      * @param options Is the list of actions available the user can choose from
      */
     public abstract void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException;
+
+    /**
+     * Method that describes what to do when the server notifies the client about the declaration of a winner. The
+     * exact protocol to follow depends on the interface chosen by the user
+     * @param winner Name of the winner of the match
+     */
+    public abstract void winnerMessage(String winner);
+
+    /**
+     * Method that describes what to do when the server notifies the client about the reconnection of a player. The
+     * exact protocol to follow depends on the interface chosen by the user
+     * @param name Name of the reconnected player
+     */
+    public abstract void reconnectedMessage(String name);
+
+    /**
+     * Method that describes what to do when the server sends the client the scoreboard relative to the match. The
+     * exact protocol to follow depends on the interface chosen by the user
+     * @param scoreboard Matrix of Strings that represents the scoreboard relative to the match this client is playing
+     *                   in
+     */
+    public abstract void scoreboardMessage(String[][] scoreboard);
+
+
     public abstract void updateActionData(RemoteAction.Data data) throws IOException;
 
     public void onTurnStart(){

@@ -441,20 +441,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
        Platform.runLater( () -> getAvatar(name).disconnected());
     }
 
-    @Override
-    public void newPlayerMessage(String name) {
-        //TODO
-    }
-
-    @Override
-    public void timerStartedMessage(int time) {
-        //TODO
-    }
-
-    @Override
-    public void timerTickMessage(int time) {
-        //TODO
-    }
 
     @Override
     public void reconnectedMessage(String name) {
@@ -463,7 +449,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void winnerMessage(String winner) {
-        //todo add winner animation
         return;
     }
 

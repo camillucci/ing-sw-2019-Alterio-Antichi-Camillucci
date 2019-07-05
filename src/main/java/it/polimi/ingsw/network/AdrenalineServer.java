@@ -272,19 +272,19 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     protected void scoreboardMessage(String[][] scoreboard) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().scoreboardMessage(scoreboard)));
+        sendCommand(new Command<>(v -> v.getActionHandler().scoreboardMessage(scoreboard)));
     }
 
     protected void winnerMessage(String winner) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().winnerMessage(winner)));
+        sendCommand(new Command<>(v -> v.getActionHandler().winnerMessage(winner)));
     }
 
     protected void timerStartedMessage(int time) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().timerStartedMessage(time)));
+        sendCommand(new Command<>(v -> v.getLogin().timerStartedMessage(time)));
     }
 
     protected void timerTickMessage (int time) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().timerTickMessage(time)));
+        sendCommand(new Command<>(v -> v.getLogin().timerTickMessage(time)));
     }
 
     protected void playerDisconnectedMessage (String name) throws IOException {
@@ -292,11 +292,11 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     }
 
     protected void newPlayerMessage (String name) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().newPlayerMessage(name)));
+        sendCommand(new Command<>(v -> v.getLogin().newPlayerMessage(name)));
     }
 
     protected void reconnectedMessage (String name) throws IOException {
-        sendCommand(new Command<>(v -> v.getCurViewElement().reconnectedMessage(name)));
+        sendCommand(new Command<>(v -> v.getActionHandler().reconnectedMessage(name)));
     }
 
     /**

@@ -224,20 +224,6 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         robotSpeak(message);
     }
 
-    @Override
-    public void reconnectedMessage(String name) {
-        //TODO
-    }
-
-    @Override
-    public void winnerMessage(String winner) {
-        //TODO
-    }
-
-    @Override
-    public void scoreboardMessage(String[][] scoreboard) {
-        //TODO
-    }
 
     @Override
     public void onNewMessage(String message) {
