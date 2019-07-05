@@ -178,8 +178,8 @@ public class Match extends ActionsProvider {
      */
     private void newTurn()
     {
-        turnPos = (turnPos + 1) % players.size();
-        curPlayer = players.get(turnPos);
+        turnPos = turnPos + 1;
+        curPlayer = players.get(turnPos % players.size());
         currentTurn = new Turn(curPlayer, this);
         currentTurn.newActionsEvent.addEventHandler((player, actions) -> this.setNewActions(actions));
         currentTurn.endTurnEvent.addEventHandler((turn, turnPlayer) -> onTurnCompleted());
