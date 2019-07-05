@@ -48,21 +48,4 @@ class LoginTest {
         stop();
     }
 
-    @Test
-    void mainStart() throws InterruptedException {
-        if(!GUI_TEST)
-            return;
-
-        (new Thread(() -> AdrenalineLauncherServer.main(new String[]{}))).start();
-        Thread.sleep(300);
-
-        //AdrenalineLauncherClient.main(new String[]{});
-
-        for(int h = 0; h < 1; h++, j=0)
-            for (int i = 0; i < 3; i++) {
-                (new Thread(() -> Bot.login(true, "127.0.0.1", 9999, ++j))).start();
-                Thread.sleep(1000);
-            }
-        Thread.sleep(300000);
-    }
 }

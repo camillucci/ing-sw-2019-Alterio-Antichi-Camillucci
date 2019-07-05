@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class AdrenalineLauncherServer
 {
     private static final int PINGING_PERIOD = 1000; //todo change
+
     public static void main(String[] args) {
         Logger logger = Logger.getLogger("AdrenalineLauncherServer");
         InputStream input = AdrenalineLauncherServer.class.getClassLoader().getResourceAsStream("serverConfig.properties");
