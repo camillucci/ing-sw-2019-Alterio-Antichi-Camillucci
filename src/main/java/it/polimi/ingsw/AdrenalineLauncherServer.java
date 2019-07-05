@@ -3,11 +3,15 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.rmi.*;
 import it.polimi.ingsw.network.socket.*;
+import it.polimi.ingsw.view.cli.CLIMessenger;
 import it.polimi.ingsw.view.cli.CLIParser;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,11 +54,11 @@ public class AdrenalineLauncherServer
             });
             listenerTCP.pingAll(PINGING_PERIOD);
             listenerTCP.start();
-
+            Scanner scanner = new Scanner(System.in);
             do {
                 logger.log(Level.INFO, "Press 1 to close");
             }
-            while(parser.parseChoice() != 1);
+            while(getChoice() != 1);
             listenerTCP.stop();
             for(TCPClient client : listenerTCP.getConnected())
                 client.close();
@@ -69,6 +73,14 @@ public class AdrenalineLauncherServer
             System.exit(0);
         }
 
+    }
+
+    private static int getChoice() {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+           return Integer.parseInt(reader.readLine());
+        }
+        catch(NumberFormatException | IOException e) {return -1;}
     }
 
     public static void setParser(CLIParser parser)
