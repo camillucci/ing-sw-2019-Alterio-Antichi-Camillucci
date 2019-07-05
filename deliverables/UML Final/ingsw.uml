@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>it.polimi.ingsw</OriginalElement>
+  <nodes>
+    <node x="345.0" y="4636.0">it.polimi.ingsw.model.action.CounterPowerUpAction</node>
+    <node x="4750.0" y="6061.0">it.polimi.ingsw.model.cards.Effects</node>
+    <node x="2081.89402173913" y="1645.0">it.polimi.ingsw.view.gui.login.ColorChoiceController</node>
+    <node x="3509.0" y="6061.0">it.polimi.ingsw.view.cli.CLIParser</node>
+    <node x="2061.5" y="5437.0">it.polimi.ingsw.network.RemoteAction.Data</node>
+    <node x="4597.0" y="2752.0">it.polimi.ingsw.model.cards.CardsFactory</node>
+    <node x="6134.89402173913" y="1535.5">it.polimi.ingsw.view.cli.LoginCLI</node>
+    <node x="2135.0" y="4962.0">it.polimi.ingsw.network.RemoteAction</node>
+    <node x="4492.0" y="6061.0">it.polimi.ingsw.view.gui.actionhandler.Avatar</node>
+    <node x="4085.0" y="6061.0">it.polimi.ingsw.view.gui.actionhandler.ShopController</node>
+    <node x="324.5" y="6620.0">it.polimi.ingsw.model.cards.ShootFunc</node>
+    <node x="700.0" y="6499.0">it.polimi.ingsw.generics.CommandQueue</node>
+    <node x="1234.0" y="5150.0">it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient</node>
+    <node x="571.1734693877551" y="3929.0">it.polimi.ingsw.model.action.MoveAction</node>
+    <node x="5227.5" y="4962.0">it.polimi.ingsw.model.branch.Branch</node>
+    <node x="5610.89402173913" y="1612.0">it.polimi.ingsw.view.gui.login.IntroController</node>
+    <node x="4581.89402173913" y="1447.0">it.polimi.ingsw.view.gui.actionhandler.AmmoBoxController</node>
+    <node x="5547.0" y="3204.0">it.polimi.ingsw.model.Turn</node>
+    <node x="496.0" y="6360.0">it.polimi.ingsw.model.cards.CounterAttackPowerUpCard</node>
+    <node x="4883.0" y="5459.0">it.polimi.ingsw.generics.SocketOutputStream.StreamActionInterface</node>
+    <node x="0.0" y="1546.0">it.polimi.ingsw.view.cli.ActionHandlerCLI</node>
+    <node x="4594.0" y="6499.0">it.polimi.ingsw.generics.ThrowingAction</node>
+    <node x="2346.89402173913" y="1491.0">it.polimi.ingsw.view.gui.login.MapChoiceController</node>
+    <node x="1543.25" y="4962.0">it.polimi.ingsw.network.AdrenalineClient</node>
+    <node x="5135.0" y="6061.0">it.polimi.ingsw.view.gui.Animations</node>
+    <node x="3552.5" y="4962.0">it.polimi.ingsw.network.socket.TCPListener</node>
+    <node x="1836.89402173913" y="1612.0">it.polimi.ingsw.view.gui.login.NicknameController</node>
+    <node x="3102.39402173913" y="407.5">it.polimi.ingsw.view.gui.Ifxml</node>
+    <node x="1386.0" y="3951.5">it.polimi.ingsw.model.action.ReloadAction</node>
+    <node x="5635.5" y="4962.0">it.polimi.ingsw.network.rmi.RMIListener</node>
+    <node x="2117.0" y="3995.0">it.polimi.ingsw.model.action.EndBranchAction</node>
+    <node x="3551.0" y="6499.0">it.polimi.ingsw.network.Command</node>
+    <node x="1616.0" y="6061.0">it.polimi.ingsw.generics.IEvent</node>
+    <node x="2794.0" y="6499.0">it.polimi.ingsw.model.cards.AmmoCard</node>
+    <node x="3288.0" y="6499.0">it.polimi.ingsw.AdrenalineLauncherServer</node>
+    <node x="1096.5" y="2752.0">it.polimi.ingsw.model.action.Action</node>
+    <node x="867.0" y="3984.0">it.polimi.ingsw.model.action.ExtendableAction</node>
+    <node x="4122.0" y="2752.0">it.polimi.ingsw.network.IAdrenalineServer</node>
+    <node x="2223.0" y="6598.0">it.polimi.ingsw.model.cards.SquaresFilter</node>
+    <node x="2945.89402173913" y="1535.0">it.polimi.ingsw.view.gui.actionhandler.SelectionBoxController</node>
+    <node x="4777.0" y="6499.0">it.polimi.ingsw.generics.ThrowingFunc</node>
+    <node x="0.0" y="6499.0">it.polimi.ingsw.model.SquareBorder</node>
+    <node x="5216.0" y="2918.0">it.polimi.ingsw.model.Match</node>
+    <node x="895.5" y="396.5">it.polimi.ingsw.view.gui.MatchSnapshotProvider</node>
+    <node x="2598.89402173913" y="1414.0">it.polimi.ingsw.view.gui.actionhandler.SquareController</node>
+    <node x="462.5" y="6061.0">it.polimi.ingsw.model.cards.PowerUpCard</node>
+    <node x="1188.89402173913" y="1227.0">it.polimi.ingsw.view.gui.actionhandler.PlayerSetController</node>
+    <node x="4442.5" y="5194.0">it.polimi.ingsw.view.gui.GUIView</node>
+    <node x="4006.0" y="6499.0">it.polimi.ingsw.generics.Bottleneck</node>
+    <node x="3183.0" y="4547.5">it.polimi.ingsw.controller.Room.MatchStartingException</node>
+    <node x="4186.89402173913" y="1469.0">it.polimi.ingsw.view.gui.actionhandler.KillShotTrackController</node>
+    <node x="1998.0" y="6061.0">it.polimi.ingsw.model.branch.BranchMap</node>
+    <node x="4899.0" y="2752.0">it.polimi.ingsw.model.Player</node>
+    <node x="3424.0" y="2752.0">it.polimi.ingsw.view.cli.CLIMessenger</node>
+    <node x="3936.5" y="4962.0">it.polimi.ingsw.network.RemoteActionsHandler</node>
+    <node x="4361.0" y="6499.0">it.polimi.ingsw.view.ViewInterface</node>
+    <node x="2654.25" y="2752.0">it.polimi.ingsw.controller.Room</node>
+    <node x="2742.0" y="6061.0">it.polimi.ingsw.model.Ammo</node>
+    <node x="5835.89402173913" y="1150.0">it.polimi.ingsw.view.gui.login.NewLoginGUI</node>
+    <node x="880.0" y="6360.0">it.polimi.ingsw.model.cards.InTurnPowerUpCard</node>
+    <node x="4772.5" y="4962.0">it.polimi.ingsw.generics.SocketOutputStream</node>
+    <node x="3103.492753623188" y="0.0">it.polimi.ingsw.view.ViewElement</node>
+    <node x="1575.0" y="6204.0">it.polimi.ingsw.generics.Event</node>
+    <node x="427.0" y="5723.0">it.polimi.ingsw.model.AmmoSquare</node>
+    <node x="1736.0" y="6499.0">it.polimi.ingsw.App</node>
+    <node x="2779.0" y="4503.0">it.polimi.ingsw.controller.Room.ModelEventArgs</node>
+    <node x="478.5" y="385.5">it.polimi.ingsw.view.gui.RemoteActionsProvider</node>
+    <node x="4331.5" y="5327.0">it.polimi.ingsw.view.cli.CLIView</node>
+    <node x="3378.89402173913" y="1546.0">it.polimi.ingsw.view.gui.login.SkullChoiceController</node>
+    <node x="3022.0" y="6061.0">it.polimi.ingsw.model.cards.WeaponCard</node>
+    <node x="4268.0" y="4272.0">it.polimi.ingsw.network.socket.AdrenalineServerSocket</node>
+    <node x="3308.25" y="5525.0">it.polimi.ingsw.generics.SocketInputStream.StreamActionInterface</node>
+    <node x="3825.0000000000005" y="4184.0">it.polimi.ingsw.network.rmi.AdrenalineServerRMI</node>
+    <node x="3121.5" y="4962.0">it.polimi.ingsw.generics.SocketInputStream</node>
+    <node x="2407.0" y="6499.0">it.polimi.ingsw.AdrenalineLauncherClient</node>
+    <node x="863.0" y="4382.0">it.polimi.ingsw.model.action.GrabAction</node>
+    <node x="0.0" y="6360.0">it.polimi.ingsw.model.cards.EndStartPowerUpCard</node>
+    <node x="0.0" y="5657.0">it.polimi.ingsw.model.SpawnAndShopSquare</node>
+    <node x="5991.51902173913" y="275.0">it.polimi.ingsw.view.Login</node>
+    <node x="1172.0" y="4360.0">it.polimi.ingsw.model.action.WeaponSelectionAction</node>
+    <node x="3156.25" y="5525.0">it.polimi.ingsw.generics.SocketInputStream.GetInterface</node>
+    <node x="624.75" y="699.0">it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI</node>
+    <node x="1168.0" y="4017.5">it.polimi.ingsw.model.action.RollBackAction</node>
+    <node x="1284.0" y="6499.0">it.polimi.ingsw.model.AmmoDeck</node>
+    <node x="504.0" y="4382.0">it.polimi.ingsw.model.action.FireModalityAction</node>
+    <node x="257.25" y="4962.0">it.polimi.ingsw.model.Square</node>
+    <node x="140.61989795918362" y="3808.0">it.polimi.ingsw.model.action.ShootAction</node>
+    <node x="5988.5" y="4962.0">it.polimi.ingsw.model.PowerUpSet</node>
+    <node x="5504.0" y="6061.0">it.polimi.ingsw.model.branch.BranchMapFactory</node>
+    <node x="5370.75" y="2752.0">it.polimi.ingsw.model.ActionsProvider</node>
+    <node x="3805.0" y="6499.0">it.polimi.ingsw.view.gui.actionhandler.AmmoImageView</node>
+    <node x="4113.0" y="2983.0">it.polimi.ingsw.network.AdrenalineServer</node>
+    <node x="0.0" y="4581.0">it.polimi.ingsw.model.action.InTurnPowerUpAction</node>
+    <node x="2656.5" y="4962.0">it.polimi.ingsw.model.cards.TargetsFilters</node>
+    <node x="822.0" y="4962.0">it.polimi.ingsw.model.GameBoard</node>
+    <node x="3746.0000000000005" y="3512.0">it.polimi.ingsw.network.rmi.IRMIAdrenalineServer</node>
+    <node x="2417.0" y="6061.0">it.polimi.ingsw.controller.RoomTimer</node>
+    <node x="2064.0" y="6598.0">it.polimi.ingsw.model.cards.PlayersFilter</node>
+    <node x="5130.89402173913" y="1282.0">it.polimi.ingsw.view.gui.actionhandler.MapController</node>
+    <node x="2578.0" y="4547.5">it.polimi.ingsw.controller.Room.TurnTimeoutException</node>
+    <node x="2333.0" y="4547.5">it.polimi.ingsw.controller.Room.NotAvailableColorException</node>
+    <node x="203.0" y="6499.0">it.polimi.ingsw.generics.TriConsumer</node>
+    <node x="1015.0" y="6499.0">it.polimi.ingsw.model.PowerUpDeck</node>
+    <node x="3639.89402173913" y="1018.0">it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController</node>
+    <node x="4362.5" y="4962.0">it.polimi.ingsw.view.View</node>
+    <node x="6088.0" y="6061.0">it.polimi.ingsw.model.PlayerColor</node>
+    <node x="1591.89402173913" y="1568.0">it.polimi.ingsw.view.gui.login.RoomJoinController</node>
+    <node x="1541.0" y="6499.0">it.polimi.ingsw.model.AmmoColor</node>
+    <node x="1662.5" y="5492.0">it.polimi.ingsw.network.socket.AdrenalineClientSocket</node>
+    <node x="1284.5" y="5459.0">it.polimi.ingsw.network.rmi.AdrenalineClientRMI</node>
+    <node x="1695.0" y="3973.0">it.polimi.ingsw.model.action.FunctionalAction</node>
+    <node x="1246.0" y="6061.0">it.polimi.ingsw.network.socket.TCPClient</node>
+    <node x="3802.0" y="6061.0">it.polimi.ingsw.controller.Controller</node>
+    <node x="187.11989795918362" y="4349.0">it.polimi.ingsw.model.action.PowerUpAction</node>
+    <node x="3043.0" y="6499.0">it.polimi.ingsw.model.WeaponDeck</node>
+    <node x="2149.0" y="6499.0">it.polimi.ingsw.generics.TriFunction</node>
+    <node x="5792.0" y="6061.0">it.polimi.ingsw.view.gui.Cache</node>
+    <node x="16.5" y="341.0">it.polimi.ingsw.view.ActionHandler</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="it.polimi.ingsw.model.action.ReloadAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-102.0" />
+      <point x="1530.5" y="3788.0" />
+      <point x="1315.7142857142856" y="3788.0" />
+      <point x="48.71428571428555" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.InTurnPowerUpAction" target="it.polimi.ingsw.model.action.PowerUpAction">
+      <point x="0.0" y="-168.0" />
+      <point x="162.5" y="4556.0" />
+      <point x="260.1198979591836" y="4556.0" />
+      <point x="-73.0" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.cli.CLIView" target="it.polimi.ingsw.view.View">
+      <point x="0.0" y="-24.5" />
+      <point x="4377.0" y="5169.0" />
+      <point x="4421.75" y="5169.0" />
+      <point x="-59.25" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.SquareController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-289.0" />
+      <point x="2762.39402173913" y="679.0" />
+      <point x="3145.7273550724635" y="679.0" />
+      <point x="-6.666666666666515" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.ShootAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-245.5" />
+      <point x="333.1198979591836" y="3768.0" />
+      <point x="1120.857142857143" y="3768.0" />
+      <point x="-146.1428571428571" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.rmi.AdrenalineClientRMI" target="it.polimi.ingsw.network.rmi.ICallbackAdrenalineClient">
+      <point x="-89.5" y="-168.5" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login.ColorChoiceController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-58.0" />
+      <point x="2204.39402173913" y="659.0" />
+      <point x="3132.39402173913" y="659.0" />
+      <point x="-20.0" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.rmi.AdrenalineServerRMI" target="it.polimi.ingsw.network.rmi.IRMIAdrenalineServer">
+      <point x="-94.5" y="-168.5" />
+      <point x="0.0" y="46.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.ShootFunc" target="it.polimi.ingsw.generics.TriConsumer">
+      <point x="0.0" y="-24.5" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.Login" target="it.polimi.ingsw.view.ViewElement">
+      <point x="0.0" y="-157.0" />
+      <point x="6154.01902173913" y="250.0" />
+      <point x="3292.492753623188" y="250.0" />
+      <point x="63.0" y="112.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.PlayerCardsController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-685.0" />
+      <point x="3903.39402173913" y="669.0" />
+      <point x="3165.7273550724635" y="669.0" />
+      <point x="13.333333333333485" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.SelectionBoxController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-168.0" />
+      <point x="0.0" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.KillShotTrackController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-234.0" />
+      <point x="4374.39402173913" y="659.0" />
+      <point x="3172.39402173913" y="659.0" />
+      <point x="20.0" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.AmmoSquare" target="it.polimi.ingsw.model.Square">
+      <point x="0.0" y="-113.5" />
+      <point x="602.0" y="5632.0" />
+      <point x="475.5" y="5632.0" />
+      <point x="72.75" y="322.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.EndStartPowerUpCard" target="it.polimi.ingsw.model.cards.PowerUpCard">
+      <point x="0.0" y="-47.0" />
+      <point x="238.0" y="6335.0" />
+      <point x="534.333333333333" y="6335.0" />
+      <point x="-143.66666666666697" y="124.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login.IntroController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-91.0" />
+      <point x="5713.39402173913" y="629.0" />
+      <point x="3192.39402173913" y="629.0" />
+      <point x="40.0" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.ActionHandler" target="it.polimi.ingsw.view.ViewElement">
+      <point x="0.0" y="-91.0" />
+      <point x="237.5" y="250.0" />
+      <point x="3166.492753623188" y="250.0" />
+      <point x="-63.0" y="112.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.CounterAttackPowerUpCard" target="it.polimi.ingsw.model.cards.PowerUpCard">
+      <point x="0.0" y="-47.0" />
+      <point x="0.0" y="124.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.AmmoBoxController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-256.0" />
+      <point x="4846.39402173913" y="649.0" />
+      <point x="3179.0606884057966" y="649.0" />
+      <point x="26.666666666666515" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Room.NotAvailableColorException" target="it.polimi.ingsw.controller.Room">
+      <point x="0.0" y="-13.5" />
+      <point x="2445.5" y="4473.0" />
+      <point x="2695.625" y="4473.0" />
+      <point x="-124.125" y="850.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.socket.AdrenalineClientSocket" target="it.polimi.ingsw.network.AdrenalineClient">
+      <point x="0.0" y="-135.5" />
+      <point x="98.75" y="223.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.PowerUpAction" target="it.polimi.ingsw.model.action.ShootAction">
+      <point x="0.0" y="-91.0" />
+      <point x="0.0" y="245.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.EndBranchAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-58.5" />
+      <point x="2202.5" y="3768.0" />
+      <point x="1413.142857142857" y="3768.0" />
+      <point x="146.1428571428571" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login.NewLoginGUI" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="-69.75" y="-553.0" />
+      <point x="5905.64402173913" y="619.0" />
+      <point x="3199.0606884057966" y="619.0" />
+      <point x="46.666666666666515" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.socket.AdrenalineServerSocket" target="it.polimi.ingsw.network.AdrenalineServer">
+      <point x="-4.547473508864641E-13" y="-80.5" />
+      <point x="98.99999999999955" y="575.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login.NewLoginGUI" target="it.polimi.ingsw.view.Login">
+      <point x="69.75" y="-553.0" />
+      <point x="6045.14402173913" y="679.0" />
+      <point x="6072.76902173913" y="679.0" />
+      <point x="-81.25" y="157.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.SquaresFilter" target="it.polimi.ingsw.generics.TriFunction">
+      <point x="0.0" y="-13.5" />
+      <point x="2292.5" y="6573.0" />
+      <point x="2245.0" y="6573.0" />
+      <point x="32.0" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.generics.SocketOutputStream.StreamActionInterface" target="it.polimi.ingsw.generics.SocketOutputStream">
+      <point x="0.0" y="-24.5" />
+      <point x="0.0" y="223.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.rmi.AdrenalineClientRMI" target="it.polimi.ingsw.network.AdrenalineClient">
+      <point x="89.5" y="-168.5" />
+      <point x="1553.0" y="5434.0" />
+      <point x="1642.0" y="5434.0" />
+      <point x="-98.75" y="223.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.WeaponSelectionAction" target="it.polimi.ingsw.model.action.ExtendableAction">
+      <point x="0.0" y="-80.0" />
+      <point x="1340.5" y="4324.0" />
+      <point x="1101.1666666666667" y="4324.0" />
+      <point x="93.66666666666674" y="69.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.MoveAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-124.5" />
+      <point x="707.6734693877551" y="3778.0" />
+      <point x="1169.5714285714284" y="3778.0" />
+      <point x="-97.42857142857156" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.InTurnPowerUpCard" target="it.polimi.ingsw.model.cards.PowerUpCard">
+      <point x="0.0" y="-47.0" />
+      <point x="1040.5" y="6335.0" />
+      <point x="821.666666666667" y="6335.0" />
+      <point x="143.66666666666697" y="124.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Room.ModelEventArgs" target="it.polimi.ingsw.controller.Room">
+      <point x="0.0" y="-58.0" />
+      <point x="2971.0" y="4483.0" />
+      <point x="2861.125" y="4483.0" />
+      <point x="41.375" y="850.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.AdrenalineServer" target="it.polimi.ingsw.network.IAdrenalineServer">
+      <point x="-4.547473508864641E-13" y="-575.5" />
+      <point x="0.0" y="90.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.ExtendableAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-69.5" />
+      <point x="1007.5" y="3788.0" />
+      <point x="1218.2857142857142" y="3788.0" />
+      <point x="-48.71428571428578" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.RemoteAction.Data" target="it.polimi.ingsw.network.RemoteAction">
+      <point x="0.0" y="-179.5" />
+      <point x="0.0" y="212.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.MapController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-421.0" />
+      <point x="5360.89402173913" y="639.0" />
+      <point x="3185.7273550724635" y="639.0" />
+      <point x="33.333333333333485" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Turn" target="it.polimi.ingsw.model.ActionsProvider">
+      <point x="0.0" y="-190.5" />
+      <point x="5658.0" y="2893.0" />
+      <point x="5586.75" y="2893.0" />
+      <point x="72.0" y="58.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Room.TurnTimeoutException" target="it.polimi.ingsw.controller.Room">
+      <point x="0.0" y="-13.5" />
+      <point x="2668.5" y="4483.0" />
+      <point x="2778.375" y="4483.0" />
+      <point x="-41.375" y="850.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI" target="it.polimi.ingsw.view.ActionHandler">
+      <point x="-200.625" y="-1004.0" />
+      <point x="691.625" y="679.0" />
+      <point x="348.0" y="679.0" />
+      <point x="110.5" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login.MapChoiceController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-212.0" />
+      <point x="2462.89402173913" y="669.0" />
+      <point x="3139.0606884057966" y="669.0" />
+      <point x="-13.333333333333485" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Room.MatchStartingException" target="it.polimi.ingsw.controller.Room">
+      <point x="0.0" y="-13.5" />
+      <point x="3281.0" y="4473.0" />
+      <point x="2943.875" y="4473.0" />
+      <point x="124.125" y="850.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.cards.PlayersFilter" target="it.polimi.ingsw.generics.TriFunction">
+      <point x="0.0" y="-13.5" />
+      <point x="2133.5" y="6573.0" />
+      <point x="2181.0" y="6573.0" />
+      <point x="-32.0" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.RollBackAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-36.0" />
+      <point x="0.0" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.generics.SocketInputStream.StreamActionInterface" target="it.polimi.ingsw.generics.SocketInputStream">
+      <point x="0.0" y="-24.5" />
+      <point x="3406.75" y="5500.0" />
+      <point x="3411.0" y="5500.0" />
+      <point x="96.5" y="256.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.rmi.AdrenalineServerRMI" target="it.polimi.ingsw.network.AdrenalineServer">
+      <point x="94.5" y="-168.5" />
+      <point x="4108.5" y="4159.0" />
+      <point x="4212.0" y="4159.0" />
+      <point x="-99.0" y="575.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.GrabAction" target="it.polimi.ingsw.model.action.ExtendableAction">
+      <point x="0.0" y="-58.0" />
+      <point x="0.0" y="69.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.cli.LoginCLI" target="it.polimi.ingsw.view.Login">
+      <point x="0.0" y="-167.5" />
+      <point x="6262.89402173913" y="679.0" />
+      <point x="6235.26902173913" y="679.0" />
+      <point x="81.25" y="157.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI" target="it.polimi.ingsw.view.gui.MatchSnapshotProvider">
+      <point x="66.875" y="-1004.0" />
+      <point x="959.125" y="609.0" />
+      <point x="1107.5" y="609.0" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.PlayerSetController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-476.0" />
+      <point x="1380.39402173913" y="629.0" />
+      <point x="3112.39402173913" y="629.0" />
+      <point x="-40.0" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login.NicknameController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-91.0" />
+      <point x="1949.39402173913" y="649.0" />
+      <point x="3125.7273550724635" y="649.0" />
+      <point x="-26.666666666666515" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.FunctionalAction" target="it.polimi.ingsw.model.action.Action">
+      <point x="0.0" y="-80.5" />
+      <point x="1896.0" y="3778.0" />
+      <point x="1364.4285714285713" y="3778.0" />
+      <point x="97.42857142857133" y="498.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login.RoomJoinController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-135.0" />
+      <point x="1704.39402173913" y="639.0" />
+      <point x="3119.0606884057966" y="639.0" />
+      <point x="-33.333333333333485" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.SpawnAndShopSquare" target="it.polimi.ingsw.model.Square">
+      <point x="0.0" y="-179.5" />
+      <point x="203.5" y="5632.0" />
+      <point x="330.0" y="5632.0" />
+      <point x="-72.75" y="322.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.generics.SocketInputStream.GetInterface" target="it.polimi.ingsw.generics.SocketInputStream">
+      <point x="0.0" y="-24.5" />
+      <point x="3222.25" y="5500.0" />
+      <point x="3218.0" y="5500.0" />
+      <point x="-96.5" y="256.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.GUIView" target="it.polimi.ingsw.view.View">
+      <point x="0.0" y="-157.5" />
+      <point x="4585.0" y="5169.0" />
+      <point x="4540.25" y="5169.0" />
+      <point x="59.25" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.login.SkullChoiceController" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="0.0" y="-157.0" />
+      <point x="3499.39402173913" y="679.0" />
+      <point x="3159.0606884057966" y="679.0" />
+      <point x="6.666666666666515" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI" target="it.polimi.ingsw.view.gui.RemoteActionsProvider">
+      <point x="-66.875" y="-1004.0" />
+      <point x="825.375" y="669.0" />
+      <point x="677.0" y="669.0" />
+      <point x="0.0" y="46.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.cli.ActionHandlerCLI" target="it.polimi.ingsw.view.ActionHandler">
+      <point x="0.0" y="-157.0" />
+      <point x="-110.5" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.CounterPowerUpAction" target="it.polimi.ingsw.model.action.PowerUpAction">
+      <point x="0.0" y="-113.0" />
+      <point x="513.5" y="4556.0" />
+      <point x="406.1198979591836" y="4556.0" />
+      <point x="73.0" y="91.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.view.gui.actionhandler.ActionHandlerGUI" target="it.polimi.ingsw.view.gui.Ifxml">
+      <point x="200.625" y="-1004.0" />
+      <point x="1092.875" y="619.0" />
+      <point x="3105.7273550724635" y="619.0" />
+      <point x="-46.666666666666515" y="24.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.action.FireModalityAction" target="it.polimi.ingsw.model.action.ExtendableAction">
+      <point x="0.0" y="-58.0" />
+      <point x="673.5" y="4324.0" />
+      <point x="913.8333333333333" y="4324.0" />
+      <point x="-93.66666666666674" y="69.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.model.Match" target="it.polimi.ingsw.model.ActionsProvider">
+      <point x="0.0" y="-476.5" />
+      <point x="5371.5" y="2893.0" />
+      <point x="5442.75" y="2893.0" />
+      <point x="-72.0" y="58.0" />
+    </edge>
+    <edge source="it.polimi.ingsw.generics.Event" target="it.polimi.ingsw.generics.IEvent">
+      <point x="0.0" y="-91.0" />
+      <point x="0.0" y="46.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6222900319674513" x="4852.06360622052" y="5060.008125904824" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.model.action.CounterPowerUpAction</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
