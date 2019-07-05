@@ -126,82 +126,82 @@ public class CLIMessenger {
     /**
      *
      */
-    private static final String HORIZONTAL = "\u2550"; // ═
+    private static final String HORIZONTAL = "\u2550";
 
     /**
      * Visual representation of a vertical line
      */
-    private static final String VERTICAL = "\u2551"; // ║
+    private static final String VERTICAL = "\u2551";
 
     /**
      * Visual representation of a top left corner
      */
-    private static final String TOP_LEFT = "\u2554"; // ╔
+    private static final String TOP_LEFT = "\u2554";
 
     /**
      * Visual representation of a bottom left corner
      */
-    private static final String TOP_RIGHT = "\u2557"; // ╗
+    private static final String TOP_RIGHT = "\u2557";
 
     /**
      * Visual representation of a bottom left corner
      */
-    private static final String BOTTOM_LEFT = "\u255A"; // ╚
+    private static final String BOTTOM_LEFT = "\u255A";
 
     /**
      * Visual representation of a bottom right corner
      */
-    private static final String BOTTOM_RIGHT = "\u255D"; // ╝
+    private static final String BOTTOM_RIGHT = "\u255D";
 
     /**
      * Visual representation of a top "T" shaped cross
      */
-    private static final String TOP = "\u2566"; // ╦
+    private static final String TOP = "\u2566";
 
     /**
      * Visual representation of a bottom "T" shaped cross
      */
-    private static final String BOTTOM = "\u2569"; // ╩
+    private static final String BOTTOM = "\u2569";
 
     /**
      * Visual representation of a left "T" shaped cross
      */
-    private static final String LEFT = "\u2560"; // ╠
+    private static final String LEFT = "\u2560";
 
     /**
      * Visual representation of a right "T" shaped cross
      */
-    private static final String RIGHT = "\u2563"; // ╣
+    private static final String RIGHT = "\u2563";
 
     /**
      * Visual representation of a "+" shaped cross
      */
-    private static final String MIDDLE = "\u256C"; // ╬
+    private static final String MIDDLE = "\u256C";
 
     /**
      * Visual representation of a point, used for damages, marks and costs
      */
-    private static final String POINT = "\u2588"; // █
+    private static final String POINT = "\u2588";
 
     /**
      * Visual representation of an horizontal wall
      */
-    private static final String HORIZONTAL_WALL = wall(MAX_SIZE_SQUARE); // ═════════════════════════════════════════════
+    private static final String HORIZONTAL_WALL = wall(MAX_SIZE_SQUARE);
 
     /**
      * Visual representation of an horizontal door
      */
-    private static final String HORIZONTAL_DOOR = door(); // ══════════════════╣       ╠══════════════════
+    private static final String HORIZONTAL_DOOR = door();
 
     /**
      * Visual representation of the horizontal entrance of a room
      */
-    private static final String HORIZONTAL_ROOM = room(); // ═════                                   ═════
+    private static final String HORIZONTAL_ROOM = room();
 
     /**
      * Visual representation of the KillShotTrack
      */
-    private static final String KILLSHOTTRACK_WALL = wall(MAX_SKULLS + 1); // ═════════
+    private static final String KILLSHOTTRACK_WALL = wall(MAX_SKULLS + 1);
 
     /**
      * Contains the list of strings used to visually represent a wall
@@ -700,11 +700,11 @@ public class CLIMessenger {
         return temp;
     }
 
-    private static String door() { // ══════════════════╣       ╠══════════════════
+    private static String door() {
         return wall(18) + RIGHT + blanks(7) + LEFT + wall(18);
     }
 
-    private static String room() { // ═════                                   ═════
+    private static String room() {
         return wall(5) + blanks(35) + wall(5);
     }
     //------------------------------------------------------------------------------------------------------------------
