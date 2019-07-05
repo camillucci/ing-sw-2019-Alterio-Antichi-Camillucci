@@ -3,80 +3,80 @@
   <ID>JAVA</ID>
   <OriginalElement>it.polimi.ingsw.controller</OriginalElement>
   <nodes>
-    <node x="949.0" y="1912.0">it.polimi.ingsw.controller.RoomTimer</node>
-    <node x="0.0" y="1795.5">it.polimi.ingsw.controller.Room.TurnTimeoutException</node>
-    <node x="201.0" y="1795.5">it.polimi.ingsw.controller.Room.MatchStartingException</node>
-    <node x="821.0" y="1795.5">it.polimi.ingsw.controller.Room.NotAvailableColorException</node>
-    <node x="1515.0" y="0.0">it.polimi.ingsw.network.IAdrenalineServer</node>
-    <node x="1955.0" y="475.0">it.polimi.ingsw.network.RemoteAction.Data</node>
-    <node x="1162.5" y="1432.0">it.polimi.ingsw.network.rmi</node>
-    <node x="2028.5" y="0.0">it.polimi.ingsw.network.RemoteAction</node>
-    <node x="309.0" y="1912.0">it.polimi.ingsw.network.RemoteActionsHandler</node>
-    <node x="1557.0" y="1912.0">it.polimi.ingsw.snapshots.GameBoardSnapshot</node>
-    <node x="712.0" y="1912.0">it.polimi.ingsw.snapshots.SquareSnapshot</node>
-    <node x="2223.0" y="1912.0">it.polimi.ingsw.network.Command</node>
-    <node x="1844.0" y="1912.0">it.polimi.ingsw.snapshots.MatchSnapshot</node>
+    <node x="919.0" y="1912.0">it.polimi.ingsw.controller.RoomTimer</node>
+    <node x="863.0" y="1795.5">it.polimi.ingsw.controller.Room.TurnTimeoutException</node>
+    <node x="406.0" y="1795.5">it.polimi.ingsw.controller.Room.MatchStartingException</node>
+    <node x="624.0" y="1795.5">it.polimi.ingsw.controller.Room.NotAvailableColorException</node>
+    <node x="1509.0" y="0.0">it.polimi.ingsw.network.IAdrenalineServer</node>
+    <node x="1943.0" y="475.0">it.polimi.ingsw.network.RemoteAction.Data</node>
+    <node x="1719.0" y="1410.0">it.polimi.ingsw.network.rmi</node>
+    <node x="2016.5" y="0.0">it.polimi.ingsw.network.RemoteAction</node>
+    <node x="1511.0" y="1912.0">it.polimi.ingsw.snapshots.GameBoardSnapshot</node>
+    <node x="303.0" y="1912.0">it.polimi.ingsw.network.RemoteActionsHandler</node>
+    <node x="700.0" y="1912.0">it.polimi.ingsw.snapshots.SquareSnapshot</node>
+    <node x="2153.0" y="1912.0">it.polimi.ingsw.network.Command</node>
+    <node x="462.75" y="0.0">it.polimi.ingsw.controller.Room</node>
     <node x="0.0" y="1912.0">it.polimi.ingsw.snapshots.PublicPlayerSnapshot</node>
-    <node x="288.5" y="0.0">it.polimi.ingsw.controller.Room</node>
-    <node x="1506.0" y="231.0">it.polimi.ingsw.network.AdrenalineServer</node>
-    <node x="1274.0" y="1912.0">it.polimi.ingsw.controller.Controller</node>
+    <node x="1780.0" y="1912.0">it.polimi.ingsw.snapshots.MatchSnapshot</node>
+    <node x="1500.0" y="231.0">it.polimi.ingsw.network.AdrenalineServer</node>
+    <node x="1226.0" y="1912.0">it.polimi.ingsw.controller.Controller</node>
     <node x="4.0" y="2387.0">it.polimi.ingsw.snapshots.PrivatePlayerSnapshot</node>
-    <node x="1711.5" y="1432.0">it.polimi.ingsw.network.socket</node>
-    <node x="417.0" y="1751.0">it.polimi.ingsw.controller.Room.ModelEventArgs</node>
-    <node x="1091.0" y="583.0">it.polimi.ingsw.network.AdrenalineClient</node>
+    <node x="1156.5" y="1410.0">it.polimi.ingsw.network.socket</node>
+    <node x="0.0" y="1751.0">it.polimi.ingsw.controller.Room.ModelEventArgs</node>
+    <node x="1091.0" y="572.0">it.polimi.ingsw.network.AdrenalineClient</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="it.polimi.ingsw.network.rmi" target="it.polimi.ingsw.network.AdrenalineClient">
-      <point x="-27.25" y="-13.5" />
-      <point x="-98.75" y="223.5" />
-    </edge>
     <edge source="it.polimi.ingsw.network.socket" target="it.polimi.ingsw.network.AdrenalineServer">
-      <point x="32.5" y="-13.5" />
-      <point x="101.0" y="575.5" />
+      <point x="31.75" y="-13.5" />
+      <point x="1251.75" y="1390.0" />
+      <point x="1599.5" y="1390.0" />
+      <point x="-99.5" y="564.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.controller.Room.TurnTimeoutException" target="it.polimi.ingsw.controller.Room">
+      <point x="0.0" y="-13.5" />
+      <point x="954.5" y="1721.0" />
+      <point x="736.625" y="1721.0" />
+      <point x="117.375" y="850.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.socket" target="it.polimi.ingsw.network.AdrenalineClient">
+      <point x="-31.75" y="-13.5" />
+      <point x="-97.25" y="223.5" />
     </edge>
     <edge source="it.polimi.ingsw.controller.Room.MatchStartingException" target="it.polimi.ingsw.controller.Room">
       <point x="0.0" y="-13.5" />
-      <point x="299.0" y="1731.0" />
-      <point x="412.625" y="1731.0" />
-      <point x="-41.375" y="850.5" />
+      <point x="505.0" y="1731.0" />
+      <point x="580.125" y="1731.0" />
+      <point x="-39.125" y="850.5" />
+    </edge>
+    <edge source="it.polimi.ingsw.network.rmi" target="it.polimi.ingsw.network.AdrenalineClient">
+      <point x="-26.5" y="-13.5" />
+      <point x="1745.5" y="1380.0" />
+      <point x="1382.75" y="1380.0" />
+      <point x="97.25" y="223.5" />
     </edge>
     <edge source="it.polimi.ingsw.snapshots.PrivatePlayerSnapshot" target="it.polimi.ingsw.snapshots.PublicPlayerSnapshot">
       <point x="0.0" y="-91.5" />
       <point x="0.0" y="212.5" />
     </edge>
-    <edge source="it.polimi.ingsw.controller.Room.TurnTimeoutException" target="it.polimi.ingsw.controller.Room">
-      <point x="0.0" y="-13.5" />
-      <point x="90.5" y="1721.0" />
-      <point x="329.875" y="1721.0" />
-      <point x="-124.125" y="850.5" />
-    </edge>
     <edge source="it.polimi.ingsw.network.rmi" target="it.polimi.ingsw.network.AdrenalineServer">
-      <point x="27.25" y="-13.5" />
-      <point x="1244.25" y="1412.0" />
-      <point x="1607.0" y="1412.0" />
-      <point x="-101.0" y="575.5" />
+      <point x="26.5" y="-13.5" />
+      <point x="99.5" y="564.5" />
     </edge>
     <edge source="it.polimi.ingsw.controller.Room.NotAvailableColorException" target="it.polimi.ingsw.controller.Room">
       <point x="0.0" y="-13.5" />
-      <point x="933.5" y="1721.0" />
-      <point x="578.125" y="1721.0" />
-      <point x="124.125" y="850.5" />
-    </edge>
-    <edge source="it.polimi.ingsw.network.socket" target="it.polimi.ingsw.network.AdrenalineClient">
-      <point x="-32.5" y="-13.5" />
-      <point x="1744.0" y="1402.0" />
-      <point x="1387.25" y="1402.0" />
-      <point x="98.75" y="223.5" />
+      <point x="733.5" y="1731.0" />
+      <point x="658.375" y="1731.0" />
+      <point x="39.125" y="850.5" />
     </edge>
     <edge source="it.polimi.ingsw.controller.Room.ModelEventArgs" target="it.polimi.ingsw.controller.Room">
       <point x="0.0" y="-58.0" />
-      <point x="609.0" y="1731.0" />
-      <point x="495.375" y="1731.0" />
-      <point x="41.375" y="850.5" />
+      <point x="193.0" y="1721.0" />
+      <point x="501.875" y="1721.0" />
+      <point x="-117.375" y="850.5" />
     </edge>
     <edge source="it.polimi.ingsw.network.AdrenalineServer" target="it.polimi.ingsw.network.IAdrenalineServer">
-      <point x="0.0" y="-575.5" />
+      <point x="0.0" y="-564.5" />
       <point x="0.0" y="90.5" />
     </edge>
     <edge source="it.polimi.ingsw.network.RemoteAction.Data" target="it.polimi.ingsw.network.RemoteAction">
@@ -84,8 +84,10 @@
       <point x="0.0" y="212.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="1526.3333333333323" y="1654.9999999999995" />
-  <SelectedNodes />
+  <settings layout="Hierarchic Group" zoom="0.6528957528957529" x="1264.0" y="505.61147250147843" />
+  <SelectedNodes>
+    <node>it.polimi.ingsw.controller.RoomTimer</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
     <Category>Constructors</Category>
