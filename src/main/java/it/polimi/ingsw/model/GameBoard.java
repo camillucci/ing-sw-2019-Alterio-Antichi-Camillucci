@@ -66,7 +66,7 @@ public class GameBoard {
 
         switch(mapType) {
             case 0:
-                squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, ROOM, NOTHING, ROOM}, ammoDeck);
+                squares[0][0] = new AmmoSquare("A", 0, 0, new SquareBorder[]{NOTHING, DOOR, NOTHING, ROOM}, ammoDeck);
                 squares[0][1] = new AmmoSquare("B", 0, 1, new SquareBorder[]{NOTHING, WALL, ROOM, ROOM}, ammoDeck);
                 squares[0][2] = new SpawnAndShopSquare(BLUE_SPAWN_NAME, 0, 2, new SquareBorder[]{NOTHING, DOOR, ROOM, NOTHING}, weaponDeck);
                 squares[0][3] = null;
