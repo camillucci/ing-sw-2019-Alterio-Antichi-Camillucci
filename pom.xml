@@ -43,17 +43,20 @@
 
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
         <dependency>
+            <!-- <scope>provided</scope> -->
             <groupId>org.openjfx</groupId>
             <artifactId>javafx</artifactId>
             <version>12.0.1</version>
             <type>pom</type>
         </dependency>
         <dependency>
+            <!-- <scope>provided</scope> -->
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>12.0.1</version>
         </dependency>
         <dependency>
+            <!-- <scope>provided</scope> -->
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>12.0.1</version>
