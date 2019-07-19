@@ -275,6 +275,13 @@ public class CLIMessenger {
     }
 
     /**
+     * Output line displayed to the user used to ask them the server's ip address
+     */
+    public static void askIpAddress() {
+        displayBold("Please enter the server's ip address:");
+    }
+
+    /**
      * Output line displayed to the user used to ask them to choose between CLI and GUI type of interface
      */
     public static void askInterface() {

@@ -52,6 +52,14 @@ public class CLIParser {
     }
 
     /**
+     * Gets user's choice, which has to be either 0 or 1. In case it isn't, asks again.
+     * @return user's choice between 0 and 1.
+     */
+    public String parseIpAddress() throws IOException {
+        return getStringIf(name -> name.length() > 0);
+    }
+
+    /**
      * Gets user's choice via input and checks that it is valid, which means it has to be a number and has to be
      * between 0 and index - 1. In case the answer isn't acceptable, asks again.
      * @param index maximum number accepted as answer from the user

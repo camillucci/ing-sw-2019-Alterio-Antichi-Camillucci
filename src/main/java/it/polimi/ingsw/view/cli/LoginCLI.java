@@ -24,6 +24,13 @@ public class LoginCLI extends Login {
         ((Event<Login, Boolean>) socketEvent).invoke(this, connection);
     }
 
+    @Override
+    public void askIpAddress() throws IOException {
+        CLIMessenger.askIpAddress();
+        String ipAddress = CLIParser.parser.parseIpAddress();
+        ((Event<Login, String>)ipAddressEvent).invoke(this, ipAddress);
+    }
+
     /**
      * Asks which color the user wants to take and sends the answer to the server via invoking the color Event.
      * @param availableColors List of colors the player can choose since they've not been taken by other players

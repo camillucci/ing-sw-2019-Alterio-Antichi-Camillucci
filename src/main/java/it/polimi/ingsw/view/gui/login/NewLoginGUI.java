@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
@@ -31,9 +32,10 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     @FXML private HBox robotHBox;
     @FXML private Label robotLabel;
     @FXML private VBox bottomVBox;
-    private String[] robotSpeech = new String[]{ "Hey, my name is :D-STRUCT-0R,", "Welcome to Adrenaline!", "Please, choose a nickname!"};
+    private String[] robotSpeech = new String[]{"Awesome!", "Now choose a nickname!"};
     private Timeline timeline;
     private IntroController introController;
+    private IpAddressController ipAddressController;
     private NicknameController nicknameController;
     private ColorChoiceController colorChoiceController;
     private SkullChoiceController skullChoiceController;
@@ -69,6 +71,16 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         enable();
         animation(0);
         nicknameController = NicknameController.getController();
+        nicknameController.getLoginText().setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER)
+                disableAnd(() -> {
+                    String name = nicknameController.getLoginText().getText();
+                    if(name.length() >= 2 && name.length() <= 16 && !name.contains(" "))
+                        ((Event<Login, String>)nameEvent).invoke(this, name);
+                    else
+                        notifyAccepted(false);
+                });
+        });
         nicknameController.getNextButton().setOnAction(e -> disableAnd(() -> {
             String name = nicknameController.getLoginText().getText();
             if(name.length() >= 2 && name.length() <= 16 && !name.contains(" "))
@@ -77,6 +89,11 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
                 notifyAccepted(false);
         }));
         setBottomVBox(nicknameController.getRoot());
+    }
+
+    private void notifyIpAddress(String ipAddressText) {
+        disableAnd(() -> ((Event<Login, String>)ipAddressEvent).invoke(this, ipAddressText));
+        setupNickname();
     }
 
     private void notifySocketRMI(boolean socket) {
@@ -111,6 +128,20 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         introController.getRMIButton().setOnAction(e -> notifySocketRMI(false));
         introController.getSocketButton().setOnAction(e -> notifySocketRMI(true));
         setBottomVBox(introController.getRoot());
+    }
+
+    @Override
+    public void askIpAddress() {
+        Executors.newSingleThreadScheduledExecutor().schedule(() -> Platform.runLater(() ->
+                robotSpeak("Hey, my name is :D-STRUCT-0R,", () -> robotSpeak("Welcome to Adrenaline!",
+                        () -> robotSpeak("In order to start", () -> robotSpeak("Please enter the server's address:"))))), 1, TimeUnit.SECONDS);
+        ipAddressController = IpAddressController.getController();
+        ipAddressController.getIpAddressText().setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.ENTER)
+                notifyIpAddress(ipAddressController.getIpAddressText().getText());
+        });
+        ipAddressController.getNextButton().setOnAction(e -> notifyIpAddress(ipAddressController.getIpAddressText().getText()));
+        setBottomVBox(ipAddressController.getRoot());
     }
 
     @Override

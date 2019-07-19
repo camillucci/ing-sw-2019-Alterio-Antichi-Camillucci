@@ -11,6 +11,13 @@ import java.util.List;
  * Abstract class used to manage all the initial interactions with the user
  */
 public abstract class Login implements ViewElement {
+
+    /**
+     * Event other classes can subscribe to. This event is used to notify the subscribers when the user chooses
+     * the ip address of the server
+     */
+    public final IEvent<Login, String> ipAddressEvent = new Event<>();
+
     /**
      * Event other classes can subscribe to. This event is used to notify the subscribers when the user chooses
      * between Socket or RMI connection
@@ -52,6 +59,11 @@ public abstract class Login implements ViewElement {
      * Asks the user about which type of connection they want to use (RMI or Socket)
      */
     public abstract void askConnection() throws IOException;
+
+    /**
+     * Asks the user to which server's ip they want to connect to
+     */
+    public abstract void askIpAddress() throws IOException;
 
     /**
      * This method is called in case the user's username has already been taken by someone else. It calls the

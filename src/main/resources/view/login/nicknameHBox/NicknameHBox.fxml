@@ -12,6 +12,6 @@
             prefHeight="400.0" prefWidth="600.0"
             alignment="CENTER" spacing="20">
 
-    <TextField fx:id="loginText" promptText="turanga_lella" minWidth="250" id="user" maxWidth="200" alignment="CENTER"/>
+    <TextField fx:id="loginText" promptText="Enter your name here" minWidth="250" id="user" maxWidth="200" alignment="CENTER"/>
     <Button fx:id="nextButton" styleClass="button" alignment="CENTER" text="Next"/>
 </HBox>
