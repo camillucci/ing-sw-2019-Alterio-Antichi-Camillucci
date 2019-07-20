@@ -101,6 +101,7 @@ public class RoomTimer
                 }
             } catch (InterruptedException e) {
                 logger.log(Level.WARNING, e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
     }

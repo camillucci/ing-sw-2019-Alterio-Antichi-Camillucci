@@ -33,8 +33,7 @@ public class PlayerSetController implements Ifxml<StackPane> {
     private List<Pane> tears;
     private String color;
     private int totDamage = 0;
-    private MatchSnapshotProvider matchSnapshotProvider;
-    private MatchSnapshot old;
+    @SuppressWarnings("squid:S1075")
     private static final String PLAYER_PATH = "/player/";
 
     public void initialize()
@@ -64,7 +63,6 @@ public class PlayerSetController implements Ifxml<StackPane> {
         setMarks(player);
         setSkulls(player);
         addDamages(player);
-        old = matchSnapshot;
     }
 
     private void addDamages(PublicPlayerSnapshot player){
@@ -172,8 +170,7 @@ public class PlayerSetController implements Ifxml<StackPane> {
 
     private void build(String color, MatchSnapshotProvider provider){
         this.color = color;
-        this.matchSnapshotProvider = provider;
-        matchSnapshotProvider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
+        provider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
     }
 
     public static PlayerSetController getController(String color, MatchSnapshotProvider matchSnapshotProvider){

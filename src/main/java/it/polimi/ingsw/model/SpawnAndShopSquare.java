@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.generics.Visualizable;
 import it.polimi.ingsw.model.action.DropWeaponAction;
 import it.polimi.ingsw.model.action.EndBranchAction;
-import it.polimi.ingsw.model.action.ExtendableAction;
 import it.polimi.ingsw.model.action.FunctionalAction;
 import it.polimi.ingsw.model.branch.Branch;
 import it.polimi.ingsw.model.cards.PowerUpCard;
@@ -11,7 +10,6 @@ import it.polimi.ingsw.model.cards.WeaponCard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class represent one of the Squares where a player can spawn and buy WeaponCards,
@@ -80,12 +78,6 @@ public class SpawnAndShopSquare extends Square {
     private List<Branch> grabAndDrop(Player player, List<PowerUpCard> powerUpCards)
     {
         List<Branch> ret = new ArrayList<>();
-        ExtendableAction chooseToDropBranches =
-                new ExtendableAction(player.getWeapons().stream().map(w->new Branch(new FunctionalAction(a-> {
-                    a.getOwnerPlayer().getCurrentSquare().addWeapon(w);
-                    a.getOwnerPlayer().removeWeapon(w);
-                }, new Visualizable(nameToUrl(w.name), "discard " + w.name, "discard")), new EndBranchAction())).collect(Collectors.toList()), new Visualizable("discard a weapon", "discard"));
-
         Ammo powerUpAmmo = new Ammo(0, 0, 0);
         for(PowerUpCard powerUpCard : powerUpCards)
             powerUpAmmo = powerUpAmmo.add(powerUpCard.colorToAmmo());

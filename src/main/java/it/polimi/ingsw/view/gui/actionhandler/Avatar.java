@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 public class Avatar extends ImageView
 {
     private String color = null;
-    private String name;
     private RotateTransition rotateTransition;
     public Avatar(){}
     public Avatar(String color){

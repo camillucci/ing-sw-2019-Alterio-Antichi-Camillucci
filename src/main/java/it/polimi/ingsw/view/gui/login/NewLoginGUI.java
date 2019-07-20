@@ -13,7 +13,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -34,18 +33,14 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     @FXML private VBox bottomVBox;
     private String[] robotSpeech = new String[]{"Awesome!", "Now choose a nickname!"};
     private Timeline timeline;
-    private IntroController introController;
-    private IpAddressController ipAddressController;
     private NicknameController nicknameController;
     private ColorChoiceController colorChoiceController;
-    private SkullChoiceController skullChoiceController;
-    private MapChoiceController mapChoiceController;
     private RoomJoinController roomJoinController;
-    private ImageView map;
     private int colorChoiceErrorsCounter = 0;
-    private static Scene loginScene;
 
-    public void initialize(){}
+    public void initialize(){
+        // Nothing to do
+    }
 
     private void robotSpeak(String text, int millisecondsPerChar, Runnable onEnd) {
         if(timeline != null)
@@ -110,11 +105,6 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         (new Thread(function)).start();
     }
 
-    private void setUpperVBox(Parent root){
-        upperVBox.getChildren().clear();
-        upperVBox.getChildren().add(root);
-    }
-
     private void setBottomVBox(Parent root) {
         Platform.runLater(() -> {
             bottomVBox.getChildren().clear();
@@ -124,7 +114,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     @Override
     public void askConnection() {
         Executors.newSingleThreadScheduledExecutor().schedule(() -> Platform.runLater(() ->robotSpeak("RMI or Socket?")), 1, TimeUnit.SECONDS);
-        introController = IntroController.getController();
+        IntroController introController = IntroController.getController();
         introController.getRMIButton().setOnAction(e -> notifySocketRMI(false));
         introController.getSocketButton().setOnAction(e -> notifySocketRMI(true));
         setBottomVBox(introController.getRoot());
@@ -135,7 +125,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         Executors.newSingleThreadScheduledExecutor().schedule(() -> Platform.runLater(() ->
                 robotSpeak("Hey, my name is :D-STRUCT-0R,", () -> robotSpeak("Welcome to Adrenaline!",
                         () -> robotSpeak("In order to start", () -> robotSpeak("Please enter the server's address:"))))), 1, TimeUnit.SECONDS);
-        ipAddressController = IpAddressController.getController();
+        IpAddressController ipAddressController = IpAddressController.getController();
         ipAddressController.getIpAddressText().setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.ENTER)
                 notifyIpAddress(ipAddressController.getIpAddressText().getText());
@@ -186,7 +176,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     private void chooseSkull()
     {
         robotSpeak("You are the first in the room", () -> robotSpeak("How many skulls?"));
-        skullChoiceController = SkullChoiceController.getController();
+        SkullChoiceController skullChoiceController = SkullChoiceController.getController();
         Rectangle[] skulls = skullChoiceController.getButtons();
         for(IntegerProperty i = new SimpleIntegerProperty(4); i.get() < skulls.length;i.set(i.get()+1))
             skulls[i.get()].setOnMouseClicked(e -> disableAnd(() -> {
@@ -200,7 +190,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     {
         enable();
         robotSpeak("Where would you like to play?");
-        mapChoiceController = MapChoiceController.getController();
+        MapChoiceController mapChoiceController = MapChoiceController.getController();
         ImageView[] maps = mapChoiceController.getMaps();
         for(int i=0; i < maps.length; i++){
             final int i2 = i;
@@ -266,16 +256,6 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         for(nameLen = 0; playerMessageInfo.charAt(nameLen) != ' '; nameLen++)
             ;
         return playerMessageInfo.substring(0, nameLen);
-    }
-
-    private void playerJoined(String message)
-    {
-        roomJoinController.newPlayerJoined(getName(message));
-    }
-
-    private void playerLeft(String message)
-    {
-        roomJoinController.playerLeft(getName(message));
     }
 
     @Override

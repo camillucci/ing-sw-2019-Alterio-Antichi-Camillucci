@@ -1,7 +1,5 @@
 package it.polimi.ingsw.generics;
 
-import java.util.logging.Logger;
-
 /**
  * Utility class with the goal of throwing a default exception when a ThrowingAction is invoked and it fails.
  */

@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 public class GUIView extends View
 {
     private final Object lock = new Object();
-    private App app;
     private Stage primaryStage;
     private Scene rootScene;
     private static final Logger logger = Logger.getLogger("GUIView");
@@ -48,19 +47,13 @@ public class GUIView extends View
     private void startupGUI() throws InterruptedException {
         App.applicationStartedEvent.addEventHandler((app, stage) -> {
             synchronized (lock){
-                try {
-                    this.app = app;
-                    this.primaryStage = stage;
-                    setupStage();
-                    NewLoginGUI loginGUI = null;
-                    loginGUI = createLogin(app);
-                    ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
-                    actionHandlerGUI.matchEndedEvent.addEventHandler((a, endGameData) -> onMatchEnded(endGameData));
-                    buildView(loginGUI, actionHandlerGUI);
-                    this.lock.notifyAll();
-                } catch (IOException e) {
-                    logger.log(Level.WARNING, e.getMessage());
-                }
+                this.primaryStage = stage;
+                setupStage();
+                NewLoginGUI loginGUI = createLogin(app);
+                ActionHandlerGUI actionHandlerGUI = createActionHandler(loginGUI);
+                actionHandlerGUI.matchEndedEvent.addEventHandler((a, endGameData) -> onMatchEnded(endGameData));
+                buildView(loginGUI, actionHandlerGUI);
+                this.lock.notifyAll();
             }
         });
         synchronized (lock) {
@@ -87,7 +80,7 @@ public class GUIView extends View
         return tmp;
     }
 
-    public NewLoginGUI createLogin(App app) throws IOException
+    public NewLoginGUI createLogin(App app)
     {
         NewLoginGUI tmp = NewLoginGUI.getController();
         this.rootScene = new Scene(tmp.getRoot());

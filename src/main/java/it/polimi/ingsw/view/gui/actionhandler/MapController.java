@@ -36,10 +36,8 @@ public class MapController implements Ifxml<AnchorPane>
     @FXML private ImageView mapImage;
     @FXML private AnchorPane mapGrid;
     private MatchSnapshotProvider provider;
-    private SquareController squareController;
     private StackPane[][] squarePanes;
     private SquareController[][] squareControllers;
-    private RemoteActionsProvider actionProvider;
 
 
     public StackPane[][] getSquarePanes()
@@ -64,8 +62,7 @@ public class MapController implements Ifxml<AnchorPane>
 
      private void buildController(MatchSnapshotProvider provider, RemoteActionsProvider actionsProvider){
         this.provider = provider;
-        this.actionProvider = actionsProvider;
-        provider.modelChangedEvent().addEventHandler((a, snapshot) -> onModelChanged(snapshot));
+         provider.modelChangedEvent().addEventHandler((a, snapshot) -> onModelChanged(snapshot));
         actionsProvider.newActionsEvent().addEventHandler((a, action) -> setupSquares(action));
         actionsProvider.newActionsEvent().addEventHandler((a, action) -> setupPlayers(action));
      }

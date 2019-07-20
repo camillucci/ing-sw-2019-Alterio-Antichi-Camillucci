@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.generics.Event;
 import it.polimi.ingsw.generics.IEvent;
+import it.polimi.ingsw.generics.ServerRuntimeException;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerColor;
@@ -180,7 +181,6 @@ public class Room
 
 
     private Logger logger = Logger.getLogger("Room");
-    private boolean closed = false;
 
     /**
      * Constructor that initializes the list referring to the available colors players can choose. It also starts the
@@ -453,7 +453,6 @@ public class Room
      * Method called when the match is over. The room becomes unreachable and the roomClosed event is invoked
      */
     private synchronized void closeRoom() {
-        closed = true;
         timer.stop();
         ((Event<Room, Integer>)roomClosedEvent).invoke(this, roomID);
     }
@@ -665,7 +664,7 @@ public class Room
         for(Player p : match.getPlayers())
             if(p.name.equals(name))
                 return new ModelEventArgs(new MatchSnapshot(match, p), p.name, new RemoteActionsHandler(match.getPlayer(), match.getActions()));
-        throw new RuntimeException("Player does not exist in this match");
+        throw new ServerRuntimeException("Player does not exist in this match");
     }
 
     public class TurnTimeoutException extends Exception{}

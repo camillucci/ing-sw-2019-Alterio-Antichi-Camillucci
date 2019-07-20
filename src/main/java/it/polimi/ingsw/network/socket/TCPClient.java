@@ -108,9 +108,13 @@ public class TCPClient
                     out().ping();
                     Thread.sleep(period);
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 stopPinging = true;
                 pingingThread = null;
+            } catch (InterruptedException e) {
+                stopPinging = true;
+                pingingThread = null;
+                Thread.currentThread().interrupt();
             }
         });
         pingingThread.start();
@@ -130,6 +134,7 @@ public class TCPClient
             pingingThread.join();
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 

@@ -100,6 +100,7 @@ public class AdrenalineClientRMI extends AdrenalineClient implements ICallbackAd
             pingingThread.join();
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
     private synchronized void setStopPinging(boolean value){

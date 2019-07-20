@@ -45,13 +45,17 @@ public class ActionHandlerCLI extends ActionHandler {
         onActionDataUpdated();
     }
 
-
+    @SuppressWarnings("squid:AssignmentInSubExpressionCheck")
     protected void onActionDataUpdated() throws IOException
     {
         RemoteAction.Data data = action.getData();
 
-        List<String> players = data.getPossiblePlayers(), squares = data.getPossibleSquares(), possiblePU = data.getPossiblePowerUps(),
-                     discardablePUs = data.getDiscardablePowerUps(), discardableAmmos = data.getDiscardableAmmos(), weapons = data.getPossibleWeapons();
+        List<String> players = data.getPossiblePlayers();
+        List<String> squares = data.getPossibleSquares();
+        List<String> possiblePU = data.getPossiblePowerUps();
+        List<String> discardablePUs = data.getDiscardablePowerUps();
+        List<String> discardableAmmos = data.getDiscardableAmmos();
+        List<String> weapons = data.getPossibleWeapons();
 
         if(data.canBeDone && players.isEmpty() && squares.isEmpty() && possiblePU.isEmpty()
                 && discardablePUs.isEmpty() && discardableAmmos.isEmpty() && weapons.isEmpty()) {

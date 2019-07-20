@@ -14,7 +14,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * This class provides the server info and methods that are specific to the RMI type connection. It also inherits the
@@ -31,11 +30,6 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     private ICallbackAdrenalineClient client;
     private Registry registry;
     private CommandQueue commandQueue = new CommandQueue();
-
-    /**
-     * Boolean that indicates whether the pinging thread needs to keep running or not
-     */
-    private boolean stopPinging = false;
 
     /**
      * Constructor that assigns the input parameter to their global correspondences
@@ -58,10 +52,6 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     public void registerClient(ICallbackAdrenalineClient client) {
         this.client = client;
         ((Event<AdrenalineServerRMI, Object>) newClientConnectedEvent).invoke(this, null);
-    }
-
-    private synchronized boolean getStopPinging() {
-        return stopPinging;
     }
 
     @Override

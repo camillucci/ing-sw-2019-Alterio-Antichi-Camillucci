@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.snapshots.MatchSnapshot;
+import it.polimi.ingsw.snapshots.PublicPlayerSnapshot;
 import it.polimi.ingsw.snapshots.SquareSnapshot;
 import it.polimi.ingsw.network.RemoteAction;
 
@@ -456,35 +457,42 @@ public class CLIMessenger {
      * @param matchSnapshot Contains all the necessary info for a completed display of the current game state.
      */
     private static void displayPublicPlayers(MatchSnapshot matchSnapshot) {
-        for (int j = 0; j < matchSnapshot.getPublicPlayerSnapshot().size(); j++) {
-            display(PLAYER + coloredString(matchSnapshot.getPublicPlayerSnapshot().get(j).name + "-" + matchSnapshot.getPublicPlayerSnapshot().get(j).color, matchSnapshot.getPublicPlayerSnapshot().get(j).color) + " has:");
-            display("Loaded weapons: " + matchSnapshot.getPublicPlayerSnapshot().get(j).loadedWeaponsNumber);
-            display("Unloaded weapons:");
-            if(matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().isEmpty())
-                display(NONE);
-            for (int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().size(); i++)
-                display(matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeapons().get(i) + matchSnapshot.getPublicPlayerSnapshot().get(j).getUnloadedWeaponsCost().get(i));
-            display("Powerup cards: " + matchSnapshot.getPublicPlayerSnapshot().get(j).powerUpsNumber);
-            display("Deaths: " + matchSnapshot.getPublicPlayerSnapshot().get(j).skull);
-            display("Blue ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).blueAmmo + ", Red ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).redAmmo + ", Yellow ammo: " + matchSnapshot.getPublicPlayerSnapshot().get(j).yellowAmmo);
-
-            String damage = "Damages: ";
-            if(matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().isEmpty())
-                damage = damage.concat(NONE);
-            else
-                for(int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().size(); i++)
-                    damage = damage.concat(coloredString(POINT, matchSnapshot.getPublicPlayerSnapshot().get(j).getDamage().get(i)) + " ");
-            display(damage);
-            String mark = "Marks: ";
-            if(matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().isEmpty())
-                mark = mark.concat(NONE);
-            else
-                for(int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().size(); i++)
-                    mark = mark.concat(coloredString(POINT, matchSnapshot.getPublicPlayerSnapshot().get(j).getMark().get(i)) + " ");
-            display(mark);
-
-            display("");
+        for(int i = 0; i < matchSnapshot.getPublicPlayerSnapshot().size(); i++) {
+            displayPublicPlayer(matchSnapshot.getPublicPlayerSnapshot().get(i));
         }
+    }
+
+    /**
+     * Displays all info of a single given PublicPlayerSnapshot
+     * @param publicPlayerSnapshot Contains all the necessary info for a completed display of the public Player
+     */
+    private static void displayPublicPlayer(PublicPlayerSnapshot publicPlayerSnapshot) {
+        display(PLAYER + coloredString(publicPlayerSnapshot.name + "-" + publicPlayerSnapshot.color, publicPlayerSnapshot.color) + " has:");
+        display("Loaded weapons: " + publicPlayerSnapshot.loadedWeaponsNumber);
+        display("Unloaded weapons:");
+        if(publicPlayerSnapshot.getUnloadedWeapons().isEmpty())
+            display(NONE);
+        for (int i = 0; i < publicPlayerSnapshot.getUnloadedWeapons().size(); i++)
+            display(publicPlayerSnapshot.getUnloadedWeapons().get(i) + publicPlayerSnapshot.getUnloadedWeaponsCost().get(i));
+        display("Powerup cards: " + publicPlayerSnapshot.powerUpsNumber);
+        display("Deaths: " + publicPlayerSnapshot.skull);
+        display("Blue ammo: " + publicPlayerSnapshot.blueAmmo + ", Red ammo: " + publicPlayerSnapshot.redAmmo + ", Yellow ammo: " + publicPlayerSnapshot.yellowAmmo);
+
+        String damage = "Damages: ";
+        if(publicPlayerSnapshot.getDamage().isEmpty())
+            damage = damage.concat(NONE);
+        else
+            for(int i = 0; i < publicPlayerSnapshot.getDamage().size(); i++)
+                damage = damage.concat(coloredString(POINT, publicPlayerSnapshot.getDamage().get(i)) + " ");
+        display(damage);
+        String mark = "Marks: ";
+        if(publicPlayerSnapshot.getMark().isEmpty())
+            mark = mark.concat(NONE);
+        else
+            for(int i = 0; i < publicPlayerSnapshot.getMark().size(); i++)
+                mark = mark.concat(coloredString(POINT, publicPlayerSnapshot.getMark().get(i)) + " ");
+        display(mark);
+        display("");
     }
 
     //------------------------------------------------------------------------------------------------------------------

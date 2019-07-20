@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.generics.ServerRuntimeException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -139,6 +141,6 @@ public class Controller {
 
                 return;
             }
-        throw new RuntimeException("disconnected player doesn't exist");
+        throw new ServerRuntimeException("Disconnected player doesn't exist");
     }
 }

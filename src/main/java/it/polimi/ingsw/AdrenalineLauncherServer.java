@@ -9,13 +9,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AdrenalineLauncherServer
 {
-    private static final int PINGING_PERIOD = 1000; //todo change
+    private static final int PINGING_PERIOD = 1000;
 
     public static void main(String[] args) {
         Logger logger = Logger.getLogger("AdrenalineLauncherServer");
@@ -50,7 +49,6 @@ public class AdrenalineLauncherServer
             });
             listenerTCP.pingAll(PINGING_PERIOD);
             listenerTCP.start();
-            Scanner scanner = new Scanner(System.in);
             do {
                 logger.log(Level.INFO, "Press 1 to close");
             }

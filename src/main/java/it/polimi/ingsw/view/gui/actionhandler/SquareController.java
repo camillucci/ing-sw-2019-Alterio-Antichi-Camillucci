@@ -5,7 +5,6 @@ import it.polimi.ingsw.view.gui.Animations;
 import it.polimi.ingsw.view.gui.Cache;
 import it.polimi.ingsw.view.gui.GUIView;
 import it.polimi.ingsw.view.gui.Ifxml;
-import javafx.animation.ScaleTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -27,7 +26,6 @@ public class SquareController implements Ifxml<StackPane> {
     @FXML private Avatar avatar5;
     private List<Avatar> avatars;
     private int totPlayers = 0;
-    private ScaleTransition waitingTransition = null;
     private SquareSnapshot old;
 
     private void putPlayer(String color)

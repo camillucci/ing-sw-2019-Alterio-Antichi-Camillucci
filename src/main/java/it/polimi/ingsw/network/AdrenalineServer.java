@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  * This class contains all the info and methods that concern the server side, but are generic enough to be independent
  * from the type of connection that the user has chosen
  */
+@SuppressWarnings("squid:S4276")
 public abstract class AdrenalineServer implements IAdrenalineServer
 {
     /**
@@ -52,11 +53,11 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private BiConsumer<Room, Integer> timerStartEventHandler = (a, timeout) -> bottleneck.tryDo( () -> timerStartedMessage(timeout));
     private BiConsumer<Room, Integer> timerTickEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> timerTickMessage(timeLeft));
     private BiConsumer<Room, Integer> timerStopEventHandler = (a, timeLeft) -> bottleneck.tryDo( () -> sendMessage(TIMER_STOPPED_MESSAGE));
-    private BiConsumer<Room, String> reconnectedEventHandler = (a, name) -> bottleneck.tryDo( () -> reconnectedMessage(name));
-    private BiConsumer<Room, String> newPlayerEventHandler = (a, name) -> notifyPlayer(name);
-    private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, name) -> notifyPlayerDisconnected(name);
+    private BiConsumer<Room, String> reconnectedEventHandler = (a, playerName) -> bottleneck.tryDo( () -> reconnectedMessage(playerName));
+    private BiConsumer<Room, String> newPlayerEventHandler = (a, playerName) -> notifyPlayer(playerName);
+    private BiConsumer<Room, String> playerDisconnectedEventHandler = (a, playerName) -> notifyPlayerDisconnected(playerName);
     private BiConsumer<Room, Room.ModelEventArgs> modelUpdatedEventHandler = (a, model) -> bottleneck.tryDo( () -> onModelUpdated(model));
-    private BiConsumer<Room, String> turnTimeoutEventHandler = (a, name) -> bottleneck.tryDo( () -> onTurnTimeout(name));
+    private BiConsumer<Room, String> turnTimeoutEventHandler = (a, playerName) -> bottleneck.tryDo( () -> onTurnTimeout(playerName));
     protected volatile boolean isDisconnected = false;
 
     private void onTurnTimeout(String name) throws IOException
@@ -260,8 +261,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     @Override
     public void ready() {
         setupRoomEvents();
-        for(String name : joinedRoom.getPlayerNames())
-            notifyPlayer(name);
+        for(String playerName : joinedRoom.getPlayerNames())
+            notifyPlayer(playerName);
         joinedRoom.notifyPlayerReady(name);
     }
 
@@ -338,11 +339,6 @@ public abstract class AdrenalineServer implements IAdrenalineServer
         joinedRoom.modelUpdatedEvent.addEventHandler(modelUpdatedEventHandler);
         joinedRoom.endMatchEvent.addEventHandler(onEndMatchEvent);
     }
-
-    /**
-     * Default string that represents th starting match message
-     */
-    private static final String MATCH_STARTING_MESSAGE = "Match is starting";
 
     /**
      * String that represents the default message sent to the user when the countdown is interrupted before the match

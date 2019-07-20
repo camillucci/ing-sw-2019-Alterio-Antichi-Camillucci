@@ -18,17 +18,17 @@ public class SocketInputStream implements Closeable
 
     public void pipeTo(OutputStream out, long max) throws IOException
     {
-        get( ()-> SocketInputStream.pipe(stream, out, max));
+        getInput( ()-> SocketInputStream.pipe(stream, out, max));
     }
 
     public int getByteOnly() throws IOException
     {
-        return get( () -> stream.read());
+        return getInput( () -> stream.read());
     }
 
     public byte[] getBytesOnly(long max) throws IOException
     {
-        return get( () -> {
+        return getInput( () -> {
             ByteArrayOutputStream ms = new ByteArrayOutputStream();
             this.pipeTo(ms, max);
             return ms.toByteArray();});
@@ -36,14 +36,14 @@ public class SocketInputStream implements Closeable
 
     public  <T> T getObject() throws IOException, ClassNotFoundException
     {
-        return get ( () -> {
+        return getInput( () -> {
             ObjectInputStream inputStream = new ObjectInputStream(stream);
             return (T) inputStream.readObject();});
     }
 
     public void getFile(String filename) throws IOException
     {
-        get( ()-> getFileOnly(filename, getLong()));
+        getInput( ()-> getFileOnly(filename, getLong()));
     }
 
     public static void pipe(InputStream in, OutputStream out, long max) throws IOException
@@ -66,12 +66,12 @@ public class SocketInputStream implements Closeable
 
     public byte[] getBytes() throws IOException
     {
-        return get( ()-> getBytesOnly(getLong()));
+        return getInput( ()-> getBytesOnly(getLong()));
     }
 
     public void getFileOnly(String saveFilename, long fileSize) throws IOException
     {
-        get( ()-> {
+        getInput( ()-> {
             try(FileOutputStream fileStream = new FileOutputStream(saveFilename)){
                 this.pipeTo(fileStream, fileSize); }
         });
@@ -79,12 +79,12 @@ public class SocketInputStream implements Closeable
 
     public long getLong() throws IOException
     {
-        return get( () ->bytesToLong(getBytesOnly(Long.BYTES)));
+        return getInput( () ->bytesToLong(getBytesOnly(Long.BYTES)));
     }
 
     public int getInt() throws IOException
     {
-        return get( ()-> bytesToInt(getBytesOnly(Integer.BYTES)));
+        return getInput( ()-> bytesToInt(getBytesOnly(Integer.BYTES)));
     }
 
     public boolean getBool() throws IOException
@@ -93,7 +93,7 @@ public class SocketInputStream implements Closeable
         switch (b)
         {
             case -1:
-                throw new RuntimeException("impossible to get a bool from the Input Stream");
+                throw new ServerRuntimeException("Impossible to get a bool from the Input Stream");
             case 0:
                 return false;
             default:
@@ -116,7 +116,7 @@ public class SocketInputStream implements Closeable
         return buffer.getInt();
     }
 
-    private synchronized  <T, E extends Exception> T get(GetInterface<T, E> getFunc) throws IOException, E
+    private synchronized  <T, E extends Exception> T getInput(GetInterface<T, E> getFunc) throws IOException, E
     {
         try
         {
@@ -135,7 +135,7 @@ public class SocketInputStream implements Closeable
         }
     }
 
-    private synchronized void get(StreamActionInterface getFunc) throws IOException
+    private synchronized void getInput(StreamActionInterface getFunc) throws IOException
     {
         try
         {

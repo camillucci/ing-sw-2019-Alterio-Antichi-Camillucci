@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class ShopController
 {
     private StackPane root = new StackPane();
-    private MatchSnapshotProvider provider;
     private String color;
 
     private ShopController(){}
@@ -24,7 +23,6 @@ public class ShopController
 
     private void buildController(String color, MatchSnapshotProvider provider)
     {
-        this.provider = provider;
         this.color = color;
         provider.modelChangedEvent().addEventHandler((a, snapshot) -> onModelChanged(snapshot));
     }

@@ -76,9 +76,11 @@ public class TCPListener {
         {
             listener.close();
             listenThread.join();
-        }
-        catch(InterruptedException | IOException e) {
+        } catch(IOException e) {
             logger.log(Level.WARNING, e.getMessage());
+        } catch(InterruptedException e) {
+            logger.log(Level.WARNING, e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -98,7 +100,9 @@ public class TCPListener {
                 addConnected(tmp);
             } while(connectedHosts.size() < maxConnected);
         }
-        catch (IOException ignored) { }
+        catch (IOException ignored) {
+            // This IOException must be ignored
+        }
         finally { closeListener(); }
     }
 
@@ -113,8 +117,11 @@ public class TCPListener {
                         client.out().ping();
                     Thread.sleep(period);
                 }
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 stopPinging = true;
+            } catch (InterruptedException e) {
+                stopPinging = true;
+                Thread.currentThread().interrupt();
             }
         });
         pingingThread.start();
@@ -129,6 +136,7 @@ public class TCPListener {
             pingingThread.join();
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
     private synchronized void setStopPinging(boolean stopPinging){

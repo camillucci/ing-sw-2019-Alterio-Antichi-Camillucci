@@ -1,4 +1,5 @@
 package it.polimi.ingsw.view.gui;
+import it.polimi.ingsw.generics.GUIRuntimeException;
 import javafx.scene.image.Image;
 
 import java.io.InputStream;
@@ -36,7 +37,7 @@ public class Cache {
         String ret = imagesString.get(image);
         if(ret != null)
             return ret;
-        throw new RuntimeException("Image does not exist");
+        throw new GUIRuntimeException("Image does not exist");
     }
 
     private static void loadMaps() {

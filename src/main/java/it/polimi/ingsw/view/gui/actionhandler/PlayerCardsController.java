@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.GUIRuntimeException;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.snapshots.MatchSnapshot;
 import it.polimi.ingsw.snapshots.PrivatePlayerSnapshot;
@@ -31,17 +32,10 @@ public class PlayerCardsController implements Ifxml<HBox>
     @FXML private ImageView extraWeapon;
     @FXML private ImageView extraPowerup;
     @FXML private HBox cardsHBox;
-    private MatchSnapshotProvider provider;
     private MatchSnapshot old = null;
     private MatchSnapshot matchSnapshot;
     private String color;
     private List<ImageView> cards;
-    private List<ImageView> weapons;
-    private List<ImageView> powerups;
-    private static final int MAX_WEAPONS = 3;
-    private static final int MAX_POWERUPS = 3;
-    private int totWeapons = 0, totPowerups = 0;
-    private RemoteActionsProvider actionProvider;
     private String draggingPowerup;
     private boolean isOut = false;
 
@@ -55,8 +49,6 @@ public class PlayerCardsController implements Ifxml<HBox>
 
     public void initialize(){
         cards = getCards();
-        powerups = getPowerUps();
-        weapons = getWeapons();
     }
 
     private ImageView addWeapon(String name, int rotationAngle)
@@ -69,7 +61,7 @@ public class PlayerCardsController implements Ifxml<HBox>
                 Animations.appearAnimation(weapon);
                 return weapon;
             }
-        throw new RuntimeException("cards set is full");
+        throw new GUIRuntimeException("Cards set is full");
     }
 
     private ImageView addWeapon(String name)
@@ -297,8 +289,6 @@ public class PlayerCardsController implements Ifxml<HBox>
 
 
     private void buildController(MatchSnapshotProvider provider, RemoteActionsProvider actionsProvider, String color){
-        this.provider = provider;
-        this.actionProvider = actionsProvider;
         this.color = color;
         provider.modelChangedEvent().addEventHandler( (a, snapshot) -> onModelChanged(snapshot));
         if(actionsProvider != null) {

@@ -23,8 +23,6 @@ public class AmmoBoxController implements Ifxml<VBox>
     @FXML private VBox rootPane;
     private List<AmmoImageView> ammos;
     private String color;
-    private MatchSnapshotProvider provider;
-    private RemoteActionsProvider actionProvider;
 
     public void initialize(){
         redText.setText("0");
@@ -45,8 +43,6 @@ public class AmmoBoxController implements Ifxml<VBox>
     private void buildController(String color, MatchSnapshotProvider provider, RemoteActionsProvider actionsProvider)
     {
         this.color = color;
-        this.provider = provider;
-        this.actionProvider = actionsProvider;
         provider.modelChangedEvent().addEventHandler((a, snapshot) -> onModelChanged(snapshot));
         if(actionsProvider != null)
             actionsProvider.newActionsEvent().addEventHandler((a, action) -> onNewAction(action));
@@ -95,9 +91,12 @@ public class AmmoBoxController implements Ifxml<VBox>
 
         assert player != null;
 
-        int red = Integer.parseInt(redText.getText()), newRed = player.redAmmo;
-        int blue = Integer.parseInt(blueText.getText()), newBlue = player.blueAmmo;
-        int yellow = Integer.parseInt(yellowText.getText()), newYellow = player.yellowAmmo;
+        int red = Integer.parseInt(redText.getText());
+        int newRed = player.redAmmo;
+        int blue = Integer.parseInt(blueText.getText());
+        int newBlue = player.blueAmmo;
+        int yellow = Integer.parseInt(yellowText.getText());
+        int newYellow = player.yellowAmmo;
 
         if(newRed != red)
         {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.actionhandler;
 
 import it.polimi.ingsw.generics.Event;
+import it.polimi.ingsw.generics.GUIRuntimeException;
 import it.polimi.ingsw.generics.IEvent;
 import it.polimi.ingsw.generics.Visualizable;
 import it.polimi.ingsw.snapshots.MatchSnapshot;
@@ -58,28 +59,28 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private AmmoBoxController playerAmmoBoxController;
     private List<HBox> avatarBoxes = new ArrayList<>();
     private MapController mapController;
-    private KillShotTrackController killShotTrackController;
     private ColorAdjust mapBlurEffect = new ColorAdjust(0, -0.3, -0.8, 0);
-    private List<RemoteAction> curActions;
     private RemoteAction curAction;
     private MatchSnapshot curSnapshot;
-    private List<String> opponentsColors = new ArrayList<>();
     private static final double AVATAR_SCALE = 0.3;
     private static final double PLAYER_SET_SCALE = 1d/5.2;
     private static final double SELECTION_BOX_SCALE = 0.5;
+    private static final String BUTTON = "button";
     private SelectionBoxController selectionBoxController;
     private List<ShopController> shops;
     private ImageView rollBack;
-    private List<String> disconnectedPlayers = new ArrayList<>();
 
     public void initialize() {
-        (redShopController = ShopController.getController(this, "red")).getRoot().setVisible(false);
-        (blueShopController = ShopController.getController(this, "blue")).getRoot().setVisible(false);
-        (yellowShopController = ShopController.getController(this, "yellow")).getRoot().setVisible(false);
+        redShopController = ShopController.getController(this, "red");
+        redShopController.getRoot().setVisible(false);
+        blueShopController = ShopController.getController(this, "blue");
+        blueShopController.getRoot().setVisible(false);
+        yellowShopController = ShopController.getController(this, "yellow");
+        yellowShopController.getRoot().setVisible(false);
         shops = setupStores();
 
         mapController = MapController.getController(this, this);
-        killShotTrackController = KillShotTrackController.getController(this);
+        KillShotTrackController killShotTrackController = KillShotTrackController.getController(this);
 
         insertH(redShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
         insertH(blueShopController.getRoot(), mapOutPane, SELECTION_BOX_SCALE);
@@ -96,7 +97,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private void start(String playerColor, List<String> opponentColors)
     {
         this.playerColor = playerColor;
-        this.opponentsColors = opponentColors;
         playerAmmoBoxController = AmmoBoxController.getController(playerColor, this, this);
 
         insert(curPlayerAvatar(playerColor, playerAmmoBoxController), playerAvatarHBox, 0.6);
@@ -168,10 +168,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         });
     }
 
-    private void bind(ImageView toBind, Pane region, double hScaleFactor){
-        toBind.fitHeightProperty().bind(region.minHeightProperty().multiply(hScaleFactor));
-    }
-
     private void bindH(Pane toBind, Pane region, double wScaleFactor){
         toBind.minWidthProperty().bind(region.widthProperty().multiply(wScaleFactor));
         toBind.maxWidthProperty().bind(region.widthProperty().multiply(wScaleFactor));
@@ -184,11 +180,6 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     private void insertH(Pane toInsert, Pane region, double wScaleFactor){
         bindH(toInsert, region, wScaleFactor);
-        region.getChildren().add(toInsert);
-    }
-
-    private void insertH(ImageView toInsert, Pane region, double wScaleFactor){
-        toInsert.fitWidthProperty().bind(region.widthProperty().multiply(wScaleFactor));
         region.getChildren().add(toInsert);
     }
 
@@ -221,7 +212,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         HBox ret = createAvatarHBox();
         Avatar avatar = new Avatar(color);
         avatars.add(avatar);
-        avatar.getStyleClass().add("button");
+        avatar.getStyleClass().add(BUTTON);
 
         avatar.setOnMouseClicked(e -> {
             if(playerHBox.getChildren().remove(curPlayerSet.getRoot()))
@@ -241,7 +232,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         HBox ret = createAvatarHBox();
         Avatar avatar = new Avatar(color);
         avatars.add(avatar);
-        avatar.getStyleClass().add("button");
+        avatar.getStyleClass().add(BUTTON);
         gameBoard.getChildren().add(playerSet.getRoot());
         gameBoard.getChildren().add(cardsController.getRoot());
         playerSet.getRoot().setVisible(false);
@@ -391,7 +382,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             if(checkForAutoDoAction(action))
                 doActionAndReset();
             else
-                newButton(new Visualizable("Confirm"), () -> doActionAndReset());
+                newButton(new Visualizable("Confirm"), this::doActionAndReset);
     }
 
     private boolean checkForAutoDoAction(RemoteAction action)
@@ -429,12 +420,12 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         for(Avatar avatar : avatars)
             if(avatar.getColor().equals(color))
                 return avatar;
-        throw new RuntimeException("Avatar does not exist");
+        throw new GUIRuntimeException("Avatar does not exist");
     }
 
     @Override
     public void onNewMessage(String message) {
-
+        // No need to display this message
     }
 
     @Override
@@ -450,7 +441,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
 
     @Override
     public void winnerMessage(String winner) {
-        return;
+        // No need to display this message
     }
 
     @Override
@@ -464,7 +455,7 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         {
             ImageView button = new ImageView(Cache.getImage("/" + visualizable.icon));
             button.setPreserveRatio(true);
-            button.getStyleClass().add("button");
+            button.getStyleClass().add(BUTTON);
             button.setOnMouseClicked(e -> action.run());
             insert(button, actionVBox, 0.07);
             return button;
@@ -483,7 +474,8 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
         Platform.runLater(() -> {
         if(playerColor == null)
             start(matchSnapshot.privatePlayerSnapshot.color, matchSnapshot.getPublicPlayerSnapshot().stream().map(p -> p.color).collect(Collectors.toList()));
-        modelChangedEvent.invoke(this, curSnapshot = matchSnapshot);});
+        curSnapshot = matchSnapshot;
+        modelChangedEvent.invoke(this, curSnapshot);});
     }
 
     @Override

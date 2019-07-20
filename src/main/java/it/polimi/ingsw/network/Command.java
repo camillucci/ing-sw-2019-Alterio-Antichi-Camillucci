@@ -7,11 +7,11 @@ import java.io.Serializable;
 
 public class Command<T> implements Serializable
 {
-    private ThrowingFunc<T> command;
-    public Command(ThrowingFunc<T> command){
-        this.command = command;
+    private ThrowingFunc<T> throwingFunc;
+    public Command(ThrowingFunc<T> throwingFunc){
+        this.throwingFunc = throwingFunc;
     }
     public void invoke(T t) throws IOException, ClassNotFoundException {
-        command.invoke(t);
+        throwingFunc.invoke(t);
     }
 }

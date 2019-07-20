@@ -40,6 +40,7 @@ public class CommandQueue
                     }
                 } catch (InterruptedException e) {
                     logger.log(Level.WARNING, e.getMessage());
+                    Thread.currentThread().interrupt();
                 }
         }
     }

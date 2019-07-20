@@ -60,15 +60,6 @@ public class Animations
 
     public static void disappearAnimation(Node node, Runnable onFinish)
     {
-        /*
-        RotateTransition rt = new RotateTransition(Duration.millis(300), node);
-        rt.setByAngle(360);
-        rt.setCycleCount(2);
-        rt.setAutoReverse(false);
-
-         */
-
-
         ScaleTransition st = new ScaleTransition(Duration.millis(300), node);
         st.setFromX(1);
         st.setFromY(1);
@@ -77,7 +68,6 @@ public class Animations
         st.play();
 
         st.play();
-      //  rt.play();
         st.setOnFinished(e -> onFinish.run());
 
     }
@@ -91,7 +81,6 @@ public class Animations
         st.setToY(1);
         st.play();
 
-        //rt.play();
         st.play();
     }
 

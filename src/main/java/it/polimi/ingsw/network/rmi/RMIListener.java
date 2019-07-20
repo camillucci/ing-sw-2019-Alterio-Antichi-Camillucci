@@ -60,8 +60,11 @@ public class RMIListener
                         client.pingClient();
                     Thread.sleep(period);
                 }
-            } catch (InterruptedException | RemoteException e) {
+            } catch (RemoteException e) {
                 stopPinging = true;
+            } catch (InterruptedException e) {
+                stopPinging = true;
+                Thread.currentThread().interrupt();
             }
         });
         pingingThread.start();
@@ -85,6 +88,7 @@ public class RMIListener
             pingingThread.join();
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
     private synchronized void setStopPinging(boolean stopPinging){

@@ -8,7 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -21,7 +20,6 @@ public class KillShotTrackController implements Ifxml<StackPane>
     @FXML private StackPane rootPane;
     @FXML private ImageView firedSkull;
     @FXML VBox tearsHBox;
-    private MatchSnapshotProvider provider;
     private MatchSnapshot old;
     private static final int TOT_OTHER_SKULLS = 7;
     private List<ImageView> otherSkulls = new ArrayList<>();
@@ -38,10 +36,6 @@ public class KillShotTrackController implements Ifxml<StackPane>
         firedSkull.setVisible(false);
     }
 
-    private void resetTears(){
-        tearsHBox.getChildren().clear();
-    }
-
     private void addTear(String color){
         ImageView tear = new ImageView(new Image("player/" + color.toLowerCase() + "_drop.png"));
         tear.fitHeightProperty().bind(trackHBox.heightProperty().multiply(0.4));
@@ -51,15 +45,13 @@ public class KillShotTrackController implements Ifxml<StackPane>
 
     private void buildController(MatchSnapshotProvider provider)
     {
-        this.provider = provider;
         provider.modelChangedEvent().addEventHandler((a,snapshot) -> onModelChanged(snapshot));
     }
 
     private void onModelChanged(MatchSnapshot snapshot)
     {
         int totOld = old == null ? 0 : getSkullsCount();
-        int totNew = snapshot.gameBoardSnapshot.skulls;
-        setupTears(snapshot, totOld, totNew);
+        setupTears(snapshot, totOld);
         old = snapshot;
     }
 
@@ -67,7 +59,7 @@ public class KillShotTrackController implements Ifxml<StackPane>
         return (int)otherSkulls.stream().filter(Node::isVisible).count() + (firedSkull.isVisible() ? 1 : 0);
     }
 
-    private void setupTears(MatchSnapshot snapshot, int totOld, int totNew) {
+    private void setupTears(MatchSnapshot snapshot, int totOld) {
         List<List<String>> killShotTrack = snapshot.gameBoardSnapshot.getKillShotTrack();
         for (int i = totOld; i < killShotTrack.size(); i++)
             if (killShotTrack.get(i) == null)
