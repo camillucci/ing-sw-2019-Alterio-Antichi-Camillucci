@@ -44,6 +44,7 @@ public class GUIView extends View
         });
     }
 
+    @SuppressWarnings("squid:S2274")
     private void startupGUI() throws InterruptedException {
         App.applicationStartedEvent.addEventHandler((app, stage) -> {
             synchronized (lock){

@@ -135,6 +135,7 @@ public class SocketInputStream implements Closeable
         }
     }
 
+    @SuppressWarnings("squid:UnusedPrivateMethod")
     private synchronized void getInput(StreamActionInterface getFunc) throws IOException
     {
         try

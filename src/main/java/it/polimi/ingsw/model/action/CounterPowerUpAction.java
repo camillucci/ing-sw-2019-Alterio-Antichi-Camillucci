@@ -21,7 +21,7 @@ public class CounterPowerUpAction extends PowerUpAction
     public CounterPowerUpAction()
     {
         super();
-        this.visualizable = new Visualizable("use a Tagback Grenade", "powerup");
+        this.visualizable = new Visualizable("use a Tagback Grenade", "Powerup");
     }
 
 

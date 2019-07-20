@@ -15,7 +15,7 @@ public class DropWeaponAction extends Action
     public DropWeaponAction(Player player) {
         this.player = player;
         canBeDone = false;
-        this.visualizable = new Visualizable("drop", "drop");
+        this.visualizable = new Visualizable("drop", "Drop");
     }
 
     @Override

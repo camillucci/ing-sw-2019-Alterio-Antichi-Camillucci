@@ -86,7 +86,7 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new FunctionalAction(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
-                }, new Visualizable(nameToUrl(w.name), "buy " + w.name, "buy")), new DropWeaponAction(player), new EndBranchAction()));
+                }, new Visualizable(nameToUrl(w.name), "buy " + w.name, "Buy")), new DropWeaponAction(player), new EndBranchAction()));
         return ret;
     }
 
@@ -107,7 +107,7 @@ public class SpawnAndShopSquare extends Square {
                 ret.add(new Branch(new FunctionalAction(w.buyCost, a -> {
                     a.getOwnerPlayer().addWeapon(w);
                     a.getOwnerPlayer().getCurrentSquare().removeWeapon(w);
-                }, new Visualizable(nameToUrl(w.name), "buy " + w.name, "buy")), new EndBranchAction()));
+                }, new Visualizable(nameToUrl(w.name), "buy " + w.name, "Buy")), new EndBranchAction()));
         return ret;
     }
 

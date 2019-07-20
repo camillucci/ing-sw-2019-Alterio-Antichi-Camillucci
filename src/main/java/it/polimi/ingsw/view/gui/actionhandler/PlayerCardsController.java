@@ -236,8 +236,16 @@ public class PlayerCardsController implements Ifxml<HBox>
     private <T> List<T> getDistinct(List<T> list){
         return list.stream().distinct().collect(Collectors.toList());
     }
+
     private void addCardPrivatePlayer(PrivatePlayerSnapshot player)
     {
+        addLoadedWeaponsPrivatePlayer(player);
+        addUnloadedWeaponsPrivatePlayer(player);
+        addPowerupsPrivatePlayer(player);
+        old = matchSnapshot;
+    }
+
+    private void addLoadedWeaponsPrivatePlayer(PrivatePlayerSnapshot player) {
         for(String w : getDistinct(player.getLoadedWeapons()))
             if(old == null)
                 for(int i=0; i < Collections.frequency(player.getLoadedWeapons(), w); i++)
@@ -245,6 +253,9 @@ public class PlayerCardsController implements Ifxml<HBox>
             else
                 for(int i=0; i < Collections.frequency(player.getLoadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getLoadedWeapons(), w); i++)
                     addWeapon(w);
+    }
+
+    private void addUnloadedWeaponsPrivatePlayer(PrivatePlayerSnapshot player) {
         for(String w : getDistinct(player.getUnloadedWeapons()))
             if(old == null)
                 for(int i=0; i < Collections.frequency(player.getUnloadedWeapons(), w); i++)
@@ -252,6 +263,9 @@ public class PlayerCardsController implements Ifxml<HBox>
             else
                 for(int i=0; i < Collections.frequency(player.getUnloadedWeapons(), w) - Collections.frequency(old.privatePlayerSnapshot.getUnloadedWeapons(), w); i++)
                     addUnloadedWeapon(w);
+    }
+
+    private void addPowerupsPrivatePlayer(PrivatePlayerSnapshot player) {
         for(String pu : getDistinct(player.getPowerUps()))
             if(old == null)
                 for(int i=0; i < Collections.frequency(player.getPowerUps(), pu); i++)
@@ -259,7 +273,6 @@ public class PlayerCardsController implements Ifxml<HBox>
             else
                 for(int i=0; i < Collections.frequency(player.getPowerUps(), pu) - Collections.frequency(old.privatePlayerSnapshot.getPowerUps(), pu); i++)
                     addPowerup(pu);
-        old = matchSnapshot;
     }
 
     private List<ImageView> getCards(String name)

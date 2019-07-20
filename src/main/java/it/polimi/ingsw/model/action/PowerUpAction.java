@@ -27,7 +27,7 @@ public class PowerUpAction extends ShootAction
             if(this.selectedPowerUp != null)
                 ownerPlayer.removePowerUpCard(selectedPowerUp);
         });
-        this.visualizable =  new Visualizable("use a Newton or a Teleporter", "powerup");
+        this.visualizable =  new Visualizable("use a Newton or a Teleporter", "Powerup");
     }
 
     @Override

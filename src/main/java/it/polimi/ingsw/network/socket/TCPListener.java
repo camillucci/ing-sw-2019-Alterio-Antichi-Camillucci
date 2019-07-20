@@ -115,7 +115,7 @@ public class TCPListener {
                 while (!getStopPinging()) {
                     for(TCPClient client : getConnected())
                         client.out().ping();
-                    Thread.sleep(period);
+                    this.wait(period);
                 }
             } catch (IOException e) {
                 stopPinging = true;

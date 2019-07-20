@@ -58,7 +58,7 @@ public class RMIListener
                 while (!getStopPinging()) {
                     for(AdrenalineServerRMI client : getConnected())
                         client.pingClient();
-                    Thread.sleep(period);
+                    this.wait(period);
                 }
             } catch (RemoteException e) {
                 stopPinging = true;

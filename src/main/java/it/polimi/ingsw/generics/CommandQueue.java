@@ -27,6 +27,7 @@ public class CommandQueue
      * Method that endlessly checks if there are functions waiting in the queue. If that's the case, the function is
      * executed. If, instead, there are no functions waiting, the queue is put to a temporary stop.
      */
+    @SuppressWarnings("squid:S2189")
     private void threadFunc() {
         while(true)
         {

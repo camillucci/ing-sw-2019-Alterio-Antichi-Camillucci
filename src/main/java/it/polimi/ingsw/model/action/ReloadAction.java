@@ -21,7 +21,7 @@ public class ReloadAction extends Action
     {
         this.optional = true;
         this.canBeDone = false;
-        this.visualizable = new Visualizable("reload a weapon", "reload");
+        this.visualizable = new Visualizable("reload a weapon", "Reload");
     }
 
     @Override

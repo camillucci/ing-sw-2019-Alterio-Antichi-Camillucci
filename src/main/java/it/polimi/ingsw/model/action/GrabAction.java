@@ -19,7 +19,7 @@ public class GrabAction extends ExtendableAction
      * Default constructor. Uses pre known values to assign them to the parameters
      */
     public GrabAction() {
-        this.visualizable = new Visualizable(null, "grab.png", "grab", "grab");
+        this.visualizable = new Visualizable(null, "grab.png", "grab", "Grab");
     }
 
     /**

@@ -16,7 +16,7 @@ import java.util.List;
 public class WeaponSelectionAction extends ExtendableAction
 {
     public WeaponSelectionAction() {
-        this.visualizable = new Visualizable(null,"gun.png", "use a weapon", "weapon");
+        this.visualizable = new Visualizable(null,"gun.png", "use a weapon", "Weapon");
     }
 
     @Override
@@ -25,7 +25,7 @@ public class WeaponSelectionAction extends ExtendableAction
         ArrayList<Branch> w = new ArrayList<>();
         for(WeaponCard wc : ownerPlayer.getLoadedWeapons())
         {
-            ExtendableAction wi = new ExtendableAction(wc.getFireModalities(ownerPlayer, discardedPowerUps), new Visualizable(nameToUrl(wc.name), "use " + wc.name, "select a weapon"));
+            ExtendableAction wi = new ExtendableAction(wc.getFireModalities(ownerPlayer, discardedPowerUps), new Visualizable(nameToUrl(wc.name), "use " + wc.name, "Select a weapon"));
             w.add(new Branch(wi));
         }
         this.branches = w;

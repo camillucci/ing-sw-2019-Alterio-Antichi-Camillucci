@@ -34,7 +34,7 @@ public class MoveAction extends Action
         this.maxDistance = maxDistance;
         this.optional = true;
         this.canBeDone = false;
-        this.visualizable = new Visualizable(null, "m" + maxDistance + ".png", "move of " + maxDistance, "move");
+        this.visualizable = new Visualizable(null, "m" + maxDistance + ".png", "move of " + maxDistance, "Move");
     }
 
     /**

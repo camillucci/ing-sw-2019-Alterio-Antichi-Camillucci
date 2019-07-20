@@ -202,9 +202,9 @@ public class CardsFactory {
                 new FireModalityAction(new Ammo(0, 0, 0), GRENADE_LAUNCHER, BASIC_MODE,
                         new Branch(new ShootAction(visiblePlayers(1), movable1Square, move.andThen(damage(1))), new EndBranchAction(GRENADE_LAUNCHER))),
                 new FireModalityAction(new Ammo(0, 1, 0), GRENADE_LAUNCHER, "Extra Grenade",
-                        new Branch(new ShootAction(visiblePlayers(1), movable1Square, move.andThen(damage(1)), new Visualizable("shoot player", "shoot player")),
+                        new Branch(new ShootAction(visiblePlayers(1), movable1Square, move.andThen(damage(1)), new Visualizable("shoot player", "Shoot player")),
                                 new ShootAction(damageAll(1), visibleSquares(1)), new EndBranchAction(GRENADE_LAUNCHER)),
-                        new Branch(new ShootAction(damageAll(1), visibleSquares(1), new Visualizable("shoot square", "shoot square")),
+                        new Branch(new ShootAction(damageAll(1), visibleSquares(1), new Visualizable("shoot square", "Shoot square")),
                                 new ShootAction(visiblePlayers(1), movable1Square, move.andThen(damage(1))), new EndBranchAction(GRENADE_LAUNCHER))))));
 
         weapons.add(new WeaponCard(ROCKET_LAUNCHER, new Ammo(0, 1, 0), new Ammo(0, 2, 0), () -> Arrays.asList (
@@ -230,10 +230,10 @@ public class CardsFactory {
                         new Branch(new ShootAction(nearPlayers(1, 0), damage(2)), new MoveAction(1), new EndBranchAction(CYBERBLADE)),
                         new Branch(new MoveAction(0, 1), new ShootAction(nearPlayers(1, 0), damage(2)), new EndBranchAction(CYBERBLADE))),
                 new FireModalityAction(new Ammo(0, 0, 1), CYBERBLADE, "Slice and Dice",
-                        new Branch(new ShootAction(nearPlayers(2, 0), damage(2, 2), new Visualizable("shoot twice", "shoot twice")),
+                        new Branch(new ShootAction(nearPlayers(2, 0), damage(2, 2), new Visualizable("shoot twice", "Shoot twice")),
                                 new MoveAction(1), new EndBranchAction(CYBERBLADE)),
                         new Branch(new MoveAction(0, 1), new ShootAction(nearPlayers(2, 0), damage(2, 2)), new EndBranchAction(CYBERBLADE)),
-                        new Branch(new ShootAction(nearPlayers(1, 0), damage(2), new Visualizable("shoot and move", "shoot and move")),
+                        new Branch(new ShootAction(nearPlayers(1, 0), damage(2), new Visualizable("shoot and move", "Shoot and move")),
                                 new MoveAction(1, 1), new ShootAction(nearPlayers(1, 0),damage(2)), new EndBranchAction(CYBERBLADE))))));
 
         weapons.add(new WeaponCard(ZX_2, new Ammo(0, 1, 0), new Ammo(0, 1, 1), () -> Arrays.asList (

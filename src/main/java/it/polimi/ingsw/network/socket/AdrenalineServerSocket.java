@@ -33,6 +33,8 @@ public class AdrenalineServerSocket extends AdrenalineServer
     public void start() {
         bottleneck.tryDo(this::waitForCommand);
     }
+
+    @SuppressWarnings("squid:S2189")
     private void waitForCommand() throws IOException, ClassNotFoundException {
         while(true)
             newServerCommand(client.in().getObject());

@@ -37,7 +37,7 @@ public class ShootAction extends Action
         this.playersFilter = playersFilter;
         this.squaresFilter = squaresFilter;
         this.canBeDone = false;
-        this.visualizable = new Visualizable("shoot", "shoot");
+        this.visualizable = new Visualizable("shoot", "Shoot");
     }
 
     public ShootAction(ShootFunc shootFunc, SquaresFilter squaresFilter)

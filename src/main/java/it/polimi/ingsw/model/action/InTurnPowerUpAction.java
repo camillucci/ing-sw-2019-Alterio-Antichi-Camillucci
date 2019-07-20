@@ -22,7 +22,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     public InTurnPowerUpAction()
     {
         super();
-        this.visualizable = new Visualizable("use a Targeting Scope", "powerup");
+        this.visualizable = new Visualizable("use a Targeting Scope", "Powerup");
     }
 
     /**

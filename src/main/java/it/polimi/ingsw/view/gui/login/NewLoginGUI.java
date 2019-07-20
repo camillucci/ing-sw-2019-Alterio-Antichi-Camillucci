@@ -251,13 +251,6 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         Platform.runLater(() -> robotSpeak(message));
     }
 
-    private String getName(String playerMessageInfo){
-        int nameLen;
-        for(nameLen = 0; playerMessageInfo.charAt(nameLen) != ' '; nameLen++)
-            ;
-        return playerMessageInfo.substring(0, nameLen);
-    }
-
     @Override
     public VBox getRoot() {
         return upperVBox;

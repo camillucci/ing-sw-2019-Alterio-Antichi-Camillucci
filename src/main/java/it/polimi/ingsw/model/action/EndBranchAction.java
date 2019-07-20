@@ -15,7 +15,7 @@ public class EndBranchAction extends Action {
     private String weaponName = "";
 
     public EndBranchAction() {
-        this.visualizable = new Visualizable(null, "next.png","end the move", "end");
+        this.visualizable = new Visualizable(null, "next.png","end the move", "End");
     }
 
     /**
