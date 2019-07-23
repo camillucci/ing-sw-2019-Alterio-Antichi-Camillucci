@@ -79,7 +79,7 @@ public class PowerUpAction extends ShootAction
      * @return Always true, given that the input parameter is always required to be a PowerUpAction
      */
     @Override
-    public boolean testCompatibilityWith(PowerUpAction action) {
+    protected boolean testCompatibilityWith(PowerUpAction action) {
         return true;
     }
 }

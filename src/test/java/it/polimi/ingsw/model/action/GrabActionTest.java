@@ -47,6 +47,17 @@ class GrabActionTest {
     @Test
     void grabAmmoSquare()
     {
+        while(!ammoSquare.getCardsName().get(0).contains("PU")) {
+            action.initialize(player);
+            player.setCurrentSquare(ammoSquare);
+            player.getCurrentSquare().addPlayer(player);
+            assertEquals(1, player.getCurrentSquare().getCardsName().size());
+            action.doAction();
+            assertEquals(0, player.getCurrentSquare().getCardsName().size());
+            ammoSquare.refill();
+            assertEquals(1, player.getCurrentSquare().getCardsName().size());
+            action = new GrabAction();
+        }
         action.initialize(player);
         player.setCurrentSquare(ammoSquare);
         player.getCurrentSquare().addPlayer(player);
@@ -74,6 +85,7 @@ class GrabActionTest {
         player.getCurrentSquare().addWeapon(gameBoard.weaponDeck.draw());
         player.getCurrentSquare().removeWeapon(gameBoard.weaponDeck.draw());
         assertEquals(0, player.getCurrentSquare().getWeapons().size());
+        ammoSquare.refill();
     }
 
     /*

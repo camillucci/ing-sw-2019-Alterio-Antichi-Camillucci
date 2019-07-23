@@ -115,7 +115,7 @@ public class MoveAction extends Action
      * between the minDistance and maxDistance values of the input parameter.
      */
     @Override
-    public boolean testCompatibilityWith(MoveAction action)
+    protected boolean testCompatibilityWith(MoveAction action)
     {
         if(action.minDistance == -1 || this.minDistance == -1)
             return this.maxDistance <= action.maxDistance;

@@ -99,7 +99,7 @@ public class CounterPowerUpAction extends PowerUpAction
      * @return Always false
      */
     @Override
-    public boolean testCompatibilityWith(PowerUpAction action) {
+    protected boolean testCompatibilityWith(PowerUpAction action) {
         return false;
     }
 
@@ -109,7 +109,7 @@ public class CounterPowerUpAction extends PowerUpAction
      * @return Always true
      */
     @Override
-    public boolean testCompatibilityWith(CounterPowerUpAction action) {
+    protected boolean testCompatibilityWith(CounterPowerUpAction action) {
         return true;
     }
 }

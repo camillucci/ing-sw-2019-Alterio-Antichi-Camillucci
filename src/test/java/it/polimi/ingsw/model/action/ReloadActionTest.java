@@ -64,12 +64,16 @@ class ReloadActionTest {
         player.addBlue(2);
         player.addRed(2);
         player.addYellow(2);
-        if(player.getPowerUps().get(0).color == BLUE)
+        if(player.getPowerUps().get(0).color == BLUE) {
             player.addWeapon(CardsFactory.getWeapons().get(1));
-        else if(player.getPowerUps().get(0).color == RED)
+            assertEquals("Blue", player.getPowerUps().get(0).colorToAmmo().getName());
+        } else if(player.getPowerUps().get(0).color == RED) {
             player.addWeapon(CardsFactory.getWeapons().get(8));
-        else
+            assertEquals("Red", player.getPowerUps().get(0).colorToAmmo().getName());
+        } else {
             player.addWeapon(CardsFactory.getWeapons().get(15));
+            assertEquals("Yellow", player.getPowerUps().get(0).colorToAmmo().getName());
+        }
         player.unloadWeapon(player.getWeapons().get(0));
         action.addWeapon(player.getWeapons().get(0));
         assertEquals(0, player.getLoadedWeapons().size());

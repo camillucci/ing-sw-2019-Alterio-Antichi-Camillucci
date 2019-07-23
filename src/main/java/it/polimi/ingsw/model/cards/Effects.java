@@ -156,6 +156,15 @@ public class Effects
                 move(Collections.singletonList(shooter), Collections.singletonList(targets.get(1).getCurrentSquare()));
     }
 
+    /**
+     * Effect that deals damage to players without activating the marks
+     * @param shooter Player who is shooting. The color of the damage drops and marks applied to the targets is based
+     *      *                on the shooter.
+     * @param targets A list of players that represents the players that are being damaged.
+     * @param damage A list of integers, each of who represent the amount of damage drops that need to be added to
+     *      *               the corresponding player (the correspondence is based on both the integer's and the target's
+     *      *               index in their respective lists)
+     */
     public static void damageNoMark(Player shooter, List<Player> targets, List<Integer> damage)
     {
         for(int i = 0; i < targets.size(); i++)

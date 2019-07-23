@@ -149,7 +149,7 @@ public class InTurnPowerUpAction extends PowerUpAction
     }
 
     @Override
-    public boolean testCompatibilityWith(PowerUpAction action) {
+    protected boolean testCompatibilityWith(PowerUpAction action) {
         return false;
     }
 }
