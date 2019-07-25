@@ -49,6 +49,7 @@ public class RMIListener
         connectedList.remove(client);
     }
 
+    @SuppressWarnings("squid:S2276")
     public synchronized void pingAll(int period){
         if(pingingThread != null && pingingThread.getState() != Thread.State.TERMINATED)
             return;
@@ -58,7 +59,7 @@ public class RMIListener
                 while (!getStopPinging()) {
                     for(AdrenalineServerRMI client : getConnected())
                         client.pingClient();
-                    this.wait(period);
+                    Thread.sleep(period);
                 }
             } catch (RemoteException e) {
                 stopPinging = true;

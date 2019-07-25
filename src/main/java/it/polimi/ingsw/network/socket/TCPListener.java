@@ -106,6 +106,7 @@ public class TCPListener {
         finally { closeListener(); }
     }
 
+    @SuppressWarnings("squid:S2276")
     public synchronized void pingAll(int period){
         if(pingingThread != null && pingingThread.getState() != Thread.State.TERMINATED)
             return;
@@ -115,7 +116,7 @@ public class TCPListener {
                 while (!getStopPinging()) {
                     for(TCPClient client : getConnected())
                         client.out().ping();
-                    this.wait(period);
+                    Thread.sleep(period);
                 }
             } catch (IOException e) {
                 stopPinging = true;

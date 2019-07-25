@@ -213,9 +213,9 @@ public class Branch
         boolean nextFound = false;
         while(!actions.isEmpty() && !nextFound)
             if(actions.get(0).isCompatible(justDoneAction))
-                if(actions.get(0).next() != null)
+                if(justDoneAction.next() != null)
                 {
-                    actions.set(0, actions.get(0).next());
+                    actions.set(0, justDoneAction.next());
                     nextFound = true;
                 }
                 else
