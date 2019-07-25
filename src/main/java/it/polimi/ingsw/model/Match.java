@@ -305,8 +305,10 @@ public class Match extends ActionsProvider {
         clonedPlayers = clonedGameBoard.getPlayers();
         for(Player player : deadPlayers) {
             for(Player p : clonedPlayers)
-                if(player.color.equals(p.color))
+                if(player.color.equals(p.color)) {
                     alreadyAdded = true;
+                    break;
+                }
             if(!alreadyAdded)
                 clonedPlayers.add(new Player(player, clonedGameBoard, null));
             else

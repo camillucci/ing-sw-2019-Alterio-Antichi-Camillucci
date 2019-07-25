@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.action;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.branch.Branch;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

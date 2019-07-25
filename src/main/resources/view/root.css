@@ -27,7 +27,7 @@
 }
 
 
-.mapLabel{
+.mapLabel {
     -fx-text-fill: #1abc9c;
 }
 .buttonSkullHover, .buttonSkullHover:hover .mapLabel:hover {

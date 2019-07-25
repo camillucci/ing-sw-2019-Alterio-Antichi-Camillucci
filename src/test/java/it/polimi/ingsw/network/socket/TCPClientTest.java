@@ -75,9 +75,9 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            String messageRecived = clientSocket.in().getObject();
+            String messageReceived = clientSocket.in().getObject();
 
-            assertEquals(message, messageRecived);
+            assertEquals(message, messageReceived);
         }
         catch(Exception ecc)
         {
@@ -195,10 +195,10 @@ class TCPClientTest {
             clientSocket = TCPClient.connect(localHost, listeningPort);
 
             // client getting bytes from server
-            byte[] messageRecived = clientSocket.in().getBytes();
+            byte[] messageReceived = clientSocket.in().getBytes();
 
-            for(int i=0; i <  messageRecived.length; i++)
-                assertEquals(message[i], messageRecived[i]);
+            for(int i=0; i <  messageReceived.length; i++)
+                assertEquals(message[i], messageReceived[i]);
             clientSocket.close();
             listener.stop();
         }

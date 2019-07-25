@@ -142,7 +142,7 @@ public class ActionHandlerCLI extends ActionHandler {
     }
 
     /**
-     * Updates the model based on the received matchsnapshot
+     * Updates the model based on the received matchSnapshot
      * @param matchSnapshot Snapshot of the match containing all the info needed to represent the game state to the
      *                      client
      */

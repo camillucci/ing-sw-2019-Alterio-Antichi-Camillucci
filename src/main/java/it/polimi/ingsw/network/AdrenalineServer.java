@@ -94,7 +94,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
      */
     public AdrenalineServer(Controller controller){
         this.controller = controller;
-        bottleneck.exceptionGenerated.addEventHandler((a, exception) -> onExceptionGenerated(exception));
+        bottleneck.exceptionGenerated.addEventHandler((a, exception) -> onExceptionGenerated());
     }
 
     protected void onModelUpdated(Room.ModelEventArgs model) throws IOException {
@@ -125,9 +125,8 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     /**
      * Method called when a connection exception comes up. The class unsubscribes to the events and notifies the
      * controller about the newly occurred player's disconnection.
-     * @param e Specific exception that needs to be handled by the method
      */
-    protected void onExceptionGenerated(Exception e){
+    protected void onExceptionGenerated(){
         if(isDisconnected)
             return;
         isDisconnected = true;
@@ -222,6 +221,7 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     /**
      * Checks whether the user associated to this class is the host of the room by communicating their name to the
      * controller. If they are, the client is notified. Otherwise the user is put on ready status.
+     * @throws IOException IOException
      */
     private void notifyIsHost() throws IOException {
         boolean isHost = joinedRoom.isHost(name);
@@ -252,11 +252,10 @@ public abstract class AdrenalineServer implements IAdrenalineServer
     private synchronized void notifyPlayer(String name){
         if(otherPlayers.contains(name))
             return;
-        if(this.name != name)
+        if(this.name.equals(name))
             otherPlayers.add(name);
         bottleneck.tryDo(() -> newPlayerMessage(name));
     }
-
 
     @Override
     public void ready() {

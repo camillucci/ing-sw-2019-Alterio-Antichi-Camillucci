@@ -360,6 +360,9 @@ public class Room
      * it to the playersColors list. Also, if the player is the first one to join the room, they are made host.
      * @param color Color chosen by the added player
      * @param playerName Name chosen by the added player
+     * @throws MatchStartingException This exception is thrown and handled when the match is starting
+     *                                or when the room has reached 5 Players when an other Player wants to join
+     * @throws NotAvailableColorException This exception is thrown and handled when a requested color has been already taken
      */
     public synchronized void addPlayer(String color, String playerName) throws MatchStartingException, NotAvailableColorException {
         if(matchStarting || availableColors.isEmpty())
@@ -459,7 +462,7 @@ public class Room
 
     /**
      * A new player is created using the name gotten as parameter and that player is removed from the pendingPlayers
-     * list, while added to the redyPlayers one. The readyCounter is incremented. If all the pending players have
+     * list, while added to the readyPlayers one. The readyCounter is incremented. If all the pending players have
      * been removed from the list and the match is ready to start, then a new match is created. Otherwise,
      * depending on the number of ready players either the timer is started (3 players) or the match is started
      * (5 players)
@@ -510,6 +513,8 @@ public class Room
      * Returns a list of available colors from which the player can choose. This method is synchronized in order
      * to avoid the bad case scenario where to players on the same room are choosing a color.
      * @return A list of available colors
+     * @throws MatchStartingException This exception is thrown and handled when the match is starting
+     *                                or when the room has reached 5 Players when an other Player wants to join
      */
     public synchronized List<String> getAvailableColors() throws MatchStartingException
     {
@@ -667,10 +672,11 @@ public class Room
         throw new ServerRuntimeException("Player does not exist in this match");
     }
 
-    public class TurnTimeoutException extends Exception{}
-    public class MatchStartingException extends Exception {}
-    public class NotAvailableColorException extends Exception {}
-    public class ModelEventArgs
+    public static class TurnTimeoutException extends Exception {}
+    public static class MatchStartingException extends Exception {}
+    public static class NotAvailableColorException extends Exception {}
+
+    public static class ModelEventArgs
     {
         public final MatchSnapshot matchSnapshot;
         public final RemoteActionsHandler actionsHandler;

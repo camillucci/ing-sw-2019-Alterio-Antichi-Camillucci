@@ -15,7 +15,6 @@ class MatchTest {
 
     private static final int n = 4;
     private Match match;
-    private Bot bot;
 
     @BeforeEach
     void setUp() {
@@ -23,7 +22,7 @@ class MatchTest {
         List<PlayerColor> colors = new ArrayList<>(Arrays.asList(BLUE, GREEN, GREY));
         match = new Match(names, colors, 5, 0);
         match.start();
-        bot = new Bot();
+        Bot bot = new Bot();
 
         // spawning players
         for(int i = 0; i < match.getPlayers().size(); i++) {

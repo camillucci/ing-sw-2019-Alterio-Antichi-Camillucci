@@ -33,12 +33,11 @@ public class ShopController
         List<String> paths = new ArrayList<>();
         SquareSnapshot[][] squares = snapshot.gameBoardSnapshot.squareSnapshots;
 
-        for(int i = 0; i < squares.length; i++)
-            for(int j = 0; j < squares[i].length; j++)
-                if(isRightShop(squares[i][j], this.color))
-                {
-                    descriptions.addAll(squares[i][j].getCards());
-                    paths.addAll(squares[i][j].getCards().stream().map(this::nameToPath).collect(Collectors.toList()));
+        for (SquareSnapshot[] square : squares)
+            for (SquareSnapshot squareSnapshot : square)
+                if (isRightShop(squareSnapshot, this.color)) {
+                    descriptions.addAll(squareSnapshot.getCards());
+                    paths.addAll(squareSnapshot.getCards().stream().map(this::nameToPath).collect(Collectors.toList()));
                 }
 
         root.getChildren().clear();

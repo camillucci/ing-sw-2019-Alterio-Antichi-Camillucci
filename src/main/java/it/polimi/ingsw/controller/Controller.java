@@ -123,7 +123,7 @@ public class Controller {
 
     /**
      * Checks if the disconnected player was already in a room. If that's the case, said room is notified of the
-     * player's disconnection; otherwise the player is removed from the joingPlayers list (in case they were in it).
+     * player's disconnection; otherwise the player is removed from the joiningPlayers list (in case they were in it).
      * @param name Name of the player who's lost connection
      */
     public synchronized void notifyPlayerDisconnected(String name){

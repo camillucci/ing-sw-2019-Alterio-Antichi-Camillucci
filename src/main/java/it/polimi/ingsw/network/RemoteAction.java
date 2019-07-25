@@ -175,7 +175,7 @@ public class RemoteAction implements Serializable
         }
 
         /**
-         * Contrsuctor. Sets all the parameter listed below with the values/lists goteen as input
+         * Constructor. Sets all the parameter listed below with the values/lists gotten as input
          * @param possiblePlayers List of players the user can target with the selected action
          * @param possibleSquares List of squares the user can target with the selected action
          * @param possiblePowerUps List of powerups the user can target with the selected action

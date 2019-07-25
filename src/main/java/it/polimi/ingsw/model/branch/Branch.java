@@ -97,7 +97,7 @@ public class Branch
     }
 
     /**
-     * More specific contructor that takes 2 actions and puts them into an array and then calls the original
+     * More specific constructor that takes 2 actions and puts them into an array and then calls the original
      * constructor.
      * @param action1 First action that's going to be put into the array
      * @param action2 Second action that's going to be put into the array
@@ -109,7 +109,7 @@ public class Branch
     }
 
     /**
-     * More specific contructor that takes 3 actions and puts them into an array and then calls the original
+     * More specific constructor that takes 3 actions and puts them into an array and then calls the original
      * constructor.
      * @param action1 First action that's going to be put into the array
      * @param action2 Second action that's going to be put into the array

@@ -44,7 +44,7 @@ public class LoginCLI extends Login {
 
     /**
      * If the user is the host, then two questions are asked about how they want to set up the game. Then the server
-     * is notified of the user's answer via invoking gameLenghtevent and gameMapEvent
+     * is notified of the user's answer via invoking gameLengthEvent and gameMapEvent
      *
      * @param isHost Indicates whether the user is the host (first one to enter the room) or not
      */
@@ -83,6 +83,7 @@ public class LoginCLI extends Login {
     /**
      * Asks the user to choose a name. Then the name is "filtered" by the parser and the server is notified via
      * invoking the nameEvent
+     * @throws IOException IOException
      */
     private void askName() throws IOException {
         CLIMessenger.insertName();

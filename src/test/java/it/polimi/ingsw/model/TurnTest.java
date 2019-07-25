@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.action.MoveAction;
-import it.polimi.ingsw.model.action.RollBackAction;
 import it.polimi.ingsw.model.branch.BranchTestUtilities;
 import org.junit.jupiter.api.Test;
 

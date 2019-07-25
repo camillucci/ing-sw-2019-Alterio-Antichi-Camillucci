@@ -25,7 +25,7 @@ public class KillShotTrackController implements Ifxml<StackPane>
     private List<ImageView> otherSkulls = new ArrayList<>();
 
     public void initialize() {
-        firedSkull = createFiredSKull();
+        firedSkull = createFiredSkull();
         for(int i = 0; i < TOT_OTHER_SKULLS; i++)
             otherSkulls.add(newSkull());
         for(ImageView skull : otherSkulls)
@@ -103,7 +103,7 @@ public class KillShotTrackController implements Ifxml<StackPane>
         Animations.appearAnimation(skull);
     }
 
-    private ImageView createFiredSKull(){
+    private ImageView createFiredSkull(){
         ImageView ret = new ImageView(Cache.getImage("/skull_fired.png"));
         ret.fitHeightProperty().bind(rootPane.maxHeightProperty());
         ret.setPreserveRatio(true);

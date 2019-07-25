@@ -20,12 +20,14 @@ public interface IAdrenalineServer
     /**
      * Communicates user's decision regarding which color they want to the controller
      * @param colorIndex Index of the color that has been chosen by the user
+     * @throws IOException IOException
      */
     void setColor(int colorIndex) throws IOException;
 
     /**
      * Communicates user's decision regarding their username to the controller
      * @param name Name chosen by the user
+     * @throws IOException IOException
      */
     void setName(String name) throws IOException;
 

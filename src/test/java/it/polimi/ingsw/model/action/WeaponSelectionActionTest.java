@@ -24,16 +24,17 @@ class WeaponSelectionActionTest {
         action.initialize(player);
         action.doAction();
         assertEquals(0, action.getBranches().size());
-        player.addWeapon(newWeaponCard(null));
+        player.addWeapon(newWeaponCard());
         action.doAction();
         assertEquals(1, action.getBranches().size());
-        player.addWeapon(newWeaponCard(null));
+        player.addWeapon(newWeaponCard());
         action.doAction();
         assertEquals(2, action.getBranches().size());
     }
 
-    WeaponCard newWeaponCard(ShootFunc s)
+    WeaponCard newWeaponCard()
     {
+        ShootFunc s = null;
         return new WeaponCard("B", ammo, ammo, () -> Collections.singletonList(
                 new FireModalityAction(ammo, "", "", new Branch(new ShootAction((shooter, players, squares) -> Collections.emptyList(), (shooter, players, squares) -> Collections.emptyList(), s), new EndBranchAction()))));
     }

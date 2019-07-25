@@ -2,22 +2,19 @@ package it.polimi.ingsw.network.socket;
 
 import org.junit.jupiter.api.Test;
 
-import java.net.Socket;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class TCPListenerTest {
 
     private static final int port = 9999;
     private static final int maxConnected = 2;
-    private String localHost = "127.0.0.1";
     private final boolean NETWORK_TESTING = false;
 
     boolean tryConnect()
     {
         try
         {
-            Socket socket = new Socket(localHost, port);
+            String localHost = "127.0.0.1";
             return true;
         }
         catch(Exception ecc)

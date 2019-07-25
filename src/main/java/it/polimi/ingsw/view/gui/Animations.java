@@ -14,6 +14,7 @@ public class Animations
     public static Timeline autoWriteLabel(Label label, String text, int millisecondsPerCar){
         return autoWriteLabel(label, text, millisecondsPerCar, () -> {});
     }
+
     public static Timeline autoWriteLabel(Label label, String text, int millisecondsPerCar, Runnable onEnd){
         final IntegerProperty i = new SimpleIntegerProperty(0);
         Timeline timeline = new Timeline();
@@ -49,6 +50,7 @@ public class Animations
         zoomTransition.setAutoReverse(reverse);
         zoomTransition.play();
     }
+
     public static RotateTransition rotatingAnimation(Node node)
     {
         RotateTransition rt = new RotateTransition(Duration.millis(1500), node);
@@ -82,13 +84,5 @@ public class Animations
         st.play();
 
         st.play();
-    }
-
-    public static void loopAnimation(Node node) {
-        RotateTransition rt = new RotateTransition(Duration.millis(3000), node);
-        rt.setByAngle(180);
-        rt.setCycleCount(4);
-        rt.setAutoReverse(true);
-        rt.play();
     }
 }

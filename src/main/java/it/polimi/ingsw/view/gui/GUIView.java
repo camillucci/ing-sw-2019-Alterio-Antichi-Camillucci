@@ -25,7 +25,7 @@ public class GUIView extends View
     private Scene rootScene;
     private static final Logger logger = Logger.getLogger("GUIView");
 
-    public GUIView() throws InterruptedException, IOException {
+    public GUIView() throws InterruptedException {
         startupGUI();
     }
 

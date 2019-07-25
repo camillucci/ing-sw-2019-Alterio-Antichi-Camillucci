@@ -19,7 +19,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -42,13 +41,10 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
         // Nothing to do
     }
 
-    private void robotSpeak(String text, int millisecondsPerChar, Runnable onEnd) {
+    private void robotSpeak(String text, Runnable onEnd){
         if(timeline != null)
             timeline.stop();
-        timeline = Animations.autoWriteLabel(robotLabel, text, millisecondsPerChar, onEnd);
-    }
-    private void robotSpeak(String text, Runnable onEnd){
-        robotSpeak(text, 60, onEnd);
+        timeline = Animations.autoWriteLabel(robotLabel, text, 60, onEnd);
     }
 
     private void robotSpeak(String text){
@@ -146,7 +142,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     }
 
     @Override
-    public void notifyAvailableColor(List<String> availableColors) throws IOException
+    public void notifyAvailableColor(List<String> availableColors)
     {
         Platform.runLater(() -> {
             if(colorChoiceErrorsCounter++ > 0)
@@ -164,7 +160,7 @@ public class NewLoginGUI extends Login implements Ifxml<VBox>
     }
 
     @Override
-    public void notifyHost(boolean isHost) throws IOException
+    public void notifyHost(boolean isHost)
     {
         enable();
         if(isHost)

@@ -261,7 +261,7 @@ public class Player {
     }
 
     /**
-     * This method removes a specifis weapon from the Player
+     * This method removes a specific weapon from the Player
      * @param weaponCard The weapon to be removed
      */
     public void removeWeapon(WeaponCard weaponCard) {

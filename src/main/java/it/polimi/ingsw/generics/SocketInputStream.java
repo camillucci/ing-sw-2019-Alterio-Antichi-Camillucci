@@ -50,12 +50,12 @@ public class SocketInputStream implements Closeable
     {
         if(max < 0)
             return;
-        final int buflen = 1024*16;
-        byte[] buffer = new byte[buflen];
+        final int bufferLength = 1024*16;
+        byte[] buffer = new byte[bufferLength];
         int read;
         int min;
         do{
-            min = buflen < max ? buflen : (int)max;
+            min = bufferLength < max ? bufferLength : (int)max;
             read = in.read(buffer, 0, min);
             if(read <= 0)
                 break;

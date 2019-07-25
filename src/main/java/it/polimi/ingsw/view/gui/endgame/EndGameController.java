@@ -97,7 +97,7 @@ public class EndGameController implements Ifxml<Pane> {
         else if(pos > 3) height *= scale*scale*scale;
 
         ImageView character = characters.get(pos-1);
-        character.setImage(getCarachter(name));
+        character.setImage(getCharacter(name));
         character.fitHeightProperty().bind(rootPane.heightProperty().multiply(height));
     }
 
@@ -109,7 +109,7 @@ public class EndGameController implements Ifxml<Pane> {
         return endGameData.matchSnapshot.privatePlayerSnapshot.color;
     }
 
-    private Image getCarachter(String name){
+    private Image getCharacter(String name){
         return Cache.getImage("/player/" + nameToColor(name).toLowerCase() + "_character.png");
     }
 

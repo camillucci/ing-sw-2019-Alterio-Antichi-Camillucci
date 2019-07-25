@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface SquaresFilter extends TriFunction<Player, List<Player>, List<Square>, List<Square>>
 {
-    // kinda typedef
+    // Typedef of how a Square can be targeted
 }

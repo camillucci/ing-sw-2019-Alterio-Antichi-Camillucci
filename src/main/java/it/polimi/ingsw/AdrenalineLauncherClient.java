@@ -18,7 +18,7 @@ public class AdrenalineLauncherClient
 {
     private AdrenalineClient client;
 
-    public AdrenalineLauncherClient(boolean gui, boolean socket, String serverName, int port) throws IOException, InterruptedException {
+    public AdrenalineLauncherClient(boolean gui, boolean socket, String serverName, int port) throws InterruptedException {
         View view = gui ? new GUIView() : new CLIView();
         client = socket ? new AdrenalineClientSocket(serverName, port, view) : new AdrenalineClientRMI(serverName, port, view);
     }

@@ -29,7 +29,7 @@ public class Bot
         provider.getPlayer().addWeapon(weaponCard2);
 
         assertTrue(BranchTestUtilities.testEquality(BranchTestUtilities.noAdrenalinePossibleActions(), provider.getActions()));
-        // branchmap = { PM1G, PM3, PW, R } do = W
+        // branchMap = { PM1G, PM3, PW, R } do = W
 
         for(Action a : provider.getActions())
             if(a instanceof WeaponSelectionAction)

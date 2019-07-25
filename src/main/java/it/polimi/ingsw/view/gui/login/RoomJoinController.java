@@ -25,10 +25,10 @@ public class RoomJoinController implements Ifxml<VBox>
     public synchronized void newPlayerJoined(String name){
         HBox[] rows = getRows();
 
-        for(int i=0; i < rows.length; i++){
-            Label label = (Label)rows[i].getChildren().get(1);
-            if(label.getText().equals("")){
-                Rectangle rectangle = (Rectangle)rows[i].getChildren().get(0);
+        for (HBox row : rows) {
+            Label label = (Label) row.getChildren().get(1);
+            if (label.getText().equals("")) {
+                Rectangle rectangle = (Rectangle) row.getChildren().get(0);
                 rectangle.getStyleClass().add("joinedRectangle");
                 label.setText(name);
                 return;
@@ -39,10 +39,10 @@ public class RoomJoinController implements Ifxml<VBox>
     public synchronized void playerLeft(String name){
         HBox[] rows = getRows();
 
-        for(int i=0; i < rows.length; i++){
-            Label label = (Label)rows[i].getChildren().get(1);
-            if(label.getText().equals(name)){
-                Rectangle rectangle = (Rectangle)rows[i].getChildren().get(0);
+        for (HBox row : rows) {
+            Label label = (Label) row.getChildren().get(1);
+            if (label.getText().equals(name)) {
+                Rectangle rectangle = (Rectangle) row.getChildren().get(0);
                 rectangle.getStyleClass().remove("joinedRectangle");
                 label.setText("");
                 return;

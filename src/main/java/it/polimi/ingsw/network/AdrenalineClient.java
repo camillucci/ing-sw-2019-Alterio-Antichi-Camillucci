@@ -63,6 +63,8 @@ public abstract class AdrenalineClient
 
     /**
      * Connects to server using the global parameters. Also starts login method, which displays the intro to the user
+     * @throws IOException IOException
+     * @throws NotBoundException NotBoundException
      */
     public void start() throws IOException, NotBoundException {
         connect();
@@ -77,6 +79,8 @@ public abstract class AdrenalineClient
 
     /**
      * Starts a communication with the server using the global parameters, namely port and server string.
+     * @throws IOException IOException
+     * @throws NotBoundException NotBoundException
      */
     protected abstract void connect() throws IOException, NotBoundException;
 

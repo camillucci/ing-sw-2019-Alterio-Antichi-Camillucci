@@ -82,13 +82,12 @@ public class MapController implements Ifxml<AnchorPane>
         RemoteAction.Data data = action.getData();
         List<Avatar> avatars = new ArrayList<>();
         List<SquareController> controllers = new ArrayList<>();
-        for(int i=0; i < squareControllers.length; i++)
-            for(int j=0; j < squareControllers[0].length; j++)
-                for(Avatar avatar : squareControllers[i][j].getAvatars())
-                    if(data.getPossiblePlayers().contains(colorToName(avatar.getColor())))
-                    {
+        for (SquareController[] squareController : squareControllers)
+            for (int j = 0; j < squareControllers[0].length; j++)
+                for (Avatar avatar : squareController[j].getAvatars())
+                    if (data.getPossiblePlayers().contains(colorToName(avatar.getColor()))) {
                         avatars.add(avatar);
-                        controllers.add(squareControllers[i][j]);
+                        controllers.add(squareController[j]);
                     }
         for(int i=0; i < avatars.size(); i++) {
             int j = i;
@@ -139,9 +138,9 @@ public class MapController implements Ifxml<AnchorPane>
     }
 
     public void reset(){
-        for(int i=0; i < squareControllers.length; i++)
-            for(int j=0; j < squareControllers[i].length; j++)
-                squareControllers[i][j].reset();
+        for (SquareController[] squareController : squareControllers)
+            for (SquareController controller : squareController)
+                controller.reset();
     }
 
     @Override

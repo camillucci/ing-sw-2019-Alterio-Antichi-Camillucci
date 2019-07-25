@@ -6,8 +6,7 @@
     -fx-fill: #004D40;
 }
 
-.newPlayerLabel
-{
+.newPlayerLabel {
     -fx-font-size: 20;
     -fx-text-fill: #ecf0f1;
 }

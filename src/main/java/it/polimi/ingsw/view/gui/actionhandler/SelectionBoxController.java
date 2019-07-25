@@ -7,7 +7,6 @@ import it.polimi.ingsw.view.gui.Ifxml;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 public class SelectionBoxController implements Ifxml<StackPane>
 {
     @FXML Text title;
-    @FXML private TextArea descriptionText;
     @FXML private HBox selectionHBox;
     @FXML private StackPane rootPane;
     private List<ImageView> options = new ArrayList<>();

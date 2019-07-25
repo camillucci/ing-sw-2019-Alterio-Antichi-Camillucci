@@ -27,7 +27,7 @@ public class AdrenalineServerSocket extends AdrenalineServer
     {
         super(controller);
         this.client = client;
-        client.disconnectedEvent.addEventHandler((a,b) -> onExceptionGenerated(new IOException()));
+        client.disconnectedEvent.addEventHandler((a,b) -> onExceptionGenerated());
     }
 
     public void start() {

@@ -4,8 +4,7 @@
     -fx-text-fill: white;
 }
 
-.titleText
-{
+.titleText {
     -fx-fill: white;
     -fx-font-size: 23;
 }

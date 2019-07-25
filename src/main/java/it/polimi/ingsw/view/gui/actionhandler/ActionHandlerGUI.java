@@ -50,14 +50,10 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
     private ShopController blueShopController;
     private ShopController yellowShopController;
     private String playerColor;
-    private List<PlayerSetController> playerSets = new ArrayList<>();
-    private List<PlayerCardsController> curCardsController = new ArrayList<>();
-    private List<AmmoBoxController> ammoBoxControllers = new ArrayList<>();
     private List<Avatar> avatars = new ArrayList<>();
     private PlayerSetController curPlayerSet;
     private PlayerCardsController playerCardsController;
     private AmmoBoxController playerAmmoBoxController;
-    private List<HBox> avatarBoxes = new ArrayList<>();
     private MapController mapController;
     private ColorAdjust mapBlurEffect = new ColorAdjust(0, -0.3, -0.8, 0);
     private RemoteAction curAction;
@@ -106,14 +102,9 @@ public class ActionHandlerGUI extends ActionHandler implements Ifxml<Pane>, Matc
             PlayerCardsController cardsController = PlayerCardsController.getController(this, color);
             AmmoBoxController ammoBoxController = AmmoBoxController.getController(color, this);
 
-            playerSets.add(playerSetController);
-            curCardsController.add(cardsController);
-            ammoBoxControllers.add(ammoBoxController);
-
             bind(cardsController.getRoot(), mapPane, 0.3);
             HBox avatarHBox = newAvatarHBox(color, playerSetController, cardsController, ammoBoxController);
             bind(playerSetController.getRoot(), gameBoard, PLAYER_SET_SCALE);
-            avatarBoxes.add(avatarHBox);
 
             insert(avatarHBox, avatarsVBox, AVATAR_SCALE);
         }

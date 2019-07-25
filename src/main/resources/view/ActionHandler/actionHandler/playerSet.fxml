@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
-<?import java.lang.Double?>
+
 <StackPane fx:id="pane" minWidth="${pane.minHeight/277*1124}" maxWidth="${pane.maxHeight/277*1124}" alignment="CENTER" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.gui.actionhandler.PlayerSetController">

@@ -40,7 +40,7 @@ public class RoomTimer
      */
     private int elapsed = 0;
 
-    Logger logger = Logger.getLogger("roomTimer");
+    private static final Logger logger = Logger.getLogger("roomTimer");
 
     /**
      * Constructor that assigns the input parameters to their correspondences

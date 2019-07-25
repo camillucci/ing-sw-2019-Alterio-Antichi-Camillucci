@@ -36,7 +36,6 @@ public class PlayerCardsController implements Ifxml<HBox>
     private MatchSnapshot matchSnapshot;
     private String color;
     private List<ImageView> cards;
-    private String draggingPowerup;
     private boolean isOut = false;
 
     public List<ImageView> getWeapons() {
@@ -147,11 +146,9 @@ public class PlayerCardsController implements Ifxml<HBox>
             for(ImageView pu : getAll(powerup))
             {
                 pu.setDisable(false);
-                pu.setOnMouseDragged(e -> draggingPowerup = powerup);
                 pu.setOnMouseReleased(e -> {
                     if(isOut)
                         invokeEvent(addPowerupEvent, powerup);
-                    draggingPowerup = null;
                 });
             }
     }
@@ -181,15 +178,15 @@ public class PlayerCardsController implements Ifxml<HBox>
         List<String> tmp = oldList.stream().distinct().collect(Collectors.toList());
         for(String card : tmp)
         {
-            List<ImageView> occurencies = getCards(card);
+            List<ImageView> occurrences = getCards(card);
             for (int i = 0; i < (Collections.frequency(oldList, card) - Collections.frequency(newList, card)); i++)
                 if (!found) {
                     found = true;
-                    Animations.disappearAnimation(occurencies.get(i), () -> {
+                    Animations.disappearAnimation(occurrences.get(i), () -> {
                         removeCardsPrivatePlayer(player);
                         addCardPrivatePlayer(player);
                     });
-                } else Animations.disappearAnimation(occurencies.get(i), () -> {
+                } else Animations.disappearAnimation(occurrences.get(i), () -> {
                 });
         }
         return found;
@@ -201,7 +198,7 @@ public class PlayerCardsController implements Ifxml<HBox>
         if(old != null)
         {
             PrivatePlayerSnapshot oldP = old.privatePlayerSnapshot;
-            found = startDeletingAnimation(player, oldP.getLoadedWeapons(), player.getLoadedWeapons(), found);
+            found = startDeletingAnimation(player, oldP.getLoadedWeapons(), player.getLoadedWeapons(), false);
             found = startDeletingAnimation(player, oldP.getUnloadedWeapons(), player.getUnloadedWeapons(), found);
             found = startDeletingAnimation(player, oldP.getPowerUps(), player.getPowerUps(), found);
         }

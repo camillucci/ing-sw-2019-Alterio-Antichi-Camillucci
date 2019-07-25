@@ -69,6 +69,7 @@ public class TCPClient
      * events.
      * @param connectedSocket Reference to the class used for the communication with the other instance of TCPClient
      *                        this class is connected with.
+     * @throws IOException IOException
      */
     public TCPClient(Socket connectedSocket) throws IOException {
         if(!connectedSocket.isConnected())
@@ -87,6 +88,7 @@ public class TCPClient
      * @param hostname Hostname of the client this class is connecting with
      * @param port port of the client this class is connecting with
      * @return The newly create instance of TCPClient
+     * @throws IOException IOException
      */
     public static TCPClient connect(String hostname, int port) throws IOException
     {

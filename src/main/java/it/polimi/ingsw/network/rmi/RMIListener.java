@@ -84,7 +84,7 @@ public class RMIListener
         if(pingingThread == null || pingingThread.getState() == Thread.State.TERMINATED)
             return;
 
-        setStopPinging(true);
+        setStopPinging();
         try {
             pingingThread.join();
         } catch (InterruptedException e) {
@@ -92,8 +92,8 @@ public class RMIListener
             Thread.currentThread().interrupt();
         }
     }
-    private synchronized void setStopPinging(boolean stopPinging){
-        this.stopPinging = stopPinging;
+    private synchronized void setStopPinging(){
+        this.stopPinging = true;
     }
 
     private synchronized boolean getStopPinging(){

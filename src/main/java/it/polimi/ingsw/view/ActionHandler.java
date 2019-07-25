@@ -34,6 +34,8 @@ public abstract class ActionHandler implements ViewElement {
      * Gets a list of possible actions and displays them to the user. Calls the other methods to make sure a
      * notification is provided to the server once a choice has been taken by the user.
      * @param options Is the list of actions available the user can choose from
+     * @throws IOException IOException
+     * @throws ClassNotFoundException ClassNotFoundException
      */
     public abstract void chooseAction(List<RemoteAction> options) throws IOException, ClassNotFoundException;
 

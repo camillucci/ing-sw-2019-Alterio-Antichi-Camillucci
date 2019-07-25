@@ -26,7 +26,7 @@ public class WeaponCard {
     public final Ammo buyCost;
 
     /**
-     * Amount of ammo necessary to reaload the weapon when it is unloaded
+     * Amount of ammo necessary to reload the weapon when it is unloaded
      */
     public final Ammo reloadCost;
     public final Supplier<List<FireModalityAction>> fireBuilder;

@@ -57,7 +57,6 @@ class BranchTest {
     void getCompatibleActions()
     {
         getM3GM2GW();
-        List<Action> compatibleActions;
         ArrayList<Action> tmp = new ArrayList<>();
         tmp.add(curBranchActions.get(0));
         tmp.add(curBranchActions.get(1));
@@ -185,7 +184,7 @@ class BranchTest {
         curBranch.getCompatibleActions().get(0).doAction();
         assertTrue(eventTriggered);
 
-        // ExtendibleAction completed
+        // ExtendableAction completed
         eventTriggered = false;
         Branch branch = new Branch(new WeaponSelectionAction());
         branch.extActionCompletedEvent.addEventHandler((a,b)->this.eventTriggered=true);

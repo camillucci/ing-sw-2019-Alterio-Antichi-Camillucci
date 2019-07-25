@@ -13,13 +13,10 @@ public class CommandQueue
 {
     private final ConcurrentLinkedDeque<Runnable> queue = new ConcurrentLinkedDeque<>();
 
-    /**
-     * Thread used to run functions in order to obtain a bottle neck effect
-     */
-    private Thread thread = new Thread(this::threadFunc);
     private static final Logger logger = Logger.getLogger("CommandQueue");
 
     public CommandQueue (){
+        Thread thread = new Thread(this::threadFunc);
         thread.start();
     }
 

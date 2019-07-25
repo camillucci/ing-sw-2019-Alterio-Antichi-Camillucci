@@ -8,10 +8,8 @@ import it.polimi.ingsw.network.AdrenalineServer;
 import it.polimi.ingsw.network.Command;
 import it.polimi.ingsw.view.View;
 
-import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 
@@ -28,7 +26,6 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     public final IEvent<AdrenalineServerRMI, Object> newClientConnectedEvent = new Event<>();
     public final IEvent<AdrenalineServerRMI, Object> clientDisconnectedEvent = new Event<>();
     private ICallbackAdrenalineClient client;
-    private Registry registry;
     private CommandQueue commandQueue = new CommandQueue();
 
     /**
@@ -55,7 +52,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
     }
 
     @Override
-    protected void sendCommand(Command<View> command) throws IOException {
+    protected void sendCommand(Command<View> command) {
         commandQueue.run(() -> bottleneck.tryDo(() -> client.newViewCommand(command)));
     }
 
@@ -71,7 +68,7 @@ public class AdrenalineServerRMI extends AdrenalineServer implements IRMIAdrenal
         try {
             client.ping();
         } catch (RemoteException e) {
-            onExceptionGenerated(e);
+            onExceptionGenerated();
             throw e;
         }
     }
