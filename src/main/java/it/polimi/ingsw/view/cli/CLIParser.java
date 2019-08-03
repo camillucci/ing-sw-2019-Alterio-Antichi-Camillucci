@@ -11,7 +11,6 @@ import java.util.function.Predicate;
 /**
  * this class reads inputs and makes sure that they're appropriate to the context
  */
-
 public class CLIParser {
     /**
      *

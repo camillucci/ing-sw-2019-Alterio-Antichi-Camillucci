@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * This class features a width number of public static methods that apply effects to the board state and the players.
- * Those methods are all called when a weapon applies one of the affects listed below or when a power up card does.
+ * Those methods are all called when a weapon applies one of the effects listed below or when a power up card does.
  */
 public class Effects
 {

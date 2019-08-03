@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class represents a specific case of action. It contains all the methods and info relative to an action used to
+ * drop a weapon into a shop after grabbing the fourth weapon from the shop
+ */
 public class DropWeaponAction extends Action
 {
     private final Player player;

@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class represent a generic action, it is extended into more specific actions.
+ */
 @SuppressWarnings("squid:S1172")
 public abstract class Action
 {

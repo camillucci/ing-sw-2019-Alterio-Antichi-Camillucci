@@ -8,6 +8,10 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+/**
+ * This class features a width number of public static methods that filter which Players or Squares can be targeted.
+ * Those methods are all called when a weapon or a weapon card is selected.
+ */
 public class TargetsFilters {
 
     private TargetsFilters(){}
