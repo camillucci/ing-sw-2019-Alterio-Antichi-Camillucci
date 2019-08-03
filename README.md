@@ -41,8 +41,8 @@
 - All parameters are optional, but if entered they must be in order.
 - #### Parameters (in this order):
     - viewType (String "cli" or "gui", default value: gui)
-    - ipAddress (String, default value: 127.0.0.1)
+    - networkType (String, default value: socket)
     - socketPort (Integer, default value: 9999)
     - rmiPort (Integer, default value: 1099)
 - #### Example:
-        java -jar .\AdrenalineLauncherClient.jar gui 127.0.0.1 9999 1099
+        java -jar .\AdrenalineLauncherClient.jar gui socket 9999 1099
